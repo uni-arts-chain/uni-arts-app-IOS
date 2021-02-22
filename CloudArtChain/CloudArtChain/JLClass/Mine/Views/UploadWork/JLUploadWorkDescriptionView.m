@@ -11,6 +11,9 @@
 @interface JLUploadWorkDescriptionView ()<UITextViewDelegate>
 @property (nonatomic, assign) NSInteger maxInput;
 @property (nonatomic, strong) NSString *placeholder;
+@property (nonatomic, strong) UIColor *placeHolderColor;
+@property (nonatomic, strong) UIFont *textFont;
+@property (nonatomic, strong) UIColor *textColor;
 
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) UITextView *textView;
@@ -19,10 +22,13 @@
 @end
 
 @implementation JLUploadWorkDescriptionView
-- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder {
+- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder placeHolderColor:(UIColor *)placeHolderColor textFont:(UIFont *)textFont textColor:(UIColor *)textColor {
     if (self = [super init]) {
         self.maxInput = maxInput;
         self.placeholder = placeholder;
+        self.placeHolderColor = placeHolderColor ?: JL_color_gray_909090;
+        self.textFont = textFont ?: kFontPingFangSCRegular(16.0f);
+        self.textColor = textColor ?: JL_color_gray_101010;
         [self createSubViews];
     }
     return self;
@@ -85,8 +91,8 @@
     if (!_inputNoticeLabel) {
         _inputNoticeLabel = [[UILabel alloc] init];
         _inputNoticeLabel.numberOfLines = 0;
-        _inputNoticeLabel.font = kFontPingFangSCRegular(16.0f);
-        _inputNoticeLabel.textColor = JL_color_gray_909090;
+        _inputNoticeLabel.font = self.textFont;
+        _inputNoticeLabel.textColor = self.placeHolderColor;
         _inputNoticeLabel.text = self.placeholder;
         _inputNoticeLabel.textAlignment = NSTextAlignmentLeft;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
@@ -102,11 +108,11 @@
 - (UITextView *)textView {
     if (!_textView) {
         _textView = [[UITextView alloc] init];
-        _textView.font = kFontPingFangSCRegular(16.0f);
+        _textView.font = self.textFont;
         _textView.textContainer.lineFragmentPadding = 10.0f;
         _textView.backgroundColor = JL_color_clear;
         _textView.delegate = self;
-        _textView.textColor  = JL_color_gray_101010;
+        _textView.textColor  = self.textColor;
         _textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
     return _textView;

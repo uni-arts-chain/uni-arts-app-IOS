@@ -37,7 +37,7 @@
     JLHoveringView *hovering = [[JLHoveringView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, height) deleaget:self];
     hovering.isMidRefresh = NO;
     [self.view addSubview:hovering];
-    //设置搜索 、认证、我的的字体颜色。
+
     hovering.pageView.defaultTitleColor = JL_color_gray_101010;
     hovering.pageView.selectTitleColor = JL_color_blue_38B2F1;
     hovering.pageView.lineColor = JL_color_blue_38B2F1;
@@ -96,7 +96,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"已上架", @"未上架", @"我买入的", @"我卖出的"];
+        _titles = @[@"已上架", @"未上架"];
     }
     return _titles;
 }

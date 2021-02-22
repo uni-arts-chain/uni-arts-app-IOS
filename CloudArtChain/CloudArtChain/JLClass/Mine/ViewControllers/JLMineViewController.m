@@ -18,6 +18,7 @@
 #import "JLCollectViewController.h"
 #import "JLFocusViewController.h"
 #import "JLFansViewController.h"
+#import "JLFeedBackViewController.h"
 
 #import "JLMineNaviView.h"
 #import "JLMineOrderView.h"
@@ -158,6 +159,17 @@
                 {
                     JLReceiveAddressViewController *receiveAddressVC = [[JLReceiveAddressViewController alloc] init];
                     [weakSelf.navigationController pushViewController:receiveAddressVC animated:YES];
+                }
+                    break;
+                case 8:
+                {
+                    
+                }
+                    break;
+                case 9:
+                {
+                    JLFeedBackViewController *feedbackVC = [[JLFeedBackViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:feedbackVC animated:YES];
                 }
                     break;
                 default:

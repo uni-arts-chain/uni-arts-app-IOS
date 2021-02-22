@@ -934,6 +934,7 @@
 		B39BEAD5251368A600DE69A6 /* JLUploadWorkSampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */; };
 		B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */; };
 		B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */; };
+		B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */; };
 		B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */; };
 		B3C0ED2825C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2725C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m */; };
 		B3C0ED2B25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2A25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m */; };
@@ -2250,6 +2251,8 @@
 		B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkImageView.m; sourceTree = "<group>"; };
 		B3ABE99A25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPurchaseOrderListCloseTableViewCell.h; sourceTree = "<group>"; };
 		B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPurchaseOrderListCloseTableViewCell.m; sourceTree = "<group>"; };
+		B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLFeedBackViewController.h; sourceTree = "<group>"; };
+		B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLFeedBackViewController.m; sourceTree = "<group>"; };
 		B3C0ED2325C256DE001B8BCA /* JLExportKeystorePwdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExportKeystorePwdViewController.h; sourceTree = "<group>"; };
 		B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExportKeystorePwdViewController.m; sourceTree = "<group>"; };
 		B3C0ED2625C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLReceiveAddressInputTableViewCell.h; sourceTree = "<group>"; };
@@ -5394,6 +5397,7 @@
 		B396564724F39199007A8EC2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B3B626E125E3643C009BE119 /* FeedBack */,
 				B38FD54625CBA2170028797E /* FocusFans */,
 				B38FD53F25CB8C2C0028797E /* Collect */,
 				B38BCFF725B82E8300FD37F7 /* ReceiveAddress */,
@@ -5502,6 +5506,15 @@
 				B37B86092514A58500E43B36 /* JLUploadWorkMoneyInputView.m */,
 			);
 			path = UploadWork;
+			sourceTree = "<group>";
+		};
+		B3B626E125E3643C009BE119 /* FeedBack */ = {
+			isa = PBXGroup;
+			children = (
+				B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */,
+				B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */,
+			);
+			path = FeedBack;
 			sourceTree = "<group>";
 		};
 		B3C0ED3225C2BC1E001B8BCA /* OrderDetail */ = {
@@ -6035,6 +6048,7 @@
 				B3753D9F2554F524003A86CF /* SLEditVideoController.m in Sources */,
 				B31224DF25B6B60900562ECA /* WalletAssetId+Display.swift in Sources */,
 				B3983F8125DE16870068084D /* JLAuctionDetailHeadView.m in Sources */,
+				B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */,
 				B312251825B6B60A00562ECA /* UserDataStorageFacade.swift in Sources */,
 				B312250125B6B60A00562ECA /* Health.swift in Sources */,
 				B31225BB25B6B60A00562ECA /* LanguageSelectionWireframe.swift in Sources */,

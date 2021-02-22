@@ -12,8 +12,6 @@
 typedef NS_ENUM(NSUInteger, JLWorkListType) {
     JLWorkListTypeListed, /** 已上架 */
     JLWorkListTypeNotList, /** 未上架 */
-    JLWorkListTypeSelfBuy, /** 我买入的 */
-    JLWorkListTypeSelfSell, /** 我卖出的 */
 };
 
 NS_ASSUME_NONNULL_BEGIN

@@ -96,7 +96,7 @@ extension AlertPresentable {
             let alertAction = UIAlertAction(title: action.title, style: action.style.uialertStyle) { _ in
                 action.handler?()
             }
-
+            alertAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
             alertView.addAction(alertAction)
         }
 
@@ -104,6 +104,7 @@ extension AlertPresentable {
             let action = UIAlertAction(title: closeAction,
                                        style: .cancel,
                                        handler: nil)
+            action.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
             alertView.addAction(action)
         }
 

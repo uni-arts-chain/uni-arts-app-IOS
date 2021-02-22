@@ -66,9 +66,6 @@
     } else if (self.workListType == JLWorkListTypeNotList) {
         JLWorkListNotListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListNotListCell" forIndexPath:indexPath];
         return cell;
-    } else if (self.workListType == JLWorkListTypeSelfBuy) {
-        JLWorkListSelfBuyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListSelfBuyCell" forIndexPath:indexPath];
-        return cell;
     }
     JLWorkListBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListBaseTableViewCell" forIndexPath:indexPath];
     return cell;

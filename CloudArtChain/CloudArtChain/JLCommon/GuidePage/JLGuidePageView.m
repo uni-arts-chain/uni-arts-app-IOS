@@ -82,17 +82,21 @@ BOOL isCurrentShow;
         if (i == images.count - 1) {
             //判断要不要添加button
             if (!isScrollOut) {
-                UIButton *enterButton = [[UIButton alloc] initWithFrame:CGRectMake(enterBtnFrame.origin.x, enterBtnFrame.origin.y, enterBtnFrame.size.width, enterBtnFrame.size.height)];
-                enterButton.backgroundColor = JL_color_gray_101010;
-                enterButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
-                [enterButton setTitle:@"立即体验" forState:UIControlStateNormal];
-                [enterButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-//                enterButton.layer.cornerRadius = 5;
-                [enterButton setImage:[UIImage imageNamed:enterBtnImage] forState:UIControlStateNormal];
+//                UIButton *enterButton = [[UIButton alloc] initWithFrame:CGRectMake(enterBtnFrame.origin.x, enterBtnFrame.origin.y, enterBtnFrame.size.width, enterBtnFrame.size.height)];
+//                enterButton.backgroundColor = JL_color_gray_101010;
+//                enterButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
+//                [enterButton setTitle:@"立即体验" forState:UIControlStateNormal];
+//                [enterButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
+////                enterButton.layer.cornerRadius = 5;
+//                [enterButton setImage:[UIImage imageNamed:enterBtnImage] forState:UIControlStateNormal];
+//                [enterButton addTarget:self action:@selector(enterBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//                [imageView addSubview:enterButton];
+//                imageView.userInteractionEnabled = YES;
+//                ViewBorderRadius(enterButton, 0.0f, 1.0f, JL_color_gray_101010);
+                UIButton *enterButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight)];
                 [enterButton addTarget:self action:@selector(enterBtnClick) forControlEvents:UIControlEventTouchUpInside];
                 [imageView addSubview:enterButton];
                 imageView.userInteractionEnabled = YES;
-                ViewBorderRadius(enterButton, 0.0f, 1.0f, JL_color_gray_101010);
             }
         }
     }

@@ -67,7 +67,7 @@
 
 - (JLUploadWorkDescriptionView *)descView {
     if (!_descView) {
-        _descView = [[JLUploadWorkDescriptionView alloc] initWithMax:200 placeholder:@"请对细节进行剖析..."];
+        _descView = [[JLUploadWorkDescriptionView alloc] initWithMax:200 placeholder:@"请对细节进行剖析..." placeHolderColor:nil textFont:nil textColor:nil];
     }
     return _descView;
 }

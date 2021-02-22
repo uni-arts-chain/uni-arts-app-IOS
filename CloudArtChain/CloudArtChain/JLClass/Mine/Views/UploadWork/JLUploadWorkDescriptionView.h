@@ -8,12 +8,8 @@
 
 #import "JLBaseView.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface JLUploadWorkDescriptionView : JLBaseView
 @property (nonatomic, strong) NSString *inputContent;
 
-- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder;
+- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder placeHolderColor:(UIColor *)placeHolderColor textFont:(UIFont *)textFont textColor:(UIColor *)textColor;
 @end
-
-NS_ASSUME_NONNULL_END

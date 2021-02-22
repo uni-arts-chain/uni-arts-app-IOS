@@ -311,7 +311,7 @@
 
 - (JLUploadWorkDescriptionView *)workDetailView {
     if (!_workDetailView) {
-        _workDetailView = [[JLUploadWorkDescriptionView alloc] initWithMax:200 placeholder:@"请输入你对作品的整体评析..."];
+        _workDetailView = [[JLUploadWorkDescriptionView alloc] initWithMax:200 placeholder:@"请输入你对作品的整体评析..." placeHolderColor:nil textFont:nil textColor:nil];
     }
     return _workDetailView;
 }
