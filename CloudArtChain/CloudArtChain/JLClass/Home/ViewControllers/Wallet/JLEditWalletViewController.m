@@ -10,6 +10,7 @@
 #import "UIImage+JLTool.h"
 #import "JLWalletChangePwdViewController.h"
 #import "JLExportKeystorePwdViewController.h"
+#import "UIButton+AxcButtonContentLayout.h"
 
 #import "JLEditWalletCell.h"
 #import "JLWalletPwdInputView.h"
@@ -102,7 +103,15 @@
         ViewBorderRadius(saveButton, 23.0f, 0.0f, JL_color_clear);
         [_bottomView addSubview:saveButton];
         
-        UIButton *backupMnemonicButton = [JLUIFactory buttonInitTitle:@"备份助记词" titleColor:JL_color_blue_50C3FF backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(backupMnemonicButtonClick)];
+        UIButton *backupMnemonicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [backupMnemonicButton setTitle:@"备份助记词" forState:UIControlStateNormal];
+        [backupMnemonicButton setTitleColor:JL_color_blue_50C3FF forState:UIControlStateNormal];
+        backupMnemonicButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
+        [backupMnemonicButton setImage:[UIImage imageNamed:@"icon_wallet_export"] forState:UIControlStateNormal];
+        [backupMnemonicButton setImage:[UIImage imageNamed:@"icon_wallet_export"] forState:UIControlStateHighlighted];
+        backupMnemonicButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
+        backupMnemonicButton.axcUI_padding = 28.0f;
+        [backupMnemonicButton addTarget:self action:@selector(backupMnemonicButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [_bottomView addSubview:backupMnemonicButton];
         
         [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,7 +136,7 @@
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -147,8 +156,11 @@
     } else if (indexPath.row == 2) {
         cell.title = @"导出私钥";
         cell.isEdit = NO;
-    } else {
+    } else if (indexPath.row == 3) {
         cell.title = @"导出Keystore";
+        cell.isEdit = NO;
+    } else {
+        cell.title = @"隐私协议";
         cell.isEdit = NO;
     }
 }
@@ -189,6 +201,8 @@
                 }
             }
         }];
+    } else {
+        // 隐私协议
     }
 }
 

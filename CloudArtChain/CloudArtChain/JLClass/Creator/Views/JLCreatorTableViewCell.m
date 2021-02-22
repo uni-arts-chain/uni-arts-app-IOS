@@ -8,7 +8,9 @@
 
 #import "JLCreatorTableViewCell.h"
 #import "JLCreatorWorksCollectionViewCell.h"
+
 #import "JLArtDetailViewController.h"
+#import "JLCreatorPageViewController.h"
 
 @interface JLCreatorTableViewCell()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UIView *authorInfoView;
@@ -17,6 +19,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) UILabel *worksLabel;
+@property (nonatomic, strong) UIButton *authorInfoDetailBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
@@ -38,6 +41,7 @@
     [self.authorInfoView addSubview:self.nameLabel];
     [self.authorInfoView addSubview:self.infoLabel];
     [self.authorInfoView addSubview:self.worksLabel];
+    [self.authorInfoView addSubview:self.authorInfoDetailBtn];
     
     [self.contentView addSubview:self.collectionView];
     [self.collectionView  registerClass:[JLCreatorWorksCollectionViewCell class] forCellWithReuseIdentifier:@"JLCreatorWorksCollectionViewCell"];
@@ -73,6 +77,9 @@
         make.right.equalTo(self.authorInfoView);
         make.centerY.equalTo(self.infoLabel.mas_centerY);
         make.left.equalTo(self.infoLabel.mas_right).offset(10.0f);
+    }];
+    [self.authorInfoDetailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.authorInfoView);
     }];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.contentView);
@@ -151,6 +158,19 @@
         _worksLabel.attributedText = attr;
     }
     return _worksLabel;
+}
+
+- (UIButton *)authorInfoDetailBtn {
+    if (!_authorInfoDetailBtn) {
+        _authorInfoDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_authorInfoDetailBtn addTarget:self action:@selector(authorInfoDetailBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _authorInfoDetailBtn;
+}
+
+- (void)authorInfoDetailBtnClick {
+    JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+    [self.viewController.navigationController pushViewController:creatorPageVC animated:YES];
 }
 
 #pragma mark - 懒加载
