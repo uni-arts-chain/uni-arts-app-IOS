@@ -1,0 +1,128 @@
+//
+//  Prefix.pch
+//  CloudArtChain
+//
+//  Created by 朱彬 on 2020/8/24.
+//  Copyright © 2020 朱彬. All rights reserved.
+//
+
+#ifndef Prefix_pch
+#define Prefix_pch
+
+//third-party
+#import "AFNetworking.h"
+#import "UIKit+AFNetworking.h"
+#import "MJRefresh.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIButton+WebCache.h>
+#import "NSDate+DateTools.h"
+#import "IQKeyboardManager.h"
+#import "UITextView+ZWPlaceHolder.h"
+#import "ReactiveObjC.h"
+#import <FDFullscreenPopGesture/UINavigationController+FDFullscreenPopGesture.h>
+#import <JSONModel.h>
+#import <YYModel.h>
+#import "JLAlert.h"
+#import "Masonry.h"
+#import <UMCommon/MobClick.h>
+#import "UIView+SLFrame.h"
+#import "SLDelayPerform.h"
+
+//customization
+#import "PartMacro.h"
+#import "JLLoading.h"
+#import "JLModelInterface.h"
+#import "JLNetHelper.h"
+#import "JLBaseView.h"
+#import "JLNavigationViewController.h"
+#import "JLBaseViewController.h"
+#import "JLTabbarController.h"
+#import "JLUIFactory.h"
+#import "JLAuthenticationView.h"
+
+#import "NSString+JLTool.h"
+#import "UIColor+JLColor.h"
+#import "JLColorManager.h"
+#import "UIView+JLShadow.h"
+#import "JLUtils.h"
+#import "JLTool.h"
+#import "JLLoginUtil.h"
+#import "UIButton+AxcButtonContentLayout.h"
+#import "JLKeyChain.h"
+#import "NSBundle+Language.h"
+#import "UIView+JLCorner.h"
+#import "UIView+JLFrame.h"
+#import "NSDecimalNumber+tools.h"
+#import "JLRefreshHeader.h"
+#import "JLRefreshFooter.h"
+#import "JLViewControllerTool.h"
+
+// model
+#import "AppSingleton.h"
+
+//ErrorData
+#import "ErrorHead.h"
+#import "ErrorRoot.h"
+#import "ErrorBody.h"
+
+// define
+#import "JLPurchaseOrderDefines.h"
+
+#if (PRINT_LOG)
+#define NSLog(fmt, ...) NSLog((@"\n%s" "->%s\n" "->%d \n" fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define debugMethod() NSLog(@"%s", __func__)
+#else
+#define NSLog(...)
+#define debugMethod()
+#endif
+
+
+// 定义环境地址
+#if (ENV == KF)//开发环境
+//网络接口访问地址
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"http://8.210.140.90:3000/"
+
+#elif (ENV == OL)//正式环境
+//网络接口访问地址
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://tatmasglobal.com/"
+
+#endif
+
+#define KServerVersion @"v1"
+
+//快速的定义一个weakSelf
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+//快速的定义一个strongSelf
+#define SS(strongSelf)  __strong __typeof(&*self)strongSelf = self;
+
+#define ViewBorderRadius(View, Radius, Width, Color)\
+\
+[View.layer setCornerRadius:(Radius)];\
+[View.layer setMasksToBounds:YES];\
+[View.layer setBorderWidth:(Width)];\
+[View.layer setBorderColor:[Color CGColor]]
+
+//自定义字体名称
+#define kFontNamePingFangSC(weightName) [NSString stringWithFormat:@"PingFang-SC-%@",(weightName)]
+
+#define kFontNamePingFangSCRegular  kFontNamePingFangSC(@"Regular")
+#define kFontNamePingFangSCMedium   kFontNamePingFangSC(@"Medium")
+#define kFontNamePingFangSCSemibold kFontNamePingFangSC(@"Semibold")
+
+//自定义字体大小
+#define  kFontPingFangSCRegular(x) [UIFont fontWithName:kFontNamePingFangSCRegular size:(x)]
+#define  kFontPingFangSCMedium(x) [UIFont fontWithName:kFontNamePingFangSCMedium size:(x)]
+#define  kFontPingFangSCSCSemibold(x) [UIFont fontWithName:kFontNamePingFangSCSemibold size:(x)]
+
+
+#define kPageSize 20
+
+///主线程操作
+#define SL_DISPATCH_ON_MAIN_THREAD(mainQueueBlock) dispatch_async(dispatch_get_main_queue(),mainQueueBlock);
+/// 屏幕宽高
+#define SL_kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define SL_kScreenHeight [UIScreen mainScreen].bounds.size.height
+/// 弱引用对象
+#define SL_WeakSelf __weak typeof(self) weakSelf = self;
+
+#endif /* Prefix_pch */

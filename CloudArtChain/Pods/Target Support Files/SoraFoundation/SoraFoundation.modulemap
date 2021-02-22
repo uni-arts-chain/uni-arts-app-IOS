@@ -1,0 +1,6 @@
+framework module SoraFoundation {
+  umbrella header "SoraFoundation-umbrella.h"
+
+  export *
+  module * { export * }
+}

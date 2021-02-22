@@ -1,0 +1,6 @@
+framework module LMJDropdownMenu {
+  umbrella header "LMJDropdownMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}

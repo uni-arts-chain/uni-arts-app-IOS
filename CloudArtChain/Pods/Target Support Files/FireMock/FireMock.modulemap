@@ -1,0 +1,6 @@
+framework module FireMock {
+  umbrella header "FireMock-umbrella.h"
+
+  export *
+  module * { export * }
+}

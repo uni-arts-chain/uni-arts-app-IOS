@@ -1,0 +1,6 @@
+framework module IrohaCrypto {
+  umbrella header "IrohaCrypto-umbrella.h"
+
+  export *
+  module * { export * }
+}

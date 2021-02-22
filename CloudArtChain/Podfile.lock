@@ -1,0 +1,307 @@
+PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
+  - BEMCheckBox (1.4.1)
+  - BigInt (5.2.0)
+  - CommonWallet/Core (1.14.0):
+    - RobinHood (~> 2.5.0)
+    - SoraFoundation/DateProcessing (~> 0.8.0)
+    - SoraFoundation/Localization (~> 0.8.0)
+    - SoraFoundation/NotificationHandlers (~> 0.8.0)
+    - SoraUI (~> 1.9.3)
+  - Cuckoo (1.4.1):
+    - Cuckoo/Swift (= 1.4.1)
+  - Cuckoo/Swift (1.4.1)
+  - DateTools (2.0.0)
+  - EBBannerView (1.1.2)
+  - FDFullscreenPopGesture (1.1)
+  - FearlessUtils (0.8.0):
+    - BigInt (~> 5.0)
+    - IrohaCrypto/ed25519 (~> 0.7.0)
+    - IrohaCrypto/Scrypt (~> 0.7.0)
+    - IrohaCrypto/secp256k1 (~> 0.7.0)
+    - IrohaCrypto/sr25519 (~> 0.7.0)
+    - TweetNacl (~> 1.0.0)
+    - xxHash-Swift (~> 1.0.0)
+  - FireMock (3.1)
+  - IQKeyboardManager (6.5.6)
+  - IrohaCrypto/BIP39 (0.7.2):
+    - IrohaCrypto/Common
+  - IrohaCrypto/blake2 (0.7.2)
+  - IrohaCrypto/Common (0.7.2)
+  - IrohaCrypto/ed25519 (0.7.2):
+    - IrohaCrypto/Common
+  - IrohaCrypto/Scrypt (0.7.2):
+    - IrohaCrypto/Common
+    - scrypt.c (~> 0.1)
+  - IrohaCrypto/secp256k1 (0.7.2):
+    - IrohaCrypto/Common
+  - IrohaCrypto/sr25519 (0.7.2):
+    - IrohaCrypto/BIP39
+    - IrohaCrypto/blake2
+    - IrohaCrypto/Common
+  - JSONModel (1.8.0)
+  - JXCategoryView (1.5.8)
+  - JXPagingView/Pager (2.0.13)
+  - LEEAlert (1.4.3)
+  - LMJDropdownMenu (3.0.4)
+  - LSTTimer (0.1.08251125)
+  - Masonry (1.1.0)
+  - MJRefresh (3.4.3)
+  - R.swift (5.3.0):
+    - R.swift.Library (~> 5.3.0)
+  - R.swift.Library (5.3.0)
+  - ReachabilitySwift (5.0.0)
+  - ReactiveObjC (3.1.1)
+  - RobinHood (2.5.1)
+  - scrypt.c (0.1.1)
+  - SDCycleScrollView (1.82):
+    - SDWebImage (>= 5.0.0)
+  - SDWebImage (5.9.4):
+    - SDWebImage/Core (= 5.9.4)
+  - SDWebImage/Core (5.9.4)
+  - SGQRCode (3.0.1)
+  - SnapKit (5.0.1)
+  - SoraFoundation (0.8.0):
+    - SoraFoundation/DateProcessing (= 0.8.0)
+    - SoraFoundation/Localization (= 0.8.0)
+    - SoraFoundation/NotificationHandlers (= 0.8.0)
+    - SoraFoundation/QueryProcessing (= 0.8.0)
+    - SoraFoundation/Timer (= 0.8.0)
+    - SoraFoundation/ViewModel (= 0.8.0)
+  - SoraFoundation/DateProcessing (0.8.0):
+    - SoraFoundation/Localization
+  - SoraFoundation/Localization (0.8.0):
+    - SoraKeystore (~> 0.1.5)
+  - SoraFoundation/NotificationHandlers (0.8.0)
+  - SoraFoundation/QueryProcessing (0.8.0)
+  - SoraFoundation/Timer (0.8.0):
+    - SoraFoundation/NotificationHandlers
+  - SoraFoundation/ViewModel (0.8.0)
+  - SoraKeystore (0.1.5)
+  - SoraUI (1.9.3):
+    - SoraUI/AdaptiveDesign (= 1.9.3)
+    - SoraUI/Animator (= 1.9.3)
+    - SoraUI/Camera (= 1.9.3)
+    - SoraUI/Controls (= 1.9.3)
+    - SoraUI/DetailsView (= 1.9.3)
+    - SoraUI/EmptyState (= 1.9.3)
+    - SoraUI/LoadingView (= 1.9.3)
+    - SoraUI/ModalPresentation (= 1.9.3)
+    - SoraUI/PageLoader (= 1.9.3)
+    - SoraUI/PinView (= 1.9.3)
+    - SoraUI/Skrull (= 1.9.3)
+  - SoraUI/AdaptiveDesign (1.9.3)
+  - SoraUI/Animator (1.9.3)
+  - SoraUI/Camera (1.9.3)
+  - SoraUI/Controls (1.9.3):
+    - SoraUI/Animator
+  - SoraUI/DetailsView (1.9.3):
+    - SoraUI/Controls
+  - SoraUI/EmptyState (1.9.3):
+    - SoraUI/Animator
+  - SoraUI/LoadingView (1.9.3):
+    - SoraUI/Controls
+  - SoraUI/ModalPresentation (1.9.3):
+    - SoraUI/Animator
+    - SoraUI/Controls
+  - SoraUI/PageLoader (1.9.3)
+  - SoraUI/PinView (1.9.3):
+    - SoraUI/Controls
+  - SoraUI/Skrull (1.9.3)
+  - Starscream (4.0.4)
+  - SVProgressHUD (2.2.5)
+  - SwiftGifOrigin (1.7.0)
+  - SwiftLint (0.41.0)
+  - SwiftyBeaver (1.9.3)
+  - TOCropViewController (2.6.0)
+  - TweetNacl (1.0.2)
+  - UMAPM (1.1.0)
+  - UMCCommon (7.2.5):
+    - UMAPM
+    - UMDevice
+  - UMCCommonLog (2.0.0)
+  - UMDevice (1.1.0)
+  - xxHash-Swift (1.0.13)
+  - YYCache (1.0.4)
+  - YYModel (1.0.4)
+  - ZWPlaceHolder (0.0.2)
+
+DEPENDENCIES:
+  - AFNetworking (~> 4.0)
+  - BEMCheckBox
+  - CommonWallet/Core (from `https://github.com/soramitsu/Capital-iOS.git`, commit `725cefe1d0fa1ea8456580289b326558b13225c2`)
+  - Cuckoo
+  - DateTools
+  - EBBannerView
+  - FDFullscreenPopGesture (= 1.1)
+  - FearlessUtils (from `https://github.com/soramitsu/fearless-utils-iOS.git`, commit `f821a9352d1592d60a43b7ced4fe977373d445a4`)
+  - FireMock
+  - IQKeyboardManager
+  - JSONModel
+  - JXCategoryView
+  - JXPagingView/Pager
+  - LEEAlert
+  - LMJDropdownMenu
+  - LSTTimer
+  - Masonry
+  - MJRefresh (= 3.4.3)
+  - R.swift
+  - ReachabilitySwift
+  - ReactiveObjC
+  - RobinHood
+  - SDCycleScrollView (>= 1.80)
+  - SDWebImage
+  - SGQRCode (= 3.0.1)
+  - SnapKit (~> 5.0.0)
+  - SoraFoundation (~> 0.8.0)
+  - SoraKeystore
+  - SoraUI
+  - Starscream (from `https://github.com/ERussel/Starscream.git`, branch `feature/without-origin`)
+  - SVProgressHUD
+  - SwiftGifOrigin (~> 1.7.0)
+  - SwiftLint
+  - SwiftyBeaver
+  - TOCropViewController
+  - UMCCommon
+  - UMCCommonLog
+  - YYCache
+  - YYModel
+  - ZWPlaceHolder
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
+    - BEMCheckBox
+    - BigInt
+    - Cuckoo
+    - DateTools
+    - EBBannerView
+    - FDFullscreenPopGesture
+    - FireMock
+    - IQKeyboardManager
+    - IrohaCrypto
+    - JSONModel
+    - JXCategoryView
+    - JXPagingView
+    - LEEAlert
+    - LMJDropdownMenu
+    - LSTTimer
+    - Masonry
+    - MJRefresh
+    - R.swift
+    - R.swift.Library
+    - ReachabilitySwift
+    - ReactiveObjC
+    - RobinHood
+    - scrypt.c
+    - SDCycleScrollView
+    - SDWebImage
+    - SGQRCode
+    - SnapKit
+    - SoraFoundation
+    - SoraKeystore
+    - SoraUI
+    - SVProgressHUD
+    - SwiftGifOrigin
+    - SwiftLint
+    - SwiftyBeaver
+    - TOCropViewController
+    - TweetNacl
+    - UMAPM
+    - UMCCommon
+    - UMCCommonLog
+    - UMDevice
+    - xxHash-Swift
+    - YYCache
+    - YYModel
+    - ZWPlaceHolder
+
+EXTERNAL SOURCES:
+  CommonWallet:
+    :commit: 725cefe1d0fa1ea8456580289b326558b13225c2
+    :git: https://github.com/soramitsu/Capital-iOS.git
+  FearlessUtils:
+    :commit: f821a9352d1592d60a43b7ced4fe977373d445a4
+    :git: https://github.com/soramitsu/fearless-utils-iOS.git
+  Starscream:
+    :branch: feature/without-origin
+    :git: https://github.com/ERussel/Starscream.git
+
+CHECKOUT OPTIONS:
+  CommonWallet:
+    :commit: 725cefe1d0fa1ea8456580289b326558b13225c2
+    :git: https://github.com/soramitsu/Capital-iOS.git
+  FearlessUtils:
+    :commit: f821a9352d1592d60a43b7ced4fe977373d445a4
+    :git: https://github.com/soramitsu/fearless-utils-iOS.git
+  Starscream:
+    :commit: b9e69390d96e71427463469f47cdafb8c0db1b21
+    :git: https://github.com/ERussel/Starscream.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
+  BigInt: f668a80089607f521586bbe29513d708491ef2f7
+  CommonWallet: aff931b1371471e6bd06e5c43028b67d5ab60d5a
+  Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
+  DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
+  EBBannerView: 268002f8d9d3e979cb8649cbfefd0da5ddef72b3
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
+  FearlessUtils: 979e4d4f7fce0432217588b6d693cb86166545e5
+  FireMock: 3eed872059c12f94855413347da83b9d6d1a6fac
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  IrohaCrypto: bddf15865c4df189b9c5273ba9c675afae8b7f4c
+  JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  JXCategoryView: 778a620f76070d6598fd8d7239991b8da8326170
+  JXPagingView: 821ed274f09eaf2843a96c3a74e9d138e27d9730
+  LEEAlert: 396bddbd3e8c5c735774c374d0c22b4fe3c48882
+  LMJDropdownMenu: 50c74e9d50a480c290fec47eb575826861d0823b
+  LSTTimer: 6c4b5d75a71ce9b09961cfcc5e957d224383f92b
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: 53e3e3219f204425ee6d3e62e8733d3295944cd6
+  R.swift: 4170fb7161c67be3bc1a847040b79367d69c419f
+  R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  ReactiveObjC: 011caa393aa0383245f2dcf9bf02e86b80b36040
+  RobinHood: 0ccabe29316ad308b691535e43367cf702a2205a
+  scrypt.c: b42ae06183251329d2b2c620c226fb541a4a3592
+  SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
+  SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
+  SGQRCode: bf02d60e18d6660a9d75ff1c8b9b467f064f054e
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SoraFoundation: 191f65cb04fd82f32c8e4e00156a7c979dd2c7e2
+  SoraKeystore: 408a26aafda780fc3005b20ab336791832b5419e
+  SoraUI: 52634f6c7d42f648c6576d62ac5dc963e24fbcae
+  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
+  SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
+  SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
+  TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+  TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
+  UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
+  UMCCommon: f7480d316381612f90cdde3a3c0f39a7e2c0a788
+  UMCCommonLog: 9b7ddde5d14a52fc1986ba5ac3121b8b2f433638
+  UMDevice: 28d21a568c8e8322e5a03bbd53b138d0c098d3b3
+  xxHash-Swift: 30bd6a7507b3b7348a277c49b1cb6346c2905ec7
+  YYCache: 8105b6638f5e849296c71f331ff83891a4942952
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+  ZWPlaceHolder: d55cce10c9930b48c31bf48e7f4748974a31f7e0
+
+PODFILE CHECKSUM: 400a73c0cd353a1d57f0d221e3096de434f112a3
+
+COCOAPODS: 1.10.0

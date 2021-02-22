@@ -1,0 +1,14 @@
+${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework
+${BUILT_PRODUCTS_DIR}/CommonWallet/CommonWallet.framework
+${BUILT_PRODUCTS_DIR}/FearlessUtils/FearlessUtils.framework
+${BUILT_PRODUCTS_DIR}/FireMock/FireMock.framework
+${BUILT_PRODUCTS_DIR}/IrohaCrypto/IrohaCrypto.framework
+${BUILT_PRODUCTS_DIR}/RobinHood/RobinHood.framework
+${BUILT_PRODUCTS_DIR}/SoraFoundation/SoraFoundation.framework
+${BUILT_PRODUCTS_DIR}/SoraKeystore/SoraKeystore.framework
+${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework
+${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework
+${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework
+${BUILT_PRODUCTS_DIR}/xxHash-Swift/xxHash_Swift.framework
+${BUILT_PRODUCTS_DIR}/Cuckoo/Cuckoo.framework

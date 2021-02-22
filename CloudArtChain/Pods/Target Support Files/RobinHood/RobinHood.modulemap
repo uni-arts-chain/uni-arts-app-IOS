@@ -1,0 +1,6 @@
+framework module RobinHood {
+  umbrella header "RobinHood-umbrella.h"
+
+  export *
+  module * { export * }
+}

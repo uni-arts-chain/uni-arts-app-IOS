@@ -1,0 +1,6 @@
+framework module FearlessUtils {
+  umbrella header "FearlessUtils-umbrella.h"
+
+  export *
+  module * { export * }
+}

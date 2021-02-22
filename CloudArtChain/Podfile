@@ -1,0 +1,70 @@
+#source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
+platform :ios, '11.0'
+inhibit_all_warnings!
+use_frameworks!
+
+target 'CloudArtChain' do
+pod 'AFNetworking','~> 4.0'
+pod 'MJRefresh', '=3.4.3'
+pod 'Masonry'
+pod 'IQKeyboardManager'
+pod 'SVProgressHUD'
+pod 'DateTools'
+pod 'SDWebImage'
+pod 'ZWPlaceHolder'
+pod 'ReactiveObjC'
+pod 'FDFullscreenPopGesture', '1.1'
+pod 'SGQRCode', '3.0.1'
+
+pod 'BEMCheckBox'
+pod 'EBBannerView'
+
+pod 'YYModel'
+pod 'YYCache'
+pod 'JSONModel'
+pod 'TOCropViewController'
+pod 'LEEAlert'
+pod 'JXPagingView/Pager'
+pod 'JXCategoryView'
+
+pod 'LMJDropdownMenu'
+
+pod 'SDCycleScrollView','>= 1.80'
+
+#pod 'CoreBitcoin'
+
+pod 'LSTTimer'
+
+#pod 'AnyImageKit'
+
+pod 'UMCCommon'
+pod 'UMCCommonLog'
+
+  pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'f821a9352d1592d60a43b7ced4fe977373d445a4'
+  pod 'SwiftLint'
+  pod 'R.swift', :inhibit_warnings => true
+  pod 'FireMock', :inhibit_warnings => true
+  pod 'SoraKeystore'
+  pod 'SoraUI'
+  pod 'RobinHood'
+  pod 'CommonWallet/Core', :git => 'https://github.com/soramitsu/Capital-iOS.git', :commit => '725cefe1d0fa1ea8456580289b326558b13225c2'
+  pod 'SoraFoundation', '~> 0.8.0'
+  pod 'SwiftyBeaver'
+  pod 'Starscream', :git => 'https://github.com/ERussel/Starscream.git', :branch => 'feature/without-origin'
+  pod 'ReachabilitySwift'
+  pod 'SwiftGifOrigin', '~> 1.7.0'
+  pod 'SnapKit', '~> 5.0.0'
+
+target 'CloudArtChainTests' do
+    inherit! :search_paths
+
+    pod 'Cuckoo'
+    pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'f821a9352d1592d60a43b7ced4fe977373d445a4'
+    pod 'SoraFoundation', '~> 0.8.0'
+    pod 'FireMock'
+    pod 'SoraKeystore'
+    pod 'RobinHood'
+    pod 'CommonWallet/Core', :git => 'https://github.com/soramitsu/Capital-iOS.git', :commit => '725cefe1d0fa1ea8456580289b326558b13225c2'
+
+  end
+end

@@ -1,0 +1,6 @@
+framework module SoraUI {
+  umbrella header "SoraUI-umbrella.h"
+
+  export *
+  module * { export * }
+}
