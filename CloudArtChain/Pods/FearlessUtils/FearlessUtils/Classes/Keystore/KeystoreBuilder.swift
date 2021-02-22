@@ -70,7 +70,7 @@ extension KeystoreBuilder: KeystoreBuilding {
         let encodingContent = [KeystoreEncodingContent.pkcs8.rawValue, data.cryptoType.rawValue]
         let keystoreEncoding = KeystoreEncoding(content: encodingContent,
                                                 type: encodingType,
-                                                version: KeystoreConstants.version)
+                                                version: String(KeystoreConstants.version))
 
         let meta = KeystoreMeta(name: name,
                                 createdAt: Int64(creationDate.timeIntervalSince1970),

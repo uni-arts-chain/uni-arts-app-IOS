@@ -21,7 +21,6 @@
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
 		5CFF02BA2504087F00A81E32 /* JLWalletCryptoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02B92504087F00A81E32 /* JLWalletCryptoModel.m */; };
 		5CFF02BD250408B200A81E32 /* JLWalletCryptoKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02BC250408B200A81E32 /* JLWalletCryptoKeyPair.m */; };
-		60763A9D79BF306624BD0B21 /* Pods_CloudArtChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 565686F2CEBA53B345AD2202 /* Pods_CloudArtChainTests.framework */; };
 		B312249D25B6B60900562ECA /* OperationManagerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */; };
 		B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */; };
 		B312249F25B6B60900562ECA /* ScaleDecoderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DD25B6B60700562ECA /* ScaleDecoderOperation.swift */; };
@@ -949,6 +948,7 @@
 		B3E98E28250222A5004AABD2 /* JLPrivateKeyExportView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E27250222A5004AABD2 /* JLPrivateKeyExportView.m */; };
 		B3E98E2B25022C49004AABD2 /* JLExportKeystoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E2A25022C49004AABD2 /* JLExportKeystoreViewController.m */; };
 		B3E98E2E25022E99004AABD2 /* JLExportKeystoreFileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E2D25022E99004AABD2 /* JLExportKeystoreFileView.m */; };
+		BF4DDB544908111CD2E6FAD6 /* Pods_CloudArtChainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2009E854A346238DA88F96 /* Pods_CloudArtChainTests.framework */; };
 		F0D3C8CF056DA7F72D6DDF7B /* Pods_CloudArtChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */; };
 /* End PBXBuildFile section */
 
@@ -971,7 +971,6 @@
 
 /* Begin PBXFileReference section */
 		43A71B77D07BA8D24F113D75 /* Pods-CloudArtChain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.release.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.release.xcconfig"; sourceTree = "<group>"; };
-		565686F2CEBA53B345AD2202 /* Pods_CloudArtChainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2429652504A77300C74B6A /* JLMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMessageViewController.h; sourceTree = "<group>"; };
 		5C2429662504A77300C74B6A /* JLMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMessageViewController.m; sourceTree = "<group>"; };
 		5C2429682504A7D700C74B6A /* JLMessageTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMessageTableViewCell.h; sourceTree = "<group>"; };
@@ -1063,9 +1062,9 @@
 		5CFF02BB250408B200A81E32 /* JLWalletCryptoKeyPair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletCryptoKeyPair.h; sourceTree = "<group>"; };
 		5CFF02BC250408B200A81E32 /* JLWalletCryptoKeyPair.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWalletCryptoKeyPair.m; sourceTree = "<group>"; };
 		70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
-		AD39750DE3A3703ADC8F45A8 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
-		AE20E87DA6F06800CC2F53D9 /* Pods-CloudArtChainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.release.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.release.xcconfig"; sourceTree = "<group>"; };
+		95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.release.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.release.xcconfig"; sourceTree = "<group>"; };
 		B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationManagerFacade.swift; sourceTree = "<group>"; };
 		B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOperationFactory.swift; sourceTree = "<group>"; };
 		B31221DD25B6B60700562ECA /* ScaleDecoderOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleDecoderOperation.swift; sourceTree = "<group>"; };
@@ -2281,6 +2280,7 @@
 		B3E98E2A25022C49004AABD2 /* JLExportKeystoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExportKeystoreViewController.m; sourceTree = "<group>"; };
 		B3E98E2C25022E99004AABD2 /* JLExportKeystoreFileView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExportKeystoreFileView.h; sourceTree = "<group>"; };
 		B3E98E2D25022E99004AABD2 /* JLExportKeystoreFileView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExportKeystoreFileView.m; sourceTree = "<group>"; };
+		DF2009E854A346238DA88F96 /* Pods_CloudArtChainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2302,7 +2302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60763A9D79BF306624BD0B21 /* Pods_CloudArtChainTests.framework in Frameworks */,
+				BF4DDB544908111CD2E6FAD6 /* Pods_CloudArtChainTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2321,8 +2321,8 @@
 			children = (
 				80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */,
 				43A71B77D07BA8D24F113D75 /* Pods-CloudArtChain.release.xcconfig */,
-				AD39750DE3A3703ADC8F45A8 /* Pods-CloudArtChainTests.debug.xcconfig */,
-				AE20E87DA6F06800CC2F53D9 /* Pods-CloudArtChainTests.release.xcconfig */,
+				7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */,
+				95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -2483,7 +2483,7 @@
 				B3648CED2518B5FD00BBDB57 /* libresolv.tbd */,
 				B3648CEB2518B5E600BBDB57 /* libc++.tbd */,
 				70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */,
-				565686F2CEBA53B345AD2202 /* Pods_CloudArtChainTests.framework */,
+				DF2009E854A346238DA88F96 /* Pods_CloudArtChainTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -5564,11 +5564,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B38A5F9924F34F0C00FA3EF7 /* Build configuration list for PBXNativeTarget "CloudArtChainTests" */;
 			buildPhases = (
-				D6A028F73C23CE2C7E036E3A /* [CP] Check Pods Manifest.lock */,
+				42D95417D072EBF3CAA7345A /* [CP] Check Pods Manifest.lock */,
 				B38A5F7E24F34F0C00FA3EF7 /* Sources */,
 				B38A5F7F24F34F0C00FA3EF7 /* Frameworks */,
 				B38A5F8024F34F0C00FA3EF7 /* Resources */,
-				F40F68F40153366F94D41041 /* [CP] Embed Pods Frameworks */,
+				06349AA029BFBEC1D57C60E8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -5734,6 +5734,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		06349AA029BFBEC1D57C60E8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		292571669B0FF4D75606C0B3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5749,6 +5766,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		42D95417D072EBF3CAA7345A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloudArtChainTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6712D60D49061AE463D20C87 /* [CP] Copy Pods Resources */ = {
@@ -5804,50 +5843,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$PROJECT_DIR/R.generated.swift,
+				"$PROJECT_DIR/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$PROJECT_DIR/R.generated.swift\"\n";
-		};
-		D6A028F73C23CE2C7E036E3A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CloudArtChainTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F40F68F40153366F94D41041 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -6987,6 +6987,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhubin/Desktop/uni-arts-app-IOS/CloudArtChain/CloudArtChain/CloudArtChain-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -7069,6 +7070,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
+				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhubin/Desktop/uni-arts-app-IOS/CloudArtChain/CloudArtChain/CloudArtChain-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_VERSION = 5.0;
@@ -7078,7 +7080,7 @@
 		};
 		B38A5F9A24F34F0C00FA3EF7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD39750DE3A3703ADC8F45A8 /* Pods-CloudArtChainTests.debug.xcconfig */;
+			baseConfigurationReference = 7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -7104,7 +7106,7 @@
 		};
 		B38A5F9B24F34F0C00FA3EF7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE20E87DA6F06800CC2F53D9 /* Pods-CloudArtChainTests.release.xcconfig */;
+			baseConfigurationReference = 95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

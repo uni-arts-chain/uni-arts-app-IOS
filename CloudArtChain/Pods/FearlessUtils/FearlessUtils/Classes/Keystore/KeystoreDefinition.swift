@@ -20,9 +20,9 @@ public struct KeystoreDefinition: Codable {
 public struct KeystoreEncoding: Codable {
     public let content: [String]
     public let type: [String]
-    public let version: Int
+    public let version: String
 
-    public init(content: [String], type: [String], version: Int) {
+    public init(content: [String], type: [String], version: String) {
         self.content = content
         self.type = type
         self.version = version
