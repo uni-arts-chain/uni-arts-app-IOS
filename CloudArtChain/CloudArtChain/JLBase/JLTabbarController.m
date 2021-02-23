@@ -80,17 +80,17 @@
 }
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-//    if ([viewController isKindOfClass:[UINavigationController class]]){
-//        UIViewController *topVC = [(UINavigationController *)viewController topViewController];
-//        if ([topVC isKindOfClass: [JLAssetViewController class]] || [topVC isKindOfClass:[JLMinerViewController class]] || [topVC isKindOfClass:[JLMineViewController class]]) {
-//            if ([LoginUtil haveToken]) {
-//                return YES;
-//            }else{
-//                [self presentLoginViewController:topVC];
-//                return NO;
-//            }
-//        }
-//    }
+    if ([viewController isKindOfClass:[UINavigationController class]]){
+        UIViewController *topVC = [(UINavigationController *)viewController topViewController];
+        if ([topVC isKindOfClass:[JLMineViewController class]]) {
+            if ([JLLoginUtil haveSelectedAccount]) {
+                return YES;
+            }else{
+                [JLLoginUtil presentCreateWallet];
+                return NO;
+            }
+        }
+    }
     return YES;
 }
 

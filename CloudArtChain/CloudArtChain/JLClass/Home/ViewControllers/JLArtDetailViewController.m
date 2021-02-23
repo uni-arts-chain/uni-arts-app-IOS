@@ -175,25 +175,41 @@
 }
 
 - (void)likeButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)dislikeButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)collectButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)immediatelyBuyBtnClick {
     WS(weakSelf)
-    [[JLViewControllerTool appDelegate].walletTool sellOrderCallWithCollectionId:1 itemId:34 price:@"1" block:^(BOOL success, NSString * _Nonnull message) {
-        if (success) {
-            JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
-            [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
-        }
-    }];
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        [[JLViewControllerTool appDelegate].walletTool sellOrderCallWithCollectionId:1 itemId:34 price:@"1" block:^(BOOL success, NSString * _Nonnull message) {
+            if (success) {
+                JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+            }
+        }];
+    }
 }
 
 - (UIScrollView *)scrollView {

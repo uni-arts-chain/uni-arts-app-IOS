@@ -188,25 +188,41 @@
 }
 
 - (void)likeButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)dislikeButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)collectButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        sender.selected = !sender.selected;
+    }
 }
 
 - (void)offerBtnClick {
     WS(weakSelf)
-    JLActionOfferView *offerView = [[JLActionOfferView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 290.0f)];
-    offerView.offerBlock = ^(NSString * _Nonnull price) {
-        NSLog(@"出价：%@", price);
-    };
-    ViewBorderRadius(offerView, 5.0f, 0.0f, JL_color_clear);
-    [JLAlert alertCustomView:offerView maxWidth:kScreenWidth - 40.0f * 2];
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        JLActionOfferView *offerView = [[JLActionOfferView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 290.0f)];
+        offerView.offerBlock = ^(NSString * _Nonnull price) {
+            NSLog(@"出价：%@", price);
+        };
+        ViewBorderRadius(offerView, 5.0f, 0.0f, JL_color_clear);
+        [JLAlert alertCustomView:offerView maxWidth:kScreenWidth - 40.0f * 2];
+    }
 }
 
 - (UIScrollView *)scrollView {

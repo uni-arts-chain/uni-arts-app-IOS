@@ -140,8 +140,12 @@
                 JLChainQueryViewController *chainQueryVC = [[JLChainQueryViewController alloc] init];
                 [weakSelf.navigationController pushViewController:chainQueryVC animated:YES];
             } else if (index == 1) {
-                JLApplyCertListViewController *applyCertListVC = [[JLApplyCertListViewController alloc] init];
-                [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
+                if (![JLLoginUtil haveSelectedAccount]) {
+                    [JLLoginUtil presentCreateWallet];
+                } else {
+                    JLApplyCertListViewController *applyCertListVC = [[JLApplyCertListViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
+                }
             } else {
                 [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController];
             }

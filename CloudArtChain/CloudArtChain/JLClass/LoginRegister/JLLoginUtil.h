@@ -25,10 +25,12 @@ typedef void(^VerifyFailure)(NSString *codeStr);
 @interface JLLoginUtil : NSObject
 
 + (void)presentLoginViewController;
++ (void)presentCreateWallet;
 
 + (void)presentLoginViewControllerWithSuccess:(JLLoginSuccessBlock)successBlock failure:(JLLoginFailureBlock)failureBlock;
 
 + (BOOL)haveToken;
++ (BOOL)haveSelectedAccount;
 
 //退出登录
 + (void)logout;

@@ -50,6 +50,10 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         getAccountBalanceFromAccountList(balanceBlock: balanceBlock)
     }
     
+    @objc func hasSelectedAccount() -> Bool {
+        return getRootPresenter().hasSelectedAccount()
+    }
+    
     func getAccountBalanceFromAccountList(balanceBlock: @escaping (String) -> Void) {
         let updateBlock: ([WalletViewModelProtocol]) -> Void = { models in
             if models.count > 0 {

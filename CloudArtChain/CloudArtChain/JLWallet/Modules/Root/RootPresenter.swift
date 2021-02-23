@@ -17,6 +17,10 @@ extension RootPresenter: RootPresenterProtocol {
         interactor.setup()
         interactor.getAccountBalance(balanceBlock: balanceBlock)
     }
+    
+    func hasSelectedAccount() -> Bool {
+        return interactor.hasSelectedAccount()
+    }
 }
 
 extension RootPresenter: RootInteractorOutputProtocol {

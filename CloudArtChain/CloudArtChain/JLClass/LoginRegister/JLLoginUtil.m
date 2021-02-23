@@ -20,6 +20,10 @@ NSString *const RFUserInfo     = @"UserInfo";
     [JLLoginUtil presentLoginViewControllerWithSuccess:nil failure:nil];
 }
 
++ (void)presentCreateWallet {
+    [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController];
+}
+
 //弹出登录界面
 + (void)presentLoginViewControllerWithSuccess:(JLLoginSuccessBlock)successBlock failure:(JLLoginFailureBlock)failureBlock {
     JLLoginRegisterViewController *loginViewController = [[JLLoginRegisterViewController alloc] init];
@@ -38,6 +42,10 @@ NSString *const RFUserInfo     = @"UserInfo";
     } else {
         return NO;
     }
+}
+
++ (BOOL)haveSelectedAccount {
+    return [[JLViewControllerTool appDelegate].walletTool hasSelectedAccount];
 }
 
 #pragma mark 退出登录

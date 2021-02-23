@@ -64,8 +64,8 @@
         WS(weakSelf)
         _mineNaviView = [[JLMineNaviView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, KStatus_Bar_Height + 108.0f)];
         _mineNaviView.avatarBlock = ^{
-            if (![JLLoginUtil haveToken]) {
-                [JLLoginUtil presentLoginViewController];
+            if (![JLLoginUtil haveSelectedAccount]) {
+                [JLLoginUtil presentCreateWallet];
             } else {
                 JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
                 [weakSelf.navigationController pushViewController:homePageVC animated:YES];

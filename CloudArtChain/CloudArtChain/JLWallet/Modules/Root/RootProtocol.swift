@@ -4,6 +4,7 @@ import CommonWallet
 protocol RootPresenterProtocol: class {
     func loadOnLaunch(navigationController: UINavigationController)
     func getAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
+    func hasSelectedAccount() -> Bool
 }
 
 protocol RootWireframeProtocol: class {
@@ -19,6 +20,7 @@ protocol RootInteractorInputProtocol: class {
     func setup()
     func decideModuleSynchroniously(navigationController: UINavigationController)
     func getAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
+    func hasSelectedAccount() -> Bool
 }
 
 protocol RootInteractorOutputProtocol: class {

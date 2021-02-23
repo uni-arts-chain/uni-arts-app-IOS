@@ -64,13 +64,17 @@
 }
 
 - (void)focusButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    if (sender.selected) {
-        sender.backgroundColor = JL_color_gray_C5C5C5;
-        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
     } else {
-        sender.backgroundColor = JL_color_blue_38B2F1;
-        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
+        sender.selected = !sender.selected;
+        if (sender.selected) {
+            sender.backgroundColor = JL_color_gray_C5C5C5;
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
+        } else {
+            sender.backgroundColor = JL_color_blue_38B2F1;
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
+        }
     }
 }
 

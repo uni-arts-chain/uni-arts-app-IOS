@@ -66,4 +66,8 @@ extension RootInteractor: RootInteractorInputProtocol {
     func setup() {
         setupURLHandlingService()
     }
+    
+    func hasSelectedAccount() -> Bool {
+        return settings.hasSelectedAccount
+    }
 }
