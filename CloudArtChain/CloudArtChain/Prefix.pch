@@ -27,6 +27,7 @@
 #import <UMCommon/MobClick.h>
 #import "UIView+SLFrame.h"
 #import "SLDelayPerform.h"
+#import <GTSDK/GeTuiSdk.h>
 
 //customization
 #import "PartMacro.h"
@@ -124,5 +125,12 @@
 #define SL_kScreenHeight [UIScreen mainScreen].bounds.size.height
 /// 弱引用对象
 #define SL_WeakSelf __weak typeof(self) weakSelf = self;
+
+// 个推
+#define GTSdkStateNotification @"GtSdkStateChange"
+// GTSDK 配置信息
+#define kGtAppId @"1vgAkon7Yu78ofjf5Ng5r9"
+#define kGtAppKey @"wsbCt4mpXa56dAKUxueNs7"
+#define kGtAppSecret @"YffOF4Agzt90M95RytW0j4"
 
 #endif /* Prefix_pch */

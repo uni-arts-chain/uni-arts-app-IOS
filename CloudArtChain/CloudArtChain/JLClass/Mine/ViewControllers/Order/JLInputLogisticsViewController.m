@@ -113,11 +113,13 @@
 }
 
 - (void)scanButtonClick {
+    WS(weakSelf)
     JLScanViewController *scanVC = [JLScanViewController new];
-    scanVC.scanType = JLScanTypeChainQuery;
+    scanVC.scanType = JLScanTypeOther;
     scanVC.qrCode = YES;
     scanVC.resultBlock = ^(NSString *scanResult) {
         NSLog(@"%@", scanResult);
+        weakSelf.orderNoTF.text = scanResult;
     };
     scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:scanVC animated:YES completion:nil];

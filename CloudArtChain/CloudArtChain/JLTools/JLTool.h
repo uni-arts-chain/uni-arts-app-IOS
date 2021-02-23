@@ -175,6 +175,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)resetRootViewControoler:(JLNavigationViewController *)navigationController;
 
++ (NSString *)getHexStringForData:(NSData *)data;
+
 @end
 
 NS_ASSUME_NONNULL_END

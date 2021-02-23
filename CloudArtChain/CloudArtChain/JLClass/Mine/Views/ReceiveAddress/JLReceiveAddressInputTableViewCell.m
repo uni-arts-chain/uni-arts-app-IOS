@@ -70,13 +70,16 @@
         _inputTF.textColor = JL_color_gray_666666;
         _inputTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
+        _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
     return _inputTF;
 }
 
 - (void)setTitle:(NSString *)title placeholder:(NSString *)placeholder {
     self.titleLabel.text = title;
-    NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_999999, NSFontAttributeName:kFontPingFangSCRegular(15.0f)};
+    NSDictionary *dic = @{NSForegroundColorAttributeName : JL_color_gray_999999, NSFontAttributeName : kFontPingFangSCRegular(15.0f)};
     NSAttributedString *attr = [[NSAttributedString alloc] initWithString:placeholder attributes:dic];
     self.inputTF.attributedPlaceholder = attr;
 }

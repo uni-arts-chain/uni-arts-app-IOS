@@ -60,7 +60,12 @@
 - (void)saveBtnClick {
     [self.view endEditing:YES];
     JLEditWalletCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    [[JLViewControllerTool appDelegate].walletTool saveUsernameWithUsername:cell.editContent address:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address];
+    NSString *walletName = [JLUtils trimSpace:cell.editContent];
+    if ([NSString stringIsEmpty:walletName]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入钱包名" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    [[JLViewControllerTool appDelegate].walletTool saveUsernameWithUsername:walletName address:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address];
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"保存成功" hideTime:KToastDismissDelayTimeInterval];
 }
 

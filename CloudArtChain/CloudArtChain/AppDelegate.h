@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UserNotifications/UserNotifications.h>
 #import "云画链-Swift.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate, GeTuiSdkDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) JLWalletTool *walletTool;
 - (void)setDeviceOrientationIsLandscapeRight:(BOOL)isLandscapeRight;

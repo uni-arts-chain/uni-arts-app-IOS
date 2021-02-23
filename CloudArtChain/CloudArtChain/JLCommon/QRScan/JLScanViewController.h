@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, JLScanType) {
     JLScanTypeChainQuery = 1,
     JLScanTypeImportWallet,
+    JLScanTypeOther,
 };
 
 typedef void(^ScanResultBlock)(NSString *scanResult);
