@@ -932,6 +932,12 @@
 		B39BEAD12513644300DE69A6 /* JLUploadWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD02513644300DE69A6 /* JLUploadWorkViewController.m */; };
 		B39BEAD5251368A600DE69A6 /* JLUploadWorkSampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */; };
 		B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */; };
+		B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62AF25E49B3300D28627 /* STPickerArea.m */; };
+		B3AA62B325E49B3300D28627 /* ChinaCity.json in Resources */ = {isa = PBXBuildFile; fileRef = B3AA62B125E49B3300D28627 /* ChinaCity.json */; };
+		B3AA62C225E49B3E00D28627 /* STConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62BA25E49B3D00D28627 /* STConst.m */; };
+		B3AA62C325E49B3E00D28627 /* STUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62BC25E49B3D00D28627 /* STUI.m */; };
+		B3AA62C425E49B3E00D28627 /* UIView+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62BE25E49B3D00D28627 /* UIView+ST.m */; };
+		B3AA62C525E49B3E00D28627 /* STPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62C025E49B3E00D28627 /* STPickerView.m */; };
 		B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */; };
 		B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */; };
 		B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */; };
@@ -2248,6 +2254,18 @@
 		B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkSampleView.m; sourceTree = "<group>"; };
 		B39BEAD625136F3D00DE69A6 /* JLUploadWorkImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadWorkImageView.h; sourceTree = "<group>"; };
 		B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkImageView.m; sourceTree = "<group>"; };
+		B3AA62AF25E49B3300D28627 /* STPickerArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPickerArea.m; sourceTree = "<group>"; };
+		B3AA62B025E49B3300D28627 /* STPickerArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPickerArea.h; sourceTree = "<group>"; };
+		B3AA62B125E49B3300D28627 /* ChinaCity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChinaCity.json; sourceTree = "<group>"; };
+		B3AA62B825E49B3D00D28627 /* STConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STConfig.h; sourceTree = "<group>"; };
+		B3AA62B925E49B3D00D28627 /* STUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STUI.h; sourceTree = "<group>"; };
+		B3AA62BA25E49B3D00D28627 /* STConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STConst.m; sourceTree = "<group>"; };
+		B3AA62BB25E49B3D00D28627 /* UIView+ST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ST.h"; sourceTree = "<group>"; };
+		B3AA62BC25E49B3D00D28627 /* STUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STUI.m; sourceTree = "<group>"; };
+		B3AA62BD25E49B3D00D28627 /* STConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STConst.h; sourceTree = "<group>"; };
+		B3AA62BE25E49B3D00D28627 /* UIView+ST.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ST.m"; sourceTree = "<group>"; };
+		B3AA62C025E49B3E00D28627 /* STPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPickerView.m; sourceTree = "<group>"; };
+		B3AA62C125E49B3E00D28627 /* STPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPickerView.h; sourceTree = "<group>"; };
 		B3ABE99A25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPurchaseOrderListCloseTableViewCell.h; sourceTree = "<group>"; };
 		B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPurchaseOrderListCloseTableViewCell.m; sourceTree = "<group>"; };
 		B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLFeedBackViewController.h; sourceTree = "<group>"; };
@@ -4979,6 +4997,7 @@
 		B396554424F38DBA007A8EC2 /* Vendes */ = {
 			isa = PBXGroup;
 			children = (
+				B3AA62AD25E49B1D00D28627 /* STPickerAddress */,
 				B38D7E4F25E11C3100E9978E /* WMPhotoBrowser */,
 				B3753D782554F4FE003A86CF /* SmallVideo */,
 				B366C7DD25524D28007F9583 /* HAVideo */,
@@ -5508,6 +5527,49 @@
 			path = UploadWork;
 			sourceTree = "<group>";
 		};
+		B3AA62AD25E49B1D00D28627 /* STPickerAddress */ = {
+			isa = PBXGroup;
+			children = (
+				B3AA62B725E49B3D00D28627 /* STConfig */,
+				B3AA62BF25E49B3E00D28627 /* STPickerView */,
+				B3AA62AE25E49B3300D28627 /* Area(地区) */,
+			);
+			path = STPickerAddress;
+			sourceTree = "<group>";
+		};
+		B3AA62AE25E49B3300D28627 /* Area(地区) */ = {
+			isa = PBXGroup;
+			children = (
+				B3AA62B125E49B3300D28627 /* ChinaCity.json */,
+				B3AA62B025E49B3300D28627 /* STPickerArea.h */,
+				B3AA62AF25E49B3300D28627 /* STPickerArea.m */,
+			);
+			path = "Area(地区)";
+			sourceTree = "<group>";
+		};
+		B3AA62B725E49B3D00D28627 /* STConfig */ = {
+			isa = PBXGroup;
+			children = (
+				B3AA62B825E49B3D00D28627 /* STConfig.h */,
+				B3AA62BD25E49B3D00D28627 /* STConst.h */,
+				B3AA62BA25E49B3D00D28627 /* STConst.m */,
+				B3AA62B925E49B3D00D28627 /* STUI.h */,
+				B3AA62BC25E49B3D00D28627 /* STUI.m */,
+				B3AA62BB25E49B3D00D28627 /* UIView+ST.h */,
+				B3AA62BE25E49B3D00D28627 /* UIView+ST.m */,
+			);
+			path = STConfig;
+			sourceTree = "<group>";
+		};
+		B3AA62BF25E49B3E00D28627 /* STPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				B3AA62C125E49B3E00D28627 /* STPickerView.h */,
+				B3AA62C025E49B3E00D28627 /* STPickerView.m */,
+			);
+			path = STPickerView;
+			sourceTree = "<group>";
+		};
 		B3B626E125E3643C009BE119 /* FeedBack */ = {
 			isa = PBXGroup;
 			children = (
@@ -5681,6 +5743,7 @@
 				B312261725B6B60A00562ECA /* ProfileSectionTableViewCell.xib in Resources */,
 				B31225D125B6B60A00562ECA /* UsernameSetupViewController.xib in Resources */,
 				B312256325B6B60A00562ECA /* IconWithTitleTableViewCell.xib in Resources */,
+				B3AA62B325E49B3300D28627 /* ChinaCity.json in Resources */,
 				B31225A325B6B60A00562ECA /* NetworkInfoViewController.xib in Resources */,
 				B366C7FF25525016007F9583 /* hVideo_back@3x.png in Resources */,
 				B312262B25B6B60A00562ECA /* AccountInfoViewController.xib in Resources */,
@@ -5843,7 +5906,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$PROJECT_DIR/R.generated.swift",
+				$PROJECT_DIR/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -6151,6 +6214,7 @@
 				B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */,
 				B31225CA25B6B60A00562ECA /* ModifyConnectionViewFactory.swift in Sources */,
 				B312253925B6B60A00562ECA /* AccountCreateError.swift in Sources */,
+				B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */,
 				B31225A025B6B60A00562ECA /* NetworkInfoViewFactory.swift in Sources */,
 				B312258525B6B60A00562ECA /* AlertPresentable.swift in Sources */,
 				B31225BE25B6B60A00562ECA /* NetworkManagementProtocols.swift in Sources */,
@@ -6162,6 +6226,7 @@
 				B31225CE25B6B60A00562ECA /* AddConnectionViewController.swift in Sources */,
 				B312255125B6B60A00562ECA /* BorderedSubtitleActionView.swift in Sources */,
 				B396560E24F38DF4007A8EC2 /* NSDecimalNumber+tools.m in Sources */,
+				B3AA62C425E49B3E00D28627 /* UIView+ST.m in Sources */,
 				B31225CB25B6B60A00562ECA /* AddConnectionProtocols.swift in Sources */,
 				B396561B24F38DF4007A8EC2 /* UIColor+JLColor.m in Sources */,
 				B31225F225B6B60A00562ECA /* AboutDetailsCell.swift in Sources */,
@@ -6335,6 +6400,7 @@
 				B312256F25B6B60A00562ECA /* SelectableTitleListViewModel.swift in Sources */,
 				B37FFB4924F4A965004B9CC8 /* JLHomeAppView.m in Sources */,
 				B35936002511B04000E2B2FD /* JLCustomPickerView.m in Sources */,
+				B3AA62C525E49B3E00D28627 /* STPickerView.m in Sources */,
 				B312251625B6B60A00562ECA /* SubstrateDataModel.xcdatamodeld in Sources */,
 				B396561224F38DF4007A8EC2 /* NSObject+countDown.m in Sources */,
 				B39655B824F38DBA007A8EC2 /* LewPopupViewAnimationFade.m in Sources */,
@@ -6481,6 +6547,7 @@
 				B31224A325B6B60900562ECA /* EventVisitor.swift in Sources */,
 				B31225DA25B6B60A00562ECA /* AccountCreateProtocols.swift in Sources */,
 				B39BEACA2513532D00DE69A6 /* JLWorkListNotListCell.m in Sources */,
+				B3AA62C325E49B3E00D28627 /* STUI.m in Sources */,
 				B38D7CA125E0B01800E9978E /* JLActionControl.swift in Sources */,
 				B37B85FB25148D2F00E43B36 /* JLUploadWorkInputView.m in Sources */,
 				B31225AC25B6B60A00562ECA /* PinSetupInteractor.swift in Sources */,
@@ -6668,6 +6735,7 @@
 				B312269D25B6B60B00562ECA /* PurchaseWireframe.swift in Sources */,
 				B312268F25B6B60B00562ECA /* WalletExtrinsicOpenCommand.swift in Sources */,
 				B325CD2224FF9FC000F931A2 /* JLChainQueryTradeView.m in Sources */,
+				B3AA62C225E49B3E00D28627 /* STConst.m in Sources */,
 				B312255F25B6B60A00562ECA /* ModalInfoFactory.swift in Sources */,
 				B3E98E1C250208A0004AABD2 /* JLImportWalletViewController.m in Sources */,
 				B31224B925B6B60900562ECA /* Era.swift in Sources */,

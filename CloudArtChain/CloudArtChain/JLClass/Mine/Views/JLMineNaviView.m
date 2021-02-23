@@ -13,7 +13,7 @@
 @property (nonatomic, strong) UIView *avatarView;
 @property (nonatomic, strong) UIButton *avatarBtn;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIImageView *realNameMaskImageView;
+//@property (nonatomic, strong) UIImageView *realNameMaskImageView;
 @property (nonatomic, strong) UIButton *settingBtn;
 @property (nonatomic, strong) UIButton *focusButton;
 @property (nonatomic, strong) UIView *lineView;
@@ -34,7 +34,7 @@
     [self addSubview:self.avatarView];
     [self.avatarView addSubview:self.avatarBtn];
     [self addSubview:self.nameLabel];
-    [self addSubview:self.realNameMaskImageView];
+//    [self addSubview:self.realNameMaskImageView];
     [self addSubview:self.settingBtn];
     [self addSubview:self.focusButton];
     [self addSubview:self.lineView];
@@ -59,11 +59,11 @@
         make.top.mas_equalTo(KStatus_Bar_Height + 30.0f);
         make.height.mas_equalTo(17.0f);
     }];
-    [self.realNameMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.nameLabel.mas_right).offset(10.0f);
-        make.bottom.equalTo(self.nameLabel);
-        make.size.mas_equalTo(14.0f);
-    }];
+//    [self.realNameMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(self.nameLabel.mas_right).offset(10.0f);
+//        make.bottom.equalTo(self.nameLabel);
+//        make.size.mas_equalTo(14.0f);
+//    }];
     [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.mas_left);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(12.0f);
@@ -122,12 +122,12 @@
     return _nameLabel;
 }
 
-- (UIImageView *)realNameMaskImageView {
-    if (!_realNameMaskImageView) {
-        _realNameMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_no_realname"];
-    }
-    return _realNameMaskImageView;
-}
+//- (UIImageView *)realNameMaskImageView {
+//    if (!_realNameMaskImageView) {
+//        _realNameMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_no_realname"];
+//    }
+//    return _realNameMaskImageView;
+//}
 
 - (UIButton *)settingBtn {
     if (!_settingBtn) {

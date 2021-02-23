@@ -11,10 +11,12 @@
 #import "JLReceiveAddressInputTableViewCell.h"
 #import "JLReceiveAddressSelectTableViewCell.h"
 #import "JLReceiveAddressSwitchTableViewCell.h"
+#import "STPickerArea.h"
 
 @interface JLEditAddressViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *tableFooterView;
+@property (nonatomic, strong) STPickerArea *pickerArea;
 @end
 
 @implementation JLEditAddressViewController
@@ -90,6 +92,18 @@
     
 }
 
+- (STPickerArea *)pickerArea {
+    if (!_pickerArea) {
+        WS(weakSelf)
+        _pickerArea = [STPickerArea shareWithMode:STPickerContentModeBottom];
+        _pickerArea.block = ^(NSString * _Nonnull province, NSString * _Nonnull city, NSString * _Nonnull area, NSString * _Nonnull provinceId, NSString * _Nonnull cityId, NSString * _Nonnull areaId) {
+            JLReceiveAddressSelectTableViewCell *cell = (JLReceiveAddressSelectTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+            [cell setSelectedContent:[NSString stringWithFormat:@"%@%@%@", province, city, area]];
+        };
+    }
+    return _pickerArea;
+}
+
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -104,9 +118,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
     if (indexPath.section == 0) {
         if (indexPath.row == 2) {
             JLReceiveAddressSelectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLReceiveAddressSelectTableViewCell" forIndexPath:indexPath];
+            cell.selectedBlock = ^{
+                [weakSelf.pickerArea show];
+            };
             [cell setTitle:@"地区" placeholder:@"请选择地区"];
             return cell;
         } else {
@@ -140,11 +158,11 @@
     return 44.0f;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 10.0f;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 10.0f;
 }
 
@@ -154,6 +172,13 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [UIView new];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0 && indexPath.row == 2) {
+        [self.pickerArea show];
+    }
 }
 
 @end
