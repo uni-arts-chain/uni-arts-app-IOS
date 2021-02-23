@@ -89,7 +89,39 @@
 }
 
 - (void)saveButtonClick {
+    [self.view endEditing:YES];
+    // 判断联系人
+    JLReceiveAddressInputTableViewCell *contactCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    if ([NSString stringIsEmpty:contactCell.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入联系人" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
     
+    // 判断手机号码
+    JLReceiveAddressInputTableViewCell *phoneCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    if ([NSString stringIsEmpty:phoneCell.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入联系电话" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    // 判断地区
+    JLReceiveAddressSelectTableViewCell *areaCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    if ([NSString stringIsEmpty:areaCell.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择地区" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    // 判断详细地址
+    JLReceiveAddressInputTableViewCell *detailAddressCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    if ([NSString stringIsEmpty:detailAddressCell.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写详细地址，不少于5个字" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    } else if (detailAddressCell.inputContent.length < 5) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写详细地址，不少于5个字" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"保存地址" hideTime:KToastDismissDelayTimeInterval];
 }
 
 - (STPickerArea *)pickerArea {
@@ -98,7 +130,7 @@
         _pickerArea = [STPickerArea shareWithMode:STPickerContentModeBottom];
         _pickerArea.block = ^(NSString * _Nonnull province, NSString * _Nonnull city, NSString * _Nonnull area, NSString * _Nonnull provinceId, NSString * _Nonnull cityId, NSString * _Nonnull areaId) {
             JLReceiveAddressSelectTableViewCell *cell = (JLReceiveAddressSelectTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-            [cell setSelectedContent:[NSString stringWithFormat:@"%@%@%@", province, city, area]];
+            [cell setSelectedContent:[NSString stringWithFormat:@"%@ %@ %@", province, city, area]];
         };
     }
     return _pickerArea;
@@ -123,6 +155,7 @@
         if (indexPath.row == 2) {
             JLReceiveAddressSelectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLReceiveAddressSelectTableViewCell" forIndexPath:indexPath];
             cell.selectedBlock = ^{
+                [weakSelf.view endEditing:YES];
                 [weakSelf.pickerArea show];
             };
             [cell setTitle:@"地区" placeholder:@"请选择地区"];
@@ -173,12 +206,4 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [UIView new];
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0 && indexPath.row == 2) {
-        [self.pickerArea show];
-    }
-}
-
 @end

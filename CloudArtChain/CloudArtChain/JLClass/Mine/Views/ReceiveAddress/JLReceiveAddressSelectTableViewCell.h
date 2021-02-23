@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLReceiveAddressSelectTableViewCell : UITableViewCell
 @property (nonatomic, copy) void(^selectedBlock)(void);
+@property (nonatomic, copy) NSString *inputContent;
 
 - (void)setTitle:(NSString *)title placeholder:(NSString *)placeholder;
 - (void)setSelectedContent:(NSString *)content;

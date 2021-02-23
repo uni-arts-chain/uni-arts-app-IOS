@@ -102,5 +102,6 @@
 
 - (void)setSelectedContent:(NSString *)content {
     self.inputTF.text = content;
+    self.inputContent = [content stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 @end
