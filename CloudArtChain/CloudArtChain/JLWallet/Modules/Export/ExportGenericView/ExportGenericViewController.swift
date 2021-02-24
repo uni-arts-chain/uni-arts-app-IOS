@@ -24,6 +24,7 @@ final class ExportGenericViewController: JLBaseViewController {
     private var optionView: UIView?
 
     private var viewModel: ExportGenericViewModelProtocol?
+    var snapshotNotice: Bool = false
 
     var advancedAppearanceAnimator = TransitionAnimator(type: .push,
                                                         duration: 0.35,
@@ -34,13 +35,6 @@ final class ExportGenericViewController: JLBaseViewController {
                                                        duration: 0.35,
                                                        subtype: .fromTop,
                                                        curve: .easeIn)
-    
-    var snapshotView: JLExportKeystoreSnapshotView = {
-        let snapshotView = JLExportKeystoreSnapshotView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width - 40.0 * 2, height: 280.0))
-        snapshotView.layer.cornerRadius = 5.0
-        snapshotView.layer.masksToBounds = true
-        return snapshotView
-    }()
 
     init(uiFactory: UIFactoryProtocol,
          binder: ExportGenericViewModelBinding,
@@ -79,7 +73,14 @@ final class ExportGenericViewController: JLBaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        JLAlert.alertCustomView(self.snapshotView, maxWidth: UIScreen.main.bounds.size.width - 40.0 * 2)
+        if !self.snapshotNotice {
+            let snapshotView = JLExportKeystoreSnapshotView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width - 40.0 * 2, height: 280.0), understoodBlock: { [weak self] in
+                self?.snapshotNotice = true
+            })
+            snapshotView.layer.cornerRadius = 5.0
+            snapshotView.layer.masksToBounds = true
+            JLAlert.alertCustomView(snapshotView, maxWidth: UIScreen.main.bounds.size.width - 40.0 * 2)
+        }
     }
 
     override func viewDidLoad() {

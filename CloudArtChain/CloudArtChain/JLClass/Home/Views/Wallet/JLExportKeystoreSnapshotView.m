@@ -9,6 +9,7 @@
 #import "JLExportKeystoreSnapshotView.h"
 
 @interface JLExportKeystoreSnapshotView ()
+@property (nonatomic, copy) void(^understoodBlock)(void);
 @property (nonatomic, strong) UIImageView *maskImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *contentLabel;
@@ -16,9 +17,10 @@
 @end
 
 @implementation JLExportKeystoreSnapshotView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame understoodBlock:(void(^)(void))understoodBlock {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = JL_color_white_ffffff;
+        self.understoodBlock = understoodBlock;
         [self createSubViews];
     }
     return self;
@@ -81,10 +83,17 @@
 
 - (UIButton *)understoodBtn {
     if (!_understoodBtn) {
-        _understoodBtn = [JLUIFactory buttonInitTitle:@"知道了" titleColor:JL_color_white_ffffff backgroundColor:JL_color_red_D70000 font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(closeView)];
+        _understoodBtn = [JLUIFactory buttonInitTitle:@"知道了" titleColor:JL_color_white_ffffff backgroundColor:JL_color_red_D70000 font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(understoodBtnClick)];
         ViewBorderRadius(_understoodBtn, 20.0f, 0.0f, JL_color_clear);
     }
     return _understoodBtn;
+}
+
+- (void)understoodBtnClick {
+    if (self.understoodBlock) {
+        self.understoodBlock();
+    }
+    [self closeView];
 }
 
 - (void)closeView {

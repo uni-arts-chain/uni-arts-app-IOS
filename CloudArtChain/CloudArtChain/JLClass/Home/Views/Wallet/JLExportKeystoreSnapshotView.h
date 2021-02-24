@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLExportKeystoreSnapshotView : JLBaseView
-
+- (instancetype)initWithFrame:(CGRect)frame understoodBlock:(void(^)(void))understoodBlock;
 @end
 
 NS_ASSUME_NONNULL_END

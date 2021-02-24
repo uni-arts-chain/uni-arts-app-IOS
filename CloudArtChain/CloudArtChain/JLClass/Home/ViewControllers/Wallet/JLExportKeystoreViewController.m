@@ -149,7 +149,9 @@
 
 - (JLExportKeystoreSnapshotView *)snapshotView {
     if (!_snapshotView) {
-        _snapshotView = [[JLExportKeystoreSnapshotView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 280.0f)];
+        _snapshotView = [[JLExportKeystoreSnapshotView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 280.0f) understoodBlock:^{
+            
+        }];
         ViewBorderRadius(_snapshotView, 5.0f, 0.0f, JL_color_clear);
     }
     return _snapshotView;
