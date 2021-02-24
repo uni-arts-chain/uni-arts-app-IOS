@@ -29,7 +29,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJf-mV-DOB">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="556"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="612"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oVw-Ru-zUO">
                             <rect key="frame" x="15" y="0.0" width="384" height="437"/>
@@ -130,10 +130,10 @@
                     </constraints>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E2p-hu-yYu">
-                    <rect key="frame" x="15" y="581" width="384" height="102"/>
+                    <rect key="frame" x="15" y="637" width="384" height="46"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIe-T5-JkW">
-                            <rect key="frame" x="0.0" y="56" width="384" height="46"/>
+                            <rect key="frame" x="0.0" y="0.0" width="384" height="46"/>
                             <color key="backgroundColor" red="0.31372549019607843" green="0.76470588235294112" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="46" id="ZMc-CI-7z3"/>
@@ -146,10 +146,10 @@
                                 <action selector="actionNext" destination="-1" eventType="touchUpInside" id="tKM-Ob-yW6"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Mx-Nu-zac">
-                            <rect key="frame" x="0.0" y="0.0" width="384" height="46"/>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Mx-Nu-zac">
+                            <rect key="frame" x="0.0" y="0.0" width="384" height="0.0"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="46" id="ljn-iW-pOb"/>
+                                <constraint firstAttribute="height" id="ljn-iW-pOb"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="跳过">
@@ -165,7 +165,7 @@
                         <constraint firstAttribute="bottom" secondItem="jIe-T5-JkW" secondAttribute="bottom" id="2hj-te-6bg"/>
                         <constraint firstItem="jIe-T5-JkW" firstAttribute="leading" secondItem="E2p-hu-yYu" secondAttribute="leading" id="BX1-tT-zQT"/>
                         <constraint firstItem="7Mx-Nu-zac" firstAttribute="top" secondItem="E2p-hu-yYu" secondAttribute="top" id="Gu3-e6-Jqo"/>
-                        <constraint firstAttribute="height" constant="102" id="HcB-bo-ggU"/>
+                        <constraint firstAttribute="height" constant="46" id="HcB-bo-ggU"/>
                         <constraint firstItem="7Mx-Nu-zac" firstAttribute="leading" secondItem="E2p-hu-yYu" secondAttribute="leading" id="QsO-li-kA6"/>
                         <constraint firstAttribute="trailing" secondItem="jIe-T5-JkW" secondAttribute="trailing" id="hnV-nX-3nh"/>
                         <constraint firstAttribute="trailing" secondItem="7Mx-Nu-zac" secondAttribute="trailing" id="pTV-m6-gxc"/>

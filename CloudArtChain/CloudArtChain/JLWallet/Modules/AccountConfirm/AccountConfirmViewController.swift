@@ -94,8 +94,8 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
         button.translatesAutoresizingMaskIntoConstraints = false
         button.roundedBackgroundView?.shadowOpacity = 0.0
         button.contentInsets = Constants.itemContentInsets
-        button.roundedBackgroundView?.fillColor = UIColor.blue
-        button.roundedBackgroundView?.highlightedFillColor = UIColor(red: 0.0, green: 0.218, blue: 0.718, alpha: 0.5)
+        button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF")
+        button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
         button.roundedBackgroundView?.cornerRadius = Constants.cornerRadius
         button.imageWithTitleView?.titleColor = UIColor.white
         button.imageWithTitleView?.titleFont = UIFont.p1Paragraph
@@ -140,11 +140,18 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
     }
 
     private func setupNavigationItem() {
-        let infoItem = UIBarButtonItem(image: UIImage(named: "iconRetry"),
-                                       style: .plain,
-                                       target: self,
-                                       action: #selector(actionRetry))
-        navigationItem.rightBarButtonItem = infoItem
+//        let infoItem = UIBarButtonItem(image: UIImage(named: "iconRetry"),
+//                                       style: .plain,
+//                                       target: self,
+//                                       action: #selector(actionRetry))
+//        navigationItem.rightBarButtonItem = infoItem
+        
+        let title = "稍后备份"
+        let rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(actionSkip))
+        let dic = [NSAttributedString.Key.foregroundColor: UIColor(hex: "38B2F1"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)]
+        rightBarButtonItem.setTitleTextAttributes(dic, for: .normal)
+        rightBarButtonItem.setTitleTextAttributes(dic, for: .highlighted)
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
     private func createSkipButton() {
@@ -298,6 +305,8 @@ extension AccountConfirmViewController {
                 positions[item] = Position(leading: leading, top: top)
 
                 originX += size.width + Constants.itemsSpacing
+                
+                item.roundedBackgroundView?.cornerRadius = min(size.width, size.height) * 0.5
             }
 
             currentY += height + Constants.itemsSpacing
@@ -320,8 +329,8 @@ extension AccountConfirmViewController {
             originalPositions[button] = positions[button]
 
             let animationBlock = {
-                button.roundedBackgroundView?.fillColor = UIColor(red: 0.0, green: 0.218, blue: 0.718, alpha: 0.5)
-                button.roundedBackgroundView?.highlightedFillColor = UIColor(red: 0.0, green: 0.218, blue: 0.718, alpha: 0.5)
+                button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
+                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF")
                 button.changesContentOpacityWhenHighlighted = true
                 self.layoutSubmittedButtons()
         
@@ -338,8 +347,8 @@ extension AccountConfirmViewController {
             positions[button] = originalPositions[button]
 
             let animationBlock = {
-                button.roundedBackgroundView?.fillColor = UIColor.blue
-                button.roundedBackgroundView?.highlightedFillColor = UIColor(red: 0.0, green: 0.218, blue: 0.718, alpha: 0.5)
+                button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF")
+                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
                 button.changesContentOpacityWhenHighlighted = false
 
                 currentPosition?.leading.isActive = false

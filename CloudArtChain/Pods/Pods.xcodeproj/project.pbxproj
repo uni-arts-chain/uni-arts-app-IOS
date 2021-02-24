@@ -2130,6 +2130,13 @@
 			remoteGlobalIDString = B12748D8506CB48696BD90F2CA4F4E38;
 			remoteInfo = R.swift.Library;
 		};
+		B386DF7D25E638C90082DC92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 19622742EBA51E823D6DAE3F8CDBFAD4;
+			remoteInfo = SnapKit;
+		};
 		B3B62CFD25E3AC1A009BE119 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -9312,6 +9319,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B386DF7E25E638C90082DC92 /* PBXTargetDependency */,
 				B3B62CFE25E3AC1A009BE119 /* PBXTargetDependency */,
 				3B4C231A3E896C2309F523472BAEE527 /* PBXTargetDependency */,
 				DF3B464FE3FA20C5BB0DBD410A204370 /* PBXTargetDependency */,
@@ -12053,6 +12061,11 @@
 			name = YYCache;
 			target = CFDAE6EB02F58B9A37CADCF439AE6082 /* YYCache */;
 			targetProxy = 9AE8F536F7DE2F6A151BB1013B29CD08 /* PBXContainerItemProxy */;
+		};
+		B386DF7E25E638C90082DC92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */;
+			targetProxy = B386DF7D25E638C90082DC92 /* PBXContainerItemProxy */;
 		};
 		B3A4BACEEE981FDCC4A23EC03861AE9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
