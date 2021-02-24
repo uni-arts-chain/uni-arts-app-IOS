@@ -136,11 +136,13 @@
 }
 
 - (void)scanButtonClick {
+    WS(weakSelf)
     JLScanViewController *scanVC = [JLScanViewController new];
     scanVC.scanType = JLScanTypeChainQuery;
     scanVC.qrCode = YES;
     scanVC.resultBlock = ^(NSString *scanResult) {
         NSLog(@"%@", scanResult);
+        weakSelf.addressTF.text = scanResult;
     };
     scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:scanVC animated:YES completion:nil];
@@ -153,6 +155,8 @@
         _addressTF.textColor = JL_color_gray_101010;
         _addressTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _addressTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _addressTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _addressTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入证书地址" attributes:dic];
         _addressTF.attributedPlaceholder = attr;

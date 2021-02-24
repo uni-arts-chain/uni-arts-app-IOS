@@ -72,7 +72,6 @@
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
-        _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
     }
     return _inputTF;
 }

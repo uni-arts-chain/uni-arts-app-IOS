@@ -262,6 +262,8 @@
         _pwdTF.textColor = JL_color_gray_212121;
         _pwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _pwdTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _pwdTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _pwdTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _pwdTF.secureTextEntry = YES;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"6-18位数字与字母组合密码" attributes:dic];
@@ -277,6 +279,8 @@
         _confirmTF.textColor = JL_color_gray_212121;
         _confirmTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _confirmTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _confirmTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _confirmTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _confirmTF.secureTextEntry = YES;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"重复密码" attributes:dic];
@@ -292,6 +296,8 @@
         _pwdNoticeTF.textColor = JL_color_gray_212121;
         _pwdNoticeTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _pwdNoticeTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _pwdNoticeTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _pwdNoticeTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"密码提示信息（可不填）" attributes:dic];
         _pwdNoticeTF.attributedPlaceholder = attr;

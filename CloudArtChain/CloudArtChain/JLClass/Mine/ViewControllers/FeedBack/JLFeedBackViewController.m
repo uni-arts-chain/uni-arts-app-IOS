@@ -97,6 +97,8 @@
         _phoneWeChatInputTF.textColor = JL_color_gray_212121;
         _phoneWeChatInputTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _phoneWeChatInputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _phoneWeChatInputTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _phoneWeChatInputTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(13)};
         NSAttributedString *attr = [[NSAttributedString alloc]initWithString:@"请输入电话/微信" attributes:dic];
         _phoneWeChatInputTF.attributedPlaceholder = attr;

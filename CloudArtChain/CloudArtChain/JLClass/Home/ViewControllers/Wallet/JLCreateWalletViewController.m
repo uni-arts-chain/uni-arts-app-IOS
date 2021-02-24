@@ -160,6 +160,8 @@
         _nameTF.textColor = JL_color_gray_212121;
         _nameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _nameTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _nameTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _nameTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"钱包名称" attributes:dic];
         _nameTF.attributedPlaceholder = attr;

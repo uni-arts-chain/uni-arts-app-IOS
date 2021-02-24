@@ -139,6 +139,8 @@
         _priceTF.textColor = JL_color_gray_101010;
         _priceTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _priceTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _priceTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _priceTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _priceTF.keyboardType = UIKeyboardTypeDecimalPad;
         NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_CCCCCC, NSFontAttributeName:kFontPingFangSCRegular(15.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入价格" attributes:dic];

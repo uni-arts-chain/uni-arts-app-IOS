@@ -68,6 +68,8 @@
         _inputTF.textColor = JL_color_gray_666666;
         _inputTF.clearButtonMode = UITextFieldViewModeNever;
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
     }
     return _inputTF;
 }

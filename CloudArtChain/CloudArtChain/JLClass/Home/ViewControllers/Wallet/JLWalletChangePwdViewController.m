@@ -248,6 +248,8 @@
         _currentPwdTF.textColor = JL_color_gray_101010;
         _currentPwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _currentPwdTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _currentPwdTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _currentPwdTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _currentPwdTF.secureTextEntry = YES;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"当前密码" attributes:dic];
@@ -263,6 +265,8 @@
         _newPwdTF.textColor = JL_color_gray_101010;
         _newPwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _newPwdTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _newPwdTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _newPwdTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _newPwdTF.secureTextEntry = YES;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"6-18位数字与字母组合密码" attributes:dic];
@@ -278,6 +282,8 @@
         _confirmNewPwdTF.textColor = JL_color_gray_101010;
         _confirmNewPwdTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _confirmNewPwdTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _confirmNewPwdTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _confirmNewPwdTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _confirmNewPwdTF.secureTextEntry = YES;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"重复新密码" attributes:dic];

@@ -175,6 +175,8 @@
         _noteTextField.textColor = JL_color_gray_212121;
         _noteTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _noteTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _noteTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+        _noteTextField.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_BEBEBE,NSFontAttributeName:kFontPingFangSCRegular(14.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"如有特殊要求，请留言备注" attributes:dic];
         _noteTextField.attributedPlaceholder = attr;

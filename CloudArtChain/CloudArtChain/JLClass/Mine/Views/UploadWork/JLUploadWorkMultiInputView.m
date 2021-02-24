@@ -80,6 +80,8 @@
         _firstTF.textColor = JL_color_gray_101010;
         _firstTF.clearButtonMode = UITextFieldViewModeNever;
         _firstTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _firstTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _firstTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _firstTF.textAlignment = NSTextAlignmentCenter;
         ViewBorderRadius(_firstTF, 5.0f, 1.0f, JL_color_gray_DDDDDD);
     }
@@ -100,6 +102,8 @@
         _secondTF.textColor = JL_color_gray_101010;
         _secondTF.clearButtonMode = UITextFieldViewModeNever;
         _secondTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _secondTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _secondTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _secondTF.textAlignment = NSTextAlignmentCenter;
         ViewBorderRadius(_secondTF, 5.0f, 1.0f, JL_color_gray_DDDDDD);
     }

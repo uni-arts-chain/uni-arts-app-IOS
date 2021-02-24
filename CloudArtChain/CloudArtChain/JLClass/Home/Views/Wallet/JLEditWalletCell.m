@@ -112,6 +112,8 @@
         _editTF.textColor = JL_color_gray_101010;
         _editTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _editTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _editTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _editTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _editTF.textAlignment = NSTextAlignmentRight;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(14.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入钱包名" attributes:dic];

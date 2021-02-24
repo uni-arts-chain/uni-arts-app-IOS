@@ -126,6 +126,8 @@
         _inputTF.textColor = JL_color_gray_101010;
         _inputTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _inputTF.secureTextEntry = (self.trailType == JLInputTrailTypePwd);
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dic];

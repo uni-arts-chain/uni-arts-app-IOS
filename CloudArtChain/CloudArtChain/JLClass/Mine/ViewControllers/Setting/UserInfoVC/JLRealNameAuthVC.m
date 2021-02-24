@@ -240,6 +240,9 @@
     tf.textColor = JL_color_gray_101010;
     tf.textAlignment = NSTextAlignmentRight;
     tf.clearButtonMode = UITextFieldViewModeWhileEditing;
+    tf.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    tf.autocorrectionType = UITextAutocorrectionTypeNo;
+    tf.spellCheckingType = UITextSpellCheckingTypeNo;
     NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
     NSAttributedString *attr = [[NSAttributedString alloc] initWithString:placeholder attributes:dic];
     tf.attributedPlaceholder = attr;

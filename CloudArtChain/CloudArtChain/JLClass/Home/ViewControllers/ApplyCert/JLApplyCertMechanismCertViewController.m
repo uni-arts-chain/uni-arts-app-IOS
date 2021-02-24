@@ -100,6 +100,8 @@
         _workTF.font = kFontPingFangSCRegular(16.0f);
         _workTF.textColor = JL_color_gray_212121;
         _workTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _workTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _workTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请选择需要签名的作品" attributes:dic];
         _workTF.attributedPlaceholder = attr;

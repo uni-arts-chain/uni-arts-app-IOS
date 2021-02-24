@@ -100,7 +100,12 @@
 }
 
 - (void)submitBtnClick {
-    
+    [self.view endEditing:YES];
+    if ([NSString stringIsEmpty:self.orderNoTF.text]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写快递单号" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    NSLog(@"提交物流单号");
 }
 
 - (UIButton *)scanButton {
@@ -132,8 +137,10 @@
         _orderNoTF.textColor = JL_color_gray_101010;
         _orderNoTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _orderNoTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _orderNoTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _orderNoTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
-        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输快递单号" attributes:dic];
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请填写快递单号" attributes:dic];
         _orderNoTF.attributedPlaceholder = attr;
     }
     return _orderNoTF;

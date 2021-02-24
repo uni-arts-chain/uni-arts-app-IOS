@@ -101,6 +101,8 @@
         _walletPwdTF.textColor = JL_color_gray_101010;
         _walletPwdTF.secureTextEntry = YES;
         _walletPwdTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        _walletPwdTF.autocorrectionType = UITextAutocorrectionTypeNo;
+        _walletPwdTF.spellCheckingType = UITextSpellCheckingTypeNo;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入钱包密码" attributes:dic];
         _walletPwdTF.attributedPlaceholder = attr;
