@@ -60,6 +60,9 @@
 
 // model
 #import "AppSingleton.h"
+#import "JLLoginAndRegisterModel.h"
+#import "JLHomeModel.h"
+#import "JLArtsModel.h"
 
 //ErrorData
 #import "ErrorHead.h"
@@ -81,7 +84,7 @@
 // 定义环境地址
 #if (ENV == KF)//开发环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"http://8.210.140.90:3000/"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
 
 #elif (ENV == OL)//正式环境
 //网络接口访问地址

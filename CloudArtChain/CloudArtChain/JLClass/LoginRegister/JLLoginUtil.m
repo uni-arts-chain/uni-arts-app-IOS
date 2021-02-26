@@ -134,4 +134,27 @@ NSString *const RFUserInfo     = @"UserInfo";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:savedPasswordKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
++ (void)loginWallet {
+    if ([[JLViewControllerTool appDelegate].walletTool getCurrentAccount] != nil) {
+        Model_members_user_address_login_Req *request = [[Model_members_user_address_login_Req alloc] init];
+        request.address = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address;
+        request.message = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address;
+        request.signature = [[JLViewControllerTool appDelegate].walletTool accountSignWithOriginData:[[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address dataUsingEncoding:NSUTF8StringEncoding] error:nil];
+        request.cid = [GeTuiSdk clientId];
+        request.os = @"ios";
+        Model_members_user_address_login_Rsp *response = [[Model_members_user_address_login_Rsp alloc] init];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            if (netIsWork) {
+                // 保存用户信息
+                [AppSingleton sharedAppSingleton].userBody = response.body;
+                UserDataTokens *firstToken = [response.body getToken];
+                [JLLoginUtil cacheUserToken:firstToken];
+            } else {
+                NSLog(@"login error: %@", errorStr);
+                [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            }
+        }];
+    }
+}
 @end

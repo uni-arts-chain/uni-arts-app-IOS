@@ -11,7 +11,9 @@
 
 @interface JLAuctionDetailProductView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UIView *titleView;
-@property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) UILabel *numLabel;
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray *auctionArtList;
 @end
 
 @implementation JLAuctionDetailProductView
@@ -54,16 +56,21 @@
             make.left.mas_equalTo(16.0f);
             make.centerY.equalTo(_titleView.mas_centerY);
         }];
-        
-        UILabel *numLabel = [JLUIFactory labelInitText:@"总计60件" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentRight];
-        [_titleView addSubview:numLabel];
-        
-        [numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+        [_titleView addSubview:self.numLabel];
+        [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(-16.0f);
             make.centerY.equalTo(_titleView.mas_centerY);
         }];
     }
     return _titleView;
+}
+
+- (UILabel *)numLabel {
+    if (!_numLabel) {
+        _numLabel = [JLUIFactory labelInitText:@"总计0件" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentRight];
+    }
+    return _numLabel;
 }
 
 #pragma mark - 懒加载
@@ -88,17 +95,24 @@
 #pragma mark - UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.auctionArtList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    cell.artsData = self.auctionArtList[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock();
+        self.artDetailBlock(self.auctionArtList[indexPath.row]);
     }
+}
+
+- (void)setAuctionMeetingData:(Model_auction_meetings_Data *)auctionMeetingData auctionArtList:(NSArray *)auctionArtList {
+    self.numLabel.text = [NSString stringWithFormat:@"总计%ld件", auctionMeetingData.art_size];
+    self.auctionArtList = auctionArtList;
+    [self.collectionView reloadData];
 }
 @end

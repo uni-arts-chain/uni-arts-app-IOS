@@ -7,6 +7,7 @@
 //
 
 #import "JLArtInfoView.h"
+#import "NSDate+Extension.h"
 
 @interface JLArtInfoView ()
 @property (nonatomic, strong) UIView *titleView;
@@ -130,14 +131,13 @@
 - (UIImageView *)workDescImageView {
     if (!_workDescImageView) {
         _workDescImageView = [[UIImageView alloc] init];
-        _workDescImageView.backgroundColor = [UIColor randomColor];
     }
     return _workDescImageView;
 }
 
 - (UILabel *)descLabel {
     if (!_descLabel) {
-        _descLabel = [JLUIFactory labelInitText:@"芭蕾系列" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _descLabel;
 }
@@ -152,29 +152,39 @@
 
 - (UILabel *)sizeLabel {
     if (!_sizeLabel) {
-        _sizeLabel = [JLUIFactory labelInitText:@"尺寸：100.0x100.0cm" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _sizeLabel = [JLUIFactory labelInitText:@"尺寸：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
     }
     return _sizeLabel;
 }
 
 - (UILabel *)materialLabel {
     if (!_materialLabel) {
-        _materialLabel = [JLUIFactory labelInitText:@"材质：布面丙烯" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _materialLabel = [JLUIFactory labelInitText:@"材质：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
     }
     return _materialLabel;
 }
 
 - (UILabel *)typeLabel {
     if (!_typeLabel) {
-        _typeLabel = [JLUIFactory labelInitText:@"作品类型：水墨画" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _typeLabel = [JLUIFactory labelInitText:@"作品类型：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
     }
     return _typeLabel;
 }
 
 - (UILabel *)dateLabel {
     if (!_dateLabel) {
-        _dateLabel = [JLUIFactory labelInitText:@"创作时间：2002/08" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _dateLabel = [JLUIFactory labelInitText:@"创作时间：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
     }
     return _dateLabel;
 }
+
+- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    [self.workDescImageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
+    self.descLabel.text = artsData.art.name;
+    self.sizeLabel.text = [NSString stringWithFormat:@"尺寸：%@x%@cm", artsData.art.size_width, artsData.art.size_length];
+    self.materialLabel.text = [NSString stringWithFormat:@"材质：%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artsData.art.material_id).stringValue]];
+    self.typeLabel.text = [NSString stringWithFormat:@"作品类型：%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artsData.art.category_id).stringValue]];
+    self.dateLabel.text = [NSString stringWithFormat:@"创作时间：%@", [[NSDate dateWithTimeIntervalSince1970:artsData.art.produce_at.doubleValue] dateWithCustomFormat:@"yyyy/MM"]];
+}
+
 @end

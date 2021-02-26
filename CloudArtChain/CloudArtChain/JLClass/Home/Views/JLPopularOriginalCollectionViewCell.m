@@ -61,7 +61,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
-        _imageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
@@ -72,7 +71,6 @@
         _authorLabel = [[UILabel alloc] init];
         _authorLabel.font = kFontPingFangSCSCSemibold(16.0f);
         _authorLabel.textColor = JL_color_gray_101010;
-        _authorLabel.text = @"宋先生";
     }
     return _authorLabel;
 }
@@ -82,7 +80,6 @@
         _descLabel = [[UILabel alloc] init];
         _descLabel.font = kFontPingFangSCRegular(13.0f);
         _descLabel.textColor = JL_color_gray_101010;
-        _descLabel.text = @"布画油画，月夜繁星";
     }
     return _descLabel;
 }
@@ -92,7 +89,6 @@
         _addressLabel = [[UILabel alloc] init];
         _addressLabel.font = kFontPingFangSCRegular(13.0f);
         _addressLabel.textColor = JL_color_gray_909090;
-        _addressLabel.text = @"证书地址:0xaqweradfasdfqef909090";
     }
     return _addressLabel;
 }
@@ -102,8 +98,15 @@
         _priceLabel = [[UILabel alloc] init];
         _priceLabel.font = kFontPingFangSCSCSemibold(15.0f);
         _priceLabel.textColor = JL_color_gray_101010;
-        _priceLabel.text = @"¥ 950";
     }
     return _priceLabel;
+}
+
+- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
+    self.authorLabel.text = artsData.art.author.display_name;
+    self.descLabel.text = artsData.art.details;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", artsData.art.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artsData.start_price];
 }
 @end

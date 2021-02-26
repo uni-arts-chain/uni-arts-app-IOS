@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, JLActionTimeType) {
 };
 
 @interface JLActionTimeView : JLBaseView
-- (instancetype)initWithFrame:(CGRect)frame timeType:(JLActionTimeType)timeType;
+- (instancetype)initWithFrame:(CGRect)frame timeType:(JLActionTimeType)timeType countDownInterval:(NSTimeInterval)countDownInterval;
 @property (nonatomic, copy) void(^actionDescBlock)(void);
 @end
 

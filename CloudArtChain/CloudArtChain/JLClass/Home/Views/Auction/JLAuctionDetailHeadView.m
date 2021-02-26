@@ -51,7 +51,6 @@
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] init];
-        _headerImageView.backgroundColor = [UIColor randomColor];
     }
     return _headerImageView;
 }
@@ -66,7 +65,7 @@
 
 - (UILabel *)timeTitleLabel {
     if (!_timeTitleLabel) {
-        _timeTitleLabel = [JLUIFactory labelInitText:@"距开始" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        _timeTitleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
     }
     return _timeTitleLabel;
 }
@@ -74,15 +73,29 @@
 - (UIView *)timeView {
     if (!_timeView) {
         _timeView = [[UIView alloc] init];
-        
-        JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:24 * 60 * 60 seperateColor:JL_color_white_ffffff backColor:JL_color_orange_FF8650 timeColor:JL_color_white_ffffff];
-        [_timeView addSubview:countDownTimerView];
-        
-        [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_timeView);
-        }];
     }
     return _timeView;
+}
+
+- (void)setAuctionMeetingData:(Model_auction_meetings_Data *)auctionMeetingData {
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:auctionMeetingData.img_file[@"url"]]];
+    
+    NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval countDownInterval = 0;
+    if (auctionMeetingData.start_at.doubleValue > currentInterval) {
+        self.timeTitleLabel.text = @"距开始";
+        countDownInterval = auctionMeetingData.start_at.doubleValue - currentInterval;
+    } else {
+        self.timeTitleLabel.text = @"距结束";
+        countDownInterval = auctionMeetingData.end_at.doubleValue - currentInterval;
+    }
+    
+    JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:countDownInterval seperateColor:JL_color_white_ffffff backColor:JL_color_orange_FF8650 timeColor:JL_color_white_ffffff];
+    [self.timeView addSubview:countDownTimerView];
+    
+    [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.timeView);
+    }];
 }
 
 @end

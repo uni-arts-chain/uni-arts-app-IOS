@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionDetailTitleView.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionDetailTitleView ()
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -55,7 +56,8 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"南艺艺术品拍卖专场（第一期）" font:kFontPingFangSCMedium(19.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(19.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel.numberOfLines = 1;
     }
     return _titleLabel;
 }
@@ -69,7 +71,7 @@
 
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"08/12 12:00 - 08/15 12:00" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _timeLabel;
 }
@@ -80,6 +82,14 @@
         _lineView.backgroundColor = JL_color_gray_DDDDDD;
     }
     return _lineView;
+}
+
+- (void)setAuctionMeetingData:(Model_auction_meetings_Data *)auctionMeetingData {
+    self.titleLabel.text = auctionMeetingData.topic;
+    
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:auctionMeetingData.start_at.doubleValue];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:auctionMeetingData.end_at.doubleValue];
+    self.timeLabel.text = [NSString stringWithFormat:@"%@ - %@", [startDate dateWithCustomFormat:@"MM/dd HH:mm"], [endDate dateWithCustomFormat:@"MM/dd HH:mm"]];
 }
 
 @end

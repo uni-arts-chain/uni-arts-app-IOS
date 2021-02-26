@@ -10,6 +10,7 @@ import XCTest
 import RobinHood
 import IrohaCrypto
 import FearlessUtils
+import BigInt
 
 class RPCTest: XCTestCase {
 
@@ -95,6 +96,51 @@ class RPCTest: XCTestCase {
             Logger.shared.debug("Misc Frozen: \(Decimal.fromSubstrateAmount(accountData.miscFrozen.value, precision: precision)!)")
             Logger.shared.debug("Fee Frozen: \(Decimal.fromSubstrateAmount(accountData.feeFrozen.value, precision: precision)!)")
 
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testAuctionList() throws {
+        try performAuctionList(url: URL(string: "wss://testnet.uniarts.me")!, collectionID: 1, itemID: 67, precision: 12)
+    }
+    
+    func performAuctionList(url: URL, collectionID: UInt64, itemID: UInt64, precision: Int16) throws {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: url, logger: logger)
+        
+        let call = AuctionListCall(collectionId: collectionID)
+        let callEncoder = ScaleEncoder()
+        try call.encode(scaleEncoder: callEncoder)
+        let callArguments = callEncoder.encode()
+        
+        var collectionInt = collectionID
+        let collectionData: Data = Data(bytes: &collectionInt, count: MemoryLayout<UInt64>.size)
+        
+        var itemInt = itemID
+        let itemData: Data = Data(bytes: &itemInt, count: MemoryLayout<UInt64>.size)
+        
+        let key = try (StorageKeyFactory().auctionList() + (collectionData.blake128Concat() + itemData.blake128Concat())).toHex(includePrefix: true)
+//        let key = "0xf43ffbe61ef468749d3617ac1a63c4b7636beab08dba743172af6792d8ec59019ea2d098b5f70192f96c06f38d3fbc9701000000000000009451b00276b84c5a3e7b7be2aedc6df74300000000000000"
+        
+        let operation = JSONRPCListOperation<JSONScaleDecodable<AuctionInfo>>(engine: engine,
+                                                                              method: RPCMethod.getStorage,
+                                                                              parameters: [key])
+        operationQueue.addOperations([operation], waitUntilFinished: true)
+        do {
+            let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+            guard let aunctionData = result.underlyingValue else {
+                XCTFail("Empty aunction list")
+                return
+            }
+
+            print("start_price: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.start_price), precision: precision)!)")
+            print("increment: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.increment), precision: precision)!)")
+            print("current_price: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.current_price), precision: precision)!)")
+            print(NSString(data: aunctionData.owner.value, encoding: String.Encoding.utf8.rawValue) ?? "解析错误")
+            print(aunctionData)
         } catch {
             XCTFail("Unexpected error: \(error)")
         }

@@ -46,7 +46,7 @@
     
     [self.hmsLab1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.equalTo(self);
-        make.width.mas_equalTo(21.0f);
+        make.width.mas_greaterThanOrEqualTo(21.0f);
     }];
     [self.sepLab1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.hmsLab1.mas_right);
@@ -72,7 +72,8 @@
     
     //时分秒
     [LSTTimer addMinuteTimerForTime:self.seconds handle:^(NSString * _Nonnull day, NSString * _Nonnull hour, NSString * _Nonnull minute, NSString * _Nonnull second, NSString * _Nonnull ms) {
-        weakSelf.hmsLab1.text = hour;
+        NSInteger realHour = day.integerValue * 24 + hour.integerValue;
+        weakSelf.hmsLab1.text = realHour == 0 ? @"00" : @(realHour).stringValue;
         weakSelf.hmsLab2.text = minute;
         weakSelf.hmsLab3.text = second;
     }];

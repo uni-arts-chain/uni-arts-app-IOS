@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionPriceView : JLBaseView
-
+@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
 @end
 
 NS_ASSUME_NONNULL_END

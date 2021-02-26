@@ -17,6 +17,7 @@
 #import "JLMessageViewController.h"
 #import "JLCustomerServiceViewController.h"
 #import "JLAuctionDetailViewController.h"
+#import "JLBaseWebViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLHomeAppView.h"
@@ -41,6 +42,10 @@
 @property (nonatomic, strong) JLPopularOriginalView *popularOriginalView;
 @property (nonatomic, strong) UILabel *themeRecommendTitleLabel;
 @property (nonatomic, strong) JLThemeRecommendView *themeRecommendView;
+
+@property (nonatomic, strong) NSMutableArray *bannerArray;
+@property (nonatomic, strong) NSMutableArray *announceArray;
+@property (nonatomic, strong) NSMutableArray *auctionArray;
 @end
 
 @implementation JLHomeViewController
@@ -49,10 +54,25 @@
     self.fd_prefersNavigationBarHidden = YES;
     [self createView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrImportWalletNotification) name:@"CreateOrImportWalletNotification" object:nil];
+    
+    NSLog(@"signed token %@", [[JLViewControllerTool appDelegate].walletTool accountSignWithOriginData:[[[AppSingleton sharedAppSingleton].userBody getToken].token dataUsingEncoding:NSUTF8StringEncoding] error:nil]);
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reloadAllService];
+}
+
+- (void)reloadAllService {
+    [self requestBannersData];
+    [self requestAnnounceData];
+    [self requestAuctionMeetingList];
 }
 
 - (void)createOrImportWalletNotification {
     [[JLViewControllerTool appDelegate].walletTool reloadContacts];
+    // 登录
+    [JLLoginUtil loginWallet];
 }
 
 - (void)createView {
@@ -80,7 +100,7 @@
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
-            [weakSelf.scrollView.mj_header endRefreshing];
+            [weakSelf reloadAllService];
         }];
     }
     return _scrollView;
@@ -115,8 +135,6 @@
         _pageFlowView.dataSource = self;
         _pageFlowView.minimumPageAlpha = 0.4f;
         _pageFlowView.isOpenAutoScroll = YES;
-        _pageFlowView.pageControl = self.pageControl;
-        [_pageFlowView addSubview:self.pageControl];
         [_pageFlowView reloadData];
     }
     return _pageFlowView;
@@ -202,7 +220,6 @@
         [_cycleScrollView disableScrollGesture];
         _cycleScrollView.autoScrollTimeInterval = 5.0f;
         _cycleScrollView.delegate = self;
-        _cycleScrollView.titlesGroup = @[@"会飞的企鹅证书申请通过1", @"用户A和用户B已达成一笔交易2", @"会飞的企鹅证书申请通过3", @"用户A和用户B已达成一笔交易4"];
     }
     return _cycleScrollView;
 }
@@ -211,8 +228,9 @@
     if (!_auctionSectionView) {
         WS(weakSelf)
         _auctionSectionView = [[JLAuctionSectionView alloc] initWithFrame:CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f)];
-        _auctionSectionView.entryBlock = ^{
+        _auctionSectionView.entryBlock = ^(NSInteger index) {
             JLAuctionDetailViewController *auctionDetailVC = [[JLAuctionDetailViewController alloc] init];
+            auctionDetailVC.auctionMeetingData = weakSelf.auctionArray[index];
             [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
         };
     }
@@ -222,7 +240,7 @@
 - (JLPopularOriginalView *)popularOriginalView {
     if (!_popularOriginalView) {
         WS(weakSelf)
-        _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.auctionSectionView .frameBottom, kScreenWidth, 80.0f + 250.0f * 5)];
+        _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f + 250.0f * 5)];
         _popularOriginalView.artDetailBlock = ^{
             JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
             artDetailVC.artDetailType = JLArtDetailTypeDetail;
@@ -263,7 +281,7 @@
     return CGSizeMake(kScreenWidth - 25.0f * 2, scrollPageHeight - 10.0f * 2);
 }
 - (NSInteger)numberOfPagesInFlowView:(NewPagedFlowView *)flowView {
-    return 5;
+    return self.bannerArray.count;
 }
 
 - (UIView *)flowView:(NewPagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index{
@@ -274,23 +292,23 @@
         bannerView.layer.cornerRadius = 5.0f;
     }
     bannerView.backgroundColor = [UIColor randomColor];
-//    //在这里下载网络图片
-//    Model_banners_Data  *bannerModel = nil;
-//    if (index < self.bannerArray.count) {
-//        bannerModel = self.bannerArray[index];
-//    }
-//    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.img_min] placeholderImage:nil];
+    //在这里下载网络图片
+    Model_banners_Data *bannerModel = nil;
+    if (index < self.bannerArray.count) {
+        bannerModel = self.bannerArray[index];
+    }
+    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.img_min] placeholderImage:nil];
     return bannerView;
 }
 
 #pragma mark NewPagedFlowView Delegate
 - (void)didSelectCell:(UIView *)subView withSubViewIndex:(NSInteger)subIndex {
-//    Model_banners_Data *bannerModel= self.bannerArray[subIndex];
-//    if (!bannerModel.url.length || !bannerModel.url) {
-//        return;
-//    }
-//    JLBaseWebViewController * webVC = [[JLBaseWebViewController alloc] initWithWebUrl:bannerModel.url naviTitle:bannerModel.title];
-//    [self.navigationController pushViewController:webVC animated:YES];
+    Model_banners_Data *bannerModel= self.bannerArray[subIndex];
+    if (!bannerModel.url.length || !bannerModel.url) {
+        return;
+    }
+    JLBaseWebViewController * webVC = [[JLBaseWebViewController alloc] initWithWebUrl:bannerModel.url naviTitle:bannerModel.title];
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 #pragma mark - SDCycleScrollViewDelegate
@@ -311,8 +329,114 @@
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-//    Model_news_Data *annouceData = self.announceArray[index];
-//    JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
-//    [self.navigationController pushViewController:detailVC animated:YES];
+    Model_news_Data *annouceData = self.announceArray[index];
+    JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+#pragma mark 请求banner数据
+- (void)requestBannersData {
+    WS(weakSelf)
+    Model_banners_Req *request = [[Model_banners_Req alloc] init];
+    request.platform = @"1";
+    Model_banners_Rsp *response = [[Model_banners_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            [weakSelf.bannerArray removeAllObjects];
+            [weakSelf.bannerArray addObjectsFromArray:response.body];
+            // 判断是否添加pageControl
+            if (weakSelf.bannerArray.count > 1) {
+                weakSelf.pageFlowView.pageControl = weakSelf.pageControl;
+                [weakSelf.pageFlowView addSubview:weakSelf.pageControl];
+            } else {
+                weakSelf.pageFlowView.pageControl = nil;
+                [weakSelf.pageControl removeFromSuperview];
+            }
+            [weakSelf.pageFlowView reloadData];
+        } else {
+            [weakSelf.scrollView.mj_header endRefreshing];
+        }
+    }];
+}
+
+#pragma mark 请求公告数据
+- (void)requestAnnounceData {
+    WS(weakSelf)
+    Model_news_Req *request = [[Model_news_Req alloc] init];
+    request.page = 1;
+    request.type = @"New::Announcement";
+    Model_news_Rsp *response = [[Model_news_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        [weakSelf.scrollView.mj_header endRefreshing];
+        if (netIsWork) {
+            [weakSelf.announceArray removeAllObjects];
+            [weakSelf.announceArray addObjectsFromArray:response.body];
+            NSMutableArray *titleArray = [NSMutableArray array];
+            for (Model_news_Data *annouceData in weakSelf.announceArray) {
+                if (![NSString stringIsEmpty:annouceData.title]) {
+                    [titleArray addObject:annouceData.title];
+                }
+            }
+            weakSelf.cycleScrollView.titlesGroup = titleArray;
+        }
+    }];
+}
+
+#pragma mark 请求拍卖会列表
+- (void)requestAuctionMeetingList {
+    WS(weakSelf)
+    Model_auction_meetings_Req *request = [[Model_auction_meetings_Req alloc] init];
+    request.page = 1;
+    request.per_page = 9999;
+    Model_auction_meetings_Rsp *response = [[Model_auction_meetings_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            [weakSelf.auctionArray removeAllObjects];
+            [weakSelf.auctionArray addObjectsFromArray:response.body];
+            if (weakSelf.auctionArray.count == 0) {
+                // 没有拍卖数据
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 80.0f + 250.0f * 5);
+                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 407.0f);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+            } else {
+                weakSelf.auctionSectionView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f);
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f + 250.0f * 5);
+                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 407.0f);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+                
+                weakSelf.auctionSectionView.auctionArray = [weakSelf.auctionArray copy];
+            }
+        } else {
+            NSLog(@"error: %@", errorStr);
+        }
+    }];
+}
+
+#pragma mark 懒加载初始化
+- (NSMutableArray *)bannerArray {
+    if (!_bannerArray) {
+        _bannerArray = [NSMutableArray array];
+    }
+    return _bannerArray;
+}
+
+- (NSMutableArray *)announceArray {
+    if (!_announceArray) {
+        _announceArray = [NSMutableArray array];
+    }
+    return _announceArray;
+}
+
+- (NSMutableArray *)auctionArray {
+    if (!_auctionArray) {
+        _auctionArray = [NSMutableArray array];
+    }
+    return _auctionArray;
 }
 @end

@@ -13,8 +13,6 @@
 
 #import "JLWalletPointCell.h"
 
-#import "JLWalletCryptoModel.h"
-
 @interface JLWalletViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *tableHeaderView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -30,7 +28,6 @@
     [self addBackItem];
     self.currentAccount = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount];
     [self createSubViews];
-    NSLog(@"%@", [JLWalletCryptoModel getKeyPair]);
 }
 
 - (void)backClick {

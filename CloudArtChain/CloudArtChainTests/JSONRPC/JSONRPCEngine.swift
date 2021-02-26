@@ -28,7 +28,6 @@ struct JSONRPCResponseHandler<T: Decodable>: JSONRPCResponseHandling {
         do {
             let decoder = JSONDecoder()
             let response = try decoder.decode(JSONRPCData<T>.self, from: data)
-
             completionClosure(.success(response.result))
 
         } catch {

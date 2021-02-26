@@ -73,7 +73,7 @@
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"证书地址：0xsbd354sdf4241d354s54..." font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
@@ -86,13 +86,17 @@
 }
 
 - (void)copyAddressBtnClick {
-    [UIPasteboard generalPasteboard].string = @"";
+    [UIPasteboard generalPasteboard].string = self.addressLabel.text;
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
 }
 
 - (void)chainQRCodeBtnClick {
     if (self.chainQRCodeBlock) {
-        self.chainQRCodeBlock(@"");
+        self.chainQRCodeBlock(self.addressLabel.text);
     }
+}
+
+- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", artsData.art.item_hash];
 }
 @end

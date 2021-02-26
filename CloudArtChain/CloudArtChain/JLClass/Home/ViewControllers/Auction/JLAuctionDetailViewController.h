@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionDetailViewController : JLBaseViewController
-
+@property (nonatomic, strong) Model_auction_meetings_Data *auctionMeetingData;
 @end
 
 NS_ASSUME_NONNULL_END

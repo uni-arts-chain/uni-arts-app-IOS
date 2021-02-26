@@ -240,6 +240,10 @@ extension WebSocketEngine {
         for pending in currentPendings {
             logger.debug("Sending request with id: \(pending.requestId)")
             logger.debug("\(String(data: pending.data, encoding: .utf8)!)")
+            
+            print("Sending request with id: \(pending.requestId)")
+            print("\(String(data: pending.data, encoding: .utf8)!)")
+            
             send(request: pending)
         }
     }

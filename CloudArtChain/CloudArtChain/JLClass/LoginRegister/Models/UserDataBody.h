@@ -58,6 +58,19 @@
 @property (nonatomic, strong) NSString *mining_level_limit;
 /** 是否绑定邀请关系 */
 @property (nonatomic, assign) BOOL is_binding_invitation;
+/** 钱包地址 */
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSDictionary *recommend_image;
+@property (nonatomic, strong) NSString *sex;
+@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSDictionary *avatar;
+@property (nonatomic, assign) BOOL is_artist;
+@property (nonatomic, strong) NSString *artist_desc;
+@property (nonatomic, assign) NSInteger follow_user_size;
+@property (nonatomic, assign) NSInteger following_user_size;
+@property (nonatomic, assign) BOOL follow_by_me;
+@property (nonatomic, assign) NSInteger favorite_art_size;
+@property (nonatomic, assign) NSInteger art_size;
 
 //Cha***@outlook.com
 - (NSString*)getUserDisplayName;

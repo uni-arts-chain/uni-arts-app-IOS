@@ -2,6 +2,32 @@ import Foundation
 import FearlessUtils
 import BigInt
 
+struct AuctionInfo: ScaleDecodable {
+    let id: UInt64
+    let collection_id: UInt64
+    let item_id: UInt64
+    let value: UInt64
+    let owner: AccountId
+    let start_price: UInt64
+    let increment: UInt64
+    let current_price: UInt64
+    let start_time: UInt32
+    let end_time: UInt32
+
+    init(scaleDecoder: ScaleDecoding) throws {
+        id = try UInt64(scaleDecoder: scaleDecoder)
+        collection_id = try UInt64(scaleDecoder: scaleDecoder)
+        item_id = try UInt64(scaleDecoder: scaleDecoder)
+        value = try UInt64(scaleDecoder: scaleDecoder)
+        owner = try AccountId(scaleDecoder: scaleDecoder)
+        start_price = try UInt64(scaleDecoder: scaleDecoder)
+        increment = try UInt64(scaleDecoder: scaleDecoder)
+        current_price = try UInt64(scaleDecoder: scaleDecoder)
+        start_time = try UInt32(scaleDecoder: scaleDecoder)
+        end_time = try UInt32(scaleDecoder: scaleDecoder)
+    }
+}
+
 struct AccountInfo: ScaleDecodable {
     let nonce: UInt32
     let refcount: UInt32

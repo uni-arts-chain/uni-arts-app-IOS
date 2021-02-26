@@ -27,7 +27,6 @@
 }
 
 - (void)createSubViews {
-    WS(weakSelf)
     [self addSubview:self.titleView];
     [self addSubview:self.auctionScrollView];
     
@@ -43,20 +42,7 @@
         make.width.mas_equalTo(kScreenWidth);
     }];
     
-    for (int i = 0; i < 4; i++) {
-        JLAuctionCellView *auctionCellView = [[JLAuctionCellView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0.0f, kScreenWidth, 282.0f)];
-        auctionCellView.entryBlock = ^{
-            if (weakSelf.entryBlock) {
-                weakSelf.entryBlock();
-            }
-        };
-        [self.auctionScrollView addSubview:auctionCellView];
-    }
-    [self.auctionScrollView setContentSize:CGSizeMake(kScreenWidth * 4, 282.0f)];
-    
     [self addSubview:self.pageControl];
-    self.pageControl.numberOfPages = 4;
-    self.pageControl.currentPage = 0;
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.mas_centerX);
         make.bottom.mas_equalTo(-10.0f);
@@ -122,4 +108,20 @@
     self.pageControl.currentPage = page;
 }
 
+- (void)setAuctionArray:(NSArray *)auctionArray {
+    WS(weakSelf)
+    for (int i = 0; i < auctionArray.count; i++) {
+        JLAuctionCellView *auctionCellView = [[JLAuctionCellView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0.0f, kScreenWidth, 282.0f)];
+        auctionCellView.auctionData = auctionArray[i];
+        auctionCellView.entryBlock = ^{
+            if (weakSelf.entryBlock) {
+                weakSelf.entryBlock(i);
+            }
+        };
+        [self.auctionScrollView addSubview:auctionCellView];
+    }
+    [self.auctionScrollView setContentSize:CGSizeMake(kScreenWidth * auctionArray.count, 282.0f)];
+    self.pageControl.numberOfPages = auctionArray.count;
+    self.pageControl.currentPage = 0;
+}
 @end

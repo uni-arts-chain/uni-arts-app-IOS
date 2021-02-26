@@ -52,4 +52,6 @@ typedef void(^VerifyFailure)(NSString *codeStr);
 + (void)removeUserAccount;
 + (void)removeUserPassword;
 + (void)cacheUserToken:(UserDataTokens *)firstToken;
+
++ (void)loginWallet;
 @end

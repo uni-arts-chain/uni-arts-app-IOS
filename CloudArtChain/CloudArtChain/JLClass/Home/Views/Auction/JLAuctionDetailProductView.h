@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionDetailProductView : JLBaseView
-@property (nonatomic, copy) void(^artDetailBlock)(void);
+- (void)setAuctionMeetingData:(Model_auction_meetings_Data *)auctionMeetingData auctionArtList:(NSArray *)auctionArtList;
+@property (nonatomic, copy) void(^artDetailBlock)(Model_auction_meetings_arts_Data *artsData);
 @end
 
 NS_ASSUME_NONNULL_END

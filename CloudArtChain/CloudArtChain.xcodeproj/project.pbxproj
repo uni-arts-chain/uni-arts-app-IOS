@@ -19,8 +19,6 @@
 		5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF026C2503F96900A81E32 /* UIView+JLPageFrame.m */; };
 		5CFF02712503FDE000A81E32 /* JLWorksListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02702503FDE000A81E32 /* JLWorksListViewController.m */; };
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
-		5CFF02BA2504087F00A81E32 /* JLWalletCryptoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02B92504087F00A81E32 /* JLWalletCryptoModel.m */; };
-		5CFF02BD250408B200A81E32 /* JLWalletCryptoKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02BC250408B200A81E32 /* JLWalletCryptoKeyPair.m */; };
 		B312249D25B6B60900562ECA /* OperationManagerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */; };
 		B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */; };
 		B312249F25B6B60900562ECA /* ScaleDecoderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DD25B6B60700562ECA /* ScaleDecoderOperation.swift */; };
@@ -833,6 +831,8 @@
 		B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38D7E5325E11C3100E9978E /* WMPhotoBrowserCell.m */; };
 		B38DC3F625C3A91700896537 /* JLOrderDetailProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38DC3F525C3A91700896537 /* JLOrderDetailProductTableViewCell.m */; };
 		B38DC3F925C3AFAC00896537 /* JLOrderDetailInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38DC3F825C3AFAC00896537 /* JLOrderDetailInfoTableViewCell.m */; };
+		B38E41A325E8A7FB006AA9EE /* AuctionListCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E41A225E8A7FB006AA9EE /* AuctionListCall.swift */; };
+		B38E41A825E8A8F8006AA9EE /* AuctionListCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E41A725E8A8F7006AA9EE /* AuctionListCall.swift */; };
 		B38E90F625B91E5500174AAC /* JLNoAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B38E90F525B91E5500174AAC /* JLNoAddressView.m */; };
 		B38E90F925B921AC00174AAC /* JLEditAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38E90F825B921AC00174AAC /* JLEditAddressViewController.m */; };
 		B38E911F25B92DD100174AAC /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E911E25B92DD100174AAC /* UIColor.swift */; };
@@ -948,6 +948,9 @@
 		B3C0ED3125C2BB59001B8BCA /* JLOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3025C2BB59001B8BCA /* JLOrderDetailViewController.m */; };
 		B3C0ED3525C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3425C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m */; };
 		B3C0ED3825C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3725C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m */; };
+		B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */; };
+		B3CDC57725E77FA100CB84CE /* JLHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57625E77FA100CB84CE /* JLHomeModel.m */; };
+		B3CDC57D25E7B8AB00CB84CE /* JLArtsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57C25E7B8AB00CB84CE /* JLArtsModel.m */; };
 		B3E98E1C250208A0004AABD2 /* JLImportWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E1B250208A0004AABD2 /* JLImportWalletViewController.m */; };
 		B3E98E1F25020B8C004AABD2 /* JLImportWalletMnemonicView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E1E25020B8C004AABD2 /* JLImportWalletMnemonicView.m */; };
 		B3E98E2225020BD4004AABD2 /* JLImportWalletPrivateKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E98E2125020BD4004AABD2 /* JLImportWalletPrivateKeyView.m */; };
@@ -1064,10 +1067,6 @@
 		5CFF02B32504084400A81E32 /* crypto_sign_edwards25519sha512batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_edwards25519sha512batch.h; sourceTree = "<group>"; };
 		5CFF02B42504084400A81E32 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
 		5CFF02B62504084400A81E32 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsodium.a; sourceTree = "<group>"; };
-		5CFF02B82504087F00A81E32 /* JLWalletCryptoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletCryptoModel.h; sourceTree = "<group>"; };
-		5CFF02B92504087F00A81E32 /* JLWalletCryptoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWalletCryptoModel.m; sourceTree = "<group>"; };
-		5CFF02BB250408B200A81E32 /* JLWalletCryptoKeyPair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletCryptoKeyPair.h; sourceTree = "<group>"; };
-		5CFF02BC250408B200A81E32 /* JLWalletCryptoKeyPair.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWalletCryptoKeyPair.m; sourceTree = "<group>"; };
 		70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2061,6 +2060,8 @@
 		B38DC3F525C3A91700896537 /* JLOrderDetailProductTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailProductTableViewCell.m; sourceTree = "<group>"; };
 		B38DC3F725C3AFAC00896537 /* JLOrderDetailInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLOrderDetailInfoTableViewCell.h; sourceTree = "<group>"; };
 		B38DC3F825C3AFAC00896537 /* JLOrderDetailInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailInfoTableViewCell.m; sourceTree = "<group>"; };
+		B38E41A225E8A7FB006AA9EE /* AuctionListCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListCall.swift; sourceTree = "<group>"; };
+		B38E41A725E8A8F7006AA9EE /* AuctionListCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuctionListCall.swift; sourceTree = "<group>"; };
 		B38E90F425B91E5500174AAC /* JLNoAddressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNoAddressView.h; sourceTree = "<group>"; };
 		B38E90F525B91E5500174AAC /* JLNoAddressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNoAddressView.m; sourceTree = "<group>"; };
 		B38E90F725B921AC00174AAC /* JLEditAddressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLEditAddressViewController.h; sourceTree = "<group>"; };
@@ -2287,6 +2288,12 @@
 		B3C0ED3425C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailTitleTableViewCell.m; sourceTree = "<group>"; };
 		B3C0ED3625C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLOrderDetailAddressTableViewCell.h; sourceTree = "<group>"; };
 		B3C0ED3725C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailAddressTableViewCell.m; sourceTree = "<group>"; };
+		B3CDC56F25E743FC00CB84CE /* JLLoginAndRegisterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLoginAndRegisterModel.h; sourceTree = "<group>"; };
+		B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLoginAndRegisterModel.m; sourceTree = "<group>"; };
+		B3CDC57525E77FA100CB84CE /* JLHomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomeModel.h; sourceTree = "<group>"; };
+		B3CDC57625E77FA100CB84CE /* JLHomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHomeModel.m; sourceTree = "<group>"; };
+		B3CDC57B25E7B8AB00CB84CE /* JLArtsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtsModel.h; sourceTree = "<group>"; };
+		B3CDC57C25E7B8AB00CB84CE /* JLArtsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtsModel.m; sourceTree = "<group>"; };
 		B3E98E1A250208A0004AABD2 /* JLImportWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLImportWalletViewController.h; sourceTree = "<group>"; };
 		B3E98E1B250208A0004AABD2 /* JLImportWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLImportWalletViewController.m; sourceTree = "<group>"; };
 		B3E98E1D25020B8C004AABD2 /* JLImportWalletMnemonicView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLImportWalletMnemonicView.h; sourceTree = "<group>"; };
@@ -2394,10 +2401,6 @@
 		5CFF0272250407DC00A81E32 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				5CFF02B82504087F00A81E32 /* JLWalletCryptoModel.h */,
-				5CFF02B92504087F00A81E32 /* JLWalletCryptoModel.m */,
-				5CFF02BB250408B200A81E32 /* JLWalletCryptoKeyPair.h */,
-				5CFF02BC250408B200A81E32 /* JLWalletCryptoKeyPair.m */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -2627,6 +2630,7 @@
 				B31221FB25B6B60800562ECA /* StakingLedger.swift */,
 				B31221FC25B6B60800562ECA /* AccountInfo.swift */,
 				B31221FD25B6B60800562ECA /* Era.swift */,
+				B38E41A225E8A7FB006AA9EE /* AuctionListCall.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -4252,6 +4256,10 @@
 			children = (
 				B359362D2511E73800E2B2FD /* UserDataBody.h */,
 				B359362E2511E73800E2B2FD /* UserDataBody.m */,
+				B3CDC56F25E743FC00CB84CE /* JLLoginAndRegisterModel.h */,
+				B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */,
+				B3CDC57B25E7B8AB00CB84CE /* JLArtsModel.h */,
+				B3CDC57C25E7B8AB00CB84CE /* JLArtsModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4721,6 +4729,7 @@
 				B38A5F8824F34F0C00FA3EF7 /* Info.plist */,
 				B35DCC83255E278F0017DDA0 /* CloudArtChainTests-Bridging-Header.h */,
 				B39BCF36255E31F500562C09 /* RPCTest.swift */,
+				B38E41A725E8A8F7006AA9EE /* AuctionListCall.swift */,
 			);
 			path = CloudArtChainTests;
 			sourceTree = "<group>";
@@ -5301,6 +5310,8 @@
 			isa = PBXGroup;
 			children = (
 				5CFF0272250407DC00A81E32 /* Wallet */,
+				B3CDC57525E77FA100CB84CE /* JLHomeModel.h */,
+				B3CDC57625E77FA100CB84CE /* JLHomeModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5985,6 +5996,7 @@
 				B312258A25B6B60A00562ECA /* AccountRepositoryFactory.swift in Sources */,
 				B312260025B6B60A00562ECA /* OnboardingMainViewController.swift in Sources */,
 				B396553F24F38D6D007A8EC2 /* ErrorRoot.m in Sources */,
+				B3CDC57725E77FA100CB84CE /* JLHomeModel.m in Sources */,
 				B3C0ED3125C2BB59001B8BCA /* JLOrderDetailViewController.m in Sources */,
 				B370C81D24F6336500A2D699 /* JLWorkListBaseTableViewCell.m in Sources */,
 				B312260825B6B60A00562ECA /* ConnectionMainWireframe.swift in Sources */,
@@ -6002,6 +6014,7 @@
 				B38FD54C25CBA24C0028797E /* JLFansViewController.m in Sources */,
 				B3753D982554F524003A86CF /* SLEditMenuView.m in Sources */,
 				B31224D125B6B60900562ECA /* NSPredicate+Validation.swift in Sources */,
+				B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */,
 				B38D7CC225E0F75F00E9978E /* JLSelectControl.swift in Sources */,
 				B39655E324F38DBA007A8EC2 /* MBProgressHUD.m in Sources */,
 				B366C7F025524D29007F9583 /* HAVPlayer.m in Sources */,
@@ -6284,7 +6297,6 @@
 				B31225F425B6B60A00562ECA /* AboutHeaderView.swift in Sources */,
 				B31226B225B6B60B00562ECA /* AccountExportPasswordInteractor.swift in Sources */,
 				B396566424F3AFD4007A8EC2 /* JLDownloadLoading.m in Sources */,
-				5CFF02BD250408B200A81E32 /* JLWalletCryptoKeyPair.m in Sources */,
 				B312263B25B6B60A00562ECA /* TransferConfigurator.swift in Sources */,
 				B312258E25B6B60A00562ECA /* ByteLengthProcessor.swift in Sources */,
 				B38BCFE825B81D1F00FD37F7 /* JLNoOrderView.m in Sources */,
@@ -6380,7 +6392,6 @@
 				B366C7ED25524D29007F9583 /* HVideoViewController.m in Sources */,
 				B312268425B6B60A00562ECA /* WalletFearlessDefinition.swift in Sources */,
 				B31226BA25B6B60B00562ECA /* ExportMnemonicConfirmViewFactory.swift in Sources */,
-				5CFF02BA2504087F00A81E32 /* JLWalletCryptoModel.m in Sources */,
 				B31225DB25B6B60A00562ECA /* AccountCreatePresenter.swift in Sources */,
 				B312252E25B6B60A00562ECA /* PrimitiveContextWrapper.swift in Sources */,
 				B312263325B6B60A00562ECA /* ContactViewModel.swift in Sources */,
@@ -6580,6 +6591,7 @@
 				B31225E225B6B60A00562ECA /* AccountImportInteractor.swift in Sources */,
 				5CFF026B2503F96100A81E32 /* JLPagetableView.m in Sources */,
 				B312262F25B6B60A00562ECA /* WalletCommandDecorator.swift in Sources */,
+				B38E41A325E8A7FB006AA9EE /* AuctionListCall.swift in Sources */,
 				B312269125B6B60B00562ECA /* ExistentialDepositInfoCommand.swift in Sources */,
 				B396560F24F38DF4007A8EC2 /* JLRefreshFooter.m in Sources */,
 				B31224CE25B6B60900562ECA /* Decimal+Precision.swift in Sources */,
@@ -6766,6 +6778,7 @@
 				B312266F25B6B60A00562ECA /* WalletHistoryBackgroundView.swift in Sources */,
 				B31224E225B6B60900562ECA /* CodableExtensions.swift in Sources */,
 				B35936212511C53D00E2B2FD /* JLDescriptionContentView.m in Sources */,
+				B3CDC57D25E7B8AB00CB84CE /* JLArtsModel.m in Sources */,
 				B3266F5C24FE446D000C6E95 /* JLArtDetailView.m in Sources */,
 				B37B860725149DBC00E43B36 /* JLUploadWorkDetailView.m in Sources */,
 				B312261B25B6B60A00562ECA /* ProfileProtocol.swift in Sources */,
@@ -6799,6 +6812,7 @@
 				B38411B025CA9DBF0077F73F /* Logger.swift in Sources */,
 				B38411E825CA9DEA0077F73F /* Block.swift in Sources */,
 				B38411FC25CA9DEA0077F73F /* Scheduler.swift in Sources */,
+				B38E41A825E8A8F8006AA9EE /* AuctionListCall.swift in Sources */,
 				B38411EA25CA9DEA0077F73F /* RuntimeDispatchInfo.swift in Sources */,
 				B38411F225CA9DEA0077F73F /* NumberFormatter.swift in Sources */,
 				B38411F025CA9DEA0077F73F /* WebSocketEngine+Protocol.swift in Sources */,

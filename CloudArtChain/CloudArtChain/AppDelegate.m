@@ -25,9 +25,9 @@
         [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
     }
     // 系统信息
-//    [AppSingleton systemInfo];
+    [AppSingleton systemInfo];
     // 检测持久化登录token有效期
-//    [AppSingleton loginInfon];
+    [AppSingleton loginInfon];
 //    [JLVersionManager checkVersion];
     [self createIQKeyboardManager];
     [self initUM];

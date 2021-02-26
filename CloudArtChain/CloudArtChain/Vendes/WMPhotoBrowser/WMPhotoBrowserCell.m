@@ -127,7 +127,7 @@
         }else{
             if ([aString componentsSeparatedByString:@"/"].count > 1) {
                 [weakSelf.imageView sd_setImageWithURL:[NSURL URLWithString:aString] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-                                    [weakSelf resizeSubviews];
+                    [weakSelf resizeSubviews];
                 }];
             } else {
                 weakSelf.imageView.image = [UIImage imageNamed:aString];

@@ -9,13 +9,15 @@
 #import "JLArtEvaluateView.h"
 
 @interface JLArtEvaluateView ()
+@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
 @property (nonatomic, strong) UILabel *evaluateLabel;
 @end
 
 @implementation JLArtEvaluateView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = JL_color_white_ffffff;
+        self.artsData = artsData;
         [self createSubViews];
     }
     return self;
@@ -49,7 +51,7 @@
         _evaluateLabel.font = kFontPingFangSCRegular(14.0f);
         _evaluateLabel.textColor = JL_color_gray_101010;
         _evaluateLabel.numberOfLines = 0;
-        _evaluateLabel.text = @"创作者张大中在作品《水墨》系列中以“梅花”作为自己某种观念或隐喻的象征，山林中的梅花不再有寒冷的感觉，红热的梅花体现出了烈焰灼烧的意味，这也代表了创作者心中某种热烈的情感需要爆发。生活只有遵循内心的想法才会精彩，真实从心的想法才会是第一顺位。";
+        _evaluateLabel.text = self.artsData.art.details;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_evaluateLabel.text];

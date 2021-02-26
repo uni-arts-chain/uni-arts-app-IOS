@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionSectionView : JLBaseView
-@property (nonatomic, copy) void(^entryBlock)(void);
+@property (nonatomic, strong) NSArray *auctionArray;
+@property (nonatomic, copy) void(^entryBlock)(NSInteger index);
 @end
 
 NS_ASSUME_NONNULL_END

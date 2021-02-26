@@ -82,21 +82,21 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"张小菲" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)borthLabel {
     if (!_borthLabel) {
-        _borthLabel = [JLUIFactory labelInitText:@"1973年出生于南京" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _borthLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _borthLabel;
 }
 
 - (UILabel *)schoolLabel {
     if (!_schoolLabel) {
-        _schoolLabel = [JLUIFactory labelInitText:@"1995年毕业于清华美院国画系..." font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _schoolLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _schoolLabel;
 }
@@ -137,4 +137,12 @@
         self.introduceBlock();
     }
 }
+
+- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.author.avatar[@"url"]]];
+    self.nameLabel.text = artsData.art.author.display_name;
+    self.borthLabel.text = artsData.art.author.desc;
+    self.schoolLabel.text = artsData.art.author.desc;
+}
+
 @end

@@ -48,7 +48,7 @@
 
 - (UILabel *)timeTitleLabel {
     if (!_timeTitleLabel) {
-        _timeTitleLabel = [JLUIFactory labelInitText:@"距离开始还有" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _timeTitleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
     }
     return _timeTitleLabel;
 }
@@ -56,14 +56,6 @@
 - (UIView *)timeView {
     if (!_timeView) {
         _timeView = [[UIView alloc] init];
-        
-        JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:24 * 60 * 60 seperateColor:JL_color_gray_101010 backColor:JL_color_orange_FF8650 timeColor:JL_color_white_ffffff];
-        [_timeView addSubview:countDownTimerView];
-        
-        [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(_timeView);
-            make.centerX.equalTo(_timeView);
-        }];
     }
     return _timeView;
 }
@@ -87,6 +79,28 @@
 
 - (void)setEntryBlock:(void (^)(void))entryBlock {
     self.detailView.entryBlock = entryBlock;
+}
+
+- (void)setAuctionData:(Model_auction_meetings_Data *)auctionData {
+    NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval countDownInterval = 0;
+    if (auctionData.start_at.doubleValue > currentInterval) {
+        self.timeTitleLabel.text = @"距离开始还有";
+        countDownInterval = auctionData.start_at.doubleValue - currentInterval;
+    } else {
+        self.timeTitleLabel.text = @"距离结束还有";
+        countDownInterval = auctionData.end_at.doubleValue - currentInterval;
+    }
+    
+    JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:countDownInterval seperateColor:JL_color_gray_101010 backColor:JL_color_orange_FF8650 timeColor:JL_color_white_ffffff];
+    [self.timeView addSubview:countDownTimerView];
+    
+    [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.timeView);
+        make.centerX.equalTo(self.timeView);
+    }];
+    
+    self.detailView.auctionData = auctionData;
 }
 
 @end

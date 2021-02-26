@@ -212,6 +212,12 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         }
         getRootPresenter().getAccountBalance(balanceBlock: updateBlock)
     }
+    
+    @objc func accountSign(originData: Data) throws -> String {
+        let accountSigner = SigningWrapper(keystore: Keychain(), settings: SettingsManager.shared)
+        let signature = try accountSigner.sign(originData)
+        return signature.rawData().toHex(includePrefix: true)
+    }
 }
 
 extension JLWalletTool {

@@ -11,6 +11,7 @@
 
 @interface JLActionTimeView ()
 @property (nonatomic, assign) JLActionTimeType timeType;
+@property (nonatomic, assign) NSTimeInterval countDownInterval;
 
 @property (nonatomic, strong) UIImageView *backImageView;
 @property (nonatomic, strong) UILabel *statusLabel;
@@ -20,9 +21,10 @@
 @end
 
 @implementation JLActionTimeView
-- (instancetype)initWithFrame:(CGRect)frame timeType:(JLActionTimeType)timeType {
+- (instancetype)initWithFrame:(CGRect)frame timeType:(JLActionTimeType)timeType countDownInterval:(NSTimeInterval)countDownInterval {
     if (self = [super initWithFrame:frame]) {
         self.timeType = timeType;
+        self.countDownInterval = countDownInterval;
         self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
@@ -105,7 +107,7 @@
     if (!_timeView) {
         _timeView = [[UIView alloc] init];
         
-        JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:24 * 60 * 60 seperateColor:JL_color_white_ffffff backColor:JL_color_white_ffffff timeColor:self.timeType == JLActionTimeTypeFinished ? JL_color_gray_ADADAD : JL_color_orange_FF7F1F];
+        JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:self.countDownInterval seperateColor:JL_color_white_ffffff backColor:JL_color_white_ffffff timeColor:self.timeType == JLActionTimeTypeFinished ? JL_color_gray_ADADAD : JL_color_orange_FF7F1F];
         [_timeView addSubview:countDownTimerView];
         
         [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {

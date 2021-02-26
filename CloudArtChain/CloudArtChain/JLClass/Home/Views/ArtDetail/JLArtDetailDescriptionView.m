@@ -9,6 +9,8 @@
 #import "JLArtDetailDescriptionView.h"
 
 @interface JLArtDetailDescriptionView ()
+@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIImageView *firstImageView;
 @property (nonatomic, strong) UILabel *firstDescLabel;
@@ -17,9 +19,10 @@
 @end
 
 @implementation JLArtDetailDescriptionView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = JL_color_white_ffffff;
+        self.artsData = artsData;
         [self createSubViews];
     }
     return self;
@@ -46,29 +49,43 @@
     }];
     [self.contentView addSubview:self.firstImageView];
     [self.contentView addSubview:self.firstDescLabel];
-    [self.contentView addSubview:self.secondImageView];
-    [self.contentView addSubview:self.secondDescLabel];
     
-    [self.firstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.contentView);
-        make.height.mas_equalTo(250.0f);
-    }];
-    [self.firstDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(self.firstImageView.mas_bottom).offset(28.0f);
-    }];
-    [self.secondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.contentView);
-        make.top.equalTo(self.firstDescLabel.mas_bottom).offset(28.0f);
-        make.height.mas_equalTo(250.0f);
-    }];
-    [self.secondDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(self.secondImageView.mas_bottom).offset(28.0f);
-        make.bottom.equalTo(self.contentView).offset(-28.0f);
-    }];
+    if (![NSString stringIsEmpty:self.artsData.art.img_detail_file2_desc]) {
+        [self.firstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.equalTo(self.contentView);
+            make.height.mas_equalTo(250.0f);
+        }];
+        [self.firstDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.top.equalTo(self.firstImageView.mas_bottom).offset(28.0f);
+        }];
+        
+        [self.contentView addSubview:self.secondImageView];
+        [self.contentView addSubview:self.secondDescLabel];
+        [self.secondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.contentView);
+            make.top.equalTo(self.firstDescLabel.mas_bottom).offset(28.0f);
+            make.height.mas_equalTo(250.0f);
+        }];
+        [self.secondDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.top.equalTo(self.secondImageView.mas_bottom).offset(28.0f);
+            make.bottom.equalTo(self.contentView).offset(-28.0f);
+        }];
+    } else {
+        [self.firstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.equalTo(self.contentView);
+            make.height.mas_equalTo(250.0f);
+        }];
+        [self.firstDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.top.equalTo(self.firstImageView.mas_bottom).offset(28.0f);
+            make.bottom.equalTo(self.contentView).offset(-28.0f);
+        }];
+    }
 }
 
 - (UIView *)contentView {
@@ -81,7 +98,7 @@
 - (UIImageView *)firstImageView {
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
-        _firstImageView.backgroundColor = [UIColor randomColor];
+        [_firstImageView sd_setImageWithURL:[NSURL URLWithString:self.artsData.art.img_detail_file1[@"url"]]];
     }
     return _firstImageView;
 }
@@ -92,7 +109,7 @@
         _firstDescLabel.font = kFontPingFangSCRegular(14.0f);
         _firstDescLabel.textColor = JL_color_gray_101010;
         _firstDescLabel.numberOfLines = 0;
-        _firstDescLabel.text = @"艺术创作于我而言，就似把各式各样的水注进无数的被子之中，然而杯子越空，创作发挥的空间也就越大。也正是这种“空”决定着水的这种深度，而水位的高低——表达内容的多少，会形成一种类似节奏关系，一种我不断追逐的可生长的力量关系，这种类节奏关系就是我的兴趣所在，而“空”变成了其中的支撑点...";
+        _firstDescLabel.text = self.artsData.art.img_detail_file1_desc;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_firstDescLabel.text];
@@ -105,7 +122,7 @@
 - (UIImageView *)secondImageView {
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
-        _secondImageView.backgroundColor = [UIColor randomColor];
+        [_secondImageView sd_setImageWithURL:[NSURL URLWithString:self.artsData.art.img_detail_file2[@"url"]]];
     }
     return _secondImageView;
 }
@@ -116,7 +133,7 @@
         _secondDescLabel.font = kFontPingFangSCRegular(14.0f);
         _secondDescLabel.textColor = JL_color_gray_101010;
         _secondDescLabel.numberOfLines = 0;
-        _secondDescLabel.text = @"艺术创作于我而言，就似把各式各样的水注进无数的被子之中，然而杯子越空，创作发挥的空间也就越大。也正是这种“空”决定着水的这种深度，而水位的高低——表达内容的多少，会形成一种类似节奏关系，一种我不断追逐的可生长的力量关系，这种类节奏关系就是我的兴趣所在，而“空”变成了其中的支撑点...\r\n\t\t\t\t\t\t\t\t——创作者自述";
+        _secondDescLabel.text = self.artsData.art.img_detail_file2_desc;;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_secondDescLabel.text];

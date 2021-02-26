@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLChainQRCodeView : JLBaseView
-
+- (instancetype)initWithFrame:(CGRect)frame qrcodeString:(NSString *)qrcodeString;
 @end
 
 NS_ASSUME_NONNULL_END

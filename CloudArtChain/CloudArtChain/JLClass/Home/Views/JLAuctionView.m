@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionView.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionView ()
 @property (nonatomic, strong) UIView *contentView;
@@ -55,21 +56,20 @@
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
-        make.top.mas_equalTo(20.0f);
+        make.top.mas_equalTo(16.0f);
         make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(16.0f);
     }];
     [self.timeMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.size.mas_equalTo(12.0f);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(18.0f);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(14.0f);
     }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.timeMaskImageView.mas_right).offset(8.0f);
         make.centerY.equalTo(self.timeMaskImageView);
     }];
     [self.numMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.timeLabel.mas_right).offset(18.0f);
+        make.left.equalTo(self.timeLabel.mas_right).offset(10.0f);
         make.width.mas_equalTo(16.0f);
         make.height.mas_equalTo(14.0f);
         make.centerY.equalTo(self.timeMaskImageView);
@@ -110,7 +110,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 15.0f * 2, 115.0f)];
-        _imageView.backgroundColor = [UIColor randomColor];
         [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _imageView;
@@ -125,7 +124,8 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"南艺艺术品拍卖专场（第一期）" font:kFontPingFangSCMedium(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel.numberOfLines = 1;
     }
     return _titleLabel;
 }
@@ -139,7 +139,8 @@
 
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"08/12 12:00 - 08/15 12:00" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _timeLabel.adjustsFontSizeToFitWidth = true;
     }
     return _timeLabel;
 }
@@ -153,7 +154,8 @@
 
 - (UILabel *)numLabel {
     if (!_numLabel) {
-        _numLabel = [JLUIFactory labelInitText:@"60件" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _numLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _numLabel.adjustsFontSizeToFitWidth = true;
     }
     return _numLabel;
 }
@@ -175,5 +177,15 @@
     if (self.entryBlock) {
         self.entryBlock();
     }
+}
+
+- (void)setAuctionData:(Model_auction_meetings_Data *)auctionData {
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:auctionData.img_file[@"url"]]];
+    self.titleLabel.text = auctionData.topic;
+    
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:auctionData.start_at.doubleValue];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:auctionData.end_at.doubleValue];
+    self.timeLabel.text = [NSString stringWithFormat:@"%@ - %@", [startDate dateWithCustomFormat:@"MM/dd HH:mm"], [endDate dateWithCustomFormat:@"MM/dd HH:mm"]];
+    self.numLabel.text = [NSString stringWithFormat:@"%ld件", auctionData.art_size];
 }
 @end

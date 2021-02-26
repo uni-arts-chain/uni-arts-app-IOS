@@ -50,8 +50,10 @@ extension WebSocketEngine: WebSocketDelegate {
     private func handleErrorEvent(_ error: Error?) {
         if let error = error {
             logger.error("Did receive error: \(error)")
+            print("Did receive error: \(error)")
         } else {
             logger.error("Did receive unknown error")
+            print("Did receive unknown error")
         }
 
         switch state {
@@ -77,6 +79,7 @@ extension WebSocketEngine: WebSocketDelegate {
     private func handleBinaryEvent(data: Data) {
         if let decodedString = String(data: data, encoding: .utf8) {
             logger.debug("Did receive data: \(decodedString)")
+            print("Did receive data: \(decodedString)")
         }
 
         process(data: data)
@@ -84,6 +87,7 @@ extension WebSocketEngine: WebSocketDelegate {
 
     private func handleTextEvent(string: String) {
         logger.debug("Did receive text: \(string)")
+        print("Did receive text: \(string)")
         if let data = string.data(using: .utf8) {
             process(data: data)
         } else {

@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionView : JLBaseView
+@property (nonatomic, strong) Model_auction_meetings_Data *auctionData;
 @property (nonatomic, copy) void(^entryBlock)(void);
 @end
 

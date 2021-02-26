@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtEvaluateView : JLBaseView
+- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData;
 - (CGFloat)getFrameBottom;
 @end
 

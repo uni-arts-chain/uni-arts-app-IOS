@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionPriceView.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionPriceView ()
 @property (nonatomic, strong) UILabel *startActionPriceTitleLabel;
@@ -107,7 +108,7 @@
 
 - (UILabel *)startActionPriceLabel {
     if (!_startActionPriceLabel) {
-        _startActionPriceLabel = [self createSameLabel:@"¥1000"];
+        _startActionPriceLabel = [self createSameLabel:@""];
     }
     return _startActionPriceLabel;
 }
@@ -121,7 +122,7 @@
 
 - (UILabel *)addPriceLabel {
     if (!_addPriceLabel) {
-        _addPriceLabel = [self createSameLabel:@"￥100"];
+        _addPriceLabel = [self createSameLabel:@""];
     }
     return _addPriceLabel;
 }
@@ -135,7 +136,7 @@
 
 - (UILabel *)startTimeLabel {
     if (!_startTimeLabel) {
-        _startTimeLabel = [self createSameLabel:@"08.05 12:00"];
+        _startTimeLabel = [self createSameLabel:@""];
     }
     return _startTimeLabel;
 }
@@ -149,9 +150,16 @@
 
 - (UILabel *)finishTimeLabel {
     if (!_finishTimeLabel) {
-        _finishTimeLabel = [self createSameLabel:@"08.08 12:00"];
+        _finishTimeLabel = [self createSameLabel:@""];
     }
     return _finishTimeLabel;
+}
+
+- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    self.startActionPriceLabel.text = [NSString stringWithFormat:@"¥%@", artsData.start_price];
+    self.addPriceLabel.text = [NSString stringWithFormat:@"￥%@", artsData.price_increment];
+    self.startTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:artsData.art.auction_start_time.doubleValue] dateWithCustomFormat:@"MM.dd HH:mm"];
+    self.finishTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:artsData.art.auction_end_time.doubleValue] dateWithCustomFormat:@"MM.dd HH:mm"];
 }
 
 @end

@@ -51,7 +51,7 @@
 @implementation JLAuctionArtDetailViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"油画";
+    self.navigationItem.title = @"详情";
     [self addBackItem];
     [self createSubView];
 }
@@ -296,13 +296,12 @@
     if (!bannerView) {
         bannerView = [[PGIndexBannerSubiew alloc] init];
     }
-//    //在这里下载网络图片
-//    Model_banners_Data  *bannerModel = nil;
-//    if (index < self.bannerArray.count) {
-//        bannerModel = self.bannerArray[index];
-//    }
-//    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.img_min] placeholderImage:nil];
-    bannerView.mainImageView.image = self.tempImageArray[index];
+    //在这里下载网络图片
+    NSString *bannerModel = nil;
+    if (index < self.tempImageArray.count) {
+        bannerModel = self.tempImageArray[index];
+    }
+    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel] placeholderImage:nil];
     return bannerView;
 }
 
@@ -312,7 +311,17 @@
 
 - (JLActionTimeView *)actionTimeView {
     if (!_actionTimeView) {
-        _actionTimeView = [[JLActionTimeView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 66.0f) timeType:JLActionTimeTypeRuning];
+        NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+        NSTimeInterval countDownInterval = 0;
+        JLActionTimeType timeType = JLActionTimeTypeFinished;
+        if (self.artsData.art.auction_start_time.doubleValue > currentInterval) {
+            timeType = JLActionTimeTypeWaiting;
+            countDownInterval = self.artsData.art.auction_start_time.doubleValue - currentInterval;
+        } else if(self.artsData.art.auction_end_time.doubleValue > currentInterval) {
+            timeType = JLActionTimeTypeRuning;
+            countDownInterval = self.artsData.art.auction_end_time.doubleValue - currentInterval;
+        }
+        _actionTimeView = [[JLActionTimeView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 66.0f) timeType:timeType countDownInterval:countDownInterval];
         _actionTimeView.actionDescBlock = ^{
             NSLog(@"竞拍须知");
         };
@@ -323,6 +332,7 @@
 - (JLArtDetailPriceView *)artDetailPriceView {
     if (!_artDetailPriceView) {
         _artDetailPriceView = [[JLArtDetailPriceView alloc] initWithFrame:CGRectMake(0.0f, self.actionTimeView.frameBottom, kScreenWidth, 85.0f)];
+        _artDetailPriceView.artsData = self.artsData;
     }
     return _artDetailPriceView;
 }
@@ -330,6 +340,7 @@
 - (JLAuctionPriceView *)auctionPriceView {
     if (!_auctionPriceView) {
         _auctionPriceView = [[JLAuctionPriceView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailPriceView.frameBottom + 10.0f, kScreenWidth, 110.0f)];
+        _auctionPriceView.artsData = self.artsData;
     }
     return _auctionPriceView;
 }
@@ -350,8 +361,9 @@
     if (!_artDetailChainView) {
         WS(weakSelf)
         _artDetailChainView = [[JLArtDetailChainView alloc] initWithFrame:CGRectMake(0.0f, self.offerRecordView.frameBottom + 10.0f, kScreenWidth, 125.0f)];
+        _artDetailChainView.artsData = self.artsData;
         _artDetailChainView.chainQRCodeBlock = ^(NSString * _Nonnull qrcode) {
-            JLChainQRCodeView *chainQRCodeView = [[JLChainQRCodeView alloc] initWithFrame:CGRectMake(0, 0, 225.0f, 225.0f)];
+            JLChainQRCodeView *chainQRCodeView = [[JLChainQRCodeView alloc] initWithFrame:CGRectMake(0, 0, 225.0f, 225.0f) qrcodeString:qrcode];
             chainQRCodeView.center = weakSelf.view.center;
             LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
             [weakSelf lew_presentPopupView:chainQRCodeView animation:animation dismissed:^{
@@ -366,6 +378,7 @@
     if (!_artAuthorDetailView) {
         WS(weakSelf)
         _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailChainView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
+        _artAuthorDetailView.artsData = self.artsData;
         _artAuthorDetailView.introduceBlock = ^{
             JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
             [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
@@ -377,27 +390,41 @@
 - (JLArtInfoView *)artInfoView {
     if (!_artInfoView) {
         _artInfoView = [[JLArtInfoView alloc] initWithFrame:CGRectMake(0.0f, self.artAuthorDetailView.frameBottom, kScreenWidth, 250.0f)];
+        _artInfoView.artsData = self.artsData;
     }
     return _artInfoView;
 }
 
 - (JLArtEvaluateView *)artEvaluateView {
     if (!_artEvaluateView) {
-        _artEvaluateView = [[JLArtEvaluateView alloc] initWithFrame:CGRectMake(0.0f, self.artInfoView.frameBottom, kScreenWidth, 0.0f)];
+        _artEvaluateView = [[JLArtEvaluateView alloc] initWithFrame:CGRectMake(0.0f, self.artInfoView.frameBottom, kScreenWidth, 0.0f) artsData:self.artsData];
     }
     return _artEvaluateView;
 }
 
 - (JLArtDetailDescriptionView *)artDetailDescView {
     if (!_artDetailDescView) {
-        _artDetailDescView = [[JLArtDetailDescriptionView alloc] initWithFrame:CGRectMake(0.0f, [self.artEvaluateView getFrameBottom], kScreenWidth, 0.0f)];
+        _artDetailDescView = [[JLArtDetailDescriptionView alloc] initWithFrame:CGRectMake(0.0f, [self.artEvaluateView getFrameBottom], kScreenWidth, 0.0f) artsData:self.artsData];
     }
     return _artDetailDescView;
 }
 
 - (NSArray *)tempImageArray {
     if (!_tempImageArray) {
-        _tempImageArray = @[[UIImage imageNamed:@"1"], [UIImage imageNamed:@"2"], [UIImage imageNamed:@"3"], [UIImage imageNamed:@"4"], [UIImage imageNamed:@"5"]];
+        NSMutableArray *tempArray = [NSMutableArray array];
+        NSString *fileImage1 = self.artsData.art.img_main_file1[@"url"];
+        NSString *fileImage2 = self.artsData.art.img_main_file2[@"url"];
+        NSString *fileImage3 = self.artsData.art.img_main_file3[@"url"];
+        if (![NSString stringIsEmpty:fileImage1]) {
+            [tempArray addObject:fileImage1];
+        }
+        if (![NSString stringIsEmpty:fileImage2]) {
+            [tempArray addObject:fileImage2];
+        }
+        if (![NSString stringIsEmpty:fileImage3]) {
+            [tempArray addObject:fileImage3];
+        }
+        _tempImageArray = [tempArray copy];
     }
     return _tempImageArray;
 }

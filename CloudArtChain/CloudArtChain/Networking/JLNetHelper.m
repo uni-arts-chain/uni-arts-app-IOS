@@ -35,10 +35,10 @@ static AFHTTPSessionManager *sessionManager = nil;
     //头部设置
     [JLNetHelper managerHeadBaseConfig:manager withTime:timeString];
     //设置Token
-     Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
+    Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
     [mutablePara setObject:timeString forKey:@"tonce"];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
-    [JLNetHelper setToken:manager url:url para:mutablePara isGET:NO timeString:timeString];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:NO timeString:timeString];
     
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
@@ -93,8 +93,8 @@ static AFHTTPSessionManager *sessionManager = nil;
     //设置Token
     Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
     [mutablePara setObject:timeString forKey:@"tonce"];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
-    [JLNetHelper setToken:manager url:url para:mutablePara isGET:NO timeString:timeString];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:YES timeString:timeString];
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" :  modelRsp.serverVersionSubpath,  [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
     __block id rsp = rspPar;
@@ -147,8 +147,8 @@ static AFHTTPSessionManager *sessionManager = nil;
     //设置Token
     Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
     [mutablePara setObject:timeString forKey:@"tonce"];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
-    [JLNetHelper setToken:manager url:url para:mutablePara isGET:NO timeString:timeString];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:NO timeString:timeString];
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" :  modelRsp.serverVersionSubpath,  [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
     __block id rsp = rspPar;
@@ -247,10 +247,10 @@ static AFHTTPSessionManager *sessionManager = nil;
     //头部设置
     [JLNetHelper managerHeadBaseConfig:manager withTime:timeString];
     //设置Token
-     Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
+    Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
     [mutablePara setObject:timeString forKey:@"tonce"];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
-    [JLNetHelper setToken:manager url:url para:mutablePara isGET:NO timeString:timeString];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:NO timeString:timeString];
     
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
@@ -311,10 +311,10 @@ static AFHTTPSessionManager *sessionManager = nil;
     //头部设置
     [JLNetHelper managerHeadBaseConfig:manager withTime:timeString];
     //设置Token
-     Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
+    Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
     [mutablePara setObject:timeString forKey:@"tonce"];
-    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
-    [JLNetHelper setToken:manager url:url para:mutablePara isGET:NO timeString:timeString];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:NO timeString:timeString];
     
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
@@ -367,19 +367,19 @@ static AFHTTPSessionManager *sessionManager = nil;
 
 #pragma mark ----------------设置Token----------------
 + (void)setToken:(AFHTTPSessionManager*)manager url:(NSString *)url para:(NSDictionary *)para isGET:(BOOL)isGET timeString:(NSString*)timeString {
-//    NSString * token = [AppSingleton getToken];
-//    token = [JLUtils trimSpace:token];
-//    if (![NSString stringIsEmpty:token]) {
-//        //设置token
-//        [manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
-//        //设置签名
-//        RequestType type = isGET?RequestTypeGet:RequestTypePost;
-//        NSString *resultStr = [JLNetHelper getSignatureurl:url para:para requesType:type timeString:timeString];
-//        [manager.requestSerializer setValue:resultStr forHTTPHeaderField:@"Sign"];
-//    } else {
-//        [manager.requestSerializer setValue:nil forHTTPHeaderField:@"Authorization"];
-//        [manager.requestSerializer setValue:nil forHTTPHeaderField:@"Sign"];
-//    }
+    NSString * token = [AppSingleton getToken];
+    token = [JLUtils trimSpace:token];
+    if (![NSString stringIsEmpty:token]) {
+        //设置token
+        [manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+        //设置签名
+        RequestType type = isGET ? RequestTypeGet : RequestTypePost;
+        NSString *resultStr = [JLNetHelper getSignatureurl:url para:para requesType:type timeString:timeString];
+        [manager.requestSerializer setValue:resultStr forHTTPHeaderField:@"Sign"];
+    } else {
+        [manager.requestSerializer setValue:nil forHTTPHeaderField:@"Authorization"];
+        [manager.requestSerializer setValue:nil forHTTPHeaderField:@"Sign"];
+    }
 }
 
 #pragma mark 设置签名
@@ -412,10 +412,9 @@ static AFHTTPSessionManager *sessionManager = nil;
             }
         }
     }
-//    NSString * expireAtStr = [AppSingleton getTokenExpireAtKey];
-//    NSString * resultStr = [JLUtils hmac:mutableStr withKey:expireAtStr];
-//    return resultStr;
-    return @"";
+    NSString *expireAtStr = [AppSingleton getTokenExpireAtKey];
+    NSString *resultStr = [JLUtils hmac:mutableStr withKey:expireAtStr];
+    return resultStr;
 }
 
 //获取请求类型字符
@@ -431,7 +430,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 #pragma mark  ----------------头部基本设置----------------
 + (void)managerHeadBaseConfig:(AFHTTPSessionManager*)manager withTime:(NSString*)nowTime {
     //设置时间戳
-    [manager.requestSerializer setValue:nowTime forHTTPHeaderField:@"tonce"];
+    [manager.requestSerializer setValue:nowTime forHTTPHeaderField:@"Tonce"];
     //设置Accept
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     //设置Platform
@@ -493,7 +492,7 @@ static AFHTTPSessionManager *sessionManager = nil;
     
     UITabBarController * tabBarController = [[AppSingleton sharedAppSingleton].globalNavController.viewControllers objectAtIndex:0];
     [tabBarController setSelectedIndex:showTabIndex];
-    
+    [JLLoginUtil loginWallet];
 //    [LoginUtil presentLoginViewController];
 }
 

@@ -10,12 +10,14 @@
 #import <SGQRCode/SGQRCode.h>
 
 @interface JLChainQRCodeView()
+@property (nonatomic, strong) NSString *qrcodeString;
 @property (nonatomic, strong) UIImageView *qrcodeImageView;
 @end
 
 @implementation JLChainQRCodeView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame qrcodeString:(NSString *)qrcodeString {
     if (self = [super initWithFrame:frame]) {
+        self.qrcodeString = qrcodeString;
         self.backgroundColor = JL_color_white_ffffff;
         [self setupSubViews];
     }
@@ -32,7 +34,7 @@
 - (UIImageView *)qrcodeImageView {
     if (!_qrcodeImageView) {
         _qrcodeImageView = [[UIImageView alloc] init];
-        UIImage *qrcodeImage = [SGQRCodeObtain generateQRCodeWithData:@"https://www.baidu.com" size:self.frameWidth];
+        UIImage *qrcodeImage = [SGQRCodeObtain generateQRCodeWithData:self.qrcodeString size:self.frameWidth];
         _qrcodeImageView.image = qrcodeImage;
     }
     return _qrcodeImageView;
