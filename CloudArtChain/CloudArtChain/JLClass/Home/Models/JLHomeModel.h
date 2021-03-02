@@ -119,10 +119,14 @@
 @property (nonatomic, strong) NSString *artist_desc;
 @property (nonatomic, assign) BOOL is_artist;
 @property (nonatomic, strong) NSArray *tag_list;
+@property (nonatomic, assign) BOOL follow_by_me;
+@property (nonatomic, strong) NSString *residential_address;
+@property (nonatomic, strong) NSString *college;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark 拍卖会通过审核的作品列表 /auction_meetings/:id/arts
-@interface Model_auction_meetings_art_Detail_Data : Model_Interface
+@protocol Model_art_Detail_Data @end
+@interface Model_art_Detail_Data : Model_Interface
 @property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSInteger category_id;
@@ -164,6 +168,9 @@
 @property (nonatomic, assign) NSInteger liked_count;
 @property (nonatomic, assign) NSInteger dislike_count;
 @property (nonatomic, assign) NSInteger favorite_count;
+@property (nonatomic, assign) NSInteger signature_count;
+
+@property (nonatomic, assign) CGFloat imgHeight; //单张图片高度
 @end
 @protocol Model_auction_meetings_arts_Data @end
 @interface Model_auction_meetings_arts_Data : Model_Interface
@@ -174,7 +181,7 @@
 @property (nonatomic, strong) NSString *price_increment;
 @property (nonatomic, strong) NSString *start_time;
 @property (nonatomic, strong) NSString *end_time;
-@property (nonatomic, strong) Model_auction_meetings_art_Detail_Data *art;
+@property (nonatomic, strong) Model_art_Detail_Data *art;
 @end
 @interface Model_auction_meetings_arts_Req : Model_Req
 /** 页码 */
@@ -187,5 +194,86 @@
 @interface Model_auction_meetings_arts_Rsp : Model_Rsp_V1
 @property (nonatomic, strong) Model_auction_meetings_arts_Req *request;
 @property (nonatomic, strong) NSArray<Model_auction_meetings_arts_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/popular 热门原创
+@interface Model_arts_popular_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_popular_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/topic 主题推荐
+@protocol Model_arts_topic_Data @end
+@interface Model_arts_topic_Data : Model_Interface
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSDictionary *img_file;
+@property (nonatomic, strong) NSDictionary *app_img_file;
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *arts;
+@end
+@interface Model_arts_topic_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+@end
+@interface Model_arts_topic_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_arts_topic_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/like 赞
+@interface Model_arts_like_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_arts_like_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_arts_like_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/cancel_like 取消赞
+@interface Model_art_cancel_like_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_art_cancel_like_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_cancel_like_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/dislike 踩
+@interface Model_art_dislike_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_art_dislike_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_dislike_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/cancel_dislike 取消踩
+@interface Model_art_cancel_dislike_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_art_cancel_dislike_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_cancel_dislike_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/favorite 收藏作品
+@interface Model_art_favorite_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_art_favorite_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_favorite_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/unfavorite 取消收藏作品
+@interface Model_art_unfavorite_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_art_unfavorite_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_unfavorite_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////

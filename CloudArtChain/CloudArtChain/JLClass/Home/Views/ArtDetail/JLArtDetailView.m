@@ -118,7 +118,7 @@
 }
 
 - (void)copyAddressBtnClick {
-    [UIPasteboard generalPasteboard].string = @"";
+    [UIPasteboard generalPasteboard].string = self.artDetailData.item_hash;
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
 }
 
@@ -144,36 +144,46 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"芭蕾系列" font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"￥1500" font:kFontPingFangSCRegular(17.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(17.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
 }
 
 - (UILabel *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"布面油画，100.0x100.0cm" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _infoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _infoLabel;
 }
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"证书地址：0xsbd354sdf4241d354s54..." font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
 
 - (UILabel *)signTimesLabel {
     if (!_signTimesLabel) {
-        _signTimesLabel = [JLUIFactory labelInitText:@"作品签名次数：3次" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _signTimesLabel = [JLUIFactory labelInitText:@"作品签名次数：0次" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _signTimesLabel;
 }
+
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    _artDetailData = artDetailData;
+    self.nameLabel.text = artDetailData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"￥%@", artDetailData.price];
+    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue], artDetailData.size_width, artDetailData.size_length];
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", artDetailData.item_hash];
+    self.signTimesLabel.text = [NSString stringWithFormat:@"作品签名次数：%ld次", artDetailData.signature_count];
+}
+
 @end

@@ -118,7 +118,7 @@
         weakSelf.imageView.image = aImage;
     } else if ([model isKindOfClass:[NSString class]]) {
         NSString *aString = (NSString *)model;
-        if ([aString rangeOfString:@"http"].location!=NSNotFound) {
+        if ([aString rangeOfString:@"http"].location != NSNotFound) {
             self.downloadLoading = [JLLoading sharedLoading];
             [weakSelf.imageView sd_setImageWithURL:[NSURL URLWithString:aString]  placeholderImage:[UIImage imageBrowserDefaultImage] options:SDWebImageHighPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 [weakSelf resizeSubviews];

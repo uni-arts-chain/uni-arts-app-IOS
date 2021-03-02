@@ -9,7 +9,7 @@
 #import "JLArtDetailDescriptionView.h"
 
 @interface JLArtDetailDescriptionView ()
-@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIImageView *firstImageView;
@@ -19,10 +19,10 @@
 @end
 
 @implementation JLArtDetailDescriptionView
-- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData {
+- (instancetype)initWithFrame:(CGRect)frame artDetailData:(Model_art_Detail_Data *)artDetailData {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = JL_color_white_ffffff;
-        self.artsData = artsData;
+        self.artDetailData = artDetailData;
         [self createSubViews];
     }
     return self;
@@ -50,7 +50,7 @@
     [self.contentView addSubview:self.firstImageView];
     [self.contentView addSubview:self.firstDescLabel];
     
-    if (![NSString stringIsEmpty:self.artsData.art.img_detail_file2_desc]) {
+    if (![NSString stringIsEmpty:self.artDetailData.img_detail_file2_desc]) {
         [self.firstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.equalTo(self.contentView);
             make.height.mas_equalTo(250.0f);
@@ -98,7 +98,9 @@
 - (UIImageView *)firstImageView {
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
-        [_firstImageView sd_setImageWithURL:[NSURL URLWithString:self.artsData.art.img_detail_file1[@"url"]]];
+        if (![NSString stringIsEmpty:self.artDetailData.img_detail_file1[@"url"]]) {
+            [_firstImageView sd_setImageWithURL:[NSURL URLWithString:self.artDetailData.img_detail_file1[@"url"]]];
+        }
     }
     return _firstImageView;
 }
@@ -109,7 +111,7 @@
         _firstDescLabel.font = kFontPingFangSCRegular(14.0f);
         _firstDescLabel.textColor = JL_color_gray_101010;
         _firstDescLabel.numberOfLines = 0;
-        _firstDescLabel.text = self.artsData.art.img_detail_file1_desc;
+        _firstDescLabel.text = self.artDetailData.img_detail_file1_desc;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_firstDescLabel.text];
@@ -122,7 +124,9 @@
 - (UIImageView *)secondImageView {
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
-        [_secondImageView sd_setImageWithURL:[NSURL URLWithString:self.artsData.art.img_detail_file2[@"url"]]];
+        if (![NSString stringIsEmpty:self.artDetailData.img_detail_file2[@"url"]]) {
+            [_secondImageView sd_setImageWithURL:[NSURL URLWithString:self.artDetailData.img_detail_file2[@"url"]]];
+        }
     }
     return _secondImageView;
 }
@@ -133,7 +137,7 @@
         _secondDescLabel.font = kFontPingFangSCRegular(14.0f);
         _secondDescLabel.textColor = JL_color_gray_101010;
         _secondDescLabel.numberOfLines = 0;
-        _secondDescLabel.text = self.artsData.art.img_detail_file2_desc;;
+        _secondDescLabel.text = self.artDetailData.img_detail_file2_desc;;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_secondDescLabel.text];

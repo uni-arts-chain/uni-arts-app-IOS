@@ -178,13 +178,14 @@
     return _dateLabel;
 }
 
-- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
-    [self.workDescImageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
-    self.descLabel.text = artsData.art.name;
-    self.sizeLabel.text = [NSString stringWithFormat:@"尺寸：%@x%@cm", artsData.art.size_width, artsData.art.size_length];
-    self.materialLabel.text = [NSString stringWithFormat:@"材质：%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artsData.art.material_id).stringValue]];
-    self.typeLabel.text = [NSString stringWithFormat:@"作品类型：%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artsData.art.category_id).stringValue]];
-    self.dateLabel.text = [NSString stringWithFormat:@"创作时间：%@", [[NSDate dateWithTimeIntervalSince1970:artsData.art.produce_at.doubleValue] dateWithCustomFormat:@"yyyy/MM"]];
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
+        [self.workDescImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+    }
+    self.descLabel.text = artDetailData.name;
+    self.sizeLabel.text = [NSString stringWithFormat:@"尺寸：%@x%@cm", artDetailData.size_width, artDetailData.size_length];
+    self.materialLabel.text = [NSString stringWithFormat:@"材质：%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue]];
+    self.typeLabel.text = [NSString stringWithFormat:@"作品类型：%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue]];
+    self.dateLabel.text = [NSString stringWithFormat:@"创作时间：%@", [[NSDate dateWithTimeIntervalSince1970:artDetailData.produce_at.doubleValue] dateWithCustomFormat:@"yyyy/MM"]];
 }
-
 @end

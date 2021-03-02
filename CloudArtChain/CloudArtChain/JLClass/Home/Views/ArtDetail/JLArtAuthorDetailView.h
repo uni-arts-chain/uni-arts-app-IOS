@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtAuthorDetailView : JLBaseView
-@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) void(^introduceBlock)(void);
 @end
 

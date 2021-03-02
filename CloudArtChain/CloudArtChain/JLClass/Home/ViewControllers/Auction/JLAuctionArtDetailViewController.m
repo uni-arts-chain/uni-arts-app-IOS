@@ -44,6 +44,8 @@
 @property (nonatomic, strong) JLArtEvaluateView *artEvaluateView;
 @property (nonatomic, strong) JLArtDetailDescriptionView *artDetailDescView;
 
+@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) UIButton *dislikeButton;
 // 测试数据
 @property (nonatomic, strong) NSArray *tempImageArray;
 @end
@@ -117,7 +119,7 @@
     
     // 喜欢
     UIButton *likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [likeButton setTitle:@"32喜欢" forState:UIControlStateNormal];
+    [likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", self.artsData.art.liked_count] forState:UIControlStateNormal];
     [likeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
     likeButton.titleLabel.font = kFontPingFangSCRegular(10.0f);
     likeButton.backgroundColor = JL_color_white_ffffff;
@@ -126,11 +128,13 @@
     [likeButton addTarget:self action:@selector(likeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     likeButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
     likeButton.axcUI_padding = 10.0f;
+    likeButton.selected = self.artsData.art.liked_by_me;
     [self.bottomBar addSubview:likeButton];
+    self.likeButton = likeButton;
     
     // 踩
     UIButton *dislikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dislikeButton setTitle:@"22踩" forState:UIControlStateNormal];
+    [dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", self.artsData.art.dislike_count] forState:UIControlStateNormal];
     [dislikeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
     dislikeButton.titleLabel.font = kFontPingFangSCRegular(10.0f);
     dislikeButton.backgroundColor = JL_color_white_ffffff;
@@ -139,7 +143,9 @@
     [dislikeButton addTarget:self action:@selector(dislikeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     dislikeButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
     dislikeButton.axcUI_padding = 10.0f;
+    dislikeButton.selected = self.artsData.art.disliked_by_me;
     [self.bottomBar addSubview:dislikeButton];
+    self.dislikeButton = dislikeButton;
     
     // 收藏
     UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -152,6 +158,7 @@
     [collectButton addTarget:self action:@selector(collectButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     collectButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
     collectButton.axcUI_padding = 10.0f;
+    collectButton.selected = self.artsData.art.favorite_by_me;
     [self.bottomBar addSubview:collectButton];
     
     // 立即购买
@@ -188,26 +195,126 @@
 }
 
 - (void)likeButtonClick:(UIButton *)sender {
+    WS(weakSelf)
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        sender.selected = !sender.selected;
+        if (sender.selected) {
+            // 取消赞
+            Model_art_cancel_like_Req *request = [[Model_art_cancel_like_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_art_cancel_like_Rsp *response = [[Model_art_cancel_like_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    [weakSelf.likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", weakSelf.artsData.art.liked_count] forState:UIControlStateNormal];
+                    weakSelf.likeButton.selected = weakSelf.artsData.art.liked_by_me;
+                    [weakSelf.dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", weakSelf.artsData.art.dislike_count] forState:UIControlStateNormal];
+                    weakSelf.dislikeButton.selected = weakSelf.artsData.art.disliked_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        } else {
+            // 赞
+            Model_arts_like_Req *request = [[Model_arts_like_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_arts_like_Rsp *response = [[Model_arts_like_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    [weakSelf.likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", weakSelf.artsData.art.liked_count] forState:UIControlStateNormal];
+                    weakSelf.likeButton.selected = weakSelf.artsData.art.liked_by_me;
+                    [weakSelf.dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", weakSelf.artsData.art.dislike_count] forState:UIControlStateNormal];
+                    weakSelf.dislikeButton.selected = weakSelf.artsData.art.disliked_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        }
+        
     }
 }
 
 - (void)dislikeButtonClick:(UIButton *)sender {
+    WS(weakSelf)
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        sender.selected = !sender.selected;
+        if (sender.selected) {
+            // 取消踩
+            Model_art_cancel_dislike_Req *request = [[Model_art_cancel_dislike_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_art_cancel_dislike_Rsp *response = [[Model_art_cancel_dislike_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    [weakSelf.likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", weakSelf.artsData.art.liked_count] forState:UIControlStateNormal];
+                    weakSelf.likeButton.selected = weakSelf.artsData.art.liked_by_me;
+                    [weakSelf.dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", weakSelf.artsData.art.dislike_count] forState:UIControlStateNormal];
+                    weakSelf.dislikeButton.selected = weakSelf.artsData.art.disliked_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        } else {
+            // 踩
+            Model_art_dislike_Req *request = [[Model_art_dislike_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_art_dislike_Rsp *response = [[Model_art_dislike_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    [weakSelf.likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", weakSelf.artsData.art.liked_count] forState:UIControlStateNormal];
+                    weakSelf.likeButton.selected = weakSelf.artsData.art.liked_by_me;
+                    [weakSelf.dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", weakSelf.artsData.art.dislike_count] forState:UIControlStateNormal];
+                    weakSelf.dislikeButton.selected = weakSelf.artsData.art.disliked_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        }
     }
 }
 
 - (void)collectButtonClick:(UIButton *)sender {
+    WS(weakSelf)
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        sender.selected = !sender.selected;
+        if (sender.selected) {
+            // 取消收藏作品
+            Model_art_unfavorite_Req *request = [[Model_art_unfavorite_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_art_unfavorite_Rsp *response = [[Model_art_unfavorite_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    sender.selected = weakSelf.artsData.art.favorite_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        } else {
+            // 收藏作品
+            Model_art_favorite_Req *request = [[Model_art_favorite_Req alloc] init];
+            request.art_id = self.artsData.art.ID;
+            Model_art_favorite_Rsp *response = [[Model_art_favorite_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.artsData.art = response.body;
+                    sender.selected = weakSelf.artsData.art.favorite_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        }
     }
 }
 
@@ -301,7 +408,9 @@
     if (index < self.tempImageArray.count) {
         bannerModel = self.tempImageArray[index];
     }
-    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel] placeholderImage:nil];
+    if (![NSString stringIsEmpty:bannerModel]) {
+        [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel] placeholderImage:nil];
+    }
     return bannerView;
 }
 
@@ -378,9 +487,10 @@
     if (!_artAuthorDetailView) {
         WS(weakSelf)
         _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailChainView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
-        _artAuthorDetailView.artsData = self.artsData;
+        _artAuthorDetailView.artDetailData = self.artsData.art;
         _artAuthorDetailView.introduceBlock = ^{
             JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+            creatorPageVC.authorData = weakSelf.artsData.art.author;
             [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
         };
     }
@@ -390,23 +500,24 @@
 - (JLArtInfoView *)artInfoView {
     if (!_artInfoView) {
         _artInfoView = [[JLArtInfoView alloc] initWithFrame:CGRectMake(0.0f, self.artAuthorDetailView.frameBottom, kScreenWidth, 250.0f)];
-        _artInfoView.artsData = self.artsData;
+        _artInfoView.artDetailData = self.artsData.art;
     }
     return _artInfoView;
 }
 
 - (JLArtEvaluateView *)artEvaluateView {
     if (!_artEvaluateView) {
-        _artEvaluateView = [[JLArtEvaluateView alloc] initWithFrame:CGRectMake(0.0f, self.artInfoView.frameBottom, kScreenWidth, 0.0f) artsData:self.artsData];
+        _artEvaluateView = [[JLArtEvaluateView alloc] initWithFrame:CGRectMake(0.0f, self.artInfoView.frameBottom, kScreenWidth, 0.0f) artDetailData:self.artsData.art];
     }
     return _artEvaluateView;
 }
 
 - (JLArtDetailDescriptionView *)artDetailDescView {
     if (!_artDetailDescView) {
-        _artDetailDescView = [[JLArtDetailDescriptionView alloc] initWithFrame:CGRectMake(0.0f, [self.artEvaluateView getFrameBottom], kScreenWidth, 0.0f) artsData:self.artsData];
+        _artDetailDescView = [[JLArtDetailDescriptionView alloc] initWithFrame:CGRectMake(0.0f, [self.artEvaluateView getFrameBottom], kScreenWidth, 0.0f) artDetailData:self.artsData.art];
     }
     return _artDetailDescView;
+
 }
 
 - (NSArray *)tempImageArray {

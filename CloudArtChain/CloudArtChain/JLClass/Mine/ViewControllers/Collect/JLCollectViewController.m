@@ -10,9 +10,14 @@
 #import "JLArtDetailViewController.h"
 
 #import "JLPopularOriginalCollectionViewCell.h"
+#import "JLNormalEmptyView.h"
 
 @interface JLCollectViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) JLNormalEmptyView *emptyView;
+
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong) NSMutableArray *collectionArray;
 @end
 
 @implementation JLCollectViewController
@@ -21,8 +26,10 @@
     [super viewDidLoad];
     self.navigationItem.title = @"作品收藏";
     [self addBackItem];
+    self.currentPage = 1;
     
     [self createSubViews];
+    [self requestCollectionList];
 }
 
 - (void)createSubViews {
@@ -37,6 +44,7 @@
 #pragma mark - 懒加载
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
+        WS(weakSelf)
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 26.0f) * 0.5f, 250.0f);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -49,24 +57,110 @@
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+            [weakSelf headRefresh];
+        }];
+        _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
+            [weakSelf footRefresh];
+        }];
     }
     return _collectionView;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.collectionArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
+    cell.collectionArtData = facorateArtsData.favoritable;
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
     artDetailVC.artDetailType = JLArtDetailTypeDetail;
+    Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
+    artDetailVC.artDetailData = facorateArtsData.favoritable;
+    artDetailVC.cancelFavorateBlock = ^{
+        [weakSelf.collectionArray removeObjectAtIndex:indexPath.row];
+        [weakSelf.collectionView reloadData];
+    };
     [self.navigationController pushViewController:artDetailVC animated:YES];
 }
 
+#pragma mark 请求收藏作品列表
+- (void)requestCollectionList {
+    WS(weakSelf)
+    Model_members_favorate_arts_Req *request = [[Model_members_favorate_arts_Req alloc] init];
+    request.page = self.currentPage;
+    request.per_page = kPageSize;
+    Model_members_favorate_arts_Rsp *response = [[Model_members_favorate_arts_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.collectionArray removeAllObjects];
+            }
+            [weakSelf.collectionArray addObjectsFromArray:response.body];
+            
+            [weakSelf endRefresh:response.body];
+            [self setNoDataShow];
+            [self.collectionView reloadData];
+        } else {
+            [weakSelf.collectionView.mj_header endRefreshing];
+            [weakSelf.collectionView.mj_footer endRefreshing];
+        }
+    }];
+}
+
+- (NSMutableArray *)collectionArray {
+    if (!_collectionArray) {
+        _collectionArray = [NSMutableArray array];
+    }
+    return _collectionArray;
+}
+
+- (JLNormalEmptyView *)emptyView {
+    if (!_emptyView) {
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+    }
+    return _emptyView;
+}
+
+- (void)headRefresh {
+    self.currentPage = 1;
+    self.collectionView.mj_footer.hidden = YES;
+    [self requestCollectionList];
+}
+
+- (void)footRefresh {
+    self.currentPage++;
+    [self requestCollectionList];
+}
+
+- (void)endRefresh:(NSArray*)collectionArray {
+    [self.collectionView.mj_header endRefreshing];
+    if (collectionArray.count < kPageSize) {
+        [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
+    } else {
+        [self.collectionView.mj_footer endRefreshing];
+    }
+}
+
+- (void)setNoDataShow {
+    if (self.collectionArray.count == 0) {
+        [self.view addSubview:self.emptyView];
+    } else {
+        if (_emptyView) {
+            [self.emptyView removeFromSuperview];
+            self.emptyView = nil;
+        }
+    }
+}
 @end

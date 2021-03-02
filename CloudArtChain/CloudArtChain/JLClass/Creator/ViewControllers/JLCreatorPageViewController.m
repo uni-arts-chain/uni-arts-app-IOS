@@ -11,6 +11,7 @@
 
 #import "JLHomePageHeaderView.h"
 #import "JLPopularOriginalCollectionViewCell.h"
+#import "JLNormalEmptyView.h"
 
 @interface JLCreatorPageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -19,6 +20,10 @@
 @property (nonatomic, strong) UILabel *worksTitleLabel;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UIButton *focusButton;
+
+@property (nonatomic, strong) NSMutableArray *artArray;
+@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong) JLNormalEmptyView *emptyView;
 @end
 
 @implementation JLCreatorPageViewController
@@ -28,6 +33,7 @@
     self.navigationItem.title = @"主页";
     [self addBackItem];
     [self createSubviews];
+    [self headRefresh];
 }
 
 - (void)createSubviews {
@@ -57,23 +63,50 @@
         [_focusButton setTitle:@"取消关注" forState:UIControlStateSelected];
         [_focusButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _focusButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _focusButton.backgroundColor = JL_color_blue_38B2F1;
+        _focusButton.backgroundColor = self.authorData.follow_by_me ? JL_color_gray_C5C5C5 : JL_color_blue_38B2F1;
         [_focusButton addTarget:self action:@selector(focusButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        _focusButton.selected = self.authorData.follow_by_me;
     }
     return _focusButton;
 }
 
 - (void)focusButtonClick:(UIButton *)sender {
+    WS(weakSelf)
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        sender.selected = !sender.selected;
-        if (sender.selected) {
-            sender.backgroundColor = JL_color_gray_C5C5C5;
-            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
+        if (!sender.selected) {
+            // 关注
+            Model_members_follow_Req *request = [[Model_members_follow_Req alloc] init];
+            request.author_id = self.authorData.ID;
+            Model_members_follow_Rsp *response = [[Model_members_follow_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.authorData = response.body;
+                    sender.backgroundColor = JL_color_gray_C5C5C5;
+                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
+                    weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
         } else {
-            sender.backgroundColor = JL_color_blue_38B2F1;
-            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
+            // 取消关注
+            Model_members_unfollow_Req *request = [[Model_members_unfollow_Req alloc] init];
+            request.author_id = self.authorData.ID;
+            Model_members_unfollow_Rsp *response = [[Model_members_unfollow_Rsp alloc] init];
+            response.request = request;
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                if (netIsWork) {
+                    weakSelf.authorData = response.body;
+                    sender.backgroundColor = JL_color_blue_38B2F1;
+                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
+                    weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
         }
     }
 }
@@ -94,7 +127,7 @@
 
 - (JLHomePageHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
-        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f)];
+        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f) authorData:self.authorData];
         _homePageHeaderView.backgroundColor = JL_color_white_ffffff;
     }
     return _homePageHeaderView;
@@ -148,12 +181,17 @@
 
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
+        WS(weakSelf)
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 25.0f) * 0.5f, 250.0f);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         flowLayout.minimumLineSpacing = 0.0f;
         flowLayout.minimumInteritemSpacing = 25.0f;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, 250.0f * 10) collectionViewLayout:flowLayout];
+        NSInteger row = self.artArray.count / 2;
+        if (self.artArray.count % 2 != 0) {
+            row += 1;
+        }
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, 250.0f * row) collectionViewLayout:flowLayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 15.0f, 0.0f, 15.0f);
@@ -161,6 +199,9 @@
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.scrollEnabled = NO;
+        _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
+            [weakSelf footRefresh];
+        }];
     }
     return _collectionView;
 }
@@ -168,17 +209,101 @@
 #pragma mark - UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    return self.artArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    cell.authorArtData = self.artArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
     artDetailVC.artDetailType = JLArtDetailTypeDetail;
+    artDetailVC.artDetailData = self.artArray[indexPath.row];
     [self.navigationController pushViewController:artDetailVC animated:YES];
+}
+
+- (NSMutableArray *)artArray {
+    if (!_artArray) {
+        _artArray = [NSMutableArray array];
+    }
+    return _artArray;
+}
+
+- (JLNormalEmptyView *)emptyView {
+    if (!_emptyView) {
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+    }
+    return _emptyView;
+}
+
+- (void)headRefresh {
+    self.currentPage = 1;
+    self.collectionView.mj_footer.hidden = YES;
+    [self requestAuthorArtList];
+}
+
+- (void)footRefresh {
+    self.currentPage++;
+    [self requestAuthorArtList];
+}
+
+- (void)endRefresh:(NSArray*)collectionArray {
+    if (collectionArray.count < kPageSize) {
+        self.collectionView.mj_footer.hidden = NO;
+        [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
+    } else {
+        [self.collectionView.mj_footer endRefreshing];
+    }
+}
+
+- (void)setNoDataShow {
+    if (self.artArray.count == 0) {
+        [self.collectionView addSubview:self.emptyView];
+    } else {
+        if (_emptyView) {
+            [self.emptyView removeFromSuperview];
+            self.emptyView = nil;
+        }
+    }
+}
+
+- (void)requestAuthorArtList {
+    WS(weakSelf)
+    Model_members_arts_Req *request = [[Model_members_arts_Req alloc] init];
+    request.page = self.currentPage;
+    request.per_page = kPageSize;
+    request.author_id = self.authorData.ID;
+    Model_members_arts_Rsp *response = [[Model_members_arts_Rsp alloc] init];
+    response.request = request;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.artArray removeAllObjects];
+            }
+            [weakSelf.artArray addObjectsFromArray:response.body];
+            
+            NSInteger row = weakSelf.artArray.count / 2;
+            if (self.artArray.count % 2 != 0) {
+                row += 1;
+            }
+            if (row == 0) {
+                row = 1;
+            }
+            weakSelf.collectionView.frame = CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, 250.0f * row);
+            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
+            
+            [weakSelf endRefresh:response.body];
+            [self setNoDataShow];
+            [self.collectionView reloadData];
+        } else {
+            [weakSelf.collectionView.mj_footer endRefreshing];
+        }
+    }];
 }
 @end

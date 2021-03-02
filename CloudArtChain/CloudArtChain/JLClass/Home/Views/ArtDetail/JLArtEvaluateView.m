@@ -9,15 +9,15 @@
 #import "JLArtEvaluateView.h"
 
 @interface JLArtEvaluateView ()
-@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, strong) UILabel *evaluateLabel;
 @end
 
 @implementation JLArtEvaluateView
-- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData {
+- (instancetype)initWithFrame:(CGRect)frame artDetailData:(Model_art_Detail_Data *)artDetailData; {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = JL_color_white_ffffff;
-        self.artsData = artsData;
+        self.artDetailData = artDetailData;
         [self createSubViews];
     }
     return self;
@@ -51,7 +51,7 @@
         _evaluateLabel.font = kFontPingFangSCRegular(14.0f);
         _evaluateLabel.textColor = JL_color_gray_101010;
         _evaluateLabel.numberOfLines = 0;
-        _evaluateLabel.text = self.artsData.art.details;
+        _evaluateLabel.text = self.artDetailData.details;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_evaluateLabel.text];

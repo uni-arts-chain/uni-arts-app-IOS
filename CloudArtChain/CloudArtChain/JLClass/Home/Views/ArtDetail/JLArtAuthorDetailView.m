@@ -28,7 +28,7 @@
 }
 
 - (void)createSubViews {
-    UIView *titleView = [JLUIFactory titleViewWithTitle:@"创作者简介"];
+    UIView *titleView = [JLUIFactory titleViewWithTitle:@"拥有者简介"];
     [self addSubview:titleView];
     
     [self addSubview:self.avatarImageView];
@@ -105,7 +105,7 @@
     if (!_goToHomePageView) {
         _goToHomePageView = [[UIView alloc] init];
         
-        UILabel *titleLabel = [JLUIFactory labelInitText:@"进入创作者主页" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_blue_38B2F1 textAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [JLUIFactory labelInitText:@"进入拥有者主页" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_blue_38B2F1 textAlignment:NSTextAlignmentLeft];
         [_goToHomePageView addSubview:titleLabel];
         
         UIImageView *arrowImageView = [JLUIFactory imageViewInitImageName:@"icon_home_artdetail_arrow"];
@@ -138,11 +138,12 @@
     }
 }
 
-- (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
-    [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.author.avatar[@"url"]]];
-    self.nameLabel.text = artsData.art.author.display_name;
-    self.borthLabel.text = artsData.art.author.desc;
-    self.schoolLabel.text = artsData.art.author.desc;
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if (![NSString stringIsEmpty:artDetailData.author.avatar[@"url"]]) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.author.avatar[@"url"]]];
+    }
+    self.nameLabel.text = artDetailData.author.display_name;
+    self.borthLabel.text = artDetailData.author.desc;
+    self.schoolLabel.text = artDetailData.author.desc;
 }
-
 @end

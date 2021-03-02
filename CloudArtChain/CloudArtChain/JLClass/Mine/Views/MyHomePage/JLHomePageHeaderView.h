@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLHomePageHeaderView : JLBaseView
-
+- (instancetype)initWithFrame:(CGRect)frame authorData:(Model_art_author_Data *)authorData;
 @end
 
 NS_ASSUME_NONNULL_END

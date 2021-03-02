@@ -54,7 +54,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [JLUIFactory imageViewInitImageName:@""];
-        _imageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
@@ -62,22 +61,31 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"张琦中" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _nameLabel;
 }
 
 - (UILabel *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"布面油画，金发少妇" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _infoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _infoLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"￥1500" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
+}
+
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+    }
+    self.nameLabel.text = artDetailData.author.display_name;
+    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue], artDetailData.name];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
 }
 @end

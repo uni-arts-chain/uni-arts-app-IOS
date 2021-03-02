@@ -110,6 +110,8 @@
 
 - (void)setAuctionArray:(NSArray *)auctionArray {
     WS(weakSelf)
+       
+    [self.auctionScrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (int i = 0; i < auctionArray.count; i++) {
         JLAuctionCellView *auctionCellView = [[JLAuctionCellView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0.0f, kScreenWidth, 282.0f)];
         auctionCellView.auctionData = auctionArray[i];

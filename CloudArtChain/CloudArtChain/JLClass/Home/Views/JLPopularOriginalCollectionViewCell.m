@@ -103,10 +103,53 @@
 }
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
+    if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
+    }
     self.authorLabel.text = artsData.art.author.display_name;
     self.descLabel.text = artsData.art.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", artsData.art.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artsData.start_price];
 }
+
+- (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
+    if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
+    }
+    self.authorLabel.text = popularArtData.author.display_name;
+    self.descLabel.text = popularArtData.details;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", popularArtData.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", popularArtData.price];
+}
+
+- (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
+    if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
+    }
+    self.authorLabel.text = themeArtData.author.display_name;
+    self.descLabel.text = themeArtData.details;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", themeArtData.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", themeArtData.price];
+}
+
+- (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
+    if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
+    }
+    self.authorLabel.text = collectionArtData.author.display_name;
+    self.descLabel.text = collectionArtData.details;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", collectionArtData.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", collectionArtData.price];
+}
+
+- (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
+    if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
+    }
+    self.authorLabel.text = authorArtData.author.display_name;
+    self.descLabel.text = authorArtData.details;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", authorArtData.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", authorArtData.price];
+}
+
 @end

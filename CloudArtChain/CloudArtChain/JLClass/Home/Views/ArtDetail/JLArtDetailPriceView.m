@@ -62,7 +62,7 @@
 
 - (UILabel *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"布面油画，100.0x100.0cm" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _infoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _infoLabel;
 }

@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLPopularOriginalCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+@property (nonatomic, strong) Model_art_Detail_Data *popularArtData;
+@property (nonatomic, strong) Model_art_Detail_Data *themeArtData;
+@property (nonatomic, strong) Model_art_Detail_Data *collectionArtData;
+@property (nonatomic, strong) Model_art_Detail_Data *authorArtData;
 @end
 
 NS_ASSUME_NONNULL_END

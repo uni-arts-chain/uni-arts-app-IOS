@@ -180,7 +180,9 @@
 }
 
 - (void)setAuctionData:(Model_auction_meetings_Data *)auctionData {
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:auctionData.img_file[@"url"]]];
+    if (![NSString stringIsEmpty:auctionData.img_file[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:auctionData.img_file[@"url"]]];
+    }
     self.titleLabel.text = auctionData.topic;
     
     NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:auctionData.start_at.doubleValue];

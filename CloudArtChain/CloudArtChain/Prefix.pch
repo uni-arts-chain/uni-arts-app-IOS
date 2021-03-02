@@ -63,6 +63,9 @@
 #import "JLLoginAndRegisterModel.h"
 #import "JLHomeModel.h"
 #import "JLArtsModel.h"
+#import "JLMineModel.h"
+#import "JLCategoryModel.h"
+#import "JLCreatorModel.h"
 
 //ErrorData
 #import "ErrorHead.h"

@@ -13,11 +13,14 @@
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
+
+@property (nonatomic, strong) Model_art_author_Data *authorData;
 @end
 
 @implementation JLHomePageHeaderView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame authorData:(Model_art_author_Data *)authorData {
     if (self = [super initWithFrame:frame]) {
+        self.authorData = authorData;
         [self setupSubViews];
     }
     return self;
@@ -71,7 +74,9 @@
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
-        _avatarImageView.backgroundColor = [UIColor randomColor];
+        if (![NSString stringIsEmpty:self.authorData.avatar[@"url"]]) {
+            [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:self.authorData.avatar[@"url"]]];
+        }
         ViewBorderRadius(_avatarImageView, 45.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
@@ -82,7 +87,7 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCSCSemibold(15.0f);
         _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.text = @"张小菲";
+        _nameLabel.text = self.authorData.display_name;
         _nameLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _nameLabel;
@@ -95,7 +100,7 @@
         _infoLabel.textColor = JL_color_gray_101010;
         _infoLabel.numberOfLines = 0;
         _infoLabel.textAlignment = NSTextAlignmentCenter;
-        _infoLabel.text = @"出生于南京\r\n现就读于南京艺术学院\r\n师从于李晓璇、李金等当代名家\r\n南京工笔重彩画会 会员";
+        _infoLabel.text = self.authorData.desc;
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         paraStyle.lineSpacing = 10.0f;
         paraStyle.alignment = NSTextAlignmentCenter;

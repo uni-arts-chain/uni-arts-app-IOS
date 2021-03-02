@@ -843,6 +843,7 @@
 		B38E912E25B972C700174AAC /* JLBackupNoticeWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E912D25B972C700174AAC /* JLBackupNoticeWireframe.swift */; };
 		B38E913025B9738500174AAC /* JLBackupNoticePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E912F25B9738500174AAC /* JLBackupNoticePresenter.swift */; };
 		B38E913225B9749300174AAC /* JLBackupNoticeViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E913125B9749300174AAC /* JLBackupNoticeViewFactory.swift */; };
+		B38F5B1F25EE188B00057B24 /* JLCreatorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B38F5B1E25EE188B00057B24 /* JLCreatorModel.m */; };
 		B38FD54225CB8C560028797E /* JLCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54125CB8C560028797E /* JLCollectViewController.m */; };
 		B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54425CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m */; };
 		B38FD54925CBA22D0028797E /* JLFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54825CBA22D0028797E /* JLFocusViewController.m */; };
@@ -850,6 +851,11 @@
 		B38FD55025CBA3570028797E /* JLFocusFansTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54F25CBA3570028797E /* JLFocusFansTableViewCell.m */; };
 		B38FD55325CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55225CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m */; };
 		B38FD55725CBECD10028797E /* JLAuctionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */; };
+		B394E3E825ECD23800685F8D /* JLMineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3E725ECD23800685F8D /* JLMineModel.m */; };
+		B394E3EE25ECD5A200685F8D /* JLNormalEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3ED25ECD5A200685F8D /* JLNormalEmptyView.m */; };
+		B394E3F425ECED2A00685F8D /* JLCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3F325ECED2A00685F8D /* JLCategoryModel.m */; };
+		B394E3FA25ECF37C00685F8D /* UIImage+ImgSize.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3F825ECF37C00685F8D /* UIImage+ImgSize.m */; };
+		B394E40025ECF39C00685F8D /* JLImageSizeCacheDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3FF25ECF39B00685F8D /* JLImageSizeCacheDefaults.m */; };
 		B396551D24F37369007A8EC2 /* JLGuidePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B396551924F37369007A8EC2 /* JLGuidePageView.m */; };
 		B396551E24F37369007A8EC2 /* JLGuideManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B396551B24F37369007A8EC2 /* JLGuideManager.m */; };
 		B396552224F38BCC007A8EC2 /* AppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = B396552124F38BCC007A8EC2 /* AppSingleton.m */; };
@@ -2074,6 +2080,8 @@
 		B38E912D25B972C700174AAC /* JLBackupNoticeWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticeWireframe.swift; sourceTree = "<group>"; };
 		B38E912F25B9738500174AAC /* JLBackupNoticePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticePresenter.swift; sourceTree = "<group>"; };
 		B38E913125B9749300174AAC /* JLBackupNoticeViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticeViewFactory.swift; sourceTree = "<group>"; };
+		B38F5B1D25EE188B00057B24 /* JLCreatorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorModel.h; sourceTree = "<group>"; };
+		B38F5B1E25EE188B00057B24 /* JLCreatorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorModel.m; sourceTree = "<group>"; };
 		B38FD54025CB8C560028797E /* JLCollectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCollectViewController.h; sourceTree = "<group>"; };
 		B38FD54125CB8C560028797E /* JLCollectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCollectViewController.m; sourceTree = "<group>"; };
 		B38FD54325CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLOrderDetailProductBottomPriceTableViewCell.h; sourceTree = "<group>"; };
@@ -2088,6 +2096,16 @@
 		B38FD55225CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailAddressAddNewTableViewCell.m; sourceTree = "<group>"; };
 		B38FD55525CBECD10028797E /* JLAuctionDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionDetailViewController.h; sourceTree = "<group>"; };
 		B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionDetailViewController.m; sourceTree = "<group>"; };
+		B394E3E625ECD23800685F8D /* JLMineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMineModel.h; sourceTree = "<group>"; };
+		B394E3E725ECD23800685F8D /* JLMineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMineModel.m; sourceTree = "<group>"; };
+		B394E3EC25ECD5A200685F8D /* JLNormalEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNormalEmptyView.h; sourceTree = "<group>"; };
+		B394E3ED25ECD5A200685F8D /* JLNormalEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNormalEmptyView.m; sourceTree = "<group>"; };
+		B394E3F225ECED2A00685F8D /* JLCategoryModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCategoryModel.h; sourceTree = "<group>"; };
+		B394E3F325ECED2A00685F8D /* JLCategoryModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCategoryModel.m; sourceTree = "<group>"; };
+		B394E3F825ECF37C00685F8D /* UIImage+ImgSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImgSize.m"; sourceTree = "<group>"; };
+		B394E3F925ECF37C00685F8D /* UIImage+ImgSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImgSize.h"; sourceTree = "<group>"; };
+		B394E3FE25ECF39B00685F8D /* JLImageSizeCacheDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLImageSizeCacheDefaults.h; sourceTree = "<group>"; };
+		B394E3FF25ECF39B00685F8D /* JLImageSizeCacheDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLImageSizeCacheDefaults.m; sourceTree = "<group>"; };
 		B396551324F37033007A8EC2 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		B396551924F37369007A8EC2 /* JLGuidePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLGuidePageView.m; sourceTree = "<group>"; };
 		B396551A24F37369007A8EC2 /* JLGuideManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLGuideManager.h; sourceTree = "<group>"; };
@@ -4752,6 +4770,8 @@
 				B38BCFE425B81D1F00FD37F7 /* JLNoOrderView.m */,
 				B38E90F425B91E5500174AAC /* JLNoAddressView.h */,
 				B38E90F525B91E5500174AAC /* JLNoAddressView.m */,
+				B394E3EC25ECD5A200685F8D /* JLNormalEmptyView.h */,
+				B394E3ED25ECD5A200685F8D /* JLNormalEmptyView.m */,
 			);
 			path = JLEmptyDataView;
 			sourceTree = "<group>";
@@ -5158,6 +5178,10 @@
 				B396560624F38DF4007A8EC2 /* UIImage+Color.m */,
 				B39655F324F38DF4007A8EC2 /* UIImage+JLTool.h */,
 				B396560524F38DF4007A8EC2 /* UIImage+JLTool.m */,
+				B394E3F925ECF37C00685F8D /* UIImage+ImgSize.h */,
+				B394E3F825ECF37C00685F8D /* UIImage+ImgSize.m */,
+				B394E3FE25ECF39B00685F8D /* JLImageSizeCacheDefaults.h */,
+				B394E3FF25ECF39B00685F8D /* JLImageSizeCacheDefaults.m */,
 				B39655FD24F38DF4007A8EC2 /* UIView+anmit.h */,
 				B39655EA24F38DF4007A8EC2 /* UIView+anmit.m */,
 				B39655F524F38DF4007A8EC2 /* UIView+JLCorner.h */,
@@ -5319,6 +5343,8 @@
 		B396563C24F3914A007A8EC2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B394E3F225ECED2A00685F8D /* JLCategoryModel.h */,
+				B394E3F325ECED2A00685F8D /* JLCategoryModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5348,6 +5374,8 @@
 		B396563F24F39165007A8EC2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B38F5B1D25EE188B00057B24 /* JLCreatorModel.h */,
+				B38F5B1E25EE188B00057B24 /* JLCreatorModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5403,6 +5431,8 @@
 			isa = PBXGroup;
 			children = (
 				B38BCFE125B81B9300FD37F7 /* JLPurchaseOrderDefines.h */,
+				B394E3E625ECD23800685F8D /* JLMineModel.h */,
+				B394E3E725ECD23800685F8D /* JLMineModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5966,6 +5996,7 @@
 				B312264825B6B60A00562ECA /* TransactionDetailsConfigurator.swift in Sources */,
 				B312255425B6B60A00562ECA /* AlignableContentControl.swift in Sources */,
 				B312258825B6B60A00562ECA /* AmountFormatterFactory.swift in Sources */,
+				B394E3FA25ECF37C00685F8D /* UIImage+ImgSize.m in Sources */,
 				B31224C625B6B60900562ECA /* UIImage+Drawing.swift in Sources */,
 				B312264325B6B60A00562ECA /* TransactionDetailsFormViewModelBinder.swift in Sources */,
 				B37FFB5224F4B1CC004B9CC8 /* JLPopularOriginalCollectionViewCell.m in Sources */,
@@ -5989,6 +6020,7 @@
 				B31226A425B6B60B00562ECA /* AccountConfirmViewFactory.swift in Sources */,
 				B312261D25B6B60A00562ECA /* ProfileWireframe.swift in Sources */,
 				B325CD1524FF82E600F931A2 /* JLChainQueryArtCertView.m in Sources */,
+				B38F5B1F25EE188B00057B24 /* JLCreatorModel.m in Sources */,
 				B31225B225B6B60A00562ECA /* ScreenAuthorizationPresenter.swift in Sources */,
 				B38C842825BFC56B0011BC8C /* JLWalletTool.swift in Sources */,
 				B312250025B6B60A00562ECA /* JSONRPCEngine.swift in Sources */,
@@ -6061,6 +6093,7 @@
 				B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */,
 				B312258025B6B60A00562ECA /* ScrollsToTop.swift in Sources */,
 				B312258D25B6B60A00562ECA /* ShakeAnimator.swift in Sources */,
+				B394E40025ECF39C00685F8D /* JLImageSizeCacheDefaults.m in Sources */,
 				B31224B225B6B60900562ECA /* UnlockChunk.swift in Sources */,
 				B3753DB72554F573003A86CF /* UIView+SLImage.m in Sources */,
 				B312255A25B6B60A00562ECA /* PurchaseAggregator+Default.swift in Sources */,
@@ -6207,6 +6240,7 @@
 				B35EC00425108C2400836646 /* JLSettingViewController.m in Sources */,
 				B37B860A2514A58500E43B36 /* JLUploadWorkMoneyInputView.m in Sources */,
 				B396561D24F38DF4007A8EC2 /* UIView+JLCorner.m in Sources */,
+				B394E3EE25ECD5A200685F8D /* JLNormalEmptyView.m in Sources */,
 				B31225C725B6B60A00562ECA /* AddConnectionWireframe.swift in Sources */,
 				B312253625B6B60A00562ECA /* LegalData.swift in Sources */,
 				B31226B825B6B60B00562ECA /* AccountExportPasswordPresenter.swift in Sources */,
@@ -6620,6 +6654,7 @@
 				B312257B25B6B60A00562ECA /* WebPresentable.swift in Sources */,
 				B31224B825B6B60900562ECA /* AccountInfo.swift in Sources */,
 				B312253F25B6B60A00562ECA /* ApplicationStatusView.swift in Sources */,
+				B394E3F425ECED2A00685F8D /* JLCategoryModel.m in Sources */,
 				B3753DD32554F604003A86CF /* SLDelayPerform.m in Sources */,
 				B31226C525B6B60B00562ECA /* ExportGenericViewController.swift in Sources */,
 				B31226D625B6B60B00562ECA /* AccountManagementWireframe.swift in Sources */,
@@ -6708,6 +6743,7 @@
 				B312258225B6B60A00562ECA /* LoadableViewProtocol.swift in Sources */,
 				B312262725B6B60A00562ECA /* AccountInfoViewController.swift in Sources */,
 				B31224A925B6B60900562ECA /* WalletStakingChanged.swift in Sources */,
+				B394E3E825ECD23800685F8D /* JLMineModel.m in Sources */,
 				B31226A225B6B60B00562ECA /* PurchasePresenter.swift in Sources */,
 				B312254425B6B60A00562ECA /* TriangularedButton+Inspectable.swift in Sources */,
 				B312262625B6B60A00562ECA /* CommingSoonProtocols.swift in Sources */,

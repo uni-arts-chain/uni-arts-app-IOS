@@ -10,5 +10,6 @@
 
 @interface JLHudActivityView : UIView
 + (JLHudActivityView *)createHudActivityViewWithMessage:(NSString*)message OnView:(UIView *)view;
++ (JLHudActivityView *)showHudActivityViewAddedTo:(UIView *)view animated:(BOOL)animated;
 - (void)hide:(BOOL)animated;
 @end

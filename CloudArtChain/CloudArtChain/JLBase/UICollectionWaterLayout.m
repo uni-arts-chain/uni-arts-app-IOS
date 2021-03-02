@@ -42,12 +42,12 @@
  
     //遍历数组m，创建数组那么多的UICollectionViewLayoutAttributes
     for(int i = 0; i < self.iconArray.count; i++) {
-//        IconModel *iconModel = self.iconArray[i];
+        Model_art_Detail_Data *iconModel = self.iconArray[i];
         NSIndexPath *index = [NSIndexPath indexPathForItem:i inSection:0];
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:index];
         [self.attrArray addObject:attributes];
         //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(arc4random() % 50 + 80.0f, arc4random() % 50 + 120.0f) itemW:itemW];
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 102.0f + iconModel.imgHeight) itemW:itemW];
         //计算当前cell处于第几列
         int lie = [self getMinLie:self.frameYa];
         float itemX = self.sectionInset.left + (self.minimumInteritemSpacing + itemW) * (lie);

@@ -53,17 +53,21 @@
 }
 
 - (void)showDownloadLoadingOnView:(UIView *)view {
-    if (_downloadLoading) {
+    if (_loadingView) {
         [self hideLoading];
     }
     _downloadLoading = [JLDownloadLoading showLoadingWithView:view == nil ? self.window : view];
 }
 
 - (void)showRefreshLoadingOnView:(UIView *)view {
-    if (_downloadLoading) {
+//    if (_downloadLoading) {
+//        [self hideLoading];
+//    }
+//    _downloadLoading = [JLDownloadLoading showLoadingWithView:view == nil ? self.window : view];
+    if (_loadingView) {
         [self hideLoading];
     }
-    _downloadLoading = [JLDownloadLoading showLoadingWithView:view == nil ? self.window : view];
+    _loadingView = [JLHudActivityView showHudActivityViewAddedTo:view == nil ? self.window : view animated:YES];
 }
 
 - (void)hideLoading {

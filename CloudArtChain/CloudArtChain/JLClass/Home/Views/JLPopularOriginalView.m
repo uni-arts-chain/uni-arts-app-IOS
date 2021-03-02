@@ -100,17 +100,23 @@
 #pragma mark - UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.popularArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    cell.popularArtData = self.popularArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock();
+        self.artDetailBlock(self.popularArray[indexPath.row]);
     }
+}
+
+- (void)setPopularArray:(NSArray *)popularArray {
+    _popularArray = popularArray;
+    [self.collectionView reloadData];
 }
 @end

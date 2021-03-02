@@ -78,7 +78,9 @@
 }
 
 - (void)setAuctionMeetingData:(Model_auction_meetings_Data *)auctionMeetingData {
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:auctionMeetingData.img_file[@"url"]]];
+    if (![NSString stringIsEmpty:auctionMeetingData.img_file[@"url"]]) {
+        [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:auctionMeetingData.img_file[@"url"]]];
+    }
     
     NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
     NSTimeInterval countDownInterval = 0;

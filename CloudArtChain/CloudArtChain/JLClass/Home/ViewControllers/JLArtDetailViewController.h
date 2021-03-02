@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtDetailViewController : JLBaseViewController
 @property (nonatomic, assign) JLArtDetailType artDetailType;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, copy) void(^cancelFavorateBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

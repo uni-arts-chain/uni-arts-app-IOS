@@ -12,6 +12,7 @@
 @interface JLThemeRecommendView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray *themeArray;
 @end
 
 @implementation JLThemeRecommendView
@@ -45,7 +46,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
-        _imageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
@@ -71,19 +71,28 @@
 }
 
 #pragma mark - UICollectionViewDelegate
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 10;
+    return self.themeArray.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    JLPopularOriginalCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    cell.themeArtData = self.themeArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.themeRecommendBlock) {
-        self.themeRecommendBlock();
+        self.themeRecommendBlock(self.themeArray[indexPath.row]);
     }
 }
+
+- (void)setTopicData:(Model_arts_topic_Data *)topicData {
+    if (![NSString stringIsEmpty:topicData.app_img_file[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:topicData.app_img_file[@"url"]]];
+    }
+    self.themeArray = topicData.arts;
+    [self.collectionView reloadData];
+}
+
 @end

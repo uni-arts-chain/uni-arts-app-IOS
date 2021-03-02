@@ -16,12 +16,12 @@
 @implementation JLDownloadLoading
 
 + (JLDownloadLoading *)showLoadingWithView:(UIView *)view {
-    JLDownloadLoading *loading = [[JLDownloadLoading alloc]initWithView:view frame:CGRectZero];
+    JLDownloadLoading *loading = [[JLDownloadLoading alloc] initWithView:view frame:CGRectZero];
     return loading;
 }
 
 + (JLDownloadLoading *)showLoadingWithView:(UIView *)view frame:(CGRect)frame {
-    JLDownloadLoading *loading = [[JLDownloadLoading alloc]initWithView:view frame:frame];
+    JLDownloadLoading *loading = [[JLDownloadLoading alloc] initWithView:view frame:frame];
     return loading;
 }
 

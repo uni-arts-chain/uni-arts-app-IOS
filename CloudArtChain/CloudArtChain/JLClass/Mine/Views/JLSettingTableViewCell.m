@@ -105,7 +105,9 @@
     if (isAvatar) {
         self.statusLabel.hidden = YES;
         self.avatarImageView.hidden = NO;
-        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:status]];
+        if (![NSString stringIsEmpty:status]) {
+            [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:status]];
+        }
     } else {
         self.statusLabel.hidden = NO;
         self.avatarImageView.hidden = YES;

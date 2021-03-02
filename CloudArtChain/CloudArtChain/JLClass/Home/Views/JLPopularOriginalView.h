@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLPopularOriginalView : JLBaseView
-@property (nonatomic, copy) void(^artDetailBlock)(void);
+@property (nonatomic, strong) NSArray *popularArray;
+@property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData);
 @end
 
 NS_ASSUME_NONNULL_END
