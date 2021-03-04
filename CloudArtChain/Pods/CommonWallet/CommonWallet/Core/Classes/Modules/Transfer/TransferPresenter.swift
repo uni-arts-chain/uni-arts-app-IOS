@@ -52,6 +52,7 @@ final class TransferPresenter {
     let accountId: String
     let payload: TransferPayload
     let call: ScaleCodable?
+    let callIndex: UInt8
     let receiverPosition: TransferReceiverPosition
 
     var selectedBalance: BalanceData? {
@@ -81,7 +82,8 @@ final class TransferPresenter {
          localizationManager: LocalizationManagerProtocol?,
          errorHandler: OperationDefinitionErrorHandling?,
          feeEditing: FeeEditing?,
-         call: ScaleCodable?) throws {
+         call: ScaleCodable?,
+         callIndex: UInt8) throws {
 
         if let assetId = payload.receiveInfo.assetId,
             let asset = assets.first(where: { $0.identifier == assetId }) {
@@ -96,6 +98,7 @@ final class TransferPresenter {
         self.accountId = accountId
         self.payload = payload
         self.call = call
+        self.callIndex = callIndex
         self.receiverPosition = receiverPosition
 
         self.dataProviderFactory = dataProviderFactory
@@ -103,7 +106,8 @@ final class TransferPresenter {
         self.metadataProvider = try dataProviderFactory
             .createTransferMetadataProvider(for: selectedAsset.identifier,
                                             receiver: payload.receiveInfo.accountId,
-                                            call: call)
+                                            call: call,
+                                            callIndex: callIndex)
 
         self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory

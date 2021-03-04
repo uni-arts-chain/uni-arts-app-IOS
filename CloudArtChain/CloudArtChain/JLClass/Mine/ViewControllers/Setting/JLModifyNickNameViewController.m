@@ -34,10 +34,10 @@
 
 - (void)saveBtnClick {
     [self.view endEditing:YES];
-    if ([NSString stringIsEmpty:self.calcInputView.inputContent]) {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入昵称" hideTime:KToastDismissDelayTimeInterval];
-        return;
-    }
+//    if ([NSString stringIsEmpty:self.calcInputView.inputContent]) {
+//        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入昵称" hideTime:KToastDismissDelayTimeInterval];
+//        return;
+//    }
     if (self.saveBlock) {
         self.saveBlock(self.calcInputView.inputContent);
     }
@@ -54,7 +54,7 @@
 
 - (JLCalcInputView *)calcInputView {
     if (!_calcInputView) {
-        _calcInputView = [[JLCalcInputView alloc] initWithMaxInput:8 placeholder:@"请输入昵称"];
+        _calcInputView = [[JLCalcInputView alloc] initWithMaxInput:8 placeholder:@"请输入昵称" content:[AppSingleton sharedAppSingleton].userBody.display_name];
     }
     return _calcInputView;
 }

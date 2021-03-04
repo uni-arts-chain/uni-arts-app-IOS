@@ -19,10 +19,11 @@
 @end
 
 @implementation JLCalcInputView
-- (instancetype)initWithMaxInput:(NSInteger)maxInput placeholder:(NSString *)placeHolder {
+- (instancetype)initWithMaxInput:(NSInteger)maxInput placeholder:(NSString *)placeHolder content:(NSString *)content {
     if (self = [super init]) {
         self.maxInput = maxInput;
         self.placeholder = placeHolder;
+        self.inputContent = content;
         [self createSubviews];
     }
     return self;
@@ -82,6 +83,9 @@
         NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_909090,NSFontAttributeName:kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc]initWithString:self.placeholder attributes:dic];
         _inputTF.attributedPlaceholder = attr;
+        if (![NSString stringIsEmpty:self.inputContent]) {
+            _inputTF.text = self.inputContent;
+        }
     }
     return _inputTF;
 }

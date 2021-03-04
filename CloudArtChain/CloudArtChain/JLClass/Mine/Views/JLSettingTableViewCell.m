@@ -100,19 +100,22 @@
     return _arrowImageView;
 }
 
-- (void)setTitle:(NSString *)title status:(NSString *)status isAvatar:(BOOL)isAvatar showLine:(BOOL)showLine {
+- (void)setTitle:(NSString *)title status:(NSString *)status isAvatar:(BOOL)isAvatar showLine:(BOOL)showLine showArrow:(BOOL)showArrow {
     self.titleLabel.text = title;
     if (isAvatar) {
         self.statusLabel.hidden = YES;
         self.avatarImageView.hidden = NO;
         if (![NSString stringIsEmpty:status]) {
             [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:status]];
+        } else {
+            self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
         }
     } else {
         self.statusLabel.hidden = NO;
         self.avatarImageView.hidden = YES;
         self.statusLabel.text = status;
     }
+    self.arrowImageView.hidden = !showArrow;
     self.lineView.hidden = !showLine;
 }
 

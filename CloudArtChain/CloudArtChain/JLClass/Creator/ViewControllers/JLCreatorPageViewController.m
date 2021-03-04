@@ -36,6 +36,13 @@
     [self headRefresh];
 }
 
+- (void)backClick {
+    if (!self.authorData.follow_by_me && self.cancelFollowBlock) {
+        self.cancelFollowBlock(self.authorData);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)createSubviews {
     [self.view addSubview:self.focusButton];
     [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,7 +134,8 @@
 
 - (JLHomePageHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
-        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f) authorData:self.authorData];
+        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f)];
+        _homePageHeaderView.authorData = self.authorData;
         _homePageHeaderView.backgroundColor = JL_color_white_ffffff;
     }
     return _homePageHeaderView;

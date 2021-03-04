@@ -64,8 +64,9 @@
         pickView.titlesForComponents = comonents;
         pickView.actionToolbar.tintColor = JL_color_gray_101010;//按钮文字颜色
         pickView.actionToolbar.titleButton.titleColor = [UIColor blackColor];//title字体颜色
-        pickView.actionToolbar.titleButton.titleFont = kFontPingFangSCMedium(17);//title字体大小
-        pickView.actionToolbar.barTintColor = JL_color_gray_F6F6F6;//背景色
+        pickView.actionToolbar.titleButton.titleFont = kFontPingFangSCRegular(17);//title字体大小
+        pickView.actionToolbar.barTintColor = JL_color_white_ffffff;//背景色
+        pickView.actionToolbar.backgroundColor = JL_color_white_ffffff;
         pickView.selectedTitles = selectTitles;//选中的数组
         [self addSubview:pickView];
 
@@ -85,8 +86,9 @@
         
         pickView.actionToolbar.tintColor = JL_color_gray_101010;//按钮文字颜色
         pickView.actionToolbar.titleButton.titleColor = [UIColor blackColor];//title字体颜色
-        pickView.actionToolbar.titleButton.titleFont = kFontPingFangSCMedium(17);//title字体大小
-        pickView.actionToolbar.barTintColor = JL_color_gray_F6F6F6;//背景色
+        pickView.actionToolbar.titleButton.titleFont = kFontPingFangSCRegular(17);//title字体大小
+        pickView.actionToolbar.barTintColor = JL_color_white_ffffff;//背景色
+        pickView.actionToolbar.backgroundColor = JL_color_white_ffffff;
         [self addSubview:pickView];
     }
     

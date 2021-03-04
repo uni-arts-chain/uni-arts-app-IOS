@@ -29,6 +29,7 @@
 }
 
 - (void)createSubViews {
+    WS(weakSelf)
     [self addSubview:self.titleLabel];
     [self addSubview:self.firstTF];
     [self addSubview:self.multiLabel];
@@ -64,6 +65,37 @@
         make.right.mas_equalTo(-15.0f);
         make.height.mas_equalTo(1.0f);
     }];
+    
+    [self.firstTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
+        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
+            UITextRange *selectedRange = [weakSelf.firstTF markedTextRange];
+            UITextPosition *position = [weakSelf.firstTF positionFromPosition:selectedRange.start offset:0];
+            if (!position) {
+                NSString *result = [JLUtils trimSpace:x];
+                weakSelf.firstTF.text = result;
+                weakSelf.firstInputContent = result;
+            }
+        } else {
+            NSString *result = [JLUtils trimSpace:x];
+            weakSelf.firstTF.text = result;
+            weakSelf.firstInputContent = result;
+        }
+    }];
+    [self.secondTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
+        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
+            UITextRange *selectedRange = [weakSelf.secondTF markedTextRange];
+            UITextPosition *position = [weakSelf.secondTF positionFromPosition:selectedRange.start offset:0];
+            if (!position) {
+                NSString *result = [JLUtils trimSpace:x];
+                weakSelf.secondTF.text = result;
+                weakSelf.secondInputContent = result;
+            }
+        } else {
+            NSString *result = [JLUtils trimSpace:x];
+            weakSelf.secondTF.text = result;
+            weakSelf.secondInputContent = result;
+        }
+    }];
 }
 
 - (UILabel *)titleLabel {
@@ -83,6 +115,7 @@
         _firstTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _firstTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _firstTF.textAlignment = NSTextAlignmentCenter;
+        _firstTF.keyboardType = UIKeyboardTypeDecimalPad;
         ViewBorderRadius(_firstTF, 5.0f, 1.0f, JL_color_gray_DDDDDD);
     }
     return _firstTF;
@@ -105,6 +138,7 @@
         _secondTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _secondTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _secondTF.textAlignment = NSTextAlignmentCenter;
+        _secondTF.keyboardType = UIKeyboardTypeDecimalPad;
         ViewBorderRadius(_secondTF, 5.0f, 1.0f, JL_color_gray_DDDDDD);
     }
     return _secondTF;

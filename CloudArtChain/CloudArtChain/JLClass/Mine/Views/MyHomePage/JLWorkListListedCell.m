@@ -11,7 +11,6 @@
 @interface JLWorkListListedCell ()
 @property (nonatomic, strong) UIView *centerView;
 @property (nonatomic, strong) UIButton *removeItemButton;
-@property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) UIButton *applyAddCertButton;
 @end
 
@@ -61,7 +60,9 @@
 }
 
 - (void)removeItemButtonClick {
-    
+    if (self.offFromListBlock) {
+        self.offFromListBlock(self.artDetailData);
+    }
 }
 
 - (UIButton *)applyAddCertButton {
@@ -76,13 +77,8 @@
 }
 
 - (void)applyAddCertButtonClick {
-    
-}
-
-- (UILabel *)statusLabel {
-    if (!_statusLabel) {
-        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_BBBBBB textAlignment:NSTextAlignmentRight];
+    if (self.applyAddCertBlock) {
+        self.applyAddCertBlock(self.artDetailData);
     }
-    return _statusLabel;
 }
 @end

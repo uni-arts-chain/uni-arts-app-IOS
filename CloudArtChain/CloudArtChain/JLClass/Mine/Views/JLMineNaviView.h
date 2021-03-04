@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void(^settingBlock)(void);
 @property (nonatomic, copy) void(^focusBlock)(void);
 @property (nonatomic, copy) void(^fansBlock)(void);
+- (void)refreshInfo;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -80,6 +80,7 @@
 @property (nonatomic, strong) NSArray<Model_auction_meetings_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+@protocol Model_art_author_Data @end
 @interface Model_art_author_Data : Model_Interface
 @property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *uid;
@@ -87,7 +88,6 @@
 @property (nonatomic, strong) NSString *sn;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *display_name;
-@property (nonatomic, strong) NSString *nick_name;
 @property (nonatomic, strong) NSString *ancestry;
 @property (nonatomic, strong) NSString *disabled;
 @property (nonatomic, strong) NSString *crypted_password;
@@ -120,6 +120,7 @@
 @property (nonatomic, assign) BOOL is_artist;
 @property (nonatomic, strong) NSArray *tag_list;
 @property (nonatomic, assign) BOOL follow_by_me;
+@property (nonatomic, assign) NSInteger art_size;
 @property (nonatomic, strong) NSString *residential_address;
 @property (nonatomic, strong) NSString *college;
 @end

@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkMultiInputView : JLBaseView
+@property (nonatomic, strong) NSString *firstInputContent;
+@property (nonatomic, strong) NSString *secondInputContent;
 - (instancetype)initWithTitle:(NSString *)title;
 @end
 

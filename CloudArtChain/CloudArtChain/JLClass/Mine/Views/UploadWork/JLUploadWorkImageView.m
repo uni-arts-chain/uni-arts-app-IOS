@@ -211,4 +211,8 @@
 //        [weakSelf setupContentView];
 //    }];
 //}
+
+- (NSArray *)getImageArray {
+    return [self.imageArray copy];
+}
 @end

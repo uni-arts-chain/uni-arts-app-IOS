@@ -13,14 +13,11 @@
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
-
-@property (nonatomic, strong) Model_art_author_Data *authorData;
 @end
 
 @implementation JLHomePageHeaderView
-- (instancetype)initWithFrame:(CGRect)frame authorData:(Model_art_author_Data *)authorData {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.authorData = authorData;
         [self setupSubViews];
     }
     return self;
@@ -74,9 +71,6 @@
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
-        if (![NSString stringIsEmpty:self.authorData.avatar[@"url"]]) {
-            [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:self.authorData.avatar[@"url"]]];
-        }
         ViewBorderRadius(_avatarImageView, 45.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
@@ -87,7 +81,6 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCSCSemibold(15.0f);
         _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.text = self.authorData.display_name;
         _nameLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _nameLabel;
@@ -100,14 +93,46 @@
         _infoLabel.textColor = JL_color_gray_101010;
         _infoLabel.numberOfLines = 0;
         _infoLabel.textAlignment = NSTextAlignmentCenter;
-        _infoLabel.text = self.authorData.desc;
+    }
+    return _infoLabel;
+}
+
+- (void)setAuthorData:(Model_art_author_Data *)authorData {
+    if (![NSString stringIsEmpty:authorData.avatar[@"url"]]) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:authorData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    } else {
+        self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+    }
+    self.nameLabel.text = authorData.display_name;
+    NSString *showDesc = [NSString stringWithFormat:@"%@\r\n%@\r\n%@", [NSString stringIsEmpty:authorData.residential_address] ? @"" : [NSString stringWithFormat:@"现居于%@", authorData.residential_address], [NSString stringIsEmpty:authorData.college] ? @"" : authorData.college, [NSString stringIsEmpty:authorData.desc] ? @"" : authorData.desc];
+    if (![NSString stringIsEmpty:showDesc]) {
+        self.infoLabel.text = showDesc;
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         paraStyle.lineSpacing = 10.0f;
         paraStyle.alignment = NSTextAlignmentCenter;
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_infoLabel.text];
-        [attr addAttributes:@{NSParagraphStyleAttributeName: paraStyle} range:NSMakeRange(0, _infoLabel.text.length)];
-        _infoLabel.attributedText = attr;
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:self.infoLabel.text];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paraStyle} range:NSMakeRange(0, self.infoLabel.text.length)];
+        self.infoLabel.attributedText = attr;
     }
-    return _infoLabel;
+}
+
+- (void)setUserData:(UserDataBody *)userData {
+    if (![NSString stringIsEmpty:userData.avatar[@"url"]]) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    } else {
+        self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+    }
+    self.nameLabel.text = userData.display_name;
+    
+    NSString *showDesc = [NSString stringWithFormat:@"%@\r\n%@\r\n%@", [NSString stringIsEmpty:userData.residential_address] ? @"" : [NSString stringWithFormat:@"现居于%@", userData.residential_address], [NSString stringIsEmpty:userData.college] ? @"" : userData.college, [NSString stringIsEmpty:userData.desc] ? @"" : userData.desc];
+    if (![NSString stringIsEmpty:showDesc]) {
+        self.infoLabel.text = showDesc;
+        NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+        paraStyle.lineSpacing = 10.0f;
+        paraStyle.alignment = NSTextAlignmentCenter;
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:self.infoLabel.text];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paraStyle} range:NSMakeRange(0, self.infoLabel.text.length)];
+        self.infoLabel.attributedText = attr;
+    }
 }
 @end

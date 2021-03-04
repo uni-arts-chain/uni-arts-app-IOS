@@ -19,6 +19,8 @@
 
 #import "JLSettingTableViewCell.h"
 
+#import "UIImage+JLTool.h"
+
 @interface JLSettingViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYImageRectClipViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
@@ -102,7 +104,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLSettingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLSettingTableViewCell" forIndexPath:indexPath];
     NSArray *sectionArray = self.titleArray[indexPath.section];
-    [cell setTitle:self.titleArray[indexPath.section][indexPath.row] status:@"" isAvatar:(indexPath.section == 0 && indexPath.row == 0) showLine:indexPath.row != sectionArray.count - 1];
+    NSString *status;
+    BOOL showArrow = YES;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            status = [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+        } else if(indexPath.row == 1) {
+            status = [AppSingleton sharedAppSingleton].userBody.display_name;
+        } else {
+            status = @"";
+        }
+    } else {
+        status = [[AppSingleton sharedAppSingleton].userBody getPhoneNumberWithoutCountryCode];
+        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+            showArrow = NO;
+        }
+    }
+    [cell setTitle:self.titleArray[indexPath.section][indexPath.row] status:status isAvatar:(indexPath.section == 0 && indexPath.row == 0) showLine:indexPath.row != sectionArray.count - 1 showArrow:showArrow];
     return cell;
 }
 
@@ -156,7 +174,19 @@
             {
                 JLModifyNickNameViewController *modifyNickNameVC = [[JLModifyNickNameViewController alloc] init];
                 modifyNickNameVC.saveBlock = ^(NSString * _Nonnull nickName) {
-                    
+                    Model_members_change_user_info_Req *request = [[Model_members_change_user_info_Req alloc] init];
+                    request.display_name = nickName;
+                    Model_members_change_user_info_Rsp *response = [[Model_members_change_user_info_Rsp alloc] init];
+                    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                        [[JLLoading sharedLoading] hideLoading];
+                        if (netIsWork) {
+                            [AppSingleton sharedAppSingleton].userBody = response.body;
+                            [weakSelf.tableView reloadData];
+                        } else {
+                            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                        }
+                    }];
                 };
                 [self.navigationController pushViewController:modifyNickNameVC animated:YES];
             }
@@ -164,8 +194,22 @@
             case 2:
             {
                 JLPersonalDescriptionViewController *personalDescVC = [[JLPersonalDescriptionViewController alloc] init];
-                personalDescVC.saveBlock = ^(NSString * _Nonnull desc) {
-                    
+                personalDescVC.saveBlock = ^(NSString * _Nonnull residentialAddress, NSString * _Nonnull college, NSString * _Nonnull desc) {
+                    Model_members_change_user_info_Req *request = [[Model_members_change_user_info_Req alloc] init];
+                    request.residential_address = residentialAddress;
+                    request.college = college;
+                    request.desc = desc;
+                    Model_members_change_user_info_Rsp *response = [[Model_members_change_user_info_Rsp alloc] init];
+                    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                        [[JLLoading sharedLoading] hideLoading];
+                        if (netIsWork) {
+                            [AppSingleton sharedAppSingleton].userBody = response.body;
+                            [weakSelf.tableView reloadData];
+                        } else {
+                            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                        }
+                    }];
                 };
                 [self.navigationController pushViewController:personalDescVC animated:YES];
             }
@@ -178,8 +222,10 @@
         switch (indexPath.row) {
             case 0:
             {
-                JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
-                [self.navigationController pushViewController:bindPhoneVC animated:YES];
+                if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+                    JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
+                    [self.navigationController pushViewController:bindPhoneVC animated:YES];
+                }
             }
                 break;
             case 1:
@@ -235,8 +281,22 @@
 - (void)wyrectClipViewController:(WYImageRectClipViewController *)clipViewController finishClipImage:(UIImage *)editImage {
     WS(weakSelf);
     [clipViewController dismissViewControllerAnimated:YES completion:^{
-        JLSettingTableViewCell *avatarCell = (JLSettingTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        [avatarCell setAvatarImage:editImage];
+        NSString *fileName = [JLNetHelper getTimeString];
+        Model_members_change_user_info_Req *request = [[Model_members_change_user_info_Req alloc] init];
+        request.avatar = fileName;
+        Model_members_change_user_info_Rsp *response = [[Model_members_change_user_info_Rsp alloc] init];
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostUploadParameters:request respondParameters:response paramsName:@"avatar" fileName:fileName fileData:[UIImage compressOriginalImage:editImage] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                JLSettingTableViewCell *avatarCell = (JLSettingTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+                [avatarCell setAvatarImage:editImage];
+                [AppSingleton sharedAppSingleton].userBody = response.body;
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            }
+        }];
     }];
 }
 

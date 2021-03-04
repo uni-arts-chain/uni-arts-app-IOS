@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkMoneyInputView : JLBaseView
+@property (nonatomic, strong) NSString *inputContent;
 - (instancetype)initWithTitle:(NSString *)title;
 @end
 

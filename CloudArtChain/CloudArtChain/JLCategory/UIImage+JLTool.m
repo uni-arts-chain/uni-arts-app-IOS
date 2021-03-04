@@ -335,4 +335,15 @@ static inline CGFloat DegreesToRadians(CGFloat degrees) {
     return defaultImage;
 }
 
+/** 图片压缩 */
++ (NSData*)compressOriginalImage:(UIImage *)image {
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    float size = imageData.length/1024.0/1024.0;
+    if (size >= 1) {
+        imageData = UIImageJPEGRepresentation(image, 0.25);
+    }
+    NSLog(@"sizeImage------%lf",imageData.length/1024.0/1024.0);
+    return imageData;
+}
+
 @end

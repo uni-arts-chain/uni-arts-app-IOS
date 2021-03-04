@@ -39,6 +39,7 @@
     [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
         [weakSelf.orderView setCurrentAccountBalance:amount];
     }];
+    [self.mineNaviView refreshInfo];
 }
 
 - (void)viewDidLoad {

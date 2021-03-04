@@ -11,14 +11,16 @@ final class TransferConfirmationCommand: WalletPresentationCommandProtocol {
     let payload: ConfirmationPayload
     let resolver: ResolverProtocol
     var call: ScaleCodable?
+    var callIndex: UInt8
 
     var presentationStyle: WalletPresentationStyle = .push(hidesBottomBar: true)
     var animated: Bool = true
 
-    init(payload: ConfirmationPayload, resolver: ResolverProtocol, call: ScaleCodable?) {
+    init(payload: ConfirmationPayload, resolver: ResolverProtocol, call: ScaleCodable?, callIndex: UInt8) {
         self.payload = payload
         self.resolver = resolver
         self.call = call
+        self.callIndex = callIndex
     }
 
     func execute() throws {
@@ -38,7 +40,8 @@ final class TransferConfirmationCommand: WalletPresentationCommandProtocol {
     func confirmTransaction() -> WalletNewFormViewController? {
         guard let confirmationView = TransferConfirmationAssembly.assembleView(with: resolver,
                                                                                payload: payload,
-                                                                               call: call) else {
+                                                                               call: call,
+                                                                               callIndex: callIndex) else {
             return nil
         }
 

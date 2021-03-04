@@ -221,7 +221,7 @@
         _buttonLeft = [[UIButton alloc]initWithFrame:CGRectMake(leftX, leftY, leftW, leftH)];
         [_buttonLeft setTitle:@"取消" forState:UIControlStateNormal];
         [_buttonLeft setTitleColor:self.titleColor forState:UIControlStateNormal];
-        [_buttonLeft addBorderColor:self.borderButtonColor];
+//        [_buttonLeft addBorderColor:self.borderButtonColor];
         [_buttonLeft.titleLabel setFont:self.font];
         [_buttonLeft addTarget:self action:@selector(selectedCancel) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -237,8 +237,10 @@
         CGFloat rightY = self.buttonLeft.y;
         _buttonRight = [[UIButton alloc]initWithFrame:CGRectMake(rightX, rightY, rightW, rightH)];
         [_buttonRight setTitle:@"确定" forState:UIControlStateNormal];
-        [_buttonRight setTitleColor:self.titleColor forState:UIControlStateNormal];
-        [_buttonRight addBorderColor:self.borderButtonColor];
+        [_buttonRight setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
+//        [_buttonRight addBorderColor:self.borderButtonColor];
+        _buttonRight.backgroundColor = JL_color_blue_38B2F1;
+        ViewBorderRadius(_buttonRight, 5.0f, 0.0f, JL_color_clear);
         [_buttonRight.titleLabel setFont:self.font];
         [_buttonRight addTarget:self action:@selector(selectedOk) forControlEvents:UIControlEventTouchUpInside];
     }

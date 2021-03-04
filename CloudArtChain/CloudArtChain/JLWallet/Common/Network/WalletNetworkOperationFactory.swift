@@ -86,7 +86,7 @@ final class WalletNetworkOperationFactory {
                                                                specVersion: runtimeVersion.specVersion,
                                                                transactionVersion: runtimeVersion.transactionVersion,
                                                                signatureVersion: currentCryptoType.version,
-                                                               moduleIndex: chain.balanceModuleIndex,
+                                                               moduleIndex: chain.nftModuleIndex,
                                                                callIndex: chain.transferCallIndex)
 
                 let extrinsicData = try ExtrinsicFactory.transferExtrinsic(from: senderAccountId,
@@ -111,6 +111,7 @@ final class WalletNetworkOperationFactory {
     
     func setupTransferExtrinsic<T>(_ targetOperation: JSONRPCListOperation<T>,
                                    call: ScaleCodable?,
+                                   callIndex: UInt8,
                                    receiver: String,
                                    chain: Chain,
                                    signer: IRSignatureCreatorProtocol) -> CompoundOperationWrapper<T> {
@@ -137,8 +138,8 @@ final class WalletNetworkOperationFactory {
                                                                specVersion: runtimeVersion.specVersion,
                                                                transactionVersion: runtimeVersion.transactionVersion,
                                                                signatureVersion: currentCryptoType.version,
-                                                               moduleIndex: chain.balanceModuleIndex,
-                                                               callIndex: chain.transferCallIndex)
+                                                               moduleIndex: chain.nftModuleIndex,
+                                                               callIndex: callIndex)
 
                 let extrinsicData = try ExtrinsicFactory.transferExtrinsic(from: senderAccountId,
                                                                            to: receiverAccountId,

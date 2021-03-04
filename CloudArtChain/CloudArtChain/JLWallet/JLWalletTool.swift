@@ -228,7 +228,7 @@ extension JLWalletTool {
     
     func sellOrderCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, price: UInt64, block:(Bool, String) -> Void) {
         let saleOrderCall = CreateSaleOrderCall(collectionId: collectionId, itemId: itemId, value: value, price: price)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall) ?? nil
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
         if (self.transferVC != nil) {
             block(true, "")
             sellOrderSubmit()
@@ -251,6 +251,27 @@ extension JLWalletTool {
     @objc func sellOrderCancel() {
         self.transferVC = nil
         self.confirmVC = nil
+    }
+}
+
+extension JLWalletTool {
+    @objc func cancelSellOrderCall(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
+        cancelSellOrderCallSwift(collectionId: collectionId, itemId: itemId, value: 0, block: block)
+    }
+    
+    func cancelSellOrderCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, block:(Bool, String) -> Void) {
+        let cancelSaleOrderCall = CancelSaleOrderCall(collectionId: collectionId, itemId: itemId, value: value)
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelSaleOrderCall, callIndex: Chain.uniarts.cancelSaleOrderCallIndex) ?? nil
+        if (self.transferVC != nil) {
+            block(true, "")
+            sellOrderSubmit()
+        } else {
+            block(false, "")
+        }
+    }
+    
+    @objc func cancelSellOrderConfirm(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
     }
 }
 

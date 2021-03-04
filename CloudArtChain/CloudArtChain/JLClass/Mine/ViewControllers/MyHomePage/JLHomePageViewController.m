@@ -9,6 +9,7 @@
 #import "JLHomePageViewController.h"
 #import "JLWorksListViewController.h"
 #import "JLUploadWorkViewController.h"
+#import "JLArtDetailViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageHeaderView.h"
@@ -73,6 +74,7 @@
 - (JLHomePageHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
         _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f)];
+        _homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
     }
     return _homePageHeaderView;
 }
@@ -89,6 +91,22 @@
     [self.titles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JLWorksListViewController *workListVC = [[JLWorksListViewController alloc] init];
         workListVC.workListType = idx;
+        workListVC.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            artDetailData.aasm_state = @"bidding";
+            JLWorksListViewController *biddingVC = (JLWorksListViewController *)[self.viewControllers firstObject];
+            [biddingVC addToBiddingList:artDetailData];
+        };
+        workListVC.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            artDetailData.aasm_state = @"online";
+            JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[1];
+            [prepareVC offFromBiddingList:artDetailData];
+        };
+        workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+            artDetailVC.artDetailType = JLArtDetailTypeSelfOrOffShelf;
+            artDetailVC.artDetailData = artDetailData;
+            [self.navigationController pushViewController:artDetailVC animated:YES];
+        };
         [workListVCArray addObject:workListVC];
     }];
     return workListVCArray.copy;

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLDescriptionContentView : UIView
 @property (nonatomic, strong) NSString *inputContent;
-- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder;
+- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder content:(NSString *)content;
 @end
 
 NS_ASSUME_NONNULL_END

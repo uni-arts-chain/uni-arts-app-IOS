@@ -162,6 +162,9 @@
         _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
             [weakSelf footRefresh];
         }];
+        _collectionView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+            [weakSelf headRefresh];
+        }];
     }
     return _collectionView;
 }
@@ -178,7 +181,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = JLArtDetailTypeDetail;
+    Model_art_Detail_Data *artDetailData = self.dataArray[indexPath.row];
+    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
     artDetailVC.artDetailData = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:artDetailVC animated:YES];
 }
@@ -202,6 +206,7 @@
 }
 
 - (void)endRefresh:(NSArray*)collectionArray {
+    [self.collectionView.mj_header endRefreshing];
     if (collectionArray.count < kPageSize) {
         self.collectionView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
@@ -254,6 +259,7 @@
             [self setNoDataShow];
             [self.collectionView reloadData];
         } else {
+            [weakSelf.collectionView.mj_header endRefreshing];
             [weakSelf.collectionView.mj_footer endRefreshing];
         }
     }];

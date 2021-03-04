@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIButton *cancelFocusButton;
 @property (nonatomic, strong) UIButton *focusButton;
 @property (nonatomic, strong) UIView *lineView;
+
+@property (nonatomic, strong) Model_art_author_Data *authorData;
 @end
 
 @implementation JLFocusFansTableViewCell
@@ -93,7 +95,6 @@
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
-        _avatarImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_avatarImageView, 25.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
@@ -101,7 +102,7 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"飞翔的北极熊" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
@@ -115,7 +116,7 @@
 
 - (UILabel *)productNumLabel {
     if (!_productNumLabel) {
-        _productNumLabel = [JLUIFactory labelInitText:@"18个作品" font:kFontPingFangSCRegular(11.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _productNumLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(11.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _productNumLabel;
 }
@@ -131,7 +132,9 @@
 }
 
 - (void)cancelFocusButtonClick {
-    
+    if (self.cancleFocusBlock) {
+        self.cancleFocusBlock(self.authorData);
+    }
 }
 
 - (UIButton *)focusButton {
@@ -145,7 +148,9 @@
 }
 
 - (void)focusButtonClick {
-    
+    if (self.focusBlock) {
+        self.focusBlock(self.authorData);
+    }
 }
 
 - (UIView *)lineView {
@@ -156,8 +161,9 @@
     return _lineView;
 }
 
-- (void)setType:(JLFocusType)type isLastCell:(BOOL)isLast {
-    if (type == JLFocusTypeFocus) {
+- (void)setAuthor:(Model_art_author_Data *)authorData isLastCell:(BOOL)isLast {
+    self.authorData = authorData;
+    if (authorData.follow_by_me) {
         self.cancelFocusButton.hidden = NO;
         self.focusButton.hidden = YES;
     } else {
@@ -165,6 +171,14 @@
         self.focusButton.hidden = NO;
     }
     self.lineView.hidden = isLast;
+    
+    if (![NSString stringIsEmpty:authorData.avatar[@"url"]]) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:authorData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    } else {
+        self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+    }
+    self.nameLabel.text = [NSString stringIsEmpty:authorData.display_name] ? @"未设置昵称" : authorData.display_name;
+    self.productNumLabel.text = [NSString stringWithFormat:@"%ld个作品", authorData.art_size];
 }
 
 @end

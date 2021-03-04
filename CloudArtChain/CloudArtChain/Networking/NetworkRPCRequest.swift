@@ -15,7 +15,7 @@ class NetworkRPCRequest: NSObject {
     @objc public static func testAccountInfoUniArts(block: @escaping (_ success: Bool) -> Void) throws {
         try performAccountInfoTest(url: URL(string: "wss://testnet.uniarts.me")!,
                                    address: "14rVH93jroTfgBZF1KLxnvaDYkxiZYgk7ggsJKVa5gFJUMdG",
-                                   type: .polkadotMain,
+                                   type: .genericSubstrate,
                                    precision: 12)
         block(true)
     }

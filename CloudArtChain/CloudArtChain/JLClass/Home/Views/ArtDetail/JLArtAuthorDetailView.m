@@ -140,10 +140,12 @@
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     if (![NSString stringIsEmpty:artDetailData.author.avatar[@"url"]]) {
-        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.author.avatar[@"url"]]];
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.author.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    } else {
+        self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = artDetailData.author.display_name;
-    self.borthLabel.text = artDetailData.author.desc;
-    self.schoolLabel.text = artDetailData.author.desc;
+    self.borthLabel.text = [NSString stringIsEmpty:artDetailData.author.residential_address] ? @"" : artDetailData.author.residential_address;
+    self.schoolLabel.text = [NSString stringIsEmpty: artDetailData.author.college] ? @"" :  artDetailData.author.college;
 }
 @end

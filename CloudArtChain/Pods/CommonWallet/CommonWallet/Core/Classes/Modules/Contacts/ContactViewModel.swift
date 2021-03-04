@@ -10,7 +10,7 @@ import FearlessUtils
 
 public protocol ContactViewModelDelegate: class {
     func didSelect(contact: ContactViewModelProtocol)
-    func didSelect(contact: ContactViewModelProtocol, call: ScaleCodable) -> TransferViewController?
+    func didSelect(contact: ContactViewModelProtocol, call: ScaleCodable, callIndex: UInt8) -> TransferViewController?
 }
 
 

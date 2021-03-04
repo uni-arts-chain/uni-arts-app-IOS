@@ -9,9 +9,15 @@
 #import "JLUploadWorkDetailView.h"
 #import "JLUploadWorkDescriptionView.h"
 
-@interface JLUploadWorkDetailView ()
+#import "UIAlertController+Alert.h"
+#import "WYImageRectClipViewController.h"
+#import "SLShotViewController.h"
+#import "SLEditImageController.h"
+
+@interface JLUploadWorkDetailView ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) UIView *addView;
 @property (nonatomic, strong) UIView *showImageView;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) JLUploadWorkDescriptionView *descView;
 @end
 
@@ -112,16 +118,39 @@
 }
 
 - (void)addButtonClick {
-    self.addView.hidden = YES;
-    self.showImageView.hidden = NO;
+    WS(weakSelf)
+    UIAlertController *alert = [UIAlertController actionSheetWithButtonTitleArray:@[@"从相册选取", @"拍照"] handler:^(NSInteger index) {
+        if (index == 0) {
+            //从手机相册选择
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            picker.delegate = weakSelf;
+            picker.modalPresentationStyle = UIModalPresentationFullScreen;
+            if (@available(iOS 11.0, *)) {
+                UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+            }
+            [weakSelf.controller presentViewController:picker animated:YES completion:nil];
+        } else {
+            SLShotViewController * shotViewController = [[SLShotViewController alloc] init];
+            shotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+            shotViewController.getImageBlock = ^(UIImage * _Nonnull image) {
+                weakSelf.imageView.image = image;
+                weakSelf.addView.hidden = YES;
+                weakSelf.showImageView.hidden = NO;
+            };
+            [weakSelf.controller presentViewController:shotViewController animated:YES completion:nil];
+        }
+    }];
+    [self.controller presentViewController:alert animated:YES completion:nil];
+
 }
 
 - (UIView *)itemView {
     UIView *view = [[UIView alloc] init];
     
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.backgroundColor = [UIColor randomColor];
     ViewBorderRadius(imageView, 5.0f, 0.0f, JL_color_clear);
+    self.imageView = imageView;
     [view addSubview:imageView];
     
     UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -138,12 +167,48 @@
         make.top.right.equalTo(view);
         make.size.mas_equalTo(18.0f);
     }];
-    
     return view;
 }
 
 - (void)deleteBtnClick:(UIButton *)sender {
+    self.imageView.image = nil;
     self.addView.hidden = NO;
     self.showImageView.hidden = YES;
+}
+
+#pragma mark - imagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    WS(weakSelf)
+    UIImage *image = info[@"UIImagePickerControllerOriginalImage"];
+    [picker dismissViewControllerAnimated:NO completion:nil];
+    if (@available(iOS 11.0, *)) {
+        UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    
+    SLEditImageController *editViewController = [[SLEditImageController alloc] init];
+    editViewController.image = image;
+    editViewController.saveToAlbum = NO;
+    editViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    editViewController.imageEditBlock = ^(UIImage * _Nonnull image) {
+        weakSelf.imageView.image = image;
+        weakSelf.addView.hidden = YES;
+        weakSelf.showImageView.hidden = NO;
+    };
+    [self.controller.navigationController presentViewController:editViewController animated:NO completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:NO completion:nil];
+    if (@available(iOS 11.0, *)) {
+        UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+}
+
+- (UIImage *)getDetailImage {
+    return self.imageView.image;
+}
+
+- (NSString *)getDetailDescContent {
+    return self.descView.inputContent;
 }
 @end

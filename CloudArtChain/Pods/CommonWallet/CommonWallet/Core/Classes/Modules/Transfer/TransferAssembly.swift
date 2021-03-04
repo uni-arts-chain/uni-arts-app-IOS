@@ -33,7 +33,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
     
     static func assembleView(with resolver: ResolverProtocol,
                              payload: TransferPayload,
-                             call: ScaleCodable) -> TransferViewProtocol? {
+                             call: ScaleCodable,
+                             callIndex: UInt8) -> TransferViewProtocol? {
         do {
             guard let view = createView(resolver) else {
                 return nil
@@ -43,6 +44,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let presenter = try createPresenter(resolver,
                                                 payload: payload,
                                                 call: call,
+                                                callIndex: callIndex,
                                                 view: view,
                                                 coordinator: coordinator)
 
@@ -146,7 +148,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                localizationManager: resolver.localizationManager,
                                                errorHandler: errorHandler,
                                                feeEditing: feeEditing,
-                                               call: nil)
+                                               call: nil,
+                                               callIndex: 0)
         presenter.logger = resolver.logger
 
         return presenter
@@ -155,6 +158,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
     private static func createPresenter(_ resolver: ResolverProtocol,
                                         payload: TransferPayload,
                                         call: ScaleCodable,
+                                        callIndex: UInt8,
                                         view: TransferViewProtocol,
                                         coordinator: TransferCoordinatorProtocol) throws
         -> TransferPresenter {
@@ -190,7 +194,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                localizationManager: resolver.localizationManager,
                                                errorHandler: errorHandler,
                                                feeEditing: feeEditing,
-                                               call: call)
+                                               call: call,
+                                               callIndex: callIndex)
         presenter.logger = resolver.logger
 
         return presenter

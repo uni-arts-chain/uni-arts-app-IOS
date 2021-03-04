@@ -22,6 +22,7 @@ final class TransferConfirmationPresenter {
     
     var callbackBlock: ((Bool, String?) -> Void)?
     var call: ScaleCodable?
+    var callIndex: UInt8
 
     init(view: WalletNewFormViewProtocol,
          coordinator: TransferConfirmationCoordinatorProtocol,
@@ -29,7 +30,8 @@ final class TransferConfirmationPresenter {
          payload: ConfirmationPayload,
          eventCenter: WalletEventCenterProtocol,
          viewModelFactory: TransferConfirmationViewModelFactoryProtocol,
-         call: ScaleCodable?) {
+         call: ScaleCodable?,
+         callIndex: UInt8) {
         self.view = view
         self.coordinator = coordinator
         self.service = service
@@ -37,6 +39,7 @@ final class TransferConfirmationPresenter {
         self.eventCenter = eventCenter
         self.viewModelFactory = viewModelFactory
         self.call = call
+        self.callIndex = callIndex
     }
 
     private func handleTransfer(result: Result<Data, Error>) {
@@ -91,7 +94,7 @@ extension TransferConfirmationPresenter: TransferConfirmationPresenterProtocol {
         self.callbackBlock = callbackBlock
         view?.didStartLoading()
 
-        service.transfer(info: payload.transferInfo, call: call, runCompletionIn: .main) { [weak self] (optionalResult) in
+        service.transfer(info: payload.transferInfo, call: call, callIndex: callIndex, runCompletionIn: .main) { [weak self] (optionalResult) in
             self?.view?.didStopLoading()
 
             if let result = optionalResult {

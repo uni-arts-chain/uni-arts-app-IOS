@@ -10,16 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, JLFocusType) {
-    JLFocusTypeFocus,
-    JLFocusTypeFans,
-};
-
 @interface JLFocusFansTableViewCell : UITableViewCell
-@property (nonatomic, copy) void(^focusBlock)(void);
-@property (nonatomic, copy) void(^cancleFocusBlock)(void);
+@property (nonatomic, copy) void(^focusBlock)(Model_art_author_Data *authorData);
+@property (nonatomic, copy) void(^cancleFocusBlock)(Model_art_author_Data *authorData);
 
-- (void)setType:(JLFocusType)type isLastCell:(BOOL)isLast;
+- (void)setAuthor:(Model_art_author_Data *)authorData isLastCell:(BOOL)isLast;
 
 @end
 

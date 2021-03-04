@@ -15,16 +15,10 @@
 @property (nonatomic, strong) UIView *alertView;
 /** 选择器 */
 @property (nonatomic, strong) UIPickerView *pickerView;
-/** 类型 */
-@property (nonatomic, assign) JLPickerViewType type;
-
-
-
 @end
 
 @implementation JLPickerView
-
--(void)setSelectIndex:(NSInteger)selectIndex {
+- (void)setSelectIndex:(NSInteger)selectIndex {
     if (selectIndex > self.dataSource.count - 1 || selectIndex < 0) {
         selectIndex = 0;
     }
@@ -38,17 +32,9 @@
     [self.pickerView reloadAllComponents];
 }
 
--(void)setInterval:(NSInteger)interval {
-    _interval = interval;
-    [self.pickerView reloadAllComponents];
-}
-
-- (instancetype)initWithType:(JLPickerViewType)type
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
-        _type = type;
-        
         [self setupView];
         [self addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -67,15 +53,15 @@
     [self addSubview:alertView];
     
     //取消按钮
-    UIButton *cancelBtn = [JLUIFactory buttonInitTitle:@"取消" titleColor:JL_color_gray_333333 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(16) addTarget:self action:@selector(cancelAction)];
+    UIButton *cancelBtn = [JLUIFactory buttonInitTitle:@"取消" titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(16) addTarget:self action:@selector(cancelAction)];
     cancelBtn.frame = CGRectMake(16, 19, 32, 22);
     [alertView addSubview:cancelBtn];
     //完成按钮
-    UIButton *doneBtn = [JLUIFactory buttonInitTitle:@"确定" titleColor:JL_color_gray_333333 backgroundColor:JL_color_gray_101010 font:kFontPingFangSCRegular(14) addTarget:self action:@selector(doneAction)];
+    UIButton *doneBtn = [JLUIFactory buttonInitTitle:@"确定" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_38B2F1 font:kFontPingFangSCRegular(14) addTarget:self action:@selector(doneAction)];
+    doneBtn.contentEdgeInsets = UIEdgeInsetsZero;
     doneBtn.frame = CGRectMake(alertView.frameWidth - 44 - 16, 16, 44.0f,28.0f);
-    doneBtn.layer.cornerRadius = 6;
+    doneBtn.layer.cornerRadius = 5.0f;
     doneBtn.layer.masksToBounds = YES;
-    doneBtn.contentEdgeInsets = UIEdgeInsetsMake(0, -6, 0, 0);
     [alertView addSubview:doneBtn];
     //分割线
     UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, doneBtn.frameBottom + 16, alertView.frameWidth, 1.0f)];
@@ -100,16 +86,7 @@
     pickerView.delegate = self;
     [pickBgView addSubview:pickerView];
     
-    if (self.type == JLPickerViewTypeLeadTime || self.type == JLPickerViewTypeDelayTime) {
-        UILabel *titleLabel = [JLUIFactory labelInitText:self.type == JLPickerViewTypeLeadTime ? @"提前" : @"延后" font:kFontPingFangSCRegular(16) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
-        titleLabel.frame = CGRectMake(pickBgView.frameWidth / 2 - 32 - 16, (pickBgView.frameHeight - 22) / 2, 32, 22);
-        [pickBgView addSubview:titleLabel];
-        
-        pickerView.frame = CGRectMake(titleLabel.frameRight + 16, 0, 100, pickBgView.frameHeight);
-    } else if (self.type == JLPickerViewTypeSingleText) {
-        pickerView.frame = CGRectMake(0, 0, pickBgView.frameWidth, pickBgView.frameHeight);
-    }
-    
+    pickerView.frame = CGRectMake(0, 0, pickBgView.frameWidth, pickBgView.frameHeight);
 }
 
 
@@ -119,11 +96,7 @@
 
 - (void)doneAction {
     if (self.selectBlock) {
-        if (self.type == JLPickerViewTypeLeadTime || self.type == JLPickerViewTypeDelayTime) {
-            self.selectBlock(self.selectIndex, @((self.selectIndex + 1) * 10).stringValue);
-        } else if (self.type == JLPickerViewTypeSingleText) {
-            self.selectBlock(self.selectIndex, self.dataSource[self.selectIndex]);
-        }
+        self.selectBlock(self.selectIndex, self.dataSource[self.selectIndex]);
     }
     [self hideWithAnimation:nil];
     
@@ -157,12 +130,7 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (self.type == JLPickerViewTypeLeadTime || self.type == JLPickerViewTypeDelayTime) {
-        return self.interval / 10;
-    } else if (self.type == JLPickerViewTypeSingleText) {
-        return self.dataSource.count;
-    }
-    return 0;
+    return self.dataSource.count;
 }
 
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
@@ -175,7 +143,6 @@
     }
     //隐藏原生黑线
      ((UIView *)[pickerView.subviews objectAtIndex:1]).backgroundColor = JL_color_clear;
-     ((UIView *)[pickerView.subviews objectAtIndex:2]).backgroundColor = JL_color_clear;
     
     UILabel *contentLabel = [[UILabel alloc]initWithFrame:view.bounds];
     contentLabel.backgroundColor = JL_color_clear;
@@ -186,11 +153,7 @@
     } else {
         contentLabel.textColor = JL_color_gray_666666;
     }
-    if (self.type == JLPickerViewTypeLeadTime || self.type == JLPickerViewTypeDelayTime) {
-        contentLabel.textAlignment = NSTextAlignmentLeft;
-    } else if (self.type == JLPickerViewTypeSingleText) {
-        contentLabel.textAlignment = NSTextAlignmentCenter;
-    }
+    contentLabel.textAlignment = NSTextAlignmentCenter;
     contentLabel.text = [self pickerView:pickerView titleForRow:row forComponent:component];
     
     return contentLabel;
@@ -198,19 +161,11 @@
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     NSString *showStr;
-    if (self.type == JLPickerViewTypeLeadTime || self.type == JLPickerViewTypeDelayTime) {
-        showStr = [NSString stringWithFormat:@"%ld 分钟",(row + 1) * 10];
-    } else if (self.type == JLPickerViewTypeSingleText) {
-        showStr = self.dataSource[row];
-    }
+    showStr = self.dataSource[row];
     return showStr;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
     self.selectIndex = row;
 }
-
 @end
-
-

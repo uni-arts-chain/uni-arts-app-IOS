@@ -59,4 +59,7 @@
 
 /// 图片浏览默认图片
 + (UIImage *)imageBrowserDefaultImage;
+
+/** 图片压缩 */
++ (NSData*)compressOriginalImage:(UIImage *)image;
 @end

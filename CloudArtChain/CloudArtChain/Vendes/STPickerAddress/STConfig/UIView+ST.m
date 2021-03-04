@@ -204,7 +204,7 @@
 - (void)addBorderColor:(UIColor *)color{
     [self.layer setBorderColor:color.CGColor];
     [self.layer setBorderWidth:0.5];
-    [self.layer setCornerRadius:4];
+    [self.layer setCornerRadius:5];
 }
 
 @end

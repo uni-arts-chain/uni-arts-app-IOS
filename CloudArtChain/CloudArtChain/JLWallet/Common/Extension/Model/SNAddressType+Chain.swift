@@ -5,7 +5,7 @@ extension SNAddressType {
     init(chain: Chain) {
         switch chain {
         case .uniarts:
-            self = .polkadotMain
+            self = .genericSubstrate
         case .kusama:
             self = .kusamaMain
         case .westend:
@@ -17,7 +17,7 @@ extension SNAddressType {
         switch self {
         case .kusamaMain:
             return .kusama
-        case .polkadotMain:
+        case .genericSubstrate:
             return .uniarts
         default:
             return .westend

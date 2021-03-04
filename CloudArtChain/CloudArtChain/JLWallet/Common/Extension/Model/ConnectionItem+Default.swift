@@ -5,7 +5,7 @@ extension ConnectionItem {
     static var defaultConnection: ConnectionItem {
         return ConnectionItem(title: "Uni-Arts, Parity node",
                               url: URL(string: "wss://testnet.uniarts.me")!,
-                              type: SNAddressType.polkadotMain)
+                              type: SNAddressType.genericSubstrate)
     }
 
     static var supportedConnections: [ConnectionItem] {
@@ -18,13 +18,13 @@ extension ConnectionItem {
                            type: SNAddressType.kusamaMain),
             ConnectionItem(title: "Uni-Arts, Parity node",
                            url: URL(string: "wss://testnet.uniarts.me")!,
-                           type: SNAddressType.polkadotMain),
+                           type: SNAddressType.genericSubstrate),
 //            ConnectionItem(title: "Polkadot, Parity node",
 //                           url: URL(string: "wss://rpc.polkadot.io")!,
-//                           type: SNAddressType.polkadotMain),
+//                           type: SNAddressType.genericSubstrate),
             ConnectionItem(title: "Polkadot, Web3 Foundation node",
                            url: URL(string: "wss://testnet.uniarts.me")!,
-                           type: SNAddressType.polkadotMain),
+                           type: SNAddressType.genericSubstrate),
             ConnectionItem(title: "Westend, Parity node",
                            url: URL(string: "wss://testnet.uniarts.me")!,
                            type: SNAddressType.genericSubstrate),

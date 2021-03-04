@@ -4,7 +4,7 @@ import IrohaCrypto
 extension SNAddressType {
     func titleForLocale(_ locale: Locale) -> String {
         switch self {
-        case .polkadotMain, .polkadotSecondary:
+        case .genericSubstrate, .polkadotSecondary:
             return "Polkadot"
         case .kusamaMain, .kusamaSecondary:
             return "Kusama"
@@ -15,7 +15,7 @@ extension SNAddressType {
 
     var icon: UIImage? {
         switch self {
-        case .polkadotMain, .polkadotSecondary:
+        case .genericSubstrate, .polkadotSecondary:
             return UIImage(named: "iconPolkadotSmallBg")
         case .kusamaMain, .kusamaSecondary:
             return UIImage(named: "iconKsmSmallBg")
@@ -25,6 +25,6 @@ extension SNAddressType {
     }
 
     static var supported: [SNAddressType] {
-        [.kusamaMain, .polkadotMain, .genericSubstrate]
+        [.kusamaMain, .genericSubstrate, .genericSubstrate]
     }
 }

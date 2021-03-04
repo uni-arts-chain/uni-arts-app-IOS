@@ -60,6 +60,16 @@ typedef enum
 + (void)netRequestPostUploadParameters:(id)reqPar respondParameters:(id)rspPar fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
 
+/// 文件上传 并完成Post 请求 身份核验
+/// @param reqPar 请求参数
+/// @param rspPar 请求应答
+/// @param parasName 请求参数 文件名
+/// @param fileName 文件名称
+/// @param fileData 文件数据
+/// @param callBackBlock 请求回调
++ (void)netRequestPostUploadParameters:(id)reqPar respondParameters:(id)rspPar paramsName:(NSString *)parasName fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
+
+
 /// 文件上传 多个图片
 /// @param reqPar 请求参数
 /// @param rspPar 请求应答
@@ -67,6 +77,14 @@ typedef enum
 /// @param fileDataArray 文件数据数组
 /// @param callBackBlock 请求回调
 + (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
+
+/// 文件上传 多个图片
+/// @param reqPar 请求参数
+/// @param rspPar 请求应答
+/// @param fileNameArray 文件名称数组
+/// @param fileDataArray 文件数据数组
+/// @param callBackBlock 请求回调
++ (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
 + (NSString*)getTimeString;
 + (void)managerHeadBaseConfig:(AFHTTPSessionManager*)manager withTime:(NSString*)nowTime;

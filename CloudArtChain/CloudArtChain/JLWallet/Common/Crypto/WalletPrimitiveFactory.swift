@@ -30,7 +30,7 @@ final class WalletPrimitiveFactory: WalletPrimitiveFactoryProtocol {
         let identifier: String
 
         switch addressType {
-        case .polkadotMain:
+        case .genericSubstrate:
             identifier = WalletAssetId.uniarts.rawValue
             localizableName = LocalizableResource<String> { _ in "UART" }
             platformName = LocalizableResource<String> { _ in "Polkadot" }

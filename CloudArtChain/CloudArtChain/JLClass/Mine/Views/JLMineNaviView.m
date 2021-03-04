@@ -99,7 +99,11 @@
 - (UIButton *)avatarBtn {
     if (!_avatarBtn) {
         _avatarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _avatarBtn.backgroundColor = [UIColor randomColor];
+        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]]) {
+            [_avatarBtn sd_setImageWithURL:[NSURL URLWithString:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+        } else {
+            [_avatarBtn setImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"] forState:UIControlStateNormal];
+        }
         [_avatarBtn addTarget:self action:@selector(avatarBtnClick) forControlEvents:UIControlEventTouchUpInside];
         ViewBorderRadius(_avatarBtn, 25.0f, 0.0f, JL_color_clear);
     }
@@ -117,7 +121,7 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCMedium(17.0f);
         _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.text = @"飞翔的北极熊";
+        _nameLabel.text = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.display_name] ? @"未设置昵称" : [AppSingleton sharedAppSingleton].userBody.display_name;
     }
     return _nameLabel;
 }
@@ -146,7 +150,7 @@
 
 - (UIButton *)focusButton {
     if (!_focusButton) {
-        _focusButton = [JLUIFactory buttonInitTitle:@"关注39" titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
+        _focusButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"关注%ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
         _focusButton.contentEdgeInsets = UIEdgeInsetsZero;
         [_focusButton edgeTouchAreaWithTop:10.0f right:10.0f bottom:10.0f left:10.0f];
     }
@@ -169,7 +173,7 @@
 
 - (UIButton *)fansButton {
     if (!_fansButton) {
-        _fansButton = [JLUIFactory buttonInitTitle:@"粉丝112" titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(fansButtonClick)];
+        _fansButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"粉丝%ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(fansButtonClick)];
         _fansButton.contentEdgeInsets = UIEdgeInsetsZero;
         [_fansButton edgeTouchAreaWithTop:10.0f right:10.0f bottom:10.0f left:10.0f];
     }
@@ -180,6 +184,17 @@
     if (self.fansBlock) {
         self.fansBlock();
     }
+}
+
+- (void)refreshInfo {
+    if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]]) {
+        [self.avatarBtn sd_setImageWithURL:[NSURL URLWithString:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    } else {
+        [self.avatarBtn setImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"] forState:UIControlStateNormal];
+    }
+    self.nameLabel.text = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.display_name] ? @"未设置昵称" : [AppSingleton sharedAppSingleton].userBody.display_name;
+    [self.focusButton setTitle:[NSString stringWithFormat:@"关注%ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] forState:UIControlStateNormal];
+    [self.fansButton setTitle:[NSString stringWithFormat:@"粉丝%ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] forState:UIControlStateNormal];
 }
 
 @end

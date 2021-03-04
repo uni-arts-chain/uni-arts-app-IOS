@@ -19,10 +19,11 @@
 @end
 
 @implementation JLDescriptionContentView
-- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder {
+- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder content:(NSString *)content {
     if (self = [super init]) {
         self.maxInput = maxInput;
         self.placeholder = placeholder;
+        self.inputContent = content;
         [self createSubViews];
     }
     return self;
@@ -43,19 +44,18 @@
     }];
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self);
-        make.right.mas_equalTo(-10.0f);
-        make.height.mas_equalTo(28.0f);
+        make.right.mas_equalTo(-12.0f);
+        make.height.mas_equalTo(37.0f);
     }];
     [self.inputNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(8.0f);
-        make.top.mas_equalTo(8.0f);
-        make.right.mas_equalTo(-8.0f);
-        make.bottom.equalTo(self.maxInputLabel.mas_top);
+        make.left.mas_equalTo(12.0f);
+        make.top.mas_equalTo(12.0f);
+        make.right.mas_equalTo(-12.0f);
     }];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0.0f);
-        make.top.mas_equalTo(0.0f);
-        make.right.mas_equalTo(-0.0f);
+        make.left.mas_equalTo(4.0f);
+        make.top.mas_equalTo(4.0f);
+        make.right.mas_equalTo(-4.0f);
         make.bottom.equalTo(self.maxInputLabel.mas_top);
     }];
 
@@ -88,16 +88,10 @@
     if (!_inputNoticeLabel) {
         _inputNoticeLabel = [[UILabel alloc] init];
         _inputNoticeLabel.numberOfLines = 0;
-        _inputNoticeLabel.font = kFontPingFangSCRegular(16.0f);
-        _inputNoticeLabel.textColor = JL_color_gray_909090;
+        _inputNoticeLabel.font = kFontPingFangSCRegular(13.0f);
+        _inputNoticeLabel.textColor = JL_color_gray_BBBBBB;
         _inputNoticeLabel.text = self.placeholder;
-        _inputNoticeLabel.textAlignment = NSTextAlignmentCenter;
-        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-        paragraph.lineSpacing = 10.0f;
-        paragraph.alignment = NSTextAlignmentCenter;
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_inputNoticeLabel.text];
-        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraph} range:NSMakeRange(0, _inputNoticeLabel.text.length)];
-        _inputNoticeLabel.attributedText = attr;
+        _inputNoticeLabel.hidden = ![NSString stringIsEmpty:self.inputContent];
     }
     return _inputNoticeLabel;
 }
@@ -105,12 +99,15 @@
 - (UITextView *)textView {
     if (!_textView) {
         _textView = [[UITextView alloc] init];
-        _textView.font = kFontPingFangSCRegular(16.0f);
+        _textView.font = kFontPingFangSCRegular(13.0f);
         _textView.textContainer.lineFragmentPadding = 10.0f;
         _textView.backgroundColor = JL_color_clear;
         _textView.delegate = self;
         _textView.textColor  = JL_color_gray_101010;
         _textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        if (![NSString stringIsEmpty:self.inputContent]) {
+            _textView.text = self.inputContent;
+        }
     }
     return _textView;
 }
@@ -153,8 +150,8 @@
 - (UILabel *)maxInputLabel {
     if (!_maxInputLabel) {
         _maxInputLabel = [[UILabel alloc] init];
-        _maxInputLabel.font = kFontPingFangSCRegular(14.0f);
-        _maxInputLabel.textColor = JL_color_gray_909090;
+        _maxInputLabel.font = kFontPingFangSCRegular(13.0f);
+        _maxInputLabel.textColor = JL_color_gray_BBBBBB;
         _maxInputLabel.text = [NSString stringWithFormat:@"0/%ld", self.maxInput];
     }
     return _maxInputLabel;

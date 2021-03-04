@@ -23,10 +23,11 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
         resolver.navigation?.push(amountView.controller)
     }
     
-    func send(to payload: TransferPayload, call: ScaleCodable) -> TransferViewController? {
+    func send(to payload: TransferPayload, call: ScaleCodable, callIndex: UInt8) -> TransferViewController? {
         guard let amountView = TransferAssembly.assembleView(with: resolver,
                                                              payload: payload,
-                                                             call: call) else {
+                                                             call: call,
+                                                             callIndex: callIndex) else {
             return nil
         }
         (amountView as! TransferViewController).loadView()

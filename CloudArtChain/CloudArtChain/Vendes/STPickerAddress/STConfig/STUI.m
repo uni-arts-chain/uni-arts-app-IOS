@@ -9,7 +9,7 @@
 CGFloat const STMarginSmall = 5;
 
 /** 2.统一的间距 10*/
-CGFloat const STMargin = 10;
+CGFloat const STMargin = 16.0f;
 
 /** 3.统一的较大间距 16*/
 CGFloat const STMarginBig = 16;
@@ -21,5 +21,5 @@ CGFloat const STNavigationBarY = 64;
 CGFloat const STControlSystemHeight = 44;
 
 /** 6.控件的普通高度 36*/
-CGFloat const STControlNormalHeight = 36;
+CGFloat const STControlNormalHeight = 28.0f;
 

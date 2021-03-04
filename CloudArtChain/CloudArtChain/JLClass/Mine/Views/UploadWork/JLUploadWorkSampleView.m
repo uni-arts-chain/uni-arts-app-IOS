@@ -69,7 +69,7 @@
 - (UIImageView *)firstImageView {
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
-        _firstImageView.backgroundColor = [UIColor randomColor];
+        _firstImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg1"];
         ViewBorderRadius(_firstImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _firstImageView;
@@ -78,7 +78,7 @@
 - (UIImageView *)secondImageView {
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
-        _secondImageView.backgroundColor = [UIColor randomColor];
+        _secondImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg2"];
         ViewBorderRadius(_secondImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _secondImageView;
@@ -87,7 +87,7 @@
 - (UIImageView *)thirdImageView {
     if (!_thirdImageView) {
         _thirdImageView = [[UIImageView alloc] init];
-        _thirdImageView.backgroundColor = [UIColor randomColor];
+        _thirdImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg3"];
         ViewBorderRadius(_thirdImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _thirdImageView;

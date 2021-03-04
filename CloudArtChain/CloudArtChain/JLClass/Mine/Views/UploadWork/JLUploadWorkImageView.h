@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkImageView : JLBaseView
 @property (nonatomic, strong) UIViewController *controller;
+- (NSArray *)getImageArray;
 @end
 
 NS_ASSUME_NONNULL_END

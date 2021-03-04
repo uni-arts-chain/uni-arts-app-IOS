@@ -29,6 +29,7 @@
 
 
 - (void)createSubViews {
+    WS(weakSelf)
     [self addSubview:self.titleLabel];
     [self addSubview:self.inputTF];
     [self addSubview:self.lineView];
@@ -41,10 +42,10 @@
         make.width.mas_equalTo(75.0f);
     }];
     [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-40.0f);
+        make.right.mas_equalTo(-15.0f);
         make.bottom.equalTo(self);
         make.height.mas_equalTo(16.0f);
-        make.width.mas_equalTo(16.0f);
+        make.width.mas_equalTo(50.0f);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self);
@@ -56,6 +57,22 @@
         make.left.right.equalTo(self.lineView);
         make.bottom.equalTo(self.lineView.mas_top);
         make.top.equalTo(self);
+    }];
+    
+    [self.inputTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
+        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
+            UITextRange *selectedRange = [weakSelf.inputTF markedTextRange];
+            UITextPosition *position = [weakSelf.inputTF positionFromPosition:selectedRange.start offset:0];
+            if (!position) {
+                NSString *result = [JLUtils trimSpace:x];
+                weakSelf.inputTF.text = result;
+                weakSelf.inputContent = result;
+            }
+        } else {
+            NSString *result = [JLUtils trimSpace:x];
+            weakSelf.inputTF.text = result;
+            weakSelf.inputContent = result;
+        }
     }];
 }
 
@@ -90,7 +107,7 @@
 
 - (UILabel *)unitLabel {
     if (!_unitLabel) {
-        _unitLabel = [JLUIFactory labelInitText:@"元" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _unitLabel = [JLUIFactory labelInitText:@"UART" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _unitLabel;
 }

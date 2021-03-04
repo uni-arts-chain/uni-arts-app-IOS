@@ -33,3 +33,13 @@
 }
 @end
 // ==========================================================
+#pragma mark /members/change_user_info 修改用户信息
+@implementation Model_members_change_user_info_Req
+
+@end
+@implementation Model_members_change_user_info_Rsp
+- (NSString *)interfacePath {
+    return @"members/change_user_info";
+}
+@end
+// ==========================================================

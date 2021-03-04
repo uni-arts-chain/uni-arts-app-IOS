@@ -16,7 +16,7 @@ protocol DataProviderFactoryProtocol: class {
         throws -> SingleValueProvider<WithdrawMetaData>
     func createTransferMetadataProvider(for assetId: String, receiver: String)
         throws -> SingleValueProvider<TransferMetaData>
-    func createTransferMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?)
+    func createTransferMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?, callIndex: UInt8)
         throws -> SingleValueProvider<TransferMetaData>
 }
 
@@ -177,13 +177,13 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
                                    serialSyncQueue: DataProviderFactory.transferMetadataQueue)
     }
     
-    func createTransferMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?)
+    func createTransferMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?, callIndex: UInt8)
         throws -> SingleValueProvider<TransferMetaData> {
         let info = TransferMetadataInfo(assetId: assetId,
                                         sender: accountSettings.accountId,
                                         receiver: receiver)
         let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
-            let operation = self.networkOperationFactory.transferMetadataOperation(info, call)
+            let operation = self.networkOperationFactory.transferMetadataOperation(info, call, callIndex)
             return operation
         }
 

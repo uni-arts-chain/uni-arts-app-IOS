@@ -16,6 +16,12 @@
 #import "JLUploadWorkDescriptionView.h"
 #import "JLUploadWorkDetailView.h"
 #import "JLUploadWorkMoneyInputView.h"
+#import "JLDatePicker.h"
+#import "JLPickerView.h"
+
+#import "NSDate+Extension.h"
+#import "UIAlertController+Alert.h"
+#import "UIImage+JLTool.h"
 
 
 @interface JLUploadWorkViewController ()
@@ -38,9 +44,27 @@
 @property (nonatomic, strong) JLUploadWorkDetailView *secondDetailView;
 @property (nonatomic, strong) UILabel *otherInfoTitleLabel;
 @property (nonatomic, strong) JLUploadWorkMoneyInputView *priceView;
-@property (nonatomic, strong) JLUploadWorkMoneyInputView *freightView;
+//@property (nonatomic, strong) JLUploadWorkMoneyInputView *freightView;
 
 @property (nonatomic, strong) UIButton *confirmUploadBtn;
+
+// 分类
+@property (nonatomic, strong) NSArray *tempCateArray;
+@property (nonatomic, assign) NSInteger currentSelectedCateIndex;
+@property (nonatomic, strong) Model_arts_categories_Data *currentSelectedCateData;
+
+// 主题
+@property (nonatomic, strong) NSArray *tempThemeArray;
+@property (nonatomic, assign) NSInteger currentSelectedThemeIndex;
+@property (nonatomic, strong) Model_arts_themes_Data *currentSelectedThemeData;
+
+// 材质
+@property (nonatomic, strong) NSArray *tempMaterialArray;
+@property (nonatomic, assign) NSInteger currentSelectedMaterialIndex;
+@property (nonatomic, strong) Model_arts_materials_Data *currentSelectedMaterialData;
+
+// 创作时间
+@property (nonatomic, strong) NSDate *productDate;
 @end
 
 @implementation JLUploadWorkViewController
@@ -89,7 +113,7 @@
     [self.scrollView addSubview:self.secondDetailView];
     [self.scrollView addSubview:self.otherInfoTitleLabel];
     [self.scrollView addSubview:self.priceView];
-    [self.scrollView addSubview:self.freightView];
+//    [self.scrollView addSubview:self.freightView];
     
     [self.basicInfoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -186,17 +210,17 @@
         make.height.mas_equalTo(30.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
-    [self.freightView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.scrollView);
-        make.top.equalTo(self.priceView.mas_bottom).offset(20.0f);
-        make.height.mas_equalTo(30.0f);
-        make.width.mas_equalTo(kScreenWidth);
-    }];
+//    [self.freightView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(self.scrollView);
+//        make.top.equalTo(self.priceView.mas_bottom).offset(20.0f);
+//        make.height.mas_equalTo(30.0f);
+//        make.width.mas_equalTo(kScreenWidth);
+//    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.freightView.frameBottom + 60.0f);
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.priceView.frameBottom + 60.0f);
 }
 
 - (UIView *)noticeView {
@@ -261,8 +285,18 @@
 
 - (JLUploadWorkSelectView *)categoryView {
     if (!_categoryView) {
+        WS(weakSelf)
         _categoryView = [[JLUploadWorkSelectView alloc] initWithPlaceHolder:@"请选择分类" selectBlock:^{
-            
+            [weakSelf.view endEditing:YES];
+            JLPickerView *pickerView = [[JLPickerView alloc] init];
+            pickerView.dataSource = self.tempCateArray;
+            pickerView.selectIndex = weakSelf.currentSelectedCateData == nil ? 0 : weakSelf.currentSelectedCateIndex;
+            pickerView.selectBlock = ^(NSInteger index, NSString *result) {
+                [weakSelf.categoryView setSelectContent:result];
+                weakSelf.currentSelectedCateIndex = index;
+                weakSelf.currentSelectedCateData = [AppSingleton sharedAppSingleton].artCategoryArray[index];
+            };
+            [pickerView showWithAnimation:nil];
         }];
     }
     return _categoryView;
@@ -270,8 +304,18 @@
 
 - (JLUploadWorkSelectView *)themeView {
     if (!_themeView) {
+        WS(weakSelf)
         _themeView = [[JLUploadWorkSelectView alloc] initWithPlaceHolder:@"请选择题材" selectBlock:^{
-            
+            [weakSelf.view endEditing:YES];
+            JLPickerView *pickerView = [[JLPickerView alloc] init];
+            pickerView.dataSource = self.tempThemeArray;
+            pickerView.selectIndex = weakSelf.currentSelectedThemeData == nil ? 0 : weakSelf.currentSelectedThemeIndex;
+            pickerView.selectBlock = ^(NSInteger index, NSString *result) {
+                [weakSelf.themeView setSelectContent:result];
+                weakSelf.currentSelectedThemeIndex = index;
+                weakSelf.currentSelectedThemeData = [AppSingleton sharedAppSingleton].artThemeArray[index];
+            };
+            [pickerView showWithAnimation:nil];
         }];
     }
     return _themeView;
@@ -279,8 +323,18 @@
 
 - (JLUploadWorkSelectView *)materialView {
     if (!_materialView) {
+        WS(weakSelf)
         _materialView = [[JLUploadWorkSelectView alloc] initWithPlaceHolder:@"请选择作品材质" selectBlock:^{
-            
+            [weakSelf.view endEditing:YES];
+            JLPickerView *pickView = [[JLPickerView alloc] init];
+            pickView.dataSource = self.tempMaterialArray;
+            pickView.selectIndex = weakSelf.currentSelectedMaterialData == nil ? 0 : weakSelf.currentSelectedMaterialIndex;
+            pickView.selectBlock = ^(NSInteger index, NSString *result) {
+                [weakSelf.materialView setSelectContent:result];
+                weakSelf.currentSelectedThemeIndex = index;
+                weakSelf.currentSelectedMaterialData = [AppSingleton sharedAppSingleton].artMaterialArray[index];
+            };
+            [pickView showWithAnimation:nil];
         }];
     }
     return _materialView;
@@ -288,8 +342,15 @@
 
 - (JLUploadWorkSelectView *)createDateView {
     if (!_createDateView) {
+        WS(weakSelf)
         _createDateView = [[JLUploadWorkSelectView alloc] initWithPlaceHolder:@"请选择创作时间" selectBlock:^{
-            
+            JLDatePicker *datePicker = [[JLDatePicker alloc] initWithDateStyle:DateStyleShowYearMonth scrollToDate:weakSelf.productDate == nil ? [NSDate date] : weakSelf.productDate CompleteBlock:^(NSDate *selectedDate) {
+                [weakSelf.createDateView setSelectContent:[selectedDate dateWithCustomFormat:@"yyyy年MM月"]];
+                weakSelf.productDate = selectedDate;
+            }];
+            datePicker.newStyle = YES;
+            datePicker.maxLimitDate = [NSDate date];
+            [datePicker show];
         }];
     }
     return _createDateView;
@@ -319,6 +380,7 @@
 - (JLUploadWorkDetailView *)firstDetailView {
     if (!_firstDetailView) {
         _firstDetailView = [[JLUploadWorkDetailView alloc] init];
+        _firstDetailView.controller = self;
     }
     return _firstDetailView;
 }
@@ -326,6 +388,7 @@
 - (JLUploadWorkDetailView *)secondDetailView {
     if (!_secondDetailView) {
         _secondDetailView = [[JLUploadWorkDetailView alloc] init];
+        _secondDetailView.controller = self;
     }
     return _secondDetailView;
 }
@@ -344,12 +407,12 @@
     return _priceView;
 }
 
-- (JLUploadWorkMoneyInputView *)freightView {
-    if (!_freightView) {
-        _freightView = [[JLUploadWorkMoneyInputView alloc] initWithTitle:@"运费"];
-    }
-    return _freightView;
-}
+//- (JLUploadWorkMoneyInputView *)freightView {
+//    if (!_freightView) {
+//        _freightView = [[JLUploadWorkMoneyInputView alloc] initWithTitle:@"运费"];
+//    }
+//    return _freightView;
+//}
 
 - (UIButton *)confirmUploadBtn {
     if (!_confirmUploadBtn) {
@@ -364,6 +427,154 @@
 }
 
 - (void)confirmUploadBtnClick {
-    [self.navigationController popViewControllerAnimated:YES];
+    WS(weakSelf)
+    if ([self.uploadImageView getImageArray].count == 0) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请至少上传一张作品图片" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if ([NSString stringIsEmpty:self.workTitleView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品标题" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (self.currentSelectedCateData == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品分类" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (self.currentSelectedThemeData == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品题材" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (self.currentSelectedMaterialData == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品材质" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (self.productDate == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品创作时间" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if ([NSString stringIsEmpty:self.sizeView.firstInputContent] || [NSString stringIsEmpty:self.sizeView.secondInputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品尺寸" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if ([NSString stringIsEmpty:self.workDetailView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品评析" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (([self.firstDetailView getDetailImage] == nil && [self.secondDetailView getDetailImage] == nil) || (![NSString stringIsEmpty:[self.firstDetailView getDetailDescContent]] && [self.firstDetailView getDetailImage] == nil) || (![NSString stringIsEmpty:[self.secondDetailView getDetailDescContent]] && [self.secondDetailView getDetailImage] == nil)) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请上传作品细节图片" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (([NSString stringIsEmpty:[self.firstDetailView getDetailDescContent]] && [NSString stringIsEmpty:[self.secondDetailView getDetailDescContent]]) || ([NSString stringIsEmpty:[self.firstDetailView getDetailDescContent]] && [self.firstDetailView getDetailImage] != nil) || ([NSString stringIsEmpty:[self.secondDetailView getDetailDescContent]] && [self.secondDetailView getDetailImage] != nil)) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写细节剖析" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品价格" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    NSMutableArray *paramsArray = [NSMutableArray array];
+    NSMutableArray *fileNameArray = [NSMutableArray array];
+    NSMutableArray *fileDataArray = [NSMutableArray array];
+    NSMutableArray *mainFileNameArray = [NSMutableArray array];
+    for (UIImage *image in [self.uploadImageView getImageArray]) {
+        NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+        [mainFileNameArray addObject:fileTimeString];
+    }
+    Model_arts_Req *request = [[Model_arts_Req alloc] init];
+    request.img_main_file1 = mainFileNameArray[0];
+    [paramsArray addObject:@"img_main_file1"];
+    [fileNameArray addObject:mainFileNameArray[0]];
+    [fileDataArray addObject:[UIImage compressOriginalImage:[self.uploadImageView getImageArray][0]]];
+    if (mainFileNameArray.count > 1) {
+        request.img_main_file2 = mainFileNameArray[1];
+        [paramsArray addObject:@"img_main_file2"];
+        [fileNameArray addObject:mainFileNameArray[1]];
+        [fileDataArray addObject:[UIImage compressOriginalImage:[self.uploadImageView getImageArray][1]]];
+    }
+    if (mainFileNameArray.count > 2) {
+        request.img_main_file3 = mainFileNameArray[2];
+        [paramsArray addObject:@"img_main_file3"];
+        [fileNameArray addObject:mainFileNameArray[2]];
+        [fileDataArray addObject:[UIImage compressOriginalImage:[self.uploadImageView getImageArray][2]]];
+    }
+    request.name = self.workTitleView.inputContent;
+    request.category_id = self.currentSelectedCateData.ID;
+    request.theme_id = self.currentSelectedThemeData.ID;
+    request.material_id = self.currentSelectedMaterialData.ID;
+    request.produce_at = @([self.productDate timeIntervalSince1970]).stringValue;
+    request.size_width = self.sizeView.firstInputContent;
+    request.size_length = self.sizeView.secondInputContent;
+    request.details = self.workDetailView.inputContent;
+    
+    NSString *fileDetailTimeStringFirst = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+    request.img_detail_file1 = fileDetailTimeStringFirst;
+    request.img_detail_file1_desc = [NSString stringIsEmpty:[self.firstDetailView getDetailDescContent]] ? [self.secondDetailView getDetailDescContent] : [self.firstDetailView getDetailDescContent];
+    [paramsArray addObject:@"img_detail_file1"];
+    [fileNameArray addObject:fileDetailTimeStringFirst];
+    [fileDataArray addObject:([self.firstDetailView getDetailImage] == nil ? [UIImage compressOriginalImage:[self.secondDetailView getDetailImage]] : [UIImage compressOriginalImage:[self.firstDetailView getDetailImage]])];
+    
+    if ([self.firstDetailView getDetailImage] != nil && [self.secondDetailView getDetailImage] != nil) {
+        NSString *fileDetailTimeStringSecond = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+        request.img_detail_file2 = fileDetailTimeStringSecond;
+        request.img_detail_file2_desc = [self.secondDetailView getDetailDescContent];
+        [paramsArray addObject:@"img_detail_file2"];
+        [fileNameArray addObject:fileDetailTimeStringSecond];
+        [fileDataArray addObject:[UIImage compressOriginalImage:[self.secondDetailView getDetailImage]]];
+    }
+    request.price = self.priceView.inputContent;
+    Model_arts_Rsp *response = [[Model_arts_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestUploadImagesParameters:request respondParameters:response paramsNames:[paramsArray copy] fileNames:[fileNameArray copy] fileData:[fileDataArray copy] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            } confirm:@"去查看" confirmHandler:^{
+                if (weakSelf.checkProcessBlock) {
+                    weakSelf.checkProcessBlock();
+                } else {
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+            [self presentViewController:alert animated:YES completion:nil];
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
+- (NSArray *)tempCateArray {
+    if (!_tempCateArray) {
+        NSMutableArray *cateArray = [NSMutableArray array];
+        for (Model_arts_categories_Data *cateData in [AppSingleton sharedAppSingleton].artCategoryArray) {
+            [cateArray addObject:cateData.title];
+        }
+        _tempCateArray = [cateArray copy];
+    }
+    return _tempCateArray;
+}
+
+- (NSArray *)tempThemeArray {
+    if (!_tempThemeArray) {
+        NSMutableArray *themeArray = [NSMutableArray array];
+        for (Model_arts_themes_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
+            [themeArray addObject:themeData.title];
+        }
+        _tempThemeArray = [themeArray copy];
+    }
+    return _tempThemeArray;
+}
+
+- (NSArray *)tempMaterialArray {
+    if (!_tempMaterialArray) {
+        NSMutableArray *materialArray = [NSMutableArray array];
+        for (Model_arts_materials_Data *materialData in [AppSingleton sharedAppSingleton].artMaterialArray) {
+            [materialArray addObject:materialData.title];
+        }
+        _tempMaterialArray = [materialArray copy];
+    }
+    return _tempMaterialArray;
 }
 @end

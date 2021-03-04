@@ -11,10 +11,10 @@
 @interface JLWorkListNotListCell ()
 @property (nonatomic, strong) UIView *centerView;
 @property (nonatomic, strong) UIButton *addToListBtn;
+@property (nonatomic, strong) UIButton *applyAuctionBtn;
 @property (nonatomic, strong) UIButton *applyAddCertBtn;
+@property (nonatomic, strong) UILabel *applyAddCertStatusLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
-@property (nonatomic, strong) UIButton *applyCertBtn;
-@property (nonatomic, strong) UIButton *reapplyCertBtn;
 @end
 
 @implementation JLWorkListNotListCell
@@ -28,19 +28,38 @@
 - (void)createSubViews {
     [self addSubview:self.centerView];
     [self.centerView addSubview:self.addToListBtn];
+    [self.centerView addSubview:self.applyAuctionBtn];
     [self.centerView addSubview:self.applyAddCertBtn];
+    [self.centerView addSubview:self.applyAddCertStatusLabel];
+    
+    [self.contentView addSubview:self.statusLabel];
     
     [self.centerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-15.0f);
         make.left.equalTo(self.addressLabel.mas_right);
-        make.centerY.equalTo(self);
+        make.top.mas_equalTo(20.0f);
+        make.bottom.mas_equalTo(-20.0f);
     }];
     [self.addToListBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.top.equalTo(self.centerView);
     }];
+    [self.applyAuctionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.centerView);
+        make.top.equalTo(self.addToListBtn.mas_bottom);
+        make.height.equalTo(self.addToListBtn.mas_height);
+    }];
     [self.applyAddCertBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.applyAuctionBtn.mas_bottom);
         make.right.bottom.equalTo(self.centerView);
-        make.top.equalTo(self.addToListBtn.mas_bottom).offset(5.0f);
+        make.height.equalTo(self.applyAuctionBtn.mas_height);
+    }];
+    [self.applyAddCertStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.applyAuctionBtn.mas_bottom);
+        make.right.bottom.equalTo(self.centerView);
+        make.height.equalTo(self.applyAuctionBtn.mas_height);
+    }];
+    [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.centerView);
     }];
 }
 
@@ -63,7 +82,26 @@
 }
 
 - (void)addToListBtnClick {
-    
+    if (self.addToListBlock) {
+        self.addToListBlock(self.artDetailData);
+    }
+}
+
+- (UIButton *)applyAuctionBtn {
+    if (!_applyAuctionBtn) {
+        _applyAuctionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_applyAuctionBtn setTitle:@"发起拍卖" forState:UIControlStateNormal];
+        [_applyAuctionBtn setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
+        _applyAuctionBtn.titleLabel.font = kFontPingFangSCRegular(14.0f);
+        [_applyAuctionBtn addTarget:self action:@selector(applyAuctionBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _applyAuctionBtn;
+}
+
+- (void)applyAuctionBtnClick {
+    if (self.applyAuctionBlock) {
+        self.applyAuctionBlock(self.artDetailData);
+    }
 }
 
 - (UIButton *)applyAddCertBtn {
@@ -78,43 +116,39 @@
 }
 
 - (void)applyAddCertBtnClick {
-    
+    if (self.applyAddCertBlock) {
+        self.applyAddCertBlock(self.artDetailData);
+    }
+}
+
+- (UILabel *)applyAddCertStatusLabel {
+    if (!_applyAddCertStatusLabel) {
+        _applyAddCertStatusLabel = [JLUIFactory labelInitText:@"加签审核中" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_BBBBBB textAlignment:NSTextAlignmentRight];
+        _applyAddCertStatusLabel.hidden = YES;
+    }
+    return _applyAddCertStatusLabel;
 }
 
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
-        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_BBBBBB textAlignment:NSTextAlignmentRight];
+        _statusLabel = [JLUIFactory labelInitText:@"上传审核中" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_BBBBBB textAlignment:NSTextAlignmentRight];
+        _statusLabel.hidden = YES;
     }
     return _statusLabel;
 }
 
-- (UIButton *)applyCertBtn {
-    if (!_applyCertBtn) {
-        _applyCertBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_applyCertBtn setTitle:@"申请证书" forState:UIControlStateNormal];
-        [_applyCertBtn setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
-        _applyCertBtn.titleLabel.font = kFontPingFangSCRegular(14.0f);
-        [_applyCertBtn addTarget:self action:@selector(applyCertBtnClick) forControlEvents:UIControlEventTouchUpInside];
+- (void)setArtDetail:(Model_art_Detail_Data *)artDetailData {
+    if ([artDetailData.aasm_state isEqualToString:@"prepare"]) {
+        self.statusLabel.hidden = NO;
+        self.addToListBtn.hidden = YES;
+        self.applyAuctionBtn.hidden = YES;
+        self.applyAddCertBtn.hidden = YES;
+        self.applyAddCertStatusLabel.hidden = YES;
+    } else {
+        self.statusLabel.hidden = YES;
+        self.addToListBtn.hidden = NO;
+        self.applyAuctionBtn.hidden = NO;
+        self.applyAddCertBtn.hidden = NO;
     }
-    return _applyCertBtn;
-}
-
-- (void)applyCertBtnClick {
-    
-}
-
-- (UIButton *)reapplyCertBtn {
-    if (!_reapplyCertBtn) {
-        _reapplyCertBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_reapplyCertBtn setTitle:@"重新申请" forState:UIControlStateNormal];
-        [_reapplyCertBtn setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
-        _reapplyCertBtn.titleLabel.font = kFontPingFangSCRegular(14.0f);
-        [_reapplyCertBtn addTarget:self action:@selector(reapplyCertBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _reapplyCertBtn;
-}
-
-- (void)reapplyCertBtnClick {
-    
 }
 @end

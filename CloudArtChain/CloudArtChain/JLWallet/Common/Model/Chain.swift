@@ -11,7 +11,7 @@ extension Chain {
     var addressType: SNAddressType {
         switch self {
         case .uniarts:
-            return .polkadotMain
+            return .genericSubstrate
         case .kusama:
             return .kusamaMain
         case .westend:
@@ -28,9 +28,14 @@ extension Chain {
             return 4
         }
     }
+    
+    var nftModuleIndex: UInt8 {
+        return 29
+    }
 
-//    var transferCallIndex: UInt8 { 0 }
-    var transferCallIndex: UInt8 { 19 }
+    var transferCallIndex: UInt8 { 0 }
+    var createSaleOrderCallIndex: UInt8 { 19 }
+    var cancelSaleOrderCallIndex: UInt8 { 20 }
 
     var keepAliveTransferCallIndex: UInt8 { 3 }
 }

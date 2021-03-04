@@ -71,6 +71,8 @@
 @property (nonatomic, assign) BOOL follow_by_me;
 @property (nonatomic, assign) NSInteger favorite_art_size;
 @property (nonatomic, assign) NSInteger art_size;
+@property (nonatomic, strong) NSString *residential_address;
+@property (nonatomic, strong) NSString *college;
 
 //Cha***@outlook.com
 - (NSString*)getUserDisplayName;

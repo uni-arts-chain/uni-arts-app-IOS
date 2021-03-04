@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JLWorksListViewController : UIViewController
 @property (nonatomic, assign) JLWorkListType workListType;
 @property (nonatomic, strong) JLPagetableView *tableView;
+@property (nonatomic, copy) void(^addToListBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData);
+- (void)addToBiddingList:(Model_art_Detail_Data *)artDetailData;
+- (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData;
 @end
 
 NS_ASSUME_NONNULL_END

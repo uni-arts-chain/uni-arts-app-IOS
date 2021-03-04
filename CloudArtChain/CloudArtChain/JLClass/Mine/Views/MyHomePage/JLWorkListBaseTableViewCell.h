@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLWorkListBaseTableViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
 
 NS_ASSUME_NONNULL_END

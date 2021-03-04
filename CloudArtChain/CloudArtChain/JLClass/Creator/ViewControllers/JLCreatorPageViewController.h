@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCreatorPageViewController : JLBaseViewController
 @property (nonatomic, strong) Model_art_author_Data *authorData;
+@property (nonatomic, copy) void(^cancelFollowBlock)(Model_art_author_Data *authorData);
 @end
 
 NS_ASSUME_NONNULL_END
