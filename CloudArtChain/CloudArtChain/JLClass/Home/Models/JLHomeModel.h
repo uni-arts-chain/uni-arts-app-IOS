@@ -170,6 +170,7 @@
 @property (nonatomic, assign) NSInteger dislike_count;
 @property (nonatomic, assign) NSInteger favorite_count;
 @property (nonatomic, assign) NSInteger signature_count;
+@property (nonatomic, strong) NSString *last_sign_at;
 
 @property (nonatomic, assign) CGFloat imgHeight; //单张图片高度
 @end
@@ -276,5 +277,71 @@
 @interface Model_art_unfavorite_Rsp : Model_Rsp_V1
 @property (nonatomic, strong) Model_art_unfavorite_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/my_signatures 个人签名的艺术作品
+@interface Model_arts_my_signatures_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_my_signatures_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /organizations 机构列表
+@protocol Model_organizations_Data @end
+@interface Model_organizations_Data : Model_Interface
+@property (nonatomic, strong) NSString *ID;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSDictionary *img_file;
+@property (nonatomic, strong) NSString *aasm_state;
+@property (nonatomic, strong) NSString *fee;
+@property (nonatomic, strong) NSString *signature_count;
+@end
+@interface Model_organizations_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_organizations_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_organizations_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/applying_signatures 申请机构签名艺术作品列表
+@interface Model_arts_applying_signatures_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_applying_signatures_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/apply_signature 申请签名（加签）艺术作品
+@interface Model_arts_apply_signature_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@property (nonatomic, strong) NSString *organization_name;
+@property (nonatomic, strong) NSString *memo;
+@end
+@interface Model_arts_apply_signature_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_arts_apply_signature_Req *request;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/available_signature_arts 可以签名的艺术作品
+@interface Model_arts_available_signature_arts_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+/** 机构名称 */
+@property (nonatomic, strong) NSString *organization_name;
+@end
+@interface Model_arts_available_signature_arts_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////

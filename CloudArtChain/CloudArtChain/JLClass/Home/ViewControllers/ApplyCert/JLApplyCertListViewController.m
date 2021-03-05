@@ -32,9 +32,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"申请证书";
     [self addBackItem];
-    self.selfSignArray = @[@"", @"", @"", @""];
-    self.mechanismArray = @[@"", @""];
     [self createSubViews];
+    [self requsetSelfSignArtsList];
 }
 
 - (void)createSubViews {
@@ -110,7 +109,7 @@
     if (indexPath.section == 0) {
         if (self.selfSignArray.count > 0) {
             JLApplyCertSelfSignCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLApplyCertSelfSignCell" forIndexPath:indexPath];
-            [cell setIndex:indexPath.row total:[self tableView:tableView numberOfRowsInSection:indexPath.section]];
+            [cell setIndex:indexPath.row total:[self tableView:tableView numberOfRowsInSection:indexPath.section] artDetailData:self.selfSignArray[indexPath.row]];
             return cell;
         } else {
             JLApplyCertNoDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLApplyCertNoDataCell" forIndexPath:indexPath];
@@ -120,7 +119,7 @@
     } else {
         if (self.mechanismArray.count > 0) {
             JLApplyCertMechanismSignCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLApplyCertMechanismSignCell" forIndexPath:indexPath];
-            [cell setIndex:indexPath.row total:[self tableView:tableView numberOfRowsInSection:indexPath.section]];
+            [cell setIndex:indexPath.row total:[self tableView:tableView numberOfRowsInSection:indexPath.section] organizationData:self.mechanismArray[indexPath.row]];
             return cell;
         } else {
             JLApplyCertNoDataCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLApplyCertNoDataCell" forIndexPath:indexPath];
@@ -153,22 +152,22 @@
         make.left.mas_equalTo(15.0f);
         make.bottom.equalTo(headerView);
     }];
-    if (section == 0) {
-        // 添加申请证书按钮
-        UIButton *applyCertBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [applyCertBtn setTitle:@"申请证书" forState:UIControlStateNormal];
-        [applyCertBtn setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
-        applyCertBtn.titleLabel.font = kFontPingFangSCRegular(13.0f);
-        [applyCertBtn setImage:[UIImage imageNamed:@"icon_applycert_arrowapply"] forState:UIControlStateNormal];
-        applyCertBtn.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
-        applyCertBtn.axcUI_padding = 8.0f;
-        [headerView addSubview:applyCertBtn];
-        [applyCertBtn addTarget:self action:@selector(applyCertBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [applyCertBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(headerView).offset(-23.0f);
-            make.centerY.equalTo(titleLabel.mas_centerY);
-        }];
-    }
+//    if (section == 0) {
+//        // 添加申请证书按钮
+//        UIButton *applyCertBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [applyCertBtn setTitle:@"申请证书" forState:UIControlStateNormal];
+//        [applyCertBtn setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
+//        applyCertBtn.titleLabel.font = kFontPingFangSCRegular(13.0f);
+//        [applyCertBtn setImage:[UIImage imageNamed:@"icon_applycert_arrowapply"] forState:UIControlStateNormal];
+//        applyCertBtn.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
+//        applyCertBtn.axcUI_padding = 8.0f;
+//        [headerView addSubview:applyCertBtn];
+//        [applyCertBtn addTarget:self action:@selector(applyCertBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [applyCertBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(headerView).offset(-23.0f);
+//            make.centerY.equalTo(titleLabel.mas_centerY);
+//        }];
+//    }
     return headerView;
 }
 
@@ -215,11 +214,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && self.selfSignArray.count > 0) {
+        Model_art_Detail_Data *artDetailData = self.selfSignArray[indexPath.row];
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailType = JLArtDetailTypeSelfOrOffShelf;
+        artDetailVC.artDetailData = artDetailData;
+        artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         [self.navigationController pushViewController:artDetailVC animated:YES];
     } else if(indexPath.section == 1 && self.mechanismArray.count > 0) {
         JLApplyCertMechanismDetailViewController *mechanismDetailVC = [[JLApplyCertMechanismDetailViewController alloc] init];
+        mechanismDetailVC.organizationData = self.mechanismArray[indexPath.row];
         [self.navigationController pushViewController:mechanismDetailVC animated:YES];
     }
 }
@@ -244,4 +246,43 @@
     }
     return _arrowImageView;
 }
+
+#pragma mark 请求我的签名作品
+- (void)requsetSelfSignArtsList {
+    WS(weakSelf)
+    Model_arts_my_signatures_Req *request = [[Model_arts_my_signatures_Req alloc] init];
+    request.page = 1;
+    request.per_page = 99999;
+    Model_arts_my_signatures_Rsp *response = [[Model_arts_my_signatures_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.selfSignArray = response.body;
+        } else {
+            NSLog(@"error: %@", errorStr);
+        }
+        [weakSelf requestSignMechanismList];
+    }];
+}
+
+#pragma mark 请求签名机构列表
+- (void)requestSignMechanismList {
+    WS(weakSelf)
+    Model_organizations_Req *request = [[Model_organizations_Req alloc] init];
+    request.page = 1;
+    request.per_page = 99999;
+    Model_organizations_Rsp *response = [[Model_organizations_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.mechanismArray = response.body;
+            [weakSelf.tableView reloadData];
+        } else {
+            NSLog(@"error: %@", errorStr);
+        }
+    }];
+}
+
 @end

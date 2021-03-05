@@ -92,6 +92,11 @@
                 }
             }];
         };
+        cell.applyAddCertBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            if (weakSelf.applyAddCertBlock) {
+                weakSelf.applyAddCertBlock(artDetailData);
+            }
+        };
         return cell;
     } else if (self.workListType == JLWorkListTypeNotList) {
         JLWorkListNotListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListNotListCell" forIndexPath:indexPath];

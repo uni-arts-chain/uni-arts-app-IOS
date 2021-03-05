@@ -174,3 +174,50 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/my_signatures 个人签名的艺术作品
+@implementation Model_arts_my_signatures_Req
+@end
+@implementation Model_arts_my_signatures_Rsp
+- (NSString *)interfacePath {
+    return @"arts/my_signatures";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /organizations 机构列表
+@implementation Model_organizations_Data : Model_Interface
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_organizations_Req
+@end
+@implementation Model_organizations_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/applying_signatures 申请机构签名艺术作品列表
+@implementation Model_arts_applying_signatures_Req
+@end
+@implementation Model_arts_applying_signatures_Rsp
+- (NSString *)interfacePath {
+    return @"arts/applying_signatures";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/:id/apply_signature 申请签名（加签）艺术作品
+@implementation Model_arts_apply_signature_Req
+@end
+@implementation Model_arts_apply_signature_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"arts/%@/apply_signature", self.request.art_id];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /arts/available_signature_arts 可以签名的艺术作品
+@implementation Model_arts_available_signature_arts_Req
+@end
+@implementation Model_arts_available_signature_arts_Rsp
+- (NSString *)interfacePath {
+    return @"arts/available_signature_arts";
+}
+@end
+//////////////////////////////////////////////////////////////////////////

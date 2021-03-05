@@ -1,22 +1,22 @@
 //
-//  WYImageRectClipViewController.h
-//  smartcampus
+//  JLImageRectClipViewController.h
+//  CloudArtChain
 //
-//  Created by dazhiyunxiao1 on 2019/9/18.
-//  Copyright © 2019 大智云校. All rights reserved.
+//  Created by 朱彬 on 2020/9/17.
+//  Copyright © 2020 朱彬. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WYImageRectClipViewController;
+@class JLImageRectClipViewController;
 
-@protocol WYImageRectClipViewControllerDelegate <NSObject>
-- (void)wyrectClipViewController:(WYImageRectClipViewController *)clipViewController finishClipImage:(UIImage *)editImage;
+@protocol JLImageRectClipViewControllerDelegate <NSObject>
+- (void)jlrectClipViewController:(JLImageRectClipViewController *)clipViewController finishClipImage:(UIImage *)editImage;
 @end
 
-@interface WYImageRectClipViewController : UIViewController {
+@interface JLImageRectClipViewController : UIViewController {
     UIImageView *_imageView;
     UIImage *_image;
     UIView *_overView;
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGRect circularFrame;
 @property (nonatomic, assign) CGRect OriginalFrame;
 @property (nonatomic, assign) CGRect currentFrame;
-@property (nonatomic,   weak) id<WYImageRectClipViewControllerDelegate> delegate;
+@property (nonatomic,   weak) id<JLImageRectClipViewControllerDelegate> delegate;
 
 - (instancetype)initWithImage:(UIImage *)image;
 @end

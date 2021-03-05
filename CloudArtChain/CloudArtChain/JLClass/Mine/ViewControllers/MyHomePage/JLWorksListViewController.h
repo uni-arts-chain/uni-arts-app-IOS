@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) JLPagetableView *tableView;
 @property (nonatomic, copy) void(^addToListBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^applyAddCertBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData);
 - (void)addToBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData;

@@ -13,6 +13,7 @@ import SoraKeystore
 import RobinHood
 import IrohaCrypto
 import SoraFoundation
+import BigInt
 
 private let authorization = UUID().uuidString
 
@@ -325,5 +326,26 @@ extension JLWalletTool {
 
     private var isAuthorizing: Bool {
         return authorizationView != nil
+    }
+}
+
+extension JLWalletTool {
+    @objc func getBlock() -> UInt32 {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: ConnectionItem.defaultConnection.url, logger: logger)
+        
+        let operation = JSONRPCListOperation<SignedBlock>(engine: engine, method: RPCMethod.getChainBlock, parameters: nil)
+
+        operationQueue.addOperations([operation], waitUntilFinished: true)
+        
+        do {
+            let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+            let blockNumberData = try Data(hexString: result.block.header.number)
+            let blockNumber = UInt32(BigUInt(blockNumberData))
+            return blockNumber
+        } catch {
+            return UInt32(Date().timeIntervalSince1970 / 6)
+        }
     }
 }

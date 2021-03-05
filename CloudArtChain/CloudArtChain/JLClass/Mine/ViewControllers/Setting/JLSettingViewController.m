@@ -13,7 +13,7 @@
 #import "JLBindPhoneWithoutPwdViewController.h"
 #import "JLForgetPwdViewController.h"
 #import "JLRealNameAuthVC.h"
-#import "WYImageRectClipViewController.h"
+#import "JLImageRectClipViewController.h"
 #import <AVKit/AVKit.h>
 #import "HVideoViewController.h"
 
@@ -21,7 +21,7 @@
 
 #import "UIImage+JLTool.h"
 
-@interface JLSettingViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYImageRectClipViewControllerDelegate>
+@interface JLSettingViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, JLImageRectClipViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
 @property (nonatomic, strong) UIView *footerView;
@@ -265,7 +265,7 @@
         UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
-    WYImageRectClipViewController *clipView = [[WYImageRectClipViewController alloc] initWithImage:image];
+    JLImageRectClipViewController *clipView = [[JLImageRectClipViewController alloc] initWithImage:image];
     clipView.delegate = self;
     clipView.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.navigationController presentViewController:clipView animated:YES completion:nil];
@@ -278,7 +278,7 @@
     }
 }
 
-- (void)wyrectClipViewController:(WYImageRectClipViewController *)clipViewController finishClipImage:(UIImage *)editImage {
+- (void)jlrectClipViewController:(JLImageRectClipViewController *)clipViewController finishClipImage:(UIImage *)editImage {
     WS(weakSelf);
     [clipViewController dismissViewControllerAnimated:YES completion:^{
         NSString *fileName = [JLNetHelper getTimeString];
@@ -325,7 +325,7 @@
     videoView.takeBlock = ^(id item) {
         [weakVideoView dismissViewControllerAnimated:YES completion:^{
             if ([item isKindOfClass:[UIImage class]]) {
-                WYImageRectClipViewController *clipView = [[WYImageRectClipViewController alloc] initWithImage:item];
+                JLImageRectClipViewController *clipView = [[JLImageRectClipViewController alloc] initWithImage:item];
                 clipView.delegate = weakSelf;
                 clipView.modalPresentationStyle = UIModalPresentationFullScreen;
                 [weakSelf.navigationController presentViewController:clipView animated:YES completion:nil];

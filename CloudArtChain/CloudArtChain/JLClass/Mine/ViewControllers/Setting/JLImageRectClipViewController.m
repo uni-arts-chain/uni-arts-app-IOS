@@ -1,22 +1,21 @@
 //
-//  WYImageRectClipViewController.m
-//  smartcampus
+//  JLImageRectClipViewController.m
+//  CloudArtChain
 //
-//  Created by dazhiyunxiao1 on 2019/9/18.
-//  Copyright © 2019 大智云校. All rights reserved.
+//  Created by 朱彬 on 2020/9/17.
+//  Copyright © 2020 朱彬. All rights reserved.
 //
-
-#import "WYImageRectClipViewController.h"
+#import "JLImageRectClipViewController.h"
 
 static const CGFloat KOriginalImageHeight = 210.0f;
 
-@interface WYImageRectClipViewController ()
+@interface JLImageRectClipViewController ()
 @property (nonatomic, strong) NSArray *orientationArray;
 @property (nonatomic, assign) NSInteger currentOrientationIndex;
 @property (nonatomic, strong) UIImage *originImage;
 @end
 
-@implementation WYImageRectClipViewController
+@implementation JLImageRectClipViewController
 - (NSArray *)orientationArray {
     if (!_orientationArray) {
         _orientationArray = @[@(UIImageOrientationUp), @(UIImageOrientationLeft), @(UIImageOrientationDown), @(UIImageOrientationRight)];
@@ -364,7 +363,7 @@ static const CGFloat KOriginalImageHeight = 210.0f;
 }
 
 - (void)clipBtnSelected {
-    [self.delegate wyrectClipViewController:self finishClipImage:[self getSmallImage]];
+    [self.delegate jlrectClipViewController:self finishClipImage:[self getSmallImage]];
 }
 
 //修复图片显示方向问题

@@ -82,9 +82,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WS(weakSelf)
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = JLArtDetailTypeDetail;
     Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
-    artDetailVC.artDetailData = facorateArtsData.favoritable;
+    Model_art_Detail_Data *artDetailData = facorateArtsData.favoritable;
+    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+    artDetailVC.artDetailData = artDetailData;
     artDetailVC.cancelFavorateBlock = ^{
         [weakSelf.collectionArray removeObjectAtIndex:indexPath.row];
         [weakSelf.collectionView reloadData];

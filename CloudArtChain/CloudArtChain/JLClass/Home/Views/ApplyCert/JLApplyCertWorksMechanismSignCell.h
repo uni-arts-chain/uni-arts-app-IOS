@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLApplyCertWorksMechanismSignCell : UITableViewCell
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 - (void)worksSelected:(BOOL)selected;
 @end
 

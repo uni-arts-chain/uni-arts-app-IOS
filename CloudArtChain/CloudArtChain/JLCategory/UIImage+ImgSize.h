@@ -1,9 +1,9 @@
 //
 //  UIImage+ImgSize.h
-//  smartcampus
+//  CloudArtChain
 //
-//  Created by dazhiyunxiao1 on 2019/4/29.
-//  Copyright © 2019 大智云校. All rights reserved.
+//  Created by 朱彬 on 2020/9/17.
+//  Copyright © 2020 朱彬. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

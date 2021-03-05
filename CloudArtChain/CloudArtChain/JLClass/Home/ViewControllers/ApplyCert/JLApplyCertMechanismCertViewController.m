@@ -17,7 +17,10 @@
 @property (nonatomic, strong) JLBaseTextField *workTF;
 @property (nonatomic, strong) UIView *mechanismView;
 @property (nonatomic, strong) UILabel *mechanismLabel;
+@property (nonatomic, strong) UILabel *feeLabel;
 @property (nonatomic, strong) UIButton *applyBtn;
+
+@property (nonatomic, strong) Model_art_Detail_Data *currentSelectedArtData;
 @end
 
 @implementation JLApplyCertMechanismCertViewController
@@ -32,6 +35,7 @@
 - (void)createSubViews {
     [self.view addSubview:self.selectWorkView];
     [self.view addSubview:self.mechanismView];
+    [self.view addSubview:self.feeLabel];
     [self.view addSubview:self.applyBtn];
     
     [self.selectWorkView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -46,10 +50,16 @@
         make.top.equalTo(self.selectWorkView.mas_bottom).offset(15.0f);
         make.height.mas_equalTo(40.0f);
     }];
-    [self.applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.feeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.right.mas_equalTo(-15.0f);
         make.top.equalTo(self.mechanismView.mas_bottom).offset(33.0f);
+        make.height.mas_equalTo(40.0f);
+    }];
+    [self.applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15.0f);
+        make.right.mas_equalTo(-15.0f);
+        make.top.equalTo(self.feeLabel.mas_bottom);
         make.height.mas_equalTo(46.0f);
     }];
 }
@@ -89,8 +99,14 @@
 }
 
 - (void)selectBtnClick {
+    WS(weakSelf)
     JLSelectWorksViewController *selectWorksVC = [[JLSelectWorksViewController alloc] init];
     selectWorksVC.selectType = JLSelectWorksTypeMechanismAddSign;
+    selectWorksVC.organizationData = self.organizationData;
+    selectWorksVC.selectWorkBlock = ^(Model_art_Detail_Data * _Nonnull artData) {
+        weakSelf.workTF.text = artData.name;
+        weakSelf.currentSelectedArtData = artData;
+    };
     [self.navigationController pushViewController:selectWorksVC animated:YES];
 }
 
@@ -130,9 +146,20 @@
 
 - (UILabel *)mechanismLabel {
     if (!_mechanismLabel) {
-        _mechanismLabel = [JLUIFactory labelInitText:@"南京艺术品鉴定机构" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _mechanismLabel = [JLUIFactory labelInitText:self.organizationData.name font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _mechanismLabel;
+}
+
+- (UILabel *)feeLabel {
+    if (!_feeLabel) {
+        _feeLabel = [UILabel new];
+        _feeLabel.textColor = JL_color_black;
+        _feeLabel.font = kFontPingFangSCRegular(16.0f);
+        _feeLabel.text = [NSString stringWithFormat:@"需支付：%@ UART", self.organizationData.fee];
+        _feeLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _feeLabel;
 }
 
 - (UIButton *)applyBtn {
@@ -145,17 +172,34 @@
 
 - (void)applyBtnClick {
     WS(weakSelf)
-    JLWalletPwdViewController *walletPwdVC = [[JLWalletPwdViewController alloc] init];
-    self.navigationController.definesPresentationContext = YES;
-    walletPwdVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    walletPwdVC.endEditBlock = ^(NSString * _Nonnull pwd) {
-        [JLAlert jlalertDefaultView:@"提示" message:@"已提交申请，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelBlock:^{
-
-        } confirm:@"去查看" confirmBlock:^{
-            JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
-            [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+    if (self.currentSelectedArtData == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择需要签名的作品" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }\
+    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+        Model_arts_apply_signature_Req *request = [[Model_arts_apply_signature_Req alloc] init];
+        request.art_id = self.currentSelectedArtData.ID;
+        request.organization_name = self.organizationData.name;
+        Model_arts_apply_signature_Rsp *response = [[Model_arts_apply_signature_Rsp alloc] init];
+        response.request = request;
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交加签申请" hideTime:KToastDismissDelayTimeInterval];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            }
         }];
-    };
-    [self.navigationController presentViewController:walletPwdVC animated:NO completion:nil];
+    }];
+//    JLWalletPwdViewController *walletPwdVC = [[JLWalletPwdViewController alloc] init];
+//    self.navigationController.definesPresentationContext = YES;
+//    walletPwdVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    walletPwdVC.endEditBlock = ^(NSString * _Nonnull pwd) {
+//
+//    };
+//    [self.navigationController presentViewController:walletPwdVC animated:NO completion:nil];
 }
 @end

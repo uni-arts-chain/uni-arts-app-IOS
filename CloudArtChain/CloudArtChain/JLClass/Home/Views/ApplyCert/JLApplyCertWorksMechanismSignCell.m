@@ -78,7 +78,6 @@
 - (UIImageView *)worksImageView {
     if (!_worksImageView) {
         _worksImageView = [[UIImageView alloc] init];
-        _worksImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_worksImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _worksImageView;
@@ -93,21 +92,21 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"金发夫人" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"布面油画，100.0x100.0cm" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _infoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _infoLabel;
 }
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"证书地址：0xsbd354sdf4240xsbd354sd" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
@@ -130,4 +129,14 @@
 - (void)worksSelected:(BOOL)selected {
     self.selectedImageView.image = selected ? [UIImage imageNamed:@"icon_applycert_works_select_selected"] : [UIImage imageNamed:@"icon_applycert_works_select_normal"];
 }
+
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
+        [self.worksImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+    }
+    self.nameLabel.text = [NSString stringIsEmpty:artDetailData.name] ? @"" : artDetailData.name;
+    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue], artDetailData.size_width, artDetailData.size_length];
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
+}
+
 @end

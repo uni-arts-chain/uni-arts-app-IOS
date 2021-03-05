@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMechanismIntroductionView : JLBaseView
-
+- (instancetype)initWithFrame:(CGRect)frame organizationData:(Model_organizations_Data *)organizationData;
 @end
 
 NS_ASSUME_NONNULL_END

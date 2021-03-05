@@ -70,6 +70,7 @@
 
 - (void)applyCertBtnClick {
     JLApplyCertMechanismCertViewController *mechanismCertVC = [[JLApplyCertMechanismCertViewController alloc] init];
+    mechanismCertVC.organizationData = self.organizationData;
     [self.navigationController pushViewController:mechanismCertVC animated:YES];
 }
 
@@ -86,7 +87,9 @@
 - (UIImageView *)mechanismImageView {
     if (!_mechanismImageView) {
         _mechanismImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.0f, 12.0f, kScreenWidth - 15.0f * 2, 130.0f)];
-        _mechanismImageView.backgroundColor = [UIColor randomColor];
+        if (![NSString stringIsEmpty:self.organizationData.img_file[@"url"]]) {
+            [_mechanismImageView sd_setImageWithURL:[NSURL URLWithString:self.organizationData.img_file[@"url"]]];
+        }
         ViewBorderRadius(_mechanismImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _mechanismImageView;
@@ -95,13 +98,14 @@
 - (JLMechanismDetailView *)mechanismDetailView {
     if (!_mechanismDetailView) {
         _mechanismDetailView = [[JLMechanismDetailView alloc] initWithFrame:CGRectMake(0.0f, self.mechanismImageView.frameBottom, kScreenWidth, 85.0f)];
+        _mechanismDetailView.organizationData = self.organizationData;
     }
     return _mechanismDetailView;
 }
 
 - (JLMechanismIntroductionView *)mechanismIntroductionView {
     if (!_mechanismIntroductionView) {
-        _mechanismIntroductionView = [[JLMechanismIntroductionView alloc] initWithFrame:CGRectMake(0.0f, self.mechanismDetailView.frameBottom, kScreenWidth, 0.0f)];
+        _mechanismIntroductionView = [[JLMechanismIntroductionView alloc] initWithFrame:CGRectMake(0.0f, self.mechanismDetailView.frameBottom, kScreenWidth, 0.0f) organizationData:self.organizationData];
     }
     return _mechanismIntroductionView;
 }

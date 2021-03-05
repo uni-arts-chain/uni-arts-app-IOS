@@ -421,14 +421,17 @@
 - (JLActionTimeView *)actionTimeView {
     if (!_actionTimeView) {
         NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+        UInt32 blockNumber = [[JLViewControllerTool appDelegate].walletTool getBlock];
+        NSTimeInterval auctionStartTimeInterval = (self.artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
+        NSTimeInterval auctionEndTimeInterval = (self.artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
         NSTimeInterval countDownInterval = 0;
         JLActionTimeType timeType = JLActionTimeTypeFinished;
-        if (self.artsData.art.auction_start_time.doubleValue > currentInterval) {
+        if (auctionStartTimeInterval > currentInterval) {
             timeType = JLActionTimeTypeWaiting;
-            countDownInterval = self.artsData.art.auction_start_time.doubleValue - currentInterval;
-        } else if(self.artsData.art.auction_end_time.doubleValue > currentInterval) {
+            countDownInterval = auctionStartTimeInterval - currentInterval;
+        } else if(auctionEndTimeInterval > currentInterval) {
             timeType = JLActionTimeTypeRuning;
-            countDownInterval = self.artsData.art.auction_end_time.doubleValue - currentInterval;
+            countDownInterval = auctionEndTimeInterval - currentInterval;
         }
         _actionTimeView = [[JLActionTimeView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 66.0f) timeType:timeType countDownInterval:countDownInterval];
         _actionTimeView.actionDescBlock = ^{

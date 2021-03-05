@@ -9,12 +9,14 @@
 #import "JLMechanismIntroductionView.h"
 
 @interface JLMechanismIntroductionView ()
+@property (nonatomic, strong) Model_organizations_Data *organizationData;
 @property (nonatomic, strong) UILabel *introductionLabel;
 @end
 
 @implementation JLMechanismIntroductionView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame organizationData:(Model_organizations_Data *)organizationData {
     if (self = [super initWithFrame:frame]) {
+        self.organizationData = organizationData;
         [self createSubViews];
     }
     return self;
@@ -48,7 +50,7 @@
         _introductionLabel.font = kFontPingFangSCRegular(14.0f);
         _introductionLabel.textColor = JL_color_gray_212121;
         _introductionLabel.numberOfLines = 0;
-        _introductionLabel.text = @"中国艺术品评估鉴定中心是国内最具权威的艺术品市场定价评审机构之一，其书画润格评估委员会集聚了一批权威书画家、收藏家、评论家，根据申请人所提供的书画作品的艺术水准、市场综合信息和收藏界评价，对申请的书画作品做出收藏润格认定标准。";
+        _introductionLabel.text = self.organizationData.desc;
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 12.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_introductionLabel.text];

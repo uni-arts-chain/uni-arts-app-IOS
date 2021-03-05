@@ -227,9 +227,10 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.artArray[indexPath.row];
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = JLArtDetailTypeDetail;
-    artDetailVC.artDetailData = self.artArray[indexPath.row];
+    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+    artDetailVC.artDetailData = artDetailData;
     [self.navigationController pushViewController:artDetailVC animated:YES];
 }
 

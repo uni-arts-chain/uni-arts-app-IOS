@@ -252,9 +252,10 @@ NSString *const JLSearchHistory = @"SearchHistory";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.searchResultArray[indexPath.row];
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = JLArtDetailTypeDetail;
-    artDetailVC.artDetailData = self.searchResultArray[indexPath.row];
+    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+    artDetailVC.artDetailData = artDetailData;
     [self.navigationController pushViewController:artDetailVC animated:YES];
 }
 

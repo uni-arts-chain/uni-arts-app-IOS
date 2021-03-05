@@ -10,6 +10,7 @@
 #import "JLWorksListViewController.h"
 #import "JLUploadWorkViewController.h"
 #import "JLArtDetailViewController.h"
+#import "JLApplyCertListViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageHeaderView.h"
@@ -87,6 +88,7 @@
 }
 
 - (NSArray <UIViewController *> *)setupViewControllers {
+    WS(weakSelf)
     NSMutableArray <UIViewController *> *workListVCArray = [NSMutableArray arrayWithCapacity:0];
     [self.titles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JLWorksListViewController *workListVC = [[JLWorksListViewController alloc] init];
@@ -103,9 +105,13 @@
         };
         workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-            artDetailVC.artDetailType = JLArtDetailTypeSelfOrOffShelf;
+            artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
             artDetailVC.artDetailData = artDetailData;
-            [self.navigationController pushViewController:artDetailVC animated:YES];
+            [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+        };
+        workListVC.applyAddCertBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            JLApplyCertListViewController *applyCertListVC = [[JLApplyCertListViewController alloc] init];
+            [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
         };
         [workListVCArray addObject:workListVC];
     }];

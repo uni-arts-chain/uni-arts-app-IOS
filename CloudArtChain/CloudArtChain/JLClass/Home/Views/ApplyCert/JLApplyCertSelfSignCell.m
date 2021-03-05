@@ -8,6 +8,8 @@
 
 #import "JLApplyCertSelfSignCell.h"
 
+#import "NSDate+Extension.h"
+
 @interface JLApplyCertSelfSignCell ()
 @property (nonatomic, strong) UIImageView *worksImageView;
 @property (nonatomic, strong) UIImageView *maskImageView;
@@ -81,7 +83,6 @@
 - (UIImageView *)worksImageView {
     if (!_worksImageView) {
         _worksImageView = [[UIImageView alloc] init];
-        _worksImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_worksImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _worksImageView;
@@ -97,21 +98,21 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"金发夫人" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"证书地址：0000001011101001001..." font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
 
 - (UILabel *)signTimeLabel {
     if (!_signTimeLabel) {
-        _signTimeLabel = [JLUIFactory labelInitText:@"签名时间：2020/08/20 12:35:26" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _signTimeLabel = [JLUIFactory labelInitText:@"签名时间：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _signTimeLabel;
 }
@@ -131,7 +132,14 @@
     return _lineView;
 }
 
-- (void)setIndex:(NSInteger)index total:(NSInteger)total {
+- (void)setIndex:(NSInteger)index total:(NSInteger)total artDetailData:(Model_art_Detail_Data *)artDetailData {
     self.lineView.hidden = (index == total - 1);
+    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
+        [self.worksImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+    }
+    self.nameLabel.text = artDetailData.name;
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
+    NSDate *signDate = [NSDate dateWithTimeIntervalSince1970:artDetailData.last_sign_at.doubleValue];
+    self.signTimeLabel.text = [NSString stringWithFormat:@"签名时间：%@", [signDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"]];
 }
 @end

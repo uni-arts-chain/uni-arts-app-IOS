@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLSelectWorksViewController : JLBaseViewController
 @property (nonatomic, assign) JLSelectWorksType selectType;
-@property (nonatomic,   copy) void(^selectWorkBlock)(NSString *worksName);
+@property (nonatomic,   copy) void(^selectWorkBlock)(Model_art_Detail_Data *artData);
+@property (nonatomic, strong) Model_organizations_Data *organizationData;
 @end
 
 NS_ASSUME_NONNULL_END

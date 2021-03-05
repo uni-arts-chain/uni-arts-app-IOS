@@ -102,7 +102,7 @@ class RPCTest: XCTestCase {
     }
     
     func testAuctionList() throws {
-        try performAuctionList(url: URL(string: "wss://testnet.uniarts.me")!, collectionID: 1, itemID: 67, precision: 12)
+        try performAuctionList(url: URL(string: "wss://testnet.uniarts.me")!, collectionID: 1, itemID: 61, precision: 12)
     }
     
     func performAuctionList(url: URL, collectionID: UInt64, itemID: UInt64, precision: Int16) throws {
@@ -172,6 +172,34 @@ class RPCTest: XCTestCase {
                 return
             }
             print("matadata: \(metaData)")
+
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testGetChainBlock() throws {
+        try getBlock(url: URL(string: "wss://testnet.uniarts.me")!)
+    }
+    
+    func getBlock(url: URL) throws {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+
+        let engine = WebSocketEngine(url: url, logger: logger)
+        
+        let operation = JSONRPCListOperation<SignedBlock>(engine: engine, method: RPCMethod.getChainBlock, parameters: nil)
+
+        operationQueue.addOperations([operation], waitUntilFinished: true)
+
+        // then
+
+        do {
+            let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+            let blockNumberData = try Data(hexString: result.block.header.number)
+            let blockNumber = UInt32(BigUInt(blockNumberData))
+            print(blockNumber)
+            print("getBlock: \(result)")
 
         } catch {
             XCTFail("Unexpected error: \(error)")

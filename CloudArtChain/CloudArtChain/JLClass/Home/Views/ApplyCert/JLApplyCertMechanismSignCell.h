@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLApplyCertMechanismSignCell : UITableViewCell
-- (void)setIndex:(NSInteger)index total:(NSInteger)total;
+- (void)setIndex:(NSInteger)index total:(NSInteger)total organizationData:(Model_organizations_Data *)organizationData;
 @end
 
 NS_ASSUME_NONNULL_END

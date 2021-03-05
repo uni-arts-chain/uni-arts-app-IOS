@@ -252,7 +252,7 @@
         _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f)];
         _popularOriginalView.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-            artDetailVC.artDetailType = JLArtDetailTypeDetail;
+            artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
             artDetailVC.artDetailData = artDetailData;
             [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
         };
@@ -483,7 +483,7 @@
                 themeView.topicData = weakSelf.themeArray[i];
                 themeView.themeRecommendBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
                     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-                    artDetailVC.artDetailType = JLArtDetailTypeDetail;
+                    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                     artDetailVC.artDetailData = artDetailData;
                     [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
                 };

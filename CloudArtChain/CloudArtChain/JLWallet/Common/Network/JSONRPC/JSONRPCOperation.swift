@@ -12,7 +12,7 @@ class JSONRPCOperation<P: Encodable, T: Decodable>: BaseOperation<T> {
     var parameters: P?
     let timeout: Int
 
-    init(engine: JSONRPCEngine, method: String, parameters: P? = nil, timeout: Int = 10) {
+    init(engine: JSONRPCEngine, method: String, parameters: P? = nil, timeout: Int = 60) {
         self.engine = engine
         self.method = method
         self.parameters = parameters

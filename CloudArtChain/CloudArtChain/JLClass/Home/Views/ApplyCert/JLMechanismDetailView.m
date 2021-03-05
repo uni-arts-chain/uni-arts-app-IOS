@@ -54,24 +54,21 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"南京艺术品鉴定机构" font:kFontPingFangSCMedium(17.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(17.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"签名费用：￥99/次" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, 5)];
-        _priceLabel.attributedText = attr;
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
 }
 
 - (UILabel *)timesLabel {
     if (!_timesLabel) {
-        _timesLabel = [JLUIFactory labelInitText:@"已签名：186次" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _timesLabel = [JLUIFactory labelInitText:@"已签名：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _timesLabel;
 }
@@ -82,5 +79,14 @@
         _lineView.backgroundColor = JL_color_gray_DDDDDD;
     }
     return _lineView;
+}
+
+- (void)setOrganizationData:(Model_organizations_Data *)organizationData {
+    self.nameLabel.text = organizationData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"签名费用：%@ UART/次", organizationData.fee];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
+    [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, 5)];
+    self.priceLabel.attributedText = attr;
+    self.timesLabel.text = [NSString stringIsEmpty:organizationData.signature_count] ? @"已签名：" : [NSString stringWithFormat:@"已签名：%@次", organizationData.signature_count];
 }
 @end

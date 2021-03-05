@@ -72,7 +72,6 @@
 - (UIImageView *)mechanismImageView {
     if (!_mechanismImageView) {
         _mechanismImageView = [[UIImageView alloc] init];
-        _mechanismImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_mechanismImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _mechanismImageView;
@@ -80,24 +79,21 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"南京艺术品鉴定机构" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
 - (UILabel *)timesLabel {
     if (!_timesLabel) {
-        _timesLabel = [JLUIFactory labelInitText:@"已签名：186次" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _timesLabel = [JLUIFactory labelInitText:@"已签名：" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _timesLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"签名费用：￥99/次" font:kFontPingFangSCMedium(12.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_priceLabel.text];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(12.0f), NSForegroundColorAttributeName: JL_color_gray_212121} range:NSMakeRange(0, 5)];
-        _priceLabel.attributedText = attr;
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(12.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
     }
     return _priceLabel;
 }
@@ -117,7 +113,16 @@
     return _lineView;
 }
 
-- (void)setIndex:(NSInteger)index total:(NSInteger)total {
+- (void)setIndex:(NSInteger)index total:(NSInteger)total organizationData:(Model_organizations_Data *)organizationData {
     self.lineView.hidden = (index == total - 1);
+    if (![NSString stringIsEmpty:organizationData.img_file[@"url"]]) {
+        [self.mechanismImageView sd_setImageWithURL:[NSURL URLWithString:organizationData.img_file[@"url"]]];
+    }
+    self.nameLabel.text = [NSString stringIsEmpty:organizationData.name] ? @"" : organizationData.name;
+    self.timesLabel.text = [NSString stringIsEmpty:organizationData.signature_count] ? @"已签名：" : [NSString stringWithFormat:@"已签名：%@次", organizationData.signature_count];
+    self.priceLabel.text = [NSString stringWithFormat:@"签名费用：%@ UART/次", organizationData.fee];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
+    [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(12.0f), NSForegroundColorAttributeName: JL_color_gray_212121} range:NSMakeRange(0, 5)];
+    self.priceLabel.attributedText = attr;
 }
 @end

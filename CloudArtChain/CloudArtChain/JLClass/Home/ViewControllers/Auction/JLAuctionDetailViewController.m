@@ -91,7 +91,7 @@
         _productView = [[JLAuctionDetailProductView alloc] initWithFrame:CGRectMake(0.0f, self.titleView .frameBottom, kScreenWidth, 66.0f)];
         _productView.artDetailBlock = ^(Model_auction_meetings_arts_Data * _Nonnull artsData) {
             JLAuctionArtDetailViewController *artDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-            artDetailVC.artDetailType = JLAuctionArtDetailTypeDetail;
+            artDetailVC.artDetailType = [artsData.art.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
             artDetailVC.artsData = artsData;
             [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
         };

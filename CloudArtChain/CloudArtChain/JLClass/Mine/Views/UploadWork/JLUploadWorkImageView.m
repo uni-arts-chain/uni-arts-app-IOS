@@ -8,7 +8,7 @@
 
 #import "JLUploadWorkImageView.h"
 #import "UIAlertController+Alert.h"
-#import "WYImageRectClipViewController.h"
+#import "JLImageRectClipViewController.h"
 #import "SLShotViewController.h"
 #import "SLEditImageController.h"
 

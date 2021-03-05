@@ -595,7 +595,7 @@
 		B31226DC25B6B60B00562ECA /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B312249B25B6B60900562ECA /* MainTabBarViewController.swift */; };
 		B31226DD25B6B60B00562ECA /* MainTabBarWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B312249C25B6B60900562ECA /* MainTabBarWireframe.swift */; };
 		B32060A524FF76E200A1FE70 /* JLChainQueryArtInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B32060A424FF76E200A1FE70 /* JLChainQueryArtInfoView.m */; };
-		B325335E25514D9600877FD0 /* WYImageRectClipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B325335C25514D9600877FD0 /* WYImageRectClipViewController.m */; };
+		B325335E25514D9600877FD0 /* JLImageRectClipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B325335C25514D9600877FD0 /* JLImageRectClipViewController.m */; };
 		B325CD1524FF82E600F931A2 /* JLChainQueryArtCertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B325CD1424FF82E600F931A2 /* JLChainQueryArtCertView.m */; };
 		B325CD1824FF894900F931A2 /* JLSignTradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B325CD1724FF894900F931A2 /* JLSignTradeView.m */; };
 		B325CD1C24FF8C2200F931A2 /* JLPageMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = B325CD1B24FF8C2200F931A2 /* JLPageMenuView.m */; };
@@ -1657,8 +1657,8 @@
 		B312249C25B6B60900562ECA /* MainTabBarWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarWireframe.swift; sourceTree = "<group>"; };
 		B32060A324FF76E200A1FE70 /* JLChainQueryArtInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLChainQueryArtInfoView.h; sourceTree = "<group>"; };
 		B32060A424FF76E200A1FE70 /* JLChainQueryArtInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLChainQueryArtInfoView.m; sourceTree = "<group>"; };
-		B325335C25514D9600877FD0 /* WYImageRectClipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYImageRectClipViewController.m; sourceTree = "<group>"; };
-		B325335D25514D9600877FD0 /* WYImageRectClipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYImageRectClipViewController.h; sourceTree = "<group>"; };
+		B325335C25514D9600877FD0 /* JLImageRectClipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLImageRectClipViewController.m; sourceTree = "<group>"; };
+		B325335D25514D9600877FD0 /* JLImageRectClipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLImageRectClipViewController.h; sourceTree = "<group>"; };
 		B325CD1324FF82E600F931A2 /* JLChainQueryArtCertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLChainQueryArtCertView.h; sourceTree = "<group>"; };
 		B325CD1424FF82E600F931A2 /* JLChainQueryArtCertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLChainQueryArtCertView.m; sourceTree = "<group>"; };
 		B325CD1624FF894900F931A2 /* JLSignTradeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSignTradeView.h; sourceTree = "<group>"; };
@@ -4219,8 +4219,8 @@
 				B35936162511BBE900E2B2FD /* JLModifyNickNameViewController.m */,
 				B359361C2511C44600E2B2FD /* JLPersonalDescriptionViewController.h */,
 				B359361D2511C44600E2B2FD /* JLPersonalDescriptionViewController.m */,
-				B325335D25514D9600877FD0 /* WYImageRectClipViewController.h */,
-				B325335C25514D9600877FD0 /* WYImageRectClipViewController.m */,
+				B325335D25514D9600877FD0 /* JLImageRectClipViewController.h */,
+				B325335C25514D9600877FD0 /* JLImageRectClipViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -6146,7 +6146,7 @@
 				B39655C124F38DBA007A8EC2 /* LZPickTopView.m in Sources */,
 				B31224E325B6B60900562ECA /* Chain+Info.swift in Sources */,
 				B312256825B6B60A00562ECA /* ModalPickerCellProtocol.swift in Sources */,
-				B325335E25514D9600877FD0 /* WYImageRectClipViewController.m in Sources */,
+				B325335E25514D9600877FD0 /* JLImageRectClipViewController.m in Sources */,
 				B31224B425B6B60900562ECA /* AccountId.swift in Sources */,
 				B31226D125B6B60B00562ECA /* AccountManagementProtocols.swift in Sources */,
 				B312267825B6B60A00562ECA /* WalletCompoundDetailsViewModel.swift in Sources */,

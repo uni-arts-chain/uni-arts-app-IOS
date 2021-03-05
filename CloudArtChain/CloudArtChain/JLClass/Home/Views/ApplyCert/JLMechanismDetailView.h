@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMechanismDetailView : JLBaseView
-
+@property (nonatomic, strong) Model_organizations_Data *organizationData;
 @end
 
 NS_ASSUME_NONNULL_END
