@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCreatorWorksCollectionViewCell : UICollectionViewCell
-
+@property (nonatomic, strong) Model_art_Detail_Data *detailData;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -39,3 +39,23 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/artist_topic 置顶艺术家
+@implementation Model_members_artist_topic_Req
+@end
+@implementation Model_members_artist_topic_Rsp
+- (NSString *)interfacePath {
+    return @"members/artist_topic";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /members/pre_artist_topic 往期艺术家推荐
+@implementation Model_members_pre_artist_topic_Data
+@end
+@implementation Model_members_pre_artist_topic_Req
+@end
+@implementation Model_members_pre_artist_topic_Rsp
+- (NSString *)interfacePath {
+    return @"members/pre_artist_topic";
+}
+@end
+//////////////////////////////////////////////////////////////////////////

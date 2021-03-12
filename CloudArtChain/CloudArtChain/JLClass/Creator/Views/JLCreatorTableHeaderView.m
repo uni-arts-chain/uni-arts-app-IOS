@@ -105,7 +105,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.contentView.frameWidth, self.contentView.frameHeight - 40.0f)];
-        _imageView.backgroundColor = [UIColor randomColor];
         [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _imageView;
@@ -130,21 +129,20 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCSCSemibold(17.0f);
         _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.text = @"伍静";
     }
     return _nameLabel;
 }
 
 - (UILabel *)cityLabel {
     if (!_cityLabel) {
-        _cityLabel = [JLUIFactory labelInitText:@"上海" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _cityLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _cityLabel;
 }
 
 - (UILabel *)schoolLabel {
     if (!_schoolLabel) {
-        _schoolLabel = [JLUIFactory labelInitText:@"中央美院油画系" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _schoolLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _schoolLabel;
 }
@@ -159,7 +157,18 @@
 
 - (void)pressBtnClick {
     if (self.headerClickBlock) {
-        self.headerClickBlock();
+        self.headerClickBlock(self.authorData);
     }
 }
+
+- (void)setAuthorData:(Model_art_author_Data *)authorData {
+    _authorData = authorData;
+    if (![NSString stringIsEmpty:authorData.recommend_image[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorData.recommend_image[@"url"]]];
+    }
+    self.nameLabel.text = authorData.display_name;
+    self.cityLabel.text = [NSString stringIsEmpty:authorData.residential_address] ? @"" : authorData.residential_address;
+    self.schoolLabel.text = [NSString stringIsEmpty:authorData.college] ? @"" : authorData.college;
+}
+
 @end

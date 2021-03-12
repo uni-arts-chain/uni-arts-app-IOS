@@ -7069,6 +7069,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
@@ -7135,8 +7136,10 @@
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STIDCardQualityDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/libsodium-ios/lib",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhubin/Desktop/uni-arts-app-IOS/CloudArtChain/CloudArtChain/CloudArtChain-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
@@ -7154,6 +7157,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
@@ -7220,8 +7224,10 @@
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STIDCardQualityDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/libsodium-ios/lib",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/zhubin/Desktop/uni-arts-app-IOS/CloudArtChain/CloudArtChain/CloudArtChain-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";

@@ -136,7 +136,7 @@
         _tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 220.0f)];
         
         UIImageView *backImageView = [[UIImageView alloc] init];
-        backImageView.image = [UIColor randomColor];
+        backImageView.backgroundColor = [UIColor randomColor];
         [_tableHeaderView addSubview:backImageView];
         
         UIView *avatarView = [[UIView alloc] init];

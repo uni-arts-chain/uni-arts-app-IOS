@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCreatorTableViewCell : UITableViewCell
+@property (nonatomic, strong) Model_members_pre_artist_topic_Data *preTopicData;
 @property (nonatomic, strong) UIViewController *viewController;
 @end
 

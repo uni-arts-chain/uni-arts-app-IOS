@@ -91,7 +91,8 @@
 
 #elif (ENV == OL)//正式环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://tatmasglobal.com/"
+//#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://tatmasglobal.com/"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
 
 #endif
 

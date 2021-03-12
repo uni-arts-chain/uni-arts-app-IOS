@@ -44,3 +44,26 @@
 @property (nonatomic, strong) Model_art_author_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/artist_topic 置顶艺术家
+@interface Model_members_artist_topic_Req : Model_Req
+@end
+@interface Model_members_artist_topic_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_art_author_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /members/pre_artist_topic 往期艺术家推荐
+@protocol Model_members_pre_artist_topic_Data @end
+@interface Model_members_pre_artist_topic_Data : Model_Interface
+@property (nonatomic, strong) Model_art_author_Data *member;
+@property (nonatomic, strong) NSArray<Model_art_Detail_Data> *arts;
+@end
+@interface Model_members_pre_artist_topic_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_members_pre_artist_topic_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_members_pre_artist_topic_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCreatorTableHeaderView : JLBaseView
-@property (nonatomic, copy) void(^headerClickBlock)(void);
+@property (nonatomic, strong) Model_art_author_Data *authorData;
+@property (nonatomic, copy) void(^headerClickBlock)(Model_art_author_Data *authorData);
 @end
 
 NS_ASSUME_NONNULL_END

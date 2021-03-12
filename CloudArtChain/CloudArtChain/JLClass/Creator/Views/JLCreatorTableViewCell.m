@@ -21,6 +21,8 @@
 @property (nonatomic, strong) UILabel *worksLabel;
 @property (nonatomic, strong) UIButton *authorInfoDetailBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+@property (nonatomic, strong) NSArray *artsArray;
 @end
 
 @implementation JLCreatorTableViewCell
@@ -120,7 +122,6 @@
 - (UIImageView *)authorAvatarImageView {
     if (!_authorAvatarImageView) {
         _authorAvatarImageView = [[UIImageView alloc] init];
-        _authorAvatarImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_authorAvatarImageView, 20.0f, 0.0f, JL_color_clear);
     }
     return _authorAvatarImageView;
@@ -131,7 +132,6 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCSCSemibold(15.0f);
         _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.text = @"张小飞";
     }
     return _nameLabel;
 }
@@ -141,7 +141,6 @@
         _infoLabel = [[UILabel alloc] init];
         _infoLabel.font = kFontPingFangSCRegular(13.0f);
         _infoLabel.textColor = JL_color_gray_101010;
-        _infoLabel.text = @"出生江苏 毕业于南京艺术学院";
     }
     return _infoLabel;
 }
@@ -152,10 +151,6 @@
         _worksLabel.font = kFontPingFangSCRegular(13.0f);
         _worksLabel.textColor = JL_color_gray_909090;
         _worksLabel.textAlignment = NSTextAlignmentRight;
-        _worksLabel.text = @"作品 12";
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_worksLabel.text];
-        [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(3, _worksLabel.text.length - 3)];
-        _worksLabel.attributedText = attr;
     }
     return _worksLabel;
 }
@@ -170,6 +165,7 @@
 
 - (void)authorInfoDetailBtnClick {
     JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+    creatorPageVC.authorData = self.preTopicData.member;
     [self.viewController.navigationController pushViewController:creatorPageVC animated:YES];
 }
 
@@ -195,17 +191,47 @@
 #pragma mark - UICollectionViewDelegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 10;
+    return self.artsArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     JLCreatorWorksCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLCreatorWorksCollectionViewCell" forIndexPath:indexPath];
+    cell.detailData = self.artsArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.artsArray[indexPath.row];
     JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = JLArtDetailTypeDetail;
+    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+    artDetailVC.artDetailData = artDetailData;
     [self.viewController.navigationController pushViewController:artDetailVC animated:YES];
 }
+
+- (void)setPreTopicData:(Model_members_pre_artist_topic_Data *)preTopicData {
+    _preTopicData = preTopicData;
+    if ([NSString stringIsEmpty:preTopicData.member.avatar[@"url"]]) {
+        self.authorAvatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+    } else {
+        [self.authorAvatarImageView sd_setImageWithURL:[NSURL URLWithString:preTopicData.member.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    }
+    self.nameLabel.text = [NSString stringIsEmpty:preTopicData.member.display_name] ? @"" : preTopicData.member.display_name;
+    self.worksLabel.text = [NSString stringWithFormat:@"作品 %ld", preTopicData.member.art_size];
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_worksLabel.text];
+    [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(3, _worksLabel.text.length - 3)];
+    self.worksLabel.attributedText = attr;
+    NSString *borthDesc = @"";
+    if (![NSString stringIsEmpty:preTopicData.member.residential_address]) {
+        borthDesc = [NSString stringWithFormat:@"现居于%@", preTopicData.member.residential_address];
+    }
+    NSString *colledgeDesc = @"";
+    if (![NSString stringIsEmpty:preTopicData.member.college]) {
+        colledgeDesc = preTopicData.member.college;
+    }
+    self.infoLabel.text = [NSString stringWithFormat:@"%@ %@", borthDesc, colledgeDesc];
+    
+    self.artsArray = preTopicData.arts;
+    [self.collectionView reloadData];
+}
+
 @end

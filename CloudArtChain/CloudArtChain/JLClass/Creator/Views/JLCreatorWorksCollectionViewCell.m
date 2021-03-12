@@ -54,7 +54,6 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
-        _imageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
@@ -65,7 +64,6 @@
         _priceLabel = [[UILabel alloc] init];
         _priceLabel.font = kFontPingFangSCSCSemibold(15.0f);
         _priceLabel.textColor = JL_color_gray_101010;
-        _priceLabel.text = @"¥ 950";
     }
     return _priceLabel;
 }
@@ -75,7 +73,6 @@
         _descLabel = [[UILabel alloc] init];
         _descLabel.font = kFontPingFangSCRegular(13.0f);
         _descLabel.textColor = JL_color_gray_101010;
-        _descLabel.text = @"布画油画，月夜繁星";
     }
     return _descLabel;
 }
@@ -85,8 +82,16 @@
         _addressLabel = [[UILabel alloc] init];
         _addressLabel.font = kFontPingFangSCRegular(13.0f);
         _addressLabel.textColor = JL_color_gray_909090;
-        _addressLabel.text = @"证书地址:0xaqweradfasdfqef909090";
     }
     return _addressLabel;
+}
+
+- (void)setDetailData:(Model_art_Detail_Data *)detailData {
+    if (![NSString stringIsEmpty:detailData.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:detailData.img_main_file1[@"url"]]];
+    }
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", detailData.price];
+    self.descLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(detailData.material_id).stringValue], detailData.name];
+    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", [NSString stringIsEmpty:detailData.item_hash] ? @"" : detailData.item_hash];
 }
 @end

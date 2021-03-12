@@ -3106,11 +3106,11 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconAboutWeb", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconAboutWeb' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconAboutArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconAboutArrow' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconAboutWeb", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconAboutWeb' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AboutDetailsCell', but couldn't be loaded.") }
         }
       }
 
@@ -3189,11 +3189,11 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconDropDown", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconDropDown' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountCreateViewController', but couldn't be loaded.") }
         }
       }
@@ -3210,15 +3210,15 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconEye", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconEye' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconAlert", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconAlert' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconEye", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconEye' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorDarkBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkBlue' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountExportPasswordViewController', but couldn't be loaded.") }
         }
       }
 
@@ -3236,11 +3236,11 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "icon_wallet_import_notice", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_wallet_import_notice' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconDropDown", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconDropDown' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconAlert", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconAlert' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountImportViewController', but couldn't be loaded.") }
         }
       }
@@ -3263,11 +3263,11 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "iconKsm", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsm' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'AccountInfoViewController', but couldn't be loaded.") }
         }
       }
@@ -3287,10 +3287,10 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "iconSmallArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSmallArrow' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconPlus", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconPlus' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'AccountManagementViewController', but couldn't be loaded.") }
         }
       }
@@ -3309,8 +3309,8 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "listCheckmarkIcon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'listCheckmarkIcon' is used in nib 'AccountPickerTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'AccountPickerTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountPickerTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'AccountPickerTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3329,12 +3329,12 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "listCheckmarkIcon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'listCheckmarkIcon' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconInfo", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconInfo' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "listCheckmarkIcon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'listCheckmarkIcon' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
           if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'AccountTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3361,18 +3361,18 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconReceive", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconReceive' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "iconKsmAsset", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmAsset' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "iconBuy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconBuy' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "backgroundImage", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'backgroundImage' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconInfoSend", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconInfoSend' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconSend", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSend' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconKsmAsset", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmAsset' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconReceive", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconReceive' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconBuy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconBuy' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "backgroundImage", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'backgroundImage' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorBlurSeparator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlurSeparator' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorCellSelection", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorCellSelection' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlurSeparator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlurSeparator' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGreen", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGreen' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorCellSelection", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorCellSelection' is used in nib 'AssetDetailsView', but couldn't be loaded.") }
         }
       }
 
@@ -3415,9 +3415,9 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "iconInfo", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconInfo' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "listCheckmarkIcon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'listCheckmarkIcon' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'ConnectionTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3444,14 +3444,14 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "hVideo_cancel_refresh.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_cancel_refresh.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "hVideo_back.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_back.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "btn_video_flip_camera.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn_video_flip_camera.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "hVideo_cancel", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_cancel' is used in nib 'HVideoViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "hVideo_confirm", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_confirm' is used in nib 'HVideoViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "hVideo_take.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_take.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "btn_video_flip_camera.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn_video_flip_camera.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "hVideo_confirm_back.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_confirm_back.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "hVideo_cancel_refresh.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_cancel_refresh.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "hVideo_cancel", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_cancel' is used in nib 'HVideoViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "hVideo_focusing.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_focusing.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "hVideo_take.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_take.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "hVideo_back.png", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'hVideo_back.png' is used in nib 'HVideoViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }
@@ -3470,8 +3470,8 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "iconTxPending", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconTxPending' is used in nib 'HistoryItemTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'HistoryItemTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'HistoryItemTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'HistoryItemTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3505,11 +3505,11 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "listCheckmarkIcon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'listCheckmarkIcon' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'IconWithTitleTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3553,13 +3553,13 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconCopy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconCopy' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconKsm", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsm' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconCopy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconCopy' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'NetworkInfoViewController', but couldn't be loaded.") }
         }
       }
 
@@ -3575,14 +3575,14 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconSmallArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSmallArrow' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconPlus", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconPlus' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconSmallArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSmallArrow' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
           if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'NetworkManagementViewController', but couldn't be loaded.") }
         }
       }
 
@@ -3615,8 +3615,8 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "pinFingerprint", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'pinFingerprint' is used in nib 'PinSetupViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "pinBackspace", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'pinBackspace' is used in nib 'PinSetupViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "pinFingerprint", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'pinFingerprint' is used in nib 'PinSetupViewController', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }
@@ -3638,8 +3638,8 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "iconMore", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconMore' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'ProfileDetailsTableViewCell', but couldn't be loaded.") }
         }
@@ -3674,11 +3674,11 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconSmallArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSmallArrow' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconProfileNetworks", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconProfileNetworks' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconSmallArrow", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSmallArrow' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'ProfileTableViewCell', but couldn't be loaded.") }
         }
       }
 
@@ -3708,12 +3708,12 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "iconInfo", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconInfo' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconMore", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconMore' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'ReceiveHeaderView', but couldn't be loaded.") }
         }
       }
 
@@ -3802,12 +3802,12 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "iconSend", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSend' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
           if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorAlmostBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorAlmostBlack' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'TransactionDetailsAccessoryView', but couldn't be loaded.") }
         }
       }
 
@@ -3845,12 +3845,12 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconReceive", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconReceive' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconBuy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconBuy' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconSend", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconSend' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconReceive", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconReceive' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorBlurSeparator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlurSeparator' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlurSeparator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlurSeparator' is used in nib 'WalletActionsCell', but couldn't be loaded.") }
         }
       }
 
@@ -3890,12 +3890,12 @@ struct _R: Rswift.Validatable {
       static func validate() throws {
         if UIKit.UIImage(named: "iconCopy", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconCopy' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
-          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorHighlightedBlue", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorHighlightedBlue' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGray' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorBlack", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorBlack' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'WalletCompoundDetailsView', but couldn't be loaded.") }
         }
       }
 
@@ -3922,14 +3922,14 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'WalletTokenView', but couldn't be loaded.") }
         if UIKit.UIImage(named: "iconInfoSend", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconInfoSend' is used in nib 'WalletTokenView', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "iconKsmSmallBg", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'iconKsmSmallBg' is used in nib 'WalletTokenView', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
+          if UIKit.UIColor(named: "colorCellSelection", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorCellSelection' is used in nib 'WalletTokenView', but couldn't be loaded.") }
+          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'WalletTokenView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorWhite", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorWhite' is used in nib 'WalletTokenView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorLightGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorLightGray' is used in nib 'WalletTokenView', but couldn't be loaded.") }
           if UIKit.UIColor(named: "colorGreen", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorGreen' is used in nib 'WalletTokenView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorCellSelection", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorCellSelection' is used in nib 'WalletTokenView', but couldn't be loaded.") }
-          if UIKit.UIColor(named: "colorDarkGray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'colorDarkGray' is used in nib 'WalletTokenView', but couldn't be loaded.") }
         }
       }
 

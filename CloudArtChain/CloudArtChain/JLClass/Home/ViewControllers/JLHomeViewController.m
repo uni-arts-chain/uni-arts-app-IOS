@@ -296,7 +296,6 @@
         bannerView.layer.masksToBounds = YES;
         bannerView.layer.cornerRadius = 5.0f;
     }
-    bannerView.backgroundColor = [UIColor randomColor];
     //在这里下载网络图片
     Model_banners_Data *bannerModel = nil;
     if (index < self.bannerArray.count) {
