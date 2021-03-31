@@ -156,14 +156,16 @@
 }
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    WS(weakSelf)
     self.startActionPriceLabel.text = [NSString stringWithFormat:@"¥%@", artsData.start_price];
     self.addPriceLabel.text = [NSString stringWithFormat:@"￥%@", artsData.price_increment];
     NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
-    UInt32 blockNumber = [[JLViewControllerTool appDelegate].walletTool getBlock];
-    NSTimeInterval auctionStartTimeInterval = (artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
-    NSTimeInterval auctionEndTimeInterval = (artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
-    self.startTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:auctionStartTimeInterval] dateWithCustomFormat:@"MM.dd HH:mm"];
-    self.finishTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:auctionEndTimeInterval] dateWithCustomFormat:@"MM.dd HH:mm"];
+    [[JLViewControllerTool appDelegate].walletTool getBlockWithBlockNumberBlock:^(UInt32 blockNumber) {
+        NSTimeInterval auctionStartTimeInterval = (artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
+        NSTimeInterval auctionEndTimeInterval = (artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
+        weakSelf.startTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:auctionStartTimeInterval] dateWithCustomFormat:@"MM.dd HH:mm"];
+        weakSelf.finishTimeLabel.text = [[NSDate dateWithTimeIntervalSince1970:auctionEndTimeInterval] dateWithCustomFormat:@"MM.dd HH:mm"];
+    }];
 }
 
 @end

@@ -21,14 +21,48 @@
 @end
 
 @implementation JLActionTimeView
-- (instancetype)initWithFrame:(CGRect)frame timeType:(JLActionTimeType)timeType countDownInterval:(NSTimeInterval)countDownInterval {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.timeType = timeType;
-        self.countDownInterval = countDownInterval;
         self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
     return self;
+}
+
+- (void)setTimeType:(JLActionTimeType)timeType countDownInterval:(NSTimeInterval)countDownInterval {
+    self.timeType = timeType;
+    self.countDownInterval = countDownInterval;
+    
+    self.backImageView.image = self.timeType == JLActionTimeTypeFinished ? [UIImage imageNamed:@"icon_action_time_finished"] : [UIImage imageNamed:@"icon_action_time_running"];
+    
+    NSString *status;
+    switch (self.timeType) {
+        case JLActionTimeTypeWaiting:
+            status = @"未开始";
+            break;
+        case JLActionTimeTypeRuning:
+            status = @"拍卖中";
+            break;
+        case JLActionTimeTypeFinished:
+            status = @"已结束";
+            break;
+        default:
+            break;
+    }
+    self.statusLabel.text = status;
+    
+    NSString *timeTitle = @"距结束";
+    if (self.timeType == JLActionTimeTypeWaiting) {
+        timeTitle = @"距开始";
+    }
+    self.timeTitleLabel.text = timeTitle;
+    
+    JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:self.countDownInterval seperateColor:JL_color_white_ffffff backColor:JL_color_white_ffffff timeColor:self.timeType == JLActionTimeTypeFinished ? JL_color_gray_ADADAD : JL_color_orange_FF7F1F];
+    [self.timeView addSubview:countDownTimerView];
+    
+    [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.timeView);
+    }];
 }
 
 - (void)createSubViews {
@@ -65,7 +99,7 @@
 
 - (UIImageView *)backImageView {
     if (!_backImageView) {
-        _backImageView = [JLUIFactory imageViewInitImageName:self.timeType == JLActionTimeTypeFinished ? @"icon_action_time_finished" : @"icon_action_time_running"];
+        _backImageView = [[UIImageView alloc] init];
         _backImageView.userInteractionEnabled = YES;
     }
     return _backImageView;
@@ -73,32 +107,14 @@
 
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
-        NSString *status;
-        switch (self.timeType) {
-            case JLActionTimeTypeWaiting:
-                status = @"未开始";
-                break;
-            case JLActionTimeTypeRuning:
-                status = @"拍卖中";
-                break;
-            case JLActionTimeTypeFinished:
-                status = @"已结束";
-                break;
-            default:
-                break;
-        }
-        _statusLabel = [JLUIFactory labelInitText:status font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
     }
     return _statusLabel;
 }
 
 - (UILabel *)timeTitleLabel {
     if (!_timeTitleLabel) {
-        NSString *timeTitle = @"距结束";
-        if (self.timeType == JLActionTimeTypeWaiting) {
-            timeTitle = @"距开始";
-        }
-        _timeTitleLabel = [JLUIFactory labelInitText:timeTitle font:kFontPingFangSCRegular(13.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        _timeTitleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
     }
     return _timeTitleLabel;
 }
@@ -106,13 +122,6 @@
 - (UIView *)timeView {
     if (!_timeView) {
         _timeView = [[UIView alloc] init];
-        
-        JLCountDownTimerView *countDownTimerView = [[JLCountDownTimerView alloc] initWithSeconds:self.countDownInterval seperateColor:JL_color_white_ffffff backColor:JL_color_white_ffffff timeColor:self.timeType == JLActionTimeTypeFinished ? JL_color_gray_ADADAD : JL_color_orange_FF7F1F];
-        [_timeView addSubview:countDownTimerView];
-        
-        [countDownTimerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_timeView);
-        }];
     }
     return _timeView;
 }
@@ -133,5 +142,4 @@
         self.actionDescBlock();
     }
 }
-
 @end

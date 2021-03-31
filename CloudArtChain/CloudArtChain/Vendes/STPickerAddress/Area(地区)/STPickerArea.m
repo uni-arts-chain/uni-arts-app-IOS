@@ -130,7 +130,7 @@ static STPickerArea *cat;
     if (component == 0) {
         
         self.arraySelected = self.arrayRootJson[row][@"cities"];
-        NSLog(@"self.arraySelected: %@",self.arraySelected);
+//        NSLog(@"self.arraySelected: %@",self.arraySelected);
         [self.arrayCity removeAllObjects];
         [self.arrayCityId removeAllObjects];
         [self.arrayArea removeAllObjects];

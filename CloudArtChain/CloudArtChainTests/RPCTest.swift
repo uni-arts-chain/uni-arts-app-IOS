@@ -56,7 +56,7 @@ class RPCTest: XCTestCase {
     func testAccountInfoUniArts() throws {
         try performAccountInfoTest(url: URL(string: "wss://testnet.uniarts.me")!,
                                    address: "14rVH93jroTfgBZF1KLxnvaDYkxiZYgk7ggsJKVa5gFJUMdG",
-                                   type: .genericSubstrate,
+                                   type: .polkadotMain,
                                    precision: 12)
     }
     

@@ -104,6 +104,27 @@
     [self.scrollView addSubview:self.artInfoView];
     [self.scrollView addSubview:self.artEvaluateView];
     [self.scrollView addSubview:self.artDetailDescView];
+    
+    [self getChainBlock];
+}
+
+- (void)getChainBlock {
+    WS(weakSelf)
+    NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+    [[JLViewControllerTool appDelegate].walletTool getBlockWithBlockNumberBlock:^(UInt32 blockNumber) {
+        NSTimeInterval auctionStartTimeInterval = (weakSelf.artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
+        NSTimeInterval auctionEndTimeInterval = (weakSelf.artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
+        NSTimeInterval countDownInterval = 0;
+        JLActionTimeType timeType = JLActionTimeTypeFinished;
+        if (auctionStartTimeInterval > currentInterval) {
+            timeType = JLActionTimeTypeWaiting;
+            countDownInterval = auctionStartTimeInterval - currentInterval;
+        } else if(auctionEndTimeInterval > currentInterval) {
+            timeType = JLActionTimeTypeRuning;
+            countDownInterval = auctionEndTimeInterval - currentInterval;
+        }
+        [weakSelf.actionTimeView setTimeType:timeType countDownInterval:countDownInterval];
+    }];
 }
 
 - (void)initBottomUI {
@@ -420,20 +441,7 @@
 
 - (JLActionTimeView *)actionTimeView {
     if (!_actionTimeView) {
-        NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
-        UInt32 blockNumber = [[JLViewControllerTool appDelegate].walletTool getBlock];
-        NSTimeInterval auctionStartTimeInterval = (self.artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
-        NSTimeInterval auctionEndTimeInterval = (self.artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
-        NSTimeInterval countDownInterval = 0;
-        JLActionTimeType timeType = JLActionTimeTypeFinished;
-        if (auctionStartTimeInterval > currentInterval) {
-            timeType = JLActionTimeTypeWaiting;
-            countDownInterval = auctionStartTimeInterval - currentInterval;
-        } else if(auctionEndTimeInterval > currentInterval) {
-            timeType = JLActionTimeTypeRuning;
-            countDownInterval = auctionEndTimeInterval - currentInterval;
-        }
-        _actionTimeView = [[JLActionTimeView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 66.0f) timeType:timeType countDownInterval:countDownInterval];
+        _actionTimeView = [[JLActionTimeView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 66.0f)];
         _actionTimeView.actionDescBlock = ^{
             NSLog(@"竞拍须知");
         };
