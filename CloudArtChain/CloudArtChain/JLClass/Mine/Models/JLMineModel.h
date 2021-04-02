@@ -99,6 +99,39 @@
 @property (nonatomic, strong) NSString *img_detail_file2_desc;
 @end
 @interface Model_arts_Rsp : Model_Rsp_V1
-
+@end
+//////////////////////////////////////////////////////////////////////////
+@protocol Model_arts_sold_Data @end
+@interface Model_arts_sold_Data : Model_Interface
+@property (nonatomic, strong) NSString *ID;
+@property (nonatomic, strong) NSString *art_id;
+@property (nonatomic, strong) NSString *collection_id;
+@property (nonatomic, strong) NSString *item_id;
+@property (nonatomic, strong) NSString *amount;
+@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSString *buy_time;
+@property (nonatomic, strong) NSString *buy_block_number;
+@property (nonatomic, strong) Model_art_Detail_Data *art;
+@end
+#pragma mark 个人艺术作品 - 卖出 /arts/sold
+@interface Model_arts_sold_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_sold_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_arts_sold_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 个人艺术作品 - 买入 /arts/bought
+@interface Model_arts_bought_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_bought_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_arts_sold_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////

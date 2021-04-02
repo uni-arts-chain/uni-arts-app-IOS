@@ -102,7 +102,7 @@ class RPCTest: XCTestCase {
     }
     
     func testAuctionList() throws {
-        try performAuctionList(url: URL(string: "wss://testnet.uniarts.me")!, collectionID: 1, itemID: 61, precision: 12)
+        try performAuctionList(url: URL(string: "wss://testnet.uniarts.me")!, collectionID: 1, itemID: 150, precision: 12)
     }
     
     func performAuctionList(url: URL, collectionID: UInt64, itemID: UInt64, precision: Int16) throws {
@@ -140,6 +140,49 @@ class RPCTest: XCTestCase {
             print("increment: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.increment), precision: precision)!)")
             print("current_price: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.current_price), precision: precision)!)")
             print(NSString(data: aunctionData.owner.value, encoding: String.Encoding.utf8.rawValue) ?? "解析错误")
+            print(aunctionData)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+    
+    func testAuctionBidHistoryList() throws {
+        try performBidHistoryList(url: URL(string: "wss://testnet.uniarts.me")!, itemID: 61, precision: 12)
+    }
+    
+    func performBidHistoryList(url: URL, itemID: UInt64, precision: Int16) throws {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: url, logger: logger)
+        var itemInt = itemID
+        let itemData: Data = Data(bytes: &itemInt, count: MemoryLayout<UInt64>.size)
+        
+        let key = try (StorageKeyFactory().auctionBidHistoryList() + itemData).toHex(includePrefix: true)
+//        let key = "0xf43ffbe61ef468749d3617ac1a63c4b7636beab08dba743172af6792d8ec59019ea2d098b5f70192f96c06f38d3fbc9701000000000000009451b00276b84c5a3e7b7be2aedc6df74300000000000000"
+        
+        let operation = JSONRPCListOperation<JSONScaleListDecodable>(engine: engine,
+                                                                              method: RPCMethod.getStorage,
+                                                                              parameters: [key])
+//        let operation = JSONRPCListOperation<Array<BidHistory>>(engine: engine, method: RPCMethod.getStorage, parameters: [key])
+        
+        operationQueue.addOperations([operation], waitUntilFinished: true)
+        do {
+            let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+//            guard result != nil else {
+//                XCTFail("Empty aunction bid list")
+//                return
+//            }
+            
+            guard let aunctionData = result.underlyingValue else {
+                XCTFail("Empty aunction list")
+                return
+            }
+
+//            print("start_price: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.start_price), precision: precision)!)")
+//            print("increment: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.increment), precision: precision)!)")
+//            print("current_price: \(Decimal.fromSubstrateAmount(BigUInt(aunctionData.current_price), precision: precision)!)")
+//            print(NSString(data: aunctionData.owner.value, encoding: String.Encoding.utf8.rawValue) ?? "解析错误")
             print(aunctionData)
         } catch {
             XCTFail("Unexpected error: \(error)")

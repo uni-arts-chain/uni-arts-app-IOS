@@ -31,4 +31,8 @@ extension StorageKeyFactoryProtocol {
     func auctionList() throws -> Data {
         try createStorageKey(moduleName: "Nft", serviceName: "AuctionList")
     }
+    
+    func auctionBidHistoryList() throws -> Data {
+        try createStorageKey(moduleName: "Nft", serviceName: "BidHistoryList")
+    }
  }

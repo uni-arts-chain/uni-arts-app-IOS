@@ -345,3 +345,20 @@
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /messages 通知列表
+@protocol Model_messages_Data @end
+@interface Model_messages_Data : Model_Interface
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *body;
+@property (nonatomic, assign) BOOL read;
+@property (nonatomic, strong) NSString *created_at;
+@property (nonatomic, strong) NSString *updated_at;
+@end
+@interface Model_messages_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+@end
+@interface Model_messages_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSArray<Model_messages_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

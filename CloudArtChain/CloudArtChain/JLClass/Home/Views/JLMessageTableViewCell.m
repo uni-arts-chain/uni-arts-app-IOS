@@ -7,6 +7,7 @@
 //
 
 #import "JLMessageTableViewCell.h"
+#import "NSDate+Extension.h"
 
 @interface JLMessageTableViewCell ()
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -55,14 +56,14 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"您上传的作品已通过审核，点击查看详情" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
 }
 
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"2020/08/26 12:25:36" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
     }
     return _timeLabel;
 }
@@ -82,5 +83,12 @@
         _lineView.backgroundColor = JL_color_gray_DDDDDD;
     }
     return _lineView;
+}
+
+- (void)setMessageData:(Model_messages_Data *)messageData {
+    self.titleLabel.text = messageData.body;
+    NSDate *messageDate = [NSDate dateWithTimeIntervalSince1970:messageData.created_at.doubleValue];
+    self.timeLabel.text = [messageDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
+    self.unreadMaskView.hidden = messageData.read;
 }
 @end

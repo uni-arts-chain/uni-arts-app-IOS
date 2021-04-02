@@ -52,3 +52,20 @@
 
 @end
 //////////////////////////////////////////////////////////////////////////
+@implementation Model_arts_sold_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+#pragma mark 个人艺术作品 - 卖出 /arts/sold
+@implementation Model_arts_sold_Req
+@end
+@implementation Model_arts_sold_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 个人艺术作品 - 买入 /arts/bought
+@implementation Model_arts_bought_Req
+@end
+@implementation Model_arts_bought_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////

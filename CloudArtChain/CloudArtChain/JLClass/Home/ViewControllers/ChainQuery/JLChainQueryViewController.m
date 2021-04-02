@@ -18,7 +18,7 @@
 @interface JLChainQueryViewController ()
 @property (nonatomic, strong) UIView *queryView;
 @property (nonatomic, strong) UIView *outlineInputView;
-@property (nonatomic, strong) UIButton *scanButton;
+//@property (nonatomic, strong) UIButton *scanButton;
 @property (nonatomic, strong) JLBaseTextField *addressTF;
 @property (nonatomic, strong) UIButton *queryBtn;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -56,15 +56,16 @@
         make.right.equalTo(self.queryBtn.mas_left).offset(-13.0f);
     }];
     
-    [self.outlineInputView addSubview:self.scanButton];
+//    [self.outlineInputView addSubview:self.scanButton];
     [self.outlineInputView addSubview:self.addressTF];
-    [self.scanButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(9.0f);
-        make.size.mas_equalTo(23.0f);
-        make.centerY.equalTo(self.outlineInputView.mas_centerY);
-    }];
+//    [self.scanButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(9.0f);
+//        make.size.mas_equalTo(23.0f);
+//        make.centerY.equalTo(self.outlineInputView.mas_centerY);
+//    }];
     [self.addressTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scanButton.mas_right).offset(13.0f);
+//        make.left.equalTo(self.scanButton.mas_right).offset(13.0f);
+        make.left.mas_equalTo(8.0f);
         make.top.bottom.equalTo(self.outlineInputView);
         make.right.equalTo(self.outlineInputView).offset(-8.0f);
     }];
@@ -126,27 +127,27 @@
     
 }
 
-- (UIButton *)scanButton {
-    if (!_scanButton) {
-        _scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_scanButton setImage:[UIImage imageNamed:@"icon_home_chainquery_scan"] forState:UIControlStateNormal];
-        [_scanButton addTarget:self action:@selector(scanButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _scanButton;
-}
+//- (UIButton *)scanButton {
+//    if (!_scanButton) {
+//        _scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_scanButton setImage:[UIImage imageNamed:@"icon_home_chainquery_scan"] forState:UIControlStateNormal];
+//        [_scanButton addTarget:self action:@selector(scanButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _scanButton;
+//}
 
-- (void)scanButtonClick {
-    WS(weakSelf)
-    JLScanViewController *scanVC = [JLScanViewController new];
-    scanVC.scanType = JLScanTypeChainQuery;
-    scanVC.qrCode = YES;
-    scanVC.resultBlock = ^(NSString *scanResult) {
-        NSLog(@"%@", scanResult);
-        weakSelf.addressTF.text = scanResult;
-    };
-    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:scanVC animated:YES completion:nil];
-}
+//- (void)scanButtonClick {
+//    WS(weakSelf)
+//    JLScanViewController *scanVC = [JLScanViewController new];
+//    scanVC.scanType = JLScanTypeChainQuery;
+//    scanVC.qrCode = YES;
+//    scanVC.resultBlock = ^(NSString *scanResult) {
+//        NSLog(@"%@", scanResult);
+//        weakSelf.addressTF.text = scanResult;
+//    };
+//    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:scanVC animated:YES completion:nil];
+//}
 
 - (JLBaseTextField *)addressTF {
     if (!_addressTF) {

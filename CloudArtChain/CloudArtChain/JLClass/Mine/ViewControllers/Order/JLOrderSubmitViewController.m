@@ -73,7 +73,7 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        UILabel *priceLabel = [JLUIFactory labelInitText:@"¥950" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        UILabel *priceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:priceLabel];
         
         UIButton *submitButton = [JLUIFactory buttonInitTitle:@"提交订单" titleColor:JL_color_white_ffffff backgroundColor:JL_color_black font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(submitBtnClick)];

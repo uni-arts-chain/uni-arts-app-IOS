@@ -12,8 +12,8 @@
 #import "JLMessageViewController.h"
 #import "JLCustomerServiceViewController.h"
 #import "JLUploadWorkViewController.h"
-#import "JLPurchaseOrderViewController.h"
-#import "JLSellOrderViewController.h"
+#import "JLSinglePurchaseOrderViewController.h"
+#import "JLSingleSellOrderViewController.h"
 #import "JLReceiveAddressViewController.h"
 #import "JLCollectViewController.h"
 #import "JLFocusViewController.h"
@@ -116,13 +116,13 @@
             switch (index) {
                 case 0:
                 {
-                    JLPurchaseOrderViewController *purchaseOrderVC = [[JLPurchaseOrderViewController alloc] init];
+                    JLSinglePurchaseOrderViewController *purchaseOrderVC = [[JLSinglePurchaseOrderViewController alloc] init];
                     [weakSelf.navigationController pushViewController:purchaseOrderVC animated:YES];
                 }
                     break;
                 case 1:
                 {
-                    JLSellOrderViewController *sellOrderVC = [[JLSellOrderViewController alloc] init];
+                    JLSingleSellOrderViewController *sellOrderVC = [[JLSingleSellOrderViewController alloc] init];
                     [weakSelf.navigationController pushViewController:sellOrderVC animated:YES];
                 }
                     break;

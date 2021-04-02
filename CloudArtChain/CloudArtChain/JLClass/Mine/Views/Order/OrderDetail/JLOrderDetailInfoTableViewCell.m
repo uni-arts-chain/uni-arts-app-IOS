@@ -7,6 +7,7 @@
 //
 
 #import "JLOrderDetailInfoTableViewCell.h"
+#import "NSDate+Extension.h"
 
 @interface JLOrderDetailInfoTableViewCell ()
 @property (nonatomic, strong) UIView *shadowView;
@@ -85,7 +86,7 @@
 
 - (UILabel *)orderNoLabel {
     if (!_orderNoLabel) {
-        _orderNoLabel = [JLUIFactory labelInitText:@"订单号：35466544655491" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _orderNoLabel = [JLUIFactory labelInitText:@"订单号：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _orderNoLabel;
 }
@@ -98,15 +99,21 @@
 }
 
 - (void)pasteBtnClick {
-    [UIPasteboard generalPasteboard].string = @"35466544655491";
+    [UIPasteboard generalPasteboard].string = self.orderData.ID;
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
 }
 
 - (UILabel *)createTimeLabel {
     if (!_createTimeLabel) {
-        _createTimeLabel = [JLUIFactory labelInitText:@"创建时间：2020/08/16 12:36:28" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _createTimeLabel = [JLUIFactory labelInitText:@"创建时间：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _createTimeLabel;
 }
 
+- (void)setOrderData:(Model_arts_sold_Data *)orderData {
+    _orderData = orderData;
+    self.orderNoLabel.text = [NSString stringWithFormat:@"订单号：%@", orderData.ID];
+    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:orderData.buy_time.doubleValue];
+    self.createTimeLabel.text = [NSString stringWithFormat:@"创建时间：%@", [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"]];
+}
 @end

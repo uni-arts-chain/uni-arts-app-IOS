@@ -2,6 +2,50 @@ import Foundation
 import FearlessUtils
 import BigInt
 
+struct BidHistory: ScaleCodable {
+    func encode(scaleEncoder: ScaleEncoding) throws {
+        
+    }
+    
+    let auction_id: UInt64
+    let bidder: AccountId
+    let bid_price: UInt64
+    let bid_time: UInt32
+    
+    init(scaleDecoder: ScaleDecoding) throws {
+        auction_id = try UInt64(scaleDecoder: scaleDecoder)
+        bidder = try AccountId(scaleDecoder: scaleDecoder)
+        bid_price = try UInt64(scaleDecoder: scaleDecoder)
+        bid_time = try UInt32(scaleDecoder: scaleDecoder)
+    }
+}
+
+struct BidHistoryTest: ScaleDecodable, Decodable {
+    init(scaleDecoder: ScaleDecoding) throws {
+        auction_id = try UInt64(scaleDecoder: scaleDecoder)
+        bidder = try scaleDecoder.readAndConfirm(count: 32)
+        bid_price = try UInt64(scaleDecoder: scaleDecoder)
+        bid_time = try UInt32(scaleDecoder: scaleDecoder)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case auction_id
+        case bidder
+        case bid_price
+        case bid_time
+    }
+
+    let auction_id: UInt64
+    let bidder: Data
+    let bid_price: UInt64
+    let bid_time: UInt32
+    
+    func encode(to encoder: Encoder) throws {
+        
+    }
+}
+
+
 struct AuctionInfo: ScaleDecodable {
     let id: UInt64
     let collection_id: UInt64

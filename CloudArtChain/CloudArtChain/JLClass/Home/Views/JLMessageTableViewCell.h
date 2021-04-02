@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMessageTableViewCell : UITableViewCell
-
+@property (nonatomic, strong) Model_messages_Data *messageData;
 @end
 
 NS_ASSUME_NONNULL_END

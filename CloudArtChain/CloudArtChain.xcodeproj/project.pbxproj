@@ -854,6 +854,7 @@
 		B38FD55025CBA3570028797E /* JLFocusFansTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54F25CBA3570028797E /* JLFocusFansTableViewCell.m */; };
 		B38FD55325CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55225CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m */; };
 		B38FD55725CBECD10028797E /* JLAuctionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */; };
+		B390AA342616C54D00C72F8C /* JSONScaleListDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390AA332616C54D00C72F8C /* JSONScaleListDecodable.swift */; };
 		B394E3E825ECD23800685F8D /* JLMineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3E725ECD23800685F8D /* JLMineModel.m */; };
 		B394E3EE25ECD5A200685F8D /* JLNormalEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3ED25ECD5A200685F8D /* JLNormalEmptyView.m */; };
 		B394E3F425ECED2A00685F8D /* JLCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3F325ECED2A00685F8D /* JLCategoryModel.m */; };
@@ -950,6 +951,10 @@
 		B3AA62D025E4DD0200D28627 /* GTSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3AA62CF25E4DD0200D28627 /* GTSDK.framework */; };
 		B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */; };
 		B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */; };
+		B3B968B226155E0100347B27 /* JLSinglePurchaseOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968B126155E0100347B27 /* JLSinglePurchaseOrderViewController.m */; };
+		B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */; };
+		B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */; };
+		B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */; };
 		B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */; };
 		B3C0ED2825C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2725C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m */; };
 		B3C0ED2B25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2A25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m */; };
@@ -2104,6 +2109,7 @@
 		B38FD55225CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailAddressAddNewTableViewCell.m; sourceTree = "<group>"; };
 		B38FD55525CBECD10028797E /* JLAuctionDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionDetailViewController.h; sourceTree = "<group>"; };
 		B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionDetailViewController.m; sourceTree = "<group>"; };
+		B390AA332616C54D00C72F8C /* JSONScaleListDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONScaleListDecodable.swift; sourceTree = "<group>"; };
 		B394E3E625ECD23800685F8D /* JLMineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMineModel.h; sourceTree = "<group>"; };
 		B394E3E725ECD23800685F8D /* JLMineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMineModel.m; sourceTree = "<group>"; };
 		B394E3EC25ECD5A200685F8D /* JLNormalEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNormalEmptyView.h; sourceTree = "<group>"; };
@@ -2300,6 +2306,14 @@
 		B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPurchaseOrderListCloseTableViewCell.m; sourceTree = "<group>"; };
 		B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLFeedBackViewController.h; sourceTree = "<group>"; };
 		B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLFeedBackViewController.m; sourceTree = "<group>"; };
+		B3B968B026155E0100347B27 /* JLSinglePurchaseOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSinglePurchaseOrderViewController.h; sourceTree = "<group>"; };
+		B3B968B126155E0100347B27 /* JLSinglePurchaseOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSinglePurchaseOrderViewController.m; sourceTree = "<group>"; };
+		B3B968B926155FC800347B27 /* JLSinglePurchaseOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSinglePurchaseOrderListCell.h; sourceTree = "<group>"; };
+		B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSinglePurchaseOrderListCell.m; sourceTree = "<group>"; };
+		B3B968C226156CB800347B27 /* JLSingleSellOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSingleSellOrderViewController.h; sourceTree = "<group>"; };
+		B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderViewController.m; sourceTree = "<group>"; };
+		B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSingleSellOrderListCell.h; sourceTree = "<group>"; };
+		B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderListCell.m; sourceTree = "<group>"; };
 		B3C0ED2325C256DE001B8BCA /* JLExportKeystorePwdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExportKeystorePwdViewController.h; sourceTree = "<group>"; };
 		B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExportKeystorePwdViewController.m; sourceTree = "<group>"; };
 		B3C0ED2625C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLReceiveAddressInputTableViewCell.h; sourceTree = "<group>"; };
@@ -4668,6 +4682,7 @@
 				B38411C725CA9DE80077F73F /* RPCMethod.swift */,
 				B38411C825CA9DE80077F73F /* RuntimeVersion.swift */,
 				B38411C925CA9DE80077F73F /* JSONScaleDecodable.swift */,
+				B390AA332616C54D00C72F8C /* JSONScaleListDecodable.swift */,
 				B38411CA25CA9DE80077F73F /* WebSocketEngine+Protocol.swift */,
 			);
 			path = JSONRPC;
@@ -4792,10 +4807,14 @@
 		B38BCFF525B82E5900FD37F7 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				B3B968B026155E0100347B27 /* JLSinglePurchaseOrderViewController.h */,
+				B3B968B126155E0100347B27 /* JLSinglePurchaseOrderViewController.m */,
 				B38BCFBB25B8173800FD37F7 /* JLPurchaseOrderViewController.h */,
 				B38BCFBC25B8173800FD37F7 /* JLPurchaseOrderViewController.m */,
 				B38BCFDE25B81B5D00FD37F7 /* JLPurchaseOrderListViewController.h */,
 				B38BCFDF25B81B5D00FD37F7 /* JLPurchaseOrderListViewController.m */,
+				B3B968C226156CB800347B27 /* JLSingleSellOrderViewController.h */,
+				B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */,
 				B38BCFEC25B8267500FD37F7 /* JLSellOrderViewController.h */,
 				B38BCFED25B8267500FD37F7 /* JLSellOrderViewController.m */,
 				B38BCFEF25B8275100FD37F7 /* JLSellOrderListViewController.h */,
@@ -4813,6 +4832,8 @@
 		B38BCFF625B82E7100FD37F7 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				B3B968B926155FC800347B27 /* JLSinglePurchaseOrderListCell.h */,
+				B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */,
 				B3C0ED3225C2BC1E001B8BCA /* OrderDetail */,
 				B38BCFE925B81E9200FD37F7 /* JLPurchaseOrderListTableViewCell.h */,
 				B38BCFEA25B81E9200FD37F7 /* JLPurchaseOrderListTableViewCell.m */,
@@ -4820,6 +4841,8 @@
 				B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */,
 				B38BCFF225B8283D00FD37F7 /* JLSellOrderListTableViewCell.h */,
 				B38BCFF325B8283D00FD37F7 /* JLSellOrderListTableViewCell.m */,
+				B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */,
+				B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */,
 				B3890B3125DFB22D00028F78 /* JLLogisticsView.h */,
 				B3890B3225DFB22D00028F78 /* JLLogisticsView.m */,
 			);
@@ -6009,6 +6032,7 @@
 				B312264825B6B60A00562ECA /* TransactionDetailsConfigurator.swift in Sources */,
 				B312255425B6B60A00562ECA /* AlignableContentControl.swift in Sources */,
 				B312258825B6B60A00562ECA /* AmountFormatterFactory.swift in Sources */,
+				B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */,
 				B394E3FA25ECF37C00685F8D /* UIImage+ImgSize.m in Sources */,
 				B31224C625B6B60900562ECA /* UIImage+Drawing.swift in Sources */,
 				B312264325B6B60A00562ECA /* TransactionDetailsFormViewModelBinder.swift in Sources */,
@@ -6097,6 +6121,7 @@
 				B359364425121BE400E2B2FD /* JLForgetPwdNewViewController.m in Sources */,
 				B37FFB5B24F4DD76004B9CC8 /* JLSearchViewController.m in Sources */,
 				B31225B025B6B60A00562ECA /* PinChangeWireframe.swift in Sources */,
+				B3B968B226155E0100347B27 /* JLSinglePurchaseOrderViewController.m in Sources */,
 				B3C0ED2B25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m in Sources */,
 				B312254625B6B60A00562ECA /* TriangularedView.swift in Sources */,
 				B312254125B6B60A00562ECA /* FearlessWindow.swift in Sources */,
@@ -6364,6 +6389,7 @@
 				B3890B3625DFB84B00028F78 /* JLInputLogisticsViewController.m in Sources */,
 				B312257025B6B60A00562ECA /* SelectableViewModelProtocol.swift in Sources */,
 				B35936322511E9F600E2B2FD /* JLLoginView.m in Sources */,
+				B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */,
 				B31224E525B6B60900562ECA /* CryptoType+ViewModel.swift in Sources */,
 				B31224C125B6B60900562ECA /* UIFont+Style.swift in Sources */,
 				B36361AA2500C9AB0039DF48 /* JLSelectWorksViewController.m in Sources */,
@@ -6778,6 +6804,7 @@
 				B38BCFE025B81B5D00FD37F7 /* JLPurchaseOrderListViewController.m in Sources */,
 				B312263C25B6B60A00562ECA /* TransferViewModelFactory.swift in Sources */,
 				B312268325B6B60A00562ECA /* WalletBaseTokenView.swift in Sources */,
+				B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */,
 				B359361A2511BD3700E2B2FD /* JLCalcInputView.m in Sources */,
 				B31225A525B6B60A00562ECA /* NetworkInfoWireframe.swift in Sources */,
 				B36361A72500C2B50039DF48 /* JLApplyCertViewController.m in Sources */,
@@ -6873,6 +6900,7 @@
 				B38411FD25CA9DEA0077F73F /* StorageKeyFactory+Implicit.swift in Sources */,
 				B38411E525CA9DEA0077F73F /* JSONRPCInfo.swift in Sources */,
 				B38411F125CA9DEA0077F73F /* CryptoType+Extrinsic.swift in Sources */,
+				B390AA342616C54D00C72F8C /* JSONScaleListDecodable.swift in Sources */,
 				B38411E125CA9DEA0077F73F /* AccountInfo.swift in Sources */,
 				B38411DF25CA9DEA0077F73F /* TransferCall.swift in Sources */,
 				B38411E625CA9DEA0077F73F /* ReconnectionStrategy.swift in Sources */,

@@ -118,11 +118,11 @@
         NSMutableArray *tempPriceArray = [NSMutableArray array];
         for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
             if ([NSString stringIsEmpty:priceData.lt]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以上", priceData.gte]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART以上", priceData.gte]];
             } else if ([NSString stringIsEmpty:priceData.gte]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以下", priceData.lt]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART以下", priceData.lt]];
             } else {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@-¥%@", priceData.gte, priceData.lt]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART-%@UART", priceData.gte, priceData.lt]];
             }
         }
         _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] selectBlock:^(NSInteger index) {

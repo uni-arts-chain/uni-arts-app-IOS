@@ -86,6 +86,6 @@
     }
     self.nameLabel.text = artDetailData.author.display_name;
     self.infoLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue], artDetailData.name];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
 }
 @end

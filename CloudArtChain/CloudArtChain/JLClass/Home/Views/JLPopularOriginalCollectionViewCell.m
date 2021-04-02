@@ -109,7 +109,7 @@
     self.authorLabel.text = artsData.art.author.display_name;
     self.descLabel.text = artsData.art.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", artsData.art.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artsData.start_price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artsData.start_price];
 }
 
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
@@ -119,7 +119,7 @@
     self.authorLabel.text = popularArtData.author.display_name;
     self.descLabel.text = popularArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", popularArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", popularArtData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", popularArtData.price];
 }
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
@@ -129,7 +129,7 @@
     self.authorLabel.text = themeArtData.author.display_name;
     self.descLabel.text = themeArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", themeArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", themeArtData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", themeArtData.price];
 }
 
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
@@ -139,7 +139,7 @@
     self.authorLabel.text = collectionArtData.author.display_name;
     self.descLabel.text = collectionArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", collectionArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", collectionArtData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", collectionArtData.price];
 }
 
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
@@ -149,7 +149,7 @@
     self.authorLabel.text = authorArtData.author.display_name;
     self.descLabel.text = authorArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", authorArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", authorArtData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", authorArtData.price];
 }
 
 @end

@@ -20,13 +20,13 @@
     UIView *titleView = [self itemWithFrame:CGRectMake(0.0f, 0.0f, self.frameWidth, 45.0f) items:@[@"从", @"到", @"成交价", @"时间"] color:JL_color_gray_101010 backColor:JL_color_blue_7ed4ff font:kFontPingFangSCRegular(15.0f)];
     [self addSubview:titleView];
     
-    UIView *firstView = [self itemWithFrame:CGRectMake(0.0f, titleView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"¥900", @"¥900"] color:JL_color_gray_606060 backColor:JL_color_blue_CFEFFF font:kFontPingFangSCRegular(14.0f)];
+    UIView *firstView = [self itemWithFrame:CGRectMake(0.0f, titleView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"900 UART", @"900 UART"] color:JL_color_gray_606060 backColor:JL_color_blue_CFEFFF font:kFontPingFangSCRegular(14.0f)];
     [self addSubview:firstView];
     
-    UIView *secondView = [self itemWithFrame:CGRectMake(0.0f, firstView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"¥900", @"¥900"] color:JL_color_gray_606060 backColor:JL_color_white_ffffff font:kFontPingFangSCRegular(14.0f)];
+    UIView *secondView = [self itemWithFrame:CGRectMake(0.0f, firstView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"900 UART", @"900 UART"] color:JL_color_gray_606060 backColor:JL_color_white_ffffff font:kFontPingFangSCRegular(14.0f)];
     [self addSubview:secondView];
     
-    UIView *thirdView = [self itemWithFrame:CGRectMake(0.0f, secondView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"¥900", @"¥900"] color:JL_color_gray_606060 backColor:JL_color_blue_CFEFFF font:kFontPingFangSCRegular(14.0f)];
+    UIView *thirdView = [self itemWithFrame:CGRectMake(0.0f, secondView.frameBottom, self.frameWidth, 38.0f) items:@[@"张**", @"张**", @"900 UART", @"900 UART"] color:JL_color_gray_606060 backColor:JL_color_blue_CFEFFF font:kFontPingFangSCRegular(14.0f)];
     [self addSubview:thirdView];
 }
 

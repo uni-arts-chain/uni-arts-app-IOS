@@ -157,8 +157,8 @@
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     WS(weakSelf)
-    self.startActionPriceLabel.text = [NSString stringWithFormat:@"¥%@", artsData.start_price];
-    self.addPriceLabel.text = [NSString stringWithFormat:@"￥%@", artsData.price_increment];
+    self.startActionPriceLabel.text = [NSString stringWithFormat:@"%@ UART", artsData.start_price];
+    self.addPriceLabel.text = [NSString stringWithFormat:@"%@ UART", artsData.price_increment];
     NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
     [[JLViewControllerTool appDelegate].walletTool getBlockWithBlockNumberBlock:^(UInt32 blockNumber) {
         NSTimeInterval auctionStartTimeInterval = (artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;

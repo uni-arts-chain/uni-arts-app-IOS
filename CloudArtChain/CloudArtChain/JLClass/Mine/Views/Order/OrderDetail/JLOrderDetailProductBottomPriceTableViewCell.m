@@ -156,7 +156,7 @@
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"¥950" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
 }
@@ -193,7 +193,7 @@
 
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
-        _totalPriceLabel = [JLUIFactory labelInitText:@"¥950" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        _totalPriceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
     }
     return _totalPriceLabel;
 }

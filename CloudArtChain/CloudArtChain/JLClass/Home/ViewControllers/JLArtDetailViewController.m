@@ -320,6 +320,7 @@
         [[JLViewControllerTool appDelegate].walletTool sellOrderCallWithCollectionId:1 itemId:34 price:@"1" block:^(BOOL success, NSString * _Nonnull message) {
             if (success) {
                 JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                orderSubmitVC.artDetailData = self.artDetailData;
                 [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
             }
         }];
