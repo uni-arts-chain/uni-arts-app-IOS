@@ -24,7 +24,7 @@
 @interface JLSettingViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, JLImageRectClipViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
-@property (nonatomic, strong) UIView *footerView;
+//@property (nonatomic, strong) UIView *footerView;
 @end
 
 @implementation JLSettingViewController
@@ -64,29 +64,29 @@
         _tableView.estimatedSectionHeaderHeight = 0.0f;
         _tableView.estimatedSectionFooterHeight = 10.0f;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.tableFooterView = self.footerView;
+//        _tableView.tableFooterView = self.footerView;
         [_tableView registerClass:[JLSettingTableViewCell class] forCellReuseIdentifier:@"JLSettingTableViewCell"];
     }
     return _tableView;
 }
 
-- (UIView *)footerView {
-    if (!_footerView) {
-        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 48.0f)];
-        _footerView.backgroundColor = JL_color_white_ffffff;
-        
-        UIButton *loginoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [loginoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-        [loginoutBtn setTitleColor:JL_color_red_D70000 forState:UIControlStateNormal];
-        loginoutBtn.titleLabel.font = kFontPingFangSCRegular(16.0f);
-        [loginoutBtn addTarget:self action:@selector(loginoutBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [_footerView addSubview:loginoutBtn];
-        [loginoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_footerView);
-        }];
-    }
-    return _footerView;
-}
+//- (UIView *)footerView {
+//    if (!_footerView) {
+//        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 48.0f)];
+//        _footerView.backgroundColor = JL_color_white_ffffff;
+//
+//        UIButton *loginoutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [loginoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+//        [loginoutBtn setTitleColor:JL_color_red_D70000 forState:UIControlStateNormal];
+//        loginoutBtn.titleLabel.font = kFontPingFangSCRegular(16.0f);
+//        [loginoutBtn addTarget:self action:@selector(loginoutBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [_footerView addSubview:loginoutBtn];
+//        [loginoutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(_footerView);
+//        }];
+//    }
+//    return _footerView;
+//}
 
 - (void)loginoutBtnClick {
     

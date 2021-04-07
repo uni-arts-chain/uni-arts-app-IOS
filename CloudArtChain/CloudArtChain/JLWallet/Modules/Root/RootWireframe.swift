@@ -51,7 +51,7 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
     }
 
     func showPincodeSetup(on view: UIWindow) {
-        guard let controller = PinViewFactory.createPinSetupView(navigationController: nil)?.controller else {
+        guard let controller = PinViewFactory.createPinSetupView(navigationController: nil, userAvatar: nil)?.controller else {
             return
         }
 
@@ -63,7 +63,7 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
         view.backgroundColor = .red
     }
     
-    func showWallet(on view: UIWindow, navigationController: UINavigationController) {
+    func showWallet(on view: UIWindow, navigationController: UINavigationController, userAvatar: String?) {
         guard let keystoreImportService: KeystoreImportServiceProtocol = URLHandlingService.shared
                 .findService() else {
             Logger.shared.error("Can't find required keystore import service")
@@ -82,6 +82,7 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
         
 //        let jlwalletController = JLWalletViewController()
         (walletController as! JLAccountListViewController).delegate = self
+        (walletController as! JLAccountListViewController).userAvatar = userAvatar
         
         let walletNavigationController = JLNavigationViewController(rootViewController: walletController)
         self.navigationController = walletNavigationController

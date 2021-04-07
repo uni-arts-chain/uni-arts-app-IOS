@@ -3,7 +3,7 @@ import SoraKeystore
 import SoraFoundation
 
 class PinViewFactory: PinViewFactoryProtocol {
-    static func createPinSetupView(navigationController: UINavigationController?) -> PinSetupViewProtocol? {
+    static func createPinSetupView(navigationController: UINavigationController?, userAvatar: String?) -> PinSetupViewProtocol? {
         let pinSetupView = PinSetupViewController()
 
         pinSetupView.mode = .create
@@ -22,6 +22,7 @@ class PinViewFactory: PinViewFactoryProtocol {
         presenter.interactor = interactor
         presenter.wireframe = wireframe
         presenter.navigationController = navigationController
+        presenter.userAvatar = userAvatar
 
         interactor.presenter = presenter
 

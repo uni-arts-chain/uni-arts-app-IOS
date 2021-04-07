@@ -30,12 +30,12 @@ protocol PinSetupInteractorOutputProtocol: class {
 }
 
 protocol PinSetupWireframeProtocol: class {
-    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?)
+    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?, userAvatar: String?)
     func showSignup(from view: PinSetupViewProtocol?)
 }
 
 protocol PinViewFactoryProtocol: class {
-    static func createPinSetupView(navigationController: UINavigationController?) -> PinSetupViewProtocol?
+    static func createPinSetupView(navigationController: UINavigationController?, userAvatar: String?) -> PinSetupViewProtocol?
     static func createPinChangeView() -> PinSetupViewProtocol?
     static func createSecuredPinView() -> PinSetupViewProtocol?
     static func createScreenAuthorizationView(with wireframe: ScreenAuthorizationWireframeProtocol, cancellable: Bool)

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void(^customerServiceBlock)(void);
 @property (nonatomic, copy) void(^searchBlock)(void);
 @property (nonatomic, copy) void(^messageBlock)(void);
+- (void)refreshHasMessagesUnread:(BOOL)haveMessages;
 @end
 
 NS_ASSUME_NONNULL_END

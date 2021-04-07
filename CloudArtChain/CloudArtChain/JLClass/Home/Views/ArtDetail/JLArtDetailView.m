@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIView *chainView;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *signTimesLabel;
+@property (nonatomic, strong) UIButton *certificateBtn;
 @end
 
 @implementation JLArtDetailView
@@ -81,10 +82,10 @@
     ViewBorderRadius(copyAddressBtn, 5.0f, 1.0f, JL_color_blue_38B2F1);
     [self.chainView addSubview:copyAddressBtn];
     
-    UIButton *chainQRCodeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [chainQRCodeBtn setImage:[UIImage imageNamed:@"icon_home_artdetail_qrcode"] forState:UIControlStateNormal];
-    [chainQRCodeBtn addTarget:self action:@selector(chainQRCodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.chainView addSubview:chainQRCodeBtn];
+    self.certificateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.certificateBtn setImage:[UIImage imageNamed:@"cer-bg"] forState:UIControlStateNormal];
+    [self.certificateBtn addTarget:self action:@selector(certificateBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.chainView addSubview:self.certificateBtn];
     
     [self.chainView addSubview:self.signTimesLabel];
     
@@ -93,22 +94,23 @@
         make.top.mas_equalTo(19.0f);
         make.height.mas_equalTo(16.0f);
     }];
-    [chainQRCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.certificateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-25.0f);
-        make.size.mas_equalTo(14.0f);
+        make.width.mas_equalTo(27.0f);
+        make.height.mas_equalTo(20.0f);
         make.centerY.equalTo(self.chainView.mas_centerY);
     }];
     [copyAddressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(chainQRCodeBtn.mas_left).offset(-20.0f);
+        make.right.equalTo(self.certificateBtn.mas_left).offset(-20.0f);
         make.width.mas_equalTo(33.0f);
         make.height.mas_equalTo(18.0f);
-        make.centerY.equalTo(chainQRCodeBtn.mas_centerY);
+        make.centerY.equalTo(self.certificateBtn.mas_centerY);
     }];
     [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.right.equalTo(copyAddressBtn.mas_left).offset(-15.0f);
         make.height.mas_equalTo(14.0f);
-        make.centerY.equalTo(chainQRCodeBtn.mas_centerY);
+        make.centerY.equalTo(self.certificateBtn.mas_centerY);
     }];
     [self.signTimesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -122,9 +124,9 @@
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
 }
 
-- (void)chainQRCodeBtnClick {
-    if (self.chainQRCodeBlock) {
-        self.chainQRCodeBlock(@"");
+- (void)certificateBtnClick {
+    if (self.chainCertificateBlock) {
+        self.chainCertificateBlock(self.certificateImage);
     }
 }
 
@@ -180,10 +182,15 @@
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     _artDetailData = artDetailData;
     self.nameLabel.text = artDetailData.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"￥%@", artDetailData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@UART", artDetailData.price];
     self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue], artDetailData.size_width, artDetailData.size_length];
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", artDetailData.item_hash];
     self.signTimesLabel.text = [NSString stringWithFormat:@"作品签名次数：%ld次", artDetailData.signature_count];
+}
+
+- (void)setCertificateImage:(UIImage *)certificateImage {
+    _certificateImage = certificateImage;
+//    [self.certificateBtn setImage:certificateImage forState:UIControlStateNormal];
 }
 
 @end

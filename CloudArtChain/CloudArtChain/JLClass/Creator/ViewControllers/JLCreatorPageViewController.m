@@ -8,6 +8,7 @@
 
 #import "JLCreatorPageViewController.h"
 #import "JLArtDetailViewController.h"
+#import "JLAuctionArtDetailViewController.h"
 
 #import "JLHomePageHeaderView.h"
 #import "JLPopularOriginalCollectionViewCell.h"
@@ -228,10 +229,20 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Model_art_Detail_Data *artDetailData = self.artArray[indexPath.row];
-    JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-    artDetailVC.artDetailData = artDetailData;
-    [self.navigationController pushViewController:artDetailVC animated:YES];
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+        auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+        Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+        meetingsArtsData.art = artDetailData;
+        auctionDetailVC.artsData = meetingsArtsData;
+        [self.navigationController pushViewController:auctionDetailVC animated:YES];
+    } else {
+        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+        artDetailVC.artDetailData = artDetailData;
+        [self.navigationController pushViewController:artDetailVC animated:YES];
+    }
 }
 
 - (NSMutableArray *)artArray {

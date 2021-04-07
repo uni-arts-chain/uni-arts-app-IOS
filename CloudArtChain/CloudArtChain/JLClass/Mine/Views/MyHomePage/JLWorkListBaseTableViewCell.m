@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *lineView;
+
+@property (nonatomic, strong) UIView *auctioningView;
 @end
 
 @implementation JLWorkListBaseTableViewCell
@@ -30,6 +32,7 @@
     [self.contentView addSubview:self.addressLabel];
     [self.contentView addSubview:self.priceLabel];
     [self.contentView addSubview:self.lineView];
+    [self.contentView addSubview:self.auctioningView];
     
     [self.workImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -61,6 +64,11 @@
         make.right.mas_equalTo(-15.0f);
         make.height.mas_equalTo(1.0f);
     }];
+    [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self.workImageView);
+        make.width.mas_equalTo(45.0f);
+        make.height.mas_equalTo(20.0f);
+    }];
 }
 
 - (UIImageView *)workImageView {
@@ -69,6 +77,31 @@
         ViewBorderRadius(_workImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _workImageView;
+}
+
+- (UIView *)auctioningView {
+    if (!_auctioningView) {
+        _auctioningView = [[UIView alloc] init];
+        
+        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_back_auctioning"]];
+        [_auctioningView addSubview:backImageView];
+        
+        UILabel *statusLabel = [[UILabel alloc] init];
+        statusLabel.font = kFontPingFangSCMedium(12.0f);
+        statusLabel.textColor = JL_color_white_ffffff;
+        statusLabel.textAlignment = NSTextAlignmentCenter;
+        statusLabel.text = @"拍卖中";
+        [_auctioningView addSubview:statusLabel];
+        
+        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        [statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        _auctioningView.hidden = YES;
+    }
+    return _auctioningView;
 }
 
 - (UILabel *)titleLabel {
@@ -115,5 +148,12 @@
     self.titleLabel.text = artDetailData.name;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 @end

@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLActionOfferView : JLBaseView
+- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData;
 @property (nonatomic, copy) void(^offerBlock)(NSString *price);
 @end
 

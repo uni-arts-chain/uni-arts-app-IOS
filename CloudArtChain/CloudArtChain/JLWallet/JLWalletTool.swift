@@ -14,6 +14,7 @@ import RobinHood
 import IrohaCrypto
 import SoraFoundation
 import BigInt
+import FearlessUtils
 
 private let authorization = UUID().uuidString
 
@@ -38,13 +39,17 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         self.getContacts()
     }
     
+    @objc func getAssetPrecision() -> Int16 {
+        return self.selectedAsset?.precision ?? 0
+    }
+    
     func getRootPresenter() -> RootPresenterProtocol {
         let presenter = RootPresenterFactory.createPresenter(with: window)
         return presenter
     }
     
-    @objc func presenterLoadOnLaunch(navigationController: UINavigationController) {
-        getRootPresenter().loadOnLaunch(navigationController: navigationController)
+    @objc func presenterLoadOnLaunch(navigationController: UINavigationController, userAvatar: String?) {
+        getRootPresenter().loadOnLaunch(navigationController: navigationController, userAvatar: userAvatar)
     }
     
     @objc func getAccountBalance(balanceBlock: @escaping (String) -> Void) {
@@ -221,6 +226,126 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     }
 }
 
+/** 取消拍卖 */
+extension JLWalletTool {
+    @objc func cancelAuctionCall(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
+        cancelAuctionCallSwift(collectionId: collectionId, itemId: itemId, block: block)
+    }
+    
+    func cancelAuctionCallSwift(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
+        let cancelAuctionCall = CancelAuctionCall(collectionId: collectionId, itemId: itemId)
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelAuctionCall, callIndex: Chain.uniarts.cancelAuctionCallIndex) ?? nil
+        if (self.transferVC != nil) {
+            block(true, "")
+            createAuctionSubmit()
+        } else {
+            block(false, "")
+        }
+    }
+    
+    @objc func cancelAuctionCallConfirm(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
+    }
+}
+
+/** 发起拍卖 */
+extension JLWalletTool {
+    @objc func createAuctionCall(collectionId: UInt64, itemId: UInt64, price: String, increment: String, startTime: UInt32, endTime: UInt32, block: (Bool, String) -> Void) {
+        guard let uintPrice = Decimal(string: price)?.toSubstrateAmountUInt64(precision: self.selectedAsset?.precision ?? 0) else { return }
+        guard let unitIncrement = Decimal(string: increment)?.toSubstrateAmountUInt64(precision: self.selectedAsset?.precision ?? 0) else { return }
+        createAuctionCallSwift(collectionId: collectionId, itemId: itemId, value: 0, price: uintPrice, increment: unitIncrement, startTime: startTime, endTime: endTime, block: block)
+    }
+    
+    func createAuctionCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, price: UInt64, increment: UInt64, startTime: UInt32, endTime: UInt32, block: (Bool, String) -> Void) {
+        let createAuctionCall = CreateAuctionCall(collectionId: collectionId, itemId: itemId, value: value, startPrice: price, increment: increment, startTime: startTime, endTime: endTime)
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: createAuctionCall, callIndex: Chain.uniarts.createAuctionCallIndex) ?? nil
+        if (self.transferVC != nil) {
+            block(true, "")
+            createAuctionSubmit()
+        } else {
+            block(false, "")
+        }
+    }
+    
+    @objc func createAuctionSubmit() {
+        let callbackBlock: (WalletNewFormViewController?) -> Void = { [weak self] confirmViewController in
+            self?.confirmVC = confirmViewController
+        }
+        self.transferVC?.presenter.proceed(callbackBlock: callbackBlock)
+    }
+    
+    @objc func createAuctionConfirm(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
+    }
+    
+    @objc func createAuctionCancel() {
+        self.transferVC = nil
+        self.confirmVC = nil
+    }
+}
+
+/** 拍卖出价 */
+extension JLWalletTool {
+    @objc func auctionBidCall(collectionId: UInt64, itemId: UInt64, block:@escaping (Bool, String?) -> Void) {
+        let auctionBidCall = AuctionBidCall(collectionId: collectionId, itemId: itemId)
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: auctionBidCall, callIndex: Chain.uniarts.bidCallIndex) ?? nil
+        if (self.transferVC != nil) {
+//            block(true, "")
+            auctionBidSubmit(block: block)
+        } else {
+            block(false, "")
+        }
+    }
+    
+    @objc func auctionBidSubmit(block:@escaping (Bool, String?) -> Void) {
+        let callbackBlock: (WalletNewFormViewController?) -> Void = { [weak self] confirmViewController in
+            self?.confirmVC = confirmViewController
+            self?.auctionBidConfirm(callbackBlock: block)
+        }
+        self.transferVC?.presenter.proceed(callbackBlock: callbackBlock)
+    }
+    
+    @objc func auctionBidConfirm(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
+    }
+    
+    @objc func auctionBidCancel() {
+        self.transferVC = nil
+        self.confirmVC = nil
+    }
+}
+
+/** 购买作品 */
+extension JLWalletTool {
+    @objc func acceptSaleOrderCall(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
+        let acceptSaleOrderCall = AcceptSaleOrderCall(collectionId: collectionId, itemId: itemId)
+        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: acceptSaleOrderCall, callIndex: Chain.uniarts.acceptSaleOrderCallIndex) ?? nil
+        if (self.transferVC != nil) {
+            block(true, "")
+            acceptSaleOrderSubmit()
+        } else {
+            block(false, "")
+        }
+    }
+    
+    @objc func acceptSaleOrderSubmit() {
+        let callbackBlock: (WalletNewFormViewController?) -> Void = { [weak self] confirmViewController in
+            self?.confirmVC = confirmViewController
+        }
+        self.transferVC?.presenter.proceed(callbackBlock: callbackBlock)
+    }
+    
+    @objc func acceptSaleOrderConfirm(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
+    }
+    
+    @objc func acceptSaleOrderCancel() {
+        self.transferVC = nil
+        self.confirmVC = nil
+    }
+}
+
+/** 作品上架 */
 extension JLWalletTool {
     @objc func sellOrderCall(collectionId: UInt64, itemId: UInt64, price: String, block:(Bool, String) -> Void) {
         guard let uintPrice = Decimal(string: price)?.toSubstrateAmountUInt64(precision: self.selectedAsset?.precision ?? 0) else { return }
@@ -255,6 +380,7 @@ extension JLWalletTool {
     }
 }
 
+/** 作品下架 */
 extension JLWalletTool {
     @objc func cancelSellOrderCall(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
         cancelSellOrderCallSwift(collectionId: collectionId, itemId: itemId, value: 0, block: block)
@@ -276,6 +402,7 @@ extension JLWalletTool {
     }
 }
 
+/** 输入密码 */
 extension JLWalletTool {
     func showAuthorizationCompletion(with result: Bool) {
         guard let completionBlock = completionBlock else {
@@ -330,6 +457,7 @@ extension JLWalletTool {
 }
 
 extension JLWalletTool {
+    /** 获取当前 block number */
     @objc func getBlock(blockNumberBlock: @escaping (UInt32) -> Void) {
         let logger = Logger.shared
         let operationQueue = OperationQueue()
@@ -350,5 +478,79 @@ extension JLWalletTool {
             }
         }
         operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
+    }
+    
+    /** 获取作品拍卖信息 */
+    @objc func performAuctionInfo(collectionID: UInt64, itemID: UInt64, auctionDataBlock: @escaping (AuctionInfo?) -> Void) {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: ConnectionItem.defaultConnection.url, logger: logger)
+        
+        var collectionInt = collectionID
+        let collectionData: Data = Data(bytes: &collectionInt, count: MemoryLayout<UInt64>.size)
+        
+        var itemInt = itemID
+        let itemData: Data = Data(bytes: &itemInt, count: MemoryLayout<UInt64>.size)
+        
+        do {
+            let key = try (StorageKeyFactory().auctionList() + (collectionData.blake128Concat() + itemData.blake128Concat())).toHex(includePrefix: true)
+      
+            let operation = JSONRPCListOperation<JSONScaleDecodable<AuctionInfo>>(engine: engine,
+                                                                                  method: RPCMethod.getStorage,
+                                                                                  parameters: [key])
+            let operationsWrapper = CompoundOperationWrapper(targetOperation: operation)
+            operationsWrapper.targetOperation.completionBlock = {
+                DispatchQueue.main.async {
+                    do {
+                        let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                        guard let aunctionData = result.underlyingValue else {
+                            auctionDataBlock(nil)
+                            return
+                        }
+                        auctionDataBlock(aunctionData)
+                    } catch {
+                        auctionDataBlock(nil)
+                    }
+                }
+            }
+            operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
+        } catch {
+            auctionDataBlock(nil)
+        }
+    }
+    
+    /** 获取作品出价列表 */
+    @objc func performAuctionBidList(auctionInfo: AuctionInfo, bidListBlock: @escaping (Array<BidHistory>) -> Void) {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: ConnectionItem.defaultConnection.url, logger: logger)
+        
+        var auctionId = auctionInfo.id
+        let auctionIdData: Data = Data(bytes: &auctionId, count: MemoryLayout<UInt64>.size)
+        
+        do {
+            let key = try (StorageKeyFactory().auctionBidHistoryList() + auctionIdData).toHex(includePrefix: true)
+            let operation = JSONRPCListOperation<JSONScaleListDecodable>(engine: engine,
+                                                                                  method: RPCMethod.getStorage,
+                                                                                  parameters: [key])
+            
+            let operationsWrapper = CompoundOperationWrapper(targetOperation: operation)
+            operationsWrapper.targetOperation.completionBlock = {
+                do {
+                    let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+                    guard let auctionList = result.underlyingValue else {
+                        bidListBlock(Array())
+                        return
+                    }
+                    bidListBlock(auctionList)
+                } catch {
+                    bidListBlock(Array())
+                }
+            }
+            operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
+        } catch {
+            bidListBlock(Array())
+        }
     }
 }

@@ -28,7 +28,7 @@ class PinSetupWireframe: PinSetupWireframeProtocol, JLAccountListViewControllerP
         JLTool.resetRootViewControoler(navigationController)
     }
 
-    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?) {
+    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?, userAvatar: String?) {
 //        guard let mainViewController = MainTabBarViewFactory.createView()?.controller else {
 //            return
 //        }
@@ -51,6 +51,7 @@ class PinSetupWireframe: PinSetupWireframeProtocol, JLAccountListViewControllerP
         let walletContext = try? WalletContextFactory().createContext()
         guard let walletController = MainTabBarViewFactory.createWalletController(walletContext: walletContext!, localizationManager: localizationManager) else { return }
         (walletController as! JLAccountListViewController).delegate = self
+        (walletController as! JLAccountListViewController).userAvatar = userAvatar
         let walletNavigationController = JLNavigationViewController(rootViewController: walletController)
         self.navigationController = walletNavigationController
         rootAnimator.animateTransition(to: walletNavigationController)

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UILabel *signTimeLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic, strong) UIView *lineView;
+
+@property (nonatomic, strong) UIView *auctioningView;
 @end
 
 @implementation JLApplyCertSelfSignCell
@@ -37,6 +39,7 @@
     [self.contentView addSubview:self.signTimeLabel];
     [self.contentView addSubview:self.arrowImageView];
     [self.contentView addSubview:self.lineView];
+    [self.contentView addSubview:self.auctioningView];
     
     [self.worksImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -78,6 +81,36 @@
         make.height.mas_equalTo(15.0f);
         make.centerY.equalTo(self.contentView);
     }];
+    [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self.worksImageView);
+        make.width.mas_equalTo(45.0f);
+        make.height.mas_equalTo(20.0f);
+    }];
+}
+
+- (UIView *)auctioningView {
+    if (!_auctioningView) {
+        _auctioningView = [[UIView alloc] init];
+        
+        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_back_auctioning"]];
+        [_auctioningView addSubview:backImageView];
+        
+        UILabel *statusLabel = [[UILabel alloc] init];
+        statusLabel.font = kFontPingFangSCMedium(12.0f);
+        statusLabel.textColor = JL_color_white_ffffff;
+        statusLabel.textAlignment = NSTextAlignmentCenter;
+        statusLabel.text = @"拍卖中";
+        [_auctioningView addSubview:statusLabel];
+        
+        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        [statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        _auctioningView.hidden = YES;
+    }
+    return _auctioningView;
 }
 
 - (UIImageView *)worksImageView {
@@ -141,5 +174,12 @@
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     NSDate *signDate = [NSDate dateWithTimeIntervalSince1970:artDetailData.last_sign_at.doubleValue];
     self.signTimeLabel.text = [NSString stringWithFormat:@"签名时间：%@", [signDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"]];
+    
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 @end

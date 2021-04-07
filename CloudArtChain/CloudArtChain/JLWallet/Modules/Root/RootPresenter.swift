@@ -8,9 +8,9 @@ final class RootPresenter {
 }
 
 extension RootPresenter: RootPresenterProtocol {
-    func loadOnLaunch(navigationController: UINavigationController) {
+    func loadOnLaunch(navigationController: UINavigationController, userAvatar: String?) {
         interactor.setup()
-        interactor.decideModuleSynchroniously(navigationController: navigationController)
+        interactor.decideModuleSynchroniously(navigationController: navigationController, userAvatar: userAvatar)
     }
     
     func getAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void) {
@@ -40,8 +40,8 @@ extension RootPresenter: RootInteractorOutputProtocol {
         wireframe.showBroken(on: view)
     }
     
-    func didDecideWallet(navigationController: UINavigationController) {
-        wireframe.showWallet(on: view, navigationController: navigationController)
+    func didDecideWallet(navigationController: UINavigationController, userAvatar: String?) {
+        wireframe.showWallet(on: view, navigationController: navigationController, userAvatar: userAvatar)
     }
     
     func didDecideGetAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void) {

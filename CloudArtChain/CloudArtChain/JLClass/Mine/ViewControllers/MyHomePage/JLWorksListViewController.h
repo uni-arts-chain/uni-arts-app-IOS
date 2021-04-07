@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^applyAddCertBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^launchAuctionBlock)(Model_art_Detail_Data *artDetailData, NSIndexPath *indexPath);
 - (void)addToBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData;
+- (void)launchAuctionFromNotList:(NSIndexPath *)indexPath;
 @end
 
 NS_ASSUME_NONNULL_END

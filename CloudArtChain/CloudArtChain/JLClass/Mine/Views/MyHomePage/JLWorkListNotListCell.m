@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIButton *applyAddCertBtn;
 @property (nonatomic, strong) UILabel *applyAddCertStatusLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
+
+@property (nonatomic, strong) NSIndexPath *indexPath;
 @end
 
 @implementation JLWorkListNotListCell
@@ -100,7 +102,7 @@
 
 - (void)applyAuctionBtnClick {
     if (self.applyAuctionBlock) {
-        self.applyAuctionBlock(self.artDetailData);
+        self.applyAuctionBlock(self.artDetailData, self.indexPath);
     }
 }
 
@@ -137,7 +139,8 @@
     return _statusLabel;
 }
 
-- (void)setArtDetail:(Model_art_Detail_Data *)artDetailData {
+- (void)setArtDetail:(Model_art_Detail_Data *)artDetailData indexPath:(NSIndexPath *)indexPath {
+    self.indexPath = indexPath;
     if ([artDetailData.aasm_state isEqualToString:@"prepare"]) {
         self.statusLabel.hidden = NO;
         self.addToListBtn.hidden = YES;

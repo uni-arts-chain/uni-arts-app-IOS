@@ -36,6 +36,10 @@ extension Chain {
     var transferCallIndex: UInt8 { 0 }
     var createSaleOrderCallIndex: UInt8 { 19 }
     var cancelSaleOrderCallIndex: UInt8 { 20 }
+    var acceptSaleOrderCallIndex: UInt8 { 21 }
+    var createAuctionCallIndex: UInt8 { 26 }
+    var bidCallIndex: UInt8 { 27 }
+    var cancelAuctionCallIndex: UInt8 { 29 }
 
     var keepAliveTransferCallIndex: UInt8 { 3 }
 }

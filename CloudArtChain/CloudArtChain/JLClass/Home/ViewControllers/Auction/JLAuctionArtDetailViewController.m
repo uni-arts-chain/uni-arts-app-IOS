@@ -46,6 +46,7 @@
 
 @property (nonatomic, strong) UIButton *likeButton;
 @property (nonatomic, strong) UIButton *dislikeButton;
+@property (nonatomic, strong) UIButton *offerBtn;
 // 测试数据
 @property (nonatomic, strong) NSArray *tempImageArray;
 @end
@@ -56,6 +57,13 @@
     self.navigationItem.title = @"详情";
     [self addBackItem];
     [self createSubView];
+}
+
+- (void)backClick {
+    if (!self.artsData.art.favorite_by_me && self.cancelFavorateBlock) {
+        self.cancelFavorateBlock();
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -110,7 +118,8 @@
 
 - (void)getChainBlock {
     WS(weakSelf)
-    NSTimeInterval currentInterval = [[NSDate date] timeIntervalSince1970];
+    NSDate *currentDate = [NSDate date];
+    NSTimeInterval currentInterval = [currentDate timeIntervalSince1970];
     [[JLViewControllerTool appDelegate].walletTool getBlockWithBlockNumberBlock:^(UInt32 blockNumber) {
         NSTimeInterval auctionStartTimeInterval = (weakSelf.artsData.art.auction_start_time.integerValue - blockNumber) * 6 + currentInterval;
         NSTimeInterval auctionEndTimeInterval = (weakSelf.artsData.art.auction_end_time.integerValue - blockNumber) * 6 + currentInterval;
@@ -124,6 +133,33 @@
             countDownInterval = auctionEndTimeInterval - currentInterval;
         }
         [weakSelf.actionTimeView setTimeType:timeType countDownInterval:countDownInterval];
+        [weakSelf getAuctionInfo:currentDate currentBlockNumber:blockNumber];
+        
+        if (timeType != JLActionTimeTypeRuning) {
+            weakSelf.offerBtn.enabled = NO;
+            weakSelf.offerBtn.backgroundColor = JL_color_gray_999999;
+        }
+    }];
+}
+
+- (void)getAuctionInfo:(NSDate *)currentDate currentBlockNumber:(UInt32)blockNumber {
+    WS(weakSelf)
+    [[JLViewControllerTool appDelegate].walletTool performAuctionInfoWithCollectionID:self.artsData.art.collection_id.intValue itemID:self.artsData.art.item_id.intValue auctionDataBlock:^(AuctionInfo * _Nullable auctionInfo) {
+        if (auctionInfo != nil) {
+            [weakSelf getAuctionBidList:auctionInfo currentDate:currentDate currentBlockNumber:blockNumber];
+            [weakSelf.artsData updateWithAuctionInfo:auctionInfo CurrentDate:currentDate blockNumber:blockNumber];
+            weakSelf.artDetailPriceView.artsData = weakSelf.artsData;
+            weakSelf.auctionPriceView.artsData = weakSelf.artsData;
+        }
+    }];
+}
+
+- (void)getAuctionBidList:(AuctionInfo *)auctionInfo currentDate:(NSDate *)currentDate currentBlockNumber:(UInt32)blockNumber {
+    WS(weakSelf)
+    [[JLViewControllerTool appDelegate].walletTool performAuctionBidListWithAuctionInfo:auctionInfo bidListBlock:^(NSArray<BidHistory *> * _Nonnull bidHistoryList) {
+        NSMutableArray *tempArray = [NSMutableArray arrayWithArray:bidHistoryList];
+        bidHistoryList = [[tempArray reverseObjectEnumerator] allObjects];
+        [weakSelf.offerRecordView setBidList:bidHistoryList currentDate:currentDate currentBlockNumber:blockNumber];
     }];
 }
 
@@ -183,16 +219,16 @@
     [self.bottomBar addSubview:collectButton];
     
     // 立即购买
-    UIButton *offerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [offerBtn setTitle:@"出价" forState:UIControlStateNormal];
-    [offerBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-    offerBtn.titleLabel.font = kFontPingFangSCRegular(15.0f);
-    offerBtn.backgroundColor = JL_color_red_D70000;
-    ViewBorderRadius(offerBtn, 17.0f, 0.0f, JL_color_clear);
-    [offerBtn addTarget:self action:@selector(offerBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.bottomBar addSubview:offerBtn];
+    self.offerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.offerBtn setTitle:@"出价" forState:UIControlStateNormal];
+    [self.offerBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
+    self.offerBtn.titleLabel.font = kFontPingFangSCRegular(15.0f);
+    self.offerBtn.backgroundColor = JL_color_red_D70000;
+    ViewBorderRadius(self.offerBtn, 17.0f, 0.0f, JL_color_clear);
+    [self.offerBtn addTarget:self action:@selector(offerBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomBar addSubview:self.offerBtn];
     
-    [offerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.offerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10.0f);
         make.bottom.mas_equalTo(-10.0f);
         make.right.mas_equalTo(-15.0f);
@@ -344,9 +380,14 @@
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        JLActionOfferView *offerView = [[JLActionOfferView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 290.0f)];
+        JLActionOfferView *offerView = [[JLActionOfferView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 40.0f * 2, 290.0f) artsData:self.artsData];
         offerView.offerBlock = ^(NSString * _Nonnull price) {
-            NSLog(@"出价：%@", price);
+            [[JLViewControllerTool appDelegate].walletTool auctionBidCallWithCollectionId:weakSelf.artsData.art.collection_id.intValue itemId:weakSelf.artsData.art.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+                if (success) {
+                    [weakSelf getChainBlock];
+                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"出价成功" hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
         };
         ViewBorderRadius(offerView, 5.0f, 0.0f, JL_color_clear);
         [JLAlert alertCustomView:offerView maxWidth:kScreenWidth - 40.0f * 2];
@@ -469,8 +510,11 @@
     if (!_offerRecordView) {
         WS(weakSelf)
         _offerRecordView = [[JLAuctionOfferRecordView alloc] initWithFrame:CGRectMake(0.0f, self.auctionPriceView.frameBottom + 10.0f, kScreenWidth, 192.0f)];
-        _offerRecordView.recordListBlock = ^{
+        _offerRecordView.recordListBlock = ^(NSArray * _Nonnull bidList, NSDate * _Nonnull blockDate, UInt32 blockNumber) {
             JLAuctionOfferRecordViewController *auctionOfferRecordVC = [[JLAuctionOfferRecordViewController alloc] init];
+            auctionOfferRecordVC.bidList = bidList;
+            auctionOfferRecordVC.blockDate = blockDate;
+            auctionOfferRecordVC.blockNumber = blockNumber;
             [weakSelf.navigationController pushViewController:auctionOfferRecordVC animated:YES];
         };
     }

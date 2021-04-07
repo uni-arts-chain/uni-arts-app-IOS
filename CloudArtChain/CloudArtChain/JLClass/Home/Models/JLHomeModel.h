@@ -184,6 +184,7 @@
 @property (nonatomic, strong) NSString *start_time;
 @property (nonatomic, strong) NSString *end_time;
 @property (nonatomic, strong) Model_art_Detail_Data *art;
+- (void)updateWithAuctionInfo:(AuctionInfo *)auctionInfo CurrentDate:(NSDate *)currentDate blockNumber:(UInt32)blockNumber;
 @end
 @interface Model_auction_meetings_arts_Req : Model_Req
 /** 页码 */
@@ -348,6 +349,7 @@
 #pragma mark /messages 通知列表
 @protocol Model_messages_Data @end
 @interface Model_messages_Data : Model_Interface
+@property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *body;
 @property (nonatomic, assign) BOOL read;
@@ -360,5 +362,28 @@
 @end
 @interface Model_messages_Rsp : Model_Rsp_V1
 @property (nonatomic, strong) NSArray<Model_messages_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/read 消息已读
+@interface Model_messages_read_Req : Model_Req
+@property (nonatomic, strong) NSString *id;
+@end
+@interface Model_messages_read_Rsp : Model_Rsp_V1
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/has_unread 用户是否有未读消息
+@interface Model_messages_has_unread_Data: Model_Interface
+@property (nonatomic, assign) BOOL has_unread;
+@end
+@interface Model_messages_has_unread_Req : Model_Req
+@end
+@interface Model_messages_has_unread_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_messages_has_unread_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/read_all 全部已读
+@interface Model_messages_read_all_Req : Model_Req
+@end
+@interface Model_messages_read_all_Rsp : Model_Rsp_V1
 @end
 //////////////////////////////////////////////////////////////////////////

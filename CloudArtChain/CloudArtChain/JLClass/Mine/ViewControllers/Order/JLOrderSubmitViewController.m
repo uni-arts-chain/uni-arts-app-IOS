@@ -9,8 +9,6 @@
 #import "JLOrderSubmitViewController.h"
 #import "JLEditAddressViewController.h"
 
-#import "JLOrderDetailAddressTableViewCell.h"
-#import "JLOrderDetailAddressAddNewTableViewCell.h"
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
 
 @interface JLOrderSubmitViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -54,8 +52,6 @@
         _tableView.estimatedSectionFooterHeight = 0;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
-        [_tableView registerClass:[JLOrderDetailAddressTableViewCell class] forCellReuseIdentifier:@"JLOrderDetailAddressTableViewCell"];
-        [_tableView registerClass:[JLOrderDetailAddressAddNewTableViewCell class] forCellReuseIdentifier:@"JLOrderDetailAddressAddNewTableViewCell"];
         [_tableView registerClass:[JLOrderDetailProductBottomPriceTableViewCell class] forCellReuseIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell"];
     }
     return _tableView;
@@ -73,7 +69,8 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        UILabel *priceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        NSString *priceString = [NSString stringWithFormat:@"%@ UART", self.artDetailData.price];
+        UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:priceLabel];
         
         UIButton *submitButton = [JLUIFactory buttonInitTitle:@"提交订单" titleColor:JL_color_white_ffffff backgroundColor:JL_color_black font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(submitBtnClick)];
@@ -107,7 +104,7 @@
     WS(weakSelf)
     [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
         if (success) {
-            [[JLViewControllerTool appDelegate].walletTool sellOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+            [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
                 if (success) {
                     [weakSelf.navigationController popToRootViewControllerAnimated:true];
                     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
@@ -119,25 +116,13 @@
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WS(weakSelf)
-    if (indexPath.row == 0) {
-        JLOrderDetailAddressAddNewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailAddressAddNewTableViewCell" forIndexPath:indexPath];
-        cell.addNewBlock = ^{
-            JLEditAddressViewController *addAddressVC = [[JLEditAddressViewController alloc] init];
-            addAddressVC.editAdressType = JLEidtAddressTypeAdd;
-            [weakSelf.navigationController pushViewController:addAddressVC animated:YES];
-        };
-        return cell;
-    } else if (indexPath.row == 1) {
-        JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
-        return cell;
-    } else {
-        return nil;
-    }
+    JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
+    cell.artDetailData = self.artDetailData;
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionOfferRecordCell.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionOfferRecordCell ()
 @property (nonatomic, strong) UILabel *userNameLabel;
@@ -31,6 +32,7 @@
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(16.0f);
         make.centerY.equalTo(self.contentView.mas_centerY);
+        make.right.equalTo(self.timeLabel.mas_left).offset(-20.0f);
     }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.contentView.mas_centerX);
@@ -39,38 +41,50 @@
     [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-16.0f);
         make.centerY.equalTo(self.contentView.mas_centerY);
+        make.left.equalTo(self.timeLabel.mas_right).offset(20.0f);
     }];
 }
 
 - (UILabel *)userNameLabel {
     if (!_userNameLabel) {
-        _userNameLabel = [JLUIFactory labelInitText:@"13****20" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _userNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _userNameLabel.numberOfLines = 1;
     }
     return _userNameLabel;
 }
 
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"2020.08.06 15:32:26" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _timeLabel.adjustsFontSizeToFitWidth = YES;
     }
     return _timeLabel;
 }
 
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
-        _statusLabel = [JLUIFactory labelInitText:@"出局￥1400" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _statusLabel.numberOfLines = 1;
+        _statusLabel.adjustsFontSizeToFitWidth = YES;
     }
     return _statusLabel;
 }
 
-- (void)setIndexPath:(NSIndexPath *)indexPath {
+- (void)setBidHistory:(BidHistory *)bidHistory indexPath:(NSIndexPath *)indexPath blockDate:(NSDate *)blockDate blockNumber:(UInt32)blockNumber {
+    self.userNameLabel.text = [bidHistory.bidder address];
+    NSTimeInterval currentInterval = [blockDate timeIntervalSince1970];
+    NSTimeInterval auctionStartTimeInterval = ([bidHistory getDoubleBidTime] - blockNumber) * 6 +currentInterval;
+    NSDate *bidDate = [NSDate dateWithTimeIntervalSince1970:auctionStartTimeInterval];
+    self.timeLabel.text = [bidDate dateWithCustomFormat:@"yyyy.MM.dd HH:mm:ss"];
+    
+    NSString *priceString = @([bidHistory getBidPriceWithPrecision:[[JLViewControllerTool appDelegate].walletTool getAssetPrecision]]).stringValue;
+    NSDecimalNumber *priceDecimalNumber = [NSDecimalNumber decimalNumberWithString:priceString];
     if (indexPath.row == 0) {
-        self.statusLabel.text = @"领先￥1400";
+        self.statusLabel.text = [NSString stringWithFormat:@"领先 %@UART", priceDecimalNumber.stringValue];
         self.statusLabel.textColor = JL_color_red_D70000;
     } else {
-        self.statusLabel.text = @"出局￥1400";
+        self.statusLabel.text = [NSString stringWithFormat:@"出局 %@UART", priceDecimalNumber.stringValue];
         self.statusLabel.textColor = JL_color_gray_101010;
     }
 }
-
 @end

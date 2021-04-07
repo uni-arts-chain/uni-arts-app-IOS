@@ -13,6 +13,12 @@
 @interface JLAuctionOfferRecordView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIButton *recordListButton;
+
+// 出价记录
+@property (nonatomic, strong) NSArray *bidList;
+@property (nonatomic, strong) NSDate *blockDate;
+@property (nonatomic, assign) UInt32 blockNumber;
 @end
 
 @implementation JLAuctionOfferRecordView
@@ -50,16 +56,16 @@
             make.bottom.equalTo(_headerView);
         }];
         
-        UIButton *recordListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [recordListButton setTitle:@"4条记录" forState:UIControlStateNormal];
-        [recordListButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        recordListButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
-        [recordListButton setImage:[UIImage imageNamed:@"icon_auction_sanjiaoxing"] forState:UIControlStateNormal];
-        recordListButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
-        recordListButton.axcUI_padding = 10.0f;
-        [recordListButton addTarget:self action:@selector(recordListButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [_headerView addSubview:recordListButton];
-        [recordListButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.recordListButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.recordListButton setTitle:@"0条记录" forState:UIControlStateNormal];
+        [self.recordListButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        self.recordListButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
+        [self.recordListButton setImage:[UIImage imageNamed:@"icon_auction_sanjiaoxing"] forState:UIControlStateNormal];
+        self.recordListButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
+        self.recordListButton.axcUI_padding = 10.0f;
+        [self.recordListButton addTarget:self action:@selector(recordListButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [_headerView addSubview:self.recordListButton];
+        [self.recordListButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(-16.0f - 10.0f);
             make.centerY.equalTo(titleLabel.mas_centerY);
         }];
@@ -69,7 +75,7 @@
 
 - (void)recordListButtonClick {
     if (self.recordListBlock) {
-        self.recordListBlock();
+        self.recordListBlock(self.bidList, self.blockDate, self.blockNumber);
     }
 }
 
@@ -90,12 +96,15 @@
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    if (self.bidList.count > 3) {
+        return 3;
+    }
+    return self.bidList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLAuctionOfferRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLAuctionOfferRecordCell" forIndexPath:indexPath];
-    cell.indexPath = indexPath;
+    [cell setBidHistory:self.bidList[indexPath.row] indexPath:indexPath blockDate:self.blockDate blockNumber:self.blockNumber];
     return cell;
 }
 
@@ -117,6 +126,17 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [UIView new];
+}
+
+- (void)setBidList:(NSArray *)bidList currentDate:(NSDate *)currentDate currentBlockNumber:(UInt32)blockNumber {
+    WS(weakSelf)
+    _bidList = bidList;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.recordListButton setTitle:[NSString stringWithFormat:@"%ld条记录", bidList.count] forState:UIControlStateNormal];
+        weakSelf.blockDate = currentDate;
+        weakSelf.blockNumber = blockNumber;
+        [weakSelf.tableView reloadData];
+    });
 }
 
 @end

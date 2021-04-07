@@ -5,7 +5,7 @@ final class AccountImportWireframe: AccountImportWireframeProtocol {
     lazy var rootAnimator: RootControllerAnimationCoordinatorProtocol = RootControllerAnimationCoordinator()
 
     func proceed(from view: AccountImportViewProtocol?) {
-        guard let pincodeViewController = PinViewFactory.createPinSetupView(navigationController: view?.controller.navigationController)?.controller else {
+        guard let pincodeViewController = PinViewFactory.createPinSetupView(navigationController: view?.controller.navigationController, userAvatar: nil)?.controller else {
             return
         }
 

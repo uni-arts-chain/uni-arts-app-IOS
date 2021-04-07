@@ -33,7 +33,7 @@ extension LocalAuthPresenter: LocalAuthInteractorOutputProtocol {
 
     func didCompleteAuth() {
         DispatchQueue.main.async { [weak self] in
-            self?.wireframe.showMain(from: self?.view, navigationController: nil)
+            self?.wireframe.showMain(from: self?.view, navigationController: nil, userAvatar: nil)
         }
     }
 

@@ -21,7 +21,7 @@ NSString *const RFUserInfo     = @"UserInfo";
 }
 
 + (void)presentCreateWallet {
-    [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController];
+    [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]];
 }
 
 //弹出登录界面
@@ -150,6 +150,7 @@ NSString *const RFUserInfo     = @"UserInfo";
                 [AppSingleton sharedAppSingleton].userBody = response.body;
                 UserDataTokens *firstToken = [response.body getToken];
                 [JLLoginUtil cacheUserToken:firstToken];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"UserLoginNotification" object:nil userInfo:response.body.avatar];
             } else {
                 NSLog(@"login error: %@", errorStr);
                 [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];

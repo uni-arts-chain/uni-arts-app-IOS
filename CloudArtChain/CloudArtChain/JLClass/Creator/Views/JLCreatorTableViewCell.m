@@ -8,6 +8,7 @@
 
 #import "JLCreatorTableViewCell.h"
 #import "JLCreatorWorksCollectionViewCell.h"
+#import "JLAuctionArtDetailViewController.h"
 
 #import "JLArtDetailViewController.h"
 #import "JLCreatorPageViewController.h"
@@ -202,10 +203,20 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Model_art_Detail_Data *artDetailData = self.artsArray[indexPath.row];
-    JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-    artDetailVC.artDetailData = artDetailData;
-    [self.viewController.navigationController pushViewController:artDetailVC animated:YES];
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+        auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+        Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+        meetingsArtsData.art = artDetailData;
+        auctionDetailVC.artsData = meetingsArtsData;
+        [self.viewController.navigationController pushViewController:auctionDetailVC animated:YES];
+    } else {
+        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+        artDetailVC.artDetailData = artDetailData;
+        [self.viewController.navigationController pushViewController:artDetailVC animated:YES];
+    }
 }
 
 - (void)setPreTopicData:(Model_members_pre_artist_topic_Data *)preTopicData {

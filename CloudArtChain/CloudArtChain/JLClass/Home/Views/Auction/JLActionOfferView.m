@@ -11,6 +11,8 @@
 #import "JLBaseTextField.h"
 
 @interface JLActionOfferView ()
+@property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) UILabel *priceNoticeLabel;
@@ -22,8 +24,9 @@
 @end
 
 @implementation JLActionOfferView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame artsData:(Model_auction_meetings_arts_Data *)artsData {
     if (self = [super initWithFrame:frame]) {
+        self.artsData = artsData;
         self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
@@ -104,21 +107,22 @@
 
 - (UILabel *)priceNoticeLabel {
     if (!_priceNoticeLabel) {
-        _priceNoticeLabel = [JLUIFactory labelInitText:@"当前价 1200 UART，您已出价 1100 UART，至少还需加价 200 UART" font:kFontPingFangSCRegular(11.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        NSString *notice = [NSString stringWithFormat:@"当前价 %@ UART，您已出价 %@ UART，至少还需加价 %@ UART", self.artsData.art.price, self.artsData.art.price, self.artsData.price_increment];
+        _priceNoticeLabel = [JLUIFactory labelInitText:notice font:kFontPingFangSCRegular(11.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_priceNoticeLabel.text];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = 5.0f;
         paragraphStyle.alignment = NSTextAlignmentCenter;
         [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, _priceNoticeLabel.text.length)];
         
-        NSRange currentPriceRange = [_priceNoticeLabel.text rangeOfString:@"1200"];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(currentPriceRange.location, 4)];
+        NSRange currentPriceRange = [_priceNoticeLabel.text rangeOfString:self.artsData.art.price];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(currentPriceRange.location, self.artsData.art.price.length)];
         
-        NSRange offeredPriceRange = [_priceNoticeLabel.text rangeOfString:@"1100"];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(offeredPriceRange.location, 4)];
+        NSRange offeredPriceRange = [_priceNoticeLabel.text rangeOfString:self.artsData.art.price options:NSBackwardsSearch];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(offeredPriceRange.location, self.artsData.art.price.length)];
         
-        NSRange addPriceRange = [_priceNoticeLabel.text rangeOfString:@"200" options:NSBackwardsSearch];
-        [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_red_D70000, NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(addPriceRange.location, 3)];
+        NSRange addPriceRange = [_priceNoticeLabel.text rangeOfString:self.artsData.price_increment options:NSBackwardsSearch];
+        [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_red_D70000, NSFontAttributeName: kFontPingFangSCSCSemibold(11.0f)} range:NSMakeRange(addPriceRange.location, self.artsData.price_increment.length)];
         _priceNoticeLabel.attributedText = attr;
     }
     return _priceNoticeLabel;
@@ -179,6 +183,11 @@
 - (void)offerButtonClick {
     if (![NSString stringIsEmpty:self.priceTF.text]) {
         [self endEditing:YES];
+        NSString *currentPrice = self.priceTF.text;
+        if (currentPrice.doubleValue - self.artsData.art.price.doubleValue < self.artsData.price_increment.doubleValue) {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"出价金额小于最小加价" hideTime:KToastDismissDelayTimeInterval];
+            return;
+        }
         [self closeButtonClick];
         if (self.offerBlock) {
             self.offerBlock(self.priceTF.text);

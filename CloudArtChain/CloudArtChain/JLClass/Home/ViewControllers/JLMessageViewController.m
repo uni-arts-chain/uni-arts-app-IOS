@@ -25,6 +25,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"消息";
     [self addBackItem];
+    [self addRightBarButton];
     
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -33,6 +34,35 @@
     }];
     
     [self.tableView.mj_header beginRefreshing];
+}
+
+- (void)addRightBarButton {
+    NSString *title = @"全部已读";
+    UIBarButtonItem * rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(maskAllReadedClick)];
+    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_212121, NSFontAttributeName: kFontPingFangSCRegular(14.0f)};
+    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateNormal];
+    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateHighlighted];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
+- (void)maskAllReadedClick {
+    WS(weakSelf)
+    Model_messages_read_all_Req *request = [[Model_messages_read_all_Req alloc] init];
+    Model_messages_read_all_Rsp *response = [[Model_messages_read_all_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            NSArray *tempArray = [weakSelf.messageListArray copy];
+            [weakSelf.messageListArray removeAllObjects];
+            for (Model_messages_Data *messageData in tempArray) {
+                messageData.read = YES;
+                [weakSelf.messageListArray addObject:messageData];
+            }
+            [weakSelf.tableView reloadData];
+        }
+    }];
 }
 
 - (UITableView *)tableView {
@@ -98,6 +128,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
     [self.navigationController pushViewController:homePageVC animated:YES];
+    // 标记消息已读
+    [self maskMessageReaded:indexPath];
 }
 
 - (NSMutableArray *)messageListArray {
@@ -132,6 +164,22 @@
         } else {
             [weakSelf.tableView.mj_header endRefreshing];
             [weakSelf.tableView.mj_footer endRefreshing];
+        }
+    }];
+}
+
+- (void)maskMessageReaded:(NSIndexPath *)indexPath {
+    WS(weakSelf)
+    Model_messages_Data *messageData = self.messageListArray[indexPath.row];
+    Model_messages_read_Req *request = [[Model_messages_read_Req alloc] init];
+    request.id = messageData.ID;
+    Model_messages_read_Rsp *response = [[Model_messages_read_Rsp alloc] init];
+    
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            messageData.read = YES;
+            [weakSelf.messageListArray replaceObjectAtIndex:indexPath.row withObject:messageData];
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
     }];
 }

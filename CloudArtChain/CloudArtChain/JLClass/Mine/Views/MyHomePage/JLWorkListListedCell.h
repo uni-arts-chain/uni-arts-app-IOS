@@ -13,6 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JLWorkListListedCell : JLWorkListBaseTableViewCell
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^applyAddCertBlock)(Model_art_Detail_Data *artDetailData);
+- (void)refreshWithArtDetailData:(Model_art_Detail_Data *)artDetailData;
 @end
-
 NS_ASSUME_NONNULL_END

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UIView *auctioningView;
 @end
 
 @implementation JLPopularOriginalCollectionViewCell
@@ -31,6 +32,7 @@
     [self addSubview:self.descLabel];
     [self addSubview:self.addressLabel];
     [self addSubview:self.priceLabel];
+    [self addSubview:self.auctioningView];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
@@ -55,6 +57,11 @@
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
         make.bottom.equalTo(self.authorLabel.mas_top).offset(-16.0f);
+    }];
+    [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self);
+        make.width.mas_equalTo(45.0f);
+        make.height.mas_equalTo(20.0f);
     }];
 }
 
@@ -102,6 +109,31 @@
     return _priceLabel;
 }
 
+- (UIView *)auctioningView {
+    if (!_auctioningView) {
+        _auctioningView = [[UIView alloc] init];
+        
+        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_back_auctioning"]];
+        [_auctioningView addSubview:backImageView];
+        
+        UILabel *statusLabel = [[UILabel alloc] init];
+        statusLabel.font = kFontPingFangSCMedium(12.0f);
+        statusLabel.textColor = JL_color_white_ffffff;
+        statusLabel.textAlignment = NSTextAlignmentCenter;
+        statusLabel.text = @"拍卖中";
+        [_auctioningView addSubview:statusLabel];
+        
+        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        [statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        _auctioningView.hidden = YES;
+    }
+    return _auctioningView;
+}
+
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
@@ -120,6 +152,13 @@
     self.descLabel.text = popularArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", popularArtData.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", popularArtData.price];
+    
+    if ([popularArtData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
@@ -130,6 +169,13 @@
     self.descLabel.text = themeArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", themeArtData.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", themeArtData.price];
+    
+    if ([themeArtData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
@@ -140,6 +186,13 @@
     self.descLabel.text = collectionArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", collectionArtData.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", collectionArtData.price];
+    
+    if ([collectionArtData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
@@ -150,6 +203,13 @@
     self.descLabel.text = authorArtData.details;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", authorArtData.item_hash];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", authorArtData.price];
+    
+    if ([authorArtData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 
 @end

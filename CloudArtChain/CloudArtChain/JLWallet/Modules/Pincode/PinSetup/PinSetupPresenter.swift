@@ -5,6 +5,7 @@ class PinSetupPresenter: PinSetupPresenterProtocol {
     var interactor: PinSetupInteractorInputProtocol!
     var wireframe: PinSetupWireframeProtocol!
     var navigationController: UINavigationController?
+    var userAvatar: String?
 
     func start() {
         view?.didChangeAccessoryState(enabled: false)
@@ -32,7 +33,7 @@ extension PinSetupPresenter: PinSetupInteractorOutputProtocol {
 
     func didSavePin() {
         DispatchQueue.main.async { [weak self] in
-            self?.wireframe.showMain(from: self?.view, navigationController: self?.navigationController)
+            self?.wireframe.showMain(from: self?.view, navigationController: self?.navigationController, userAvatar: self?.userAvatar)
         }
     }
 

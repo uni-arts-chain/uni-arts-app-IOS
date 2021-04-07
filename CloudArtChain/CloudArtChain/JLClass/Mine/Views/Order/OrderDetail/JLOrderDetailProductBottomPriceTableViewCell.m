@@ -81,6 +81,7 @@
     [self.certifyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.authorNameLabel.mas_left);
         make.bottom.equalTo(self.productImageView.mas_bottom);
+        make.right.mas_equalTo(-70.0f);
     }];
     [self.noteTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
@@ -127,7 +128,6 @@
 - (UIImageView *)productImageView {
     if (!_productImageView) {
         _productImageView = [[UIImageView alloc] init];
-        _productImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_productImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _productImageView;
@@ -135,28 +135,29 @@
 
 - (UILabel *)authorNameLabel {
     if (!_authorNameLabel) {
-        _authorNameLabel = [JLUIFactory labelInitText:@"伍静" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _authorNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _authorNameLabel;
 }
 
 - (UILabel *)productNameLabel {
     if (!_productNameLabel) {
-        _productNameLabel = [JLUIFactory labelInitText:@"金葡萄" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _productNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _productNameLabel;
 }
 
 - (UILabel *)certifyAddressLabel {
     if (!_certifyAddressLabel) {
-        _certifyAddressLabel = [JLUIFactory labelInitText:@"证书地址：00000010111..." font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _certifyAddressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _certifyAddressLabel.numberOfLines = 1;
     }
     return _certifyAddressLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
 }
@@ -193,8 +194,19 @@
 
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
-        _totalPriceLabel = [JLUIFactory labelInitText:@"950 UART" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
     }
     return _totalPriceLabel;
+}
+
+-(void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
+        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+    }
+    self.authorNameLabel.text = [NSString stringIsEmpty:artDetailData.author.display_name] ? @"" : artDetailData.author.display_name;
+    self.productNameLabel.text = artDetailData.name;
+    self.certifyAddressLabel.text = [NSString stringWithFormat:@"证书地址：%@", artDetailData.item_hash];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
 }
 @end

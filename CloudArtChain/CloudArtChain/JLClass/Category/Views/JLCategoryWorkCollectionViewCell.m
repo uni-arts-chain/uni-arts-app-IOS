@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+
+@property (nonatomic, strong) UIView *auctioningView;
 @end
 
 @implementation JLCategoryWorkCollectionViewCell
@@ -29,6 +31,7 @@
     [self addSubview:self.nameLabel];
     [self addSubview:self.infoLabel];
     [self addSubview:self.priceLabel];
+    [self addSubview:self.auctioningView];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(-18.0f);
@@ -48,6 +51,11 @@
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
         make.bottom.equalTo(self.nameLabel.mas_top).offset(-17.0f);
+    }];
+    [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(self);
+        make.width.mas_equalTo(45.0);
+        make.height.mas_equalTo(20.0);
     }];
 }
 
@@ -80,6 +88,31 @@
     return _priceLabel;
 }
 
+- (UIView *)auctioningView {
+    if (!_auctioningView) {
+        _auctioningView = [[UIView alloc] init];
+        
+        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_back_auctioning"]];
+        [_auctioningView addSubview:backImageView];
+        
+        UILabel *statusLabel = [[UILabel alloc] init];
+        statusLabel.font = kFontPingFangSCMedium(12.0f);
+        statusLabel.textColor = JL_color_white_ffffff;
+        statusLabel.textAlignment = NSTextAlignmentCenter;
+        statusLabel.text = @"拍卖中";
+        [_auctioningView addSubview:statusLabel];
+        
+        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        [statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_auctioningView);
+        }];
+        _auctioningView.hidden = YES;
+    }
+    return _auctioningView;
+}
+
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
@@ -87,5 +120,12 @@
     self.nameLabel.text = artDetailData.author.display_name;
     self.infoLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue], artDetailData.name];
     self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
 }
 @end

@@ -199,9 +199,8 @@ class RPCTest: XCTestCase {
 
         let engine = WebSocketEngine(url: url, logger: logger)
         
-        let operation = JSONRPCListOperation<JSONScaleDecodable<String>>(engine: engine,
-                                                                              method: RPCMethod.getMetaData,
-                                                                              parameters: nil)
+        let operation = JSONRPCOperation<[String], String>(engine: engine,
+                                                                              method: RPCMethod.getMetaData)
 
         operationQueue.addOperations([operation], waitUntilFinished: true)
 
@@ -210,12 +209,15 @@ class RPCTest: XCTestCase {
         do {
             let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
 
-            guard let metaData = result.underlyingValue?.data else {
-                XCTFail("Empty metaData")
-                return
-            }
+//            guard let metaData = result else {
+//                XCTFail("Empty metaData")
+//                return
+//            }
+//            print("matadata: \(result)")
+            let rawMetadata = try Data(hexString: result)
+            let decoder = try ScaleDecoder(data: rawMetadata)
+            let metaData = try RuntimeMetadata(scaleDecoder: decoder)
             print("matadata: \(metaData)")
-
         } catch {
             XCTFail("Unexpected error: \(error)")
         }

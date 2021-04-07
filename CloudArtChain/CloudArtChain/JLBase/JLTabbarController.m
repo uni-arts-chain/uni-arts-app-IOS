@@ -85,7 +85,7 @@
         if ([topVC isKindOfClass:[JLMineViewController class]]) {
             if ([JLLoginUtil haveSelectedAccount]) {
                 return YES;
-            }else{
+            } else {
                 [JLLoginUtil presentCreateWallet];
                 return NO;
             }

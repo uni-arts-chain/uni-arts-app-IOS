@@ -18,6 +18,7 @@
 #import "JLCustomerServiceViewController.h"
 #import "JLAuctionDetailViewController.h"
 #import "JLBaseWebViewController.h"
+#import "JLAuctionArtDetailViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLHomeAppView.h"
@@ -60,7 +61,7 @@
     [super viewDidLoad];
     self.fd_prefersNavigationBarHidden = YES;
     [self createView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrImportWalletNotification) name:@"CreateOrImportWalletNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrImportWalletNotification:) name:@"CreateOrImportWalletNotification" object:nil];
     
     NSLog(@"signed token %@", [[JLViewControllerTool appDelegate].walletTool accountSignWithOriginData:[[[AppSingleton sharedAppSingleton].userBody getToken].token dataUsingEncoding:NSUTF8StringEncoding] error:nil]);
 }
@@ -71,6 +72,7 @@
 }
 
 - (void)reloadAllService {
+    [self requestHasUnreadMessages];
     [self requestBannersData];
     [self requestAnnounceData];
     [self requestAuctionMeetingList];
@@ -78,7 +80,7 @@
     [self requestThemeList];
 }
 
-- (void)createOrImportWalletNotification {
+- (void)createOrImportWalletNotification:(NSNotification *)notification {
     [[JLViewControllerTool appDelegate].walletTool reloadContacts];
     // 登录
     [JLLoginUtil loginWallet];
@@ -174,14 +176,14 @@
                     [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
                 }
             } else {
-                [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController];
+                [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]];
             }
         };
     }
     return _appView;
 }
 
-- (UIView*)announceView {
+- (UIView *)announceView {
     if (!_announceView) {
         _announceView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.appView.frameBottom , kScreenWidth, 100.0f)];
         _announceView.backgroundColor = JL_color_white_ffffff;
@@ -251,10 +253,20 @@
         WS(weakSelf)
         _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f)];
         _popularOriginalView.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-            artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-            artDetailVC.artDetailData = artDetailData;
-            [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+            if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+                // 拍卖中
+                JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+                auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+                meetingsArtsData.art = artDetailData;
+                auctionDetailVC.artsData = meetingsArtsData;
+                [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
+            } else {
+                JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                artDetailVC.artDetailData = artDetailData;
+                [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+            }
         };
     }
     return _popularOriginalView;
@@ -282,14 +294,15 @@
 
 
 #pragma mark NewPagedFlowView Datasource
-- (CGSize)sizeForPageInFlowView:(NewPagedFlowView *)flowView{
+- (CGSize)sizeForPageInFlowView:(NewPagedFlowView *)flowView {
     return CGSizeMake(kScreenWidth - 25.0f * 2, scrollPageHeight - 10.0f * 2);
 }
+
 - (NSInteger)numberOfPagesInFlowView:(NewPagedFlowView *)flowView {
     return self.bannerArray.count;
 }
 
-- (UIView *)flowView:(NewPagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index{
+- (UIView *)flowView:(NewPagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index {
     PGIndexBannerSubiew *bannerView = (PGIndexBannerSubiew *)[flowView dequeueReusableCell];
     if (!bannerView) {
         bannerView = [[PGIndexBannerSubiew alloc] init];
@@ -338,6 +351,21 @@
     Model_news_Data *annouceData = self.announceArray[index];
     JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
     [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+#pragma mark 查询用户是否有未读消息
+- (void)requestHasUnreadMessages {
+    WS(weakSelf)
+    Model_messages_has_unread_Req *request = [[Model_messages_has_unread_Req alloc] init];
+    Model_messages_has_unread_Rsp *response = [[Model_messages_has_unread_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            [weakSelf.homeNaviView refreshHasMessagesUnread:response.body.has_unread];
+        } else {
+            [weakSelf.homeNaviView refreshHasMessagesUnread:NO];
+        }
+    }];
 }
 
 #pragma mark 请求banner数据
@@ -481,10 +509,20 @@
                 JLThemeRecommendView *themeView = [[JLThemeRecommendView alloc] initWithFrame:CGRectMake(0.0f, (408.0f + 16.0f) * i, kScreenWidth, 408.0f)];
                 themeView.topicData = weakSelf.themeArray[i];
                 themeView.themeRecommendBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                    JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-                    artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-                    artDetailVC.artDetailData = artDetailData;
-                    [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+                    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+                        // 拍卖中
+                        JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+                        auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                        Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+                        meetingsArtsData.art = artDetailData;
+                        auctionDetailVC.artsData = meetingsArtsData;
+                        [self.navigationController pushViewController:auctionDetailVC animated:YES];
+                    } else {
+                        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                        artDetailVC.artDetailData = artDetailData;
+                        [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+                    }
                 };
                 [self.themeRecommendView addSubview:themeView];
             }

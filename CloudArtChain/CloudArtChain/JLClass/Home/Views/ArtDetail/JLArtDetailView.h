@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtDetailView : JLBaseView
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
-@property (nonatomic, copy) void(^chainQRCodeBlock)(NSString *qrcode);
+@property (nonatomic, strong) UIImage *certificateImage;
+@property (nonatomic, copy) void(^chainCertificateBlock)(UIImage *certificateImage);
 @end
 
 NS_ASSUME_NONNULL_END

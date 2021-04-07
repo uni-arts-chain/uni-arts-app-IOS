@@ -2137,6 +2137,13 @@
 			remoteGlobalIDString = 19622742EBA51E823D6DAE3F8CDBFAD4;
 			remoteInfo = SnapKit;
 		};
+		B38E02E8261C1721003E9EDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3847153A6E5EEFB86565BA840768F429;
+			remoteInfo = SDWebImage;
+		};
 		B3B62CFD25E3AC1A009BE119 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -9319,6 +9326,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B38E02E9261C1721003E9EDF /* PBXTargetDependency */,
 				B386DF7E25E638C90082DC92 /* PBXTargetDependency */,
 				B3B62CFE25E3AC1A009BE119 /* PBXTargetDependency */,
 				3B4C231A3E896C2309F523472BAEE527 /* PBXTargetDependency */,
@@ -12066,6 +12074,11 @@
 			isa = PBXTargetDependency;
 			target = 19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */;
 			targetProxy = B386DF7D25E638C90082DC92 /* PBXContainerItemProxy */;
+		};
+		B38E02E9261C1721003E9EDF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3847153A6E5EEFB86565BA840768F429 /* SDWebImage */;
+			targetProxy = B38E02E8261C1721003E9EDF /* PBXContainerItemProxy */;
 		};
 		B3A4BACEEE981FDCC4A23EC03861AE9F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

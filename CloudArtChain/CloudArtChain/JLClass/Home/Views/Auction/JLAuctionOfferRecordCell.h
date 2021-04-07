@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionOfferRecordCell : UITableViewCell
-@property (nonatomic, strong) NSIndexPath *indexPath;
+- (void)setBidHistory:(BidHistory *)bidHistory indexPath:(NSIndexPath *)indexPath blockDate:(NSDate *)blockDate blockNumber:(UInt32)blockNumber;
 @end
 
 NS_ASSUME_NONNULL_END

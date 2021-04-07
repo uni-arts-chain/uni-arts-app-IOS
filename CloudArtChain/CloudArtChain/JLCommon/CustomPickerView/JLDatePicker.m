@@ -206,7 +206,7 @@
     }
     //最小限制
     if (!self.minLimitDate) {
-        self.minLimitDate = [NSDate date:@"2015-01-01 00:00" format:@"yyyy-MM-dd HH:mm"];
+        self.minLimitDate = [NSDate date:@"1900-01-01 00:00" format:@"yyyy-MM-dd HH:mm"];
     }
 }
 

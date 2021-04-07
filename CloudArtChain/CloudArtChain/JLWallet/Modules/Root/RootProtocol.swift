@@ -2,7 +2,7 @@ import UIKit
 import CommonWallet
 
 protocol RootPresenterProtocol: class {
-    func loadOnLaunch(navigationController: UINavigationController)
+    func loadOnLaunch(navigationController: UINavigationController, userAvatar: String?)
     func getAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
     func hasSelectedAccount() -> Bool
 }
@@ -12,13 +12,13 @@ protocol RootWireframeProtocol: class {
     func showOnboarding(on view: UIWindow)
     func showPincodeSetup(on view: UIWindow)
     func showBroken(on view: UIWindow)
-    func showWallet(on view: UIWindow, navigationController: UINavigationController)
+    func showWallet(on view: UIWindow, navigationController: UINavigationController, userAvatar: String?)
     func showAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
 }
 
 protocol RootInteractorInputProtocol: class {
     func setup()
-    func decideModuleSynchroniously(navigationController: UINavigationController)
+    func decideModuleSynchroniously(navigationController: UINavigationController, userAvatar: String?)
     func getAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
     func hasSelectedAccount() -> Bool
 }
@@ -28,7 +28,7 @@ protocol RootInteractorOutputProtocol: class {
     func didDecideLocalAuthentication()
     func didDecidePincodeSetup()
     func didDecideBroken()
-    func didDecideWallet(navigationController: UINavigationController)
+    func didDecideWallet(navigationController: UINavigationController, userAvatar: String?)
     func didDecideGetAccountBalance(balanceBlock: @escaping ([WalletViewModelProtocol]) -> Void)
 }
 

@@ -34,7 +34,7 @@ final class RootInteractor {
 }
 
 extension RootInteractor: RootInteractorInputProtocol {
-    func decideModuleSynchroniously(navigationController: UINavigationController) {
+    func decideModuleSynchroniously(navigationController: UINavigationController, userAvatar: String?) {
         do {
             if !settings.hasSelectedAccount {
                 try keystore.deleteKeyIfExists(for: KeystoreTag.pincode.rawValue)
@@ -47,7 +47,7 @@ extension RootInteractor: RootInteractorInputProtocol {
 
             if pincodeExists {
 //                presenter?.didDecideLocalAuthentication()
-                presenter?.didDecideWallet(navigationController: navigationController)
+                presenter?.didDecideWallet(navigationController: navigationController, userAvatar: userAvatar)
             } else {
                 presenter?.didDecidePincodeSetup()
             }

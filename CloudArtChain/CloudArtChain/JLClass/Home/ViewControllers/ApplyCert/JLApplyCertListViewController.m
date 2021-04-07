@@ -11,6 +11,7 @@
 #import "JLApplyCertViewController.h"
 #import "JLArtDetailViewController.h"
 #import "JLApplyCertMechanismDetailViewController.h"
+#import "JLAuctionArtDetailViewController.h"
 
 #import "JLApplyCertSelfSignCell.h"
 #import "JLApplyCertMechanismSignCell.h"
@@ -215,10 +216,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && self.selfSignArray.count > 0) {
         Model_art_Detail_Data *artDetailData = self.selfSignArray[indexPath.row];
-        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailData = artDetailData;
-        artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-        [self.navigationController pushViewController:artDetailVC animated:YES];
+        if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+            // 拍卖中
+            JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+            auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+            Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+            meetingsArtsData.art = artDetailData;
+            auctionDetailVC.artsData = meetingsArtsData;
+            [self.navigationController pushViewController:auctionDetailVC animated:YES];
+        } else {
+            JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+            artDetailVC.artDetailData = artDetailData;
+            artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+            [self.navigationController pushViewController:artDetailVC animated:YES];
+        }
     } else if(indexPath.section == 1 && self.mechanismArray.count > 0) {
         JLApplyCertMechanismDetailViewController *mechanismDetailVC = [[JLApplyCertMechanismDetailViewController alloc] init];
         mechanismDetailVC.organizationData = self.mechanismArray[indexPath.row];

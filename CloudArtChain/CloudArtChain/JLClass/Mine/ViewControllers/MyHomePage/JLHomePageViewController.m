@@ -11,6 +11,8 @@
 #import "JLUploadWorkViewController.h"
 #import "JLArtDetailViewController.h"
 #import "JLApplyCertListViewController.h"
+#import "JLAuctionArtDetailViewController.h"
+#import "JLLaunchAuctionViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageHeaderView.h"
@@ -104,14 +106,43 @@
             [prepareVC offFromBiddingList:artDetailData];
         };
         workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-            artDetailVC.artDetailType = [artDetailData.author.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-            artDetailVC.artDetailData = artDetailData;
-            [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+            if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+                // 拍卖中
+                JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
+                auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
+                meetingsArtsData.art = artDetailData;
+                auctionDetailVC.artsData = meetingsArtsData;
+                [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
+            } else {
+                JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                artDetailVC.artDetailData = artDetailData;
+                [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+            }
         };
         workListVC.applyAddCertBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             JLApplyCertListViewController *applyCertListVC = [[JLApplyCertListViewController alloc] init];
             [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
+        };
+        workListVC.launchAuctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData, NSIndexPath * _Nonnull indexPath) {
+            JLLaunchAuctionViewController *launchAuctionVC = [[JLLaunchAuctionViewController alloc] init];
+            launchAuctionVC.artDetailData = artDetailData;
+            __block JLLaunchAuctionViewController *weakLaunchAuctionVC = launchAuctionVC;
+            launchAuctionVC.createAuctionBlock = ^(NSString * _Nonnull startTime, NSString * _Nonnull finishTime) {
+                [weakLaunchAuctionVC.navigationController popViewControllerAnimated:YES];
+                // 拍卖中
+                artDetailData.aasm_state = @"auctioning";
+                artDetailData.auction_start_time = startTime;
+                artDetailData.auction_end_time = finishTime;
+                JLWorksListViewController *biddingVC = (JLWorksListViewController *)[self.viewControllers firstObject];
+                [biddingVC addToBiddingList:artDetailData];
+                
+                JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[1];
+                [prepareVC launchAuctionFromNotList:indexPath];
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"发起拍卖成功" hideTime:KToastDismissDelayTimeInterval];
+            };
+            [weakSelf.navigationController pushViewController:launchAuctionVC animated:YES];
         };
         [workListVCArray addObject:workListVC];
     }];

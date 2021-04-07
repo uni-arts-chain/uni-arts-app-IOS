@@ -81,4 +81,13 @@
         self.applyAddCertBlock(self.artDetailData);
     }
 }
+
+- (void)refreshWithArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+        [self.removeItemButton setTitle:@"取消拍卖" forState:UIControlStateNormal];
+    } else {
+        [self.removeItemButton setTitle:@"下架" forState:UIControlStateNormal];
+    }
+}
+
 @end

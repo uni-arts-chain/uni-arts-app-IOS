@@ -69,7 +69,7 @@
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     self.nameLabel.text = artsData.art.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"￥%@", artsData.start_price];
+    self.priceLabel.text = [NSString stringWithFormat:@"%@UART", artsData.art.price];
     self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artsData.art.material_id).stringValue], artsData.art.size_width, artsData.art.size_length];
 }
 

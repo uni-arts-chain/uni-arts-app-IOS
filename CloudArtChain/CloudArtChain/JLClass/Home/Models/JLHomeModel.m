@@ -97,6 +97,14 @@
 }
 @end
 @implementation Model_auction_meetings_arts_Data
+- (void)updateWithAuctionInfo:(AuctionInfo *)auctionInfo CurrentDate:(NSDate *)currentDate blockNumber:(UInt32)blockNumber {
+    int precision = [[JLViewControllerTool appDelegate].walletTool getAssetPrecision];
+    self.start_price = @([auctionInfo getStartPriceWithPrecision:precision]).stringValue;
+    self.price_increment = @([auctionInfo getPriceIncrementWithPrecision:precision]).stringValue;
+//    self.start_time = @([[auctionInfo getStartTimeWithCurrentDate:currentDate currentBlockNumber:blockNumber] timeIntervalSince1970]).stringValue;
+//    self.end_time = @([[auctionInfo getEndTimeWithCurrentDate:currentDate currentBlockNumber:blockNumber] timeIntervalSince1970]).stringValue;
+    self.art.price = @([auctionInfo getCurrentPriceWithPrecision:precision]).stringValue;
+}
 @end
 @implementation Model_auction_meetings_arts_Req
 @end
@@ -223,9 +231,38 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /messages 通知列表
 @implementation Model_messages_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
 @end
 @implementation Model_messages_Req
 @end
 @implementation Model_messages_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/read 消息已读
+@implementation Model_messages_read_Req
+@end
+@implementation Model_messages_read_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/has_unread 用户是否有未读消息
+@implementation Model_messages_has_unread_Data
+@end
+@implementation Model_messages_has_unread_Req
+@end
+@implementation Model_messages_has_unread_Rsp
+- (NSString *)interfacePath {
+    return @"messages/has_unread";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /messages/read_all 全部已读
+@implementation Model_messages_read_all_Req
+@end
+@implementation Model_messages_read_all_Rsp
+- (NSString *)interfacePath {
+    return @"messages/read_all";
+}
 @end
 //////////////////////////////////////////////////////////////////////////

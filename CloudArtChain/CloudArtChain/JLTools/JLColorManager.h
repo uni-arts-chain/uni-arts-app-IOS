@@ -79,6 +79,7 @@
 
 #define JL_color_yellow_FFCA50     JL_COLOR_MAG.yellow_FFCA50
 
+#define JL_color_black_010034     JL_COLOR_MAG.black_010034
 #define JL_color_black_1E1D1E     JL_COLOR_MAG.black_1E1D1E
 #define JL_color_black_34394C     JL_COLOR_MAG.black_34394C
 
@@ -170,6 +171,7 @@
 
 @property (nonatomic, strong) UIColor *yellow_FFCA50;
 
+@property (nonatomic, strong) UIColor *black_010034;
 @property (nonatomic, strong) UIColor *black_1E1D1E;
 @property (nonatomic, strong) UIColor *black_34394C;
 

@@ -8,7 +8,7 @@ final class PinChangeWireframe: PinSetupWireframeProtocol, ModalAlertPresenting 
         self.localizationManager = localizationManager
     }
 
-    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?) {
+    func showMain(from view: PinSetupViewProtocol?, navigationController: UINavigationController?, userAvatar: String?) {
         let title = "修改成功"
 
         presentSuccessNotification(title, from: view) {

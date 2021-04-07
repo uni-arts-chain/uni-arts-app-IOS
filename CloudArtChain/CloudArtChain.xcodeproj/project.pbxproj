@@ -797,6 +797,8 @@
 		B3890B3025DFA82E00028F78 /* JLAuctionOfferRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3890B2F25DFA82E00028F78 /* JLAuctionOfferRecordViewController.m */; };
 		B3890B3325DFB22D00028F78 /* JLLogisticsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3890B3225DFB22D00028F78 /* JLLogisticsView.m */; };
 		B3890B3625DFB84B00028F78 /* JLInputLogisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3890B3525DFB84B00028F78 /* JLInputLogisticsViewController.m */; };
+		B3890E51261978880060EECA /* AcceptSaleOrderCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3890E50261978880060EECA /* AcceptSaleOrderCall.swift */; };
+		B3890E562619B4A10060EECA /* AuctionBidCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3890E552619B4A10060EECA /* AuctionBidCall.swift */; };
 		B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.m */; };
 		B38A5F7724F34F0B00FA3EF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */; };
 		B38A5F7A24F34F0B00FA3EF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B38A5F7824F34F0B00FA3EF7 /* LaunchScreen.storyboard */; };
@@ -819,6 +821,11 @@
 		B38C0BA12501D338006197E5 /* JLEditWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C0BA02501D338006197E5 /* JLEditWalletViewController.m */; };
 		B38C0BA42501DDEB006197E5 /* JLEditWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C0BA32501DDEB006197E5 /* JLEditWalletCell.m */; };
 		B38C0BA72501E908006197E5 /* JLWalletChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C0BA62501E908006197E5 /* JLWalletChangePwdViewController.m */; };
+		B38C8317261D4BED006B5324 /* JLLaunchAuctionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C8316261D4BED006B5324 /* JLLaunchAuctionViewController.m */; };
+		B38C831E261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C831D261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m */; };
+		B38C8327261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C8326261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m */; };
+		B38C832C261D83B6006B5324 /* CreateAuctionCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C832B261D83B6006B5324 /* CreateAuctionCall.swift */; };
+		B38C8331261D99C9006B5324 /* CancelAuctionCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C8330261D99C9006B5324 /* CancelAuctionCall.swift */; };
 		B38C842825BFC56B0011BC8C /* JLWalletTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C842725BFC56B0011BC8C /* JLWalletTool.swift */; };
 		B38C842B25BFE7E30011BC8C /* JLWalletBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38C842A25BFE7E30011BC8C /* JLWalletBoardViewController.m */; };
 		B38CE8A425C9547C000B3EF7 /* JLOrderSubmitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38CE8A325C9547C000B3EF7 /* JLOrderSubmitViewController.m */; };
@@ -951,6 +958,9 @@
 		B3AA62D025E4DD0200D28627 /* GTSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3AA62CF25E4DD0200D28627 /* GTSDK.framework */; };
 		B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */; };
 		B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */; };
+		B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B88927261817C900A2C5D7 /* AuctionInfo.swift */; };
+		B3B88930261843B400A2C5D7 /* BidHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B8892F261843B400A2C5D7 /* BidHistory.swift */; };
+		B3B889352618444A00A2C5D7 /* JSONScaleListDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B889342618444A00A2C5D7 /* JSONScaleListDecodable.swift */; };
 		B3B968B226155E0100347B27 /* JLSinglePurchaseOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968B126155E0100347B27 /* JLSinglePurchaseOrderViewController.m */; };
 		B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */; };
 		B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */; };
@@ -2010,6 +2020,8 @@
 		B3890B3225DFB22D00028F78 /* JLLogisticsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLogisticsView.m; sourceTree = "<group>"; };
 		B3890B3425DFB84B00028F78 /* JLInputLogisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLInputLogisticsViewController.h; sourceTree = "<group>"; };
 		B3890B3525DFB84B00028F78 /* JLInputLogisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLInputLogisticsViewController.m; sourceTree = "<group>"; };
+		B3890E50261978880060EECA /* AcceptSaleOrderCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptSaleOrderCall.swift; sourceTree = "<group>"; };
+		B3890E552619B4A10060EECA /* AuctionBidCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBidCall.swift; sourceTree = "<group>"; };
 		B38A5F6724F34F0A00FA3EF7 /* 云画链.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "云画链.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38A5F6A24F34F0A00FA3EF7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -2055,6 +2067,14 @@
 		B38C0BA32501DDEB006197E5 /* JLEditWalletCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLEditWalletCell.m; sourceTree = "<group>"; };
 		B38C0BA52501E908006197E5 /* JLWalletChangePwdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletChangePwdViewController.h; sourceTree = "<group>"; };
 		B38C0BA62501E908006197E5 /* JLWalletChangePwdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWalletChangePwdViewController.m; sourceTree = "<group>"; };
+		B38C8315261D4BED006B5324 /* JLLaunchAuctionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLaunchAuctionViewController.h; sourceTree = "<group>"; };
+		B38C8316261D4BED006B5324 /* JLLaunchAuctionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLaunchAuctionViewController.m; sourceTree = "<group>"; };
+		B38C831C261D4E39006B5324 /* JLLaunchAuctionPriceInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLaunchAuctionPriceInputView.h; sourceTree = "<group>"; };
+		B38C831D261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLaunchAuctionPriceInputView.m; sourceTree = "<group>"; };
+		B38C8325261D56A4006B5324 /* JLLaunchAuctionTimeInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLaunchAuctionTimeInputView.h; sourceTree = "<group>"; };
+		B38C8326261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLaunchAuctionTimeInputView.m; sourceTree = "<group>"; };
+		B38C832B261D83B6006B5324 /* CreateAuctionCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAuctionCall.swift; sourceTree = "<group>"; };
+		B38C8330261D99C9006B5324 /* CancelAuctionCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelAuctionCall.swift; sourceTree = "<group>"; };
 		B38C842725BFC56B0011BC8C /* JLWalletTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLWalletTool.swift; sourceTree = "<group>"; };
 		B38C842925BFE7E30011BC8C /* JLWalletBoardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLWalletBoardViewController.h; sourceTree = "<group>"; };
 		B38C842A25BFE7E30011BC8C /* JLWalletBoardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLWalletBoardViewController.m; sourceTree = "<group>"; };
@@ -2306,6 +2326,9 @@
 		B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPurchaseOrderListCloseTableViewCell.m; sourceTree = "<group>"; };
 		B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLFeedBackViewController.h; sourceTree = "<group>"; };
 		B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLFeedBackViewController.m; sourceTree = "<group>"; };
+		B3B88927261817C900A2C5D7 /* AuctionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionInfo.swift; sourceTree = "<group>"; };
+		B3B8892F261843B400A2C5D7 /* BidHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidHistory.swift; sourceTree = "<group>"; };
+		B3B889342618444A00A2C5D7 /* JSONScaleListDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONScaleListDecodable.swift; sourceTree = "<group>"; };
 		B3B968B026155E0100347B27 /* JLSinglePurchaseOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSinglePurchaseOrderViewController.h; sourceTree = "<group>"; };
 		B3B968B126155E0100347B27 /* JLSinglePurchaseOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSinglePurchaseOrderViewController.m; sourceTree = "<group>"; };
 		B3B968B926155FC800347B27 /* JLSinglePurchaseOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSinglePurchaseOrderListCell.h; sourceTree = "<group>"; };
@@ -2672,6 +2695,10 @@
 				B31221FC25B6B60800562ECA /* AccountInfo.swift */,
 				B31221FD25B6B60800562ECA /* Era.swift */,
 				B38E41A225E8A7FB006AA9EE /* AuctionListCall.swift */,
+				B3890E50261978880060EECA /* AcceptSaleOrderCall.swift */,
+				B3890E552619B4A10060EECA /* AuctionBidCall.swift */,
+				B38C832B261D83B6006B5324 /* CreateAuctionCall.swift */,
+				B38C8330261D99C9006B5324 /* CancelAuctionCall.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -2883,7 +2910,10 @@
 				B312226025B6B60800562ECA /* RPCMethod.swift */,
 				B312226125B6B60800562ECA /* RuntimeVersion.swift */,
 				B312226225B6B60800562ECA /* JSONScaleDecodable.swift */,
+				B3B889342618444A00A2C5D7 /* JSONScaleListDecodable.swift */,
 				B312226325B6B60800562ECA /* WebSocketEngine+Protocol.swift */,
+				B3B88927261817C900A2C5D7 /* AuctionInfo.swift */,
+				B3B8892F261843B400A2C5D7 /* BidHistory.swift */,
 			);
 			path = JSONRPC;
 			sourceTree = "<group>";
@@ -4478,6 +4508,8 @@
 				B370C81524F6316A00A2D699 /* JLHomePageViewController.m */,
 				5CFF026F2503FDE000A81E32 /* JLWorksListViewController.h */,
 				5CFF02702503FDE000A81E32 /* JLWorksListViewController.m */,
+				B38C8315261D4BED006B5324 /* JLLaunchAuctionViewController.h */,
+				B38C8316261D4BED006B5324 /* JLLaunchAuctionViewController.m */,
 			);
 			path = MyHomePage;
 			sourceTree = "<group>";
@@ -4873,6 +4905,17 @@
 				B3C0ED2D25C2AD9A001B8BCA /* JLReceiveAddressSwitchTableViewCell.m */,
 			);
 			path = ReceiveAddress;
+			sourceTree = "<group>";
+		};
+		B38C831B261D4E0D006B5324 /* LaunchAuction */ = {
+			isa = PBXGroup;
+			children = (
+				B38C831C261D4E39006B5324 /* JLLaunchAuctionPriceInputView.h */,
+				B38C831D261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m */,
+				B38C8325261D56A4006B5324 /* JLLaunchAuctionTimeInputView.h */,
+				B38C8326261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m */,
+			);
+			path = LaunchAuction;
 			sourceTree = "<group>";
 		};
 		B38D7E4F25E11C3100E9978E /* WMPhotoBrowser */ = {
@@ -5476,6 +5519,7 @@
 		B396564624F39194007A8EC2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B38C831B261D4E0D006B5324 /* LaunchAuction */,
 				B38FD54D25CBA2CB0028797E /* FocusFans */,
 				B38BCFFB25B8304C00FD37F7 /* ReceiveAddress */,
 				B38BCFF625B82E7100FD37F7 /* Order */,
@@ -6359,6 +6403,7 @@
 				B312262D25B6B60A00562ECA /* AccountInfoInteractor.swift in Sources */,
 				B3C0ED3525C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m in Sources */,
 				B312269625B6B60B00562ECA /* WalletAccountInfoCommand.swift in Sources */,
+				B38C832C261D83B6006B5324 /* CreateAuctionCall.swift in Sources */,
 				B31224F225B6B60900562ECA /* Logger.swift in Sources */,
 				B312261225B6B60A00562ECA /* ProfileViewModelFactory.swift in Sources */,
 				B312260B25B6B60A00562ECA /* ConnectionAccountImportWireframe.swift in Sources */,
@@ -6396,6 +6441,7 @@
 				B312252B25B6B60A00562ECA /* FeeType.swift in Sources */,
 				B312256625B6B60A00562ECA /* AccountPickerTableViewCell.swift in Sources */,
 				B3753D9D2554F524003A86CF /* SLEditSelectedBox.m in Sources */,
+				B38C8327261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m in Sources */,
 				B38A5F7D24F34F0C00FA3EF7 /* main.m in Sources */,
 				B37FFB6824F5057F004B9CC8 /* JLCategoryNaviView.m in Sources */,
 				B31226C125B6B60B00562ECA /* ExportMnemonicData.swift in Sources */,
@@ -6482,6 +6528,7 @@
 				B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */,
 				B31225A725B6B60A00562ECA /* FearlessLoadingViewFactory.swift in Sources */,
 				B31225C425B6B60A00562ECA /* NetworkManagementInteractor.swift in Sources */,
+				B3B889352618444A00A2C5D7 /* JSONScaleListDecodable.swift in Sources */,
 				B31225FE25B6B60A00562ECA /* AddAccountImportInteractor.swift in Sources */,
 				B31224E925B6B60900562ECA /* ConnectionItem+Default.swift in Sources */,
 				B31225E325B6B60A00562ECA /* AccountImportViewController.swift in Sources */,
@@ -6491,6 +6538,7 @@
 				B312266B25B6B60A00562ECA /* HistoryItemViewModel.swift in Sources */,
 				B35EBA1424FF678600F5BF84 /* JLScanViewController.m in Sources */,
 				B31226C325B6B60B00562ECA /* ExportGenericViewModelBinder.swift in Sources */,
+				B38C831E261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m in Sources */,
 				B31225A125B6B60A00562ECA /* NetworkInfoProtocols.swift in Sources */,
 				B31225BD25B6B60A00562ECA /* ManagedConnectionViewModel.swift in Sources */,
 				B31224FA25B6B60A00562ECA /* PriceData.swift in Sources */,
@@ -6570,6 +6618,7 @@
 				B38E912125B92E6700174AAC /* Decimal.swift in Sources */,
 				B37FFB5524F4B76A004B9CC8 /* JLHomeNaviView.m in Sources */,
 				B312254A25B6B60A00562ECA /* TriangularedView+Inspectable.swift in Sources */,
+				B38C8331261D99C9006B5324 /* CancelAuctionCall.swift in Sources */,
 				B31225C325B6B60A00562ECA /* ConnectionTableViewCell.swift in Sources */,
 				B35936132511B0F200E2B2FD /* JLAlertSheetControl.m in Sources */,
 				B37FFB4524F4A56D004B9CC8 /* PGIndexBannerSubiew.m in Sources */,
@@ -6582,6 +6631,8 @@
 				5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */,
 				B312258425B6B60A00562ECA /* EmailPresentable.swift in Sources */,
 				B396562924F38EE3007A8EC2 /* JLViewControllerTool.m in Sources */,
+				B38C8317261D4BED006B5324 /* JLLaunchAuctionViewController.m in Sources */,
+				B3B88930261843B400A2C5D7 /* BidHistory.swift in Sources */,
 				B312263A25B6B60A00562ECA /* ContactsLocalSearchEngine.swift in Sources */,
 				5CD773E1250148A700F0F49A /* JLWalletPointCell.m in Sources */,
 				B312252725B6B60A00562ECA /* TransactionHistoryItem.swift in Sources */,
@@ -6637,6 +6688,7 @@
 				B31224C525B6B60900562ECA /* UIBarButtonItem+Style.swift in Sources */,
 				B31225EC25B6B60A00562ECA /* AboutProtocols.swift in Sources */,
 				B312254325B6B60A00562ECA /* TriangularedBlurButton.swift in Sources */,
+				B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */,
 				B3753DC52554F598003A86CF /* SLAvEditExport.m in Sources */,
 				B35935F82511AFC500E2B2FD /* UIAlertController+Alert.m in Sources */,
 				B312261525B6B60A00562ECA /* ProfileTableViewCell.swift in Sources */,
@@ -6716,11 +6768,13 @@
 				B31226AA25B6B60B00562ECA /* AccountConfirmProtocols.swift in Sources */,
 				B312268825B6B60A00562ECA /* AssetDetailsViewModelFactory.swift in Sources */,
 				B312263E25B6B60A00562ECA /* TransferValidatingError.swift in Sources */,
+				B3890E562619B4A10060EECA /* AuctionBidCall.swift in Sources */,
 				B38FD54225CB8C560028797E /* JLCollectViewController.m in Sources */,
 				B38E913225B9749300174AAC /* JLBackupNoticeViewFactory.swift in Sources */,
 				B38BCFF425B8283D00FD37F7 /* JLSellOrderListTableViewCell.m in Sources */,
 				B31225D025B6B60A00562ECA /* UsernameSetupViewController.swift in Sources */,
 				B370C82024F63C3700A2D699 /* JLHomePageHeaderView.m in Sources */,
+				B3890E51261978880060EECA /* AcceptSaleOrderCall.swift in Sources */,
 				B38BCFFA25B82E9F00FD37F7 /* JLReceiveAddressViewController.m in Sources */,
 				B359360F2511B0B000E2B2FD /* IQActionSheetViewController.m in Sources */,
 				B312264225B6B60A00562ECA /* TransferSeparatorDistribution.swift in Sources */,

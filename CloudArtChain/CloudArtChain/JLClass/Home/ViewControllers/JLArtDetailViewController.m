@@ -22,8 +22,11 @@
 #import "JLArtDetailDescriptionView.h"
 #import "JLChainQRCodeView.h"
 
+#import "NSDate+Extension.h"
+
 @interface JLArtDetailViewController ()<NewPagedFlowViewDelegate, NewPagedFlowViewDataSource>
 @property (nonatomic, strong) UITabBar *bottomBar;
+@property (nonatomic, strong) UIView *certificateView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NewPagedFlowView *pageFlowView;
 @property (nonatomic, strong) UILabel *pageLabel;
@@ -65,6 +68,7 @@
     if (self.artDetailType == JLArtDetailTypeDetail) {
         [self initBottomUI];
     }
+    [self.view addSubview:self.certificateView];
     [self.view addSubview:self.scrollView];
     if (self.artDetailType == JLArtDetailTypeDetail) {
         [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -317,7 +321,7 @@
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        [[JLViewControllerTool appDelegate].walletTool sellOrderCallWithCollectionId:1 itemId:34 price:@"1" block:^(BOOL success, NSString * _Nonnull message) {
+        [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderCallWithCollectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
             if (success) {
                 JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                 orderSubmitVC.artDetailData = self.artDetailData;
@@ -325,6 +329,115 @@
             }
         }];
     }
+}
+
+- (UIView *)certificateView {
+    if (!_certificateView) {
+        _certificateView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenWidth / 375.0f * 296.0f)];
+        
+        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cer-bg"]];
+        [_certificateView addSubview:backImageView];
+        
+        UIView *centerView = [[UIView alloc] init];
+        centerView.backgroundColor = JL_color_white_ffffff;
+        [_certificateView addSubview:centerView];
+        
+        UILabel *nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Name: %@", self.artDetailData.name] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        [centerView addSubview:nameLabel];
+        
+        UILabel *painterLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Painter: %@", [NSString stringIsEmpty:self.artDetailData.author.display_name] ? @"" : self.artDetailData.author.display_name] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        [centerView addSubview:painterLabel];
+        
+        UILabel *textureLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Texture: %@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(self.artDetailData.material_id).stringValue]] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        [centerView addSubview:textureLabel];
+        
+        NSString *sizeDesc = [NSString stringWithFormat:@"Size: %@cmx%@cm", self.artDetailData.size_width, self.artDetailData.size_length];
+        UILabel *sizeLabel = [JLUIFactory labelInitText:sizeDesc font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        [centerView addSubview:sizeLabel];
+        
+        NSString *signTimeStr = @"";
+        if (![NSString stringIsEmpty:self.artDetailData.last_sign_at]) {
+            NSDate *signDate = [NSDate dateWithTimeIntervalSince1970:self.artDetailData.last_sign_at.doubleValue];
+            signTimeStr = [signDate dateWithCustomFormat:@"yyyy-MM-dd"];
+        }
+        
+        UILabel *signTimeLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Signing time: %@", signTimeStr] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentCenter];
+        [centerView addSubview:signTimeLabel];
+        
+        UIImageView *signTimeLeftImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_cert_left"]];
+        [centerView addSubview:signTimeLeftImageView];
+        
+        UIImageView *signTimeRightImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_cert_right"]];
+        [centerView addSubview:signTimeRightImageView];
+        
+        UILabel *certificateAddressTitleLabel = [JLUIFactory labelInitText:@"证书地址: " font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        [centerView addSubview:certificateAddressTitleLabel];
+        
+        UILabel *certificateAddressLabel = [JLUIFactory labelInitText:self.artDetailData.item_hash font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+        certificateAddressLabel.numberOfLines = 1;
+        certificateAddressLabel.adjustsFontSizeToFitWidth = YES;
+        [centerView addSubview:certificateAddressLabel];
+        
+        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_certificateView);
+        }];
+        [centerView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(110.0f);
+            make.bottom.mas_equalTo(-70.0f);
+            make.left.mas_equalTo(65.0f);
+            make.right.mas_equalTo(-45.0f);
+        }];
+        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.equalTo(centerView);
+            make.height.mas_offset(26.0f);
+        }];
+        [painterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(nameLabel.mas_right);
+            make.top.equalTo(centerView);
+            make.right.equalTo(centerView);
+            make.height.equalTo(nameLabel.mas_height);
+            make.width.equalTo(nameLabel.mas_width);
+        }];
+        [textureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(nameLabel.mas_bottom);
+            make.left.equalTo(centerView);
+            make.height.equalTo(nameLabel.mas_height);
+        }];
+        [sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(textureLabel.mas_right);
+            make.top.equalTo(painterLabel.mas_bottom);
+            make.right.equalTo(centerView);
+            make.height.equalTo(textureLabel.mas_height);
+            make.width.equalTo(textureLabel.mas_width);
+        }];
+        [signTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(sizeLabel.mas_bottom);
+            make.height.mas_equalTo(26.0f);
+            make.centerX.equalTo(centerView.mas_centerX);
+        }];
+        [signTimeLeftImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(signTimeLabel.mas_left).offset(-8.0f);
+            make.width.mas_equalTo(42.0f);
+            make.height.mas_equalTo(1.0f);
+            make.centerY.equalTo(signTimeLabel.mas_centerY);
+        }];
+        [signTimeRightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(signTimeLabel.mas_right).offset(8.0f);
+            make.width.mas_equalTo(42.0f);
+            make.height.mas_equalTo(1.0f);
+            make.centerY.equalTo(signTimeLabel.mas_centerY);
+        }];
+        [certificateAddressTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(centerView).offset(-20.0f);
+            make.top.equalTo(signTimeLabel.mas_bottom);
+        }];
+        [certificateAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(certificateAddressTitleLabel.mas_right);
+            make.top.equalTo(signTimeLabel.mas_bottom);
+            make.right.mas_lessThanOrEqualTo(20.0f);
+        }];
+    }
+    return _certificateView;
 }
 
 - (UIScrollView *)scrollView {
@@ -418,13 +531,16 @@
         WS(weakSelf)
         _artDetailView = [[JLArtDetailView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 197.0f)];
         _artDetailView.artDetailData = self.artDetailData;
-        _artDetailView.chainQRCodeBlock = ^(NSString * _Nonnull qrcode) {
-            JLChainQRCodeView *chainQRCodeView = [[JLChainQRCodeView alloc] initWithFrame:CGRectMake(0, 0, 225.0f, 225.0f) qrcodeString:qrcode];
-            chainQRCodeView.center = weakSelf.view.center;
-            LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
-            [weakSelf lew_presentPopupView:chainQRCodeView animation:animation dismissed:^{
-               NSLog(@"动画结束");
-            }];
+        _artDetailView.certificateImage = [UIView snapshotImageFromView:self.certificateView atFrame:self.certificateView.frame];
+        _artDetailView.chainCertificateBlock = ^(UIImage * _Nonnull certificateImage) {
+            //图片查看
+            WMPhotoBrowser *browser = [WMPhotoBrowser new];
+            //数据源
+            browser.dataSource = [@[[UIView snapshotImageFromView:weakSelf.certificateView atFrame:weakSelf.certificateView.frame]] mutableCopy];
+            browser.downLoadNeeded = YES;
+            browser.currentPhotoIndex = 0;
+            browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
         };
     }
     return _artDetailView;

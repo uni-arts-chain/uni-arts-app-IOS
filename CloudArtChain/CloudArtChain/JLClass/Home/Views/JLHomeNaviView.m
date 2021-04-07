@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *searchView;
 @property (nonatomic, strong) UIButton *searchBtn;
 @property (nonatomic, strong) UIButton *messageBtn;
+@property (nonatomic, strong) UIView *unreadMessageView;
 @end
 
 @implementation JLHomeNaviView
@@ -30,6 +31,7 @@
     [self addSubview:self.searchView];
     [self addSubview:self.searchBtn];
     [self addSubview:self.messageBtn];
+    [self addSubview:self.unreadMessageView];
     
     [self.customerServiceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.equalTo(self);
@@ -40,6 +42,11 @@
         make.bottom.right.equalTo(self);
         make.top.mas_equalTo(KStatus_Bar_Height);
         make.width.mas_equalTo(KNavigation_Height);
+    }];
+    [self.unreadMessageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.messageBtn).offset(8.0f);
+        make.right.equalTo(self.messageBtn).offset(-8.0f);
+        make.size.mas_equalTo(8.0f);
     }];
     [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.customerServiceBtn.mas_right);
@@ -71,6 +78,16 @@
         [_messageBtn addTarget:self action:@selector(messageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _messageBtn;
+}
+
+- (UIView *)unreadMessageView {
+    if (!_unreadMessageView) {
+        _unreadMessageView = [[UIView alloc] init];
+        _unreadMessageView.backgroundColor = JL_color_red_D70000;
+        _unreadMessageView.hidden = YES;
+        ViewBorderRadius(_unreadMessageView, 4.0f, 0.0f, JL_color_clear);
+    }
+    return _unreadMessageView;
 }
 
 - (UIButton *)searchBtn {
@@ -127,4 +144,9 @@
         self.searchBlock();
     }
 }
+
+- (void)refreshHasMessagesUnread:(BOOL)haveMessages {
+    self.unreadMessageView.hidden = !haveMessages;
+}
+
 @end

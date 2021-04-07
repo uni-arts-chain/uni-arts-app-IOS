@@ -18,6 +18,7 @@ typedef NS_ENUM(NSUInteger, JLAuctionArtDetailType) {
 @interface JLAuctionArtDetailViewController : JLBaseViewController
 @property (nonatomic, assign) JLAuctionArtDetailType artDetailType;
 @property (nonatomic, strong) Model_auction_meetings_arts_Data *artsData;
+@property (nonatomic, copy) void(^cancelFavorateBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

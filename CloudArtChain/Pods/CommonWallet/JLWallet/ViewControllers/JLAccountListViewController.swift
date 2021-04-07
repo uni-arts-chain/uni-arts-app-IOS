@@ -9,6 +9,7 @@ import UIKit
 import SoraUI
 import SoraKeystore
 import SnapKit
+import SDWebImage
 
 public protocol JLAccountListViewControllerProtocol: class {
     func pointDesc()
@@ -30,6 +31,17 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
     }()
     
     public var delegate: JLAccountListViewControllerProtocol?
+    public var userAvatar: String?
+    
+    lazy var avatarImageView: UIImageView = {
+        let avatarImageView = UIImageView()
+        if let avatar = self.userAvatar {
+            avatarImageView.sd_setImage(with: URL(string: avatar), completed: nil)
+        }
+        avatarImageView.layer.cornerRadius = 59.0 * 0.5
+        avatarImageView.layer.masksToBounds = true
+        return avatarImageView
+    }()
     
     lazy var tableHeaderView: UIView = {
         let tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: 220.0))
@@ -44,10 +56,6 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         avatarView.layer.masksToBounds = true
         tableHeaderView.addSubview(avatarView)
         
-        let avatarImageView = UIImageView()
-        avatarImageView.backgroundColor = UIColor.random()
-        avatarImageView.layer.cornerRadius = 59.0 * 0.5
-        avatarImageView.layer.masksToBounds = true
         avatarView.addSubview(avatarImageView)
         
         let nameLabel = UILabel()
@@ -188,6 +196,14 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
 
         presenter.setup()
         didCompleteLoad = true
+        NotificationCenter.default.addObserver(self, selector: #selector(userLoginNotification(notification:)), name: NSNotification.Name(rawValue: "UserLoginNotification"), object: nil)
+    }
+    
+    @objc func userLoginNotification(notification: Notification) {
+        let userAvatar = notification.userInfo?["url"] as? String
+        if let avatar = userAvatar {
+            self.avatarImageView.sd_setImage(with: URL(string: avatar), completed: nil)
+        }
     }
     
     public func getBanlanceSetup() {

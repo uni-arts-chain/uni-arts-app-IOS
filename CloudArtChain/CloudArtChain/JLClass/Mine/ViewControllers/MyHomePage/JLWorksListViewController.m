@@ -68,29 +68,56 @@
     if (self.workListType == JLWorkListTypeListed) {
         JLWorkListListedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListListedCell" forIndexPath:indexPath];
         cell.artDetailData = self.artsArray[indexPath.row];
+        [cell refreshWithArtDetailData:self.artsArray[indexPath.row]];
         cell.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
-                if (success) {
-                    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                        if (success) {
-                            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                                if (success) {
-                                    [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
-                                    [weakSelf.tableView reloadData];
-                                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"下架成功" hideTime:KToastDismissDelayTimeInterval];
-                                    if (weakSelf.offFromListBlock) {
-                                        weakSelf.offFromListBlock(artDetailData);
+            if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+                [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+                    if (success) {
+                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                            if (success) {
+                                [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+                                    if (success) {
+                                        [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
+                                        [weakSelf.tableView reloadData];
+                                        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"取消拍卖成功" hideTime:KToastDismissDelayTimeInterval];
+                                        artDetailData.aasm_state = @"online";
+                                        if (weakSelf.offFromListBlock) {
+                                            weakSelf.offFromListBlock(artDetailData);
+                                        }
+                                    } else {
+                                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
                                     }
-                                } else {
-                                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                                }
-                            }];
-                        }
-                    }];
-                } else {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
+                                }];
+                            }
+                        }];
+                    } else {
+                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                    }
+                }];
+            } else {
+                [[JLViewControllerTool appDelegate].walletTool cancelSellOrderCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+                    if (success) {
+                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                            if (success) {
+                                [[JLViewControllerTool appDelegate].walletTool cancelSellOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+                                    if (success) {
+                                        [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
+                                        [weakSelf.tableView reloadData];
+                                        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"下架成功" hideTime:KToastDismissDelayTimeInterval];
+                                        if (weakSelf.offFromListBlock) {
+                                            weakSelf.offFromListBlock(artDetailData);
+                                        }
+                                    } else {
+                                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                                    }
+                                }];
+                            }
+                        }];
+                    } else {
+                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                    }
+                }];
+            }
         };
         cell.applyAddCertBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             if (weakSelf.applyAddCertBlock) {
@@ -101,7 +128,7 @@
     } else if (self.workListType == JLWorkListTypeNotList) {
         JLWorkListNotListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListNotListCell" forIndexPath:indexPath];
         cell.artDetailData = self.artsArray[indexPath.row];
-        [cell setArtDetail:self.artsArray[indexPath.row]];
+        [cell setArtDetail:self.artsArray[indexPath.row] indexPath:indexPath];
         cell.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             [[JLViewControllerTool appDelegate].walletTool sellOrderCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue price:artDetailData.price block:^(BOOL success, NSString * _Nonnull message) {
                 if (success) {
@@ -126,6 +153,7 @@
                 }
             }];
         };
+        cell.applyAuctionBlock = self.launchAuctionBlock;
         return cell;
     }
     JLWorkListBaseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLWorkListBaseTableViewCell" forIndexPath:indexPath];
@@ -228,6 +256,11 @@
 
 - (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData {
     [self.artsArray insertObject:artDetailData atIndex:0];
+    [self.tableView reloadData];
+}
+
+- (void)launchAuctionFromNotList:(NSIndexPath *)indexPath {
+    [self.artsArray removeObjectAtIndex:indexPath.row];
     [self.tableView reloadData];
 }
 @end
