@@ -111,6 +111,7 @@ final class WalletNetworkOperationFactory {
     
     func setupTransferExtrinsic<T>(_ targetOperation: JSONRPCListOperation<T>,
                                    call: ScaleCodable?,
+                                   moduleIndex: UInt8,
                                    callIndex: UInt8,
                                    receiver: String,
                                    chain: Chain,
@@ -138,7 +139,7 @@ final class WalletNetworkOperationFactory {
                                                                specVersion: runtimeVersion.specVersion,
                                                                transactionVersion: runtimeVersion.transactionVersion,
                                                                signatureVersion: currentCryptoType.version,
-                                                               moduleIndex: chain.nftModuleIndex,
+                                                               moduleIndex: moduleIndex,
                                                                callIndex: callIndex)
 
                 let extrinsicData = try ExtrinsicFactory.transferExtrinsic(from: senderAccountId,

@@ -157,8 +157,8 @@ extension WalletNetworkFacade: WalletNetworkOperationFactoryProtocol {
         nodeOperationFactory.transferMetadataOperation(info)
     }
     
-    func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
-        nodeOperationFactory.transferMetadataOperation(info, call, callIndex)
+    func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
+        nodeOperationFactory.transferMetadataOperation(info, call, moduleIndex, callIndex)
     }
 
     func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data> {
@@ -221,11 +221,11 @@ extension WalletNetworkFacade: WalletNetworkOperationFactoryProtocol {
         }
     }
     
-    func transferOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ callIndex: UInt8) -> CompoundOperationWrapper<Data> {
+    func transferOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<Data> {
         do {
             let currentNetworkType = networkType
 
-            let transferWrapper = nodeOperationFactory.transferOperation(info, call, callIndex)
+            let transferWrapper = nodeOperationFactory.transferOperation(info, call, moduleIndex, callIndex)
 
             let addressFactory = SS58AddressFactory()
 

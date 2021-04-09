@@ -34,6 +34,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: TransferPayload,
                              call: ScaleCodable,
+                             moduleIndex: UInt8,
                              callIndex: UInt8) -> TransferViewProtocol? {
         do {
             guard let view = createView(resolver) else {
@@ -44,6 +45,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
             let presenter = try createPresenter(resolver,
                                                 payload: payload,
                                                 call: call,
+                                                moduleIndex: moduleIndex,
                                                 callIndex: callIndex,
                                                 view: view,
                                                 coordinator: coordinator)
@@ -149,6 +151,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                errorHandler: errorHandler,
                                                feeEditing: feeEditing,
                                                call: nil,
+                                               moduleIndex: 29,
                                                callIndex: 0)
         presenter.logger = resolver.logger
 
@@ -158,6 +161,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
     private static func createPresenter(_ resolver: ResolverProtocol,
                                         payload: TransferPayload,
                                         call: ScaleCodable,
+                                        moduleIndex: UInt8,
                                         callIndex: UInt8,
                                         view: TransferViewProtocol,
                                         coordinator: TransferCoordinatorProtocol) throws
@@ -195,6 +199,7 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                errorHandler: errorHandler,
                                                feeEditing: feeEditing,
                                                call: call,
+                                               moduleIndex: moduleIndex,
                                                callIndex: callIndex)
         presenter.logger = resolver.logger
 

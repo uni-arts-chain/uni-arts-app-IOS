@@ -42,6 +42,7 @@ protocol WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   call: ScaleCodable?,
+                  moduleIndex: UInt8,
                   callIndex: UInt8,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall

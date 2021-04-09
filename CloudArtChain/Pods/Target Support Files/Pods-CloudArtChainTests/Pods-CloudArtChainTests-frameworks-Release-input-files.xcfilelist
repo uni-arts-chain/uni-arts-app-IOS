@@ -10,5 +10,6 @@ ${BUILT_PRODUCTS_DIR}/SoraKeystore/SoraKeystore.framework
 ${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework
 ${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework
 ${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework
+${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework
 ${BUILT_PRODUCTS_DIR}/xxHash-Swift/xxHash_Swift.framework
 ${BUILT_PRODUCTS_DIR}/Cuckoo/Cuckoo.framework

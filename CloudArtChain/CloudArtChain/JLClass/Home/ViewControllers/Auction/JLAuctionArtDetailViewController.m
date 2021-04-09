@@ -157,9 +157,20 @@
 - (void)getAuctionBidList:(AuctionInfo *)auctionInfo currentDate:(NSDate *)currentDate currentBlockNumber:(UInt32)blockNumber {
     WS(weakSelf)
     [[JLViewControllerTool appDelegate].walletTool performAuctionBidListWithAuctionInfo:auctionInfo bidListBlock:^(NSArray<BidHistory *> * _Nonnull bidHistoryList) {
-        NSMutableArray *tempArray = [NSMutableArray arrayWithArray:bidHistoryList];
-        bidHistoryList = [[tempArray reverseObjectEnumerator] allObjects];
-        [weakSelf.offerRecordView setBidList:bidHistoryList currentDate:currentDate currentBlockNumber:blockNumber];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSMutableArray *tempArray = [NSMutableArray arrayWithArray:bidHistoryList];
+            NSArray *tempBidHistoryList = [[tempArray reverseObjectEnumerator] allObjects];
+            CGFloat offerRecordViewHeight = 60.0f + 44.0f * (tempBidHistoryList.count > 3 ? 3 : tempBidHistoryList.count);
+            weakSelf.offerRecordView.frame = CGRectMake(0.0f, weakSelf.auctionPriceView.frameBottom + 10.0f, kScreenWidth, offerRecordViewHeight);
+            [weakSelf.offerRecordView setBidList:tempBidHistoryList currentDate:currentDate currentBlockNumber:blockNumber];
+            
+            weakSelf.artDetailChainView.frameTop = weakSelf.offerRecordView.frameBottom;
+            weakSelf.artAuthorDetailView.frameTop = weakSelf.artDetailChainView.frameBottom;
+            weakSelf.artInfoView.frameTop = weakSelf.artAuthorDetailView.frameBottom;
+            weakSelf.artEvaluateView.frameTop = weakSelf.artInfoView.frameBottom;
+            weakSelf.artDetailDescView.frameTop = weakSelf.artEvaluateView.frameBottom;
+            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artDetailDescView.frameBottom);
+        });
     }];
 }
 
@@ -509,7 +520,7 @@
 - (JLAuctionOfferRecordView *)offerRecordView {
     if (!_offerRecordView) {
         WS(weakSelf)
-        _offerRecordView = [[JLAuctionOfferRecordView alloc] initWithFrame:CGRectMake(0.0f, self.auctionPriceView.frameBottom + 10.0f, kScreenWidth, 192.0f)];
+        _offerRecordView = [[JLAuctionOfferRecordView alloc] initWithFrame:CGRectMake(0.0f, self.auctionPriceView.frameBottom + 10.0f, kScreenWidth, 60.0f)];
         _offerRecordView.recordListBlock = ^(NSArray * _Nonnull bidList, NSDate * _Nonnull blockDate, UInt32 blockNumber) {
             JLAuctionOfferRecordViewController *auctionOfferRecordVC = [[JLAuctionOfferRecordViewController alloc] init];
             auctionOfferRecordVC.bidList = bidList;

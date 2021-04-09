@@ -107,12 +107,13 @@ extension WalletService: WalletServiceProtocol {
     @discardableResult
     func transfer(info: TransferInfo,
                   call: ScaleCodable?,
+                  moduleIndex: UInt8,
                   callIndex: UInt8,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping DataResultCompletionBlock)
         -> CancellableCall {
 
-        let operationWrapper = operationFactory.transferOperation(info, call, callIndex)
+        let operationWrapper = operationFactory.transferOperation(info, call, moduleIndex, callIndex)
 
         operationWrapper.targetOperation.completionBlock = {
             queue.async {

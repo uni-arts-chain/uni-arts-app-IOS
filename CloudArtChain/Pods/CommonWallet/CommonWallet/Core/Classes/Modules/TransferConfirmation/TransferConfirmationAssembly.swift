@@ -41,6 +41,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
                                                       eventCenter: resolver.eventCenter,
                                                       viewModelFactory: viewModelFactory,
                                                       call: nil,
+                                                      moduleIndex: 29,
                                                       callIndex: 0)
 
         presenter.logger = resolver.logger
@@ -53,7 +54,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
         return view
     }
     
-    static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload, call: ScaleCodable?, callIndex: UInt8)
+    static func assembleView(with resolver: ResolverProtocol, payload: ConfirmationPayload, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8)
         -> WalletNewFormViewProtocol? {
         
         let formDefinition: WalletFormDefining = createFormDefinition(from: resolver)
@@ -84,6 +85,7 @@ final class TransferConfirmationAssembly: TransferConfirmationAssemblyProtocol {
                                                       eventCenter: resolver.eventCenter,
                                                       viewModelFactory: viewModelFactory,
                                                       call: call,
+                                                      moduleIndex: moduleIndex,
                                                       callIndex: callIndex)
 
         presenter.logger = resolver.logger

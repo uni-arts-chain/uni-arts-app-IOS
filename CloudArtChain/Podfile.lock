@@ -28,7 +28,7 @@ PODS:
   - DateTools (2.0.0)
   - EBBannerView (1.1.2)
   - FDFullscreenPopGesture (1.1)
-  - FearlessUtils (0.8.0):
+  - FearlessUtils (0.9.0):
     - BigInt (~> 5.0)
     - IrohaCrypto/ed25519 (~> 0.7.0)
     - IrohaCrypto/Scrypt (~> 0.7.0)
@@ -38,18 +38,19 @@ PODS:
     - xxHash-Swift (~> 1.0.0)
   - FireMock (3.1)
   - IQKeyboardManager (6.5.6)
-  - IrohaCrypto/BIP39 (0.7.2):
+  - IrohaCrypto/BIP39 (0.7.3):
     - IrohaCrypto/Common
-  - IrohaCrypto/blake2 (0.7.2)
-  - IrohaCrypto/Common (0.7.2)
-  - IrohaCrypto/ed25519 (0.7.2):
+  - IrohaCrypto/blake2 (0.7.3)
+  - IrohaCrypto/Common (0.7.3)
+  - IrohaCrypto/ed25519 (0.7.3):
     - IrohaCrypto/Common
-  - IrohaCrypto/Scrypt (0.7.2):
+  - IrohaCrypto/Scrypt (0.7.3):
     - IrohaCrypto/Common
     - scrypt.c (~> 0.1)
-  - IrohaCrypto/secp256k1 (0.7.2):
+  - IrohaCrypto/secp256k1 (0.7.3):
     - IrohaCrypto/Common
-  - IrohaCrypto/sr25519 (0.7.2):
+    - secp256k1.c (~> 0.1)
+  - IrohaCrypto/sr25519 (0.7.3):
     - IrohaCrypto/BIP39
     - IrohaCrypto/blake2
     - IrohaCrypto/Common
@@ -73,6 +74,7 @@ PODS:
   - SDWebImage (5.9.4):
     - SDWebImage/Core (= 5.9.4)
   - SDWebImage/Core (5.9.4)
+  - secp256k1.c (0.1.2)
   - SGQRCode (3.0.1)
   - SnapKit (5.0.1)
   - SoraFoundation (0.8.0):
@@ -148,7 +150,7 @@ DEPENDENCIES:
   - DateTools
   - EBBannerView
   - FDFullscreenPopGesture (= 1.1)
-  - FearlessUtils (from `https://github.com/soramitsu/fearless-utils-iOS.git`, commit `f821a9352d1592d60a43b7ced4fe977373d445a4`)
+  - FearlessUtils (from `https://github.com/soramitsu/fearless-utils-iOS.git`, commit `e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7`)
   - FireMock
   - IQKeyboardManager
   - JSONModel
@@ -210,6 +212,7 @@ SPEC REPOS:
     - scrypt.c
     - SDCycleScrollView
     - SDWebImage
+    - secp256k1.c
     - SGQRCode
     - SnapKit
     - SoraFoundation
@@ -235,7 +238,7 @@ EXTERNAL SOURCES:
     :commit: 725cefe1d0fa1ea8456580289b326558b13225c2
     :git: https://github.com/soramitsu/Capital-iOS.git
   FearlessUtils:
-    :commit: f821a9352d1592d60a43b7ced4fe977373d445a4
+    :commit: e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7
     :git: https://github.com/soramitsu/fearless-utils-iOS.git
   Starscream:
     :branch: feature/without-origin
@@ -246,7 +249,7 @@ CHECKOUT OPTIONS:
     :commit: 725cefe1d0fa1ea8456580289b326558b13225c2
     :git: https://github.com/soramitsu/Capital-iOS.git
   FearlessUtils:
-    :commit: f821a9352d1592d60a43b7ced4fe977373d445a4
+    :commit: e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7
     :git: https://github.com/soramitsu/fearless-utils-iOS.git
   Starscream:
     :commit: b9e69390d96e71427463469f47cdafb8c0db1b21
@@ -261,10 +264,10 @@ SPEC CHECKSUMS:
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   EBBannerView: 268002f8d9d3e979cb8649cbfefd0da5ddef72b3
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
-  FearlessUtils: 979e4d4f7fce0432217588b6d693cb86166545e5
+  FearlessUtils: 8c05cb6cf737943f343e6a1fb4be2ac6fafebb9d
   FireMock: 3eed872059c12f94855413347da83b9d6d1a6fac
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
-  IrohaCrypto: bddf15865c4df189b9c5273ba9c675afae8b7f4c
+  IrohaCrypto: 6944fc5fea160cebd1219b5f76539ed72908de71
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   JXCategoryView: 778a620f76070d6598fd8d7239991b8da8326170
   JXPagingView: 821ed274f09eaf2843a96c3a74e9d138e27d9730
@@ -281,6 +284,7 @@ SPEC CHECKSUMS:
   scrypt.c: b42ae06183251329d2b2c620c226fb541a4a3592
   SDCycleScrollView: a0d74c3384caa72bdfc81470bdbc8c14b3e1fbcf
   SDWebImage: b69257f4ab14e9b6a2ef53e910fdf914d8f757c1
+  secp256k1.c: db47b726585d80f027423682eb369729e61b3b20
   SGQRCode: bf02d60e18d6660a9d75ff1c8b9b467f064f054e
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SoraFoundation: 191f65cb04fd82f32c8e4e00156a7c979dd2c7e2
@@ -302,6 +306,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   ZWPlaceHolder: d55cce10c9930b48c31bf48e7f4748974a31f7e0
 
-PODFILE CHECKSUM: 400a73c0cd353a1d57f0d221e3096de434f112a3
+PODFILE CHECKSUM: a495f709401801c7a542966a71a01d99da69f58d
 
 COCOAPODS: 1.10.0

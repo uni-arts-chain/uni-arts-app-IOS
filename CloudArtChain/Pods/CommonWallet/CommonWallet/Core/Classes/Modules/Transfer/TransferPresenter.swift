@@ -53,6 +53,7 @@ final class TransferPresenter {
     let payload: TransferPayload
     let call: ScaleCodable?
     let callIndex: UInt8
+    let moduleIndex: UInt8
     let receiverPosition: TransferReceiverPosition
 
     var selectedBalance: BalanceData? {
@@ -83,6 +84,7 @@ final class TransferPresenter {
          errorHandler: OperationDefinitionErrorHandling?,
          feeEditing: FeeEditing?,
          call: ScaleCodable?,
+         moduleIndex: UInt8,
          callIndex: UInt8) throws {
 
         if let assetId = payload.receiveInfo.assetId,
@@ -98,6 +100,7 @@ final class TransferPresenter {
         self.accountId = accountId
         self.payload = payload
         self.call = call
+        self.moduleIndex = moduleIndex
         self.callIndex = callIndex
         self.receiverPosition = receiverPosition
 
@@ -107,6 +110,7 @@ final class TransferPresenter {
             .createTransferMetadataProvider(for: selectedAsset.identifier,
                                             receiver: payload.receiveInfo.accountId,
                                             call: call,
+                                            moduleIndex: moduleIndex,
                                             callIndex: callIndex)
 
         self.resultValidator = resultValidator

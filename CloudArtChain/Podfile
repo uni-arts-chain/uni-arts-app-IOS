@@ -40,7 +40,7 @@ pod 'LSTTimer'
 pod 'UMCCommon'
 pod 'UMCCommonLog'
 
-  pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'f821a9352d1592d60a43b7ced4fe977373d445a4'
+  pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7'
   pod 'SwiftLint'
   pod 'R.swift', :inhibit_warnings => true
   pod 'FireMock', :inhibit_warnings => true

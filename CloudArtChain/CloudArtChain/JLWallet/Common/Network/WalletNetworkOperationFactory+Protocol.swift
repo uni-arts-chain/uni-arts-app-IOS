@@ -105,7 +105,7 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
                                         dependencies: dependencies)
     }
     
-    func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
+    func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
         guard
             let asset = accountSettings.assets.first(where: { $0.identifier == info.assetId }),
             let assetId = WalletAssetId(rawValue: asset.identifier) else {
@@ -134,6 +134,7 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
 
         let compoundInfo = setupTransferExtrinsic(infoOperation,
                                                   call: call,
+                                                  moduleIndex: moduleIndex,
                                                   callIndex: callIndex,
                                                   receiver: info.receiver,
                                                   chain: chain, signer: dummySigner)
@@ -216,7 +217,7 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
                                         dependencies: compoundTransfer.allOperations)
     }
     
-    func transferOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ callIndex: UInt8) -> CompoundOperationWrapper<Data> {
+    func transferOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<Data> {
         guard
             let asset = accountSettings.assets.first(where: { $0.identifier == info.asset }),
             let assetId = WalletAssetId(rawValue: asset.identifier) else {
@@ -239,6 +240,7 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
 
         let compoundTransfer = setupTransferExtrinsic(transferOperation,
                                                       call: call,
+                                                      moduleIndex: moduleIndex,
                                                       callIndex: callIndex,
                                                       receiver: info.destination,
                                                       chain: chain,

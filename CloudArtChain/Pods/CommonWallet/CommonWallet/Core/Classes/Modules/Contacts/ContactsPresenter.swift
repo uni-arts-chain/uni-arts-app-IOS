@@ -315,7 +315,7 @@ extension ContactsPresenter: ContactViewModelDelegate {
         coordinator.send(to: payload)
     }
     
-    public func didSelect(contact: ContactViewModelProtocol, call: ScaleCodable, callIndex: UInt8) -> TransferViewController? {
+    public func didSelect(contact: ContactViewModelProtocol, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8) -> TransferViewController? {
         let receiveInfo = ReceiveInfo(accountId: contact.accountId,
                                       assetId: selectedAsset.identifier,
                                       amount: nil,
@@ -324,7 +324,7 @@ extension ContactsPresenter: ContactViewModelDelegate {
         let payload = TransferPayload(receiveInfo: receiveInfo,
                                       receiverName: contact.name)
 
-        return coordinator.send(to: payload, call: call, callIndex: callIndex)
+        return coordinator.send(to: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
     }
 }
 

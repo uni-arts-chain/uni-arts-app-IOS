@@ -192,7 +192,7 @@ extension TransferPresenter {
                                                       receiverName: payload.receiverName)
             
 //            coordinator.confirm(with: composedPayload)
-            let confirmVC: WalletNewFormViewController? = coordinator.jlConfirm(with: composedPayload, call: call, callIndex: callIndex)
+            let confirmVC: WalletNewFormViewController? = coordinator.jlConfirm(with: composedPayload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
             self.callbackBlock?(confirmVC)
         } catch {
             if !attempHandleError(error) {

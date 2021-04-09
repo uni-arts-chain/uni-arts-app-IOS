@@ -10,7 +10,7 @@ LoadableViewProtocol, AlertPresentable {}
 
 protocol TransferCoordinatorProtocol: CoordinatorProtocol, PickerPresentable {
     func confirm(with payload: ConfirmationPayload)
-    func jlConfirm(with payload: ConfirmationPayload, call: ScaleCodable?, callIndex: UInt8) -> WalletNewFormViewController?
+    func jlConfirm(with payload: ConfirmationPayload, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8) -> WalletNewFormViewController?
 }
 
 protocol TransferAssemblyProtocol: class {
@@ -20,5 +20,6 @@ protocol TransferAssemblyProtocol: class {
     static func assembleView(with resolver: ResolverProtocol,
                              payload: TransferPayload,
                              call: ScaleCodable,
+                             moduleIndex: UInt8,
                              callIndex: UInt8) -> TransferViewProtocol?
 }

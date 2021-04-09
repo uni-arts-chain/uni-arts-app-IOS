@@ -186,6 +186,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/xxHash-Swift/xxHash_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cuckoo/Cuckoo.framework"
 fi
@@ -201,6 +202,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SoraUI/SoraUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/scrypt.c/scrypt.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/secp256k1.c/secp256k1.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/xxHash-Swift/xxHash_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cuckoo/Cuckoo.framework"
 fi

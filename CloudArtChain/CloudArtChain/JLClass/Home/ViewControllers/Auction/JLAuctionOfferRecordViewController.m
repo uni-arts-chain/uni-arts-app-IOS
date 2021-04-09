@@ -9,8 +9,11 @@
 #import "JLAuctionOfferRecordViewController.h"
 #import "JLAuctionOfferRecordCell.h"
 
+#import "JLNormalEmptyView.h"
+
 @interface JLAuctionOfferRecordViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) JLNormalEmptyView *emptyView;
 @end
 
 @implementation JLAuctionOfferRecordViewController
@@ -28,6 +31,7 @@
         make.left.top.right.equalTo(self.view);
         make.bottom.mas_equalTo(-KTouch_Responder_Height);
     }];
+    [self setNoDataShow];
 }
 
 - (UITableView *)tableView {
@@ -76,4 +80,21 @@
     return [UIView new];
 }
 
+- (JLNormalEmptyView *)emptyView {
+    if (!_emptyView) {
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+    }
+    return _emptyView;
+}
+
+- (void)setNoDataShow {
+    if (self.bidList.count == 0) {
+        [self.tableView addSubview:self.emptyView];
+    } else {
+        if (_emptyView) {
+            [self.emptyView removeFromSuperview];
+            self.emptyView = nil;
+        }
+    }
+}
 @end

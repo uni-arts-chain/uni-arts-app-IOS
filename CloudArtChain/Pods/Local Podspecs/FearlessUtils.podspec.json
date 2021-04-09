@@ -1,6 +1,6 @@
 {
   "name": "FearlessUtils",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "summary": "Utility library that implements clients specific logic to interact with substrate based networks",
   "homepage": "https://github.com/soramitsu/fearless-utils-iOS",
   "license": {
@@ -12,11 +12,15 @@
   },
   "source": {
     "git": "https://github.com/soramitsu/fearless-utils-iOS.git",
-    "tag": "0.8.0"
+    "tag": "0.9.0"
   },
   "swift_versions": "5.0",
   "platforms": {
     "ios": "11.0"
+  },
+  "pod_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64",
+    "VALID_ARCHS": "x86_64 armv7 arm64"
   },
   "source_files": "FearlessUtils/Classes/**/*",
   "dependencies": {
@@ -48,7 +52,8 @@
       "test_type": "unit",
       "source_files": "Tests/**/*.swift",
       "resources": [
-        "Tests/**/*.json"
+        "Tests/**/*.json",
+        "Tests/**/*-metadata"
       ]
     }
   ],

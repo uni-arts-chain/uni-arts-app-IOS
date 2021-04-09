@@ -11,4 +11,5 @@ enum RPCMethod {
     static let getChainBlock = "chain_getBlock"
     static let getExtrinsicNonce = "system_accountNextIndex"
     static let helthCheck = "system_health"
+    static let getMetaData = "state_getMetadata"
 }

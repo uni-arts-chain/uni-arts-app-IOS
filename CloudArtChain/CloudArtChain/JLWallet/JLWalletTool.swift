@@ -32,10 +32,12 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     var contactsPresenter: ContactsPresenter?
     var transferVC: TransferViewController?
     var confirmVC: WalletNewFormViewController?
+    var metadata: RuntimeMetadata?
     
     @objc init(window: UIWindow) {
         self.window = window
         super.init()
+        self.getMetadata()
         self.getContacts()
     }
     
@@ -234,12 +236,17 @@ extension JLWalletTool {
     
     func cancelAuctionCallSwift(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
         let cancelAuctionCall = CancelAuctionCall(collectionId: collectionId, itemId: itemId)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelAuctionCall, callIndex: Chain.uniarts.cancelAuctionCallIndex) ?? nil
-        if (self.transferVC != nil) {
-            block(true, "")
-            createAuctionSubmit()
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelAuctionCall, callIndex: Chain.uniarts.cancelAuctionCallIndex) ?? nil
+        if let tempMetaData = self.metadata, let moduleIndex = tempMetaData.getModuleIndex("Nft"), let callIndex = tempMetaData.getCallIndex(in: "Nft", callName: "cancel_auction") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelAuctionCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                createAuctionSubmit()
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -258,12 +265,17 @@ extension JLWalletTool {
     
     func createAuctionCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, price: UInt64, increment: UInt64, startTime: UInt32, endTime: UInt32, block: (Bool, String) -> Void) {
         let createAuctionCall = CreateAuctionCall(collectionId: collectionId, itemId: itemId, value: value, startPrice: price, increment: increment, startTime: startTime, endTime: endTime)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: createAuctionCall, callIndex: Chain.uniarts.createAuctionCallIndex) ?? nil
-        if (self.transferVC != nil) {
-            block(true, "")
-            createAuctionSubmit()
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: createAuctionCall, callIndex: Chain.uniarts.createAuctionCallIndex) ?? nil
+        if let tempMetaData = self.metadata, let moduleIndex = tempMetaData.getModuleIndex("Nft"), let callIndex = tempMetaData.getCallIndex(in: "Nft", callName: "create_auction") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: createAuctionCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                createAuctionSubmit()
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -288,12 +300,16 @@ extension JLWalletTool {
 extension JLWalletTool {
     @objc func auctionBidCall(collectionId: UInt64, itemId: UInt64, block:@escaping (Bool, String?) -> Void) {
         let auctionBidCall = AuctionBidCall(collectionId: collectionId, itemId: itemId)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: auctionBidCall, callIndex: Chain.uniarts.bidCallIndex) ?? nil
-        if (self.transferVC != nil) {
-//            block(true, "")
-            auctionBidSubmit(block: block)
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: auctionBidCall, callIndex: Chain.uniarts.bidCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "bid") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: auctionBidCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                auctionBidSubmit(block: block)
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -319,12 +335,17 @@ extension JLWalletTool {
 extension JLWalletTool {
     @objc func acceptSaleOrderCall(collectionId: UInt64, itemId: UInt64, block:(Bool, String) -> Void) {
         let acceptSaleOrderCall = AcceptSaleOrderCall(collectionId: collectionId, itemId: itemId)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: acceptSaleOrderCall, callIndex: Chain.uniarts.acceptSaleOrderCallIndex) ?? nil
-        if (self.transferVC != nil) {
-            block(true, "")
-            acceptSaleOrderSubmit()
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: acceptSaleOrderCall, callIndex: Chain.uniarts.acceptSaleOrderCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "accept_sale_order") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: acceptSaleOrderCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                acceptSaleOrderSubmit()
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -354,12 +375,17 @@ extension JLWalletTool {
     
     func sellOrderCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, price: UInt64, block:(Bool, String) -> Void) {
         let saleOrderCall = CreateSaleOrderCall(collectionId: collectionId, itemId: itemId, value: value, price: price)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
-        if (self.transferVC != nil) {
-            block(true, "")
-            sellOrderSubmit()
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "create_sale_order") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                sellOrderSubmit()
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -388,12 +414,17 @@ extension JLWalletTool {
     
     func cancelSellOrderCallSwift(collectionId: UInt64, itemId: UInt64, value: UInt64, block:(Bool, String) -> Void) {
         let cancelSaleOrderCall = CancelSaleOrderCall(collectionId: collectionId, itemId: itemId, value: value)
-        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelSaleOrderCall, callIndex: Chain.uniarts.cancelSaleOrderCallIndex) ?? nil
-        if (self.transferVC != nil) {
-            block(true, "")
-            sellOrderSubmit()
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelSaleOrderCall, callIndex: Chain.uniarts.cancelSaleOrderCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "cancel_sale_order") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: cancelSaleOrderCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                sellOrderSubmit()
+            } else {
+                block(false, "")
+            }
         } else {
-            block(false, "")
+            block(false, "不存在Metadata")
         }
     }
     
@@ -552,5 +583,28 @@ extension JLWalletTool {
         } catch {
             bidListBlock(Array())
         }
+    }
+    
+    /** 获取metadata数据 */
+    func getMetadata() {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+
+        let engine = WebSocketEngine(url: ConnectionItem.defaultConnection.url, logger: logger)
+        
+        let operation = JSONRPCOperation<[String], String>(engine: engine, method: RPCMethod.getMetaData)
+        let operationsWrapper = CompoundOperationWrapper(targetOperation: operation)
+        operationsWrapper.targetOperation.completionBlock = { [weak self] in
+            do {
+                let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+                let rawMetadata = try Data(hexString: result)
+                let decoder = try ScaleDecoder(data: rawMetadata)
+                let tempMetaData = try RuntimeMetadata(scaleDecoder: decoder)
+                self?.metadata = tempMetaData
+            } catch {
+                print("Unexpected error: \(error)")
+            }
+        }
+        operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
     }
 }

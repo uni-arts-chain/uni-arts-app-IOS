@@ -18,6 +18,7 @@ final class TransferCoordinator: TransferCoordinatorProtocol {
         let command = TransferConfirmationCommand(payload: payload,
                                                   resolver: resolver,
                                                   call: nil,
+                                                  moduleIndex: 29,
                                                   callIndex: 0)
 
         if let decorator = resolver.commandDecoratorFactory?
@@ -30,10 +31,11 @@ final class TransferCoordinator: TransferCoordinatorProtocol {
         }
     }
     
-    func jlConfirm(with payload: ConfirmationPayload, call: ScaleCodable?, callIndex: UInt8) -> WalletNewFormViewController? {
+    func jlConfirm(with payload: ConfirmationPayload, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8) -> WalletNewFormViewController? {
         let command = TransferConfirmationCommand(payload: payload,
                                                   resolver: resolver,
                                                   call: call,
+                                                  moduleIndex: moduleIndex,
                                                   callIndex: callIndex)
         
         return command.confirmTransaction()
