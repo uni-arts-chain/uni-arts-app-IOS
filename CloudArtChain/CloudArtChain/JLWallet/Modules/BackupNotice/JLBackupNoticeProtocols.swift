@@ -15,12 +15,16 @@ protocol JLBackupNoticeViewProtocol: ControllerBackedProtocol {
 protocol JLBackupNoticePresenterProtocol: class {
     func setup()
     func proceed()
+    func skip()
+    func defaultCreateWalletProceed()
 }
 
 protocol JLBackupNoticeWireframeProtocol: AlertPresentable {
     func proceed(from view: JLBackupNoticeViewProtocol?, username: String)
+    func proceedDefaultCreateWallet(from view: JLBackupNoticeViewProtocol?, username: String)
 }
 
 protocol JLBackupNoticViewFactoryProtocol: class {
     static func createViewForBackupNotice(username: String) -> JLBackupNoticeViewProtocol?
+    static func createViewForBackupNoticeDefaultCreateWallet(username: String) -> JLBackupNoticeViewProtocol?
 }

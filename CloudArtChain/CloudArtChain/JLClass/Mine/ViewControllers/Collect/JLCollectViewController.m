@@ -12,6 +12,7 @@
 
 #import "JLPopularOriginalCollectionViewCell.h"
 #import "JLNormalEmptyView.h"
+#import "JLFavorateCollectionWaterLayout.h"
 
 @interface JLCollectViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView * collectionView;
@@ -27,10 +28,9 @@
     [super viewDidLoad];
     self.navigationItem.title = @"作品收藏";
     [self addBackItem];
-    self.currentPage = 1;
     
     [self createSubViews];
-    [self requestCollectionList];
+    [self.collectionView.mj_header beginRefreshing];
 }
 
 - (void)createSubViews {
@@ -38,7 +38,8 @@
     [self.collectionView  registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.left.top.right.equalTo(self.view);
+        make.bottom.mas_equalTo(-KTouch_Responder_Height);
     }];
 }
 
@@ -46,15 +47,11 @@
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 26.0f) * 0.5f, 250.0f);
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        flowLayout.minimumLineSpacing = 0.0f;
-        flowLayout.minimumInteritemSpacing = 26.0f;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+        JLFavorateCollectionWaterLayout *layout = [JLFavorateCollectionWaterLayout layoutWithColoumn:2 data:self.collectionArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height) collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 15.0f, 0.0f, 15.0f);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = JL_color_white_ffffff;
@@ -78,6 +75,10 @@
     Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
     cell.collectionArtData = facorateArtsData.favoritable;
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    [cell layoutSubviews];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

@@ -197,6 +197,10 @@
     [[JLViewControllerTool appDelegate].walletTool showBackupNoticeWithNavigationController:self.navigationController username:[self.nameTF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
 
+- (void)createDefaultWallet {
+    [[JLViewControllerTool appDelegate].walletTool showBackupNoticeDefaultCreateWalletWithNavigationController:self.navigationController username:@"钱包"];
+}
+
 - (UIButton *)severButton {
     if (!_severButton) {
         _severButton = [[UIButton alloc] init];

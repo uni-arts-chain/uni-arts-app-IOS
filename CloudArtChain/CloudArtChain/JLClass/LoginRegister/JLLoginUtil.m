@@ -151,6 +151,9 @@ NSString *const RFUserInfo     = @"UserInfo";
                 UserDataTokens *firstToken = [response.body getToken];
                 [JLLoginUtil cacheUserToken:firstToken];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserLoginNotification" object:nil userInfo:response.body.avatar];
+                
+                // 重新获取系统信息
+                [AppSingleton systemInfo];
             } else {
                 NSLog(@"login error: %@", errorStr);
                 [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];

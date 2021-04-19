@@ -9,9 +9,9 @@
 #import "JLCategoryWorkCollectionViewCell.h"
 
 @interface JLCategoryWorkCollectionViewCell ()
+@property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 
 @property (nonatomic, strong) UIView *auctioningView;
@@ -26,64 +26,77 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+}
+
 - (void)createSubViews {
-    [self addSubview:self.imageView];
-    [self addSubview:self.nameLabel];
-    [self addSubview:self.infoLabel];
-    [self addSubview:self.priceLabel];
-    [self addSubview:self.auctioningView];
+    [self.contentView addSubview:self.backView];
+    [self.backView addSubview:self.imageView];
+    [self.backView addSubview:self.nameLabel];
+    [self.backView addSubview:self.priceLabel];
+    [self.backView addSubview:self.auctioningView];
     
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(-18.0f);
-        make.right.left.equalTo(self);
-        make.height.mas_equalTo(15.0f);
+    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentView);
     }];
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.priceLabel.mas_top).offset(-13.0f);
-        make.right.left.mas_equalTo(self);
-        make.height.mas_equalTo(13.0f);
+    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.backView).offset(-8.0f);
+        make.bottom.equalTo(self.backView);
+        make.height.mas_equalTo(30.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.infoLabel.mas_top).offset(-11.0f);
-        make.right.left.mas_equalTo(self);
-        make.height.mas_equalTo(15.0f);
+        make.left.equalTo(self.backView).offset(8.0f);
+        make.bottom.equalTo(self.backView);
+        make.height.mas_equalTo(30.0f);
+        make.right.equalTo(self.priceLabel.mas_left).offset(-16.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
-        make.bottom.equalTo(self.nameLabel.mas_top).offset(-17.0f);
+        make.left.top.right.equalTo(self.backView);
+        make.bottom.equalTo(self.nameLabel.mas_top);
     }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self);
-        make.width.mas_equalTo(45.0);
-        make.height.mas_equalTo(20.0);
+        make.left.top.equalTo(self.backView);
+        make.width.mas_equalTo(45.0f);
+        make.height.mas_equalTo(20.0f);
     }];
+    [self.contentView setNeedsLayout];
+}
+
+- (UIView *)backView {
+    if (!_backView) {
+        //WithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 250.0f)
+        _backView = [[UIView alloc] init];
+        _backView.backgroundColor = JL_color_white_ffffff;
+        ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
+    }
+    return _backView;
 }
 
 - (UIImageView *)imageView {
     if (!_imageView) {
-        _imageView = [JLUIFactory imageViewInitImageName:@""];
-        ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 220.0f)];
+        [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _imageView;
 }
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = kFontPingFangSCMedium(14.0f);
+        _nameLabel.textColor = JL_color_gray_101010;
     }
     return _nameLabel;
 }
 
-- (UILabel *)infoLabel {
-    if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
-    }
-    return _infoLabel;
-}
-
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [[UILabel alloc] init];
+        _priceLabel.font = kFontPingFangSCRegular(13.0f);
+        _priceLabel.textColor = JL_color_gray_101010;
+        _priceLabel.textAlignment = NSTextAlignmentRight;
     }
     return _priceLabel;
 }
@@ -117,9 +130,8 @@
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
     }
-    self.nameLabel.text = artDetailData.author.display_name;
-    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue], artDetailData.name];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    self.nameLabel.text = artDetailData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.price];
     
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中

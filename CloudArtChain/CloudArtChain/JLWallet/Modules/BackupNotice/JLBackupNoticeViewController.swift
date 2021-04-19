@@ -37,6 +37,10 @@ final class JLBackupNoticeViewController: JLBaseViewController {
         presenter.proceed()
     }
     
+    func defaultCreateWallet() {
+        presenter.defaultCreateWalletProceed()
+    }
+    
     private func setupNavi() {
         let title = "稍后备份"
         let rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(skipBackup))
@@ -47,7 +51,7 @@ final class JLBackupNoticeViewController: JLBaseViewController {
     }
     
     @objc private func skipBackup() {
-        
+        presenter.skip()
     }
     
     private func setupViews() {

@@ -17,4 +17,15 @@ final class JLBackupNoticeWireframe: JLBackupNoticeWireframeProtocol {
         view?.controller.navigationController?.pushViewController(accountCreation.controller,
                                                                   animated: true)
     }
+    
+    func proceedDefaultCreateWallet(from view: JLBackupNoticeViewProtocol?, username: String) {
+        guard let accountCreation = AccountCreateViewFactory.createViewForOnboarding(username: username) else {
+            return
+        }
+
+        view?.controller.navigationController?.pushViewController(accountCreation.controller,
+                                                                  animated: false)
+        
+        (accountCreation.controller as! AccountCreateViewController).presenter.proceedDefaultCreateWallet()
+    }
 }

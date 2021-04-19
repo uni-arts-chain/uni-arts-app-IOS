@@ -13,8 +13,7 @@
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *borthLabel;
-@property (nonatomic, strong) UILabel *schoolLabel;
+@property (nonatomic, strong) UILabel *descLabel;
 @property (nonatomic, strong) UIView *goToHomePageView;
 @end
 
@@ -28,13 +27,12 @@
 }
 
 - (void)createSubViews {
-    UIView *titleView = [JLUIFactory titleViewWithTitle:@"拥有者简介"];
+    UIView *titleView = [JLUIFactory titleViewWithTitle:@"创作者简介"];
     [self addSubview:titleView];
     
     [self addSubview:self.avatarImageView];
     [self addSubview:self.nameLabel];
-    [self addSubview:self.borthLabel];
-    [self addSubview:self.schoolLabel];
+    [self addSubview:self.descLabel];
     [self addSubview:self.goToHomePageView];
     
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,21 +50,15 @@
         make.height.mas_equalTo(25.0f);
         make.right.mas_equalTo(-50.0f);
     }];
-    [self.borthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(5.0f);
-        make.height.mas_equalTo(25.0f);
-        make.right.mas_equalTo(-50.0f);
-    }];
-    [self.schoolLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
-        make.top.equalTo(self.borthLabel.mas_bottom).offset(5.0f);
-        make.height.mas_equalTo(25.0f);
-        make.right.mas_equalTo(-50.0f);
+        make.height.mas_equalTo(55.0f);
+        make.right.mas_equalTo(-28.0f);
     }];
     [self.goToHomePageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
-        make.top.equalTo(self.schoolLabel.mas_bottom).offset(5.0f);
+        make.top.equalTo(self.descLabel.mas_bottom).offset(5.0f);
         make.height.mas_equalTo(25.0f);
     }];
 }
@@ -82,30 +74,24 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _nameLabel;
 }
 
-- (UILabel *)borthLabel {
-    if (!_borthLabel) {
-        _borthLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+- (UILabel *)descLabel {
+    if (!_descLabel) {
+        _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _descLabel.numberOfLines = 2;
     }
-    return _borthLabel;
-}
-
-- (UILabel *)schoolLabel {
-    if (!_schoolLabel) {
-        _schoolLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
-    }
-    return _schoolLabel;
+    return _descLabel;
 }
 
 - (UIView *)goToHomePageView {
     if (!_goToHomePageView) {
         _goToHomePageView = [[UIView alloc] init];
         
-        UILabel *titleLabel = [JLUIFactory labelInitText:@"进入拥有者主页" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_blue_38B2F1 textAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [JLUIFactory labelInitText:@"进入创作者主页" font:kFontPingFangSCMedium(14.0f) textColor:JL_color_blue_337FFF textAlignment:NSTextAlignmentLeft];
         [_goToHomePageView addSubview:titleLabel];
         
         UIImageView *arrowImageView = [JLUIFactory imageViewInitImageName:@"icon_home_artdetail_arrow"];
@@ -145,7 +131,6 @@
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = artDetailData.author.display_name;
-    self.borthLabel.text = [NSString stringIsEmpty:artDetailData.author.residential_address] ? @"" : artDetailData.author.residential_address;
-    self.schoolLabel.text = [NSString stringIsEmpty: artDetailData.author.college] ? @"" :  artDetailData.author.college;
+    self.descLabel.text = @"1973年出生于南京，币圈早期投资人，现主要收藏NFT相关作品";
 }
 @end

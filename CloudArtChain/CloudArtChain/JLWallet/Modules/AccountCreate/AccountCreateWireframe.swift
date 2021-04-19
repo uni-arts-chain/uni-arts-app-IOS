@@ -14,6 +14,18 @@ final class AccountCreateWireframe: AccountCreateWireframeProtocol {
             navigationController.pushViewController(accountConfirmation, animated: true)
         }
     }
+    
+    func confirmDefaultCreateWallet(from view: AccountCreateViewProtocol?, request: AccountCreationRequest, metadata: AccountCreationMetadata) {
+        guard let accountConfirmation = AccountConfirmViewFactory
+            .createViewForOnboarding(request: request, metadata: metadata)?.controller else {
+            return
+        }
+
+        if let navigationController = view?.controller.navigationController {
+            navigationController.pushViewController(accountConfirmation, animated: false)
+            (accountConfirmation as! AccountConfirmViewController).presenter.skip()
+        }
+    }
 
     func presentCryptoTypeSelection(from view: AccountCreateViewProtocol?,
                                     availableTypes: [CryptoType],

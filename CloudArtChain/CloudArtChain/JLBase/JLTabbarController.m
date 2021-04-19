@@ -9,7 +9,8 @@
 #import "JLTabbarController.h"
 #import "JLHomeViewController.h"
 #import "JLCategoryViewController.h"
-#import "JLCreatorViewController.h"
+//#import "JLCreatorViewController.h"
+#import "JLBoxViewController.h"
 #import "JLShoppingCartViewController.h"
 #import "JLMineViewController.h"
 
@@ -23,11 +24,11 @@
     // 创建viewControllers
     JLNavigationViewController *navHomeVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLHomeViewController alloc] init]];
     JLNavigationViewController *navCategoryVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCategoryViewController alloc] init]];
-    JLNavigationViewController *navCreatorVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCreatorViewController alloc] init]];
+    JLNavigationViewController *navBoxVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLBoxViewController alloc] init]];
 //    JLNavigationViewController *navShoppingCartVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLShoppingCartViewController alloc] init]];
     JLNavigationViewController *navMineVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLMineViewController alloc] init]];
     
-    self.viewControllers = @[navHomeVC, navCategoryVC, navCreatorVC, navMineVC];
+    self.viewControllers = @[navHomeVC, navCategoryVC, navBoxVC, navMineVC];
     
     // 使tabbar显示出来
     self.tabBar.translucent = NO;
@@ -43,19 +44,19 @@
     NSDictionary *selectedDic = @{NSForegroundColorAttributeName: JL_color_gray_101010, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
     
     NSArray *titleArray = @[@"首页",
-                            @"分类",
-                            @"创作者",
+                            @"市场",
+                            @"盲盒",
 //                            @"购物车",
                             @"我的"];
     NSArray *normalImageNameArray = @[@"icon_tab_nomal_home",
-                                      @"icon_tab_nomal_category",
-                                      @"icon_tab_nomal_creator",
+                                      @"icon_tab_normal_market",
+                                      @"icon_tab_normal_box",
 //                                      @"icon_tab_nomal_shoppingcart",
                                       @"icon_tab_nomal_mine"];
     
     NSArray *selectedImageNameArray = @[@"icon_tab_selected_home",
-                                        @"icon_tab_selected_category",
-                                        @"icon_tab_selected_creator",
+                                        @"icon_tab_selected_market",
+                                        @"icon_tab_selected_box",
 //                                        @"icon_tab_selected_shoppingcart",
                                         @"icon_tab_selected_mine"];
     // 设置  tabBarItem.title  tabBarItem.image  tabBarItem.selectedImage

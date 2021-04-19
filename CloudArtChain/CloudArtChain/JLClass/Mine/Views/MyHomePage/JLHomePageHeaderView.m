@@ -40,19 +40,20 @@
     }];
     [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom).offset(17.0f);
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self).offset(-50.0f);
+        make.left.mas_equalTo(40.0f);
+        make.right.mas_equalTo(-40.0f);
+        make.bottom.equalTo(self).offset(-20.0f);
     }];
 }
 
 - (UIView *)avatarBackView {
     if (!_avatarBackView) {
         _avatarBackView = [[UIView alloc] init];
-        _avatarBackView.backgroundColor = JL_color_blue_EAF8FF;
+        _avatarBackView.backgroundColor = JL_color_purple_F0F5FF;
         ViewBorderRadius(_avatarBackView, 58.0f, 0.0f, JL_color_clear);
         
         UIView *innerView = [[UIView alloc] init];
-        innerView.backgroundColor = JL_color_blue_99DCFF;
+        innerView.backgroundColor = JL_color_purple_CADEFF;
         ViewBorderRadius(innerView, 50.0f, 0.0f, JL_color_clear);
         [_avatarBackView addSubview:innerView];
         
@@ -103,8 +104,8 @@
     } else {
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
-    self.nameLabel.text = authorData.display_name;
-    NSString *showDesc = [NSString stringWithFormat:@"%@\r\n%@\r\n%@", [NSString stringIsEmpty:authorData.residential_address] ? @"" : [NSString stringWithFormat:@"现居于%@", authorData.residential_address], [NSString stringIsEmpty:authorData.college] ? @"" : authorData.college, [NSString stringIsEmpty:authorData.desc] ? @"" : authorData.desc];
+    self.nameLabel.text = [NSString stringIsEmpty:authorData.display_name] ? @"未设置昵称" : authorData.display_name;
+    NSString *showDesc = [NSString stringIsEmpty:authorData.desc] ? @"未设置描述" : authorData.desc;
     if (![NSString stringIsEmpty:showDesc]) {
         self.infoLabel.text = showDesc;
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
@@ -122,9 +123,9 @@
     } else {
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
-    self.nameLabel.text = userData.display_name;
+    self.nameLabel.text = [NSString stringIsEmpty:userData.display_name] ? @"未设置昵称" : userData.display_name;
     
-    NSString *showDesc = [NSString stringWithFormat:@"%@\r\n%@\r\n%@", [NSString stringIsEmpty:userData.residential_address] ? @"" : [NSString stringWithFormat:@"现居于%@", userData.residential_address], [NSString stringIsEmpty:userData.college] ? @"" : userData.college, [NSString stringIsEmpty:userData.desc] ? @"" : userData.desc];
+    NSString *showDesc = [NSString stringIsEmpty:userData.desc] ? @"未设置描述" : userData.desc;
     if (![NSString stringIsEmpty:showDesc]) {
         self.infoLabel.text = showDesc;
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];

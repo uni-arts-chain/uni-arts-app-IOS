@@ -334,5 +334,4 @@ NSString *const JLSearchHistory = @"SearchHistory";
         }
     }];
 }
-
 @end

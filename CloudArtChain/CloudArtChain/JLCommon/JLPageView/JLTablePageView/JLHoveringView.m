@@ -69,7 +69,7 @@
         if (self.scrollView.contentOffset.y >= self.headHeight) {
             self.scrollView.contentOffset = CGPointMake(0, self.headHeight);
             self.isHover = YES;
-        }else{
+        } else {
             if (self.isHover) {
                 self.scrollView.contentOffset = CGPointMake(0, self.headHeight);
             }

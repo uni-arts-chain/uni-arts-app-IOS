@@ -21,6 +21,18 @@ final class ConnectionAccountCreateWireframe: AccountCreateWireframeProtocol {
             navigationController.pushViewController(accountConfirmation, animated: true)
         }
     }
+    
+    func confirmDefaultCreateWallet(from view: AccountCreateViewProtocol?, request: AccountCreationRequest, metadata: AccountCreationMetadata) {
+        guard let accountConfirmation = AccountConfirmViewFactory
+            .createViewForConnection(item: connectionItem, request: request, metadata: metadata)?
+            .controller else {
+            return
+        }
+
+        if let navigationController = view?.controller.navigationController {
+            navigationController.pushViewController(accountConfirmation, animated: false)
+        }
+    }
 
     func presentCryptoTypeSelection(from view: AccountCreateViewProtocol?,
                                     availableTypes: [CryptoType],

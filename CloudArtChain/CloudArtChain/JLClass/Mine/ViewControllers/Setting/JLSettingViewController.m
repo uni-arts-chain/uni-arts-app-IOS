@@ -16,6 +16,7 @@
 #import "JLImageRectClipViewController.h"
 #import <AVKit/AVKit.h>
 #import "HVideoViewController.h"
+#import "JLFeedBackViewController.h"
 
 #import "JLSettingTableViewCell.h"
 
@@ -32,7 +33,7 @@
 - (NSArray *)titleArray {
     if (!_titleArray) {
 //        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号", @"微信", @"登录密码"], @[@"实人认证", @"支付宝实名认证"]];
-        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号"]];
+        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号", @"意见反馈"]];
     }
     return _titleArray;
 }
@@ -194,10 +195,8 @@
             case 2:
             {
                 JLPersonalDescriptionViewController *personalDescVC = [[JLPersonalDescriptionViewController alloc] init];
-                personalDescVC.saveBlock = ^(NSString * _Nonnull residentialAddress, NSString * _Nonnull college, NSString * _Nonnull desc) {
+                personalDescVC.saveBlock = ^(NSString * _Nonnull desc) {
                     Model_members_change_user_info_Req *request = [[Model_members_change_user_info_Req alloc] init];
-                    request.residential_address = residentialAddress;
-                    request.college = college;
                     request.desc = desc;
                     Model_members_change_user_info_Rsp *response = [[Model_members_change_user_info_Rsp alloc] init];
                     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
@@ -230,7 +229,9 @@
                 break;
             case 1:
             {
-                
+                // 意见反馈
+                JLFeedBackViewController *feedbackVC = [[JLFeedBackViewController alloc] init];
+                [weakSelf.navigationController pushViewController:feedbackVC animated:YES];
             }
                 break;
             case 2:

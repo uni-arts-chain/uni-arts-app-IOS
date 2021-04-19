@@ -171,6 +171,31 @@ extension AccountCreatePresenter: AccountCreatePresenterProtocol {
                           request: request,
                           metadata: metadata)
     }
+    
+    func proceedDefaultCreateWallet() {
+        guard
+            let networkType = selectedNetworkType,
+            let cryptoType = selectedCryptoType,
+            let viewModel = derivationPathViewModel,
+            let metadata = metadata else {
+            return
+        }
+
+        guard viewModel.inputHandler.completed else {
+            view?.didValidateDerivationPath(.invalid)
+            presentDerivationPathError(cryptoType)
+            return
+        }
+
+        let request = AccountCreationRequest(username: username,
+                                             type: networkType,
+                                             derivationPath: viewModel.inputHandler.value,
+                                             cryptoType: cryptoType)
+
+        wireframe.confirmDefaultCreateWallet(from: view,
+                          request: request,
+                          metadata: metadata)
+    }
 }
 
 extension AccountCreatePresenter: AccountCreateInteractorOutputProtocol {

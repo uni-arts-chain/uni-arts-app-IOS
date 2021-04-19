@@ -13,6 +13,7 @@
 #import "JLHomePageHeaderView.h"
 #import "JLPopularOriginalCollectionViewCell.h"
 #import "JLNormalEmptyView.h"
+#import "JLCreatorCollectionWaterLayout.h"
 
 @interface JLCreatorPageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -71,7 +72,7 @@
         [_focusButton setTitle:@"取消关注" forState:UIControlStateSelected];
         [_focusButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _focusButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _focusButton.backgroundColor = self.authorData.follow_by_me ? JL_color_gray_C5C5C5 : JL_color_blue_38B2F1;
+        _focusButton.backgroundColor = self.authorData.follow_by_me ? JL_color_gray_C5C5C5 : JL_color_gray_101010;
         [_focusButton addTarget:self action:@selector(focusButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         _focusButton.selected = self.authorData.follow_by_me;
     }
@@ -108,7 +109,7 @@
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
                     weakSelf.authorData = response.body;
-                    sender.backgroundColor = JL_color_blue_38B2F1;
+                    sender.backgroundColor = JL_color_gray_101010;
                     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
                     weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
                 } else {
@@ -183,7 +184,7 @@
         _worksTitleLabel.font = kFontPingFangSCSCSemibold(17.0f);
         _worksTitleLabel.textColor = JL_color_gray_101010;
         _worksTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _worksTitleLabel.text = @"TA的作品";
+        _worksTitleLabel.text = @"TA出售的NFT";
     }
     return _worksTitleLabel;
 }
@@ -191,19 +192,15 @@
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 25.0f) * 0.5f, 250.0f);
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        flowLayout.minimumLineSpacing = 0.0f;
-        flowLayout.minimumInteritemSpacing = 25.0f;
+        JLCreatorCollectionWaterLayout *layout = [JLCreatorCollectionWaterLayout layoutWithColoumn:2 data:self.artArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
         NSInteger row = self.artArray.count / 2;
         if (self.artArray.count % 2 != 0) {
             row += 1;
         }
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, 250.0f * row) collectionViewLayout:flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]) collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 15.0f, 0.0f, 15.0f);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = JL_color_white_ffffff;
@@ -225,6 +222,10 @@
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
     cell.authorArtData = self.artArray[indexPath.row];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    [cell layoutSubviews];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -315,7 +316,7 @@
             if (row == 0) {
                 row = 1;
             }
-            weakSelf.collectionView.frame = CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, 250.0f * row);
+            weakSelf.collectionView.frame = CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]);
             weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
             
             [weakSelf endRefresh:response.body];
@@ -326,4 +327,27 @@
         }
     }];
 }
+
+- (CGFloat)getCollectionViewHeight:(NSInteger)row {
+    CGFloat columnFirstHeight = (row + 2) * 14.0f;
+    CGFloat columnSecondHeight = (row + 2) * 14.0f;
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    for (int i = 0; i < self.artArray.count; i++) {
+        Model_art_Detail_Data *iconModel = self.artArray[i];
+        //计算每个cell的高度
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
+        if (i % 2 == 0) {
+            columnFirstHeight += itemH;
+        } else {
+            columnSecondHeight += itemH;
+        }
+    }
+    return MAX(columnFirstHeight, columnSecondHeight);
+}
+
+//计算cell的高度
+- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
+    return itemW * originSize.height / originSize.width;
+}
+
 @end

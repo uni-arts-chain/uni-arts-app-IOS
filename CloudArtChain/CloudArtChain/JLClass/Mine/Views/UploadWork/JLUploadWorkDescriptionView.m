@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIColor *placeHolderColor;
 @property (nonatomic, strong) UIFont *textFont;
 @property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *borderColor;
 
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) UITextView *textView;
@@ -22,13 +23,14 @@
 @end
 
 @implementation JLUploadWorkDescriptionView
-- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder placeHolderColor:(UIColor *)placeHolderColor textFont:(UIFont *)textFont textColor:(UIColor *)textColor {
+- (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder placeHolderColor:(UIColor *)placeHolderColor textFont:(UIFont *)textFont textColor:(UIColor *)textColor borderColor:(UIColor *)borderColor {
     if (self = [super init]) {
         self.maxInput = maxInput;
         self.placeholder = placeholder;
         self.placeHolderColor = placeHolderColor ?: JL_color_gray_909090;
         self.textFont = textFont ?: kFontPingFangSCRegular(16.0f);
         self.textColor = textColor ?: JL_color_gray_101010;
+        self.borderColor = borderColor;
         [self createSubViews];
     }
     return self;
@@ -82,7 +84,7 @@
     if (!_backView) {
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 1.0f, JL_color_gray_DDDDDD);
+        ViewBorderRadius(_backView, 5.0f, 1.0f, self.borderColor == nil ? JL_color_gray_DDDDDD : self.borderColor);
     }
     return _backView;
 }

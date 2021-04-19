@@ -8,8 +8,10 @@
 
 #import "JLPopularOriginalView.h"
 #import "JLPopularOriginalCollectionViewCell.h"
+#import "JLPopularCollectionWaterLayout.h"
 
-@interface JLPopularOriginalView ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface JLPopularOriginalView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) NSMutableArray *waterDataArray;
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @end
@@ -81,42 +83,46 @@
 #pragma mark - 懒加载
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 26.0f) * 0.5f, 250.0f);
-        flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        flowLayout.minimumLineSpacing = 0.0f;
-        flowLayout.minimumInteritemSpacing = 26.0f;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+        JLPopularCollectionWaterLayout *layout = [JLPopularCollectionWaterLayout layoutWithColoumn:2 data:self.waterDataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.titleView.frameBottom, kScreenWidth, self.frameHeight - self.titleView.frameBottom) collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 15.0f, 0.0f, 15.0f);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = JL_color_white_ffffff;
     }
     return _collectionView;
 }
 
 #pragma mark - UICollectionViewDelegate
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.popularArray.count;
+    return self.waterDataArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
-    cell.popularArtData = self.popularArray[indexPath.row];
+    cell.popularArtData = self.waterDataArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock(self.popularArray[indexPath.row]);
+        self.artDetailBlock(self.waterDataArray[indexPath.row]);
     }
 }
 
 - (void)setPopularArray:(NSArray *)popularArray {
     _popularArray = popularArray;
+    [self.waterDataArray removeAllObjects];
+    [self.waterDataArray addObjectsFromArray:popularArray];
     [self.collectionView reloadData];
 }
+
+- (NSMutableArray *)waterDataArray {
+    if (!_waterDataArray) {
+        _waterDataArray = [NSMutableArray array];
+    }
+    return _waterDataArray;
+}
+
 @end

@@ -8,6 +8,11 @@ final class RootPresenter {
 }
 
 extension RootPresenter: RootPresenterProtocol {
+    func defaultCreateWallet(navigationController: UINavigationController, userAvatar: String?) {
+        interactor.setup()
+        interactor.decideCreateWalletModuleSynchroniously(navigationController: navigationController, userAvatar: userAvatar)
+    }
+    
     func loadOnLaunch(navigationController: UINavigationController, userAvatar: String?) {
         interactor.setup()
         interactor.decideModuleSynchroniously(navigationController: navigationController, userAvatar: userAvatar)
@@ -21,9 +26,17 @@ extension RootPresenter: RootPresenterProtocol {
     func hasSelectedAccount() -> Bool {
         return interactor.hasSelectedAccount()
     }
+    
+    func pincodeExists() -> Bool {
+        return interactor.pincodeExists()
+    }
 }
 
 extension RootPresenter: RootInteractorOutputProtocol {
+    func didDecideOnboardingDefaultCreateWallet() {
+        wireframe.showOnboardingDefaultCreateWallet(on: view)
+    }
+    
     func didDecideOnboarding() {
         wireframe.showOnboarding(on: view)
     }

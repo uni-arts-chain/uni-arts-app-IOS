@@ -76,7 +76,7 @@
 
 - (UILabel *)phoneWeChatTitleLabel {
     if (!_phoneWeChatTitleLabel) {
-        _phoneWeChatTitleLabel = [JLUIFactory labelInitText:@"电话/微信" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _phoneWeChatTitleLabel = [JLUIFactory labelInitText:@"电话/微信" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _phoneWeChatTitleLabel.frame = CGRectMake(20.0f, 0.0f, kScreenWidth - 20.0f * 2, 46.0f);
     }
     return _phoneWeChatTitleLabel;
@@ -85,7 +85,7 @@
 - (UIView *)phoneWeChatView {
     if (!_phoneWeChatView) {
         _phoneWeChatView = [[UIView alloc] initWithFrame:CGRectMake(15.0f, self.phoneWeChatTitleLabel.frameBottom, kScreenWidth - 15.0f * 2, 47.0f)];
-        ViewBorderRadius(_phoneWeChatView, 5.0f, 1.0f, JL_color_gray_DDDDDD);
+        ViewBorderRadius(_phoneWeChatView, 5.0f, 1.0f, JL_color_gray_101010);
     }
     return _phoneWeChatView;
 }
@@ -108,7 +108,7 @@
 
 - (UILabel *)suggestionTitleLabel {
     if (!_suggestionTitleLabel) {
-        _suggestionTitleLabel = [JLUIFactory labelInitText:@"您的意见" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _suggestionTitleLabel = [JLUIFactory labelInitText:@"您的意见" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _suggestionTitleLabel.frame = CGRectMake(20.0f, self.phoneWeChatView.frameBottom + 8.0f, kScreenWidth - 20.0f * 2, 46.0f);
     }
     return _suggestionTitleLabel;
@@ -116,7 +116,7 @@
 
 - (JLUploadWorkDescriptionView *)suggestionView {
     if (!_suggestionView) {
-        _suggestionView = [[JLUploadWorkDescriptionView alloc] initWithMax:100 placeholder:@"留下您的宝贵意见，让我们做得更好" placeHolderColor:JL_color_gray_BBBBBB textFont:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_212121];
+        _suggestionView = [[JLUploadWorkDescriptionView alloc] initWithMax:100 placeholder:@"留下您的宝贵意见，让我们做得更好" placeHolderColor:JL_color_gray_BBBBBB textFont:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_212121 borderColor:JL_color_gray_101010];
         _suggestionView.frame = CGRectMake(15.0f, self.suggestionTitleLabel.frameBottom, kScreenWidth - 15.0f * 2, 155.0f);
     }
     return _suggestionView;
@@ -124,7 +124,7 @@
 
 - (UILabel *)noticeLabel {
     if (!_noticeLabel) {
-        _noticeLabel = [JLUIFactory labelInitText:@"您的意见，我们会认真考虑，感谢您的支持!" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _noticeLabel = [JLUIFactory labelInitText:@"您的意见，我们会认真考虑，感谢您的支持!" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _noticeLabel.frame = CGRectMake(16.0f, self.suggestionView.frameBottom, kScreenWidth - 16.0f * 2, 42.0f);
     }
     return _noticeLabel;
@@ -132,7 +132,7 @@
 
 - (UIButton *)submitButton {
     if (!_submitButton) {
-        _submitButton = [JLUIFactory buttonInitTitle:@"提交反馈" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(submitButtonClick)];
+        _submitButton = [JLUIFactory buttonInitTitle:@"提交反馈" titleColor:JL_color_white_ffffff backgroundColor:JL_color_gray_101010 font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(submitButtonClick)];
         _submitButton.frame = CGRectMake(16.0f, self.noticeLabel.frameBottom + 10.0f, kScreenWidth - 16.0f * 2, 46.0f);
         ViewBorderRadius(_submitButton, 23.0f, 0.0f, JL_color_clear);
     }

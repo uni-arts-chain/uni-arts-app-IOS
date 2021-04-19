@@ -19,14 +19,16 @@
 
 - (NSArray *)appImageArray {
     if (!_appImageArray) {
-        _appImageArray = @[@"icon_mine_app_order_buy", @"icon_mine_app_order_sell", @"icon_mine_app_message", @"icon_mine_app_customer_service", @"icon_mine_app_homepage", @"icon_mine_app_collect", @"icon_mine_app_work_upload", @"icon_mine_app_address", @"icon_mine_app_auction", @"icon_mine_app_feedback", @"icon_mine_app_aboutus", @"", @""];
+//        @[@"icon_mine_app_order_buy", @"icon_mine_app_order_sell", @"icon_mine_app_message", @"icon_mine_app_customer_service", @"icon_mine_app_homepage", @"icon_mine_app_collect", @"icon_mine_app_work_upload", @"icon_mine_app_address", @"icon_mine_app_auction", @"icon_mine_app_feedback", @"icon_mine_app_aboutus", @"", @""]
+        _appImageArray = @[@"icon_mine_app_homepage", @"icon_mine_app_work_upload", @"icon_mine_app_order_buy", @"icon_mine_app_order_sell", @"icon_mine_app_collect", @"icon_mine_app_aboutus", @"icon_mine_app_message", @"icon_mine_app_customer_service"];
     }
     return _appImageArray;
 }
 
 - (NSArray *)appTitleArray {
     if (!_appTitleArray) {
-        _appTitleArray = @[@"买入订单", @"卖出订单", @"消息", @"客服", @"我的主页", @"作品收藏", @"上传作品", @"收货地址", @"发起拍卖", @"意见反馈", @"关于我们", @"", @""];
+//        @[@"买入订单", @"卖出订单", @"消息", @"客服", @"我的主页", @"作品收藏", @"上传作品", @"收货地址", @"发起拍卖", @"意见反馈", @"关于我们", @"", @""]
+        _appTitleArray = @[@"我的主页", @"上传作品", @"买入订单", @"卖出订单", @"作品收藏", @"关于我们", @"消息", @"客服"];
     }
     return _appTitleArray;
 }

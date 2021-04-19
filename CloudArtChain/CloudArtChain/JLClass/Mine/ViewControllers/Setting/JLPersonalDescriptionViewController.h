@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLPersonalDescriptionViewController : JLBaseViewController
-@property (nonatomic, copy) void(^saveBlock)(NSString *residentialAddress, NSString *college, NSString *desc);
+@property (nonatomic, copy) void(^saveBlock)(NSString *desc);
 @end
 
 NS_ASSUME_NONNULL_END

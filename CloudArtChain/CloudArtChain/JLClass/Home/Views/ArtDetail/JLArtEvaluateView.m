@@ -31,7 +31,7 @@
 }
 
 - (void)createSubViews {
-    UIView *titleView = [JLUIFactory titleViewWithTitle:@"艺术评析"];
+    UIView *titleView = [JLUIFactory titleViewWithTitle:@"作品信息"];
     [self addSubview:titleView];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);

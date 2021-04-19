@@ -29,6 +29,15 @@ extension JLBackupNoticePresenter: JLBackupNoticePresenterProtocol {
         let value = viewModel.inputHandler.value
         self.wireframe.proceed(from: self.view, username: value)
     }
+    
+    func skip() {
+        
+    }
+    
+    func defaultCreateWalletProceed() {
+        let value = viewModel.inputHandler.value
+        self.wireframe.proceedDefaultCreateWallet(from: self.view, username: value)
+    }
 }
 
 extension JLBackupNoticePresenter: Localizable {

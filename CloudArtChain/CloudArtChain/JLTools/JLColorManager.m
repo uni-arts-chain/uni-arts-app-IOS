@@ -40,6 +40,7 @@ static id inst = nil;
     _clearColor = [UIColor clearColor];
     
     _gray_101010 = [UIColor colorWithHexString:@"#101010"];
+    _gray_1A1A1A = [UIColor colorWithHexString:@"#1A1A1A"];
     _gray_212121 = [UIColor colorWithHexString:@"#212121"];
     _gray_333333 = [UIColor colorWithHexString:@"#333333"];
     _gray_666666 = [UIColor colorWithHexString:@"#666666"];
@@ -78,6 +79,7 @@ static id inst = nil;
     _blue_4FBCF9 = [UIColor colorWithHexString:@"#4FBCF9"];
     _blue_018FFF = [UIColor colorWithHexString:@"#018FFF"];
     _blue_5FB9EB = [UIColor colorWithHexString:@"#5FB9EB"];
+    _blue_337FFF = [UIColor colorWithHexString:@"#337FFF"];
     _blue_38B2F1 = [UIColor colorWithHexString:@"#38B2F1"];
     _blue_50C3FF = [UIColor colorWithHexString:@"#50C3FF"];
     _blue_7ed4ff = [UIColor colorWithHexString:@"#7ed4ff"];
@@ -88,6 +90,9 @@ static id inst = nil;
     _blue_E1F5FF = [UIColor colorWithHexString:@"#E1F5FF"];
     _blue_EAF8FF = [UIColor colorWithHexString:@"#EAF8FF"];
     _blue_99DCFF = [UIColor colorWithHexString:@"#99DCFF"];
+    
+    _purple_F0F5FF = [UIColor colorWithHexString:@"#F0F5FF"];
+    _purple_CADEFF = [UIColor colorWithHexString:@"#CADEFF"];
     
     _red_D70000 = [UIColor colorWithHexString:@"#D70000"];
     

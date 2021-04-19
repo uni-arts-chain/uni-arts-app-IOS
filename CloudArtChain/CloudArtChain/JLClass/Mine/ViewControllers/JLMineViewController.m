@@ -116,61 +116,56 @@
             switch (index) {
                 case 0:
                 {
-                    JLSinglePurchaseOrderViewController *purchaseOrderVC = [[JLSinglePurchaseOrderViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:purchaseOrderVC animated:YES];
-                }
-                    break;
-                case 1:
-                {
-                    JLSingleSellOrderViewController *sellOrderVC = [[JLSingleSellOrderViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:sellOrderVC animated:YES];
-                }
-                    break;
-                case 2:
-                {
-                    JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:messageVC animated:YES];
-                }
-                    break;
-                case 3:
-                {
-                    JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                }
-                    break;
-                case 4:
-                {
+                    // 我的主页
                     JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
                     [weakSelf.navigationController pushViewController:homePageVC animated:YES];
                 }
                     break;
-                case 5:
+                case 1:
                 {
-                    JLCollectViewController *collectVC = [[JLCollectViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:collectVC animated:YES];
-                }
-                    break;
-                case 6:
-                {
+                    // 上传作品
                     JLUploadWorkViewController *uploadWorkVC = [[JLUploadWorkViewController alloc] init];
                     [weakSelf.navigationController pushViewController:uploadWorkVC animated:YES];
                 }
                     break;
+                case 2:
+                {
+                    // 买入订单
+                    JLSinglePurchaseOrderViewController *purchaseOrderVC = [[JLSinglePurchaseOrderViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:purchaseOrderVC animated:YES];
+                }
+                    break;
+                case 3:
+                {
+                    // 卖出订单
+                    JLSingleSellOrderViewController *sellOrderVC = [[JLSingleSellOrderViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:sellOrderVC animated:YES];
+                }
+                    break;
+                case 4:
+                {
+                    // 作品收藏
+                    JLCollectViewController *collectVC = [[JLCollectViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:collectVC animated:YES];
+                }
+                    break;
+                case 5:
+                {
+                    // 关于我们
+                }
+                    break;
+                case 6:
+                {
+                    // 消息
+                    JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:messageVC animated:YES];
+                }
+                    break;
                 case 7:
                 {
-                    JLReceiveAddressViewController *receiveAddressVC = [[JLReceiveAddressViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:receiveAddressVC animated:YES];
-                }
-                    break;
-                case 8:
-                {
-                    
-                }
-                    break;
-                case 9:
-                {
-                    JLFeedBackViewController *feedbackVC = [[JLFeedBackViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:feedbackVC animated:YES];
+                    // 客服
+                    JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
                 }
                     break;
                 default:

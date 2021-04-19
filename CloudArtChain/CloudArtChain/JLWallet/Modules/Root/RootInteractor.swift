@@ -34,6 +34,27 @@ final class RootInteractor {
 }
 
 extension RootInteractor: RootInteractorInputProtocol {
+    func decideCreateWalletModuleSynchroniously(navigationController: UINavigationController, userAvatar: String?) {
+        do {
+            if !settings.hasSelectedAccount {
+                try keystore.deleteKeyIfExists(for: KeystoreTag.pincode.rawValue)
+
+                presenter?.didDecideOnboardingDefaultCreateWallet()
+                return
+            }
+
+            let pincodeExists = try keystore.checkKey(for: KeystoreTag.pincode.rawValue)
+
+            if pincodeExists {
+                presenter?.didDecideWallet(navigationController: navigationController, userAvatar: userAvatar)
+            } else {
+                presenter?.didDecidePincodeSetup()
+            }
+        } catch {
+            presenter?.didDecideBroken()
+        }
+    }
+    
     func decideModuleSynchroniously(navigationController: UINavigationController, userAvatar: String?) {
         do {
             if !settings.hasSelectedAccount {
@@ -69,5 +90,14 @@ extension RootInteractor: RootInteractorInputProtocol {
     
     func hasSelectedAccount() -> Bool {
         return settings.hasSelectedAccount
+    }
+    
+    func pincodeExists() -> Bool {
+        do {
+            let pincodeExists = try keystore.checkKey(for: KeystoreTag.pincode.rawValue)
+            return pincodeExists
+        } catch {
+            return false
+        }
     }
 }

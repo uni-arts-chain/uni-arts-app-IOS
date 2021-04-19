@@ -50,16 +50,28 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         return presenter
     }
     
+    // 显示当前钱包
     @objc func presenterLoadOnLaunch(navigationController: UINavigationController, userAvatar: String?) {
         getRootPresenter().loadOnLaunch(navigationController: navigationController, userAvatar: userAvatar)
     }
     
+    // 默认创建钱包
+    @objc func defaultCreateWallet(navigationController: UINavigationController, userAvatar: String?) {
+        getRootPresenter().defaultCreateWallet(navigationController: navigationController, userAvatar: userAvatar)
+    }
+    
+    // 获取账户余额
     @objc func getAccountBalance(balanceBlock: @escaping (String) -> Void) {
         getAccountBalanceFromAccountList(balanceBlock: balanceBlock)
     }
-    
+    // 是否有账户
     @objc func hasSelectedAccount() -> Bool {
         return getRootPresenter().hasSelectedAccount()
+    }
+    
+    // 是否设置密码
+    @objc func pincodeExists() -> Bool {
+        return getRootPresenter().pincodeExists()
     }
     
     func getAccountBalanceFromAccountList(balanceBlock: @escaping (String) -> Void) {
@@ -79,6 +91,14 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
             return
         }
         navigationController.pushViewController(backupNotice.controller, animated: true)
+    }
+    
+    @objc func showBackupNoticeDefaultCreateWallet(navigationController: UINavigationController, username: String) {
+        guard let backupNotice = JLBackupNoticeViewFactory.createViewForBackupNoticeDefaultCreateWallet(username: username) else {
+            return
+        }
+        navigationController.pushViewController(backupNotice.controller, animated: false)
+        (backupNotice.controller as! JLBackupNoticeViewController).defaultCreateWallet()
     }
     
     @objc func toolShowAccountRestore(_ navigationController: UINavigationController) {

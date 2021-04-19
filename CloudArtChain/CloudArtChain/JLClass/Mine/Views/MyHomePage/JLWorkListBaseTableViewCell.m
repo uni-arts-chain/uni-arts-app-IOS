@@ -147,7 +147,7 @@
     }
     self.titleLabel.text = artDetailData.name;
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.price];
     
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中

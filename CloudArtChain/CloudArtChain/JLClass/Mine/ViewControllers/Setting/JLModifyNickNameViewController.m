@@ -26,7 +26,7 @@
 - (void)addRightNavigationItem {
     NSString *title = @"保存";
     UIBarButtonItem * rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(saveBtnClick)];
-    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_blue_38B2F1, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
+    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_blue_337FFF, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
     [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateNormal];
     [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateHighlighted];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
@@ -34,10 +34,6 @@
 
 - (void)saveBtnClick {
     [self.view endEditing:YES];
-//    if ([NSString stringIsEmpty:self.calcInputView.inputContent]) {
-//        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入昵称" hideTime:KToastDismissDelayTimeInterval];
-//        return;
-//    }
     if (self.saveBlock) {
         self.saveBlock(self.calcInputView.inputContent);
     }

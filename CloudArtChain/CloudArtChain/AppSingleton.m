@@ -65,10 +65,12 @@
 }
 
 + (void)systemInfo {
-    [[AppSingleton sharedAppSingleton] requestArtCategory];
-    [[AppSingleton sharedAppSingleton] requestArtTheme];
-    [[AppSingleton sharedAppSingleton] requestArtMaterial];
-    [[AppSingleton sharedAppSingleton] requestArtPrice];
+    if ([JLLoginUtil haveToken]) {
+        [[AppSingleton sharedAppSingleton] requestArtCategory];
+        [[AppSingleton sharedAppSingleton] requestArtTheme];
+        [[AppSingleton sharedAppSingleton] requestArtMaterial];
+        [[AppSingleton sharedAppSingleton] requestArtPrice];
+    }
 }
 
 #pragma mark 请求作品分类

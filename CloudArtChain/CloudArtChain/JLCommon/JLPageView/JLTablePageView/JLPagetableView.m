@@ -198,12 +198,11 @@ static NSString * const pageIndex = @"pageIndex";//获取第几页的根据自�
     _requestUrl = requestUrl;
 }
 
-- (EmptyView *)emptyView
+- (JLPageEmptyView *)emptyView
 {
     if (!_emptyView) {
-        _emptyView = [[EmptyView alloc]init];
+        _emptyView = [[JLPageEmptyView alloc]init];
         _emptyView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - self.tableHeaderView.frame.size.height);
-//        _emptyView.backgroundColor = [UIColor colorWithRed:245/255.0f green:248/255.0f blue:250/255.0f alpha:1];
         _emptyView.backgroundColor = JL_color_white_ffffff;
     }
     return _emptyView;
@@ -213,70 +212,4 @@ static NSString * const pageIndex = @"pageIndex";//获取第几页的根据自�
 {
     return self.canResponseMutiGesture;
 }
-@end
-
-/***************************  以下是空白界面的View  **************************************************/
-@interface EmptyView ()
-@property (nonatomic , strong) UILabel * hintLb;
-@property (nonatomic , strong) UIImageView * imageView;
-@end
-@implementation EmptyView
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        [self initEmptyView];
-    }
-    return self;
-}
-- (void)initEmptyView
-{
-    self.imageView = [[UIImageView alloc]init];
-    [self.imageView sizeToFit];
-    [self.imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self addSubview:self.imageView];
-    
-    self.hintLb = [[UILabel alloc]init];
-    self.hintLb.font = [UIFont systemFontOfSize:14 weight:UIFontWeightRegular];
-    self.hintLb.textColor = [UIColor colorWithRed:204/255.0f green:204/255.0f blue:204/255.0f alpha:1];
-    [self.hintLb setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.hintLb.textAlignment = NSTextAlignmentCenter;
-    self.hintLb.numberOfLines = 0;
-    [self addSubview:self.hintLb];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:0.6 constant:0]];
-    
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hintLb attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hintLb attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:60]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hintLb attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:-20]];
-
-}
-- (void)setImageSize:(CGSize)imageSize
-{
-    _imageSize = imageSize;
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:0 constant:imageSize.width]];
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:0 constant:imageSize.height]];
-}
-- (void)setImageName:(NSString *)imageName
-{
-    self.imageView.image = [UIImage imageNamed:imageName];
-}
-- (void)setHintText:(NSString *)hintText
-{
-    self.hintLb.text = hintText;
-}
-- (void)setHintTextFont:(UIFont *)hintTextFont
-{
-    self.hintLb.font = hintTextFont;
-}
-- (void)setHintTextColor:(UIColor *)hintTextColor
-{
-    self.hintLb.textColor = hintTextColor;
-}
-- (void)setHintAttributedText:(NSAttributedString *)hintAttributedText
-{
-    self.hintLb.attributedText = hintAttributedText;
-}
-
 @end

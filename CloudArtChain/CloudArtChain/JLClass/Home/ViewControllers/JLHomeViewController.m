@@ -41,7 +41,6 @@
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 @property (nonatomic, strong) JLAuctionSectionView *auctionSectionView;
 @property (nonatomic, strong) JLPopularOriginalView *popularOriginalView;
-@property (nonatomic, strong) UILabel *themeRecommendTitleLabel;
 @property (nonatomic, strong) UIView *themeRecommendView;
 
 // banner
@@ -62,28 +61,49 @@
     self.fd_prefersNavigationBarHidden = YES;
     [self createView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrImportWalletNotification:) name:@"CreateOrImportWalletNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginNotification:) name:@"UserLoginNotification" object:nil];
     
     NSLog(@"signed token %@", [[JLViewControllerTool appDelegate].walletTool accountSignWithOriginData:[[[AppSingleton sharedAppSingleton].userBody getToken].token dataUsingEncoding:NSUTF8StringEncoding] error:nil]);
+    
+    if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
+        NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+    } else {
+        [self reloadAllService];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self reloadAllService];
+    if ([JLLoginUtil haveToken]) {
+//        [self reloadAllService];
+        [self requestHasUnreadMessages];
+    }
 }
 
 - (void)reloadAllService {
     [self requestHasUnreadMessages];
     [self requestBannersData];
     [self requestAnnounceData];
-    [self requestAuctionMeetingList];
+//    [self requestAuctionMeetingList];
     [self requestPopularList];
     [self requestThemeList];
+}
+
+- (void)headRefreshService {
+    [self requestHasUnreadMessages];
+    [self requestBannersData];
+    [self requestAnnounceData];
 }
 
 - (void)createOrImportWalletNotification:(NSNotification *)notification {
     [[JLViewControllerTool appDelegate].walletTool reloadContacts];
     // 登录
     [JLLoginUtil loginWallet];
+}
+
+- (void)userLoginNotification:(NSNotification *)notification {
+    [self reloadAllService];
 }
 
 - (void)createView {
@@ -93,14 +113,19 @@
         make.top.equalTo(self.homeNaviView.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
     }];
+    // banner
     [self.scrollView addSubview:self.pageFlowView];
-    [self.scrollView addSubview:self.appView];
+    // 应用列表
+//    [self.scrollView addSubview:self.appView];
+    // 公告
     [self.scrollView addSubview:self.announceView];
-    [self.scrollView addSubview:self.auctionSectionView];
-    [self.scrollView addSubview:self.popularOriginalView];
-    [self.scrollView addSubview:self.themeRecommendTitleLabel];
+    // 拍卖列表
+//    [self.scrollView addSubview:self.auctionSectionView];
+    // 主题推荐
     [self.scrollView addSubview:self.themeRecommendView];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+    // 热门原创
+    [self.scrollView addSubview:self.popularOriginalView];
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
 }
 
 - (UIScrollView *)scrollView {
@@ -111,7 +136,7 @@
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
-            [weakSelf reloadAllService];
+            [weakSelf headRefreshService];
         }];
     }
     return _scrollView;
@@ -176,7 +201,8 @@
                     [weakSelf.navigationController pushViewController:applyCertListVC animated:YES];
                 }
             } else {
-                [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]];
+                NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+                [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
             }
         };
     }
@@ -185,7 +211,7 @@
 
 - (UIView *)announceView {
     if (!_announceView) {
-        _announceView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.appView.frameBottom , kScreenWidth, 100.0f)];
+        _announceView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom , kScreenWidth, 100.0f)];
         _announceView.backgroundColor = JL_color_white_ffffff;
         
         UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(15.0f, 10.0f, kScreenWidth - 15.0f * 2, _announceView.frameHeight - 10.0f * 2)];
@@ -248,10 +274,19 @@
     return _auctionSectionView;
 }
 
+
+- (UIView *)themeRecommendView {
+    if (!_themeRecommendView) {
+        _themeRecommendView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 0.0f)];
+        _themeRecommendView.backgroundColor = JL_color_white_ffffff;
+    }
+    return _themeRecommendView;
+}
+
 - (JLPopularOriginalView *)popularOriginalView {
     if (!_popularOriginalView) {
         WS(weakSelf)
-        _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f)];
+        _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f)];
         _popularOriginalView.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
@@ -271,27 +306,6 @@
     }
     return _popularOriginalView;
 }
-
-- (UILabel *)themeRecommendTitleLabel {
-    if (!_themeRecommendTitleLabel) {
-        _themeRecommendTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f)];
-        _themeRecommendTitleLabel.backgroundColor = JL_color_white_ffffff;
-        _themeRecommendTitleLabel.font = kFontPingFangSCSCSemibold(19.0f);
-        _themeRecommendTitleLabel.textColor = JL_color_gray_101010;
-        _themeRecommendTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _themeRecommendTitleLabel.text = @"主题推荐/THEME";
-    }
-    return _themeRecommendTitleLabel;
-}
-
-- (UIView *)themeRecommendView {
-    if (!_themeRecommendView) {
-        _themeRecommendView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 0.0f)];
-        _themeRecommendView.backgroundColor = JL_color_white_ffffff;
-    }
-    return _themeRecommendView;
-}
-
 
 #pragma mark NewPagedFlowView Datasource
 - (CGSize)sizeForPageInFlowView:(NewPagedFlowView *)flowView {
@@ -436,18 +450,17 @@
             if (weakSelf.popularArray.count % 2 != 0) {
                 popularOriginalViewRow += 1;
             }
+            CGFloat themeRecommendViewHeight = 380.0f;
             if (weakSelf.auctionArray.count == 0) {
                 // 没有拍卖数据
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 80.0f + 250.0f * popularOriginalViewRow);
-                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 408.0f * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
             } else {
-                weakSelf.auctionSectionView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f);
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f + 250.0f * popularOriginalViewRow);
-                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 408.0f * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+//                weakSelf.auctionSectionView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
             }
             weakSelf.auctionSectionView.auctionArray = [weakSelf.auctionArray copy];
         } else {
@@ -473,22 +486,43 @@
             if (weakSelf.popularArray.count % 2 != 0) {
                 popularOriginalViewRow += 1;
             }
+            CGFloat themeRecommendViewHeight = 380.0f;
             if (weakSelf.auctionArray.count == 0) {
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 80.0f + 250.0f * popularOriginalViewRow);
-                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 408.0f * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
             } else {
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.auctionSectionView.frameBottom, kScreenWidth, 80.0f + 250.0f * popularOriginalViewRow);
-                weakSelf.themeRecommendTitleLabel.frame = CGRectMake(0.0f, self.popularOriginalView.frameBottom, kScreenWidth, 66.0f);
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 408.0f * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
             }
             weakSelf.popularOriginalView.popularArray = [weakSelf.popularArray copy];
         } else {
             NSLog(@"error: %@", errorStr);
         }
     }];
+}
+
+- (CGFloat)getPopularViewHeight:(NSInteger)row {
+    CGFloat columnFirstHeight = 0.0f;
+    CGFloat columnSecondHeight = 0.0f;
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    for (int i = 0; i < self.popularArray.count; i++) {
+        Model_art_Detail_Data *iconModel = self.popularArray[i];
+        //计算每个cell的高度
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
+        if (i % 2 == 0) {
+            columnFirstHeight += itemH;
+        } else {
+            columnSecondHeight += itemH;
+        }
+    }
+    return MAX(columnFirstHeight, columnSecondHeight);
+}
+
+//计算cell的高度
+- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
+    return itemW * originSize.height / originSize.width;
 }
 
 #pragma mark 请求主题推荐列表
@@ -503,10 +537,11 @@
             [weakSelf.themeArray removeAllObjects];
             [weakSelf.themeArray addObjectsFromArray:response.body];
             
-            weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.themeRecommendTitleLabel.frameBottom, kScreenWidth, 408.0f * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+            CGFloat themeRecommendViewHeight = 380.0f;
+            weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
             weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
             for (int i = 0; i < weakSelf.themeArray.count; i++) {
-                JLThemeRecommendView *themeView = [[JLThemeRecommendView alloc] initWithFrame:CGRectMake(0.0f, (408.0f + 16.0f) * i, kScreenWidth, 408.0f)];
+                JLThemeRecommendView *themeView = [[JLThemeRecommendView alloc] initWithFrame:CGRectMake(0.0f, (themeRecommendViewHeight + 16.0f) * i, kScreenWidth, themeRecommendViewHeight)];
                 themeView.topicData = weakSelf.themeArray[i];
                 themeView.themeRecommendBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
                     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {

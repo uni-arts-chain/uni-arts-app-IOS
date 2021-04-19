@@ -10,10 +10,13 @@
 #import "JLEditAddressViewController.h"
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
+#import "JLOrderDetailPayMethodTableViewCell.h"
 
 @interface JLOrderSubmitViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UILabel *priceLabel;
 @end
 
 @implementation JLOrderSubmitViewController
@@ -53,6 +56,7 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         [_tableView registerClass:[JLOrderDetailProductBottomPriceTableViewCell class] forCellReuseIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell"];
+        [_tableView registerClass:[JLOrderDetailPayMethodTableViewCell class] forCellReuseIdentifier:@"JLOrderDetailPayMethodTableViewCell"];
     }
     return _tableView;
 }
@@ -69,11 +73,12 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        NSString *priceString = [NSString stringWithFormat:@"%@ UART", self.artDetailData.price];
+        NSString *priceString = [NSString stringWithFormat:@"¥%@", self.artDetailData.price];
         UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        self.priceLabel = priceLabel;
         [_bottomView addSubview:priceLabel];
         
-        UIButton *submitButton = [JLUIFactory buttonInitTitle:@"提交订单" titleColor:JL_color_white_ffffff backgroundColor:JL_color_black font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(submitBtnClick)];
+        UIButton *submitButton = [JLUIFactory buttonInitTitle:@"去支付" titleColor:JL_color_white_ffffff backgroundColor:JL_color_black font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(submitBtnClick)];
         submitButton.contentEdgeInsets = UIEdgeInsetsZero;
         ViewBorderRadius(submitButton, 15.0f, 0.0f, JL_color_clear);
         [_bottomView addSubview:submitButton];
@@ -116,13 +121,22 @@
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
-    cell.artDetailData = self.artDetailData;
-    return cell;
+    WS(weakSelf)
+    if (indexPath.row == 0) {
+        JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
+        cell.artDetailData = self.artDetailData;
+        cell.totalPriceChangeBlock = ^(NSString * _Nonnull totalPrice) {
+            weakSelf.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPrice];
+        };
+        return cell;
+    } else {
+        JLOrderDetailPayMethodTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailPayMethodTableViewCell" forIndexPath:indexPath];
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

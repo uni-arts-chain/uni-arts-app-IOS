@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) JLBaseTextField *inputTF;
 @property (nonatomic, strong) UILabel *maxInputLabel;
-@property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) UIImageView *lineImageView;
 @end
 
 @implementation JLCalcInputView
@@ -32,27 +32,28 @@
 - (void)createSubviews {
     WS(weakSelf)
     [self addSubview:self.inputTF];
-    [self addSubview:self.lineView];
+    [self addSubview:self.lineImageView];
     [self addSubview:self.maxInputLabel];
     
     
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self);
+        make.top.bottom.equalTo(self);
         make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(16.0f);
+        make.centerY.equalTo(self.inputTF.mas_centerY);
     }];
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.lineImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
-        make.bottom.equalTo(self.maxInputLabel.mas_top).offset(-16.0f);
+        make.top.equalTo(self.maxInputLabel.mas_bottom);
         make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(1.0f);
+        make.height.mas_equalTo(0.5f);
     }];
     [self.inputTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.left.mas_equalTo(15.0f);
-        make.bottom.equalTo(self.lineView.mas_top);
-        make.right.mas_equalTo(-15.0f);
+        make.bottom.equalTo(self.lineImageView.mas_top);
+        make.right.equalTo(self.maxInputLabel.mas_left).offset(-16.0f);
         make.height.mas_equalTo(50.0f);
+        make.width.mas_greaterThanOrEqualTo(200.0f);
     }];
 
     [self.inputTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
@@ -101,12 +102,11 @@
     return _maxInputLabel;
 }
 
-- (UIView *)lineView {
-    if (!_lineView) {
-        _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = JL_color_gray_DDDDDD;
+- (UIImageView *)lineImageView {
+    if (!_lineImageView) {
+        _lineImageView = [[UIImageView alloc] init];
+        _lineImageView.image = [UIImage imageNamed:@"icon_calcinput_line"];
     }
-    return _lineView;
+    return _lineImageView;
 }
-
 @end

@@ -6,7 +6,9 @@
 //  Copyright © 2020 朱彬. All rights reserved.
 //
 #import <UIKit/UIKit.h>
-@class JLPagetableView,EmptyView;
+#import "JLPageEmptyView.h"
+
+@class JLPagetableView, JLPageEmptyView;
 @protocol JLPagetableViewRequestDelegate <NSObject>
 @optional
 /**
@@ -45,7 +47,7 @@
 /**
  空白页、网络错误页  页面的内容可用此属性去更改
  */
-@property (nonatomic , strong)  EmptyView * emptyView;
+@property (nonatomic , strong)  JLPageEmptyView * emptyView;
 
 /**
  是否有头部刷新  默认YES
@@ -83,37 +85,3 @@
 - (void)setUpWithUrl:(NSString *)url Parameters:(NSDictionary *)Parameters formController:(UIViewController *)controler;
 
 @end
-
-/***************************  以下是空白界面的View  **************************************************/
-@interface EmptyView : UIView
-
-/**
- 图片名称
- */
-@property (nonatomic , copy) NSString * imageName;
-/**
- 默认图片大小显示居中
- */
-@property (nonatomic , assign) CGSize  imageSize;
-
-/**
- 提示文字
- */
-@property (nonatomic , copy) NSString * hintText;
-
-/**
- 提示文字字体
- */
-@property (nonatomic , strong) UIFont * hintTextFont;
-
-/**
- 提示文字颜色
- */
-@property (nonatomic , strong) UIColor * hintTextColor;
-
-/**
- 提示文字富文本
- */
-@property (nonatomic , strong) NSAttributedString * hintAttributedText;
-@end
-

@@ -42,6 +42,21 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
 
         view.rootViewController?.present(navigationController, animated: true, completion: nil)
     }
+    
+    func showOnboardingDefaultCreateWallet(on view: UIWindow) {
+        let onboardingView = OnboardingMainViewFactory.createViewForOnboarding()
+        let onboardingController = onboardingView?.controller ?? OnboardingMainViewController()
+        (onboardingController as! OnboardingMainViewController).presenter.setup()
+        
+        let walletBoardVC = JLWalletBoardViewController()
+        let navigationController = JLNavigationViewController()
+        navigationController.viewControllers = [walletBoardVC]
+        navigationController.modalPresentationStyle = .fullScreen
+
+        view.rootViewController?.present(navigationController, animated: false, completion: nil)
+        
+        walletBoardVC.createDefaultWallet()
+    }
 
     func showLocalAuthentication(on view: UIWindow) {
         let pincodeView = PinViewFactory.createSecuredPinView()

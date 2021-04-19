@@ -119,11 +119,11 @@
         NSMutableArray *tempPriceArray = [NSMutableArray array];
         for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
             if ([NSString stringIsEmpty:priceData.lt]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART以上", priceData.gte]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以上", priceData.gte]];
             } else if ([NSString stringIsEmpty:priceData.gte]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART以下", priceData.lt]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以下", priceData.lt]];
             } else {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"%@UART-%@UART", priceData.gte, priceData.lt]];
+                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@-¥%@", priceData.gte, priceData.lt]];
             }
         }
         _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] selectBlock:^(NSInteger index) {
@@ -151,7 +151,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:0.0f horizonMin:26.0f leftMargin:15.0f rightMargin:15.0f];
+        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
@@ -178,6 +178,10 @@
     JLCategoryWorkCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell" forIndexPath:indexPath];
     cell.artDetailData = self.dataArray[indexPath.row];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    [cell layoutSubviews];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

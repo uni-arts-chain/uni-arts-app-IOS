@@ -123,9 +123,9 @@
 
 - (UIButton *)cancelFocusButton {
     if (!_cancelFocusButton) {
-        _cancelFocusButton = [JLUIFactory buttonInitTitle:@"取消关注" titleColor:JL_color_gray_909090 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(cancelFocusButtonClick)];
+        _cancelFocusButton = [JLUIFactory buttonInitTitle:@"取消关注" titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(cancelFocusButtonClick)];
         [_cancelFocusButton setContentEdgeInsets:UIEdgeInsetsZero];
-        ViewBorderRadius(_cancelFocusButton, 12.5f, 1.0f, JL_color_gray_D4D4D4);
+        ViewBorderRadius(_cancelFocusButton, 12.5f, 1.0f, JL_color_gray_101010);
         _cancelFocusButton.hidden = YES;
     }
     return _cancelFocusButton;
@@ -139,7 +139,7 @@
 
 - (UIButton *)focusButton {
     if (!_focusButton) {
-        _focusButton = [JLUIFactory buttonInitTitle:@"关注" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
+        _focusButton = [JLUIFactory buttonInitTitle:@"关注" titleColor:JL_color_white_ffffff backgroundColor:JL_color_gray_101010 font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
         [_focusButton setContentEdgeInsets:UIEdgeInsetsZero];
         ViewBorderRadius(_focusButton, 12.5f, 0.0f, JL_color_clear);
         _focusButton.hidden = YES;

@@ -156,6 +156,6 @@
     
     self.cerAddressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", soldData.amount];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.amount];
 }
 @end

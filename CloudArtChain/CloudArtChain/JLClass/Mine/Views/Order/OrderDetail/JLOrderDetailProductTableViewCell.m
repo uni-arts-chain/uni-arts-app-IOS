@@ -185,8 +185,8 @@
     self.authorNameLabel.text = [NSString stringIsEmpty:orderData.art.author.display_name] ? @"" : orderData.art.author.display_name;
     self.productNameLabel.text = orderData.art.name;
     self.certifyAddressLabel.text = [NSString stringIsEmpty:orderData.art.item_hash] ? @"证书地址：" : orderData.art.item_hash;
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", orderData.amount];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%@ UART", orderData.amount];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.amount];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.amount];
 }
 
 @end

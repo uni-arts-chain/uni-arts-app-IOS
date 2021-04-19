@@ -7,7 +7,7 @@
 //
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
-#import "JLBaseTextField.h"
+#import "JLStepper.h"
 
 @interface JLOrderDetailProductBottomPriceTableViewCell ()
 @property (nonatomic, strong) UIView *shadowView;
@@ -17,9 +17,8 @@
 @property (nonatomic, strong) UILabel *authorNameLabel;
 @property (nonatomic, strong) UILabel *productNameLabel;
 @property (nonatomic, strong) UILabel *certifyAddressLabel;
-@property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UILabel *noteTitleLabel;
-@property (nonatomic, strong) JLBaseTextField *noteTextField;
+@property (nonatomic, strong) UILabel *numTitleLabel;
+@property (nonatomic, strong) JLStepper *numStepper;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
 @end
@@ -38,14 +37,13 @@
     [self.shadowView addSubview:self.shadowImageView];
     [self.shadowView addSubview:self.titleLabel];
     [self.shadowView addSubview:self.productImageView];
-    [self.shadowView addSubview:self.authorNameLabel];
     [self.shadowView addSubview:self.productNameLabel];
+    [self.shadowView addSubview:self.authorNameLabel];
     [self.shadowView addSubview:self.certifyAddressLabel];
-    [self.shadowView addSubview:self.priceLabel];
-    [self.shadowView addSubview:self.noteTitleLabel];
-    [self.shadowView addSubview:self.noteTextField];
-    [self.contentView addSubview:self.totalPriceTitleLabel];
-    [self.contentView addSubview:self.totalPriceLabel];
+    [self.shadowView addSubview:self.numTitleLabel];
+    [self.shadowView addSubview:self.numStepper];
+    [self.shadowView addSubview:self.totalPriceTitleLabel];
+    [self.shadowView addSubview:self.totalPriceLabel];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -57,50 +55,48 @@
         make.edges.equalTo(self.shadowView);
     }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(12.0f);
+        make.left.mas_equalTo(15.0f);
         make.top.mas_equalTo(17.0f);
     }];
     [self.productImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(12.0f);
+        make.left.mas_equalTo(15.0f);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(17.0f);
         make.width.mas_equalTo(102.0f);
         make.height.mas_equalTo(76.0f);
     }];
-    [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_right).offset(15.0f);
         make.top.equalTo(self.productImageView.mas_top);
     }];
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-13.0f);
-        make.centerY.equalTo(self.authorNameLabel.mas_centerY);
-    }];
-    [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorNameLabel.mas_left);
+    [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.centerY.equalTo(self.productImageView.mas_centerY);
     }];
     [self.certifyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorNameLabel.mas_left);
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.bottom.equalTo(self.productImageView.mas_bottom);
         make.right.mas_equalTo(-70.0f);
     }];
-    [self.noteTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.numTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
-        make.top.equalTo(self.productImageView.mas_bottom).offset(25.0f);
-        make.width.mas_equalTo(80.0f);
+        make.top.equalTo(self.productImageView.mas_bottom).offset(10.0f);
+        make.height.mas_equalTo(32.0f);
     }];
-    [self.noteTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.noteTitleLabel.mas_right);
-        make.top.equalTo(self.productImageView.mas_bottom).offset(25.0f);
-        make.right.mas_equalTo(-13.0f);
-        make.bottom.mas_equalTo(-20.0f);
-    }];
-    [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-16.0f);
-        make.top.equalTo(self.shadowView.mas_bottom).offset(20.0f);
+    [self.numStepper mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shadowView).offset(-20.0f);
+        make.width.mas_equalTo(75.0f);
+        make.height.mas_equalTo(17.0f);
+        make.centerY.equalTo(self.numTitleLabel.mas_centerY);
     }];
     [self.totalPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.totalPriceLabel.mas_left).offset(-8.0f);
-        make.top.equalTo(self.totalPriceLabel.mas_top);
+        make.left.equalTo(self.productImageView.mas_left);
+        make.top.equalTo(self.numTitleLabel.mas_bottom);
+        make.height.mas_equalTo(32.0f);
+        make.bottom.equalTo(self.shadowView).offset(-10.0f);
+    }];
+    [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shadowView).offset(-23.0f);
+        make.centerY.equalTo(self.totalPriceTitleLabel.mas_centerY);
     }];
 }
 
@@ -149,64 +145,64 @@
 
 - (UILabel *)certifyAddressLabel {
     if (!_certifyAddressLabel) {
-        _certifyAddressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _certifyAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
         _certifyAddressLabel.numberOfLines = 1;
     }
     return _certifyAddressLabel;
 }
 
-- (UILabel *)priceLabel {
-    if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+- (UILabel *)numTitleLabel {
+    if (!_numTitleLabel) {
+        _numTitleLabel = [JLUIFactory labelInitText:@"购买数量：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
-    return _priceLabel;
+    return _numTitleLabel;
 }
 
-- (UILabel *)noteTitleLabel {
-    if (!_noteTitleLabel) {
-        _noteTitleLabel = [JLUIFactory labelInitText:@"留言备注：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+- (JLStepper *)numStepper {
+    if (!_numStepper) {
+        WS(weakSelf)
+        _numStepper = [[JLStepper alloc] init];
+        _numStepper.stepValue = 1;
+        _numStepper.isValueEditable = YES;
+        _numStepper.valueChanged = ^(double value) {
+            NSDecimalNumber *valueNumber = [NSDecimalNumber decimalNumberWithString:@(value).stringValue];
+            NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:weakSelf.artDetailData.price];
+            NSDecimalNumber *totalPriceNumber = [valueNumber decimalNumberByMultiplyingBy:priceNumber];
+            weakSelf.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
+            if (weakSelf.totalPriceChangeBlock) {
+                weakSelf.totalPriceChangeBlock(totalPriceNumber.stringValue);
+            }
+        };
     }
-    return _noteTitleLabel;
-}
-
-- (JLBaseTextField *)noteTextField {
-    if (!_noteTextField) {
-        _noteTextField = [[JLBaseTextField alloc]init];
-        _noteTextField.font = kFontPingFangSCRegular(14.0f);
-        _noteTextField.textColor = JL_color_gray_212121;
-        _noteTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _noteTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _noteTextField.autocorrectionType = UITextAutocorrectionTypeNo;
-        _noteTextField.spellCheckingType = UITextSpellCheckingTypeNo;
-        NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_BEBEBE,NSFontAttributeName:kFontPingFangSCRegular(14.0f)};
-        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"如有特殊要求，请留言备注" attributes:dic];
-        _noteTextField.attributedPlaceholder = attr;
-    }
-    return _noteTextField;
+    return _numStepper;
 }
 
 - (UILabel *)totalPriceTitleLabel {
     if (!_totalPriceTitleLabel) {
-        _totalPriceTitleLabel = [JLUIFactory labelInitText:@"作品合计" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _totalPriceTitleLabel = [JLUIFactory labelInitText:@"商品总价：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _totalPriceTitleLabel;
 }
 
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
-        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _totalPriceLabel;
 }
 
 -(void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    _artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
     }
     self.authorNameLabel.text = [NSString stringIsEmpty:artDetailData.author.display_name] ? @"" : artDetailData.author.display_name;
     self.productNameLabel.text = artDetailData.name;
-    self.certifyAddressLabel.text = [NSString stringWithFormat:@"证书地址：%@", artDetailData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%@ UART", artDetailData.price];
+    self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
+    
+    self.numStepper.minValue = 1;
+    self.numStepper.maxValue = 100;
+    self.numStepper.value = 1;
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", [NSDecimalNumber decimalNumberWithString:artDetailData.price].stringValue];
 }
 @end

@@ -24,4 +24,19 @@ final class JLBackupNoticeViewFactory: JLBackupNoticViewFactoryProtocol {
 
         return view
     }
+    
+    static func createViewForBackupNoticeDefaultCreateWallet(username: String) -> JLBackupNoticeViewProtocol? {
+        let view = JLBackupNoticeViewController(nibName: "JLBackupNoticeViewController", bundle: Bundle.main)
+        let presenter = JLBackupNoticePresenter()
+        let wireframe = JLBackupNoticeWireframe()
+
+        view.presenter = presenter
+        presenter.view = view
+        presenter.wireframe = wireframe
+
+        view.localizationManager = LocalizationManager.shared
+        presenter.localizationManager = LocalizationManager.shared
+
+        return view
+    }
 }

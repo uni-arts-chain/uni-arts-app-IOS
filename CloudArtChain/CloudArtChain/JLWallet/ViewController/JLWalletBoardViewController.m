@@ -99,6 +99,12 @@
     [self.navigationController pushViewController:createWalletVC animated:YES];
 }
 
+- (void)createDefaultWallet {
+    JLCreateWalletViewController *createWalletVC = [[JLCreateWalletViewController alloc] init];
+    [self.navigationController pushViewController:createWalletVC animated:NO];
+    [createWalletVC createDefaultWallet];
+}
+
 - (UIButton *)importWalletBtn {
     if (!_importWalletBtn) {
         _importWalletBtn = [JLUIFactory buttonInitTitle:@"导入钱包" titleColor:JL_color_blue_50C3FF backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(importWalletBtnClick)];

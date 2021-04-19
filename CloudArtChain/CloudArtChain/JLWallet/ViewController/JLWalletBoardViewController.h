@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLWalletBoardViewController : JLBaseViewController
-
+- (void)createDefaultWallet;
 @end
 
 NS_ASSUME_NONNULL_END

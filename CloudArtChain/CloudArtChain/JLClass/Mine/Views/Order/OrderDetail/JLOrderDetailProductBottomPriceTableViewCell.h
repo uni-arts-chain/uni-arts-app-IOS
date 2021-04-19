@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderDetailProductBottomPriceTableViewCell : UITableViewCell
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, copy) void(^totalPriceChangeBlock)(NSString *totalPrice);
 @end
 
 NS_ASSUME_NONNULL_END

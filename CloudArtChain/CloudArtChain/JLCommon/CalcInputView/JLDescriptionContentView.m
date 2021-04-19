@@ -79,7 +79,7 @@
     if (!_backView) {
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 1.0f, JL_color_gray_DDDDDD);
+        ViewBorderRadius(_backView, 5.0f, 1.0f, JL_color_gray_101010);
     }
     return _backView;
 }
@@ -90,6 +90,7 @@
         _inputNoticeLabel.numberOfLines = 0;
         _inputNoticeLabel.font = kFontPingFangSCRegular(13.0f);
         _inputNoticeLabel.textColor = JL_color_gray_BBBBBB;
+        _inputNoticeLabel.textAlignment = NSTextAlignmentCenter;
         _inputNoticeLabel.text = self.placeholder;
         _inputNoticeLabel.hidden = ![NSString stringIsEmpty:self.inputContent];
     }
@@ -104,6 +105,7 @@
         _textView.backgroundColor = JL_color_clear;
         _textView.delegate = self;
         _textView.textColor  = JL_color_gray_101010;
+        _textView.textAlignment = NSTextAlignmentCenter;
         _textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         if (![NSString stringIsEmpty:self.inputContent]) {
             _textView.text = self.inputContent;

@@ -55,7 +55,7 @@
 
 - (UILabel *)pointLabel {
     if (!_pointLabel) {
-        _pointLabel = [JLUIFactory labelInitText:@"我的积分：0" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        _pointLabel = [JLUIFactory labelInitText:@"区块链积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
     }
     return _pointLabel;
 }
@@ -63,9 +63,9 @@
 - (UIButton *)pointRightsBtn {
     if (!_pointRightsBtn) {
         _pointRightsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_pointRightsBtn setTitle:@"积分权益" forState:UIControlStateNormal];
+        [_pointRightsBtn setTitle:@"积分说明" forState:UIControlStateNormal];
         [_pointRightsBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-        _pointRightsBtn.titleLabel.font = kFontPingFangSCRegular(15.0f);
+        _pointRightsBtn.titleLabel.font = kFontPingFangSCMedium(15.0f);
         [_pointRightsBtn setImage:[UIImage imageNamed:@"icon_mine_point_desc"] forState:UIControlStateNormal];
         _pointRightsBtn.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
         _pointRightsBtn.axcUI_padding = 15.0f;
@@ -78,7 +78,7 @@
 }
 
 - (void)setCurrentAccountBalance:(NSString *)amount {
-    self.pointLabel.text = [NSString stringWithFormat:@"我的积分：%@", amount];
+    self.pointLabel.text = [NSString stringWithFormat:@"区块链积分：%@", amount];
 }
 
 @end

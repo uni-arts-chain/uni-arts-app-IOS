@@ -9,10 +9,9 @@
 #import "JLPopularOriginalCollectionViewCell.h"
 
 @interface JLPopularOriginalCollectionViewCell ()
+@property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UILabel *authorLabel;
-@property (nonatomic, strong) UILabel *descLabel;
-@property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *auctioningView;
 @end
@@ -26,85 +25,76 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+}
+
 - (void)createSubViews {
-    [self addSubview:self.imageView];
-    [self addSubview:self.authorLabel];
-    [self addSubview:self.descLabel];
-    [self addSubview:self.addressLabel];
-    [self addSubview:self.priceLabel];
-    [self addSubview:self.auctioningView];
+    [self.contentView addSubview:self.backView];
+    [self.backView addSubview:self.imageView];
+    [self.backView addSubview:self.nameLabel];
+    [self.backView addSubview:self.priceLabel];
+    [self.backView addSubview:self.auctioningView];
     
+    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentView);
+    }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self).offset(-20.0f);
-        make.height.mas_equalTo(15.0f);
+        make.right.equalTo(self.backView).offset(-8.0f);
+        make.bottom.equalTo(self.backView);
+        make.height.mas_equalTo(30.0f);
     }];
-    [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self.priceLabel.mas_top).offset(-12.0f);
-        make.height.mas_equalTo(13.0f);
-    }];
-    [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self.addressLabel.mas_top).offset(-12.0f);
-        make.height.mas_equalTo(13.0f);
-    }];
-    [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self.descLabel.mas_top).offset(-12.0f);
-        make.height.mas_equalTo(16.0f);
+    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.backView).offset(8.0f);
+        make.bottom.equalTo(self.backView);
+        make.height.mas_equalTo(30.0f);
+        make.right.equalTo(self.priceLabel.mas_left).offset(-16.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
-        make.bottom.equalTo(self.authorLabel.mas_top).offset(-16.0f);
+        make.left.top.right.equalTo(self.backView);
+        make.bottom.equalTo(self.nameLabel.mas_top);
     }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self);
+        make.left.top.equalTo(self.backView);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
     }];
 }
 
+- (UIView *)backView {
+    if (!_backView) {
+        //WithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 250.0f)
+        _backView = [[UIView alloc] init];
+        _backView.backgroundColor = JL_color_white_ffffff;
+        ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
+    }
+    return _backView;
+}
+
 - (UIImageView *)imageView {
     if (!_imageView) {
-        _imageView = [[UIImageView alloc] init];
-        ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 220.0f)];
+        [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _imageView;
 }
 
-- (UILabel *)authorLabel {
-    if (!_authorLabel) {
-        _authorLabel = [[UILabel alloc] init];
-        _authorLabel.font = kFontPingFangSCSCSemibold(16.0f);
-        _authorLabel.textColor = JL_color_gray_101010;
+- (UILabel *)nameLabel {
+    if (!_nameLabel) {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = kFontPingFangSCMedium(14.0f);
+        _nameLabel.textColor = JL_color_gray_101010;
     }
-    return _authorLabel;
-}
-
-- (UILabel *)descLabel {
-    if (!_descLabel) {
-        _descLabel = [[UILabel alloc] init];
-        _descLabel.font = kFontPingFangSCRegular(13.0f);
-        _descLabel.textColor = JL_color_gray_101010;
-    }
-    return _descLabel;
-}
-
-- (UILabel *)addressLabel {
-    if (!_addressLabel) {
-        _addressLabel = [[UILabel alloc] init];
-        _addressLabel.font = kFontPingFangSCRegular(13.0f);
-        _addressLabel.textColor = JL_color_gray_909090;
-    }
-    return _addressLabel;
+    return _nameLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc] init];
-        _priceLabel.font = kFontPingFangSCSCSemibold(15.0f);
+        _priceLabel.font = kFontPingFangSCRegular(13.0f);
         _priceLabel.textColor = JL_color_gray_101010;
+        _priceLabel.textAlignment = NSTextAlignmentRight;
     }
     return _priceLabel;
 }
@@ -138,20 +128,16 @@
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
     }
-    self.authorLabel.text = artsData.art.author.display_name;
-    self.descLabel.text = artsData.art.details;
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", artsData.art.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", artsData.start_price];
+    self.nameLabel.text = artsData.art.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artsData.start_price];
 }
 
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
     if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
     }
-    self.authorLabel.text = popularArtData.author.display_name;
-    self.descLabel.text = popularArtData.details;
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", popularArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", popularArtData.price];
+    self.nameLabel.text = popularArtData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", popularArtData.price];
     
     if ([popularArtData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
@@ -165,10 +151,8 @@
     if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
     }
-    self.authorLabel.text = themeArtData.author.display_name;
-    self.descLabel.text = themeArtData.details;
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", themeArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", themeArtData.price];
+    self.nameLabel.text = themeArtData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", themeArtData.price];
     
     if ([themeArtData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
@@ -182,10 +166,8 @@
     if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
     }
-    self.authorLabel.text = collectionArtData.author.display_name;
-    self.descLabel.text = collectionArtData.details;
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", collectionArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", collectionArtData.price];
+    self.nameLabel.text = collectionArtData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", collectionArtData.price];
     
     if ([collectionArtData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
@@ -199,10 +181,8 @@
     if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
     }
-    self.authorLabel.text = authorArtData.author.display_name;
-    self.descLabel.text = authorArtData.details;
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", authorArtData.item_hash];
-    self.priceLabel.text = [NSString stringWithFormat:@"%@ UART", authorArtData.price];
+    self.nameLabel.text = authorArtData.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", authorArtData.price];
     
     if ([authorArtData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
@@ -210,6 +190,15 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + authorArtData.imgHeight) itemW:itemW];
+    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+}
+
+//计算cell的高度
+- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
+    return itemW * originSize.height / originSize.width;
 }
 
 @end

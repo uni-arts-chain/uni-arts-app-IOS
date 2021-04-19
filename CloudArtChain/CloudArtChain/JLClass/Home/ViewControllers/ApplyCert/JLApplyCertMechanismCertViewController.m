@@ -156,7 +156,7 @@
         _feeLabel = [UILabel new];
         _feeLabel.textColor = JL_color_black;
         _feeLabel.font = kFontPingFangSCRegular(16.0f);
-        _feeLabel.text = [NSString stringWithFormat:@"需支付：%@ UART", self.organizationData.fee];
+        _feeLabel.text = [NSString stringWithFormat:@"需支付：¥%@", self.organizationData.fee];
         _feeLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _feeLabel;

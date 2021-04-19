@@ -79,7 +79,6 @@
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
         _avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-        _avatarImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_avatarImageView, 17.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
@@ -106,7 +105,7 @@
         self.statusLabel.hidden = YES;
         self.avatarImageView.hidden = NO;
         if (![NSString stringIsEmpty:status]) {
-            [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:status]];
+            [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:status] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
         } else {
             self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
         }

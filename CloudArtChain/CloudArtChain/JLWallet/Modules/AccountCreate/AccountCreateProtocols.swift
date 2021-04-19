@@ -19,6 +19,7 @@ protocol AccountCreatePresenterProtocol: class {
     func activateInfo()
     func validate()
     func proceed()
+    func proceedDefaultCreateWallet()
 }
 
 protocol AccountCreateInteractorInputProtocol: class {
@@ -32,6 +33,10 @@ protocol AccountCreateInteractorOutputProtocol: class {
 
 protocol AccountCreateWireframeProtocol: AlertPresentable, ErrorPresentable {
     func confirm(from view: AccountCreateViewProtocol?,
+                 request: AccountCreationRequest,
+                 metadata: AccountCreationMetadata)
+    
+    func confirmDefaultCreateWallet(from view: AccountCreateViewProtocol?,
                  request: AccountCreationRequest,
                  metadata: AccountCreationMetadata)
 

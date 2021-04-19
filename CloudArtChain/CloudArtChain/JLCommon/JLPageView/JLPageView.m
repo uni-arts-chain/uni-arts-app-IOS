@@ -351,6 +351,7 @@ static const NSInteger  minTitleButtonWitdh = 60;
     if (!_lineView) {
         _lineView = [[UIView alloc]initWithFrame:CGRectMake(_titleButtonWidth/4, self.titleScrollHeight - 3.0f, _titleButtonWidth/2, 3.0f)];
         _lineView.backgroundColor = [UIColor lightGrayColor];
+        ViewBorderRadius(_lineView, 1.5f, 0.0f, JL_color_clear);
     }
     return _lineView;
 }
