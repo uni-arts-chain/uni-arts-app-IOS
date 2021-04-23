@@ -12,12 +12,12 @@
 @property (nonatomic, strong) UIView *shadowView;
 @property (nonatomic, strong) UIImageView *shadowImageView;
 @property (nonatomic, strong) UIImageView *productImageView;
-@property (nonatomic, strong) UILabel *authorNameLabel;
 @property (nonatomic, strong) UILabel *productNameLabel;
+@property (nonatomic, strong) UILabel *authorNameLabel;
 @property (nonatomic, strong) UILabel *certifyAddressLabel;
-@property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UILabel *noteTitleLabel;
-@property (nonatomic, strong) UILabel *noteLabel;
+
+@property (nonatomic, strong) UILabel *numTitleLabel;
+@property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
 @end
@@ -38,9 +38,9 @@
     [self.shadowView addSubview:self.authorNameLabel];
     [self.shadowView addSubview:self.productNameLabel];
     [self.shadowView addSubview:self.certifyAddressLabel];
-    [self.shadowView addSubview:self.priceLabel];
-    [self.shadowView addSubview:self.noteTitleLabel];
-    [self.shadowView addSubview:self.noteLabel];
+
+    [self.shadowView addSubview:self.numTitleLabel];
+    [self.shadowView addSubview:self.numLabel];
     [self.shadowView addSubview:self.totalPriceTitleLabel];
     [self.shadowView addSubview:self.totalPriceLabel];
     
@@ -59,42 +59,45 @@
         make.width.mas_equalTo(102.0f);
         make.height.mas_equalTo(76.0f);
     }];
-    [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_right).offset(15.0f);
+        make.right.mas_equalTo(-15.0f);
         make.top.equalTo(self.productImageView.mas_top);
     }];
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-13.0f);
-        make.centerY.equalTo(self.authorNameLabel.mas_centerY);
-    }];
-    [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorNameLabel.mas_left);
+    [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.centerY.equalTo(self.productImageView.mas_centerY);
     }];
     [self.certifyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorNameLabel.mas_left);
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.bottom.equalTo(self.productImageView.mas_bottom);
         make.right.mas_equalTo(-70.0f);
     }];
-    [self.noteTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.numTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
-        make.top.equalTo(self.productImageView.mas_bottom).offset(25.0f);
+        make.top.equalTo(self.productImageView.mas_bottom).offset(20.0f);
         make.width.mas_equalTo(80.0f);
+        make.height.mas_equalTo(35.0f);
     }];
-    [self.noteLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.noteTitleLabel.mas_right);
-        make.top.equalTo(self.productImageView.mas_bottom).offset(25.0f);
-        make.right.mas_equalTo(-13.0f);
+    [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.numTitleLabel.mas_right);
+        make.top.equalTo(self.numTitleLabel.mas_top);
+        make.right.mas_equalTo(-25.0f);
+        make.height.mas_equalTo(self.numTitleLabel);
     }];
     [self.totalPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.noteTitleLabel.mas_left);
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(23.0f);
+        make.left.equalTo(self.numTitleLabel.mas_left);
+        make.top.equalTo(self.numTitleLabel.mas_bottom);
         make.width.mas_equalTo(80.0f);
+        make.height.mas_equalTo(35.0f);
     }];
     [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.totalPriceTitleLabel.mas_right);
-        make.top.equalTo(self.noteLabel.mas_bottom).offset(23.0f);
-        make.bottom.mas_equalTo(-16.0f);
+        make.top.equalTo(self.totalPriceTitleLabel.mas_top);
+        make.right.mas_equalTo(-25.0f);
+        make.height.mas_equalTo(35.0f);
+        make.bottom.mas_equalTo(-8.0f);
     }];
 }
 
@@ -120,12 +123,6 @@
     return _productImageView;
 }
 
-- (UILabel *)authorNameLabel {
-    if (!_authorNameLabel) {
-        _authorNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
-    }
-    return _authorNameLabel;
-}
 
 - (UILabel *)productNameLabel {
     if (!_productNameLabel) {
@@ -134,34 +131,33 @@
     return _productNameLabel;
 }
 
+- (UILabel *)authorNameLabel {
+    if (!_authorNameLabel) {
+        _authorNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    }
+    return _authorNameLabel;
+}
+
 - (UILabel *)certifyAddressLabel {
     if (!_certifyAddressLabel) {
-        _certifyAddressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _certifyAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
         _certifyAddressLabel.numberOfLines = 1;
     }
     return _certifyAddressLabel;
 }
 
-- (UILabel *)priceLabel {
-    if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+- (UILabel *)numTitleLabel {
+    if (!_numTitleLabel) {
+        _numTitleLabel = [JLUIFactory labelInitText:@"商品数量：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
-    return _priceLabel;
+    return _numTitleLabel;
 }
 
-- (UILabel *)noteTitleLabel {
-    if (!_noteTitleLabel) {
-        _noteTitleLabel = [JLUIFactory labelInitText:@"留言备注：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+- (UILabel *)numLabel {
+    if (!_numLabel) {
+        _numLabel = [JLUIFactory labelInitText:@"10份" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
     }
-    return _noteTitleLabel;
-}
-
-- (UILabel *)noteLabel {
-    if (!_noteLabel) {
-        _noteLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
-        _noteLabel.numberOfLines = 0;
-    }
-    return _noteLabel;
+    return _numLabel;
 }
 
 - (UILabel *)totalPriceTitleLabel {
@@ -173,7 +169,7 @@
 
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
-        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _totalPriceLabel;
 }
@@ -184,9 +180,7 @@
     }
     self.authorNameLabel.text = [NSString stringIsEmpty:orderData.art.author.display_name] ? @"" : orderData.art.author.display_name;
     self.productNameLabel.text = orderData.art.name;
-    self.certifyAddressLabel.text = [NSString stringIsEmpty:orderData.art.item_hash] ? @"证书地址：" : orderData.art.item_hash;
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.amount];
+    self.certifyAddressLabel.text = [NSString stringIsEmpty:orderData.art.item_hash] ? @"NFT地址：" : orderData.art.item_hash;
     self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.amount];
 }
-
 @end

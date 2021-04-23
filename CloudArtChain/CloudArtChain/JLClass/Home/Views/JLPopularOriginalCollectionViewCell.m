@@ -145,6 +145,10 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + popularArtData.imgHeight) itemW:itemW];
+    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {

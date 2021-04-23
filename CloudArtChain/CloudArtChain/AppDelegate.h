@@ -7,12 +7,41 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <UserNotifications/UserNotifications.h>
-#import "云画链-Swift.h"
+#import <CoreData/CoreData.h>
+#import <SafariServices/SafariServices.h>
+#import <SoraUI/SoraUI-Swift.h>
+#import <CommonWallet/CommonWallet-Swift.h>
+#import <云画链-Swift.h>
+
+@class LAppViewController;
+@class LAppView;
+@class LAppTextureManager;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate, GeTuiSdkDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) JLWalletTool *walletTool;
 - (void)setDeviceOrientationIsLandscapeRight:(BOOL)isLandscapeRight;
-@end
 
+@property (strong, nonatomic) LAppViewController *lAppViewController;
+@property (nonatomic, readonly, getter=getTextureManager) LAppTextureManager *textureManager; // 纹理管理器
+
+/**
+ * @brief   Cubism SDK の初期化
+ */
+- (void)initializeCubism;
+
+/**
+ * @brief   是否退出应用程序。
+ */
+- (bool)getIsEnd;
+
+/**
+ * @brief   退出应用程序。
+ */
+- (void)finishApplication;
+
+- (void)changeSence:(NSString *)modelPath jsonName:(NSString *)jsonName;
+
+@end

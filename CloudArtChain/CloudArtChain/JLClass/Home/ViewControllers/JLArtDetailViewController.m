@@ -13,9 +13,12 @@
 #import "LewPopupViewController.h"
 #import "JLOrderSubmitViewController.h"
 #import "JLCreatorPageViewController.h"
+#import "JLSellWithSplitViewController.h"
 
 #import "NewPagedFlowView.h"
-#import "JLArtDetailView.h"
+#import "JLArtDetailNamePriceView.h"
+#import "JLArtChainTradeView.h"
+#import "JLArtDetailSellingView.h"
 #import "JLArtAuthorDetailView.h"
 //#import "JLArtInfoView.h"
 #import "JLArtEvaluateView.h"
@@ -23,6 +26,7 @@
 #import "JLChainQRCodeView.h"
 
 #import "NSDate+Extension.h"
+#import "JLLive2DCacheManager.h"
 
 @interface JLArtDetailViewController ()<NewPagedFlowViewDelegate, NewPagedFlowViewDataSource>
 @property (nonatomic, strong) UITabBar *bottomBar;
@@ -31,7 +35,9 @@
 @property (nonatomic, strong) NewPagedFlowView *pageFlowView;
 @property (nonatomic, strong) UILabel *pageLabel;
 @property (nonatomic, strong) UIButton *photoBrowserBtn;
-@property (nonatomic, strong) JLArtDetailView *artDetailView;
+@property (nonatomic, strong) JLArtDetailNamePriceView *artDetailNamePriceView;
+@property (nonatomic, strong) JLArtChainTradeView *artChainTradeView;
+@property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
 @property (nonatomic, strong) JLArtAuthorDetailView *artAuthorDetailView;
 //@property (nonatomic, strong) JLArtInfoView *artInfoView;
 @property (nonatomic, strong) JLArtEvaluateView *artEvaluateView;
@@ -50,11 +56,15 @@
     self.navigationItem.title = @"详情";
     [self addBackItem];
     [self createSubView];
+    [self requestSellingList];
 }
 
 - (void)backClick {
     if (!self.artDetailData.favorite_by_me && self.cancelFavorateBlock) {
         self.cancelFavorateBlock();
+    }
+    if (self.backBlock) {
+        self.backBlock();
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -91,7 +101,11 @@
         make.size.mas_equalTo(16.0f);
     }];
     // 作品详情
-    [self.scrollView addSubview:self.artDetailView];
+    [self.scrollView addSubview:self.artDetailNamePriceView];
+    // 出售列表
+    [self.scrollView addSubview:self.artSellingView];
+    // 区块链交易信息
+    [self.scrollView addSubview:self.artChainTradeView];
     // 创作者简介
     [self.scrollView addSubview:self.artAuthorDetailView];
     // 作品信息
@@ -167,8 +181,28 @@
     [immediatelyBuyBtn addTarget:self action:@selector(immediatelyBuyBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomBar addSubview:immediatelyBuyBtn];
     if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
-        immediatelyBuyBtn.enabled = NO;
-        immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+        // 判断是否可以拆分
+        if (self.artDetailData.collection_mode == 3) {
+            // 可以拆分
+            // 判断是否有可售作品
+            if (self.artDetailData.has_amount > 0) {
+                // 有可出售的作品
+                [immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+            } else {
+                immediatelyBuyBtn.enabled = NO;
+                immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+            }
+        } else {
+            [immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+        }
+        
+    } else {
+        // 判断是否可以拆分
+        if (self.artDetailData.collection_mode == 3) {
+            // 可以拆分
+            immediatelyBuyBtn.enabled = NO;
+            immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+        }
     }
     
     [immediatelyBuyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -323,13 +357,35 @@
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderCallWithCollectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
-            if (success) {
-                JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
-                orderSubmitVC.artDetailData = self.artDetailData;
-                [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+        if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
+            // 判断是否可以拆分
+            if (self.artDetailData.collection_mode == 3) {
+                // 可以拆分
+                // 判断是否有可售作品
+                if (self.artDetailData.has_amount > 0) {
+                    // 有可出售的作品 跳转到出售
+                    JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
+                    sellWithSplitVC.artDetailData = self.artDetailData;
+                    sellWithSplitVC.sellBlock = ^{
+                        
+                    };
+                    [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
+                }
+            } else {
+                // 跳转到 下架
             }
-        }];
+        } else {
+            // 判断是否可以拆分 不可以拆分
+            if (self.artDetailData.collection_mode != 3) {
+                [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderCallWithCollectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+                    if (success) {
+                        JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                        orderSubmitVC.artDetailData = self.artDetailData;
+                        [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+                    }
+                }];
+            }
+        }
     }
 }
 
@@ -489,14 +545,49 @@
 }
 
 - (void)photoBrowserBtnClick {
-    //图片查看
-    WMPhotoBrowser *browser = [WMPhotoBrowser new];
-    //数据源
-    browser.dataSource = [self.tempImageArray mutableCopy];
-    browser.downLoadNeeded = YES;
-    browser.currentPhotoIndex = self.pageFlowView.currentPageIndex;
-    browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+    WS(weakSelf)
+    if ([NSString stringIsEmpty:self.artDetailData.live2d_file]) {
+        //图片查看
+        WMPhotoBrowser *browser = [WMPhotoBrowser new];
+        //数据源
+        browser.dataSource = [self.tempImageArray mutableCopy];
+        browser.downLoadNeeded = YES;
+        browser.currentPhotoIndex = self.pageFlowView.currentPageIndex;
+        browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+    } else {
+        NSString *live2d_file = self.artDetailData.live2d_file;
+        NSString *live2d_ipfs_url = self.artDetailData.live2d_ipfs_zip_url;
+        NSString *cacheFolder = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"Live2DFiles"];
+        NSString *path = [cacheFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@.model3.json", self.artDetailData.ID, live2d_file, live2d_file]];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            // 查看Live2D
+            [self showLive2D];
+        } else {
+            NSURLSessionTask *task = [[JLLive2DCacheManager shareManager] downLive2DWithPath:live2d_ipfs_url fileID:self.artDetailData.ID fileKey:[NSString stringWithFormat:@"%@.zip", live2d_file] progressBlock:^(CGFloat progress) {
+                [[JLLoading sharedLoading] showProgressWithView:nil message:@"正在下载Live2D文件" progress:progress];
+            } success:^(NSURL *URL) {
+                [[JLLoading sharedLoading] hideLoading];
+                [weakSelf showLive2D];
+            } fail:^(NSString *message) {
+                [[JLLoading sharedLoading] hideLoading];
+                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+            }];
+        }
+    }
+}
+
+- (void)showLive2D {
+    NSString *live2d_file = self.artDetailData.live2d_file;
+    NSString *live2d_ipfs_url = self.artDetailData.live2d_ipfs_zip_url;
+    NSString *cacheFolder = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"Live2DFiles"];
+    NSString *path = [cacheFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@.model3.json", self.artDetailData.ID, live2d_file, live2d_file]];
+    AppDelegate* delegate = (AppDelegate*) [[UIApplication sharedApplication] delegate];
+    [self presentViewController:delegate.lAppViewController animated:YES completion:nil];
+    [delegate initializeCubism];
+    NSString *modelPath = [cacheFolder stringByAppendingString:[NSString stringWithFormat:@"/%@/%@/", self.artDetailData.ID, live2d_file]];
+    NSString *modelJsonName = [NSString stringWithFormat:@"%@.model3.json", live2d_file];
+    [delegate changeSence:modelPath jsonName:modelJsonName];
 }
 
 #pragma mark NewPagedFlowView Datasource
@@ -520,6 +611,7 @@
     }
     if (![NSString stringIsEmpty:bannerModel]) {
         [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel] placeholderImage:nil];
+        bannerView.mainImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return bannerView;
 }
@@ -528,30 +620,46 @@
     self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", pageNumber + 1, (long)[self numberOfPagesInFlowView:self.pageFlowView]];
 }
 
-- (JLArtDetailView *)artDetailView {
-    if (!_artDetailView) {
-//        WS(weakSelf)
-        _artDetailView = [[JLArtDetailView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 210.0f)];
-        _artDetailView.artDetailData = self.artDetailData;
-//        _artDetailView.certificateImage = [UIView snapshotImageFromView:self.certificateView atFrame:self.certificateView.frame];
-//        _artDetailView.chainCertificateBlock = ^(UIImage * _Nonnull certificateImage) {
-//            //图片查看
-//            WMPhotoBrowser *browser = [WMPhotoBrowser new];
-//            //数据源
-//            browser.dataSource = [@[[UIView snapshotImageFromView:weakSelf.certificateView atFrame:weakSelf.certificateView.frame]] mutableCopy];
-//            browser.downLoadNeeded = YES;
-//            browser.currentPhotoIndex = 0;
-//            browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
-//            [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
-//        };
+- (JLArtDetailNamePriceView *)artDetailNamePriceView {
+    if (!_artDetailNamePriceView) {
+        _artDetailNamePriceView = [[JLArtDetailNamePriceView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 90.0f)];
+        _artDetailNamePriceView.artDetailData = self.artDetailData;
     }
-    return _artDetailView;
+    return _artDetailNamePriceView;
+}
+
+- (JLArtDetailSellingView *)artSellingView {
+    if (!_artSellingView) {
+        WS(weakSelf)
+        _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 280.0f)];
+        _artSellingView.offFromListBlock = ^{
+            
+        };
+        _artSellingView.buyBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
+            JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+            orderSubmitVC.artDetailData = weakSelf.artDetailData;
+            orderSubmitVC.sellingOrderData = sellOrderData;
+            orderSubmitVC.buySuccessBlock = ^{
+                [weakSelf requestSellingList];
+            };
+            [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+        };
+    }
+    return _artSellingView;
+}
+
+- (JLArtChainTradeView *)artChainTradeView {
+    if (!_artChainTradeView) {
+        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f)];
+        _artChainTradeView.artDetailData = self.artDetailData;
+    }
+    return _artChainTradeView;
 }
 
 - (JLArtAuthorDetailView *)artAuthorDetailView {
     if (!_artAuthorDetailView) {
         WS(weakSelf)
-        _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
+        _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
         _artAuthorDetailView.artDetailData = self.artDetailData;
         _artAuthorDetailView.introduceBlock = ^{
             JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
@@ -604,5 +712,22 @@
     return _tempImageArray;
 }
 
+// 请求出售列表
+- (void)requestSellingList {
+    WS(weakSelf)
+    Model_arts_id_orders_Req *request = [[Model_arts_id_orders_Req alloc] init];
+    request.ID = self.artDetailData.ID;
+    request.page = 1;
+    request.per_page = 9999;
+    Model_arts_id_orders_Rsp *response = [[Model_arts_id_orders_Rsp alloc] init];
+    response.request = request;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.artSellingView.sellingArray = response.body;
+        }
+    }];
+}
 @end
-

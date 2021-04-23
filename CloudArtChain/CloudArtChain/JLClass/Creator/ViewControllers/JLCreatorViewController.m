@@ -57,7 +57,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
     [self requestArtistTopic];
 }
 
@@ -69,7 +68,6 @@
 - (void)endRefresh:(NSArray*)authorArray {
     [self.tableView.mj_header endRefreshing];
     if (authorArray.count < kPageSize) {
-        self.tableView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.tableView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.tableView.mj_footer endRefreshing];

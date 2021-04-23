@@ -40,12 +40,12 @@
     return expireAt;
 }
 
-+ (void)loginInfon {
-    [[AppSingleton sharedAppSingleton] requestLoginInfo];
++ (void)loginInfonWithBlock:(void(^)(void))block {
+    [[AppSingleton sharedAppSingleton] requestLoginInfoWithBlock:block];
 }
 
 #pragma mark 持久化登录
-- (void)requestLoginInfo {
+- (void)requestLoginInfoWithBlock:(void(^)(void))block {
     WS(weakSelf)
     if ([JLLoginUtil haveToken]) {
         self.userBody = [JLLoginUtil getCacheUserInfo];
@@ -54,6 +54,9 @@
         [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
             if (netIsWork) {
                 weakSelf.userBody = response.body;
+                if (block) {
+                    block();
+                }
             } else {
                 if (errorCode == 2015 || errorCode == 2016) {
                     //删除登录信息

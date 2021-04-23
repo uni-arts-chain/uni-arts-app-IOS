@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMineOrderView : JLBaseView
-@property (nonatomic, copy) void(^itemClickBlock)(NSInteger index);
+@property (nonatomic, copy) void(^walletBlock)(void);
 - (void)setCurrentAccountBalance:(NSString *)amount;
 @end
 

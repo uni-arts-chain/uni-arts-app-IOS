@@ -147,7 +147,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
     if (self.selectType == JLSelectWorksTypeMechanismAddSign) {
         [self requestAvailableSignatureArtList];
     }
@@ -163,7 +162,6 @@
 - (void)endRefresh:(NSArray*)artsArray {
     [self.tableView.mj_header endRefreshing];
     if (artsArray.count < kPageSize) {
-        self.tableView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.tableView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.tableView.mj_footer endRefreshing];

@@ -196,7 +196,7 @@
         [self.navigationController pushViewController:auctionDetailVC animated:YES];
     } else {
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+        artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }
@@ -211,7 +211,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.collectionView.mj_footer.hidden = YES;
     [self requestSellingList];
 }
 
@@ -223,7 +222,6 @@
 - (void)endRefresh:(NSArray*)collectionArray {
     [self.collectionView.mj_header endRefreshing];
     if (collectionArray.count < kPageSize) {
-        self.collectionView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.collectionView.mj_footer endRefreshing];

@@ -435,7 +435,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileNameArray 文件名称数组
 /// @param fileDataArray 文件数据数组
 /// @param callBackBlock 请求回调
-+ (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
++ (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
     AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
@@ -458,7 +458,12 @@ static AFHTTPSessionManager *sessionManager = nil;
             NSData *fileData = fileDataArray[i];
             NSString *fileName = fileNameArray[i];
             NSString *paramsName = paramsArray[i];
-            [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"image/jpeg"];
+            NSString *fileType = fileTypeArray[i];
+            if ([fileType isEqualToString:@"gif"]) {
+                [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"image/gif"];
+            } else {
+                [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"image/jpeg"];
+            }
         }
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //网络获取数据成功

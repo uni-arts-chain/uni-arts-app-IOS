@@ -14,7 +14,7 @@ enum WalletNetworkOperationFactoryError: Error {
     case invalidReceiver
 }
 
-extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
+extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {    
     func fetchBalanceOperation(_ assets: [String]) -> CompoundOperationWrapper<[BalanceData]?> {
         return CompoundOperationWrapper<[BalanceData]?>.createWithResult(nil)
     }
@@ -245,6 +245,49 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
                                                       receiver: info.destination,
                                                       chain: chain,
                                                       signer: accountSigner)
+
+        let mapOperation: ClosureOperation<Data> = ClosureOperation {
+            let hashString = try transferOperation
+                .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+            return try Data(hexString: hashString)
+        }
+
+        mapOperation.addDependency(compoundTransfer.targetOperation)
+
+        return CompoundOperationWrapper(targetOperation: mapOperation,
+                                        dependencies: compoundTransfer.allOperations)
+    }
+    
+    func transferSignMessageOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8, signMessageBlock:@escaping (String?) -> Void) -> CompoundOperationWrapper<Data> {
+        guard
+            let asset = accountSettings.assets.first(where: { $0.identifier == info.asset }),
+            let assetId = WalletAssetId(rawValue: asset.identifier) else {
+            let error = WalletNetworkOperationFactoryError.invalidAsset
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        guard let amount = info.amount.decimalValue.toSubstrateAmount(precision: asset.precision) else {
+            let error = WalletNetworkOperationFactoryError.invalidAmount
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        guard let chain = assetId.chain else {
+            let error = WalletNetworkOperationFactoryError.invalidChain
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        let transferOperation = JSONRPCListOperation<String>(engine: engine,
+                                                             method: RPCMethod.submitExtrinsic)
+
+        let compoundTransfer = getTransferExtrinsicMessage(transferOperation,
+                                                      call: call,
+                                                      moduleIndex: moduleIndex,
+                                                      callIndex: callIndex,
+                                                      receiver: info.destination,
+                                                      chain: chain,
+                                                      signer: accountSigner,
+                                                      signMessageBlock: signMessageBlock)
 
         let mapOperation: ClosureOperation<Data> = ClosureOperation {
             let hashString = try transferOperation

@@ -130,6 +130,9 @@
 // 获取手机号 不带有国家编码
 - (NSString *)getPhoneNumberWithoutCountryCode {
     NSString *phoneNum = [self.phone_number copy];
+    if ([NSString stringIsEmpty:phoneNum]) {
+        return @"";
+    }
     if (phoneNum.length > 11) {
         phoneNum = [phoneNum substringFromIndex:phoneNum.length - 11];
     }

@@ -76,6 +76,20 @@ extension TransactionDetailsPresenter: TransactionDetailsPresenterProtocol {
 
         coordinator.send(to: payload)
     }
+    
+    func jlperformActionWithSignMessage(signMessageBlock: @escaping (String?) -> Void) {
+        let receiverInfo = ReceiveInfo(accountId: transactionData.peerId,
+                                       assetId: transactionData.assetId,
+                                       amount: nil,
+                                       details: nil)
+
+        let receiverName: String = transactionData.localizedPeerName
+
+        let payload = TransferPayload(receiveInfo: receiverInfo,
+                                      receiverName: receiverName)
+
+        coordinator.send(to: payload)
+    }
 }
 
 

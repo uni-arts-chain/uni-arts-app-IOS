@@ -66,7 +66,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     WS(weakSelf)
     JLHomePageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLHomePageCollectionViewCell" forIndexPath:indexPath];
-    [cell setArtDetailData:self.artsArray[0] type:self.workListType];
+    [cell setArtDetailData:self.artsArray[indexPath.row] type:self.workListType];
     
     cell.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
         if (weakSelf.sellBlock) {
@@ -97,54 +97,57 @@
     };
     
     cell.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-        if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
-            [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
-                if (success) {
-                    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                        if (success) {
-                            [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                                if (success) {
-                                    [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
-                                    [weakSelf.collectionView reloadData];
-                                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"取消拍卖成功" hideTime:KToastDismissDelayTimeInterval];
-                                    artDetailData.aasm_state = @"online";
-                                    if (weakSelf.offFromListBlock) {
-                                        weakSelf.offFromListBlock(artDetailData);
-                                    }
-                                } else {
-                                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                                }
-                            }];
-                        }
-                    }];
-                } else {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
-        } else {
-            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
-                if (success) {
-                    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                        if (success) {
-                            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                                if (success) {
-                                    [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
-                                    [weakSelf.collectionView reloadData];
-                                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"下架成功" hideTime:KToastDismissDelayTimeInterval];
-                                    if (weakSelf.offFromListBlock) {
-                                        weakSelf.offFromListBlock(artDetailData);
-                                    }
-                                } else {
-                                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                                }
-                            }];
-                        }
-                    }];
-                } else {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
+        if (weakSelf.offFromListBlock) {
+            weakSelf.offFromListBlock(artDetailData, self.workListType);
         }
+//        if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
+//            [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+//                if (success) {
+//                    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+//                        if (success) {
+//                            [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+//                                if (success) {
+//                                    [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
+//                                    [weakSelf.collectionView reloadData];
+//                                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"取消拍卖成功" hideTime:KToastDismissDelayTimeInterval];
+//                                    artDetailData.aasm_state = @"online";
+//                                    if (weakSelf.offFromListBlock) {
+//                                        weakSelf.offFromListBlock(artDetailData);
+//                                    }
+//                                } else {
+//                                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+//                                }
+//                            }];
+//                        }
+//                    }];
+//                } else {
+//                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+//                }
+//            }];
+//        } else {
+//            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
+//                if (success) {
+//                    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+//                        if (success) {
+//                            [[JLViewControllerTool appDelegate].walletTool cancelSellOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+//                                if (success) {
+//                                    [weakSelf.artsArray removeObjectAtIndex:indexPath.row];
+//                                    [weakSelf.collectionView reloadData];
+//                                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"下架成功" hideTime:KToastDismissDelayTimeInterval];
+//                                    if (weakSelf.offFromListBlock) {
+//                                        weakSelf.offFromListBlock(artDetailData);
+//                                    }
+//                                } else {
+//                                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+//                                }
+//                            }];
+//                        }
+//                    }];
+//                } else {
+//                    [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+//                }
+//            }];
+//        }
     };
     return cell;
 }
@@ -203,7 +206,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.collectionView.mj_footer.hidden = YES;
     [self requestMineArtList];
 }
 
@@ -214,7 +216,6 @@
 
 - (void)endRefresh:(NSArray*)artsArray {
     if (artsArray.count < kPageSize) {
-        self.collectionView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.collectionView.mj_footer endRefreshing];

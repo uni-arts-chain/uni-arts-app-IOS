@@ -35,16 +35,17 @@
 }
 
 - (void)createSubViews {
-    [self.view addSubview:self.bottomView];
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.bottom.mas_equalTo(-KTouch_Responder_Height);
-        make.height.mas_equalTo(62.0f);
-    }];
+//    [self.view addSubview:self.bottomView];
+//    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.view);
+//        make.bottom.mas_equalTo(-KTouch_Responder_Height);
+//        make.height.mas_equalTo(62.0f);
+//    }];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
-        make.bottom.equalTo(self.bottomView.mas_top);
+//        make.bottom.equalTo(self.bottomView.mas_top);
+        make.bottom.mas_equalTo(-KTouch_Responder_Height);
     }];
 }
 

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLEditWalletViewController : JLBaseViewController
-
+@property (nonatomic, copy) void(^walletEditBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

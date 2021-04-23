@@ -12,12 +12,15 @@
 
 @interface JLSingleSellOrderListCell()
 @property (nonatomic, strong) UIView *shadowView;
-@property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UILabel *stateLabel;
+@property (nonatomic, strong) UIImageView *orderNoImageView;
+@property (nonatomic, strong) UILabel *orderNoLabel;
 @property (nonatomic, strong) UIImageView *productImageView;
-@property (nonatomic, strong) UILabel *authorLabel;
 @property (nonatomic, strong) UILabel *productNameLabel;
+@property (nonatomic, strong) UILabel *authorLabel;
 @property (nonatomic, strong) UILabel *cerAddressLabel;
+@property (nonatomic, strong) UILabel *numLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @end
 
@@ -38,48 +41,71 @@
 - (void)createSubViews {
     [self.contentView addSubview:self.shadowView];
     
-    [self.shadowView addSubview:self.timeLabel];
-    [self.shadowView addSubview:self.stateLabel];
+    [self.shadowView addSubview:self.orderNoImageView];
+    [self.shadowView addSubview:self.orderNoLabel];
+
     [self.shadowView addSubview:self.productImageView];
-    [self.shadowView addSubview:self.authorLabel];
     [self.shadowView addSubview:self.productNameLabel];
+    [self.shadowView addSubview:self.authorLabel];
     [self.shadowView addSubview:self.cerAddressLabel];
+    [self.shadowView addSubview:self.numLabel];
+    
+    [self.shadowView addSubview:self.timeLabel];
+    [self.shadowView addSubview:self.priceTitleLabel];
     [self.shadowView addSubview:self.priceLabel];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f));
     }];
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10.0f);
-        make.top.mas_equalTo(15.0f);
+    
+    [self.orderNoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(16.0f);
+        make.top.mas_equalTo(18.0f);
+        make.width.mas_equalTo(13.0f);
+        make.height.mas_equalTo(15.0f);
     }];
-    [self.stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-10.0f);
-        make.centerY.equalTo(self.timeLabel.mas_centerY);
+    [self.orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.orderNoImageView.mas_right).offset(8.0f);
+        make.right.mas_equalTo(-12.0f);
+        make.centerY.equalTo(self.orderNoImageView.mas_centerY);
     }];
+    
     [self.productImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(10.0f);
-        make.top.equalTo(self.timeLabel.mas_bottom).offset(24.0f);
+        make.left.mas_equalTo(12.0f);
+        make.top.equalTo(self.orderNoImageView.mas_bottom).offset(20.0f);
         make.width.mas_equalTo(102.0f);
-        make.height.mas_equalTo(76.0f).priority(1000);
-        make.bottom.mas_equalTo(-23.0f);
+        make.height.mas_equalTo(76.0f);
     }];
-    [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.productImageView.mas_right).offset(17.0f);
+    [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-20.0f);
         make.top.equalTo(self.productImageView.mas_top);
     }];
     [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorLabel.mas_left);
+        make.left.equalTo(self.productImageView.mas_right).offset(12.0f);
+        make.top.equalTo(self.productImageView.mas_top);
+        make.right.equalTo(self.numLabel.mas_left).offset(-8.0f);
+    }];
+    [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.centerY.equalTo(self.productImageView.mas_centerY);
     }];
     [self.cerAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.authorLabel.mas_left);
+        make.left.equalTo(self.productNameLabel.mas_left);
         make.bottom.equalTo(self.productImageView.mas_bottom);
-        make.right.mas_equalTo(-70.0f);
+        make.right.mas_equalTo(-45.0f);
+    }];
+    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(12.0f);
+        make.bottom.equalTo(self.shadowView);
+        make.height.mas_equalTo(43.0f);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-13.0f);
-        make.centerY.equalTo(self.authorLabel.mas_centerY);
+        make.right.mas_equalTo(-20.0f);
+        make.centerY.equalTo(self.timeLabel.mas_centerY);
+    }];
+    [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.priceLabel.mas_left).offset(-6.0f);
+        make.centerY.equalTo(self.priceLabel.mas_centerY);
     }];
 }
 
@@ -91,18 +117,19 @@
     return _shadowView;
 }
 
-- (UILabel *)timeLabel {
-    if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+- (UIImageView *)orderNoImageView {
+    if (!_orderNoImageView) {
+        _orderNoImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_order_orderno"];
     }
-    return _timeLabel;
+    return _orderNoImageView;
 }
 
-- (UILabel *)stateLabel {
-    if (!_stateLabel) {
-        _stateLabel = [JLUIFactory labelInitText:@"交易成功" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+- (UILabel *)orderNoLabel {
+    if (!_orderNoLabel) {
+        _orderNoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _orderNoLabel.adjustsFontSizeToFitWidth = YES;
     }
-    return _stateLabel;
+    return _orderNoLabel;
 }
 
 - (UIImageView *)productImageView {
@@ -113,13 +140,6 @@
     return _productImageView;
 }
 
-- (UILabel *)authorLabel {
-    if (!_authorLabel) {
-        _authorLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
-    }
-    return _authorLabel;
-}
-
 - (UILabel *)productNameLabel {
     if (!_productNameLabel) {
         _productNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
@@ -127,34 +147,64 @@
     return _productNameLabel;
 }
 
+- (UILabel *)numLabel {
+    if (!_numLabel) {
+        _numLabel = [JLUIFactory labelInitText:@"X10" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+    }
+    return _numLabel;
+}
+
+- (UILabel *)authorLabel {
+    if (!_authorLabel) {
+        _authorLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    }
+    return _authorLabel;
+}
+
 - (UILabel *)cerAddressLabel {
     if (!_cerAddressLabel) {
-        _cerAddressLabel = [JLUIFactory labelInitText:@"证书地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _cerAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
         _cerAddressLabel.numberOfLines = 1;
     }
     return _cerAddressLabel;
 }
 
+
+- (UILabel *)timeLabel {
+    if (!_timeLabel) {
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+    }
+    return _timeLabel;
+}
+
+- (UILabel *)priceTitleLabel {
+    if (!_priceTitleLabel) {
+        _priceTitleLabel = [JLUIFactory labelInitText:@"实收款：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+    }
+    return _priceTitleLabel;
+}
+
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _priceLabel;
 }
 
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
+    self.orderNoLabel.text = soldData.sn;
     if (![NSString stringIsEmpty:soldData.art.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:soldData.art.img_main_file1[@"url"]]];
     }
     
-    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.buy_time.doubleValue];
+    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.finished_at.doubleValue];
     self.timeLabel.text = [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
     
     self.authorLabel.text = [NSString stringIsEmpty:soldData.art.author.display_name] ? @"" : soldData.art.author.display_name;
     
     self.productNameLabel.text = soldData.art.name;
     
-    self.cerAddressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
+    self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.amount];
 }

@@ -266,3 +266,14 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/arts/#{id}/orders 出售列表
+@implementation Model_arts_id_orders_Data
+@end
+@implementation Model_arts_id_orders_Req
+@end
+@implementation Model_arts_id_orders_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"arts/%@/orders", self.request.ID];
+}
+@end
+//////////////////////////////////////////////////////////////////////////

@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UILabel *productNameLabel;
 @property (nonatomic, strong) UILabel *certifyAddressLabel;
 @property (nonatomic, strong) UILabel *numTitleLabel;
+@property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) JLStepper *numStepper;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
@@ -41,6 +42,7 @@
     [self.shadowView addSubview:self.authorNameLabel];
     [self.shadowView addSubview:self.certifyAddressLabel];
     [self.shadowView addSubview:self.numTitleLabel];
+    [self.shadowView addSubview:self.balanceLabel];
     [self.shadowView addSubview:self.numStepper];
     [self.shadowView addSubview:self.totalPriceTitleLabel];
     [self.shadowView addSubview:self.totalPriceLabel];
@@ -81,6 +83,10 @@
         make.left.equalTo(self.productImageView.mas_left);
         make.top.equalTo(self.productImageView.mas_bottom).offset(10.0f);
         make.height.mas_equalTo(32.0f);
+    }];
+    [self.balanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.numTitleLabel.mas_right);
+        make.centerY.equalTo(self.numTitleLabel.mas_centerY).offset(4.0f);
     }];
     [self.numStepper mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.shadowView).offset(-20.0f);
@@ -153,9 +159,16 @@
 
 - (UILabel *)numTitleLabel {
     if (!_numTitleLabel) {
-        _numTitleLabel = [JLUIFactory labelInitText:@"购买数量：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _numTitleLabel = [JLUIFactory labelInitText:@"购买数量" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _numTitleLabel;
+}
+
+- (UILabel *)balanceLabel {
+    if (!_balanceLabel) {
+        _balanceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    }
+    return _balanceLabel;
 }
 
 - (JLStepper *)numStepper {
@@ -166,11 +179,11 @@
         _numStepper.isValueEditable = YES;
         _numStepper.valueChanged = ^(double value) {
             NSDecimalNumber *valueNumber = [NSDecimalNumber decimalNumberWithString:@(value).stringValue];
-            NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:weakSelf.artDetailData.price];
+            NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:weakSelf.sellingOrderData.price];
             NSDecimalNumber *totalPriceNumber = [valueNumber decimalNumberByMultiplyingBy:priceNumber];
             weakSelf.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
             if (weakSelf.totalPriceChangeBlock) {
-                weakSelf.totalPriceChangeBlock(totalPriceNumber.stringValue);
+                weakSelf.totalPriceChangeBlock(totalPriceNumber.stringValue, @(value).stringValue);
             }
         };
     }
@@ -179,7 +192,7 @@
 
 - (UILabel *)totalPriceTitleLabel {
     if (!_totalPriceTitleLabel) {
-        _totalPriceTitleLabel = [JLUIFactory labelInitText:@"商品总价：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _totalPriceTitleLabel = [JLUIFactory labelInitText:@"商品总价" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _totalPriceTitleLabel;
 }
@@ -199,10 +212,16 @@
     self.authorNameLabel.text = [NSString stringIsEmpty:artDetailData.author.display_name] ? @"" : artDetailData.author.display_name;
     self.productNameLabel.text = artDetailData.name;
     self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
+}
+
+- (void)setSellingOrderData:(Model_arts_id_orders_Data *)sellingOrderData {
+    _sellingOrderData = sellingOrderData;
+    self.balanceLabel.text = [NSString stringWithFormat:@"（剩余%@）", sellingOrderData.amount];
     
     self.numStepper.minValue = 1;
-    self.numStepper.maxValue = 100;
+    self.numStepper.maxValue = sellingOrderData.amount.intValue;
     self.numStepper.value = 1;
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", [NSDecimalNumber decimalNumberWithString:artDetailData.price].stringValue];
+    
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", [NSDecimalNumber decimalNumberWithString:sellingOrderData.price].stringValue];
 }
 @end

@@ -12,6 +12,7 @@
 @interface JLMineOrderView()
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *pointLabel;
+@property (nonatomic, strong) UIButton *walletBtn;
 @property (nonatomic, strong) UIButton *pointRightsBtn;
 @end
 
@@ -27,7 +28,8 @@
 - (void)createSubViews {
     [self addSubview:self.imageView];
     [self.imageView addSubview:self.pointLabel];
-    [self.imageView addSubview:self.pointRightsBtn];
+    [self.imageView addSubview:self.walletBtn];
+//    [self.imageView addSubview:self.pointRightsBtn];
     
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -39,10 +41,13 @@
         make.bottom.mas_equalTo(-29.0f);
         make.height.mas_equalTo(15.0f);
     }];
-    [self.pointRightsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-29.0f - 15.0f);
-        make.centerY.equalTo(self.pointLabel.mas_centerY);
+    [self.walletBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.imageView);
     }];
+//    [self.pointRightsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(-29.0f - 15.0f);
+//        make.centerY.equalTo(self.pointLabel.mas_centerY);
+//    }];
 }
 
 - (UIImageView *)imageView {
@@ -58,6 +63,20 @@
         _pointLabel = [JLUIFactory labelInitText:@"区块链积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
     }
     return _pointLabel;
+}
+
+- (UIButton *)walletBtn {
+    if (!_walletBtn) {
+        _walletBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_walletBtn addTarget:self action:@selector(walletBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _walletBtn;
+}
+
+- (void)walletBtnClick {
+    if (self.walletBlock) {
+        self.walletBlock();
+    }
 }
 
 - (UIButton *)pointRightsBtn {

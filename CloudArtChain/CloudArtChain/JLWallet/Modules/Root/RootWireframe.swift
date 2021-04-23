@@ -17,8 +17,8 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
     }
     
     func pointDetail() {
-        let integralListVC = JLIntegralListViewController();
-        self.navigationController?.pushViewController(integralListVC, animated: true)
+//        let integralListVC = JLIntegralListViewController();
+//        self.navigationController?.pushViewController(integralListVC, animated: true)
     }
     
     func backClick(viewController: UIViewController) {

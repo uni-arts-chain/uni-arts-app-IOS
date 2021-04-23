@@ -10,12 +10,16 @@
 
 @interface JLUploadWorkSelectView ()
 @property (nonatomic, strong) NSString *placeHolder;
+@property (nonatomic, strong) NSString *inputTitle;
 @property (nonatomic,   copy) void(^selectBlock)(void);
 
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIButton *selectBtn;
+
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *arrowRigntImageView;
 @end
 
 @implementation JLUploadWorkSelectView
@@ -28,11 +32,21 @@
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title selectBlock:(void (^)(void))selectBlock {
+    if (self = [super init]) {
+        self.inputTitle = title;
+        self.selectBlock = selectBlock;
+        [self createSubviewsWithTitle];
+    }
+    return self;
+}
+
 - (void)createSubViews {
     [self addSubview:self.contentLabel];
     [self addSubview:self.arrowImageView];
     [self addSubview:self.lineView];
     [self addSubview:self.selectBtn];
+    self.contentLabel.textAlignment = NSTextAlignmentLeft;
     
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -55,9 +69,37 @@
     }];
 }
 
+- (void)createSubviewsWithTitle {
+    [self addSubview:self.titleLabel];
+    [self addSubview:self.contentLabel];
+    [self addSubview:self.arrowRigntImageView];
+    [self addSubview:self.selectBtn];
+    self.contentLabel.textAlignment = NSTextAlignmentRight;
+    self.contentLabel.text = @"请选择";
+    
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15.0f);
+        make.top.bottom.equalTo(self);
+    }];
+    [self.arrowRigntImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15.0f);
+        make.width.mas_equalTo(8.0f);
+        make.height.mas_equalTo(14.0f);
+        make.centerY.equalTo(self.mas_centerY);
+    }];
+    [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.arrowRigntImageView.mas_left).offset(-8.0f);
+        make.top.bottom.equalTo(self);
+        make.left.equalTo(self.titleLabel.mas_right).offset(15.0f);
+    }];
+    [self.selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+}
+
 - (UILabel *)contentLabel {
     if (!_contentLabel) {
-        _contentLabel = [JLUIFactory labelInitText:self.placeHolder font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
+        _contentLabel = [JLUIFactory labelInitText:[NSString stringIsEmpty:self.placeHolder] ? @"" : self.placeHolder font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentLeft];
     }
     return _contentLabel;
 }
@@ -89,6 +131,20 @@
     if (self.selectBlock) {
         self.selectBlock();
     }
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [JLUIFactory labelInitText:[NSString stringIsEmpty:self.inputTitle] ? @"" : self.inputTitle font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    }
+    return _titleLabel;
+}
+
+- (UIImageView *)arrowRigntImageView {
+    if (!_arrowRigntImageView) {
+        _arrowRigntImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_arrowright"];
+    }
+    return _arrowRigntImageView;
 }
 
 - (void)setSelectContent:(NSString *)content {

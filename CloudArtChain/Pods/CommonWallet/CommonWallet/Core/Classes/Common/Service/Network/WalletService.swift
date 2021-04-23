@@ -126,6 +126,28 @@ extension WalletService: WalletServiceProtocol {
 
         return operationWrapper
     }
+    
+    @discardableResult
+    func transferSignMessage(info: TransferInfo,
+                  call: ScaleCodable?,
+                  moduleIndex: UInt8,
+                  callIndex: UInt8,
+                  runCompletionIn queue: DispatchQueue,
+                  signMessageBlock:@escaping (String?) -> Void,
+                  completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall {
+        let operationWrapper = operationFactory.transferSignMessageOperation(info, call, moduleIndex, callIndex, signMessageBlock: signMessageBlock)
+
+        operationWrapper.targetOperation.completionBlock = {
+            queue.async {
+                completionBlock(operationWrapper.targetOperation.result)
+            }
+        }
+
+        operationQueue.addOperations(operationWrapper.allOperations,
+                                     waitUntilFinished: false)
+
+        return operationWrapper
+    }
 
     @discardableResult
     func search(for searchString: String,

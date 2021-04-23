@@ -43,7 +43,7 @@
 
 - (void)createSubViews {
     NSInteger row = self.appImageArray.count / 4;
-    CGFloat lineSep = 30.0f;
+    CGFloat lineSep = 0.0f;
     CGFloat itemWidth = (kScreenWidth - 15.0f * 2) / 4.0f;
     CGFloat itemHeight = (self.frameHeight - (row - 1) *lineSep) / row;
     for (int i = 0; i < self.appImageArray.count; i++) {

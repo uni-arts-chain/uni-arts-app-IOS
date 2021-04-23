@@ -32,7 +32,7 @@
     //计算每个cell的宽度
     self.minimumLineSpacing = 14.0f;
     self.minimumInteritemSpacing = 14.0f;
-    self.sectionInset = UIEdgeInsetsMake(13.0f, 15.0f, 0, 15.0f);
+    self.sectionInset = UIEdgeInsetsMake(14.0f, 15.0f, 0, 15.0f);
     float itemW = (self.collectionView.bounds.size.width - self.leftMargin - self.rightMargin - (self.colunms - 1) * self.minimumInteritemSpacing) / self.colunms;
     
     for (int i = 0; i < self.colunms; i++) {

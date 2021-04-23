@@ -32,14 +32,14 @@
     [self.contentView addSubview:self.lineView];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(6.0f);
+        make.top.mas_equalTo(20.0f);
         make.left.mas_equalTo(15.0f);
-        make.height.mas_equalTo(43.0f);
+        make.right.mas_equalTo(-15.0f);
     }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(12.0f);
         make.left.equalTo(self.titleLabel);
-        make.height.mas_equalTo(13.0f);
+        make.bottom.mas_equalTo(-15.0f);
     }];
     [self.unreadMaskView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-27.0f);
@@ -57,6 +57,7 @@
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _titleLabel.numberOfLines = 2;
     }
     return _titleLabel;
 }

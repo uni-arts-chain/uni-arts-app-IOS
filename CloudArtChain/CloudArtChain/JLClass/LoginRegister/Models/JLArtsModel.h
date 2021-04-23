@@ -22,7 +22,7 @@
 @interface Model_arts_categories_Req : Model_Req
 
 @end
-@interface Model_arts_categories_Rsp : Model_Rsp_V1
+@interface Model_arts_categories_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_arts_categories_Data> *body;
 @end
 // ==========================================================

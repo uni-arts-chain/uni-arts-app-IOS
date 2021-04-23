@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) NSString *currentAmount;
+@property (nonatomic, assign) JLOrderPayType currentPayType;
 @end
 
 @implementation JLOrderSubmitViewController
@@ -26,6 +28,8 @@
     self.navigationItem.title = @"提交订单";
     [self addBackItem];
     [self createSubViews];
+    self.currentAmount = @"1";
+    self.currentPayType = JLOrderPayTypeWeChat;
 }
 
 - (void)createSubViews {
@@ -73,7 +77,7 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        NSString *priceString = [NSString stringWithFormat:@"¥%@", self.artDetailData.price];
+        NSString *priceString = [NSString stringWithFormat:@"¥%@", self.sellingOrderData.price];
         UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
         self.priceLabel = priceLabel;
         [_bottomView addSubview:priceLabel];
@@ -107,16 +111,36 @@
 
 - (void)submitBtnClick {
     WS(weakSelf)
-    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-        if (success) {
-            [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                if (success) {
-                    [weakSelf.navigationController popToRootViewControllerAnimated:true];
-                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
+    Model_art_trades_Req *request = [[Model_art_trades_Req alloc] init];
+    request.art_order_sn = self.sellingOrderData.sn;
+    request.amount = self.currentAmount;
+    request.order_from = @"ios";
+    request.pay_type = self.currentPayType == JLOrderPayTypeWeChat ? @"wepay" : @"alipay";
+    Model_art_trades_Rsp *response = [[Model_art_trades_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.buySuccessBlock) {
+                weakSelf.buySuccessBlock();
+            }
+            [weakSelf.navigationController popToRootViewControllerAnimated:true];
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
         }
     }];
+    
+//    WS(weakSelf)
+//    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+//        if (success) {
+//            [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
+//                if (success) {
+//                    [weakSelf.navigationController popToRootViewControllerAnimated:true];
+//                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+//                }
+//            }];
+//        }
+//    }];
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -129,12 +153,17 @@
     if (indexPath.row == 0) {
         JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
         cell.artDetailData = self.artDetailData;
-        cell.totalPriceChangeBlock = ^(NSString * _Nonnull totalPrice) {
+        cell.sellingOrderData = self.sellingOrderData;
+        cell.totalPriceChangeBlock = ^(NSString * _Nonnull totalPrice, NSString * _Nonnull amount) {
             weakSelf.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPrice];
+            weakSelf.currentAmount = amount;
         };
         return cell;
     } else {
         JLOrderDetailPayMethodTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailPayMethodTableViewCell" forIndexPath:indexPath];
+        cell.selectedMethodBlock = ^(JLOrderPayType payType) {
+            weakSelf.currentPayType = payType;
+        };
         return cell;
     }
 }

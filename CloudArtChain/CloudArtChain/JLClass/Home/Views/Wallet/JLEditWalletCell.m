@@ -8,6 +8,7 @@
 
 #import "JLEditWalletCell.h"
 #import "JLBaseTextField.h"
+#import "UIButton+TouchArea.h"
 
 @interface JLEditWalletCell ()<UITextFieldDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -154,6 +155,7 @@
         _editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_editBtn setImage:[UIImage imageNamed:@"icon_wallet_edit"] forState:UIControlStateNormal];
         [_editBtn addTarget:self action:@selector(editBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_editBtn edgeTouchAreaWithTop:20.0f right:20.0f bottom:20.0f left:20.0f];
     }
     return _editBtn;
 }

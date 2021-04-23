@@ -13,8 +13,6 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *priceMaskView;
-@property (nonatomic, strong) UIView *priceMaskLabel;
-@property (nonatomic, strong) UILabel *balanceLabel;
 
 @property (nonatomic, strong) UIView *chainView;
 @property (nonatomic, strong) UILabel *addressLabel;
@@ -56,8 +54,6 @@
     [self.infoView addSubview:self.nameLabel];
     [self.infoView addSubview:self.priceLabel];
     [self.infoView addSubview:self.priceMaskView];
-    [self.priceMaskView addSubview:self.priceMaskLabel];
-    [self.infoView addSubview:self.balanceLabel];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -73,15 +69,6 @@
     [self.priceMaskView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.priceLabel.mas_right).offset(12.0f);
         make.height.mas_equalTo(14.0f);
-        make.centerY.equalTo(self.priceLabel.mas_centerY);
-    }];
-    [self.priceMaskLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self.priceMaskView);
-        make.left.equalTo(self.priceMaskView).offset(4.0f);
-        make.right.equalTo(self.priceMaskView).offset(-4.0f);
-    }];
-    [self.balanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-15.0f);
         make.centerY.equalTo(self.priceLabel.mas_centerY);
     }];
     
@@ -181,20 +168,6 @@
     return _priceMaskView;
 }
 
-- (UIView *)priceMaskLabel {
-    if (!_priceMaskLabel) {
-        _priceMaskLabel = [JLUIFactory labelInitText:@"10份总价" font:kFontPingFangSCSCSemibold(9.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
-    }
-    return _priceMaskLabel;
-}
-
-- (UILabel *)balanceLabel {
-    if (!_balanceLabel) {
-        _balanceLabel = [JLUIFactory labelInitText:@"剩余：10份" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
-    }
-    return _balanceLabel;
-}
-
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
         _addressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
@@ -214,7 +187,7 @@
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
     self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
-    self.transactionTimesLabel.text = [NSString stringWithFormat:@"交易次数：%ld次", artDetailData.signature_count];
+    self.transactionTimesLabel.text = [NSString stringWithFormat:@"交易次数：%@次", artDetailData.trades_count];
 }
 
 //- (void)setCertificateImage:(UIImage *)certificateImage {

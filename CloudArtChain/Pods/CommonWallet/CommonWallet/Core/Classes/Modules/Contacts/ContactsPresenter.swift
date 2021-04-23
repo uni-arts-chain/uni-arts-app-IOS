@@ -326,6 +326,18 @@ extension ContactsPresenter: ContactViewModelDelegate {
 
         return coordinator.send(to: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
     }
+    
+    public func didTransferSelect(accountId: String, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8) -> TransferViewController? {
+        let receiveInfo = ReceiveInfo(accountId: accountId,
+                                      assetId: selectedAsset.identifier,
+                                      amount: nil,
+                                      details: nil)
+
+        let payload = TransferPayload(receiveInfo: receiveInfo,
+                                      receiverName: "transferAccount")
+
+        return coordinator.send(to: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
+    }
 }
 
 extension ContactsPresenter: Localizable {

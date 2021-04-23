@@ -386,6 +386,47 @@ extension JLWalletTool {
     }
 }
 
+/** 作品出售 */
+extension JLWalletTool {
+    @objc func productSellCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block:(Bool, String) -> Void) {
+        guard let unitValue = Decimal(string: value)?.toSubstrateAmountUInt64(precision: 0) else { return }
+        let transferAccountId = AccountId(accountId: accountId)
+        productSellCallSwift(accountId: transferAccountId, collectionId: collectionId, itemId: itemId, value: unitValue, block: block)
+    }
+    
+    func productSellCallSwift(accountId: AccountId, collectionId: UInt64, itemId: UInt64, value: UInt64, block:(Bool, String) -> Void) {
+        let productSellTransferCall = ProductSellTransferCall(recipient: accountId, collectionId: collectionId, itemId: itemId, value: value)
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "transfer") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: productSellTransferCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                block(true, "")
+                productSellSubmit()
+            } else {
+                block(false, "")
+            }
+        } else {
+            block(false, "不存在Metadata")
+        }
+    }
+    
+    @objc func productSellSubmit() {
+        let callbackBlock: (WalletNewFormViewController?) -> Void = { [weak self] confirmViewController in
+            self?.confirmVC = confirmViewController
+        }
+        self.transferVC?.presenter.proceed(callbackBlock: callbackBlock)
+    }
+    
+    @objc func productSellConfirm(block:@escaping (String?) -> Void) {
+        self.confirmVC?.presenter.jlperformActionWithSignMessage(signMessageBlock: block)
+    }
+    
+    @objc func productSellCancel() {
+        self.transferVC = nil
+        self.confirmVC = nil
+    }
+}
+
 /** 作品上架 */
 extension JLWalletTool {
     @objc func sellOrderCall(collectionId: UInt64, itemId: UInt64, price: String, block:(Bool, String) -> Void) {

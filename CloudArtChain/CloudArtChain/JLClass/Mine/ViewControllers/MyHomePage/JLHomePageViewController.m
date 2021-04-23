@@ -142,27 +142,38 @@
         JLWorksListViewController *workListVC = [[JLWorksListViewController alloc] init];
         workListVC.workListType = idx;
         workListVC.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            // 上架
             artDetailData.aasm_state = @"bidding";
             JLWorksListViewController *biddingVC = (JLWorksListViewController *)self.viewControllers[1];
             [biddingVC addToBiddingList:artDetailData];
         };
-        workListVC.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            artDetailData.aasm_state = @"online";
-            JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[0];
-            [prepareVC offFromBiddingList:artDetailData];
+        workListVC.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData, JLWorkListType workListType) {
+            {
+    //            artDetailData.aasm_state = @"online";
+    //            JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[0];
+    //            [prepareVC offFromBiddingList:artDetailData];
+                JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                artDetailVC.artDetailData = artDetailData;
+                artDetailVC.backBlock = ^{
+                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)self.viewControllers[workListType];
+                    [biddingVC headRefresh];
+                };
+                [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
+            }
         };
         workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
                 JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-                auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
                 Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
                 meetingsArtsData.art = artDetailData;
                 auctionDetailVC.artsData = meetingsArtsData;
                 [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
             } else {
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-                artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }
@@ -191,13 +202,22 @@
             [weakSelf.navigationController pushViewController:launchAuctionVC animated:YES];
         };
         workListVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
-            sellWithSplitVC.artDetailData = artDetailData;
-            [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
-            
-//            JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
-//            sellWithoutSplitVC.artDetailData = artDetailData;
-//            [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
+            if (artDetailData.collection_mode == 3) {
+                // 可以拆分
+                JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
+                sellWithSplitVC.artDetailData = artDetailData;
+                sellWithSplitVC.sellBlock = ^{
+                    artDetailData.aasm_state = @"bidding";
+                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
+                    [biddingVC addToBiddingList:artDetailData];
+                };
+                [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
+            } else {
+                // 不可拆分
+                JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
+                sellWithoutSplitVC.artDetailData = artDetailData;
+                [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
+            }
         };
         [workListVCArray addObject:workListVC];
     }];

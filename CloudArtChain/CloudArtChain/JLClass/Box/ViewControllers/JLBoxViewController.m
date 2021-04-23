@@ -7,6 +7,8 @@
 //
 
 #import "JLBoxViewController.h"
+#import "JLBoxDetailViewController.h"
+
 #import "JLBoxTableViewCell.h"
 
 @interface JLBoxViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -51,7 +53,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
 }
 
 - (void)footRefresh {
@@ -61,7 +62,6 @@
 - (void)endRefresh:(NSArray*)boxArray {
     [self.tableView.mj_header endRefreshing];
     if (boxArray.count < kPageSize) {
-        self.tableView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.tableView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.tableView.mj_footer endRefreshing];
@@ -87,6 +87,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return CGFLOAT_MIN;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    JLBoxDetailViewController *boxDetailVC = [[JLBoxDetailViewController alloc] init];
+    [self.navigationController pushViewController:boxDetailVC animated:YES];
 }
 
 @end

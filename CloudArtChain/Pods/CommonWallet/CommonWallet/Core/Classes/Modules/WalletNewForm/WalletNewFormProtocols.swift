@@ -16,4 +16,5 @@ public protocol WalletNewFormPresenterProtocol: class {
     func setup()
     func performAction()
     func jlperformAction(callbackBlock: @escaping ((Bool, String?) -> Void))
+    func jlperformActionWithSignMessage(signMessageBlock:@escaping (String?) -> Void)
 }

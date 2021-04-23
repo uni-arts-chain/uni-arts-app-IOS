@@ -136,7 +136,7 @@
     self.indexLabel.text = self.title;
     if (!cell.longPressGestureBlock) {
         cell.longPressGestureBlock = ^(NSIndexPath *pressIndexPath) {
-            [weakSelf longPressGRActionWithIndexPath:pressIndexPath];
+//            [weakSelf longPressGRActionWithIndexPath:pressIndexPath];
         };
     }
     return cell;

@@ -86,12 +86,12 @@
         _avatarView.backgroundColor = JL_color_white_ffffff;
         _avatarView.layer.cornerRadius = 27.0f;
         _avatarView.layer.masksToBounds = NO;
-        _avatarView.layer.shadowColor = JL_color_black.CGColor;
-        _avatarView.layer.shadowOpacity = 0.13f;
-        _avatarView.layer.shadowOffset = CGSizeZero;
-        _avatarView.layer.shadowRadius = 5.0f;
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:_avatarView.bounds];
-        _avatarView.layer.shadowPath = path.CGPath;
+//        _avatarView.layer.shadowColor = JL_color_black.CGColor;
+//        _avatarView.layer.shadowOpacity = 0.13f;
+//        _avatarView.layer.shadowOffset = CGSizeZero;
+//        _avatarView.layer.shadowRadius = 5.0f;
+//        UIBezierPath *path = [UIBezierPath bezierPathWithRect:_avatarView.bounds];
+//        _avatarView.layer.shadowPath = path.CGPath;
     }
     return _avatarView;
 }

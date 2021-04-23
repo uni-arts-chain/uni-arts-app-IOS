@@ -67,7 +67,7 @@
     
     if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
         NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
-        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+//        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
     } else {
         [self reloadAllService];
     }
@@ -76,8 +76,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if ([JLLoginUtil haveToken]) {
-//        [self reloadAllService];
-        [self requestHasUnreadMessages];
+        [self reloadAllService];
+//        [self requestHasUnreadMessages];
     }
 }
 
@@ -86,14 +86,16 @@
     [self requestBannersData];
     [self requestAnnounceData];
 //    [self requestAuctionMeetingList];
-    [self requestPopularList];
     [self requestThemeList];
+    [self requestPopularList];
 }
 
 - (void)headRefreshService {
     [self requestHasUnreadMessages];
     [self requestBannersData];
     [self requestAnnounceData];
+    [self requestThemeList];
+    [self requestPopularList];
 }
 
 - (void)createOrImportWalletNotification:(NSNotification *)notification {
@@ -291,14 +293,14 @@
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
                 JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-                auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
                 Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
                 meetingsArtsData.art = artDetailData;
                 auctionDetailVC.artsData = meetingsArtsData;
                 [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
             } else {
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-                artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }
@@ -433,41 +435,43 @@
     }];
 }
 
-#pragma mark 请求拍卖会列表
-- (void)requestAuctionMeetingList {
-    WS(weakSelf)
-    Model_auction_meetings_Req *request = [[Model_auction_meetings_Req alloc] init];
-    request.page = 1;
-    request.per_page = 9999;
-    Model_auction_meetings_Rsp *response = [[Model_auction_meetings_Rsp alloc] init];
-    
-    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        if (netIsWork) {
-            [weakSelf.auctionArray removeAllObjects];
-            [weakSelf.auctionArray addObjectsFromArray:response.body];
-            
-            NSInteger popularOriginalViewRow = weakSelf.popularArray.count / 2;
-            if (weakSelf.popularArray.count % 2 != 0) {
-                popularOriginalViewRow += 1;
-            }
-            CGFloat themeRecommendViewHeight = 380.0f;
-            if (weakSelf.auctionArray.count == 0) {
-                // 没有拍卖数据
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
-            } else {
-//                weakSelf.auctionSectionView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f);
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
-            }
-            weakSelf.auctionSectionView.auctionArray = [weakSelf.auctionArray copy];
-        } else {
-            NSLog(@"error: %@", errorStr);
-        }
-    }];
-}
+//#pragma mark 请求拍卖会列表
+//- (void)requestAuctionMeetingList {
+//    WS(weakSelf)
+//    Model_auction_meetings_Req *request = [[Model_auction_meetings_Req alloc] init];
+//    request.page = 1;
+//    request.per_page = 9999;
+//    Model_auction_meetings_Rsp *response = [[Model_auction_meetings_Rsp alloc] init];
+//
+//    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+//        if (netIsWork) {
+//            [weakSelf.auctionArray removeAllObjects];
+//            [weakSelf.auctionArray addObjectsFromArray:response.body];
+//
+//            NSInteger popularOriginalViewRow = weakSelf.popularArray.count / 2;
+//            if (weakSelf.popularArray.count % 2 != 0) {
+//                popularOriginalViewRow += 1;
+//            }
+//            CGFloat themeRecommendViewHeight = 380.0f;
+//            if (weakSelf.auctionArray.count == 0) {
+//                // 没有拍卖数据
+//                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+//                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+//                [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
+//                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
+//            } else {
+////                weakSelf.auctionSectionView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, 370.0f);
+//                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+//                weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
+//                [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
+//                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
+//            }
+//            weakSelf.auctionSectionView.auctionArray = [weakSelf.auctionArray copy];
+//        } else {
+//            NSLog(@"error: %@", errorStr);
+//        }
+//    }];
+//}
 
 #pragma mark 请求热门原创列表
 - (void)requestPopularList {
@@ -490,11 +494,13 @@
             if (weakSelf.auctionArray.count == 0) {
                 weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
                 weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
+                [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom + 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
             } else {
                 weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
                 weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.popularOriginalView.frameBottom);
+                [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom + 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
             }
             weakSelf.popularOriginalView.popularArray = [weakSelf.popularArray copy];
         } else {
@@ -510,14 +516,14 @@
     for (int i = 0; i < self.popularArray.count; i++) {
         Model_art_Detail_Data *iconModel = self.popularArray[i];
         //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
-        if (i % 2 == 0) {
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW] + 14.0f;
+        if (columnFirstHeight <= columnSecondHeight) {
             columnFirstHeight += itemH;
         } else {
             columnSecondHeight += itemH;
         }
     }
-    return MAX(columnFirstHeight, columnSecondHeight);
+    return MAX(columnFirstHeight + 14.0f, columnSecondHeight + 14.0f);
 }
 
 //计算cell的高度
@@ -539,7 +545,7 @@
             
             CGFloat themeRecommendViewHeight = 380.0f;
             weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
-            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
+//            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
             for (int i = 0; i < weakSelf.themeArray.count; i++) {
                 JLThemeRecommendView *themeView = [[JLThemeRecommendView alloc] initWithFrame:CGRectMake(0.0f, (themeRecommendViewHeight + 16.0f) * i, kScreenWidth, themeRecommendViewHeight)];
                 themeView.topicData = weakSelf.themeArray[i];
@@ -547,14 +553,14 @@
                     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                         // 拍卖中
                         JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-                        auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+                        auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
                         Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
                         meetingsArtsData.art = artDetailData;
                         auctionDetailVC.artsData = meetingsArtsData;
                         [self.navigationController pushViewController:auctionDetailVC animated:YES];
                     } else {
                         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-                        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                        artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                         artDetailVC.artDetailData = artDetailData;
                         [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
                     }

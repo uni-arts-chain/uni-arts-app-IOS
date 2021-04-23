@@ -11,9 +11,31 @@
 #import <UMCommon/UMCommon.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
 
+#import "LAppViewController.h"
+#import "LAppAllocator.h"
+#import <iostream>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import "LAppPal.h"
+#import "LAppDefine.h"
+#import "LAppLive2DManager.h"
+#import "LAppTextureManager.h"
+
+#import "PAirSandbox.h"
+
 
 @interface AppDelegate ()
 @property (assign, nonatomic) BOOL isLandscapeRight; //是否允许转向
+
+@property (nonatomic) LAppAllocator cubismAllocator; // Cubism SDK Allocator
+@property (nonatomic) Csm::CubismFramework::Option cubismOption; // Cubism SDK Option
+@property (nonatomic) bool captured; // 是否单击
+@property (nonatomic) float mouseX; // 鼠标X坐标
+@property (nonatomic) float mouseY; // 鼠标Y坐标
+@property (nonatomic, readwrite) LAppTextureManager *textureManager; // 纹理管理器
+//@property (nonatomic) Csm::csmInt32 sceneIndex;  //运行应用程序后台时临时保存场景索引值
+@property (nonatomic, strong) NSString *modelPath;
+@property (nonatomic, strong) NSString *modelJsonName;
 @end
 
 @implementation AppDelegate
@@ -24,10 +46,17 @@
     if (@available(iOS 11.0, *)) {//避免滚动视图顶部出现20的空白以及push或者pop的时候页面有一个上移或者下移的异常动画的问题
         [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
     }
+    
+    _textureManager = [[LAppTextureManager alloc]init];
+    
+    LAppViewController *lappViewController = [[LAppViewController alloc] initWithNibName:nil bundle:nil];
+    lappViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    self.lAppViewController = lappViewController;
+    
     // 系统信息
     [AppSingleton systemInfo];
     // 检测持久化登录token有效期
-    [AppSingleton loginInfon];
+    [AppSingleton loginInfonWithBlock:nil];
 //    [JLVersionManager checkVersion];
     [self createIQKeyboardManager];
     [self initUM];
@@ -38,6 +67,11 @@
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
+    #ifdef DEBUG
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [[PAirSandbox sharedInstance] enableSwipe];
+    });
+    #endif
     return YES;
 }
 
@@ -290,6 +324,80 @@
      20011：tag 内容格式不正确
      */
     NSLog(@"[ CloudArtChain ] GeTuiSdkDidSetTagAction sequenceNum:%@ isSuccess:%@ error: %@", sequenceNum, @(isSuccess), aError);
+}
+
+
+#pragma mark Live2D
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    self.lAppViewController.mOpenGLRun = false;
+
+    _textureManager = nil;
+
+//    _sceneIndex = [[LAppLive2DManager getInstance] sceneIndex];
+    _modelPath = [[LAppLive2DManager getInstance] modelPath];
+    _modelJsonName = [[LAppLive2DManager getInstance] modelJsonName];
+}
+
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    self.lAppViewController.mOpenGLRun = true;
+
+    _textureManager = [[LAppTextureManager alloc]init];
+
+//    [[LAppLive2DManager getInstance] changeScene:_sceneIndex];
+    [[LAppLive2DManager getInstance] changeScene:_modelPath modelJsonName:_modelJsonName];
+}
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+
+}
+
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    self.lAppViewController = nil;
+}
+
+- (void)initializeCubism
+{
+    _cubismOption.LogFunction = LAppPal::PrintMessage;
+    _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
+
+    Csm::CubismFramework::StartUp(&_cubismAllocator,&_cubismOption);
+
+    Csm::CubismFramework::Initialize();
+
+    [LAppLive2DManager getInstance];
+
+    Csm::CubismMatrix44 projection;
+
+    LAppPal::UpdateTime();
+    
+    [self.lAppViewController initializeSprite];
+
+}
+
+- (void)finishApplication
+{
+//    [self.lAppViewController releaseView];
+
+//    _textureManager = nil;
+
+//    [LAppLive2DManager releaseInstance];
+
+//    Csm::CubismFramework::Dispose();
+
+//    self.lAppViewController = nil;
+    
+//    [self.lAppViewController releaseView];
+    [self.lAppViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)changeSence:(NSString *)modelPath jsonName:(NSString *)jsonName {
+    [[LAppLive2DManager getInstance] changeScene:modelPath modelJsonName:jsonName];
 }
 
 @end

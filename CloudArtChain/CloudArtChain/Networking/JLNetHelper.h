@@ -84,7 +84,7 @@ typedef enum
 /// @param fileNameArray 文件名称数组
 /// @param fileDataArray 文件数据数组
 /// @param callBackBlock 请求回调
-+ (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
++ (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
 + (NSString*)getTimeString;
 + (void)managerHeadBaseConfig:(AFHTTPSessionManager*)manager withTime:(NSString*)nowTime;

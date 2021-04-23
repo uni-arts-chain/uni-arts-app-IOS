@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *shadowView;
 @property (nonatomic, strong) UIImageView *shadowImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *orderNoTitleLabel;
 @property (nonatomic, strong) UILabel *orderNoLabel;
 @property (nonatomic, strong) UIButton *pasteBtn;
 @property (nonatomic, strong) UILabel *createTimeLabel;
@@ -31,6 +32,7 @@
     [self.contentView addSubview:self.shadowView];
     [self.shadowView addSubview:self.shadowImageView];
     [self.shadowView addSubview:self.titleLabel];
+    [self.shadowView addSubview:self.orderNoTitleLabel];
     [self.shadowView addSubview:self.orderNoLabel];
     [self.shadowView addSubview:self.pasteBtn];
     [self.shadowView addSubview:self.createTimeLabel];
@@ -48,13 +50,20 @@
         make.left.mas_equalTo(8.0f);
         make.top.mas_equalTo(22.0f);
     }];
-    [self.orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.orderNoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel.mas_left);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(25.0f);
+        make.width.mas_equalTo([JLTool getAdaptionSizeWithText:@"订单号：" labelHeight:20.0f font:kFontPingFangSCRegular(14.0f)].width);
+    }];
+    [self.orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.orderNoTitleLabel.mas_right);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(25.0f);
     }];
     [self.pasteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.orderNoLabel.mas_right).offset(20.0f);
-        make.centerY.equalTo(self.orderNoLabel.mas_centerY);
+        make.centerY.equalTo(self.orderNoTitleLabel.mas_centerY);
+        make.right.mas_lessThanOrEqualTo(-8.0f);
+        make.width.mas_equalTo(30.0f);
     }];
     [self.createTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel.mas_left);
@@ -84,9 +93,17 @@
     return _titleLabel;
 }
 
+- (UILabel *)orderNoTitleLabel {
+    if (!_orderNoTitleLabel) {
+        _orderNoTitleLabel = [JLUIFactory labelInitText:@"订单号：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _orderNoTitleLabel.numberOfLines = 1;
+    }
+    return _orderNoTitleLabel;
+}
+
 - (UILabel *)orderNoLabel {
     if (!_orderNoLabel) {
-        _orderNoLabel = [JLUIFactory labelInitText:@"订单号：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _orderNoLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _orderNoLabel;
 }
@@ -99,7 +116,7 @@
 }
 
 - (void)pasteBtnClick {
-    [UIPasteboard generalPasteboard].string = self.orderData.ID;
+    [UIPasteboard generalPasteboard].string = self.orderData.sn;
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
 }
 
@@ -112,8 +129,8 @@
 
 - (void)setOrderData:(Model_arts_sold_Data *)orderData {
     _orderData = orderData;
-    self.orderNoLabel.text = [NSString stringWithFormat:@"订单号：%@", orderData.ID];
-    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:orderData.buy_time.doubleValue];
+    self.orderNoLabel.text = orderData.sn;
+    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:orderData.finished_at.doubleValue];
     self.createTimeLabel.text = [NSString stringWithFormat:@"创建时间：%@", [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"]];
 }
 @end

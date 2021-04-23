@@ -6,6 +6,7 @@
 //  Copyright © 2020 朱彬. All rights reserved.
 //
 
+#ifdef __OBJC__
 #ifndef Prefix_pch
 #define Prefix_pch
 
@@ -66,6 +67,7 @@
 #import "JLMineModel.h"
 #import "JLCategoryModel.h"
 #import "JLCreatorModel.h"
+#import "JLUploadImageModel.h"
 
 //ErrorData
 #import "ErrorHead.h"
@@ -141,3 +143,4 @@
 #define kGtAppSecret @"YffOF4Agzt90M95RytW0j4"
 
 #endif /* Prefix_pch */
+#endif

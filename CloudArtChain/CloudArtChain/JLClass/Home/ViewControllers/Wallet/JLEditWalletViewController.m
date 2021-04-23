@@ -67,6 +67,10 @@
     }
     [[JLViewControllerTool appDelegate].walletTool saveUsernameWithUsername:walletName address:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address];
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"保存成功" hideTime:KToastDismissDelayTimeInterval];
+    if (self.walletEditBlock) {
+        self.walletEditBlock();
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"WalletNameNotification" object:nil userInfo:@{@"walletName": walletName}];
 }
 
 - (UITableView *)tableView {
@@ -89,7 +93,11 @@
     if (!_tableHeaderView) {
         _tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 92.0f)];
         UIButton *headerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [headerButton setImage:[UIImage getImageWithColor:[UIColor randomColor] width:68.0f height:68.0f] forState:UIControlStateNormal];
+        if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]]) {
+            [headerButton setImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"] forState:UIControlStateNormal];
+        } else {
+            [headerButton sd_setImageWithURL:[NSURL URLWithString:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] forState:UIControlStateNormal];
+        }
         ViewBorderRadius(headerButton, 34.0f, 0, JL_color_clear);
         [_tableHeaderView addSubview:headerButton];
         [headerButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,6 +162,7 @@
     if (indexPath.row == 0) {
         cell.title = @"钱包名";
         cell.statusText = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount].username;
+        cell.editContent = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount].username;
         cell.isEdit = YES;
     } else if (indexPath.row == 1) {
         cell.title = @"修改密码";

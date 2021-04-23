@@ -11,10 +11,12 @@
 #import "JLImageRectClipViewController.h"
 #import "SLShotViewController.h"
 #import "SLEditImageController.h"
+#import <SDWebImage/UIImage+GIF.h>
 
 @interface JLUploadWorkImageView ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) NSMutableArray *imageArray;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UIView *noticeView;
 @end
 
 @implementation JLUploadWorkImageView
@@ -35,12 +37,44 @@
 
 - (void)createView {
     [self addSubview:self.contentView];
-    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self);
+    [self addSubview:self.noticeView];
+    
+    [self.noticeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.right.mas_equalTo(-15.0f);
+        make.bottom.equalTo(self);
+        make.height.mas_equalTo(55.0f);
+    }];
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.mas_equalTo(15.0f);
+        make.right.mas_equalTo(-15.0f);
+        make.bottom.equalTo(self.noticeView.mas_top);
     }];
     [self setupContentView];
+}
+
+- (UIView *)noticeView {
+    if (!_noticeView) {
+        _noticeView = [[UIView alloc] init];
+        
+        UIImageView *noticeImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_notice"];
+        [_noticeView addSubview:noticeImageView];
+        
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
+        [_noticeView addSubview:noticeLabel];
+        
+        [noticeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_noticeView);
+            make.size.mas_equalTo(13.0f);
+            make.centerY.equalTo(_noticeView.mas_centerY);
+        }];
+        [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(noticeImageView.mas_right).offset(5.0f);
+            make.centerY.equalTo(noticeImageView.mas_centerY);
+        }];
+    }
+    return _noticeView;
 }
 
 - (UIView *)contentView {
@@ -131,7 +165,8 @@
             SLShotViewController * shotViewController = [[SLShotViewController alloc] init];
             shotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             shotViewController.getImageBlock = ^(UIImage * _Nonnull image) {
-                [weakSelf.imageArray addObject:image];
+                JLUploadImageModel *imageModel = [JLUploadImageModel uploadImageModelWithImage:image imageType:@"png" imageData:nil];
+                [weakSelf.imageArray addObject:imageModel];
                 [weakSelf setupContentView];
             };
             [weakSelf.controller presentViewController:shotViewController animated:YES completion:nil];
@@ -144,7 +179,13 @@
     UIView *view = [[UIView alloc] init];
     
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = self.imageArray[index];
+    JLUploadImageModel *imageModel = self.imageArray[index];
+    if ([imageModel.imageType isEqualToString:@"gif"]) {
+        UIImage *gifImage = [UIImage sd_imageWithGIFData:imageModel.imageData];
+        imageView.image = gifImage;
+    } else {
+        imageView.image = imageModel.image;
+    }
     ViewBorderRadius(imageView, 5.0f, 0.0f, JL_color_clear);
     [view addSubview:imageView];
     
@@ -185,16 +226,25 @@
 //    clipView.delegate = self;
 //    clipView.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self.controller.navigationController presentViewController:clipView animated:YES completion:nil];
+    NSData *imageData = [NSData dataWithContentsOfFile:info[@"UIImagePickerControllerImageURL"]];
+    NSString *imageType = [JLTool contentTypeForImageData:imageData];
     
-    SLEditImageController *editViewController = [[SLEditImageController alloc] init];
-    editViewController.image = image;
-    editViewController.saveToAlbum = NO;
-    editViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-    editViewController.imageEditBlock = ^(UIImage * _Nonnull image) {
-        [weakSelf.imageArray addObject:image];
-        [weakSelf setupContentView];
-    };
-    [self.controller.navigationController presentViewController:editViewController animated:NO completion:nil];
+    if ([imageType isEqualToString:@"gif"]) {
+        JLUploadImageModel *imageModel = [JLUploadImageModel uploadImageModelWithImage:image imageType:@"gif" imageData:imageData];
+        [self.imageArray addObject:imageModel];
+        [self setupContentView];
+    } else {
+        SLEditImageController *editViewController = [[SLEditImageController alloc] init];
+        editViewController.image = image;
+        editViewController.saveToAlbum = NO;
+        editViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        editViewController.imageEditBlock = ^(UIImage * _Nonnull image) {
+            JLUploadImageModel *imageModel = [JLUploadImageModel uploadImageModelWithImage:image imageType:@"png" imageData:nil];
+            [weakSelf.imageArray addObject:imageModel];
+            [weakSelf setupContentView];
+        };
+        [self.controller.navigationController presentViewController:editViewController animated:NO completion:nil];
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

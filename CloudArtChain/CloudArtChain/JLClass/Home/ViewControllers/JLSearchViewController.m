@@ -257,14 +257,14 @@ NSString *const JLSearchHistory = @"SearchHistory";
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
         JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-        auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+        auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
         Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
         meetingsArtsData.art = artDetailData;
         auctionDetailVC.artsData = meetingsArtsData;
         [self.navigationController pushViewController:auctionDetailVC animated:YES];
     } else {
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+        artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = artDetailData;
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }
@@ -279,7 +279,6 @@ NSString *const JLSearchHistory = @"SearchHistory";
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.resultCollectionView.mj_footer.hidden = YES;
     [self requestSearchList];
 }
 
@@ -290,7 +289,6 @@ NSString *const JLSearchHistory = @"SearchHistory";
 
 - (void)endRefresh:(NSArray*)collectionArray {
     if (collectionArray.count < kPageSize) {
-        self.resultCollectionView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.resultCollectionView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.resultCollectionView.mj_footer endRefreshing];

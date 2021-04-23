@@ -71,7 +71,8 @@
         _tableView.backgroundColor = JL_color_white_ffffff;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.estimatedRowHeight = 0.0f;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.estimatedRowHeight = 78.0f;
         _tableView.estimatedSectionHeaderHeight = 0.0f;
         _tableView.estimatedSectionFooterHeight = 0.0f;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -102,10 +103,6 @@
     JLMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLMessageTableViewCell" forIndexPath:indexPath];
     cell.messageData = self.messageListArray[indexPath.row];
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 78.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

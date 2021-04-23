@@ -219,7 +219,7 @@
         if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
             // 拍卖中
             JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-            auctionDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
+            auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
             Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
             meetingsArtsData.art = artDetailData;
             auctionDetailVC.artsData = meetingsArtsData;
@@ -227,7 +227,7 @@
         } else {
             JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
             artDetailVC.artDetailData = artDetailData;
-            artDetailVC.artDetailType = [artDetailData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID] ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+            artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
             [self.navigationController pushViewController:artDetailVC animated:YES];
         }
     } else if(indexPath.section == 1 && self.mechanismArray.count > 0) {

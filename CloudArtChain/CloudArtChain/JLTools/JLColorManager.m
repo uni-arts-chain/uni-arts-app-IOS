@@ -71,6 +71,7 @@ static id inst = nil;
     
     _white_ffffff = [UIColor colorWithHexString:@"#FFFFFF"];
     
+    _green_00DEBC = [UIColor colorWithHexString:@"#00DEBC"];
     _green_00A7B6 = [UIColor colorWithHexString:@"#00A7B6"];
     _green_2EA496 = [UIColor colorWithHexString:@"#2EA496"];
     _green_9DDC81 = [UIColor colorWithHexString:@"#9DDC81"];
@@ -102,6 +103,7 @@ static id inst = nil;
     _orange_FF7F1F = [UIColor colorWithHexString:@"#FF7F1F"];
     
     _yellow_FFCA50 = [UIColor colorWithHexString:@"#FFCA50"];
+    _yellow_FFCC5E = [UIColor colorWithHexString:@"#FFCC5E"];
     
     _black_010034 = [UIColor colorWithHexString:@"#010034"];
     _black_1E1D1E = [UIColor colorWithHexString:@"#1E1D1E"];

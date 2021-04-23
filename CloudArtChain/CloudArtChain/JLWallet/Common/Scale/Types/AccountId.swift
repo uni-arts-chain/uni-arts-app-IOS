@@ -8,6 +8,14 @@ class AccountId: NSObject, ScaleCodable {
     required init(scaleDecoder: ScaleDecoding) throws {
         value = try scaleDecoder.readAndConfirm(count: 32)
     }
+    
+    init(accountId: String) {
+        do {
+            try value = Data(hexString: accountId)
+        } catch {
+            value = Data()
+        }
+    }
 
     func encode(scaleEncoder: ScaleEncoding) throws {
         scaleEncoder.appendRaw(data: value)

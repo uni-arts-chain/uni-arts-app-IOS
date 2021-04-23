@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLSellWithSplitViewController : JLBaseViewController
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, copy) void(^sellBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)getTokenExpireAtKey;
 
 //持久化登录调用
-+ (void)loginInfon;
++ (void)loginInfonWithBlock:(void(^)(void))block;
 
 // 请求系统信息
 + (void)systemInfo;

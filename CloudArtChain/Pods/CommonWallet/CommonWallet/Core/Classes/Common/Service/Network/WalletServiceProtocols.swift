@@ -46,6 +46,15 @@ protocol WalletServiceProtocol {
                   callIndex: UInt8,
                   runCompletionIn queue: DispatchQueue,
                   completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall
+    
+    @discardableResult
+    func transferSignMessage(info: TransferInfo,
+                  call: ScaleCodable?,
+                  moduleIndex: UInt8,
+                  callIndex: UInt8,
+                  runCompletionIn queue: DispatchQueue,
+                  signMessageBlock:@escaping (String?) -> Void,
+                  completionBlock: @escaping DataResultCompletionBlock) -> CancellableCall
 
     @discardableResult
     func search(for searchString: String,

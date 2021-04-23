@@ -105,6 +105,18 @@ extension TransferConfirmationPresenter: TransferConfirmationPresenterProtocol {
             }
         }
     }
+    
+    func jlperformActionWithSignMessage(signMessageBlock:@escaping (String?) -> Void) {
+        view?.didStartLoading()
+
+        service.transferSignMessage(info: payload.transferInfo, call: call, moduleIndex: moduleIndex, callIndex: callIndex, runCompletionIn: .main, signMessageBlock: signMessageBlock) { [weak self] (optionalResult) in
+            self?.view?.didStopLoading()
+
+            if let result = optionalResult {
+                self?.handleTransfer(result: result)
+            }
+        }
+    }
 }
 
 extension TransferConfirmationPresenter: Localizable {

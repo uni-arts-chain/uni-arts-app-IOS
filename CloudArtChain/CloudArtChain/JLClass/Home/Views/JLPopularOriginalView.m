@@ -84,12 +84,13 @@
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
         JLPopularCollectionWaterLayout *layout = [JLPopularCollectionWaterLayout layoutWithColoumn:2 data:self.waterDataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.titleView.frameBottom, kScreenWidth, self.frameHeight - self.titleView.frameBottom) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 80.0f, kScreenWidth, self.frameHeight - 80.0f) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.scrollEnabled = NO;
     }
     return _collectionView;
 }
@@ -123,6 +124,10 @@
         _waterDataArray = [NSMutableArray array];
     }
     return _waterDataArray;
+}
+
+- (void)refreshFrame:(CGRect)frame {
+    self.collectionView.frame = CGRectMake(0.0f, 80.0f, kScreenWidth, frame.size.height - 80.0f);
 }
 
 @end

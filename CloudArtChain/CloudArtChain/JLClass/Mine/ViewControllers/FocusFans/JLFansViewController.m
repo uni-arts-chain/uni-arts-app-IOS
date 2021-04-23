@@ -157,7 +157,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
     [self requestFocusList];
 }
 
@@ -168,7 +167,6 @@
 
 - (void)endRefresh:(NSArray*)fansArray {
     if (fansArray.count < kPageSize) {
-        self.tableView.mj_footer.hidden = NO;
         [(JLRefreshFooter *)self.tableView.mj_footer endWithNoMoreDataNotice];
     } else {
         [self.tableView.mj_footer endRefreshing];

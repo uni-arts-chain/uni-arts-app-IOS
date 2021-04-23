@@ -10,6 +10,7 @@
 
 @interface JLUploadWorkDescriptionView : JLBaseView
 @property (nonatomic, strong) NSString *inputContent;
+@property (nonatomic, copy) void(^inputContentChangeBlock)(void);
 
 - (instancetype)initWithMax:(NSInteger)maxInput placeholder:(NSString *)placeholder placeHolderColor:(UIColor *)placeHolderColor textFont:(UIFont *)textFont textColor:(UIColor *)textColor borderColor:(UIColor *)borderColor;
 @end

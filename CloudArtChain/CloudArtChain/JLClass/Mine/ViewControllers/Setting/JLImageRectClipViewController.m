@@ -29,7 +29,8 @@ static const CGFloat KOriginalImageHeight = 210.0f;
         self.originImage = [self fixOrientation:image];
         self.currentOrientationIndex = 0;
         self.width = kScreenWidth - 16.0f * 2;
-        self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+//        self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+        self.height = kScreenWidth - 16.0f * 2;
         self.scaleRation = 10.0f;
         lastScale = 1.0f;
     }
@@ -61,7 +62,8 @@ static const CGFloat KOriginalImageHeight = 210.0f;
 - (void)createUI {
     //验证 裁剪半径是否有效
     self.width = self.width > self.view.frame.size.width ? self.view.frame.size.width : self.width;
-    self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+//    self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+    self.height = self.width;
     
     CGFloat width  = self.view.frame.size.width;
     CGFloat height = (_image.size.height / _image.size.width) * self.view.frame.size.width;
@@ -142,7 +144,8 @@ static const CGFloat KOriginalImageHeight = 210.0f;
     }
     _image = [self image:self.originImage rotation:((NSNumber *)self.orientationArray[self.currentOrientationIndex]).integerValue];
     self.width = kScreenWidth - 16.0f * 2;
-    self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+//    self.height = KOriginalImageHeight * (self.width / kScreenWidth);
+    self.height = kScreenWidth - 16.0f * 2;
     self.scaleRation =  10.0f;
     lastScale = 1.0f;
     [self createUI];

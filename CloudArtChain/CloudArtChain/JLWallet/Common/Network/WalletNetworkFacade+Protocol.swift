@@ -280,6 +280,66 @@ extension WalletNetworkFacade: WalletNetworkOperationFactoryProtocol {
             return CompoundOperationWrapper.createWithError(error)
         }
     }
+    
+    func transferSignMessageOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> CompoundOperationWrapper<Data> {
+        do {
+            let currentNetworkType = networkType
+
+            let transferWrapper = nodeOperationFactory.transferSignMessageOperation(info, call, moduleIndex, callIndex, signMessageBlock: signMessageBlock)
+
+            let addressFactory = SS58AddressFactory()
+
+            let destinationId = try Data(hexString: info.destination)
+            let destinationAddress = try addressFactory
+                .address(fromPublicKey: AccountIdWrapper(rawData: destinationId),
+                         type: currentNetworkType)
+            let contactSaveWrapper = contactsOperationFactory.saveByAddressOperation(destinationAddress)
+
+            let txSaveOperation = txStorage.saveOperation({
+                switch transferWrapper.targetOperation.result {
+                case .success(let txHash):
+                    let item = try TransactionHistoryItem
+                        .createFromTransferInfo(info,
+                                                transactionHash: txHash,
+                                                networkType: currentNetworkType,
+                                                addressFactory: addressFactory)
+                    return [item]
+                case .failure(let error):
+                    throw error
+                case .none:
+                    throw BaseOperationError.parentOperationCancelled
+                }
+            }, { [] })
+
+            transferWrapper.allOperations.forEach { transaferOperation in
+                txSaveOperation.addDependency(transaferOperation)
+
+                contactSaveWrapper.allOperations.forEach { $0.addDependency(transaferOperation) }
+            }
+
+            let completionOperation: BaseOperation<Data> = ClosureOperation {
+                try txSaveOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                try contactSaveWrapper.targetOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                return try transferWrapper.targetOperation
+                            .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+            }
+
+            let dependencies = [txSaveOperation] + contactSaveWrapper.allOperations +
+                transferWrapper.allOperations
+
+            completionOperation.addDependency(txSaveOperation)
+            completionOperation.addDependency(contactSaveWrapper.targetOperation)
+
+            return CompoundOperationWrapper(targetOperation: completionOperation,
+                                            dependencies: dependencies)
+        } catch {
+            return CompoundOperationWrapper.createWithError(error)
+        }
+    }
 
     func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?> {
         let fetchOperation = contactsOperation()

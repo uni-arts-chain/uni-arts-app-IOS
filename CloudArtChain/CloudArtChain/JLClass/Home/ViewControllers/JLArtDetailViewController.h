@@ -7,6 +7,8 @@
 //
 
 #import "JLBaseViewController.h"
+#import <GLKit/GLKit.h>
+#import "AppDelegate.h"
 
 typedef NS_ENUM(NSUInteger, JLArtDetailType) {
     JLArtDetailTypeDetail = 1, /** 普通用户 - 可以购买 */
@@ -19,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) JLArtDetailType artDetailType;
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) void(^cancelFavorateBlock)(void);
+@property (nonatomic, copy) void(^backBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

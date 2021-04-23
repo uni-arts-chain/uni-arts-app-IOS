@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkSelectView : JLBaseView
 - (instancetype)initWithPlaceHolder:(NSString *)placeHolder selectBlock:(void(^)(void))selectBlock;
+- (instancetype)initWithTitle:(NSString *)title selectBlock:(void(^)(void))selectBlock;
 - (void)setSelectContent:(NSString *)content;
 @end
 

@@ -18,6 +18,7 @@ public protocol WalletNetworkOperationFactoryProtocol {
     func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?>
     func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data>
     func transferOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<Data>
+    func transferSignMessageOperation(_ info: TransferInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8, signMessageBlock:@escaping (String?) -> Void) -> CompoundOperationWrapper<Data>
     func searchOperation(_ searchString: String) -> CompoundOperationWrapper<[SearchData]?>
     func contactsOperation() -> CompoundOperationWrapper<[SearchData]?>
 

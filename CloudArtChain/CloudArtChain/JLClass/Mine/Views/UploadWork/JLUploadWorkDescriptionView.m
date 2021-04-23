@@ -50,7 +50,7 @@
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self);
         make.right.mas_equalTo(-10.0f);
-        make.height.mas_equalTo(28.0f);
+        make.height.mas_equalTo(32.0f);
     }];
     [self.inputNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(8.0f);
@@ -76,6 +76,9 @@
             weakSelf.maxInputLabel.attributedText = attr;
         } else {
             weakSelf.maxInputLabel.textColor = JL_color_gray_909090;
+        }
+        if (weakSelf.inputContentChangeBlock) {
+            weakSelf.inputContentChangeBlock();
         }
     }];
 }

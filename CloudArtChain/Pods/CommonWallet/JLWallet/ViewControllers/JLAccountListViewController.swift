@@ -33,10 +33,21 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
     public var delegate: JLAccountListViewControllerProtocol?
     public var userAvatar: String?
     
+    lazy var nameLabel: UILabel = {
+        let nameLabel = UILabel()
+        nameLabel.text = self.currentAccount?.username
+        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.semibold)
+        nameLabel.textColor = .white
+        nameLabel.textAlignment = .center
+        return nameLabel
+    }()
+    
     lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
         if let avatar = self.userAvatar {
             avatarImageView.sd_setImage(with: URL(string: avatar), completed: nil)
+        } else {
+            avatarImageView.image = UIImage(named: "icon_mine_avatar_placeholder")
         }
         avatarImageView.layer.cornerRadius = 59.0 * 0.5
         avatarImageView.layer.masksToBounds = true
@@ -58,11 +69,7 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         
         avatarView.addSubview(avatarImageView)
         
-        let nameLabel = UILabel()
-        nameLabel.text = self.currentAccount?.username
-        nameLabel.font = UIFont.systemFont(ofSize: 16.0, weight: UIFont.Weight.semibold)
-        nameLabel.textColor = .white
-        nameLabel.textAlignment = .center
+
         tableHeaderView.addSubview(nameLabel)
         
         let addressLabel = UILabel()
@@ -197,12 +204,20 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         presenter.setup()
         didCompleteLoad = true
         NotificationCenter.default.addObserver(self, selector: #selector(userLoginNotification(notification:)), name: NSNotification.Name(rawValue: "UserLoginNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(walletNameNotification(notification:)), name: NSNotification.Name(rawValue: "WalletNameNotification"), object: nil)
     }
     
     @objc func userLoginNotification(notification: Notification) {
         let userAvatar = notification.userInfo?["url"] as? String
         if let avatar = userAvatar {
             self.avatarImageView.sd_setImage(with: URL(string: avatar), completed: nil)
+        }
+    }
+    
+    @objc func walletNameNotification(notification: Notification) {
+        let walletName = notification.userInfo?["walletName"] as? String
+        if let tempWalletName = walletName {
+            self.nameLabel.text = tempWalletName;
         }
     }
     
@@ -234,17 +249,18 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         view.backgroundColor = .white
         
         view.addSubview(self.tableView)
-        view.addSubview(self.bottomView)
+//        view.addSubview(self.bottomView)
         
         let touchResponderHeight = UIApplication.shared.statusBarFrame.size.height > 20.0 ? 34.0 : 0.0
-        self.bottomView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(self.view)
-            make.bottom.equalTo(-touchResponderHeight)
-            make.height.equalTo(62.0)
-        }
+//        self.bottomView.snp.makeConstraints { (make) in
+//            make.left.right.equalTo(self.view)
+//            make.bottom.equalTo(-touchResponderHeight)
+//            make.height.equalTo(62.0)
+//        }
         self.tableView.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self.view)
-            make.bottom.equalTo(self.bottomView.snp.top)
+//            make.bottom.equalTo(self.bottomView.snp.top)
+            make.bottom.equalTo(-touchResponderHeight)
         }
         
         configueTableView()

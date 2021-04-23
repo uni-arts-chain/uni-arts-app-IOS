@@ -799,7 +799,7 @@
 		B3890B3625DFB84B00028F78 /* JLInputLogisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3890B3525DFB84B00028F78 /* JLInputLogisticsViewController.m */; };
 		B3890E51261978880060EECA /* AcceptSaleOrderCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3890E50261978880060EECA /* AcceptSaleOrderCall.swift */; };
 		B3890E562619B4A10060EECA /* AuctionBidCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3890E552619B4A10060EECA /* AuctionBidCall.swift */; };
-		B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.m */; };
+		B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.mm */; };
 		B38A5F7724F34F0B00FA3EF7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */; };
 		B38A5F7A24F34F0B00FA3EF7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B38A5F7824F34F0B00FA3EF7 /* LaunchScreen.storyboard */; };
 		B38A5F7D24F34F0C00FA3EF7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B38A5F7C24F34F0C00FA3EF7 /* main.m */; };
@@ -862,12 +862,86 @@
 		B38FD55325CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55225CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m */; };
 		B38FD55725CBECD10028797E /* JLAuctionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */; };
 		B390AA342616C54D00C72F8C /* JSONScaleListDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B390AA332616C54D00C72F8C /* JSONScaleListDecodable.swift */; };
+		B391B098262E7CDF00127532 /* JLUploadImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B097262E7CDF00127532 /* JLUploadImageModel.m */; };
+		B391B09E262EB05300127532 /* JLUploadWorkInputWithBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B09D262EB05300127532 /* JLUploadWorkInputWithBorderView.m */; };
+		B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B0A3262EBC6600127532 /* JLUploadWorkSwitchView.m */; };
+		B391B0AD262EF2E500127532 /* JLBoxDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B0AC262EF2E500127532 /* JLBoxDetailViewController.m */; };
+		B391B0B3262F011200127532 /* JLBoxCardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B0B2262F011200127532 /* JLBoxCardCollectionViewCell.m */; };
+		B391B0B9262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B0B8262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m */; };
+		B391B0C2262F074900127532 /* JLBoxOpenRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B391B0C1262F074900127532 /* JLBoxOpenRecordViewController.m */; };
+		B391CB7D262D2AD700FF48B0 /* CubismRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB24262D2AD500FF48B0 /* CubismRenderer.cpp */; };
+		B391CB7E262D2AD700FF48B0 /* CubismRenderer_OpenGLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB27262D2AD500FF48B0 /* CubismRenderer_OpenGLES2.cpp */; };
+		B391CB7F262D2AD700FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB28262D2AD500FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp */; };
+		B391CB80262D2AD700FF48B0 /* CubismModelUserData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB2B262D2AD500FF48B0 /* CubismModelUserData.cpp */; };
+		B391CB81262D2AD700FF48B0 /* CubismModelUserDataJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB2C262D2AD500FF48B0 /* CubismModelUserDataJson.cpp */; };
+		B391CB82262D2AD700FF48B0 /* CubismUserModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB2D262D2AD500FF48B0 /* CubismUserModel.cpp */; };
+		B391CB83262D2AD700FF48B0 /* CubismMoc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB2E262D2AD500FF48B0 /* CubismMoc.cpp */; };
+		B391CB84262D2AD700FF48B0 /* CubismModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB32262D2AD500FF48B0 /* CubismModel.cpp */; };
+		B391CB85262D2AD700FF48B0 /* CubismPose.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB37262D2AD600FF48B0 /* CubismPose.cpp */; };
+		B391CB86262D2AD700FF48B0 /* CubismEyeBlink.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB38262D2AD600FF48B0 /* CubismEyeBlink.cpp */; };
+		B391CB87262D2AD700FF48B0 /* CubismBreath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB39262D2AD600FF48B0 /* CubismBreath.cpp */; };
+		B391CB88262D2AD700FF48B0 /* CubismDefaultParameterId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB3D262D2AD600FF48B0 /* CubismDefaultParameterId.cpp */; };
+		B391CB89262D2AD700FF48B0 /* CubismJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB40262D2AD600FF48B0 /* CubismJson.cpp */; };
+		B391CB8A262D2AD700FF48B0 /* CubismString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB41262D2AD600FF48B0 /* CubismString.cpp */; };
+		B391CB8B262D2AD700FF48B0 /* CubismDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB44262D2AD600FF48B0 /* CubismDebug.cpp */; };
+		B391CB8C262D2AD700FF48B0 /* CubismCdiJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB46262D2AD600FF48B0 /* CubismCdiJson.cpp */; };
+		B391CB8D262D2AD700FF48B0 /* ACubismMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB4A262D2AD600FF48B0 /* ACubismMotion.cpp */; };
+		B391CB8E262D2AD700FF48B0 /* CubismMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB4B262D2AD600FF48B0 /* CubismMotion.cpp */; };
+		B391CB8F262D2AD700FF48B0 /* CubismMotionManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB4C262D2AD600FF48B0 /* CubismMotionManager.cpp */; };
+		B391CB90262D2AD700FF48B0 /* CubismMotionQueueManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB4F262D2AD600FF48B0 /* CubismMotionQueueManager.cpp */; };
+		B391CB91262D2AD700FF48B0 /* CubismExpressionMotion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB54262D2AD600FF48B0 /* CubismExpressionMotion.cpp */; };
+		B391CB92262D2AD700FF48B0 /* CubismMotionJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB55262D2AD600FF48B0 /* CubismMotionJson.cpp */; };
+		B391CB93262D2AD700FF48B0 /* CubismMotionQueueEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB56262D2AD600FF48B0 /* CubismMotionQueueEntry.cpp */; };
+		B391CB94262D2AD700FF48B0 /* CubismModelSettingJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB57262D2AD600FF48B0 /* CubismModelSettingJson.cpp */; };
+		B391CB95262D2AD700FF48B0 /* csmString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB5C262D2AD600FF48B0 /* csmString.cpp */; };
+		B391CB96262D2AD700FF48B0 /* csmRectF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB5E262D2AD600FF48B0 /* csmRectF.cpp */; };
+		B391CB97262D2AD700FF48B0 /* CubismPhysicsJson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB65262D2AD600FF48B0 /* CubismPhysicsJson.cpp */; };
+		B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB66262D2AD600FF48B0 /* CubismPhysics.cpp */; };
+		B391CB99262D2AD700FF48B0 /* CubismIdManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB6B262D2AD600FF48B0 /* CubismIdManager.cpp */; };
+		B391CB9A262D2AD700FF48B0 /* CubismId.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB6C262D2AD600FF48B0 /* CubismId.cpp */; };
+		B391CB9B262D2AD700FF48B0 /* CubismFramework.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB6D262D2AD600FF48B0 /* CubismFramework.cpp */; };
+		B391CB9C262D2AD700FF48B0 /* CubismModelMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB70262D2AD700FF48B0 /* CubismModelMatrix.cpp */; };
+		B391CB9D262D2AD700FF48B0 /* CubismViewMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB71262D2AD700FF48B0 /* CubismViewMatrix.cpp */; };
+		B391CB9E262D2AD700FF48B0 /* CubismVector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB73262D2AD700FF48B0 /* CubismVector2.cpp */; };
+		B391CB9F262D2AD700FF48B0 /* CubismTargetPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB74262D2AD700FF48B0 /* CubismTargetPoint.cpp */; };
+		B391CBA0262D2AD700FF48B0 /* CubismMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB76262D2AD700FF48B0 /* CubismMath.cpp */; };
+		B391CBA1262D2AD700FF48B0 /* CubismMatrix44.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B391CB79262D2AD700FF48B0 /* CubismMatrix44.cpp */; };
+		B391CC3D262D545600FF48B0 /* Res.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B391CC28262D545600FF48B0 /* Res.bundle */; };
+		B391CC3E262D545600FF48B0 /* LAppDefine.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC2A262D545600FF48B0 /* LAppDefine.mm */; };
+		B391CC3F262D545600FF48B0 /* LAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC2F262D545600FF48B0 /* LAppViewController.mm */; };
+		B391CC40262D545600FF48B0 /* TouchManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC32262D545600FF48B0 /* TouchManager.mm */; };
+		B391CC41262D545600FF48B0 /* LAppLive2DManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC33262D545600FF48B0 /* LAppLive2DManager.mm */; };
+		B391CC42262D545600FF48B0 /* LAppSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC34262D545600FF48B0 /* LAppSprite.mm */; };
+		B391CC43262D545600FF48B0 /* LAppAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC35262D545600FF48B0 /* LAppAllocator.mm */; };
+		B391CC44262D545600FF48B0 /* LAppTextureManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC39262D545600FF48B0 /* LAppTextureManager.mm */; };
+		B391CC45262D545600FF48B0 /* LAppModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC3B262D545600FF48B0 /* LAppModel.mm */; };
+		B391CC46262D545600FF48B0 /* LAppPal.mm in Sources */ = {isa = PBXBuildFile; fileRef = B391CC3C262D545600FF48B0 /* LAppPal.mm */; };
+		B391CC4F262D65D100FF48B0 /* JLLive2DCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC4D262D65D100FF48B0 /* JLLive2DCacheManager.m */; };
+		B391CC59262D73DA00FF48B0 /* PAirSandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC57262D73DA00FF48B0 /* PAirSandbox.m */; };
+		B391CC85262D75C000FF48B0 /* aeskey.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC60262D75BE00FF48B0 /* aeskey.m */; };
+		B391CC86262D75C000FF48B0 /* hmac.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC62262D75BE00FF48B0 /* hmac.m */; };
+		B391CC87262D75C000FF48B0 /* aescrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC65262D75BE00FF48B0 /* aescrypt.m */; };
+		B391CC88262D75C000FF48B0 /* fileenc.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC66262D75BE00FF48B0 /* fileenc.m */; };
+		B391CC89262D75C000FF48B0 /* sha1.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC69262D75BE00FF48B0 /* sha1.m */; };
+		B391CC8A262D75C000FF48B0 /* prng.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC6F262D75BE00FF48B0 /* prng.m */; };
+		B391CC8B262D75C000FF48B0 /* pwd2key.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC70262D75BE00FF48B0 /* pwd2key.m */; };
+		B391CC8C262D75C000FF48B0 /* aestab.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC71262D75BE00FF48B0 /* aestab.m */; };
+		B391CC8D262D75C000FF48B0 /* entropy.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC74262D75BE00FF48B0 /* entropy.m */; };
+		B391CC8E262D75C000FF48B0 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC78262D75BF00FF48B0 /* SSZipArchive.m */; };
+		B391CC90262D75C000FF48B0 /* unzip.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC7B262D75C000FF48B0 /* unzip.m */; };
+		B391CC91262D75C000FF48B0 /* zip.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC7C262D75C000FF48B0 /* zip.m */; };
+		B391CC92262D75C000FF48B0 /* ioapi.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC7D262D75C000FF48B0 /* ioapi.m */; };
+		B391CC93262D75C000FF48B0 /* mztools.m in Sources */ = {isa = PBXBuildFile; fileRef = B391CC7E262D75C000FF48B0 /* mztools.m */; };
 		B391E2B226280E12002CCC9D /* JLThemeRecommendCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2B126280E12002CCC9D /* JLThemeRecommendCollectionViewCell.m */; };
 		B391E2B826281A74002CCC9D /* JLPopularCollectionWaterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2B726281A74002CCC9D /* JLPopularCollectionWaterLayout.m */; };
 		B391E2BE262833F5002CCC9D /* JLFavorateCollectionWaterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2BD262833F4002CCC9D /* JLFavorateCollectionWaterLayout.m */; };
 		B391E2C426284B1C002CCC9D /* JLCreatorCollectionWaterLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2C326284B1C002CCC9D /* JLCreatorCollectionWaterLayout.m */; };
 		B391E2CB26285DA6002CCC9D /* JLStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2C926285DA5002CCC9D /* JLStepper.m */; };
 		B391E2D42628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B391E2D32628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.m */; };
+		B3946DEC2632C88F00D97430 /* JLArtDetailNamePriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946DEB2632C88F00D97430 /* JLArtDetailNamePriceView.m */; };
+		B3946DF22632C94E00D97430 /* JLArtChainTradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946DF12632C94E00D97430 /* JLArtChainTradeView.m */; };
+		B3946DFB2632CBB100D97430 /* JLArtDetailSellingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946DFA2632CBB100D97430 /* JLArtDetailSellingView.m */; };
+		B3946E042632CDE000D97430 /* JLArtDetailSellingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946E032632CDE000D97430 /* JLArtDetailSellingTableViewCell.m */; };
 		B394A08D2629627400A8DAE4 /* JLHomePageEditHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A08C2629627400A8DAE4 /* JLHomePageEditHeaderView.m */; };
 		B394A0952629752B00A8DAE4 /* JLPageEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A0942629752B00A8DAE4 /* JLPageEmptyView.m */; };
 		B394A09E2629766D00A8DAE4 /* JLPagetableCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A09D2629766D00A8DAE4 /* JLPagetableCollectionView.m */; };
@@ -878,6 +952,10 @@
 		B394A0C02629914700A8DAE4 /* JLSellWithSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A0BF2629914700A8DAE4 /* JLSellWithSplitViewController.m */; };
 		B394A0CA2629AEEE00A8DAE4 /* JLBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A0C92629AEEE00A8DAE4 /* JLBoxViewController.m */; };
 		B394A0D32629B1DE00A8DAE4 /* JLBoxTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A0D22629B1DE00A8DAE4 /* JLBoxTableViewCell.m */; };
+		B394C7E3262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B394C7E2262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m */; };
+		B394C7E9262FC42900EB3254 /* JLBoxOpenPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B394C7E8262FC42900EB3254 /* JLBoxOpenPayViewController.m */; };
+		B394C7EF262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B394C7EE262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m */; };
+		B394C7F5262FD19D00EB3254 /* JLBoxOneCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394C7F4262FD19D00EB3254 /* JLBoxOneCardView.m */; };
 		B394E3E825ECD23800685F8D /* JLMineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3E725ECD23800685F8D /* JLMineModel.m */; };
 		B394E3EE25ECD5A200685F8D /* JLNormalEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3ED25ECD5A200685F8D /* JLNormalEmptyView.m */; };
 		B394E3F425ECED2A00685F8D /* JLCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B394E3F325ECED2A00685F8D /* JLCategoryModel.m */; };
@@ -981,6 +1059,9 @@
 		B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */; };
 		B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */; };
 		B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */; };
+		B3C05AE2263163F9002741B1 /* JLBoxTenCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AE1263163F9002741B1 /* JLBoxTenCardView.m */; };
+		B3C05AE826316B22002741B1 /* JLBoxCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AE726316B22002741B1 /* JLBoxCardView.m */; };
+		B3C05AED263180E1002741B1 /* ProductSellTransferCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AEC263180E1002741B1 /* ProductSellTransferCall.swift */; };
 		B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */; };
 		B3C0ED2825C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2725C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.m */; };
 		B3C0ED2B25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED2A25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m */; };
@@ -2040,7 +2121,7 @@
 		B3890E552619B4A10060EECA /* AuctionBidCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBidCall.swift; sourceTree = "<group>"; };
 		B38A5F6724F34F0A00FA3EF7 /* 云画链.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "云画链.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38A5F6A24F34F0A00FA3EF7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B38A5F7924F34F0B00FA3EF7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B38A5F7B24F34F0C00FA3EF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2146,6 +2227,161 @@
 		B38FD55525CBECD10028797E /* JLAuctionDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionDetailViewController.h; sourceTree = "<group>"; };
 		B38FD55625CBECD10028797E /* JLAuctionDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionDetailViewController.m; sourceTree = "<group>"; };
 		B390AA332616C54D00C72F8C /* JSONScaleListDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONScaleListDecodable.swift; sourceTree = "<group>"; };
+		B391B096262E7CDF00127532 /* JLUploadImageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadImageModel.h; sourceTree = "<group>"; };
+		B391B097262E7CDF00127532 /* JLUploadImageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadImageModel.m; sourceTree = "<group>"; };
+		B391B09C262EB05300127532 /* JLUploadWorkInputWithBorderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadWorkInputWithBorderView.h; sourceTree = "<group>"; };
+		B391B09D262EB05300127532 /* JLUploadWorkInputWithBorderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkInputWithBorderView.m; sourceTree = "<group>"; };
+		B391B0A2262EBC6600127532 /* JLUploadWorkSwitchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadWorkSwitchView.h; sourceTree = "<group>"; };
+		B391B0A3262EBC6600127532 /* JLUploadWorkSwitchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkSwitchView.m; sourceTree = "<group>"; };
+		B391B0AB262EF2E500127532 /* JLBoxDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxDetailViewController.h; sourceTree = "<group>"; };
+		B391B0AC262EF2E500127532 /* JLBoxDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxDetailViewController.m; sourceTree = "<group>"; };
+		B391B0B1262F011200127532 /* JLBoxCardCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxCardCollectionViewCell.h; sourceTree = "<group>"; };
+		B391B0B2262F011200127532 /* JLBoxCardCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxCardCollectionViewCell.m; sourceTree = "<group>"; };
+		B391B0B7262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxDetailCardCollectionWaterLayout.h; sourceTree = "<group>"; };
+		B391B0B8262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxDetailCardCollectionWaterLayout.m; sourceTree = "<group>"; };
+		B391B0C0262F074900127532 /* JLBoxOpenRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxOpenRecordViewController.h; sourceTree = "<group>"; };
+		B391B0C1262F074900127532 /* JLBoxOpenRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxOpenRecordViewController.m; sourceTree = "<group>"; };
+		B391CB20262D2AD500FF48B0 /* ICubismAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ICubismAllocator.hpp; path = SDK/Framework/src/ICubismAllocator.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB21262D2AD500FF48B0 /* CubismCdiJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CubismCdiJson.hpp; path = SDK/Framework/src/CubismCdiJson.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB23262D2AD500FF48B0 /* CubismRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismRenderer.hpp; sourceTree = "<group>"; };
+		B391CB24262D2AD500FF48B0 /* CubismRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismRenderer.cpp; sourceTree = "<group>"; };
+		B391CB26262D2AD500FF48B0 /* CubismOffscreenSurface_OpenGLES2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismOffscreenSurface_OpenGLES2.hpp; sourceTree = "<group>"; };
+		B391CB27262D2AD500FF48B0 /* CubismRenderer_OpenGLES2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismRenderer_OpenGLES2.cpp; sourceTree = "<group>"; };
+		B391CB28262D2AD500FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismOffscreenSurface_OpenGLES2.cpp; sourceTree = "<group>"; };
+		B391CB29262D2AD500FF48B0 /* CubismRenderer_OpenGLES2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismRenderer_OpenGLES2.hpp; sourceTree = "<group>"; };
+		B391CB2B262D2AD500FF48B0 /* CubismModelUserData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismModelUserData.cpp; sourceTree = "<group>"; };
+		B391CB2C262D2AD500FF48B0 /* CubismModelUserDataJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismModelUserDataJson.cpp; sourceTree = "<group>"; };
+		B391CB2D262D2AD500FF48B0 /* CubismUserModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismUserModel.cpp; sourceTree = "<group>"; };
+		B391CB2E262D2AD500FF48B0 /* CubismMoc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMoc.cpp; sourceTree = "<group>"; };
+		B391CB2F262D2AD500FF48B0 /* CubismModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismModel.hpp; sourceTree = "<group>"; };
+		B391CB30262D2AD500FF48B0 /* CubismUserModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismUserModel.hpp; sourceTree = "<group>"; };
+		B391CB31262D2AD500FF48B0 /* CubismMoc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMoc.hpp; sourceTree = "<group>"; };
+		B391CB32262D2AD500FF48B0 /* CubismModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismModel.cpp; sourceTree = "<group>"; };
+		B391CB33262D2AD500FF48B0 /* CubismModelUserData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismModelUserData.hpp; sourceTree = "<group>"; };
+		B391CB34262D2AD500FF48B0 /* CubismModelUserDataJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismModelUserDataJson.hpp; sourceTree = "<group>"; };
+		B391CB35262D2AD500FF48B0 /* CubismFramework.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CubismFramework.hpp; path = SDK/Framework/src/CubismFramework.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB37262D2AD600FF48B0 /* CubismPose.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismPose.cpp; sourceTree = "<group>"; };
+		B391CB38262D2AD600FF48B0 /* CubismEyeBlink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismEyeBlink.cpp; sourceTree = "<group>"; };
+		B391CB39262D2AD600FF48B0 /* CubismBreath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismBreath.cpp; sourceTree = "<group>"; };
+		B391CB3A262D2AD600FF48B0 /* CubismEyeBlink.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismEyeBlink.hpp; sourceTree = "<group>"; };
+		B391CB3B262D2AD600FF48B0 /* CubismBreath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismBreath.hpp; sourceTree = "<group>"; };
+		B391CB3C262D2AD600FF48B0 /* CubismPose.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismPose.hpp; sourceTree = "<group>"; };
+		B391CB3D262D2AD600FF48B0 /* CubismDefaultParameterId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubismDefaultParameterId.cpp; path = SDK/Framework/src/CubismDefaultParameterId.cpp; sourceTree = SOURCE_ROOT; };
+		B391CB3E262D2AD600FF48B0 /* Live2DCubismCore.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Live2DCubismCore.hpp; path = SDK/Framework/src/Live2DCubismCore.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB40262D2AD600FF48B0 /* CubismJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismJson.cpp; sourceTree = "<group>"; };
+		B391CB41262D2AD600FF48B0 /* CubismString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismString.cpp; sourceTree = "<group>"; };
+		B391CB42262D2AD600FF48B0 /* CubismDebug.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismDebug.hpp; sourceTree = "<group>"; };
+		B391CB43262D2AD600FF48B0 /* CubismString.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismString.hpp; sourceTree = "<group>"; };
+		B391CB44262D2AD600FF48B0 /* CubismDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismDebug.cpp; sourceTree = "<group>"; };
+		B391CB45262D2AD600FF48B0 /* CubismJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismJson.hpp; sourceTree = "<group>"; };
+		B391CB46262D2AD600FF48B0 /* CubismCdiJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubismCdiJson.cpp; path = SDK/Framework/src/CubismCdiJson.cpp; sourceTree = SOURCE_ROOT; };
+		B391CB48262D2AD600FF48B0 /* CubismMotionQueueEntry.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotionQueueEntry.hpp; sourceTree = "<group>"; };
+		B391CB49262D2AD600FF48B0 /* CubismMotionQueueManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotionQueueManager.hpp; sourceTree = "<group>"; };
+		B391CB4A262D2AD600FF48B0 /* ACubismMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ACubismMotion.cpp; sourceTree = "<group>"; };
+		B391CB4B262D2AD600FF48B0 /* CubismMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMotion.cpp; sourceTree = "<group>"; };
+		B391CB4C262D2AD600FF48B0 /* CubismMotionManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMotionManager.cpp; sourceTree = "<group>"; };
+		B391CB4D262D2AD600FF48B0 /* CubismExpressionMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismExpressionMotion.hpp; sourceTree = "<group>"; };
+		B391CB4E262D2AD600FF48B0 /* CubismMotionJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotionJson.hpp; sourceTree = "<group>"; };
+		B391CB4F262D2AD600FF48B0 /* CubismMotionQueueManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMotionQueueManager.cpp; sourceTree = "<group>"; };
+		B391CB50262D2AD600FF48B0 /* CubismMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotion.hpp; sourceTree = "<group>"; };
+		B391CB51262D2AD600FF48B0 /* ACubismMotion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ACubismMotion.hpp; sourceTree = "<group>"; };
+		B391CB52262D2AD600FF48B0 /* CubismMotionInternal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotionInternal.hpp; sourceTree = "<group>"; };
+		B391CB53262D2AD600FF48B0 /* CubismMotionManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMotionManager.hpp; sourceTree = "<group>"; };
+		B391CB54262D2AD600FF48B0 /* CubismExpressionMotion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismExpressionMotion.cpp; sourceTree = "<group>"; };
+		B391CB55262D2AD600FF48B0 /* CubismMotionJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMotionJson.cpp; sourceTree = "<group>"; };
+		B391CB56262D2AD600FF48B0 /* CubismMotionQueueEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMotionQueueEntry.cpp; sourceTree = "<group>"; };
+		B391CB57262D2AD600FF48B0 /* CubismModelSettingJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubismModelSettingJson.cpp; path = SDK/Framework/src/CubismModelSettingJson.cpp; sourceTree = SOURCE_ROOT; };
+		B391CB59262D2AD600FF48B0 /* csmRectF.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = csmRectF.hpp; sourceTree = "<group>"; };
+		B391CB5A262D2AD600FF48B0 /* csmString.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = csmString.hpp; sourceTree = "<group>"; };
+		B391CB5B262D2AD600FF48B0 /* CubismBasicType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismBasicType.hpp; sourceTree = "<group>"; };
+		B391CB5C262D2AD600FF48B0 /* csmString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = csmString.cpp; sourceTree = "<group>"; };
+		B391CB5D262D2AD600FF48B0 /* csmVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = csmVector.hpp; sourceTree = "<group>"; };
+		B391CB5E262D2AD600FF48B0 /* csmRectF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = csmRectF.cpp; sourceTree = "<group>"; };
+		B391CB5F262D2AD600FF48B0 /* csmMap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = csmMap.hpp; sourceTree = "<group>"; };
+		B391CB60262D2AD600FF48B0 /* CubismDefaultParameterId.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CubismDefaultParameterId.hpp; path = SDK/Framework/src/CubismDefaultParameterId.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB62262D2AD600FF48B0 /* CubismPhysics.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismPhysics.hpp; sourceTree = "<group>"; };
+		B391CB63262D2AD600FF48B0 /* CubismPhysicsInternal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismPhysicsInternal.hpp; sourceTree = "<group>"; };
+		B391CB64262D2AD600FF48B0 /* CubismPhysicsJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismPhysicsJson.hpp; sourceTree = "<group>"; };
+		B391CB65262D2AD600FF48B0 /* CubismPhysicsJson.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismPhysicsJson.cpp; sourceTree = "<group>"; };
+		B391CB66262D2AD600FF48B0 /* CubismPhysics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismPhysics.cpp; sourceTree = "<group>"; };
+		B391CB67262D2AD600FF48B0 /* ICubismModelSetting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ICubismModelSetting.hpp; path = SDK/Framework/src/ICubismModelSetting.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB69262D2AD600FF48B0 /* CubismIdManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismIdManager.hpp; sourceTree = "<group>"; };
+		B391CB6A262D2AD600FF48B0 /* CubismId.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismId.hpp; sourceTree = "<group>"; };
+		B391CB6B262D2AD600FF48B0 /* CubismIdManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismIdManager.cpp; sourceTree = "<group>"; };
+		B391CB6C262D2AD600FF48B0 /* CubismId.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismId.cpp; sourceTree = "<group>"; };
+		B391CB6D262D2AD600FF48B0 /* CubismFramework.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubismFramework.cpp; path = SDK/Framework/src/CubismFramework.cpp; sourceTree = SOURCE_ROOT; };
+		B391CB6E262D2AD700FF48B0 /* CubismFrameworkConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CubismFrameworkConfig.hpp; path = SDK/Framework/src/CubismFrameworkConfig.hpp; sourceTree = SOURCE_ROOT; };
+		B391CB70262D2AD700FF48B0 /* CubismModelMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismModelMatrix.cpp; sourceTree = "<group>"; };
+		B391CB71262D2AD700FF48B0 /* CubismViewMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismViewMatrix.cpp; sourceTree = "<group>"; };
+		B391CB72262D2AD700FF48B0 /* CubismMath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMath.hpp; sourceTree = "<group>"; };
+		B391CB73262D2AD700FF48B0 /* CubismVector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismVector2.cpp; sourceTree = "<group>"; };
+		B391CB74262D2AD700FF48B0 /* CubismTargetPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismTargetPoint.cpp; sourceTree = "<group>"; };
+		B391CB75262D2AD700FF48B0 /* CubismMatrix44.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismMatrix44.hpp; sourceTree = "<group>"; };
+		B391CB76262D2AD700FF48B0 /* CubismMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMath.cpp; sourceTree = "<group>"; };
+		B391CB77262D2AD700FF48B0 /* CubismTargetPoint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismTargetPoint.hpp; sourceTree = "<group>"; };
+		B391CB78262D2AD700FF48B0 /* CubismVector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismVector2.hpp; sourceTree = "<group>"; };
+		B391CB79262D2AD700FF48B0 /* CubismMatrix44.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CubismMatrix44.cpp; sourceTree = "<group>"; };
+		B391CB7A262D2AD700FF48B0 /* CubismModelMatrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismModelMatrix.hpp; sourceTree = "<group>"; };
+		B391CB7B262D2AD700FF48B0 /* CubismViewMatrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CubismViewMatrix.hpp; sourceTree = "<group>"; };
+		B391CB7C262D2AD700FF48B0 /* CubismModelSettingJson.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CubismModelSettingJson.hpp; path = SDK/Framework/src/CubismModelSettingJson.hpp; sourceTree = SOURCE_ROOT; };
+		B391CC28262D545600FF48B0 /* Res.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Res.bundle; sourceTree = "<group>"; };
+		B391CC2A262D545600FF48B0 /* LAppDefine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppDefine.mm; sourceTree = "<group>"; };
+		B391CC2B262D545600FF48B0 /* LAppPal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppPal.h; sourceTree = "<group>"; };
+		B391CC2C262D545600FF48B0 /* TouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchManager.h; sourceTree = "<group>"; };
+		B391CC2D262D545600FF48B0 /* LAppTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppTextureManager.h; sourceTree = "<group>"; };
+		B391CC2E262D545600FF48B0 /* LAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppViewController.h; sourceTree = "<group>"; };
+		B391CC2F262D545600FF48B0 /* LAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppViewController.mm; sourceTree = "<group>"; };
+		B391CC30262D545600FF48B0 /* LAppSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppSprite.h; sourceTree = "<group>"; };
+		B391CC31262D545600FF48B0 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		B391CC32262D545600FF48B0 /* TouchManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TouchManager.mm; sourceTree = "<group>"; };
+		B391CC33262D545600FF48B0 /* LAppLive2DManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppLive2DManager.mm; sourceTree = "<group>"; };
+		B391CC34262D545600FF48B0 /* LAppSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppSprite.mm; sourceTree = "<group>"; };
+		B391CC35262D545600FF48B0 /* LAppAllocator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppAllocator.mm; sourceTree = "<group>"; };
+		B391CC36262D545600FF48B0 /* LAppLive2DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppLive2DManager.h; sourceTree = "<group>"; };
+		B391CC37262D545600FF48B0 /* LAppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppModel.h; sourceTree = "<group>"; };
+		B391CC38262D545600FF48B0 /* LAppAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppAllocator.h; sourceTree = "<group>"; };
+		B391CC39262D545600FF48B0 /* LAppTextureManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppTextureManager.mm; sourceTree = "<group>"; };
+		B391CC3A262D545600FF48B0 /* LAppDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LAppDefine.h; sourceTree = "<group>"; };
+		B391CC3B262D545600FF48B0 /* LAppModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppModel.mm; sourceTree = "<group>"; };
+		B391CC3C262D545600FF48B0 /* LAppPal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LAppPal.mm; sourceTree = "<group>"; };
+		B391CC4D262D65D100FF48B0 /* JLLive2DCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLLive2DCacheManager.m; sourceTree = "<group>"; };
+		B391CC4E262D65D100FF48B0 /* JLLive2DCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLLive2DCacheManager.h; sourceTree = "<group>"; };
+		B391CC57262D73DA00FF48B0 /* PAirSandbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PAirSandbox.m; sourceTree = "<group>"; };
+		B391CC58262D73DA00FF48B0 /* PAirSandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PAirSandbox.h; sourceTree = "<group>"; };
+		B391CC60262D75BE00FF48B0 /* aeskey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = aeskey.m; sourceTree = "<group>"; };
+		B391CC61262D75BE00FF48B0 /* prng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prng.h; sourceTree = "<group>"; };
+		B391CC62262D75BE00FF48B0 /* hmac.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hmac.m; sourceTree = "<group>"; };
+		B391CC63262D75BE00FF48B0 /* aestab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aestab.h; sourceTree = "<group>"; };
+		B391CC64262D75BE00FF48B0 /* pwd2key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pwd2key.h; sourceTree = "<group>"; };
+		B391CC65262D75BE00FF48B0 /* aescrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = aescrypt.m; sourceTree = "<group>"; };
+		B391CC66262D75BE00FF48B0 /* fileenc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fileenc.m; sourceTree = "<group>"; };
+		B391CC67262D75BE00FF48B0 /* aesopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aesopt.h; sourceTree = "<group>"; };
+		B391CC68262D75BE00FF48B0 /* aes_via_ace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes_via_ace.h; sourceTree = "<group>"; };
+		B391CC69262D75BE00FF48B0 /* sha1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sha1.m; sourceTree = "<group>"; };
+		B391CC6A262D75BE00FF48B0 /* brg_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_types.h; sourceTree = "<group>"; };
+		B391CC6B262D75BE00FF48B0 /* entropy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entropy.h; sourceTree = "<group>"; };
+		B391CC6C262D75BE00FF48B0 /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		B391CC6D262D75BE00FF48B0 /* brg_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_endian.h; sourceTree = "<group>"; };
+		B391CC6E262D75BE00FF48B0 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
+		B391CC6F262D75BE00FF48B0 /* prng.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = prng.m; sourceTree = "<group>"; };
+		B391CC70262D75BE00FF48B0 /* pwd2key.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pwd2key.m; sourceTree = "<group>"; };
+		B391CC71262D75BE00FF48B0 /* aestab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = aestab.m; sourceTree = "<group>"; };
+		B391CC72262D75BE00FF48B0 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		B391CC73262D75BE00FF48B0 /* fileenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileenc.h; sourceTree = "<group>"; };
+		B391CC74262D75BE00FF48B0 /* entropy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = entropy.m; sourceTree = "<group>"; };
+		B391CC75262D75BF00FF48B0 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		B391CC76262D75BF00FF48B0 /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipCommon.h; sourceTree = "<group>"; };
+		B391CC77262D75BF00FF48B0 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		B391CC78262D75BF00FF48B0 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		B391CC7B262D75C000FF48B0 /* unzip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = unzip.m; sourceTree = "<group>"; };
+		B391CC7C262D75C000FF48B0 /* zip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zip.m; sourceTree = "<group>"; };
+		B391CC7D262D75C000FF48B0 /* ioapi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ioapi.m; sourceTree = "<group>"; };
+		B391CC7E262D75C000FF48B0 /* mztools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mztools.m; sourceTree = "<group>"; };
+		B391CC7F262D75C000FF48B0 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		B391CC80262D75C000FF48B0 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		B391CC81262D75C000FF48B0 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		B391CC82262D75C000FF48B0 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		B391CC83262D75C000FF48B0 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
 		B391E2B026280E12002CCC9D /* JLThemeRecommendCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLThemeRecommendCollectionViewCell.h; sourceTree = "<group>"; };
 		B391E2B126280E12002CCC9D /* JLThemeRecommendCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLThemeRecommendCollectionViewCell.m; sourceTree = "<group>"; };
 		B391E2B626281A74002CCC9D /* JLPopularCollectionWaterLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPopularCollectionWaterLayout.h; sourceTree = "<group>"; };
@@ -2158,6 +2394,14 @@
 		B391E2CA26285DA5002CCC9D /* JLStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLStepper.h; sourceTree = "<group>"; };
 		B391E2D22628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLOrderDetailPayMethodTableViewCell.h; sourceTree = "<group>"; };
 		B391E2D32628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailPayMethodTableViewCell.m; sourceTree = "<group>"; };
+		B3946DEA2632C88F00D97430 /* JLArtDetailNamePriceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailNamePriceView.h; sourceTree = "<group>"; };
+		B3946DEB2632C88F00D97430 /* JLArtDetailNamePriceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailNamePriceView.m; sourceTree = "<group>"; };
+		B3946DF02632C94E00D97430 /* JLArtChainTradeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtChainTradeView.h; sourceTree = "<group>"; };
+		B3946DF12632C94E00D97430 /* JLArtChainTradeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtChainTradeView.m; sourceTree = "<group>"; };
+		B3946DF92632CBB100D97430 /* JLArtDetailSellingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailSellingView.h; sourceTree = "<group>"; };
+		B3946DFA2632CBB100D97430 /* JLArtDetailSellingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailSellingView.m; sourceTree = "<group>"; };
+		B3946E022632CDE000D97430 /* JLArtDetailSellingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailSellingTableViewCell.h; sourceTree = "<group>"; };
+		B3946E032632CDE000D97430 /* JLArtDetailSellingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailSellingTableViewCell.m; sourceTree = "<group>"; };
 		B394A08B2629627400A8DAE4 /* JLHomePageEditHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomePageEditHeaderView.h; sourceTree = "<group>"; };
 		B394A08C2629627400A8DAE4 /* JLHomePageEditHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHomePageEditHeaderView.m; sourceTree = "<group>"; };
 		B394A0932629752B00A8DAE4 /* JLPageEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPageEmptyView.h; sourceTree = "<group>"; };
@@ -2178,6 +2422,14 @@
 		B394A0C92629AEEE00A8DAE4 /* JLBoxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxViewController.m; sourceTree = "<group>"; };
 		B394A0D12629B1DE00A8DAE4 /* JLBoxTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxTableViewCell.h; sourceTree = "<group>"; };
 		B394A0D22629B1DE00A8DAE4 /* JLBoxTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxTableViewCell.m; sourceTree = "<group>"; };
+		B394C7E1262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxOpenRecordTableViewCell.h; sourceTree = "<group>"; };
+		B394C7E2262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxOpenRecordTableViewCell.m; sourceTree = "<group>"; };
+		B394C7E7262FC42900EB3254 /* JLBoxOpenPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxOpenPayViewController.h; sourceTree = "<group>"; };
+		B394C7E8262FC42900EB3254 /* JLBoxOpenPayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxOpenPayViewController.m; sourceTree = "<group>"; };
+		B394C7ED262FC53700EB3254 /* JLBoxPayDetailTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxPayDetailTableViewCell.h; sourceTree = "<group>"; };
+		B394C7EE262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxPayDetailTableViewCell.m; sourceTree = "<group>"; };
+		B394C7F3262FD19D00EB3254 /* JLBoxOneCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxOneCardView.h; sourceTree = "<group>"; };
+		B394C7F4262FD19D00EB3254 /* JLBoxOneCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxOneCardView.m; sourceTree = "<group>"; };
 		B394E3E625ECD23800685F8D /* JLMineModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMineModel.h; sourceTree = "<group>"; };
 		B394E3E725ECD23800685F8D /* JLMineModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMineModel.m; sourceTree = "<group>"; };
 		B394E3EC25ECD5A200685F8D /* JLNormalEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNormalEmptyView.h; sourceTree = "<group>"; };
@@ -2385,6 +2637,11 @@
 		B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderViewController.m; sourceTree = "<group>"; };
 		B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSingleSellOrderListCell.h; sourceTree = "<group>"; };
 		B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderListCell.m; sourceTree = "<group>"; };
+		B3C05AE0263163F9002741B1 /* JLBoxTenCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxTenCardView.h; sourceTree = "<group>"; };
+		B3C05AE1263163F9002741B1 /* JLBoxTenCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxTenCardView.m; sourceTree = "<group>"; };
+		B3C05AE626316B22002741B1 /* JLBoxCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxCardView.h; sourceTree = "<group>"; };
+		B3C05AE726316B22002741B1 /* JLBoxCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxCardView.m; sourceTree = "<group>"; };
+		B3C05AEC263180E1002741B1 /* ProductSellTransferCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSellTransferCall.swift; sourceTree = "<group>"; };
 		B3C0ED2325C256DE001B8BCA /* JLExportKeystorePwdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExportKeystorePwdViewController.h; sourceTree = "<group>"; };
 		B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExportKeystorePwdViewController.m; sourceTree = "<group>"; };
 		B3C0ED2625C2AD13001B8BCA /* JLReceiveAddressInputTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLReceiveAddressInputTableViewCell.h; sourceTree = "<group>"; };
@@ -2733,6 +2990,7 @@
 		B31221F525B6B60800562ECA /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				B3C05AEC263180E1002741B1 /* ProductSellTransferCall.swift */,
 				B31221F625B6B60800562ECA /* UnlockChunk.swift */,
 				B31221F725B6B60800562ECA /* CreateSaleOrderCall.swift */,
 				B38E493525F0E36900FA773E /* CancelSaleOrderCall.swift */,
@@ -4244,6 +4502,14 @@
 		B3266F5924FE4446000C6E95 /* ArtDetail */ = {
 			isa = PBXGroup;
 			children = (
+				B3946DF92632CBB100D97430 /* JLArtDetailSellingView.h */,
+				B3946DFA2632CBB100D97430 /* JLArtDetailSellingView.m */,
+				B3946E022632CDE000D97430 /* JLArtDetailSellingTableViewCell.h */,
+				B3946E032632CDE000D97430 /* JLArtDetailSellingTableViewCell.m */,
+				B3946DEA2632C88F00D97430 /* JLArtDetailNamePriceView.h */,
+				B3946DEB2632C88F00D97430 /* JLArtDetailNamePriceView.m */,
+				B3946DF02632C94E00D97430 /* JLArtChainTradeView.h */,
+				B3946DF12632C94E00D97430 /* JLArtChainTradeView.m */,
 				B3266F5A24FE446D000C6E95 /* JLArtDetailView.h */,
 				B3266F5B24FE446D000C6E95 /* JLArtDetailView.m */,
 				B342979425DE5D5D0006BD6E /* JLArtDetailPriceView.h */,
@@ -4835,6 +5101,9 @@
 		B38A5F6924F34F0A00FA3EF7 /* CloudArtChain */ = {
 			isa = PBXGroup;
 			children = (
+				B391CC29262D545600FF48B0 /* Live2DUtils */,
+				B391CC28262D545600FF48B0 /* Res.bundle */,
+				B391CB1F262D2AAA00FF48B0 /* Live2DSDK */,
 				B3AA62D425E4E1CA00D28627 /* 云画链.entitlements */,
 				B31221D825B6B12800562ECA /* JLWallet */,
 				B396552324F38BFC007A8EC2 /* JLBase */,
@@ -4920,6 +5189,8 @@
 		B38BCFF625B82E7100FD37F7 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */,
+				B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */,
 				B3B968B926155FC800347B27 /* JLSinglePurchaseOrderListCell.h */,
 				B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */,
 				B3C0ED3225C2BC1E001B8BCA /* OrderDetail */,
@@ -4929,8 +5200,6 @@
 				B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */,
 				B38BCFF225B8283D00FD37F7 /* JLSellOrderListTableViewCell.h */,
 				B38BCFF325B8283D00FD37F7 /* JLSellOrderListTableViewCell.m */,
-				B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */,
-				B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */,
 				B3890B3125DFB22D00028F78 /* JLLogisticsView.h */,
 				B3890B3225DFB22D00028F78 /* JLLogisticsView.m */,
 			);
@@ -5061,6 +5330,277 @@
 			path = Auction;
 			sourceTree = "<group>";
 		};
+		B391CB1F262D2AAA00FF48B0 /* Live2DSDK */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB46262D2AD600FF48B0 /* CubismCdiJson.cpp */,
+				B391CB21262D2AD500FF48B0 /* CubismCdiJson.hpp */,
+				B391CB3D262D2AD600FF48B0 /* CubismDefaultParameterId.cpp */,
+				B391CB60262D2AD600FF48B0 /* CubismDefaultParameterId.hpp */,
+				B391CB6D262D2AD600FF48B0 /* CubismFramework.cpp */,
+				B391CB35262D2AD500FF48B0 /* CubismFramework.hpp */,
+				B391CB6E262D2AD700FF48B0 /* CubismFrameworkConfig.hpp */,
+				B391CB57262D2AD600FF48B0 /* CubismModelSettingJson.cpp */,
+				B391CB7C262D2AD700FF48B0 /* CubismModelSettingJson.hpp */,
+				B391CB36262D2AD500FF48B0 /* Effect */,
+				B391CB20262D2AD500FF48B0 /* ICubismAllocator.hpp */,
+				B391CB67262D2AD600FF48B0 /* ICubismModelSetting.hpp */,
+				B391CB68262D2AD600FF48B0 /* Id */,
+				B391CB3E262D2AD600FF48B0 /* Live2DCubismCore.hpp */,
+				B391CB6F262D2AD700FF48B0 /* Math */,
+				B391CB2A262D2AD500FF48B0 /* Model */,
+				B391CB47262D2AD600FF48B0 /* Motion */,
+				B391CB61262D2AD600FF48B0 /* Physics */,
+				B391CB22262D2AD500FF48B0 /* Rendering */,
+				B391CB58262D2AD600FF48B0 /* Type */,
+				B391CB3F262D2AD600FF48B0 /* Utils */,
+			);
+			name = Live2DSDK;
+			sourceTree = "<group>";
+		};
+		B391CB22262D2AD500FF48B0 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB23262D2AD500FF48B0 /* CubismRenderer.hpp */,
+				B391CB24262D2AD500FF48B0 /* CubismRenderer.cpp */,
+				B391CB25262D2AD500FF48B0 /* OpenGL */,
+			);
+			name = Rendering;
+			path = SDK/Framework/src/Rendering;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB25262D2AD500FF48B0 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB26262D2AD500FF48B0 /* CubismOffscreenSurface_OpenGLES2.hpp */,
+				B391CB27262D2AD500FF48B0 /* CubismRenderer_OpenGLES2.cpp */,
+				B391CB28262D2AD500FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp */,
+				B391CB29262D2AD500FF48B0 /* CubismRenderer_OpenGLES2.hpp */,
+			);
+			path = OpenGL;
+			sourceTree = "<group>";
+		};
+		B391CB2A262D2AD500FF48B0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB2B262D2AD500FF48B0 /* CubismModelUserData.cpp */,
+				B391CB2C262D2AD500FF48B0 /* CubismModelUserDataJson.cpp */,
+				B391CB2D262D2AD500FF48B0 /* CubismUserModel.cpp */,
+				B391CB2E262D2AD500FF48B0 /* CubismMoc.cpp */,
+				B391CB2F262D2AD500FF48B0 /* CubismModel.hpp */,
+				B391CB30262D2AD500FF48B0 /* CubismUserModel.hpp */,
+				B391CB31262D2AD500FF48B0 /* CubismMoc.hpp */,
+				B391CB32262D2AD500FF48B0 /* CubismModel.cpp */,
+				B391CB33262D2AD500FF48B0 /* CubismModelUserData.hpp */,
+				B391CB34262D2AD500FF48B0 /* CubismModelUserDataJson.hpp */,
+			);
+			name = Model;
+			path = SDK/Framework/src/Model;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB36262D2AD500FF48B0 /* Effect */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB37262D2AD600FF48B0 /* CubismPose.cpp */,
+				B391CB38262D2AD600FF48B0 /* CubismEyeBlink.cpp */,
+				B391CB39262D2AD600FF48B0 /* CubismBreath.cpp */,
+				B391CB3A262D2AD600FF48B0 /* CubismEyeBlink.hpp */,
+				B391CB3B262D2AD600FF48B0 /* CubismBreath.hpp */,
+				B391CB3C262D2AD600FF48B0 /* CubismPose.hpp */,
+			);
+			name = Effect;
+			path = SDK/Framework/src/Effect;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB3F262D2AD600FF48B0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB40262D2AD600FF48B0 /* CubismJson.cpp */,
+				B391CB41262D2AD600FF48B0 /* CubismString.cpp */,
+				B391CB42262D2AD600FF48B0 /* CubismDebug.hpp */,
+				B391CB43262D2AD600FF48B0 /* CubismString.hpp */,
+				B391CB44262D2AD600FF48B0 /* CubismDebug.cpp */,
+				B391CB45262D2AD600FF48B0 /* CubismJson.hpp */,
+			);
+			name = Utils;
+			path = SDK/Framework/src/Utils;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB47262D2AD600FF48B0 /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB48262D2AD600FF48B0 /* CubismMotionQueueEntry.hpp */,
+				B391CB49262D2AD600FF48B0 /* CubismMotionQueueManager.hpp */,
+				B391CB4A262D2AD600FF48B0 /* ACubismMotion.cpp */,
+				B391CB4B262D2AD600FF48B0 /* CubismMotion.cpp */,
+				B391CB4C262D2AD600FF48B0 /* CubismMotionManager.cpp */,
+				B391CB4D262D2AD600FF48B0 /* CubismExpressionMotion.hpp */,
+				B391CB4E262D2AD600FF48B0 /* CubismMotionJson.hpp */,
+				B391CB4F262D2AD600FF48B0 /* CubismMotionQueueManager.cpp */,
+				B391CB50262D2AD600FF48B0 /* CubismMotion.hpp */,
+				B391CB51262D2AD600FF48B0 /* ACubismMotion.hpp */,
+				B391CB52262D2AD600FF48B0 /* CubismMotionInternal.hpp */,
+				B391CB53262D2AD600FF48B0 /* CubismMotionManager.hpp */,
+				B391CB54262D2AD600FF48B0 /* CubismExpressionMotion.cpp */,
+				B391CB55262D2AD600FF48B0 /* CubismMotionJson.cpp */,
+				B391CB56262D2AD600FF48B0 /* CubismMotionQueueEntry.cpp */,
+			);
+			name = Motion;
+			path = SDK/Framework/src/Motion;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB58262D2AD600FF48B0 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB59262D2AD600FF48B0 /* csmRectF.hpp */,
+				B391CB5A262D2AD600FF48B0 /* csmString.hpp */,
+				B391CB5B262D2AD600FF48B0 /* CubismBasicType.hpp */,
+				B391CB5C262D2AD600FF48B0 /* csmString.cpp */,
+				B391CB5D262D2AD600FF48B0 /* csmVector.hpp */,
+				B391CB5E262D2AD600FF48B0 /* csmRectF.cpp */,
+				B391CB5F262D2AD600FF48B0 /* csmMap.hpp */,
+			);
+			name = Type;
+			path = SDK/Framework/src/Type;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB61262D2AD600FF48B0 /* Physics */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB62262D2AD600FF48B0 /* CubismPhysics.hpp */,
+				B391CB63262D2AD600FF48B0 /* CubismPhysicsInternal.hpp */,
+				B391CB64262D2AD600FF48B0 /* CubismPhysicsJson.hpp */,
+				B391CB65262D2AD600FF48B0 /* CubismPhysicsJson.cpp */,
+				B391CB66262D2AD600FF48B0 /* CubismPhysics.cpp */,
+			);
+			name = Physics;
+			path = SDK/Framework/src/Physics;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB68262D2AD600FF48B0 /* Id */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB69262D2AD600FF48B0 /* CubismIdManager.hpp */,
+				B391CB6A262D2AD600FF48B0 /* CubismId.hpp */,
+				B391CB6B262D2AD600FF48B0 /* CubismIdManager.cpp */,
+				B391CB6C262D2AD600FF48B0 /* CubismId.cpp */,
+			);
+			name = Id;
+			path = SDK/Framework/src/Id;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CB6F262D2AD700FF48B0 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				B391CB70262D2AD700FF48B0 /* CubismModelMatrix.cpp */,
+				B391CB71262D2AD700FF48B0 /* CubismViewMatrix.cpp */,
+				B391CB72262D2AD700FF48B0 /* CubismMath.hpp */,
+				B391CB73262D2AD700FF48B0 /* CubismVector2.cpp */,
+				B391CB74262D2AD700FF48B0 /* CubismTargetPoint.cpp */,
+				B391CB75262D2AD700FF48B0 /* CubismMatrix44.hpp */,
+				B391CB76262D2AD700FF48B0 /* CubismMath.cpp */,
+				B391CB77262D2AD700FF48B0 /* CubismTargetPoint.hpp */,
+				B391CB78262D2AD700FF48B0 /* CubismVector2.hpp */,
+				B391CB79262D2AD700FF48B0 /* CubismMatrix44.cpp */,
+				B391CB7A262D2AD700FF48B0 /* CubismModelMatrix.hpp */,
+				B391CB7B262D2AD700FF48B0 /* CubismViewMatrix.hpp */,
+			);
+			name = Math;
+			path = SDK/Framework/src/Math;
+			sourceTree = SOURCE_ROOT;
+		};
+		B391CC29262D545600FF48B0 /* Live2DUtils */ = {
+			isa = PBXGroup;
+			children = (
+				B391CC38262D545600FF48B0 /* LAppAllocator.h */,
+				B391CC35262D545600FF48B0 /* LAppAllocator.mm */,
+				B391CC3A262D545600FF48B0 /* LAppDefine.h */,
+				B391CC2A262D545600FF48B0 /* LAppDefine.mm */,
+				B391CC36262D545600FF48B0 /* LAppLive2DManager.h */,
+				B391CC33262D545600FF48B0 /* LAppLive2DManager.mm */,
+				B391CC37262D545600FF48B0 /* LAppModel.h */,
+				B391CC3B262D545600FF48B0 /* LAppModel.mm */,
+				B391CC2B262D545600FF48B0 /* LAppPal.h */,
+				B391CC3C262D545600FF48B0 /* LAppPal.mm */,
+				B391CC30262D545600FF48B0 /* LAppSprite.h */,
+				B391CC34262D545600FF48B0 /* LAppSprite.mm */,
+				B391CC2D262D545600FF48B0 /* LAppTextureManager.h */,
+				B391CC39262D545600FF48B0 /* LAppTextureManager.mm */,
+				B391CC2E262D545600FF48B0 /* LAppViewController.h */,
+				B391CC2F262D545600FF48B0 /* LAppViewController.mm */,
+				B391CC31262D545600FF48B0 /* stb_image.h */,
+				B391CC2C262D545600FF48B0 /* TouchManager.h */,
+				B391CC32262D545600FF48B0 /* TouchManager.mm */,
+			);
+			path = Live2DUtils;
+			sourceTree = "<group>";
+		};
+		B391CC56262D73DA00FF48B0 /* AirSandbox */ = {
+			isa = PBXGroup;
+			children = (
+				B391CC57262D73DA00FF48B0 /* PAirSandbox.m */,
+				B391CC58262D73DA00FF48B0 /* PAirSandbox.h */,
+			);
+			path = AirSandbox;
+			sourceTree = "<group>";
+		};
+		B391CC5D262D75B100FF48B0 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				B391CC5F262D75BE00FF48B0 /* aes */,
+				B391CC7A262D75C000FF48B0 /* minizip */,
+				B391CC77262D75BF00FF48B0 /* SSZipArchive.h */,
+				B391CC78262D75BF00FF48B0 /* SSZipArchive.m */,
+				B391CC76262D75BF00FF48B0 /* SSZipCommon.h */,
+				B391CC75262D75BF00FF48B0 /* ZipArchive.h */,
+			);
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		B391CC5F262D75BE00FF48B0 /* aes */ = {
+			isa = PBXGroup;
+			children = (
+				B391CC60262D75BE00FF48B0 /* aeskey.m */,
+				B391CC61262D75BE00FF48B0 /* prng.h */,
+				B391CC62262D75BE00FF48B0 /* hmac.m */,
+				B391CC63262D75BE00FF48B0 /* aestab.h */,
+				B391CC64262D75BE00FF48B0 /* pwd2key.h */,
+				B391CC65262D75BE00FF48B0 /* aescrypt.m */,
+				B391CC66262D75BE00FF48B0 /* fileenc.m */,
+				B391CC67262D75BE00FF48B0 /* aesopt.h */,
+				B391CC68262D75BE00FF48B0 /* aes_via_ace.h */,
+				B391CC69262D75BE00FF48B0 /* sha1.m */,
+				B391CC6A262D75BE00FF48B0 /* brg_types.h */,
+				B391CC6B262D75BE00FF48B0 /* entropy.h */,
+				B391CC6C262D75BE00FF48B0 /* hmac.h */,
+				B391CC6D262D75BE00FF48B0 /* brg_endian.h */,
+				B391CC6E262D75BE00FF48B0 /* aes.h */,
+				B391CC6F262D75BE00FF48B0 /* prng.m */,
+				B391CC70262D75BE00FF48B0 /* pwd2key.m */,
+				B391CC71262D75BE00FF48B0 /* aestab.m */,
+				B391CC72262D75BE00FF48B0 /* sha1.h */,
+				B391CC73262D75BE00FF48B0 /* fileenc.h */,
+				B391CC74262D75BE00FF48B0 /* entropy.m */,
+			);
+			path = aes;
+			sourceTree = "<group>";
+		};
+		B391CC7A262D75C000FF48B0 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				B391CC7B262D75C000FF48B0 /* unzip.m */,
+				B391CC7C262D75C000FF48B0 /* zip.m */,
+				B391CC7D262D75C000FF48B0 /* ioapi.m */,
+				B391CC7E262D75C000FF48B0 /* mztools.m */,
+				B391CC7F262D75C000FF48B0 /* crypt.h */,
+				B391CC80262D75C000FF48B0 /* zip.h */,
+				B391CC81262D75C000FF48B0 /* unzip.h */,
+				B391CC82262D75C000FF48B0 /* mztools.h */,
+				B391CC83262D75C000FF48B0 /* ioapi.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
 		B391E2C826285DA5002CCC9D /* JLStepper */ = {
 			isa = PBXGroup;
 			children = (
@@ -5107,6 +5647,12 @@
 			children = (
 				B394A0C82629AEEE00A8DAE4 /* JLBoxViewController.h */,
 				B394A0C92629AEEE00A8DAE4 /* JLBoxViewController.m */,
+				B391B0AB262EF2E500127532 /* JLBoxDetailViewController.h */,
+				B391B0AC262EF2E500127532 /* JLBoxDetailViewController.m */,
+				B391B0C0262F074900127532 /* JLBoxOpenRecordViewController.h */,
+				B391B0C1262F074900127532 /* JLBoxOpenRecordViewController.m */,
+				B394C7E7262FC42900EB3254 /* JLBoxOpenPayViewController.h */,
+				B394C7E8262FC42900EB3254 /* JLBoxOpenPayViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -5116,6 +5662,18 @@
 			children = (
 				B394A0D12629B1DE00A8DAE4 /* JLBoxTableViewCell.h */,
 				B394A0D22629B1DE00A8DAE4 /* JLBoxTableViewCell.m */,
+				B391B0B1262F011200127532 /* JLBoxCardCollectionViewCell.h */,
+				B391B0B2262F011200127532 /* JLBoxCardCollectionViewCell.m */,
+				B394C7E1262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.h */,
+				B394C7E2262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m */,
+				B394C7ED262FC53700EB3254 /* JLBoxPayDetailTableViewCell.h */,
+				B394C7EE262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m */,
+				B394C7F3262FD19D00EB3254 /* JLBoxOneCardView.h */,
+				B394C7F4262FD19D00EB3254 /* JLBoxOneCardView.m */,
+				B3C05AE0263163F9002741B1 /* JLBoxTenCardView.h */,
+				B3C05AE1263163F9002741B1 /* JLBoxTenCardView.m */,
+				B3C05AE626316B22002741B1 /* JLBoxCardView.h */,
+				B3C05AE726316B22002741B1 /* JLBoxCardView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5132,7 +5690,7 @@
 			children = (
 				B370C81024F6305100A2D699 /* CloudArtChain-Bridging-Header.h */,
 				B38A5F6A24F34F0A00FA3EF7 /* AppDelegate.h */,
-				B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.m */,
+				B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.mm */,
 				B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */,
 				B38A5F7824F34F0B00FA3EF7 /* LaunchScreen.storyboard */,
 				B38A5F7B24F34F0C00FA3EF7 /* Info.plist */,
@@ -5181,6 +5739,8 @@
 		B396552324F38BFC007A8EC2 /* JLBase */ = {
 			isa = PBXGroup;
 			children = (
+				B391B0B7262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.h */,
+				B391B0B8262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m */,
 				B37FFB6324F4FB49004B9CC8 /* UICollectionWaterLayout.h */,
 				B37FFB6424F4FB49004B9CC8 /* UICollectionWaterLayout.m */,
 				B391E2B626281A74002CCC9D /* JLPopularCollectionWaterLayout.h */,
@@ -5224,6 +5784,8 @@
 		B396553424F38D6C007A8EC2 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				B391CC4E262D65D100FF48B0 /* JLLive2DCacheManager.h */,
+				B391CC4D262D65D100FF48B0 /* JLLive2DCacheManager.m */,
 				B396553624F38D6C007A8EC2 /* ErrorBody.h */,
 				B396553A24F38D6C007A8EC2 /* ErrorBody.m */,
 				B396553824F38D6C007A8EC2 /* ErrorHead.h */,
@@ -5242,6 +5804,8 @@
 		B396554424F38DBA007A8EC2 /* Vendes */ = {
 			isa = PBXGroup;
 			children = (
+				B391CC5D262D75B100FF48B0 /* SSZipArchive */,
+				B391CC56262D73DA00FF48B0 /* AirSandbox */,
 				B3AA62CE25E4DD0200D28627 /* GtSdkLib-noidfa */,
 				B3AA62AD25E49B1D00D28627 /* STPickerAddress */,
 				B38D7E4F25E11C3100E9978E /* WMPhotoBrowser */,
@@ -5646,6 +6210,8 @@
 				B38BCFE125B81B9300FD37F7 /* JLPurchaseOrderDefines.h */,
 				B394E3E625ECD23800685F8D /* JLMineModel.h */,
 				B394E3E725ECD23800685F8D /* JLMineModel.m */,
+				B391B096262E7CDF00127532 /* JLUploadImageModel.h */,
+				B391B097262E7CDF00127532 /* JLUploadImageModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5774,8 +6340,12 @@
 				B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */,
 				B37B85F925148D2F00E43B36 /* JLUploadWorkInputView.h */,
 				B37B85FA25148D2F00E43B36 /* JLUploadWorkInputView.m */,
+				B391B09C262EB05300127532 /* JLUploadWorkInputWithBorderView.h */,
+				B391B09D262EB05300127532 /* JLUploadWorkInputWithBorderView.m */,
 				B37B85FC25148D3E00E43B36 /* JLUploadWorkSelectView.h */,
 				B37B85FD25148D3E00E43B36 /* JLUploadWorkSelectView.m */,
+				B391B0A2262EBC6600127532 /* JLUploadWorkSwitchView.h */,
+				B391B0A3262EBC6600127532 /* JLUploadWorkSwitchView.m */,
 				B37B85FF25148D5600E43B36 /* JLUploadWorkMultiInputView.h */,
 				B37B860025148D5600E43B36 /* JLUploadWorkMultiInputView.m */,
 				B37B860225149B9500E43B36 /* JLUploadWorkDescriptionView.h */,
@@ -6010,6 +6580,7 @@
 				B31226D725B6B60B00562ECA /* AccountManagementViewController.xib in Resources */,
 				B366C7F625524FFC007F9583 /* hVideo_take@2x.png in Resources */,
 				B35EBA1D24FF67F100F5BF84 /* scan_back@2x.png in Resources */,
+				B391CC3D262D545600FF48B0 /* Res.bundle in Resources */,
 				B312266525B6B60A00562ECA /* WalletAssetCell.xib in Resources */,
 				B312261725B6B60A00562ECA /* ProfileSectionTableViewCell.xib in Resources */,
 				B31225D125B6B60A00562ECA /* UsernameSetupViewController.xib in Resources */,
@@ -6190,11 +6761,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B391CC45262D545600FF48B0 /* LAppModel.mm in Sources */,
 				B312252D25B6B60A00562ECA /* ExportOption.swift in Sources */,
 				B31225C525B6B60A00562ECA /* NetworkManagementWireframe.swift in Sources */,
 				B312252525B6B60A00562ECA /* ChainStorageItem.swift in Sources */,
 				B312257125B6B60A00562ECA /* SelectionListProtocols.swift in Sources */,
 				B342979C25DE67F60006BD6E /* JLAuctionOfferRecordView.m in Sources */,
+				B391CC3F262D545600FF48B0 /* LAppViewController.mm in Sources */,
 				B31225D925B6B60A00562ECA /* AccountCreateViewController.swift in Sources */,
 				B396566824F3B08A007A8EC2 /* JLHudActivityView.m in Sources */,
 				B31224C025B6B60900562ECA /* TriangularedButton+Style.swift in Sources */,
@@ -6203,11 +6776,13 @@
 				B3E98E2225020BD4004AABD2 /* JLImportWalletPrivateKeyView.m in Sources */,
 				B38E912825B95AB100174AAC /* JLBackupNoticeProtocols.swift in Sources */,
 				B312263125B6B60A00562ECA /* WalletStaticImageViewModel.swift in Sources */,
+				B391CB84262D2AD700FF48B0 /* CubismModel.cpp in Sources */,
 				B359360D2511B0B000E2B2FD /* IQActionSheetTitleBarButtonItem.m in Sources */,
 				B394A0CA2629AEEE00A8DAE4 /* JLBoxViewController.m in Sources */,
 				B31226B125B6B60B00562ECA /* AccountExportPasswordViewController.swift in Sources */,
 				B37FFB6B24F507D4004B9CC8 /* JLCateFilterView.m in Sources */,
 				B312268025B6B60A00562ECA /* WalletTransferTokenView.swift in Sources */,
+				B391CB7E262D2AD700FF48B0 /* CubismRenderer_OpenGLES2.cpp in Sources */,
 				B31225FA25B6B60A00562ECA /* AddMainWireframe.swift in Sources */,
 				B312251225B6B60A00562ECA /* RootControllerAnimationCoordinator.swift in Sources */,
 				B37B860125148D5600E43B36 /* JLUploadWorkMultiInputView.m in Sources */,
@@ -6215,6 +6790,7 @@
 				B312255425B6B60A00562ECA /* AlignableContentControl.swift in Sources */,
 				B312258825B6B60A00562ECA /* AmountFormatterFactory.swift in Sources */,
 				B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */,
+				B391CB93262D2AD700FF48B0 /* CubismMotionQueueEntry.cpp in Sources */,
 				B394E3FA25ECF37C00685F8D /* UIImage+ImgSize.m in Sources */,
 				B31224C625B6B60900562ECA /* UIImage+Drawing.swift in Sources */,
 				B312264325B6B60A00562ECA /* TransactionDetailsFormViewModelBinder.swift in Sources */,
@@ -6223,6 +6799,7 @@
 				B35E1E4A2518494B002F7CEE /* JLAuctionSectionView.m in Sources */,
 				B312257225B6B60A00562ECA /* SelectionListViewController.swift in Sources */,
 				B312253025B6B60A00562ECA /* EmptyAccountIcon.swift in Sources */,
+				B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */,
 				B31225CF25B6B60A00562ECA /* UsernameSetupWireframe.swift in Sources */,
 				B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */,
 				B39655C224F38DBA007A8EC2 /* NSDate+LZFormat.m in Sources */,
@@ -6259,6 +6836,7 @@
 				B3753DC42554F598003A86CF /* SLAvWriterInput.m in Sources */,
 				B38FD54925CBA22D0028797E /* JLFocusViewController.m in Sources */,
 				B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */,
+				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
 				B31225B525B6B60A00562ECA /* LocalAuthInteractor.swift in Sources */,
 				B31224D925B6B60900562ECA /* CDAccountItem+CoreDataDecodable.swift in Sources */,
@@ -6267,6 +6845,7 @@
 				B31224D125B6B60900562ECA /* NSPredicate+Validation.swift in Sources */,
 				B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */,
 				B38D7CC225E0F75F00E9978E /* JLSelectControl.swift in Sources */,
+				B391CC85262D75C000FF48B0 /* aeskey.m in Sources */,
 				B39655E324F38DBA007A8EC2 /* MBProgressHUD.m in Sources */,
 				B366C7F025524D29007F9583 /* HAVPlayer.m in Sources */,
 				B396552F24F38D18007A8EC2 /* JLBaseTextField.m in Sources */,
@@ -6284,6 +6863,7 @@
 				B359362C2511E62000E2B2FD /* JLLoginUtil.m in Sources */,
 				B31225B825B6B60A00562ECA /* LanguageSelectionProtocols.swift in Sources */,
 				B36361A1250082E30039DF48 /* JLApplyCertMechanismSignCell.m in Sources */,
+				B3C05AE826316B22002741B1 /* JLBoxCardView.m in Sources */,
 				B31224CC25B6B60900562ECA /* NumberFormatter.swift in Sources */,
 				B31226C925B6B60B00562ECA /* ExportRestoreJsonPresenter.swift in Sources */,
 				B312259B25B6B60A00562ECA /* BaseStorageChildSubscription.swift in Sources */,
@@ -6297,6 +6877,7 @@
 				B312265025B6B60A00562ECA /* ReceiveConfigurator.swift in Sources */,
 				B312253E25B6B60A00562ECA /* ScrollableContainerView.swift in Sources */,
 				B396561424F38DF4007A8EC2 /* UIButton+AxcButtonContentLayout.m in Sources */,
+				B391CC91262D75C000FF48B0 /* zip.m in Sources */,
 				B31224D625B6B60900562ECA /* CDContactItem+CoreDataDecodable.swift in Sources */,
 				B31226B625B6B60B00562ECA /* AccountExportPasswordError.swift in Sources */,
 				B31225B925B6B60A00562ECA /* LanguageSelectionPresenter.swift in Sources */,
@@ -6317,6 +6898,7 @@
 				B394E40025ECF39C00685F8D /* JLImageSizeCacheDefaults.m in Sources */,
 				B31224B225B6B60900562ECA /* UnlockChunk.swift in Sources */,
 				B3753DB72554F573003A86CF /* UIView+SLImage.m in Sources */,
+				B391CB95262D2AD700FF48B0 /* csmString.cpp in Sources */,
 				B312255A25B6B60A00562ECA /* PurchaseAggregator+Default.swift in Sources */,
 				B396561024F38DF4007A8EC2 /* UIViewController+JLVCPath.m in Sources */,
 				B3890B2A25DF996700028F78 /* JLDotView.m in Sources */,
@@ -6325,17 +6907,20 @@
 				B31226AD25B6B60B00562ECA /* ExportSeedPresenter.swift in Sources */,
 				B38D7E5725E11C3100E9978E /* UIView+WMFrame.m in Sources */,
 				B3753DC62554F598003A86CF /* SLAvCaptureTool.m in Sources */,
-				B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.m in Sources */,
+				B3946DEC2632C88F00D97430 /* JLArtDetailNamePriceView.m in Sources */,
+				B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.mm in Sources */,
 				B3983F8A25DE3F200068084D /* JLAuctionArtDetailViewController.m in Sources */,
 				B31225FC25B6B60A00562ECA /* AddUsernameWireframe.swift in Sources */,
 				B396554324F38D6D007A8EC2 /* JLModelInterface.m in Sources */,
 				B312263F25B6B60A00562ECA /* TransferHeaderViewModelFactory.swift in Sources */,
 				B39BEAD12513644300DE69A6 /* JLUploadWorkViewController.m in Sources */,
 				B312257525B6B60A00562ECA /* SelectionItemViewProtocol.swift in Sources */,
+				B391CC88262D75C000FF48B0 /* fileenc.m in Sources */,
 				B312260425B6B60A00562ECA /* OnboardingMainViewFactory.swift in Sources */,
 				B31224BD25B6B60900562ECA /* KeystoreExtensions.swift in Sources */,
 				B312250925B6B60A00562ECA /* WebSocketEngine.swift in Sources */,
 				B31225E925B6B60A00562ECA /* AccountImportJsonFactory.swift in Sources */,
+				B391CC41262D545600FF48B0 /* LAppLive2DManager.mm in Sources */,
 				B312261925B6B60A00562ECA /* ProfileSectionTableViewCell.swift in Sources */,
 				B358599B2513082F003BA185 /* JLBindPhoneViewController.m in Sources */,
 				B312253125B6B60A00562ECA /* SubstrateAccountId.swift in Sources */,
@@ -6355,6 +6940,7 @@
 				B31224E325B6B60900562ECA /* Chain+Info.swift in Sources */,
 				B312256825B6B60A00562ECA /* ModalPickerCellProtocol.swift in Sources */,
 				B325335E25514D9600877FD0 /* JLImageRectClipViewController.m in Sources */,
+				B391CB9F262D2AD700FF48B0 /* CubismTargetPoint.cpp in Sources */,
 				B31224B425B6B60900562ECA /* AccountId.swift in Sources */,
 				B31226D125B6B60B00562ECA /* AccountManagementProtocols.swift in Sources */,
 				B312267825B6B60A00562ECA /* WalletCompoundDetailsViewModel.swift in Sources */,
@@ -6369,6 +6955,7 @@
 				B396561324F38DF4007A8EC2 /* NSAttributedString+replace.m in Sources */,
 				B31224B625B6B60900562ECA /* TransferCall.swift in Sources */,
 				B31226A625B6B60B00562ECA /* AccountConfirmWireframe.swift in Sources */,
+				B391CB7D262D2AD700FF48B0 /* CubismRenderer.cpp in Sources */,
 				B31226D225B6B60B00562ECA /* AccountManagementPresenter.swift in Sources */,
 				B35936252511E45000E2B2FD /* JLLoginRegisterViewController.m in Sources */,
 				B312257D25B6B60A00562ECA /* StatusPresentable.swift in Sources */,
@@ -6385,6 +6972,7 @@
 				B312267B25B6B60A00562ECA /* WalletFearlessDefinitionFactory.swift in Sources */,
 				B31225D325B6B60A00562ECA /* UsernameSetupViewFactory.swift in Sources */,
 				B37FFB6224F4E9AD004B9CC8 /* JLSearchHIstoryTableViewCell.m in Sources */,
+				B391CB89262D2AD700FF48B0 /* CubismJson.cpp in Sources */,
 				B312250825B6B60A00562ECA /* WebSocketEngine+Delegate.swift in Sources */,
 				B312267225B6B60A00562ECA /* TransactionHistoryContext.swift in Sources */,
 				B31224EF25B6B60900562ECA /* SearchData+Contacts.swift in Sources */,
@@ -6416,7 +7004,10 @@
 				5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */,
 				B396554224F38D6D007A8EC2 /* ErrorHead.m in Sources */,
 				B31226D925B6B60B00562ECA /* MainTabBarPresenter.swift in Sources */,
+				B3946E042632CDE000D97430 /* JLArtDetailSellingTableViewCell.m in Sources */,
 				B31225E725B6B60A00562ECA /* AccountImportMetadata.swift in Sources */,
+				B391CB81262D2AD700FF48B0 /* CubismModelUserDataJson.cpp in Sources */,
+				B391CC8E262D75C000FF48B0 /* SSZipArchive.m in Sources */,
 				B39655C324F38DBA007A8EC2 /* LZAddressPickerView.m in Sources */,
 				B38C0BA42501DDEB006197E5 /* JLEditWalletCell.m in Sources */,
 				B312263525B6B60A00562ECA /* ContactsConfigurator.swift in Sources */,
@@ -6437,6 +7028,7 @@
 				B31224C925B6B60900562ECA /* LocalizationManager+Shared.swift in Sources */,
 				B39655C424F38DBA007A8EC2 /* LZTimePickerView.m in Sources */,
 				B363619E250082C20039DF48 /* JLApplyCertSelfSignCell.m in Sources */,
+				B391CB94262D2AD700FF48B0 /* CubismModelSettingJson.cpp in Sources */,
 				B312250F25B6B60A00562ECA /* WalletContactOperationFactory.swift in Sources */,
 				B370C81624F6316A00A2D699 /* JLHomePageViewController.m in Sources */,
 				B31224D025B6B60900562ECA /* DateFormatter.swift in Sources */,
@@ -6445,6 +7037,7 @@
 				B3983F8D25DE445A0068084D /* JLActionOfferView.m in Sources */,
 				B31224E625B6B60900562ECA /* SNAddressType+Chain.swift in Sources */,
 				B312259425B6B60A00562ECA /* WebSocketService.swift in Sources */,
+				B391CC93262D75C000FF48B0 /* mztools.m in Sources */,
 				B37FFB4624F4A56D004B9CC8 /* NewPagedFlowView.m in Sources */,
 				B35EBA0624FF2F4500F5BF84 /* JLArtEvaluateView.m in Sources */,
 				B31225DD25B6B60A00562ECA /* AccountCreationError.swift in Sources */,
@@ -6454,6 +7047,7 @@
 				B312254C25B6B60A00562ECA /* SubtitleContentView.swift in Sources */,
 				B325CD1F24FF98E800F931A2 /* JLChainQuerySignTableViewCell.m in Sources */,
 				B312263725B6B60A00562ECA /* ContactTableViewCell.swift in Sources */,
+				B391CB7F262D2AD700FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp in Sources */,
 				B31224A525B6B60900562ECA /* SelectedConnectionChanged.swift in Sources */,
 				B312267A25B6B60A00562ECA /* WalletSingleActionAccessoryView.swift in Sources */,
 				B39BEAC4251332F900DE69A6 /* JLAuthenticationView.m in Sources */,
@@ -6468,15 +7062,21 @@
 				B31226B825B6B60B00562ECA /* AccountExportPasswordPresenter.swift in Sources */,
 				B31225C125B6B60A00562ECA /* NetworkManagementViewFactory.swift in Sources */,
 				B312265725B6B60A00562ECA /* TransferConfirmAccessoryViewFactory.swift in Sources */,
+				B391CB8F262D2AD700FF48B0 /* CubismMotionManager.cpp in Sources */,
 				B31225E025B6B60A00562ECA /* AccountImportWireframe.swift in Sources */,
 				B31225DF25B6B60A00562ECA /* MnemonicDisplayView.swift in Sources */,
 				B31225A625B6B60A00562ECA /* FearlessLoadingViewPresenter.swift in Sources */,
+				B3946DFB2632CBB100D97430 /* JLArtDetailSellingView.m in Sources */,
+				B3946DF22632C94E00D97430 /* JLArtChainTradeView.m in Sources */,
 				B312254225B6B60A00562ECA /* MultilineImageWithTitleView.swift in Sources */,
 				B31224A125B6B60900562ECA /* SelectableViewModel.swift in Sources */,
 				B3266F5224FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.m in Sources */,
 				B312252F25B6B60A00562ECA /* ManagedAccountItem.swift in Sources */,
+				B391CB90262D2AD700FF48B0 /* CubismMotionQueueManager.cpp in Sources */,
 				B312268A25B6B60A00562ECA /* AssetDetailsView.swift in Sources */,
 				B31226BB25B6B60B00562ECA /* ExportMnemonicConfirmInteractor.swift in Sources */,
+				B391CC87262D75C000FF48B0 /* aescrypt.m in Sources */,
+				B391CB80262D2AD700FF48B0 /* CubismModelUserData.cpp in Sources */,
 				B31226D825B6B60B00562ECA /* MainTabBarProtocol.swift in Sources */,
 				B31225AB25B6B60A00562ECA /* PinSetupWireframe.swift in Sources */,
 				B31224C325B6B60900562ECA /* PolkadotIcon+Image.swift in Sources */,
@@ -6493,6 +7093,7 @@
 				B3266F5824FE3B2E000C6E95 /* UITabBar+JLTool.m in Sources */,
 				B312254F25B6B60A00562ECA /* SubtitleActionControl.swift in Sources */,
 				B312265925B6B60A00562ECA /* WalletAssetViewModelFactory.swift in Sources */,
+				B391B098262E7CDF00127532 /* JLUploadImageModel.m in Sources */,
 				B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */,
 				B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */,
 				B31225CA25B6B60A00562ECA /* ModifyConnectionViewFactory.swift in Sources */,
@@ -6543,15 +7144,18 @@
 				B3C0ED3525C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m in Sources */,
 				B312269625B6B60B00562ECA /* WalletAccountInfoCommand.swift in Sources */,
 				B38C832C261D83B6006B5324 /* CreateAuctionCall.swift in Sources */,
+				B391CB85262D2AD700FF48B0 /* CubismPose.cpp in Sources */,
 				B31224F225B6B60900562ECA /* Logger.swift in Sources */,
 				B312261225B6B60A00562ECA /* ProfileViewModelFactory.swift in Sources */,
 				B312260B25B6B60A00562ECA /* ConnectionAccountImportWireframe.swift in Sources */,
+				B394C7E3262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m in Sources */,
 				B31224E125B6B60900562ECA /* SNAddressType+ViewModel.swift in Sources */,
 				B312252C25B6B60A00562ECA /* TransactionType.swift in Sources */,
 				B391E2B826281A74002CCC9D /* JLPopularCollectionWaterLayout.m in Sources */,
 				B312266325B6B60A00562ECA /* WalletAssetCell.swift in Sources */,
 				B312252025B6B60A00562ECA /* Language.swift in Sources */,
 				B3E98E2B25022C49004AABD2 /* JLExportKeystoreViewController.m in Sources */,
+				B394C7E9262FC42900EB3254 /* JLBoxOpenPayViewController.m in Sources */,
 				B31225F425B6B60A00562ECA /* AboutHeaderView.swift in Sources */,
 				B31226B225B6B60B00562ECA /* AccountExportPasswordInteractor.swift in Sources */,
 				B396566424F3AFD4007A8EC2 /* JLDownloadLoading.m in Sources */,
@@ -6572,12 +7176,14 @@
 				B31226C225B6B60B00562ECA /* ExportMnemonicProtocols.swift in Sources */,
 				B31226CB25B6B60B00562ECA /* NetworkAvailabilityLayerPresenter.swift in Sources */,
 				B3890B3625DFB84B00028F78 /* JLInputLogisticsViewController.m in Sources */,
+				B391B09E262EB05300127532 /* JLUploadWorkInputWithBorderView.m in Sources */,
 				B312257025B6B60A00562ECA /* SelectableViewModelProtocol.swift in Sources */,
 				B35936322511E9F600E2B2FD /* JLLoginView.m in Sources */,
 				B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */,
 				B31224E525B6B60900562ECA /* CryptoType+ViewModel.swift in Sources */,
 				B31224C125B6B60900562ECA /* UIFont+Style.swift in Sources */,
 				B36361AA2500C9AB0039DF48 /* JLSelectWorksViewController.m in Sources */,
+				B391CB9C262D2AD700FF48B0 /* CubismModelMatrix.cpp in Sources */,
 				B312252B25B6B60A00562ECA /* FeeType.swift in Sources */,
 				B312256625B6B60A00562ECA /* AccountPickerTableViewCell.swift in Sources */,
 				B3753D9D2554F524003A86CF /* SLEditSelectedBox.m in Sources */,
@@ -6601,6 +7207,7 @@
 				B3753DCE2554F5A2003A86CF /* SLBlurView.m in Sources */,
 				B394A0AE262985A400A8DAE4 /* JLHomePageCollectionWaterLayout.m in Sources */,
 				B394A0A526297A1100A8DAE4 /* JLCollectionHoveringView.m in Sources */,
+				B391CC44262D545600FF48B0 /* LAppTextureManager.mm in Sources */,
 				B312256D25B6B60A00562ECA /* FearlessNavigationController.swift in Sources */,
 				B312257725B6B60A00562ECA /* SelectionSubtitleTableViewCell.swift in Sources */,
 				B31224B725B6B60900562ECA /* StakingLedger.swift in Sources */,
@@ -6643,17 +7250,21 @@
 				B312254B25B6B60A00562ECA /* DetailsTriangularedView+Inspectable.swift in Sources */,
 				B370C80F24F602E900A2D699 /* JLMineAppView.m in Sources */,
 				B396561C24F38DF4007A8EC2 /* UIView+JLShadow.m in Sources */,
+				B391CBA0262D2AD700FF48B0 /* CubismMath.cpp in Sources */,
 				B39655C524F38DBA007A8EC2 /* WMPageController.m in Sources */,
 				B31226DD25B6B60B00562ECA /* MainTabBarWireframe.swift in Sources */,
 				B312251425B6B60A00562ECA /* URLHandlingService.swift in Sources */,
 				B396561124F38DF4007A8EC2 /* NSBundle+Language.m in Sources */,
 				B36361AD2500CBA60039DF48 /* JLApplyCertWorksSelfSignCell.m in Sources */,
 				B312259A25B6B60A00562ECA /* StorageSubscriptionProtocols.swift in Sources */,
+				B394C7F5262FD19D00EB3254 /* JLBoxOneCardView.m in Sources */,
+				B391CB87262D2AD700FF48B0 /* CubismBreath.cpp in Sources */,
 				B396552C24F38D07007A8EC2 /* JLTabbarController.m in Sources */,
 				B312255225B6B60A00562ECA /* PlusIndicatorView.swift in Sources */,
 				B366C7ED25524D29007F9583 /* HVideoViewController.m in Sources */,
 				B312268425B6B60A00562ECA /* WalletFearlessDefinition.swift in Sources */,
 				B31226BA25B6B60B00562ECA /* ExportMnemonicConfirmViewFactory.swift in Sources */,
+				B391CB99262D2AD700FF48B0 /* CubismIdManager.cpp in Sources */,
 				B31225DB25B6B60A00562ECA /* AccountCreatePresenter.swift in Sources */,
 				B312252E25B6B60A00562ECA /* PrimitiveContextWrapper.swift in Sources */,
 				B312263325B6B60A00562ECA /* ContactViewModel.swift in Sources */,
@@ -6668,8 +7279,11 @@
 				B312252925B6B60A00562ECA /* Price.swift in Sources */,
 				B396552B24F38D07007A8EC2 /* JLBaseViewController.m in Sources */,
 				B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */,
+				B391CC59262D73DA00FF48B0 /* PAirSandbox.m in Sources */,
 				B31225A725B6B60A00562ECA /* FearlessLoadingViewFactory.swift in Sources */,
 				B31225C425B6B60A00562ECA /* NetworkManagementInteractor.swift in Sources */,
+				B391CB97262D2AD700FF48B0 /* CubismPhysicsJson.cpp in Sources */,
+				B391CB9B262D2AD700FF48B0 /* CubismFramework.cpp in Sources */,
 				B3B889352618444A00A2C5D7 /* JSONScaleListDecodable.swift in Sources */,
 				B31225FE25B6B60A00562ECA /* AddAccountImportInteractor.swift in Sources */,
 				B31224E925B6B60900562ECA /* ConnectionItem+Default.swift in Sources */,
@@ -6677,6 +7291,8 @@
 				B396566324F3AFD4007A8EC2 /* JLLoading.m in Sources */,
 				B391E2C426284B1C002CCC9D /* JLCreatorCollectionWaterLayout.m in Sources */,
 				B396562A24F38EE3007A8EC2 /* JLColorManager.m in Sources */,
+				B391CC43262D545600FF48B0 /* LAppAllocator.mm in Sources */,
+				B391B0C2262F074900127532 /* JLBoxOpenRecordViewController.m in Sources */,
 				B312262A25B6B60A00562ECA /* AccountInfoProtocols.swift in Sources */,
 				B312266B25B6B60A00562ECA /* HistoryItemViewModel.swift in Sources */,
 				B35EBA1424FF678600F5BF84 /* JLScanViewController.m in Sources */,
@@ -6710,6 +7326,7 @@
 				B31224B125B6B60900562ECA /* ExtrinsicFactory.swift in Sources */,
 				B312251B25B6B60A00562ECA /* BiometryAuth.swift in Sources */,
 				B312260625B6B60A00562ECA /* OnboardingMainProtocol.swift in Sources */,
+				B391CC4F262D65D100FF48B0 /* JLLive2DCacheManager.m in Sources */,
 				B31226CF25B6B60B00562ECA /* ManagedAccountViewModelFactory.swift in Sources */,
 				B3648CE92518B2B800BBDB57 /* JLRealNameFailedView.m in Sources */,
 				B312264B25B6B60A00562ECA /* WalletFormCellStyle+Internal.swift in Sources */,
@@ -6725,6 +7342,7 @@
 				B312259025B6B60A00562ECA /* WebSocketSubscriptionProtocols.swift in Sources */,
 				B312267925B6B60A00562ECA /* WalletTokenViewModel.swift in Sources */,
 				B312268225B6B60A00562ECA /* WalletDisplayAmountView.swift in Sources */,
+				B391CB8A262D2AD700FF48B0 /* CubismString.cpp in Sources */,
 				B312258C25B6B60A00562ECA /* TransactionHistoryMergeManager.swift in Sources */,
 				B31226DA25B6B60B00562ECA /* MainTabBarViewFactory.swift in Sources */,
 				B312251F25B6B60A00562ECA /* ManagedConnectionItemMapper.swift in Sources */,
@@ -6746,10 +7364,14 @@
 				B3753D9C2554F524003A86CF /* SLEditVideoClipping.m in Sources */,
 				B3890B3325DFB22D00028F78 /* JLLogisticsView.m in Sources */,
 				B312262325B6B60A00562ECA /* CommingSoonViewFactory.swift in Sources */,
+				B391CC8C262D75C000FF48B0 /* aestab.m in Sources */,
 				B31226B025B6B60B00562ECA /* ExportSeedWireframe.swift in Sources */,
+				B391CC3E262D545600FF48B0 /* LAppDefine.mm in Sources */,
+				B3C05AE2263163F9002741B1 /* JLBoxTenCardView.m in Sources */,
 				B37FFB4C24F4AF2F004B9CC8 /* JLPopularOriginalView.m in Sources */,
 				B312268525B6B60A00562ECA /* WalletCompoundDetailsView.swift in Sources */,
 				B312264525B6B60A00562ECA /* TransactionDetailsAccessoryView.swift in Sources */,
+				B391CB8B262D2AD700FF48B0 /* CubismDebug.cpp in Sources */,
 				B31225B625B6B60A00562ECA /* LanguageSelectionViewController.swift in Sources */,
 				B3753DAC2554F54E003A86CF /* SLImageView.m in Sources */,
 				B359363B251203A300E2B2FD /* JLRegisterView.m in Sources */,
@@ -6774,14 +7396,18 @@
 				5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */,
 				B312258425B6B60A00562ECA /* EmailPresentable.swift in Sources */,
 				B396562924F38EE3007A8EC2 /* JLViewControllerTool.m in Sources */,
+				B391CB8C262D2AD700FF48B0 /* CubismCdiJson.cpp in Sources */,
 				B38C8317261D4BED006B5324 /* JLLaunchAuctionViewController.m in Sources */,
 				B3B88930261843B400A2C5D7 /* BidHistory.swift in Sources */,
 				B312263A25B6B60A00562ECA /* ContactsLocalSearchEngine.swift in Sources */,
 				5CD773E1250148A700F0F49A /* JLWalletPointCell.m in Sources */,
+				B391CC40262D545600FF48B0 /* TouchManager.mm in Sources */,
 				B312252725B6B60A00562ECA /* TransactionHistoryItem.swift in Sources */,
 				B312253725B6B60A00562ECA /* AccountImportSource.swift in Sources */,
 				B312257C25B6B60A00562ECA /* KeyboardAdoptable.swift in Sources */,
 				B31226B525B6B60B00562ECA /* AccountExportPasswordViewFactory.swift in Sources */,
+				B391CB91262D2AD700FF48B0 /* CubismExpressionMotion.cpp in Sources */,
+				B391CB86262D2AD700FF48B0 /* CubismEyeBlink.cpp in Sources */,
 				B31224F625B6B60A00562ECA /* HistoryInfo.swift in Sources */,
 				B312252125B6B60A00562ECA /* WalletAssetId.swift in Sources */,
 				B312262125B6B60A00562ECA /* CommingSoonInteractor.swift in Sources */,
@@ -6809,6 +7435,8 @@
 				B31224E825B6B60900562ECA /* Chain+ViewModel.swift in Sources */,
 				B31224ED25B6B60900562ECA /* TransactionHistoryItem+Extrinsic.swift in Sources */,
 				B37B860425149B9500E43B36 /* JLUploadWorkDescriptionView.m in Sources */,
+				B3C05AED263180E1002741B1 /* ProductSellTransferCall.swift in Sources */,
+				B391B0B3262F011200127532 /* JLBoxCardCollectionViewCell.m in Sources */,
 				B31224F125B6B60900562ECA /* ErrorPresentable+AlertText.swift in Sources */,
 				B3753D9E2554F524003A86CF /* SLImageClipController.m in Sources */,
 				B312253C25B6B60A00562ECA /* UIFactory.swift in Sources */,
@@ -6819,11 +7447,13 @@
 				B39655BD24F38DBA007A8EC2 /* LewPopupBackgroundView.m in Sources */,
 				B36361C42500F2C70039DF48 /* JLCreateWalletViewController.m in Sources */,
 				5C2429702504AF6C00C74B6A /* JLCustomerServiceSectionView.m in Sources */,
+				B391CC46262D545600FF48B0 /* LAppPal.mm in Sources */,
 				B312259C25B6B60A00562ECA /* StakingInfoSubscription.swift in Sources */,
 				B3E98E28250222A5004AABD2 /* JLPrivateKeyExportView.m in Sources */,
 				B312256225B6B60A00562ECA /* TitleWithSubtitleTableViewCell.swift in Sources */,
 				B312267325B6B60A00562ECA /* WalletHistoryViewFactoryOverriding.swift in Sources */,
 				B312265625B6B60A00562ECA /* TransferConfirmAccessoryViewModel.swift in Sources */,
+				B391B0AD262EF2E500127532 /* JLBoxDetailViewController.m in Sources */,
 				B312258325B6B60A00562ECA /* ControllerBackedProtocol.swift in Sources */,
 				B31224C725B6B60900562ECA /* UIAlertViewController+Account.swift in Sources */,
 				B312262925B6B60A00562ECA /* AccountInfoViewFactory.swift in Sources */,
@@ -6831,6 +7461,7 @@
 				B31224FE25B6B60A00562ECA /* SubstrateOperationFactory.swift in Sources */,
 				B31224C525B6B60900562ECA /* UIBarButtonItem+Style.swift in Sources */,
 				B31225EC25B6B60A00562ECA /* AboutProtocols.swift in Sources */,
+				B391CC89262D75C000FF48B0 /* sha1.m in Sources */,
 				B312254325B6B60A00562ECA /* TriangularedBlurButton.swift in Sources */,
 				B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */,
 				B3753DC52554F598003A86CF /* SLAvEditExport.m in Sources */,
@@ -6839,12 +7470,16 @@
 				B312261525B6B60A00562ECA /* ProfileTableViewCell.swift in Sources */,
 				B3648CE22518B1D500BBDB57 /* JLMineSuccessView.m in Sources */,
 				B312251725B6B60A00562ECA /* StorageFacadeProtocol.swift in Sources */,
+				B391CBA1262D2AD700FF48B0 /* CubismMatrix44.cpp in Sources */,
 				B31226CD25B6B60B00562ECA /* AccountManagementViewController.swift in Sources */,
 				B312267F25B6B60A00562ECA /* WalletDisplayTokenView.swift in Sources */,
 				B31224A325B6B60900562ECA /* EventVisitor.swift in Sources */,
 				B31225DA25B6B60A00562ECA /* AccountCreateProtocols.swift in Sources */,
+				B391CC90262D75C000FF48B0 /* unzip.m in Sources */,
+				B391CB8E262D2AD700FF48B0 /* CubismMotion.cpp in Sources */,
 				B39BEACA2513532D00DE69A6 /* JLWorkListNotListCell.m in Sources */,
 				B3AA62C325E49B3E00D28627 /* STUI.m in Sources */,
+				B391CB96262D2AD700FF48B0 /* csmRectF.cpp in Sources */,
 				B38D7CA125E0B01800E9978E /* JLActionControl.swift in Sources */,
 				B37B85FB25148D2F00E43B36 /* JLUploadWorkInputView.m in Sources */,
 				B31225AC25B6B60A00562ECA /* PinSetupInteractor.swift in Sources */,
@@ -6866,18 +7501,23 @@
 				B38E41A325E8A7FB006AA9EE /* AuctionListCall.swift in Sources */,
 				B312269125B6B60B00562ECA /* ExistentialDepositInfoCommand.swift in Sources */,
 				B396560F24F38DF4007A8EC2 /* JLRefreshFooter.m in Sources */,
+				B391CB9D262D2AD700FF48B0 /* CubismViewMatrix.cpp in Sources */,
 				B31224CE25B6B60900562ECA /* Decimal+Precision.swift in Sources */,
+				B391B0B9262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m in Sources */,
 				B312269025B6B60B00562ECA /* WalletAccountOpenCommand.swift in Sources */,
 				B36361B32500D9410039DF48 /* JLApplyCertMechanismDetailViewController.m in Sources */,
 				B31225BF25B6B60A00562ECA /* NetworkManagementPresenter.swift in Sources */,
 				B36361A42500BFE20039DF48 /* JLApplyCertNoDataCell.m in Sources */,
 				B312268925B6B60A00562ECA /* AssetDetailsContainingViewFactory.swift in Sources */,
+				B391CC8B262D75C000FF48B0 /* pwd2key.m in Sources */,
 				B38E912525B9552100174AAC /* JLBackupNoticeViewController.swift in Sources */,
 				B359360E2511B0B000E2B2FD /* IQActionSheetPickerView.m in Sources */,
 				B37FFB5824F4BBFC004B9CC8 /* JLThemeRecommendView.m in Sources */,
 				B312265B25B6B60A00562ECA /* WalletActionsViewModel.swift in Sources */,
 				B31226A525B6B60B00562ECA /* AccountConfirmInteractor.swift in Sources */,
+				B391CC92262D75C000FF48B0 /* ioapi.m in Sources */,
 				B31225D425B6B60A00562ECA /* UsernameSetupPresenter.swift in Sources */,
+				B391CB88262D2AD700FF48B0 /* CubismDefaultParameterId.cpp in Sources */,
 				B329C8CB25B597BE00AE3938 /* JLChainQRCodeView.m in Sources */,
 				B35EBA0924FF34C500F5BF84 /* JLArtDetailDescriptionView.m in Sources */,
 				B359362F2511E73800E2B2FD /* UserDataBody.m in Sources */,
@@ -6891,6 +7531,7 @@
 				B31225AD25B6B60A00562ECA /* PinViewFactory.swift in Sources */,
 				B39655BE24F38DBA007A8EC2 /* LZMultiplePickerView.m in Sources */,
 				B312257B25B6B60A00562ECA /* WebPresentable.swift in Sources */,
+				B391CC42262D545600FF48B0 /* LAppSprite.mm in Sources */,
 				B31224B825B6B60900562ECA /* AccountInfo.swift in Sources */,
 				B312253F25B6B60A00562ECA /* ApplicationStatusView.swift in Sources */,
 				B394E3F425ECED2A00685F8D /* JLCategoryModel.m in Sources */,
@@ -6910,9 +7551,11 @@
 				B3890B3025DFA82E00028F78 /* JLAuctionOfferRecordViewController.m in Sources */,
 				B39655C924F38DBA007A8EC2 /* WMMenuView.m in Sources */,
 				B31226C025B6B60B00562ECA /* ExportMnemonicInteractor.swift in Sources */,
+				B394C7EF262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m in Sources */,
 				B312255925B6B60A00562ECA /* PurchaseCompletionHandler.swift in Sources */,
 				B31224D825B6B60900562ECA /* SortDescriptor+Storage.swift in Sources */,
 				B31226AA25B6B60B00562ECA /* AccountConfirmProtocols.swift in Sources */,
+				B391CB9A262D2AD700FF48B0 /* CubismId.cpp in Sources */,
 				B312268825B6B60A00562ECA /* AssetDetailsViewModelFactory.swift in Sources */,
 				B312263E25B6B60A00562ECA /* TransferValidatingError.swift in Sources */,
 				B3890E562619B4A10060EECA /* AuctionBidCall.swift in Sources */,
@@ -6937,6 +7580,7 @@
 				B312255D25B6B60A00562ECA /* AccountPickerViewModel.swift in Sources */,
 				B3753DAE2554F54E003A86CF /* SLImageDecoder.m in Sources */,
 				B359361E2511C44600E2B2FD /* JLPersonalDescriptionViewController.m in Sources */,
+				B391CB83262D2AD700FF48B0 /* CubismMoc.cpp in Sources */,
 				B32060A524FF76E200A1FE70 /* JLChainQueryArtInfoView.m in Sources */,
 				B312260325B6B60A00562ECA /* OnboardingMainPresenter.swift in Sources */,
 				B3753DC72554F598003A86CF /* SLAvPlayer.m in Sources */,
@@ -6963,6 +7607,7 @@
 				B31226C625B6B60B00562ECA /* ExportGenericViewModel.swift in Sources */,
 				B312250E25B6B60A00562ECA /* WalletNetworkFacade+Price.swift in Sources */,
 				B39655E424F38DBA007A8EC2 /* MBProgressHUD+NHAdd.m in Sources */,
+				B391CC86262D75C000FF48B0 /* hmac.m in Sources */,
 				B35EC00725108D3E00836646 /* JLSettingTableViewCell.m in Sources */,
 				B31225D625B6B60A00562ECA /* AccountCreateInteractor.swift in Sources */,
 				B312266825B6B60A00562ECA /* WalletSingleProviderIdFactory.swift in Sources */,
@@ -6971,6 +7616,7 @@
 				B31224D325B6B60900562ECA /* NSPredicate+Filter.swift in Sources */,
 				B312265D25B6B60A00562ECA /* WalletAccountListConstants.swift in Sources */,
 				B312269225B6B60B00562ECA /* TransferConfirmCommand.swift in Sources */,
+				B391CC8A262D75C000FF48B0 /* prng.m in Sources */,
 				B35936352511EA7C00E2B2FD /* JLInputView.m in Sources */,
 				B36E836E24F8DB6C00A77588 /* JLCategoryWorkCollectionViewCell.m in Sources */,
 				B370C80924F5F4D400A2D699 /* JLMineNaviView.m in Sources */,
@@ -7001,12 +7647,15 @@
 				B31224D225B6B60900562ECA /* Locale+Localization.swift in Sources */,
 				B312254D25B6B60A00562ECA /* ExpandableActionControl.swift in Sources */,
 				B312261325B6B60A00562ECA /* ProfileUserViewModel.swift in Sources */,
+				B391CC8D262D75C000FF48B0 /* entropy.m in Sources */,
 				B31224B025B6B60900562ECA /* KeystoreExportWrapper.swift in Sources */,
 				B3983F8425DE1C3F0068084D /* JLAuctionDetailTitleView.m in Sources */,
 				B31225A925B6B60A00562ECA /* PinSetupViewController.swift in Sources */,
 				B37FFB5E24F4DE04004B9CC8 /* JLSearchBarView.m in Sources */,
+				B391CB92262D2AD700FF48B0 /* CubismMotionJson.cpp in Sources */,
 				B38C0BA12501D338006197E5 /* JLEditWalletViewController.m in Sources */,
 				B38BCFE025B81B5D00FD37F7 /* JLPurchaseOrderListViewController.m in Sources */,
+				B391CB82262D2AD700FF48B0 /* CubismUserModel.cpp in Sources */,
 				B312263C25B6B60A00562ECA /* TransferViewModelFactory.swift in Sources */,
 				B312268325B6B60A00562ECA /* WalletBaseTokenView.swift in Sources */,
 				B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */,
@@ -7048,6 +7697,8 @@
 				B325CD2224FF9FC000F931A2 /* JLChainQueryTradeView.m in Sources */,
 				B3AA62C225E49B3E00D28627 /* STConst.m in Sources */,
 				B312255F25B6B60A00562ECA /* ModalInfoFactory.swift in Sources */,
+				B391CB9E262D2AD700FF48B0 /* CubismVector2.cpp in Sources */,
+				B391CB8D262D2AD700FF48B0 /* ACubismMotion.cpp in Sources */,
 				B3E98E1C250208A0004AABD2 /* JLImportWalletViewController.m in Sources */,
 				B31224B925B6B60900562ECA /* Era.swift in Sources */,
 				B312256E25B6B60A00562ECA /* SelectableSubtitleListViewModel.swift in Sources */,
@@ -7357,6 +8008,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder/ZWPlaceHolder.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c/scrypt.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift/xxHash_Swift.framework/Headers\"",
+					"$(SRCROOT)/SDK/Core/include",
+					"$(SRCROOT)/SDK/Framework/src",
 				);
 				INFOPLIST_FILE = CloudArtChain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -7369,8 +8022,314 @@
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STLivenessDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STIDCardQualityDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/libsodium-ios/lib",
+					"$(SRCROOT)/SDK/Core/lib/ios/$(CONFIGURATION)-$(PLATFORM_NAME)",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking/AFNetworking.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BEMCheckBox/BEMCheckBox.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt/BigInt.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CommonWallet/CommonWallet.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools/DateTools.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EBBannerView/EBBannerView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FearlessUtils/FearlessUtils.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FireMock/FireMock.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager/IQKeyboardManager.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IrohaCrypto/IrohaCrypto.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel/JSONModel.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXCategoryView/JXCategoryView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXPagingView/JXPagingView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LEEAlert/LEEAlert.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LMJDropdownMenu/LMJDropdownMenu.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LSTTimer/LSTTimer.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry/Masonry.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/R.swift.Library/Rswift.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/Reachability.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveObjC/ReactiveObjC.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RobinHood/RobinHood.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDCycleScrollView/SDCycleScrollView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SGQRCode/SGQRCode.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD/SVProgressHUD.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraFoundation/SoraFoundation.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraKeystore/SoraKeystore.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraUI/SoraUI.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyBeaver/SwiftyBeaver.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewController.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TweetNacl/TweetNacl.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYCache/YYCache.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYModel/YYModel.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder/ZWPlaceHolder.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c/scrypt.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/secp256k1.c/secp256k1.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift/xxHash_Swift.framework/Headers\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BEMCheckBox\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CommonWallet\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EBBannerView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FearlessUtils\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FireMock\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IrohaCrypto\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXCategoryView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXPagingView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LEEAlert\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LMJDropdownMenu\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LSTTimer\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/R.swift.Library\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveObjC\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RobinHood\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDCycleScrollView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SGQRCode\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraFoundation\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraKeystore\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraUI\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyBeaver\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TweetNacl\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMAPM/UMAPM_1.1.0\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMCCommon/UMCommon_7.2.5\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMCCommonLog/UMCommonLog\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMDevice/UMDevice_1.1.0\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYCache\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYModel\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/secp256k1.c\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift\"",
+					"-DCSM_TARGET_IPHONE_ES2",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DCSM_TARGET_IPHONE_ES2",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"objc\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AFNetworking\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"BEMCheckBox\"",
+					"-framework",
+					"\"BigInt\"",
+					"-framework",
+					"\"CommonWallet\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"DateTools\"",
+					"-framework",
+					"\"EBBannerView\"",
+					"-framework",
+					"\"FDFullscreenPopGesture\"",
+					"-framework",
+					"\"FearlessUtils\"",
+					"-framework",
+					"\"FireMock\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"IrohaCrypto\"",
+					"-framework",
+					"\"JSONModel\"",
+					"-framework",
+					"\"JXCategoryView\"",
+					"-framework",
+					"\"JXPagingView\"",
+					"-framework",
+					"\"LEEAlert\"",
+					"-framework",
+					"\"LMJDropdownMenu\"",
+					"-framework",
+					"\"LSTTimer\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"Masonry\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"ReactiveObjC\"",
+					"-framework",
+					"\"RobinHood\"",
+					"-framework",
+					"\"Rswift\"",
+					"-framework",
+					"\"SDCycleScrollView\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SGQRCode\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SoraFoundation\"",
+					"-framework",
+					"\"SoraKeystore\"",
+					"-framework",
+					"\"SoraUI\"",
+					"-framework",
+					"\"Starscream\"",
+					"-framework",
+					"\"SwiftGifOrigin\"",
+					"-framework",
+					"\"SwiftyBeaver\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TOCropViewController\"",
+					"-framework",
+					"\"TweetNacl\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UMAPM\"",
+					"-framework",
+					"\"UMCommon\"",
+					"-framework",
+					"\"UMCommonLog\"",
+					"-framework",
+					"\"UMDevice\"",
+					"-framework",
+					"\"YYCache\"",
+					"-framework",
+					"\"YYModel\"",
+					"-framework",
+					"\"ZWPlaceHolder\"",
+					"-framework",
+					"\"scrypt\"",
+					"-framework",
+					"\"secp256k1\"",
+					"-framework",
+					"\"xxHash_Swift\"",
+					"-lLive2DCubismCore",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7445,6 +8404,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder/ZWPlaceHolder.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c/scrypt.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift/xxHash_Swift.framework/Headers\"",
+					"$(SRCROOT)/SDK/Core/include",
+					"$(SRCROOT)/SDK/Framework/src",
 				);
 				INFOPLIST_FILE = CloudArtChain/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -7457,8 +8418,314 @@
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STLivenessDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/STSdk/STIDCardQualityDetector",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/libsodium-ios/lib",
+					"$(SRCROOT)/SDK/Core/lib/ios/$(CONFIGURATION)-$(PLATFORM_NAME)",
 				);
 				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking/AFNetworking.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BEMCheckBox/BEMCheckBox.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt/BigInt.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CommonWallet/CommonWallet.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools/DateTools.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EBBannerView/EBBannerView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FearlessUtils/FearlessUtils.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FireMock/FireMock.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager/IQKeyboardManager.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IrohaCrypto/IrohaCrypto.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel/JSONModel.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXCategoryView/JXCategoryView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXPagingView/JXPagingView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LEEAlert/LEEAlert.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LMJDropdownMenu/LMJDropdownMenu.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LSTTimer/LSTTimer.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry/Masonry.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/R.swift.Library/Rswift.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift/Reachability.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveObjC/ReactiveObjC.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RobinHood/RobinHood.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDCycleScrollView/SDCycleScrollView.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SGQRCode/SGQRCode.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD/SVProgressHUD.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraFoundation/SoraFoundation.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraKeystore/SoraKeystore.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraUI/SoraUI.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream/Starscream.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyBeaver/SwiftyBeaver.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewController.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TweetNacl/TweetNacl.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYCache/YYCache.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYModel/YYModel.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder/ZWPlaceHolder.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c/scrypt.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/secp256k1.c/secp256k1.framework/Headers\"",
+					"-isystem",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift/xxHash_Swift.framework/Headers\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BEMCheckBox\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BigInt\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CommonWallet\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/EBBannerView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FDFullscreenPopGesture\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FearlessUtils\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FireMock\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IrohaCrypto\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXCategoryView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JXPagingView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LEEAlert\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LMJDropdownMenu\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/LSTTimer\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/R.swift.Library\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReachabilitySwift\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveObjC\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RobinHood\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDCycleScrollView\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SGQRCode\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraFoundation\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraKeystore\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SoraUI\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyBeaver\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TweetNacl\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMAPM/UMAPM_1.1.0\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMCCommon/UMCommon_7.2.5\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMCCommonLog/UMCommonLog\"",
+					"-iframework",
+					"\"${PODS_ROOT}/UMDevice/UMDevice_1.1.0\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYCache\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYModel\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ZWPlaceHolder\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/secp256k1.c\"",
+					"-iframework",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift\"",
+					"-DCSM_TARGET_IPHONE_ES2",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DCSM_TARGET_IPHONE_ES2",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"objc\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"AFNetworking\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"BEMCheckBox\"",
+					"-framework",
+					"\"BigInt\"",
+					"-framework",
+					"\"CommonWallet\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreImage\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"DateTools\"",
+					"-framework",
+					"\"EBBannerView\"",
+					"-framework",
+					"\"FDFullscreenPopGesture\"",
+					"-framework",
+					"\"FearlessUtils\"",
+					"-framework",
+					"\"FireMock\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"IrohaCrypto\"",
+					"-framework",
+					"\"JSONModel\"",
+					"-framework",
+					"\"JXCategoryView\"",
+					"-framework",
+					"\"JXPagingView\"",
+					"-framework",
+					"\"LEEAlert\"",
+					"-framework",
+					"\"LMJDropdownMenu\"",
+					"-framework",
+					"\"LSTTimer\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"Masonry\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Reachability\"",
+					"-framework",
+					"\"ReactiveObjC\"",
+					"-framework",
+					"\"RobinHood\"",
+					"-framework",
+					"\"Rswift\"",
+					"-framework",
+					"\"SDCycleScrollView\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"SGQRCode\"",
+					"-framework",
+					"\"SVProgressHUD\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SoraFoundation\"",
+					"-framework",
+					"\"SoraKeystore\"",
+					"-framework",
+					"\"SoraUI\"",
+					"-framework",
+					"\"Starscream\"",
+					"-framework",
+					"\"SwiftGifOrigin\"",
+					"-framework",
+					"\"SwiftyBeaver\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TOCropViewController\"",
+					"-framework",
+					"\"TweetNacl\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"UMAPM\"",
+					"-framework",
+					"\"UMCommon\"",
+					"-framework",
+					"\"UMCommonLog\"",
+					"-framework",
+					"\"UMDevice\"",
+					"-framework",
+					"\"YYCache\"",
+					"-framework",
+					"\"YYModel\"",
+					"-framework",
+					"\"ZWPlaceHolder\"",
+					"-framework",
+					"\"scrypt\"",
+					"-framework",
+					"\"secp256k1\"",
+					"-framework",
+					"\"xxHash_Swift\"",
+					"-lLive2DCubismCore",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -158,7 +158,7 @@
 @property (nonatomic, strong) NSString *collection_id;
 @property (nonatomic, strong) NSString *item_id;
 @property (nonatomic, strong) NSString *member_id;
-@property (nonatomic, strong) Model_art_author_Data *member;
+//@property (nonatomic, strong) Model_art_author_Data *member;
 @property (nonatomic, strong) Model_art_author_Data *author;
 @property (nonatomic, strong) NSString *item_hash;
 @property (nonatomic, strong) NSString *auction_start_time;
@@ -171,6 +171,22 @@
 @property (nonatomic, assign) NSInteger favorite_count;
 @property (nonatomic, assign) NSInteger signature_count;
 @property (nonatomic, strong) NSString *last_sign_at;
+
+@property (nonatomic, strong) NSString *royalty;
+@property (nonatomic, strong) NSString *royalty_expired_at;
+@property (nonatomic, assign) BOOL has_royalty;
+@property (nonatomic, strong) NSString *live2d_file;
+@property (nonatomic, strong) NSString *live2d_ipfs_url;
+@property (nonatomic, strong) NSString *live2d_ipfs_zip_url;
+/** 是否拆分 1,2不可拆分 3可拆分 */
+@property (nonatomic, assign) NSInteger collection_mode;
+/** 总数量 */
+@property (nonatomic, assign) NSInteger total_amount;
+/** 当前拥有数量 */
+@property (nonatomic, assign) NSInteger has_amount;
+@property (nonatomic, assign) BOOL is_owner;
+@property (nonatomic, strong) NSString *selling_amount;
+@property (nonatomic, strong) NSString *trades_count;
 
 @property (nonatomic, assign) CGFloat imgHeight; //单张图片高度
 @end
@@ -385,5 +401,27 @@
 @interface Model_messages_read_all_Req : Model_Req
 @end
 @interface Model_messages_read_all_Rsp : Model_Rsp_V1
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/arts/#{id}/orders 出售列表
+@protocol Model_arts_id_orders_Data @end
+@interface Model_arts_id_orders_Data : Model_Interface
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSString *amount;
+@property (nonatomic, strong) NSString *total_amount;
+@property (nonatomic, strong) NSString *sn;
+@property (nonatomic, assign) BOOL is_mine;
+@end
+@interface Model_arts_id_orders_Req : Model_Req
+@property (nonatomic, strong) NSString *ID;
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_arts_id_orders_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_arts_id_orders_Req *request;
+@property (nonatomic, strong) NSArray<Model_arts_id_orders_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////

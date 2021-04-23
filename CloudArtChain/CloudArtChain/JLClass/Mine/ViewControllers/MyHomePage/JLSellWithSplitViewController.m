@@ -20,9 +20,9 @@
 @property (nonatomic, strong) UIView *currentNumLineView;
 @property (nonatomic, strong) UILabel *currentNumUnitLabel;
 
-@property (nonatomic, strong) UIView *splitView;
-@property (nonatomic, strong) UILabel *splitTitleLabel;
-@property (nonatomic, strong) UISwitch *splitSwitch;
+//@property (nonatomic, strong) UIView *splitView;
+//@property (nonatomic, strong) UILabel *splitTitleLabel;
+//@property (nonatomic, strong) UISwitch *splitSwitch;
 
 @property (nonatomic, strong) UIView *priceView;
 @property (nonatomic, strong) UILabel *priceTitleLabel;
@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UIView *priceLineView;
 
 @property (nonatomic, strong) UIButton *sellButton;
+@property (nonatomic, strong) NSString *lockAccountId;
 @end
 
 @implementation JLSellWithSplitViewController
@@ -40,6 +41,8 @@
     self.navigationItem.title = @"出售";
     [self addBackItem];
     [self createSubviews];
+    // 请求转账地址
+    [self requestTransferAddress];
 }
 
 - (void)createSubviews {
@@ -55,9 +58,9 @@
     [self.currentNumView addSubview:self.currentNumLineView];
 
     
-    [self.view addSubview:self.splitView];
-    [self.splitView addSubview:self.splitTitleLabel];
-    [self.splitView addSubview:self.splitSwitch];
+//    [self.view addSubview:self.splitView];
+//    [self.splitView addSubview:self.splitTitleLabel];
+//    [self.splitView addSubview:self.splitSwitch];
     
     [self.view addSubview:self.priceView];
     [self.priceView addSubview:self.priceTitleLabel];
@@ -106,25 +109,25 @@
         make.top.equalTo(self.currentNumTF.mas_bottom);
     }];
     
-    [self.splitView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(self.currentNumView.mas_bottom);
-        make.height.mas_equalTo(50.0f);
-    }];
-    [self.splitTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.splitView);
-        make.centerY.equalTo(self.splitView.mas_centerY);
-    }];
-    [self.splitSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.splitView);
-        make.centerY.equalTo(self.splitView.mas_centerY);
-    }];
+//    [self.splitView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(15.0f);
+//        make.right.mas_equalTo(-15.0f);
+//        make.top.equalTo(self.currentNumView.mas_bottom);
+//        make.height.mas_equalTo(50.0f);
+//    }];
+//    [self.splitTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.splitView);
+//        make.centerY.equalTo(self.splitView.mas_centerY);
+//    }];
+//    [self.splitSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.splitView);
+//        make.centerY.equalTo(self.splitView.mas_centerY);
+//    }];
     
     [self.priceView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(self.splitView.mas_bottom);
+        make.top.equalTo(self.currentNumView.mas_bottom);
         make.height.mas_equalTo(50.0f);
     }];
     [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -160,11 +163,19 @@
             UITextPosition *position = [weakSelf.currentNumTF positionFromPosition:selectedRange.start offset:0];
             if (!position) {
                 NSString *result = [JLUtils trimSpace:x];
-                weakSelf.currentNumTF.text = result;
+                if (result.intValue > self.artDetailData.has_amount) {
+                    weakSelf.currentNumTF.text = @(self.artDetailData.has_amount).stringValue;
+                } else {
+                    weakSelf.currentNumTF.text = result;
+                }
             }
         } else {
             NSString *result = [JLUtils trimSpace:x];
-            weakSelf.currentNumTF.text = result;
+            if (result.intValue > self.artDetailData.has_amount) {
+                weakSelf.currentNumTF.text = @(self.artDetailData.has_amount).stringValue;
+            } else {
+                weakSelf.currentNumTF.text = result;
+            }
         }
     }];
     
@@ -248,7 +259,7 @@
 
 - (UILabel *)artBalanceLabel {
     if (!_artBalanceLabel) {
-        _artBalanceLabel = [JLUIFactory labelInitText:@"1000份" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _artBalanceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%ld份", self.artDetailData.has_amount] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _artBalanceLabel;
 }
@@ -300,36 +311,36 @@
 }
 
 
-- (UIView *)splitView {
-    if (!_splitView) {
-        _splitView = [[UIView alloc] init];
-    }
-    return _splitView;
-}
+//- (UIView *)splitView {
+//    if (!_splitView) {
+//        _splitView = [[UIView alloc] init];
+//    }
+//    return _splitView;
+//}
+//
+//- (UILabel *)splitTitleLabel {
+//    if (!_splitTitleLabel) {
+//        _splitTitleLabel = [JLUIFactory labelInitText:@"是否拆开售卖" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+//    }
+//    return _splitTitleLabel;
+//}
+//
+//- (UISwitch *)splitSwitch {
+//    if (!_splitSwitch) {
+//        _splitSwitch = [[UISwitch alloc] init];
+//        _splitSwitch.on = NO;
+//        [_splitSwitch addTarget:self action:@selector(splitSwitchChange) forControlEvents:UIControlEventValueChanged];
+//    }
+//    return _splitSwitch;
+//}
 
-- (UILabel *)splitTitleLabel {
-    if (!_splitTitleLabel) {
-        _splitTitleLabel = [JLUIFactory labelInitText:@"是否拆开售卖" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
-    }
-    return _splitTitleLabel;
-}
-
-- (UISwitch *)splitSwitch {
-    if (!_splitSwitch) {
-        _splitSwitch = [[UISwitch alloc] init];
-        _splitSwitch.on = NO;
-        [_splitSwitch addTarget:self action:@selector(splitSwitchChange) forControlEvents:UIControlEventValueChanged];
-    }
-    return _splitSwitch;
-}
-
-- (void)splitSwitchChange {
-    if (self.splitSwitch.isOn) {
-        self.priceTitleLabel.text = @"设置作品价格";
-    } else {
-        self.priceTitleLabel.text = @"设置作品总价";
-    }
-}
+//- (void)splitSwitchChange {
+//    if (self.splitSwitch.isOn) {
+//        self.priceTitleLabel.text = @"设置作品价格";
+//    } else {
+//        self.priceTitleLabel.text = @"设置作品总价";
+//    }
+//}
 
 
 - (UIView *)priceView {
@@ -341,7 +352,7 @@
 
 - (UILabel *)priceTitleLabel {
     if (!_priceTitleLabel) {
-        _priceTitleLabel = [JLUIFactory labelInitText:@"设置作品总价" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _priceTitleLabel = [JLUIFactory labelInitText:@"设置作品价格" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _priceTitleLabel;
 }
@@ -391,6 +402,67 @@
 }
 
 - (void)sellButtonClick {
+    WS(weakSelf)
+    [self.view endEditing:YES];
+    if ([NSString stringIsEmpty:self.currentNumTF.text] || self.currentNumTF.text.intValue == 0) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入本次出售份数" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if ([NSString stringIsEmpty:self.priceTF.text] || self.currentNumTF.text.doubleValue == 0) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置作品价格" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
     
+    if (![NSString stringIsEmpty:self.lockAccountId]) {
+        [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:self.currentNumTF.text block:^(BOOL success, NSString * _Nonnull message) {
+            if (success) {
+                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                    if (success) {
+                        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                        [[JLViewControllerTool appDelegate].walletTool productSellConfirmWithBlock:^(NSString * _Nullable transferSignedMessage) {
+                            if ([NSString stringIsEmpty:transferSignedMessage]) {
+                                [[JLLoading sharedLoading] hideLoading];
+                                [[JLLoading sharedLoading] showMBFailedTipMessage:@"签名错误" hideTime:KToastDismissDelayTimeInterval];
+                            } else {
+                                // 发送网络请求
+                                Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
+                                request.art_id = weakSelf.artDetailData.ID;
+                                request.amount = [JLUtils trimSpace:self.currentNumTF.text];
+                                request.price = [JLUtils trimSpace:self.priceTF.text];
+                                request.currency = @"rmb";
+                                request.encrpt_extrinsic_message = transferSignedMessage;
+                                Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
+                                [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                                    [[JLLoading sharedLoading] hideLoading];
+                                    if (netIsWork) {
+                                        if (weakSelf.sellBlock) {
+                                            weakSelf.sellBlock();
+                                        }
+                                    } else {
+                                        [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                                    }
+                                }];
+                            }
+                        }];
+                    }
+                }];
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+            }
+        }];
+    }
+}
+
+- (void)requestTransferAddress {
+    WS(weakSelf)
+    Model_art_orders_lock_account_id_Req *request = [[Model_art_orders_lock_account_id_Req alloc] init];
+    Model_art_orders_lock_account_id_Rsp *resonse = [[Model_art_orders_lock_account_id_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:resonse callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.lockAccountId = resonse.body[@"lock_account_id"];
+            weakSelf.lockAccountId = [weakSelf.lockAccountId substringFromIndex:2];
+        }
+    }];
 }
 @end

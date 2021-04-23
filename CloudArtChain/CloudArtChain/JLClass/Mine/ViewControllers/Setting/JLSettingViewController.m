@@ -116,9 +116,13 @@
             status = @"";
         }
     } else {
-        status = [[AppSingleton sharedAppSingleton].userBody getPhoneNumberWithoutCountryCode];
-        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
-            showArrow = NO;
+        if (indexPath.row == 0) {
+            status = [[AppSingleton sharedAppSingleton].userBody getPhoneNumberWithoutCountryCode];
+            if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+                showArrow = NO;
+            }
+        } else {
+            status = @"";
         }
     }
     [cell setTitle:self.titleArray[indexPath.section][indexPath.row] status:status isAvatar:(indexPath.section == 0 && indexPath.row == 0) showLine:indexPath.row != sectionArray.count - 1 showArrow:showArrow];

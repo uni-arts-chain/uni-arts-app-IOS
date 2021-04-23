@@ -160,6 +160,61 @@ final class WalletNetworkOperationFactory {
         return CompoundOperationWrapper(targetOperation: targetOperation,
                                         dependencies: dependencies)
     }
+    
+    func getTransferExtrinsicMessage<T>(_ targetOperation: JSONRPCListOperation<T>,
+                                        call: ScaleCodable?,
+                                        moduleIndex: UInt8,
+                                        callIndex: UInt8,
+                                        receiver: String,
+                                        chain: Chain,
+                                        signer: IRSignatureCreatorProtocol,
+                                        signMessageBlock:@escaping (String?) -> Void) -> CompoundOperationWrapper<T> {
+        let sender = accountSettings.accountId
+        let currentCryptoType = cryptoType
+
+        let nonceOperation = createExtrinsicNonceFetchOperation(chain)
+        let runtimeVersionOperation = createRuntimeVersionOperation()
+
+        targetOperation.configurationBlock = {
+            do {
+                let nonce = try nonceOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                let runtimeVersion = try runtimeVersionOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                let receiverAccountId = try Data(hexString: receiver)
+                let senderAccountId = try Data(hexString: sender)
+                let genesisHashData = try Data(hexString: chain.genesisHash)
+
+                let additionalParameters = ExtrinsicParameters(nonce: nonce,
+                                                               genesisHash: genesisHashData,
+                                                               specVersion: runtimeVersion.specVersion,
+                                                               transactionVersion: runtimeVersion.transactionVersion,
+                                                               signatureVersion: currentCryptoType.version,
+                                                               moduleIndex: moduleIndex,
+                                                               callIndex: callIndex)
+
+                let extrinsicData = try ExtrinsicFactory.transferExtrinsic(from: senderAccountId,
+                                                                           to: receiverAccountId,
+                                                                           call: call,
+                                                                           additionalParameters: additionalParameters,
+                                                                           signer: signer)
+                signMessageBlock(extrinsicData.toHex(includePrefix: true))
+//                targetOperation.parameters = [extrinsicData.toHex(includePrefix: true)]
+            } catch {
+                targetOperation.result = .failure(error)
+                signMessageBlock(nil)
+            }
+        }
+
+        let dependencies: [Operation] = [nonceOperation, runtimeVersionOperation]
+
+        dependencies.forEach { targetOperation.addDependency($0)}
+
+        return CompoundOperationWrapper(targetOperation: targetOperation,
+                                        dependencies: dependencies)
+    }
 
     func createCompoundOperation<T>(result: Result<T, Error>) -> CompoundOperationWrapper<T> {
         let baseOperation = createBaseOperation(result: result)

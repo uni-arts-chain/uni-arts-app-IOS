@@ -69,3 +69,30 @@
 @implementation Model_arts_bought_Rsp
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark 请求出售转账地址 art_orders/lock_account_id
+@implementation Model_art_orders_lock_account_id_Req
+@end
+@implementation Model_art_orders_lock_account_id_Rsp
+- (NSString *)interfacePath {
+    return @"art_orders/lock_account_id";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 出售作品 art_orders
+@implementation Model_art_orders_Req
+@end
+@implementation Model_art_orders_Rsp
+- (NSString *)interfacePath {
+    return @"art_orders";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 提交订单 art_trades
+@implementation Model_art_trades_Req : Model_Req
+@end
+@implementation Model_art_trades_Rsp
+- (NSString *)interfacePath {
+    return @"art_trades";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
