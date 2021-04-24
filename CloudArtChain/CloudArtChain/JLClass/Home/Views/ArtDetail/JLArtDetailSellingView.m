@@ -11,6 +11,11 @@
 
 @interface JLArtDetailSellingView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIView *bottomCenterView;
+@property (nonatomic, strong) UILabel *openCloseLabel;
+@property (nonatomic, strong) UIImageView *arrowImageView;
+@property (nonatomic, strong) UIButton *openCloseButton;
 @property (nonatomic, strong) UITableView *tableView;
 @end
 
@@ -25,11 +30,34 @@
 
 - (void)setSellingArray:(NSArray *)sellingArray {
     _sellingArray = sellingArray;
+    if (sellingArray.count > 4) {
+        self.bottomView.hidden = NO;
+        [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self);
+            make.top.equalTo(self.titleLabel.mas_bottom);
+            make.bottom.equalTo(self.bottomView.mas_top);
+        }];
+    } else {
+        self.bottomView.hidden = YES;
+        [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self);
+            make.top.equalTo(self.titleLabel.mas_bottom);
+            make.bottom.equalTo(self);
+        }];
+    }
     [self.tableView reloadData];
 }
 
 - (void)createSubViews {
+    // 标题高度 55.0f
     [self addSubview:self.titleLabel];
+    [self addSubview:self.bottomView];
+    // 底部高度 48.0f
+    [self.bottomView addSubview:self.bottomCenterView];
+    [self.bottomCenterView addSubview:self.openCloseLabel];
+    [self.bottomCenterView addSubview:self.arrowImageView];
+    [self.bottomView addSubview:self.openCloseButton];
+    // 35.0f + 38.0f * row
     [self addSubview:self.tableView];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -37,10 +65,33 @@
         make.top.mas_equalTo(10.0f);
         make.height.mas_equalTo(45.0f);
     }];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self);
+        make.bottom.mas_equalTo(-15.0f);
+        make.height.mas_equalTo(33.0f);
+    }];
+    
+    [self.bottomCenterView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.bottomView);
+    }];
+    [self.openCloseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.bottomView);
+    }];
+    [self.openCloseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self.bottomCenterView);
+    }];
+    [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bottomCenterView);
+        make.width.mas_equalTo(12.0f);
+        make.height.mas_equalTo(7.0f);
+        make.left.equalTo(self.openCloseLabel.mas_right).offset(4.0f);
+        make.centerY.equalTo(self.bottomCenterView.mas_centerY);
+    }];
+    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
         make.top.equalTo(self.titleLabel.mas_bottom);
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self.bottomView.mas_top);
     }];
 }
 
@@ -49,6 +100,55 @@
         _titleLabel = [JLUIFactory labelInitText:@"出售列表" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
+}
+
+- (UIView *)bottomView {
+    if (!_bottomView) {
+        _bottomView = [[UIView alloc] init];
+    }
+    return _bottomView;
+}
+
+- (UIView *)bottomCenterView {
+    if (!_bottomCenterView) {
+        _bottomCenterView = [[UIView alloc] init];
+    }
+    return _bottomCenterView;
+}
+
+- (UILabel *)openCloseLabel {
+    if (!_openCloseLabel) {
+        _openCloseLabel = [JLUIFactory labelInitText:@"展开全部列表" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentCenter];
+    }
+    return _openCloseLabel;
+}
+
+- (UIImageView *)arrowImageView {
+    if (!_arrowImageView) {
+        _arrowImageView = [JLUIFactory imageViewInitImageName:@"icon_artdetail_selling_arrow"];
+    }
+    return _arrowImageView;
+}
+
+- (UIButton *)openCloseButton {
+    if (!_openCloseButton) {
+        _openCloseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_openCloseButton addTarget:self action:@selector(openCloseButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _openCloseButton;
+}
+
+- (void)openCloseButtonClick {
+    self.openCloseButton.selected = !self.openCloseButton.selected;
+    self.arrowImageView.transform = CGAffineTransformRotate(self.arrowImageView.transform, M_PI);
+    if (self.openCloseButton.selected) {
+        self.openCloseLabel.text = @"收起全部列表";
+    } else {
+        self.openCloseLabel.text= @"展开全部列表";
+    }
+    if (self.openCloseListBlock) {
+        self.openCloseListBlock(self.openCloseButton.selected);
+    }
 }
 
 - (UITableView *)tableView {
@@ -61,6 +161,7 @@
         _tableView.estimatedSectionHeaderHeight = 35.0f;
         _tableView.estimatedSectionFooterHeight = 0;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.scrollEnabled = NO;
         [_tableView registerClass:[JLArtDetailSellingTableViewCell class] forCellReuseIdentifier:@"JLArtDetailSellingTableViewCell"];
     }
     return _tableView;
@@ -135,6 +236,11 @@
         make.width.mas_equalTo(kScreenWidth * 0.25f);
     }];
     return headerView;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc] init];
+    return footerView;
 }
 
 @end

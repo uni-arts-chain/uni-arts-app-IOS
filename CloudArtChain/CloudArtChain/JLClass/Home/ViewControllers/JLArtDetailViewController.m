@@ -47,6 +47,8 @@
 @property (nonatomic, strong) UIButton *dislikeButton;
 // 测试数据
 @property (nonatomic, strong) NSArray *tempImageArray;
+// 当前出售列表
+@property (nonatomic, strong) NSArray *currentSellingList;
 @end
 
 @implementation JLArtDetailViewController
@@ -102,8 +104,10 @@
     }];
     // 作品详情
     [self.scrollView addSubview:self.artDetailNamePriceView];
-    // 出售列表
-    [self.scrollView addSubview:self.artSellingView];
+    if (self.artDetailData.collection_mode == 3) {
+        // 出售列表
+        [self.scrollView addSubview:self.artSellingView];
+    }
     // 区块链交易信息
     [self.scrollView addSubview:self.artChainTradeView];
     // 创作者简介
@@ -377,13 +381,12 @@
         } else {
             // 判断是否可以拆分 不可以拆分
             if (self.artDetailData.collection_mode != 3) {
-                [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderCallWithCollectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {
-                    if (success) {
-                        JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
-                        orderSubmitVC.artDetailData = self.artDetailData;
-                        [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
-                    }
-                }];
+                if (self.currentSellingList.count >0) {
+                    JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                    orderSubmitVC.artDetailData = self.artDetailData;
+                    orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
+                    [self.navigationController pushViewController:orderSubmitVC animated:YES];
+                }
             }
         }
     }
@@ -631,7 +634,7 @@
 - (JLArtDetailSellingView *)artSellingView {
     if (!_artSellingView) {
         WS(weakSelf)
-        _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 280.0f)];
+        _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f)];
         _artSellingView.offFromListBlock = ^{
             
         };
@@ -644,13 +647,28 @@
             };
             [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
         };
+        _artSellingView.openCloseListBlock = ^(BOOL isOpen) {
+            if (isOpen) {
+                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
+                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
+                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+            } else {
+                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
+                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
+                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+            }
+        };
     }
     return _artSellingView;
 }
 
 - (JLArtChainTradeView *)artChainTradeView {
     if (!_artChainTradeView) {
-        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f)];
+        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artSellingView.frameBottom + 10.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 120.0f)];
         _artChainTradeView.artDetailData = self.artDetailData;
     }
     return _artChainTradeView;
@@ -727,6 +745,16 @@
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             weakSelf.artSellingView.sellingArray = response.body;
+            weakSelf.currentSellingList = response.body;
+            
+            // 更新视图
+            if (weakSelf.artDetailData.collection_mode == 3) {
+                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (response.body.count > 4 ? 4 : response.body.count) + (response.body.count > 4 ? 48.0f : 0.0f));
+                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
+                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
+                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+            }
         }
     }];
 }

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *sellingArray;
 @property (nonatomic, copy) void(^offFromListBlock)(void);
 @property (nonatomic, copy) void(^buyBlock)(Model_arts_id_orders_Data *sellOrderData);
+@property (nonatomic, copy) void(^openCloseListBlock)(BOOL isOpen);
 @end
 
 NS_ASSUME_NONNULL_END
