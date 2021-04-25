@@ -135,7 +135,7 @@
         [self.worksImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
     }
     self.nameLabel.text = [NSString stringIsEmpty:artDetailData.name] ? @"" : artDetailData.name;
-    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue], artDetailData.size_width, artDetailData.size_length];
+//    self.infoLabel.text = [NSString stringWithFormat:@"%@，%@x%@cm", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue], artDetailData.size_width, artDetailData.size_length];
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
 }
 

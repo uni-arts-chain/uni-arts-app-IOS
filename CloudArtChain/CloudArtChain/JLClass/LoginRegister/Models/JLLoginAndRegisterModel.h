@@ -67,3 +67,21 @@
 @property (nonatomic, strong) UserDataBody *body;
 @end
 // ==========================================================
+#pragma mark /v1/members/send_sms 发送绑定手机号验证码
+@interface Model_members_send_sms_Req : Model_Req
+@property (nonatomic, strong) NSString *phone_number;
+/** change_phone */
+@property (nonatomic, strong) NSString *send_type;
+@end
+@interface Model_members_send_sms_Rsp : Model_Rsp_V1
+@end
+// ==========================================================
+#pragma mark /v1/members/bind_phone 绑定手机号码
+@interface Model_members_bind_phone_Req : Model_Req
+@property (nonatomic, strong) NSString *phone_number;
+@property (nonatomic, strong) NSString *phone_token;
+@end
+@interface Model_members_bind_phone_Rsp : Model_Rsp_V1
+
+@end
+// ==========================================================

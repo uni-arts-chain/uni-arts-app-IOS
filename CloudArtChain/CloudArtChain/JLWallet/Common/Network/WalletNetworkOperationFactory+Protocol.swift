@@ -105,6 +105,73 @@ extension WalletNetworkOperationFactory: WalletNetworkOperationFactoryProtocol {
                                         dependencies: dependencies)
     }
     
+    func signMessageMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8, signMessageBlock: ((String?) -> Void)?) -> CompoundOperationWrapper<TransferMetaData?> {
+        guard
+            let asset = accountSettings.assets.first(where: { $0.identifier == info.assetId }),
+            let assetId = WalletAssetId(rawValue: asset.identifier) else {
+            let error = WalletNetworkOperationFactoryError.invalidAsset
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        guard let chain = assetId.chain else {
+            let error = WalletNetworkOperationFactoryError.invalidChain
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        guard let receiver = try? Data(hexString: info.receiver),
+              let accountKey = try? StorageKeyFactory().accountInfoKeyForId(receiver)
+                .toHex(includePrefix: true) else {
+            let error = WalletNetworkOperationFactoryError.invalidReceiver
+            return createCompoundOperation(result: .failure(error))
+        }
+
+        let receiverOperation = JSONRPCListOperation<JSONScaleDecodable<AccountInfo>>(engine: engine,
+                                                                  method: RPCMethod.getStorage,
+                                                                  parameters: [accountKey])
+
+        let infoOperation = JSONRPCListOperation<RuntimeDispatchInfo>(engine: engine,
+                                                                      method: RPCMethod.paymentInfo)
+
+        let compoundInfo = getTransferExtrinsicMessage(infoOperation, call: call, moduleIndex: moduleIndex, callIndex: callIndex, receiver: info.receiver, chain: chain, signer: dummySigner, signMessageBlock: signMessageBlock)
+
+        let mapOperation: ClosureOperation<TransferMetaData?> = ClosureOperation {
+            let paymentInfo = try infoOperation
+                .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+            guard let fee = BigUInt(paymentInfo.fee),
+                let decimalFee = Decimal.fromSubstrateAmount(fee, precision: asset.precision) else {
+                return nil
+            }
+
+            let amount = AmountDecimal(value: decimalFee)
+
+            let feeDescription = FeeDescription(identifier: asset.identifier,
+                                                assetId: asset.identifier,
+                                                type: FeeType.fixed.rawValue,
+                                                parameters: [amount])
+
+            if let receiverInfo = try receiverOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+                    .underlyingValue {
+                let context = TransferMetadataContext(data: receiverInfo.data,
+                                                      precision: asset.precision)
+                    .toContext()
+                return TransferMetaData(feeDescriptions: [feeDescription],
+                                        context: context)
+            } else {
+                return TransferMetaData(feeDescriptions: [feeDescription])
+            }
+        }
+
+        mapOperation.addDependency(compoundInfo.targetOperation)
+        mapOperation.addDependency(receiverOperation)
+
+        let dependencies = compoundInfo.allOperations + [receiverOperation]
+
+        return CompoundOperationWrapper(targetOperation: mapOperation,
+                                        dependencies: dependencies)
+    }
+    
     func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
         guard
             let asset = accountSettings.assets.first(where: { $0.identifier == info.assetId }),

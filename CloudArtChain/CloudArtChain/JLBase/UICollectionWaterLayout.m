@@ -30,6 +30,8 @@
 }
 
 - (void)prepareLayout {
+    [super prepareLayout];
+    [self.attrArray removeAllObjects];
     //计算每个cell的宽度
     self.minimumLineSpacing = 14.0f;
     self.minimumInteritemSpacing = 14.0f;

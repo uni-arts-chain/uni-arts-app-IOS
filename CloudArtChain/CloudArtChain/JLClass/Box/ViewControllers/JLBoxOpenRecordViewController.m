@@ -42,7 +42,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,37 +110,24 @@
 
 #pragma mark  请求订单
 - (void)requestOpenRecord {
-//    WS(weakSelf)
-//    Model_orders_Req *request = [[Model_orders_Req alloc] init];
-//    if (self.state == JLMinerOrderStatePaying) {
-//        request.state = @"paying";
-//    } else if(self.state == JLMinerOrderStatePreparing) {
-//        request.mining_state = @"waitting";
-//    } else if (self.state == JLMinerOrderStateWaiting) {
-//        request.mining_state = @"suspend";
-//    } else if (self.state == JLMinerOrderStateRunning) {
-//        request.mining_state = @"running";
-//    }
-//    request.page = self.currentPage;
-//    Model_orders_Rsp *response = [[Model_orders_Rsp alloc] init];
-//
-//    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-//        if (netIsWork) {
-//            if (weakSelf.currentPage == 1) {
-//                [weakSelf.dataArray removeAllObjects];
-//            }
+    WS(weakSelf)
+    Model_blind_box_draws_Req *request = [[Model_blind_box_draws_Req alloc] init];
+    Model_blind_box_draws_Rsp *response = [[Model_blind_box_draws_Rsp alloc] init];
+
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.dataArray removeAllObjects];
+            }
 //            [weakSelf.dataArray addObjectsFromArray:response.body];
 //            [weakSelf endRefresh:response.body];
-//            [weakSelf setEmptyViewShow];
-//            [weakSelf.tableView reloadData];
-//        } else {
-//            [weakSelf.tableView.mj_header endRefreshing];
-//            [weakSelf.tableView.mj_footer endRefreshing];
-//        }
-//    }];
-    [self endRefresh:[NSArray array]];
-//    [self setEmptyViewShow];
-    [self.tableView reloadData];
+            [weakSelf setEmptyViewShow];
+            [weakSelf.tableView reloadData];
+        } else {
+            [weakSelf.tableView.mj_header endRefreshing];
+            [weakSelf.tableView.mj_footer endRefreshing];
+        }
+    }];
 }
 
 - (void)endRefresh:(NSArray*)orderArray {

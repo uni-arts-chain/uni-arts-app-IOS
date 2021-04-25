@@ -211,6 +211,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     }
     
     @objc func reloadContacts() {
+        getRootPresenter()
         self.getContacts()
     }
     
@@ -418,7 +419,11 @@ extension JLWalletTool {
     }
     
     @objc func productSellConfirm(block:@escaping (String?) -> Void) {
-        self.confirmVC?.presenter.jlperformActionWithSignMessage(signMessageBlock: block)
+        if let tempConfirmVC = self.confirmVC {
+            tempConfirmVC.presenter.jlperformActionWithSignMessage(signMessageBlock: block)
+        } else {
+            block(nil)
+        }
     }
     
     @objc func productSellCancel() {

@@ -57,7 +57,34 @@
 
 - (JLInputView *)verifyCodeInputView {
     if (!_verifyCodeInputView) {
+        WS(weakSelf)
         _verifyCodeInputView = [[JLInputView alloc] initWithHeadImage:@"icon_verifycode" placeholder:@"请输入验证码" trailType:JLInputTrailTypeVerifyCode];
+        _verifyCodeInputView.sendSmsBlock = ^(JLTimeButton * _Nonnull sender) {
+            [weakSelf.view endEditing:YES];
+            if ([NSString stringIsEmpty:weakSelf.phoneInputView.inputContent]) {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入手机号码" hideTime:KToastDismissDelayTimeInterval];
+                return;
+            }
+            if (![JLUtils checkTelNumber:weakSelf.phoneInputView.inputContent]) {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入正确的手机号码" hideTime:KToastDismissDelayTimeInterval];
+                return;
+            }
+            // 发送验证码
+            Model_members_send_sms_Req *request = [[Model_members_send_sms_Req alloc] init];
+            request.phone_number = [NSString stringWithFormat:@"86%@", weakSelf.phoneInputView.inputContent];
+            request.send_type = @"change_phone";
+            Model_members_send_sms_Rsp *response = [[Model_members_send_sms_Rsp alloc] init];
+            
+            [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                [[JLLoading sharedLoading] hideLoading];
+                if (netIsWork) {
+                    [sender startCountDown];
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        };
     }
     return _verifyCodeInputView;
 }
@@ -68,7 +95,7 @@
         [_bindButton setTitle:@"确认绑定" forState:UIControlStateNormal];
         [_bindButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _bindButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _bindButton.backgroundColor = JL_color_blue_50C3FF;
+        _bindButton.backgroundColor = JL_color_gray_101010;
         ViewBorderRadius(_bindButton, 23.0f, 0.0f, JL_color_clear);
         [_bindButton addTarget:self action:@selector(bindButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -76,6 +103,23 @@
 }
 
 - (void)bindButtonClick {
+    WS(weakSelf)
+    Model_members_bind_phone_Req *request = [[Model_members_bind_phone_Req alloc] init];
+    request.phone_number = [NSString stringWithFormat:@"86%@", self.phoneInputView.inputContent];
+    request.phone_token = self.verifyCodeInputView.inputContent;
+    Model_members_bind_phone_Rsp *response = [[Model_members_bind_phone_Rsp alloc] init];
     
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.bindPhoneSuccessBlock) {
+                weakSelf.bindPhoneSuccessBlock([NSString stringWithFormat:@"86%@", weakSelf.phoneInputView.inputContent]);
+            }
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
 }
 @end

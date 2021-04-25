@@ -11,6 +11,7 @@ import FearlessUtils
 public protocol ContactViewModelDelegate: class {
     func didSelect(contact: ContactViewModelProtocol)
     func didSelect(contact: ContactViewModelProtocol, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8) -> TransferViewController?
+    func selectToGetSignMessage(contact: ContactViewModelProtocol, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> TransferViewController?
 }
 
 

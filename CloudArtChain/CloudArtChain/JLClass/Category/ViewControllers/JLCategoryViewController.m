@@ -19,8 +19,8 @@
 
 @interface JLCategoryViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) JLCategoryNaviView *cateNaviView;
-@property (nonatomic, strong) JLCateFilterView *cateFilterView;
 @property (nonatomic, strong) JLCateFilterView *themeFilterView;
+@property (nonatomic, strong) JLCateFilterView *typeFilterView;
 @property (nonatomic, strong) JLCateFilterView *priceFilterView;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) JLNormalEmptyView *emptyView;
@@ -28,10 +28,9 @@
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) NSInteger currentPage;
 
-@property (nonatomic, strong) NSString *currentCategoryID;
 @property (nonatomic, strong) NSString *currentThemeID;
-@property (nonatomic, strong) NSString *currentLT;
-@property (nonatomic, strong) NSString *currentGTE;
+@property (nonatomic, strong) NSString *currentTypeID;
+@property (nonatomic, strong) NSString *currentPriceID;
 @end
 
 @implementation JLCategoryViewController
@@ -55,8 +54,8 @@
 
 - (void)createView {
     [self.view addSubview:self.cateNaviView];
-    [self.view addSubview:self.cateFilterView];
     [self.view addSubview:self.themeFilterView];
+    [self.view addSubview:self.typeFilterView];
     [self.view addSubview:self.priceFilterView];
     [self.view addSubview:self.collectionView];
 }
@@ -73,38 +72,18 @@
     return _cateNaviView;
 }
 
-- (JLCateFilterView *)cateFilterView {
-    if (!_cateFilterView) {
-        WS(weakSelf)
-        NSMutableArray *tempCateArray = [NSMutableArray array];
-        for (Model_arts_categories_Data *cateData in [AppSingleton sharedAppSingleton].artCategoryArray) {
-            [tempCateArray addObject:cateData.title];
-        }
-        _cateFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"分类" items:[tempCateArray copy] selectBlock:^(NSInteger index) {
-            if (index == 0) {
-                weakSelf.currentCategoryID = nil;
-            } else {
-                Model_arts_categories_Data *selectedCateData = [AppSingleton sharedAppSingleton].artCategoryArray[index - 1];
-                weakSelf.currentCategoryID = selectedCateData.ID;
-            }
-            [weakSelf headRefresh];
-        }];
-    }
-    return _cateFilterView;
-}
-
 - (JLCateFilterView *)themeFilterView {
     if (!_themeFilterView) {
         WS(weakSelf)
         NSMutableArray *tempThemeArray = [NSMutableArray array];
-        for (Model_arts_themes_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
+        for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateFilterView.frameBottom, kScreenWidth, 40.0f) title:@"题材" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
-                Model_arts_themes_Data *selectedThemeData = [AppSingleton sharedAppSingleton].artThemeArray[index - 1];
+                Model_arts_theme_Data *selectedThemeData = [AppSingleton sharedAppSingleton].artThemeArray[index - 1];
                 weakSelf.currentThemeID = selectedThemeData.ID;
             }
             [weakSelf headRefresh];
@@ -113,27 +92,39 @@
     return _themeFilterView;
 }
 
+- (JLCateFilterView *)typeFilterView {
+    if (!_typeFilterView) {
+        WS(weakSelf)
+        NSMutableArray *tempTypeArray = [NSMutableArray array];
+        for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
+            [tempTypeArray addObject:typeData.title];
+        }
+        _typeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"类型" items:[tempTypeArray copy] selectBlock:^(NSInteger index) {
+            if (index == 0) {
+                weakSelf.currentTypeID = nil;
+            } else {
+                Model_arts_art_types_Data *selectedTypeData = [AppSingleton sharedAppSingleton].artTypeArray[index - 1];
+                weakSelf.currentTypeID = selectedTypeData.ID;
+            }
+            [weakSelf headRefresh];
+        }];
+    }
+    return _typeFilterView;
+}
+
 - (JLCateFilterView *)priceFilterView {
     if (!_priceFilterView) {
         WS(weakSelf)
         NSMutableArray *tempPriceArray = [NSMutableArray array];
         for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
-            if ([NSString stringIsEmpty:priceData.lt]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以上", priceData.gte]];
-            } else if ([NSString stringIsEmpty:priceData.gte]) {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@以下", priceData.lt]];
-            } else {
-                [tempPriceArray addObject:[NSString stringWithFormat:@"¥%@-¥%@", priceData.gte, priceData.lt]];
-            }
+            [tempPriceArray addObject:priceData.title];
         }
-        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] selectBlock:^(NSInteger index) {
+        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
-                weakSelf.currentLT = nil;
-                weakSelf.currentGTE = nil;
+                weakSelf.currentPriceID = nil;
             } else {
                 Model_arts_prices_Data *selectedPriceData = [AppSingleton sharedAppSingleton].artPriceArray[index - 1];
-                weakSelf.currentLT = selectedPriceData.lt;
-                weakSelf.currentGTE = selectedPriceData.gte;
+                weakSelf.currentPriceID = selectedPriceData.ID;
             }
             [weakSelf headRefresh];
         }];
@@ -245,17 +236,14 @@
     Model_arts_selling_Req *request = [[Model_arts_selling_Req alloc] init];
     request.page = self.currentPage;
     request.per_page = kPageSize;
-    if (![NSString stringIsEmpty:self.currentCategoryID]) {
-        request.category_id = self.currentCategoryID;
-    }
     if (![NSString stringIsEmpty:self.currentThemeID]) {
-        request.theme_id = self.currentThemeID;
+        request.category_id = self.currentThemeID;
     }
-    if (![NSString stringIsEmpty:self.currentGTE]) {
-        request.price_gte = self.currentGTE;
+    if (![NSString stringIsEmpty:self.currentTypeID]) {
+        request.resource_type = self.currentTypeID;
     }
-    if (![NSString stringIsEmpty:self.currentLT]) {
-        request.price_lt = self.currentLT;
+    if (![NSString stringIsEmpty:self.currentPriceID]) {
+        request.price_sort = self.currentPriceID;
     }
     Model_arts_selling_Rsp *response = [[Model_arts_selling_Rsp alloc] init];
     
@@ -277,5 +265,4 @@
         }
     }];
 }
-
 @end

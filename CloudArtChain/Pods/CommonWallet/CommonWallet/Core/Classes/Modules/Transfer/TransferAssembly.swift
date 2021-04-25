@@ -58,6 +58,25 @@ final class TransferAssembly: TransferAssemblyProtocol {
             return nil
         }
     }
+    
+    static func assembleViewToGetSignMessage(with resolver: ResolverProtocol, payload: TransferPayload, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> TransferViewProtocol? {
+        do {
+            guard let view = createView(resolver) else {
+                return nil
+            }
+
+            let coordinator = TransferCoordinator(resolver: resolver)
+            
+            let presenter = try createPresenterToGetSignMessage(resolver, payload: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex, view: view, coordinator: coordinator, signMessageBlock: signMessageBlock)
+
+            view.presenter = presenter
+
+            return view
+        } catch {
+            resolver.logger?.error("Did receive unexpected error \(error)")
+            return nil
+        }
+    }
 
     private static func createViewModelFactory(from resolver: ResolverProtocol) -> TransferViewModelFactoryProtocol {
 
@@ -152,7 +171,8 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                feeEditing: feeEditing,
                                                call: nil,
                                                moduleIndex: 29,
-                                               callIndex: 0)
+                                               callIndex: 0,
+                                               signMessageBlock: nil)
         presenter.logger = resolver.logger
 
         return presenter
@@ -200,7 +220,58 @@ final class TransferAssembly: TransferAssemblyProtocol {
                                                feeEditing: feeEditing,
                                                call: call,
                                                moduleIndex: moduleIndex,
-                                               callIndex: callIndex)
+                                               callIndex: callIndex,
+                                               signMessageBlock: nil)
+        presenter.logger = resolver.logger
+
+        return presenter
+    }
+    
+    private static func createPresenterToGetSignMessage(_ resolver: ResolverProtocol,
+                                        payload: TransferPayload,
+                                        call: ScaleCodable,
+                                        moduleIndex: UInt8,
+                                        callIndex: UInt8,
+                                        view: TransferViewProtocol,
+                                        coordinator: TransferCoordinatorProtocol,
+                                        signMessageBlock: @escaping (String?) -> Void) throws
+        -> TransferPresenter {
+        let dataProviderFactory = DataProviderFactory(accountSettings: resolver.account,
+                                                      cacheFacade: CoreDataCacheFacade.shared,
+                                                      networkOperationFactory: resolver.networkOperationFactory,
+                                                      identifierFactory: resolver.singleValueIdentifierFactory)
+
+        let viewModelFactory = createViewModelFactory(from: resolver)
+
+        let headerFactory = resolver.transferConfiguration.headerFactory
+        let receiverPosition = resolver.transferConfiguration.receiverPosition
+
+        let resultValidator = resolver.transferConfiguration.resultValidator
+        let changeHandler = resolver.transferConfiguration.changeHandler
+        let errorHandler = resolver.transferConfiguration.errorHandler
+        let feeEditing = resolver.transferConfiguration.feeEditing
+
+        let eligibleAssets = resolver.account.assets.filter { $0.modes.contains(.transfer) }
+
+        let presenter = try  TransferPresenter(view: view,
+                                               coordinator: coordinator,
+                                               assets: eligibleAssets,
+                                               accountId: resolver.account.accountId,
+                                               payload: payload,
+                                               dataProviderFactory: dataProviderFactory,
+                                               feeCalculationFactory: resolver.feeCalculationFactory,
+                                               resultValidator: resultValidator,
+                                               changeHandler: changeHandler,
+                                               viewModelFactory: viewModelFactory,
+                                               headerFactory: headerFactory,
+                                               receiverPosition: receiverPosition,
+                                               localizationManager: resolver.localizationManager,
+                                               errorHandler: errorHandler,
+                                               feeEditing: feeEditing,
+                                               call: call,
+                                               moduleIndex: moduleIndex,
+                                               callIndex: callIndex,
+                                               signMessageBlock: signMessageBlock)
         presenter.logger = resolver.logger
 
         return presenter

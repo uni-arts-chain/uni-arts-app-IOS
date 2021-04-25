@@ -162,7 +162,7 @@
 @property (nonatomic, strong) NSString *encrpt_extrinsic_message;
 @end
 @interface Model_art_orders_Rsp : Model_Rsp_V1
-
+@property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark 提交订单 art_trades

@@ -436,8 +436,9 @@
                                     [[JLLoading sharedLoading] hideLoading];
                                     if (netIsWork) {
                                         if (weakSelf.sellBlock) {
-                                            weakSelf.sellBlock();
+                                            weakSelf.sellBlock(response.body);
                                         }
+                                        [weakSelf.navigationController popViewControllerAnimated:YES];
                                     } else {
                                         [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                                     }

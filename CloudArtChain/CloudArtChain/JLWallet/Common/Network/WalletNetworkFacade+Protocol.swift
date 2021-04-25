@@ -160,6 +160,10 @@ extension WalletNetworkFacade: WalletNetworkOperationFactoryProtocol {
     func transferMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8) -> CompoundOperationWrapper<TransferMetaData?> {
         nodeOperationFactory.transferMetadataOperation(info, call, moduleIndex, callIndex)
     }
+    
+    func signMessageMetadataOperation(_ info: TransferMetadataInfo, _ call: ScaleCodable?, _ moduleIndex: UInt8, _ callIndex: UInt8, signMessageBlock: ((String?) -> Void)?) -> CompoundOperationWrapper<TransferMetaData?> {
+        nodeOperationFactory.signMessageMetadataOperation(info, call, moduleIndex, callIndex, signMessageBlock: signMessageBlock)
+    }
 
     func transferOperation(_ info: TransferInfo) -> CompoundOperationWrapper<Data> {
         do {

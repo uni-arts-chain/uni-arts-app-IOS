@@ -35,6 +35,15 @@ final class ContactsCoordinator: ContactsCoordinatorProtocol {
         (amountView as! TransferViewController).presenter.setup()
         return (amountView as! TransferViewController)
     }
+    
+    func sendToGetSignMessage(to payload: TransferPayload, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> TransferViewController? {
+        guard let amountView = TransferAssembly.assembleViewToGetSignMessage(with: resolver, payload: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex, signMessageBlock: signMessageBlock) else {
+            return nil
+        }
+        (amountView as! TransferViewController).loadView()
+        (amountView as! TransferViewController).presenter.setup()
+        return (amountView as! TransferViewController)
+    }
 
     func scanInvoice() {
         guard let scanView = InvoiceScanAssembly.assembleView(with: resolver) else {

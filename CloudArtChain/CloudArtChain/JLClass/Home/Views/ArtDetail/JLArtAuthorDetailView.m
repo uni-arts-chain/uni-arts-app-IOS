@@ -131,6 +131,6 @@
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = artDetailData.author.display_name;
-    self.descLabel.text = @"1973年出生于南京，币圈早期投资人，现主要收藏NFT相关作品";
+    self.descLabel.text = artDetailData.author.desc;
 }
 @end

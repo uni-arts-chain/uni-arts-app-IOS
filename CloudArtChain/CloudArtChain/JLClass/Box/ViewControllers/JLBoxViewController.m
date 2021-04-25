@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong) NSMutableArray *boxList;
 @end
 
 @implementation JLBoxViewController
@@ -27,6 +28,8 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (UITableView *)tableView {
@@ -53,10 +56,12 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
+    [self requetBlindBoxList];
 }
 
 - (void)footRefresh {
     self.currentPage++;
+    [self requetBlindBoxList];
 }
 
 - (void)endRefresh:(NSArray*)boxArray {
@@ -69,11 +74,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.boxList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLBoxTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLBoxTableViewCell" forIndexPath:indexPath];
+    cell.boxData = self.boxList[indexPath.row];
     return cell;
 }
 
@@ -92,7 +98,37 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     JLBoxDetailViewController *boxDetailVC = [[JLBoxDetailViewController alloc] init];
+    boxDetailVC.boxData = self.boxList[indexPath.row];
     [self.navigationController pushViewController:boxDetailVC animated:YES];
+}
+
+- (void)requetBlindBoxList {
+    WS(weakSelf)
+    Model_blind_boxes_Req *request = [[Model_blind_boxes_Req alloc] init];
+    Model_blind_boxes_Rsp *response = [[Model_blind_boxes_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.boxList removeAllObjects];
+            }
+            [weakSelf.boxList addObjectsFromArray:response.body];
+            [weakSelf endRefresh:response.body];
+            [weakSelf.tableView reloadData];
+        } else {
+            [weakSelf.tableView.mj_header endRefreshing];
+            [weakSelf.tableView.mj_footer endRefreshing];
+        }
+    }];
+}
+
+- (NSMutableArray *)boxList {
+    if (!_boxList) {
+        _boxList = [NSMutableArray array];
+    }
+    return _boxList;
 }
 
 @end

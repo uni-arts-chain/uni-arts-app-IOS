@@ -28,7 +28,11 @@
     self.navigationItem.title = @"提交订单";
     [self addBackItem];
     [self createSubViews];
-    self.currentAmount = @"1";
+    if (self.artDetailData.collection_mode == 3) {
+        self.currentAmount = @"1";
+    } else {
+        self.currentAmount = self.sellingOrderData.amount;
+    }
     self.currentPayType = JLOrderPayTypeWeChat;
 }
 
@@ -152,8 +156,7 @@
     WS(weakSelf)
     if (indexPath.row == 0) {
         JLOrderDetailProductBottomPriceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductBottomPriceTableViewCell" forIndexPath:indexPath];
-        cell.artDetailData = self.artDetailData;
-        cell.sellingOrderData = self.sellingOrderData;
+        [cell setArtDetailData:self.artDetailData sellingOrderData:self.sellingOrderData];
         cell.totalPriceChangeBlock = ^(NSString * _Nonnull totalPrice, NSString * _Nonnull amount) {
             weakSelf.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPrice];
             weakSelf.currentAmount = amount;

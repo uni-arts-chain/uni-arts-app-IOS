@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxTableViewCell : UITableViewCell
-
+@property (nonatomic, strong) Model_blind_boxes_Data *boxData;
 @end
 
 NS_ASSUME_NONNULL_END

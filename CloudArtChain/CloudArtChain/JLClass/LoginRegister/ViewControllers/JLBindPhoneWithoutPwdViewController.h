@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBindPhoneWithoutPwdViewController : JLBaseViewController
-
+@property (nonatomic, copy) void(^bindPhoneSuccessBlock)(NSString *bindPhone);
 @end
 
 NS_ASSUME_NONNULL_END

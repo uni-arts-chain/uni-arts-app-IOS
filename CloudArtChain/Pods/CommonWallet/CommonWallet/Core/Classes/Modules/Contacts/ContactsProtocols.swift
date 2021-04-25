@@ -25,6 +25,7 @@ protocol ContactsCoordinatorProtocol: class {
     
     func send(to payload: TransferPayload)
     func send(to payload: TransferPayload, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8) -> TransferViewController?
+    func sendToGetSignMessage(to payload: TransferPayload, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> TransferViewController?
     func scanInvoice()
     
 }

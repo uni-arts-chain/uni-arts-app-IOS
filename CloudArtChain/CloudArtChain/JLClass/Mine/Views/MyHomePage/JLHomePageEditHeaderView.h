@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UserDataBody *userData;
 @property (nonatomic, copy) void(^nameEditBlock)(void);
 @property (nonatomic, copy) void(^descEditBlock)(void);
+@property (nonatomic, copy) void(^avatarEditBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

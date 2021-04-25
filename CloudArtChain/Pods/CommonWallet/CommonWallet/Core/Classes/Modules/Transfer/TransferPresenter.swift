@@ -55,6 +55,7 @@ final class TransferPresenter {
     let callIndex: UInt8
     let moduleIndex: UInt8
     let receiverPosition: TransferReceiverPosition
+    let signMessageBlock: ((String?) -> Void)?
 
     var selectedBalance: BalanceData? {
         balances?.first { $0.identifier == selectedAsset.identifier }
@@ -85,7 +86,8 @@ final class TransferPresenter {
          feeEditing: FeeEditing?,
          call: ScaleCodable?,
          moduleIndex: UInt8,
-         callIndex: UInt8) throws {
+         callIndex: UInt8,
+         signMessageBlock: ((String?) -> Void)?) throws {
 
         if let assetId = payload.receiveInfo.assetId,
             let asset = assets.first(where: { $0.identifier == assetId }) {
@@ -103,16 +105,20 @@ final class TransferPresenter {
         self.moduleIndex = moduleIndex
         self.callIndex = callIndex
         self.receiverPosition = receiverPosition
+        self.signMessageBlock = signMessageBlock
 
         self.dataProviderFactory = dataProviderFactory
         self.balanceDataProvider = try dataProviderFactory.createBalanceDataProvider()
-        self.metadataProvider = try dataProviderFactory
-            .createTransferMetadataProvider(for: selectedAsset.identifier,
-                                            receiver: payload.receiveInfo.accountId,
-                                            call: call,
-                                            moduleIndex: moduleIndex,
-                                            callIndex: callIndex)
-
+        if let tempBlock = signMessageBlock {
+            self.metadataProvider = try dataProviderFactory.createSignMessageMetadataProvider(for: selectedAsset.identifier, receiver: payload.receiveInfo.accountId, call: call, moduleIndex: moduleIndex, callIndex: callIndex, signMessageBlock: tempBlock)
+        } else {
+            self.metadataProvider = try dataProviderFactory
+                .createTransferMetadataProvider(for: selectedAsset.identifier,
+                                                receiver: payload.receiveInfo.accountId,
+                                                call: call,
+                                                moduleIndex: moduleIndex,
+                                                callIndex: callIndex)
+        }
         self.resultValidator = resultValidator
         self.feeCalculationFactory = feeCalculationFactory
         self.viewModelFactory = viewModelFactory

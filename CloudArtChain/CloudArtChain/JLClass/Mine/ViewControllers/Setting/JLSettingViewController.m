@@ -47,6 +47,13 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
+- (void)backClick {
+    if (self.backBlock) {
+        self.backBlock();
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)createSubViews {
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -227,6 +234,10 @@
             {
                 if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
                     JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
+                    bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
+                        [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
+                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+                    };
                     [self.navigationController pushViewController:bindPhoneVC animated:YES];
                 }
             }

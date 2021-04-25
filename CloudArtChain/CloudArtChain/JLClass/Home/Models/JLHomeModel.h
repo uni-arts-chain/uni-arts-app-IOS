@@ -153,6 +153,7 @@
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *fee;
 @property (nonatomic, strong) NSString *position;
+/** 状态,多个逗号分割 prepare(上传未上链), online(已上链), bidding(已上架), auctioning(拍卖中) */
 @property (nonatomic, strong) NSString *aasm_state;
 @property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, strong) NSString *collection_id;

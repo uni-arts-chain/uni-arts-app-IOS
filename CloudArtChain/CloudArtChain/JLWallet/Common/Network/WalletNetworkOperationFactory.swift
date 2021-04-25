@@ -168,7 +168,7 @@ final class WalletNetworkOperationFactory {
                                         receiver: String,
                                         chain: Chain,
                                         signer: IRSignatureCreatorProtocol,
-                                        signMessageBlock:@escaping (String?) -> Void) -> CompoundOperationWrapper<T> {
+                                        signMessageBlock: ((String?) -> Void)?) -> CompoundOperationWrapper<T> {
         let sender = accountSettings.accountId
         let currentCryptoType = cryptoType
 
@@ -200,11 +200,11 @@ final class WalletNetworkOperationFactory {
                                                                            call: call,
                                                                            additionalParameters: additionalParameters,
                                                                            signer: signer)
-                signMessageBlock(extrinsicData.toHex(includePrefix: true))
+                signMessageBlock?(extrinsicData.toHex(includePrefix: true))
 //                targetOperation.parameters = [extrinsicData.toHex(includePrefix: true)]
             } catch {
                 targetOperation.result = .failure(error)
-                signMessageBlock(nil)
+                signMessageBlock?(nil)
             }
         }
 

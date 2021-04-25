@@ -17,6 +17,7 @@
 #import "JLPersonalDescriptionViewController.h"
 #import "JLSellWithoutSplitViewController.h"
 #import "JLSellWithSplitViewController.h"
+#import "JLSettingViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageEditHeaderView.h"
@@ -124,6 +125,13 @@
             };
             [weakSelf.navigationController pushViewController:personalDescVC animated:YES];
         };
+        _homePageHeaderView.avatarEditBlock = ^{
+            JLSettingViewController *settingVC = [[JLSettingViewController alloc] init];
+            settingVC.backBlock = ^{
+                weakSelf.homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
+            };
+            [weakSelf.navigationController pushViewController:settingVC animated:YES];
+        };
     }
     return _homePageHeaderView;
 }
@@ -206,8 +214,7 @@
                 // 可以拆分
                 JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
                 sellWithSplitVC.artDetailData = artDetailData;
-                sellWithSplitVC.sellBlock = ^{
-                    artDetailData.aasm_state = @"bidding";
+                sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
                     JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
                     [biddingVC addToBiddingList:artDetailData];
                 };
@@ -216,6 +223,10 @@
                 // 不可拆分
                 JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
                 sellWithoutSplitVC.artDetailData = artDetailData;
+                sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
+                    [biddingVC addToBiddingList:artDetailData];
+                };
                 [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
             }
         };

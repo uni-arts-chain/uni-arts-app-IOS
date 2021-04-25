@@ -187,7 +187,7 @@
     Model_arts_mine_Req *request = [[Model_arts_mine_Req alloc] init];
     request.page = self.currentPage;
     request.per_page = kPageSize;
-    request.aasm_state = self.workListType == JLWorkListTypeListed ? @"bidding,auctioning" : @"prepare,online";
+    request.aasm_state = self.workListType == JLWorkListTypeListed ? @"bidding,auctioning" : @"online";
     Model_arts_mine_Rsp *response = [[Model_arts_mine_Rsp alloc] init];
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {

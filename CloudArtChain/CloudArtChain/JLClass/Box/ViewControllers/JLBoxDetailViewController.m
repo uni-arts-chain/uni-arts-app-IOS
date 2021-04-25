@@ -14,8 +14,8 @@
 
 #import "JLBoxDetailCardCollectionWaterLayout.h"
 #import "JLBoxCardCollectionViewCell.h"
-//#import "JLBoxOneCardView.h"
-#import "JLBoxTenCardView.h"
+#import "JLBoxOneCardView.h"
+//#import "JLBoxTenCardView.h"
 
 @interface JLBoxDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -37,13 +37,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"哈利·波特与凤凰社";
+    self.navigationItem.title = self.boxData.title;
     [self addBackItem];
     [self addRightBarButton];
     [self createSubViews];
-    
-    // 请求盲盒详情
-    [self requestBoxDetail];
+    [self getBoxCardList];
 }
 
 - (void)addRightBarButton {
@@ -152,21 +150,23 @@
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] init];
-        _headerImageView.backgroundColor = [UIColor randomColor];
+        if (![NSString stringIsEmpty:self.boxData.img_path]) {
+            [_headerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.img_path]];
+        }
     }
     return _headerImageView;
 }
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"哈利·波特与凤凰社盲盒" font:kFontPingFangSCMedium(18.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        _nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%@盲盒", self.boxData.title] font:kFontPingFangSCMedium(18.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _nameLabel;
 }
 
 - (UILabel *)detailLabel {
     if (!_detailLabel) {
-        _detailLabel = [JLUIFactory labelInitText:@"哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
+        _detailLabel = [JLUIFactory labelInitText:self.boxData.desc font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
     }
     return _detailLabel;
 }
@@ -185,19 +185,19 @@
 
 - (void)oneTimeButtonClick {
     WS(weakSelf)
-    JLBoxTenCardView *boxTenCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
-    boxTenCardView.closeBlock = ^{
+    JLBoxOneCardView *boxOneCardView = [[JLBoxOneCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
+    boxOneCardView.closeBlock = ^{
         [weakSelf lew_dismissPopupView];
     };
-    boxTenCardView.homepageBlock = ^{
+    boxOneCardView.homepageBlock = ^{
         JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
         [weakSelf.navigationController pushViewController:homePageVC animated:YES];
         [weakSelf lew_dismissPopupViewWithanimation:nil];
     };
-    boxTenCardView.center = self.view.window.center;
-    ViewBorderRadius(boxTenCardView, 5.0f, 0.0f, JL_color_clear);
+    boxOneCardView.center = self.view.window.center;
+    ViewBorderRadius(boxOneCardView, 5.0f, 0.0f, JL_color_clear);
     LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
-    [self lew_presentPopupView:boxTenCardView animation:animation backgroundClickable:NO dismissed:^{
+    [self lew_presentPopupView:boxOneCardView animation:animation backgroundClickable:NO dismissed:^{
        NSLog(@"动画结束");
     }];
 }
@@ -235,7 +235,7 @@
 
 - (UILabel *)ruleDescLabel {
     if (!_ruleDescLabel) {
-        _ruleDescLabel = [JLUIFactory labelInitText:@"1. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权。 \r\n2. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一张卡片。 \r\n3. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏。 \r\n4. 哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖。" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
+        _ruleDescLabel = [JLUIFactory labelInitText:self.boxData.rule font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
     }
     return _ruleDescLabel;
 }
@@ -243,7 +243,6 @@
 - (UIImageView *)footerImageView {
     if (!_footerImageView) {
         _footerImageView = [[UIImageView alloc] init];
-        _footerImageView.backgroundColor = [UIColor randomColor];
     }
     return _footerImageView;
 }
@@ -281,26 +280,16 @@
     return _boxCardArray;
 }
 
-- (void)requestBoxDetail {
-    WS(weakSelf)
-    Model_arts_selling_Req *request = [[Model_arts_selling_Req alloc] init];
-    request.page = 1;
-    request.per_page = kPageSize;
-    Model_arts_selling_Rsp *response = [[Model_arts_selling_Rsp alloc] init];
-    
-    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
-        if (netIsWork) {
-            [weakSelf.boxCardArray removeAllObjects];
-            [weakSelf.boxCardArray addObjectsFromArray:response.body];
-            [weakSelf.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo([self getCollectionHeight]);
-            }];
-            [weakSelf.scrollView layoutIfNeeded];
-            [self.collectionView reloadData];
-        }
+- (void)getBoxCardList {
+    [self.boxCardArray removeAllObjects];
+    for (Model_Model_blind_boxes_card_groups_Data *cardData in self.boxData.card_groups) {
+        [self.boxCardArray addObject:cardData.art];
+    }
+    [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo([self getCollectionHeight]);
     }];
+    [self.scrollView layoutIfNeeded];
+    [self.collectionView reloadData];
 }
 
 - (CGFloat)getCollectionHeight {

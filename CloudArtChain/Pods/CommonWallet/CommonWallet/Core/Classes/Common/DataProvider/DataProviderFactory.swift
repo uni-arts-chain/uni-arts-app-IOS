@@ -18,6 +18,8 @@ protocol DataProviderFactoryProtocol: class {
         throws -> SingleValueProvider<TransferMetaData>
     func createTransferMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8)
         throws -> SingleValueProvider<TransferMetaData>
+    func createSignMessageMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void)
+        throws -> SingleValueProvider<TransferMetaData>
 }
 
 final class DataProviderFactory {
@@ -184,6 +186,30 @@ extension DataProviderFactory: DataProviderFactoryProtocol {
                                         receiver: receiver)
         let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
             let operation = self.networkOperationFactory.transferMetadataOperation(info, call, moduleIndex, callIndex)
+            return operation
+        }
+
+        let cache = createSingleValueCache()
+
+        let updateTrigger = DataProviderEventTrigger.onAddObserver
+
+        let targetId = identifierFactory.transferMetadataIdentifierForAccountId(accountSettings.accountId,
+                                                                                assetId: assetId,
+                                                                                receiverId: receiver)
+        return SingleValueProvider(targetIdentifier: targetId,
+                                   source: source,
+                                   repository: AnyDataProviderRepository(cache),
+                                   updateTrigger: updateTrigger,
+                                   executionQueue: DataProviderFactory.executionQueue,
+                                   serialSyncQueue: DataProviderFactory.transferMetadataQueue)
+    }
+    
+    func createSignMessageMetadataProvider(for assetId: String, receiver: String, call: ScaleCodable?, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) throws -> SingleValueProvider<TransferMetaData> {
+        let info = TransferMetadataInfo(assetId: assetId,
+                                        sender: accountSettings.accountId,
+                                        receiver: receiver)
+        let source: AnySingleValueProviderSource<TransferMetaData> = AnySingleValueProviderSource {
+            let operation = self.networkOperationFactory.signMessageMetadataOperation(info, call, moduleIndex, callIndex, signMessageBlock: signMessageBlock)
             return operation
         }
 

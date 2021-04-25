@@ -68,6 +68,7 @@
 #import "JLCategoryModel.h"
 #import "JLCreatorModel.h"
 #import "JLUploadImageModel.h"
+#import "JLBoxModel.h"
 
 //ErrorData
 #import "ErrorHead.h"

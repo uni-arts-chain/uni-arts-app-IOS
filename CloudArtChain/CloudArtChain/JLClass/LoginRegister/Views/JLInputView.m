@@ -8,7 +8,7 @@
 
 #import "JLInputView.h"
 #import "JLBaseTextField.h"
-#import "JLTimeButton.h"
+
 
 @interface JLInputView ()
 @property (nonatomic, strong) NSString *headImage;
@@ -154,18 +154,22 @@
 - (JLTimeButton *)verifyCodeButton {
     if (!_verifyCodeButton) {
         _verifyCodeButton = [[JLTimeButton alloc] init];
-        [_verifyCodeButton setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateNormal];
-        [_verifyCodeButton setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateDisabled];
+        [_verifyCodeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        [_verifyCodeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateDisabled];
         _verifyCodeButton.titleLabel.font = kFontPingFangSCRegular(16.0f);
         [_verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
         [_verifyCodeButton addTarget:self action:@selector(verifyCodeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_verifyCodeButton, 16.0f, 1.0f, JL_color_blue_38B2F1);
+        ViewBorderRadius(_verifyCodeButton, 16.0f, 1.0f, JL_color_gray_101010);
     }
     return _verifyCodeButton;
 }
 
 - (void)verifyCodeButtonClick:(JLTimeButton *)sender {
-    [sender startCountDown];
+    if (self.sendSmsBlock) {
+        self.sendSmsBlock(sender);
+    } else {
+        [sender startCountDown];
+    }
 }
 
 - (UIView *)lineView {

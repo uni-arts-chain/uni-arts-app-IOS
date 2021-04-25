@@ -20,13 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) JLLoginUtil * loginUtil;
 //用户信息
 @property (nonatomic, strong) UserDataBody * userBody;
-//作品分类
-@property (nonatomic, strong) NSArray<Model_arts_categories_Data *> *artCategoryArray;
 //作品主题
-@property (nonatomic, strong) NSArray<Model_arts_themes_Data *> *artThemeArray;
-//作品材质
-@property (nonatomic, strong) NSArray<Model_arts_materials_Data *> *artMaterialArray;
-//作品价格区间
+@property (nonatomic, strong) NSArray<Model_arts_theme_Data *> *artThemeArray;
+//作品类型
+@property (nonatomic, strong) NSArray<Model_arts_art_types_Data *> *artTypeArray;
+//作品价格
 @property (nonatomic, strong) NSArray<Model_arts_prices_Data *> *artPriceArray;
 
 //获取token
@@ -40,11 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 请求系统信息
 + (void)systemInfo;
-
-// 画作分类
-- (NSString *)getArtCategoryByID:(NSString *)categoryID;
-// 画作材质
-- (NSString *)getMaterialByID:(NSString *)materialID;
 @end
 
 NS_ASSUME_NONNULL_END

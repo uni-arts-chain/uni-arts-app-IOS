@@ -69,31 +69,17 @@
 
 + (void)systemInfo {
     if ([JLLoginUtil haveToken]) {
-        [[AppSingleton sharedAppSingleton] requestArtCategory];
         [[AppSingleton sharedAppSingleton] requestArtTheme];
-        [[AppSingleton sharedAppSingleton] requestArtMaterial];
+        [[AppSingleton sharedAppSingleton] requestArtType];
         [[AppSingleton sharedAppSingleton] requestArtPrice];
     }
-}
-
-#pragma mark 请求作品分类
-- (void)requestArtCategory {
-    WS(weakSelf)
-    Model_arts_categories_Req *request = [[Model_arts_categories_Req alloc] init];
-    Model_arts_categories_Rsp *response = [[Model_arts_categories_Rsp alloc] init];
-    
-    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        if (netIsWork) {
-            weakSelf.artCategoryArray = response.body;
-        }
-    }];
 }
 
 #pragma mark 请求作品主题
 - (void)requestArtTheme {
     WS(weakSelf)
-    Model_arts_themes_Req *request = [[Model_arts_themes_Req alloc] init];
-    Model_arts_themes_Rsp *response = [[Model_arts_themes_Rsp alloc] init];
+    Model_arts_theme_Req *request = [[Model_arts_theme_Req alloc] init];
+    Model_arts_theme_Rsp *response = [[Model_arts_theme_Rsp alloc] init];
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
@@ -102,15 +88,15 @@
     }];
 }
 
-#pragma mark 请求作品材质
-- (void)requestArtMaterial {
+#pragma mark 请求作品类型
+- (void)requestArtType {
     WS(weakSelf)
-    Model_arts_materials_Req *request = [[Model_arts_materials_Req alloc] init];
-    Model_arts_materials_Rsp *response = [[Model_arts_materials_Rsp alloc] init];
+    Model_arts_art_types_Req *request = [[Model_arts_art_types_Req alloc] init];
+    Model_arts_art_types_Rsp *response = [[Model_arts_art_types_Rsp alloc] init];
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
-            weakSelf.artMaterialArray = response.body;
+            weakSelf.artTypeArray = response.body;
         }
     }];
 }
@@ -127,31 +113,4 @@
         }
     }];
 }
-
-// 画作分类
-- (NSString *)getArtCategoryByID:(NSString *)categoryID {
-    if ([NSString stringIsEmpty:categoryID]) {
-        return @"";
-    }
-    for (Model_arts_categories_Data *categoryData in self.artCategoryArray) {
-        if ([categoryData.ID isEqualToString:categoryID]) {
-            return categoryData.title;
-        }
-    }
-    return @"";
-}
-
-// 画作材质
-- (NSString *)getMaterialByID:(NSString *)materialID {
-    if ([NSString stringIsEmpty:materialID]) {
-        return @"";
-    }
-    for (Model_arts_materials_Data *materialData in self.artMaterialArray) {
-        if ([materialData.ID isEqualToString:materialID]) {
-            return materialData.title;
-        }
-    }
-    return @"";
-}
-
 @end

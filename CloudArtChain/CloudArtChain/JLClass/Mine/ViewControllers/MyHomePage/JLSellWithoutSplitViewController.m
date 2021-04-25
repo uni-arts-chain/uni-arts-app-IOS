@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIView *lineView;
 
 @property (nonatomic, strong) UIButton *sellButton;
+@property (nonatomic, strong) NSString *lockAccountId;
 @end
 
 @implementation JLSellWithoutSplitViewController
@@ -30,6 +31,8 @@
     self.navigationItem.title = @"出售";
     [self addBackItem];
     [self createSubViews];
+    // 请求转账地址
+    [self requestTransferAddress];
 }
 
 - (void)createSubViews {
@@ -234,6 +237,64 @@
 }
 
 - (void)sellButtonClick {
+    WS(weakSelf)
+    [self.view endEditing:YES];
+    if ([NSString stringIsEmpty:self.currentPriceTF.text] || self.currentPriceTF.text.doubleValue == 0) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置本次出售价格" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
     
+    if (![NSString stringIsEmpty:self.lockAccountId]) {
+        [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:@"1" block:^(BOOL success, NSString * _Nonnull message) {
+            if (success) {
+                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                    if (success) {
+                        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                        [[JLViewControllerTool appDelegate].walletTool productSellConfirmWithBlock:^(NSString * _Nullable transferSignedMessage) {
+                            if ([NSString stringIsEmpty:transferSignedMessage]) {
+                                [[JLLoading sharedLoading] hideLoading];
+                                [[JLLoading sharedLoading] showMBFailedTipMessage:@"签名错误" hideTime:KToastDismissDelayTimeInterval];
+                            } else {
+                                // 发送网络请求
+                                Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
+                                request.art_id = weakSelf.artDetailData.ID;
+                                request.amount = @"1";
+                                request.price = [JLUtils trimSpace:self.currentPriceTF.text];
+                                request.currency = @"rmb";
+                                request.encrpt_extrinsic_message = transferSignedMessage;
+                                Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
+                                [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                                    [[JLLoading sharedLoading] hideLoading];
+                                    if (netIsWork) {
+                                        if (weakSelf.sellBlock) {
+                                            weakSelf.sellBlock(response.body);
+                                        }
+                                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                                    } else {
+                                        [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                                    }
+                                }];
+                            }
+                        }];
+                    }
+                }];
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+            }
+        }];
+    }
+}
+
+- (void)requestTransferAddress {
+    WS(weakSelf)
+    Model_art_orders_lock_account_id_Req *request = [[Model_art_orders_lock_account_id_Req alloc] init];
+    Model_art_orders_lock_account_id_Rsp *resonse = [[Model_art_orders_lock_account_id_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:resonse callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.lockAccountId = resonse.body[@"lock_account_id"];
+            weakSelf.lockAccountId = [weakSelf.lockAccountId substringFromIndex:2];
+        }
+    }];
 }
 @end

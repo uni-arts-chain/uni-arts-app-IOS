@@ -61,7 +61,6 @@
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
     }];
-    [self.contentView setNeedsLayout];
 }
 
 - (UIView *)backView {
@@ -129,6 +128,8 @@
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.price];

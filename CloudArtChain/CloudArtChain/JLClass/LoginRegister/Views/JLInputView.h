@@ -7,6 +7,7 @@
 //
 
 #import "JLBaseView.h"
+#import "JLTimeButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,7 @@ typedef NS_ENUM(NSUInteger, JLInputTrailType) {
 @interface JLInputView : JLBaseView
 @property (nonatomic, copy) NSString *inputContent;
 - (instancetype)initWithHeadImage:(NSString *)headImage placeholder:(NSString *)placeholder trailType:(JLInputTrailType)trailType;
+@property (nonatomic, copy) void(^sendSmsBlock)(JLTimeButton *sender);
 @end
 
 NS_ASSUME_NONNULL_END

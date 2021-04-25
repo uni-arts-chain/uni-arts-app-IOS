@@ -327,6 +327,18 @@ extension ContactsPresenter: ContactViewModelDelegate {
         return coordinator.send(to: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
     }
     
+    public func selectToGetSignMessage(contact: ContactViewModelProtocol, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8, signMessageBlock: @escaping (String?) -> Void) -> TransferViewController? {
+        let receiveInfo = ReceiveInfo(accountId: contact.accountId,
+                                      assetId: selectedAsset.identifier,
+                                      amount: nil,
+                                      details: nil)
+
+        let payload = TransferPayload(receiveInfo: receiveInfo,
+                                      receiverName: contact.name)
+
+        return coordinator.sendToGetSignMessage(to: payload, call: call, moduleIndex: moduleIndex, callIndex: callIndex, signMessageBlock: signMessageBlock)
+    }
+    
     public func didTransferSelect(accountId: String, call: ScaleCodable, moduleIndex: UInt8, callIndex: UInt8) -> TransferViewController? {
         let receiveInfo = ReceiveInfo(accountId: accountId,
                                       assetId: selectedAsset.identifier,

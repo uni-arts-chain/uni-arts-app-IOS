@@ -15,8 +15,6 @@
 @property (nonatomic, strong) UILabel *cardAuthorLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
-@property (nonatomic, strong) UILabel *priceTitleLabel;
-@property (nonatomic, strong) UILabel *priceLabel;
 @end
 
 @implementation JLBoxOpenRecordTableViewCell
@@ -35,8 +33,6 @@
     [self.backView addSubview:self.cardAuthorLabel];
     [self.backView addSubview:self.addressLabel];
     [self.backView addSubview:self.timeLabel];
-    [self.backView addSubview:self.priceTitleLabel];
-    [self.backView addSubview:self.priceLabel];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -69,14 +65,6 @@
         make.left.equalTo(self.cardImageView.mas_left);
         make.bottom.equalTo(self.backView);
         make.height.mas_equalTo(43.0f);
-    }];
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-20.0f);
-        make.centerY.equalTo(self.timeLabel.mas_centerY);
-    }];
-    [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.priceLabel.mas_left).offset(-12.0f);
-        make.centerY.equalTo(self.priceLabel.mas_centerY);
     }];
 }
 
@@ -125,19 +113,5 @@
         _timeLabel = [JLUIFactory labelInitText:@"2020/08/16 12:36:28" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
     }
     return _timeLabel;
-}
-
-- (UILabel *)priceTitleLabel {
-    if (!_priceTitleLabel) {
-        _priceTitleLabel = [JLUIFactory labelInitText:@"实付款：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
-    }
-    return _priceTitleLabel;
-}
-
-- (UILabel *)priceLabel {
-    if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"¥950" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
-    }
-    return _priceLabel;
 }
 @end

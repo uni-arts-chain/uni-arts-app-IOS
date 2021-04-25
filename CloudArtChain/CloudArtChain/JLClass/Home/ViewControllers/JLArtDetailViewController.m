@@ -14,6 +14,7 @@
 #import "JLOrderSubmitViewController.h"
 #import "JLCreatorPageViewController.h"
 #import "JLSellWithSplitViewController.h"
+#import "JLSellWithoutSplitViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLArtDetailNamePriceView.h"
@@ -38,6 +39,7 @@
 @property (nonatomic, strong) JLArtDetailNamePriceView *artDetailNamePriceView;
 @property (nonatomic, strong) JLArtChainTradeView *artChainTradeView;
 @property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
+@property (nonatomic, assign) BOOL artSellingViewOpen;
 @property (nonatomic, strong) JLArtAuthorDetailView *artAuthorDetailView;
 //@property (nonatomic, strong) JLArtInfoView *artInfoView;
 @property (nonatomic, strong) JLArtEvaluateView *artEvaluateView;
@@ -49,6 +51,8 @@
 @property (nonatomic, strong) NSArray *tempImageArray;
 // 当前出售列表
 @property (nonatomic, strong) NSArray *currentSellingList;
+// 立即购买
+@property (nonatomic, strong) UIButton *immediatelyBuyBtn;
 @end
 
 @implementation JLArtDetailViewController
@@ -184,6 +188,7 @@
     ViewBorderRadius(immediatelyBuyBtn, 17.0f, 0.0f, JL_color_clear);
     [immediatelyBuyBtn addTarget:self action:@selector(immediatelyBuyBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomBar addSubview:immediatelyBuyBtn];
+    self.immediatelyBuyBtn = immediatelyBuyBtn;
     if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
         // 判断是否可以拆分
         if (self.artDetailData.collection_mode == 3) {
@@ -197,7 +202,11 @@
                 immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
             }
         } else {
-            [immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+            if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                [immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+            } else {
+                [immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+            }
         }
         
     } else {
@@ -370,13 +379,41 @@
                     // 有可出售的作品 跳转到出售
                     JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
                     sellWithSplitVC.artDetailData = self.artDetailData;
-                    sellWithSplitVC.sellBlock = ^{
-                        
+                    sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                        // 刷新艺术品详情
+                        weakSelf.artDetailData = artDetailData;
+                        // 判断是否有可售作品
+                        if (self.artDetailData.has_amount > 0) {
+                            // 有可出售的作品
+                            [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                        } else {
+                            weakSelf.immediatelyBuyBtn.enabled = NO;
+                            weakSelf.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+                        }
+                        // 请求出售列表
+                        [weakSelf requestSellingList];
                     };
                     [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
                 }
             } else {
-                // 跳转到 下架
+                if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                    // 跳转到 下架
+                } else {
+                    // 出售
+                    // 不可拆分
+                    JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
+                    sellWithoutSplitVC.artDetailData = self.artDetailData;
+                    sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                        // 刷新艺术品详情
+                        weakSelf.artDetailData = artDetailData;
+                        if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                            [weakSelf.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+                        } else {
+                            [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                        }
+                    };
+                    [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
+                }
             }
         } else {
             // 判断是否可以拆分 不可以拆分
@@ -409,8 +446,8 @@
         UILabel *painterLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Painter: %@", [NSString stringIsEmpty:self.artDetailData.author.display_name] ? @"" : self.artDetailData.author.display_name] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
         [centerView addSubview:painterLabel];
         
-        UILabel *textureLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Texture: %@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(self.artDetailData.material_id).stringValue]] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        [centerView addSubview:textureLabel];
+//        UILabel *textureLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Texture: %@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(self.artDetailData.material_id).stringValue]] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
+//        [centerView addSubview:textureLabel];
         
         NSString *sizeDesc = [NSString stringWithFormat:@"Size: %@cmx%@cm", self.artDetailData.size_width, self.artDetailData.size_length];
         UILabel *sizeLabel = [JLUIFactory labelInitText:sizeDesc font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
@@ -459,17 +496,21 @@
             make.height.equalTo(nameLabel.mas_height);
             make.width.equalTo(nameLabel.mas_width);
         }];
-        [textureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(nameLabel.mas_bottom);
-            make.left.equalTo(centerView);
-            make.height.equalTo(nameLabel.mas_height);
-        }];
+//        [textureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(nameLabel.mas_bottom);
+//            make.left.equalTo(centerView);
+//            make.height.equalTo(nameLabel.mas_height);
+//        }];
         [sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(textureLabel.mas_right);
+//            make.left.equalTo(textureLabel.mas_right);
+//            make.top.equalTo(painterLabel.mas_bottom);
+//            make.right.equalTo(centerView);
+//            make.height.equalTo(textureLabel.mas_height);
+//            make.width.equalTo(textureLabel.mas_width);
+            make.left.equalTo(centerView);
             make.top.equalTo(painterLabel.mas_bottom);
             make.right.equalTo(centerView);
-            make.height.equalTo(textureLabel.mas_height);
-            make.width.equalTo(textureLabel.mas_width);
+            make.height.equalTo(nameLabel.mas_height);
         }];
         [signTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(sizeLabel.mas_bottom);
@@ -749,11 +790,19 @@
             
             // 更新视图
             if (weakSelf.artDetailData.collection_mode == 3) {
-                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (response.body.count > 4 ? 4 : response.body.count) + (response.body.count > 4 ? 48.0f : 0.0f));
-                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
-                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
-                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                if (weakSelf.artSellingViewOpen) {
+                    weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
+                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                    weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
+                    weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
+                    weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                } else {
+                    weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
+                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                    weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
+                    weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
+                    weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                }
             }
         }
     }];

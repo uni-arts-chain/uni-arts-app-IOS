@@ -11,9 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderDetailProductBottomPriceTableViewCell : UITableViewCell
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
-@property (nonatomic, strong) Model_arts_id_orders_Data *sellingOrderData;
 @property (nonatomic, copy) void(^totalPriceChangeBlock)(NSString *totalPrice, NSString *amount);
+
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData sellingOrderData:(Model_arts_id_orders_Data *)sellingOrderData;
 @end
 
 NS_ASSUME_NONNULL_END

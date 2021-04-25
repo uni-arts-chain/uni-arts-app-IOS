@@ -20,8 +20,11 @@
 @property (nonatomic, strong) UILabel *numTitleLabel;
 @property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) JLStepper *numStepper;
+@property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
+
+@property (nonatomic, strong) Model_arts_id_orders_Data *sellingOrderData;
 @end
 
 @implementation JLOrderDetailProductBottomPriceTableViewCell
@@ -44,6 +47,7 @@
     [self.shadowView addSubview:self.numTitleLabel];
     [self.shadowView addSubview:self.balanceLabel];
     [self.shadowView addSubview:self.numStepper];
+    [self.shadowView addSubview:self.numLabel];
     [self.shadowView addSubview:self.totalPriceTitleLabel];
     [self.shadowView addSubview:self.totalPriceLabel];
     
@@ -86,12 +90,16 @@
     }];
     [self.balanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.numTitleLabel.mas_right);
-        make.centerY.equalTo(self.numTitleLabel.mas_centerY).offset(4.0f);
+        make.centerY.equalTo(self.numTitleLabel.mas_centerY);
     }];
     [self.numStepper mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.shadowView).offset(-20.0f);
         make.width.mas_equalTo(75.0f);
         make.height.mas_equalTo(17.0f);
+        make.centerY.equalTo(self.numTitleLabel.mas_centerY);
+    }];
+    [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shadowView).offset(-20.0f);
         make.centerY.equalTo(self.numTitleLabel.mas_centerY);
     }];
     [self.totalPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -190,6 +198,13 @@
     return _numStepper;
 }
 
+- (UILabel *)numLabel {
+    if (!_numLabel) {
+        _numLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+    }
+    return _numLabel;
+}
+
 - (UILabel *)totalPriceTitleLabel {
     if (!_totalPriceTitleLabel) {
         _totalPriceTitleLabel = [JLUIFactory labelInitText:@"商品总价" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
@@ -204,23 +219,30 @@
     return _totalPriceLabel;
 }
 
--(void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData sellingOrderData:(Model_arts_id_orders_Data *)sellingOrderData {
+    self.sellingOrderData = sellingOrderData;
+    
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
     }
     self.authorNameLabel.text = [NSString stringIsEmpty:artDetailData.author.display_name] ? @"" : artDetailData.author.display_name;
     self.productNameLabel.text = artDetailData.name;
     self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
-}
-
-- (void)setSellingOrderData:(Model_arts_id_orders_Data *)sellingOrderData {
-    _sellingOrderData = sellingOrderData;
-    self.balanceLabel.text = [NSString stringWithFormat:@"（剩余%@）", sellingOrderData.amount];
     
-    self.numStepper.minValue = 1;
-    self.numStepper.maxValue = sellingOrderData.amount.intValue;
-    self.numStepper.value = 1;
+    if (artDetailData.collection_mode == 3) {
+        self.balanceLabel.text = [NSString stringWithFormat:@"（剩余%@）", sellingOrderData.amount];
+        
+        self.numStepper.hidden = NO;
+        self.numLabel.hidden = YES;
+        self.numStepper.minValue = 1;
+        self.numStepper.maxValue = sellingOrderData.amount.intValue;
+        self.numStepper.value = 1;
+    } else {
+        self.balanceLabel.text = @"";
+        self.numStepper.hidden = YES;
+        self.numLabel.hidden = NO;
+        self.numLabel.text = sellingOrderData.amount;
+    }
     
     self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", [NSDecimalNumber decimalNumberWithString:sellingOrderData.price].stringValue];
 }

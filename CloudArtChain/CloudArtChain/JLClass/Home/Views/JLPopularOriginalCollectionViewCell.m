@@ -184,6 +184,8 @@
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
     if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = authorArtData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", authorArtData.price];

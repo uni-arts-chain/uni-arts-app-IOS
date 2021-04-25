@@ -124,7 +124,7 @@
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:detailData.img_main_file1[@"url"]]];
     }
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", detailData.price];
-    self.descLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(detailData.material_id).stringValue], detailData.name];
+//    self.descLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(detailData.material_id).stringValue], detailData.name];
     self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", [NSString stringIsEmpty:detailData.item_hash] ? @"" : detailData.item_hash];
     
     if ([detailData.aasm_state isEqualToString:@"auctioning"]) {

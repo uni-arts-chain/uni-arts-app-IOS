@@ -184,8 +184,8 @@
     }
     self.descLabel.text = artDetailData.name;
     self.sizeLabel.text = [NSString stringWithFormat:@"尺寸：%@x%@cm", artDetailData.size_width, artDetailData.size_length];
-    self.materialLabel.text = [NSString stringWithFormat:@"材质：%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue]];
-    self.typeLabel.text = [NSString stringWithFormat:@"作品类型：%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue]];
+//    self.materialLabel.text = [NSString stringWithFormat:@"材质：%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(artDetailData.material_id).stringValue]];
+//    self.typeLabel.text = [NSString stringWithFormat:@"作品类型：%@", [[AppSingleton sharedAppSingleton] getArtCategoryByID:@(artDetailData.category_id).stringValue]];
     self.dateLabel.text = [NSString stringWithFormat:@"创作时间：%@", [[NSDate dateWithTimeIntervalSince1970:artDetailData.produce_at.doubleValue] dateWithCustomFormat:@"yyyy/MM"]];
 }
 @end

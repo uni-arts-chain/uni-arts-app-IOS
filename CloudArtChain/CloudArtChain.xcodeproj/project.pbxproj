@@ -1069,6 +1069,7 @@
 		B3C0ED3125C2BB59001B8BCA /* JLOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3025C2BB59001B8BCA /* JLOrderDetailViewController.m */; };
 		B3C0ED3525C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3425C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m */; };
 		B3C0ED3825C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3725C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m */; };
+		B3C9C60B2635967800186796 /* JLBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C9C60A2635967800186796 /* JLBoxModel.m */; };
 		B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */; };
 		B3CDC57725E77FA100CB84CE /* JLHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57625E77FA100CB84CE /* JLHomeModel.m */; };
 		B3CDC57D25E7B8AB00CB84CE /* JLArtsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57C25E7B8AB00CB84CE /* JLArtsModel.m */; };
@@ -2656,6 +2657,8 @@
 		B3C0ED3425C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailTitleTableViewCell.m; sourceTree = "<group>"; };
 		B3C0ED3625C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLOrderDetailAddressTableViewCell.h; sourceTree = "<group>"; };
 		B3C0ED3725C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLOrderDetailAddressTableViewCell.m; sourceTree = "<group>"; };
+		B3C9C6092635967800186796 /* JLBoxModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxModel.h; sourceTree = "<group>"; };
+		B3C9C60A2635967800186796 /* JLBoxModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxModel.m; sourceTree = "<group>"; };
 		B3CDC56F25E743FC00CB84CE /* JLLoginAndRegisterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLoginAndRegisterModel.h; sourceTree = "<group>"; };
 		B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLoginAndRegisterModel.m; sourceTree = "<group>"; };
 		B3CDC57525E77FA100CB84CE /* JLHomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomeModel.h; sourceTree = "<group>"; };
@@ -5681,6 +5684,8 @@
 		B394A0C72629AEDD00A8DAE4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B3C9C6092635967800186796 /* JLBoxModel.h */,
+				B3C9C60A2635967800186796 /* JLBoxModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -7102,6 +7107,7 @@
 				B31225A025B6B60A00562ECA /* NetworkInfoViewFactory.swift in Sources */,
 				B312258525B6B60A00562ECA /* AlertPresentable.swift in Sources */,
 				B31225BE25B6B60A00562ECA /* NetworkManagementProtocols.swift in Sources */,
+				B3C9C60B2635967800186796 /* JLBoxModel.m in Sources */,
 				B31224DE25B6B60900562ECA /* ExportOption+ViewModel.swift in Sources */,
 				B312260525B6B60A00562ECA /* OnboardingMainWireframe.swift in Sources */,
 				B312255825B6B60A00562ECA /* RampProvider.swift in Sources */,

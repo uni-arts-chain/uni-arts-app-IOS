@@ -13,40 +13,32 @@
 
 // ==========================================================
 #pragma mark /arts/categories 分类
-@implementation Model_arts_categories_Data
+@implementation Model_arts_theme_Data
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
 }
 @end
-@implementation Model_arts_categories_Req
+@implementation Model_arts_theme_Req
 @end
-@implementation Model_arts_categories_Rsp
+@implementation Model_arts_theme_Rsp
+- (NSString *)interfacePath {
+    return @"arts/categories";
+}
 @end
 // ==========================================================
-#pragma mark /arts/themes 主题
-@implementation Model_arts_themes_Data
+#pragma mark /arts/art_types 类型
+@implementation Model_arts_art_types_Data
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
 }
 @end
-@implementation Model_arts_themes_Req
+@implementation Model_arts_art_types_Req
 
 @end
-@implementation Model_arts_themes_Rsp
-
-@end
-// ==========================================================
-#pragma mark /arts/materials 材质
-@implementation Model_arts_materials_Data
-+ (JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+@implementation Model_arts_art_types_Rsp
+- (NSString *)interfacePath {
+    return @"arts/art_types";
 }
-@end
-@implementation Model_arts_materials_Req
-
-@end
-@implementation Model_arts_materials_Rsp
-
 @end
 // ==========================================================
 #pragma mark /arts/prices 价格区间

@@ -18,18 +18,22 @@
 @property (nonatomic, assign) NSInteger page;
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
-/** 分类id */
-@property (nonatomic, strong) NSString *category_id;
 /** 主题id */
-@property (nonatomic, strong) NSString *theme_id;
-/** 材质id */
-@property (nonatomic, strong) NSString *material_id;
-/** 价格大于等于 */
-@property (nonatomic, strong) NSString *price_gte;
-/** 价格小于 */
-@property (nonatomic, strong) NSString *price_lt;
+@property (nonatomic, strong) NSString *category_id;
+///** 主题id */
+//@property (nonatomic, strong) NSString *theme_id;
+///** 材质id */
+//@property (nonatomic, strong) NSString *material_id;
+///** 价格大于等于 */
+//@property (nonatomic, strong) NSString *price_gte;
+///** 价格小于 */
+//@property (nonatomic, strong) NSString *price_lt;
+/** 分类 */
+@property (nonatomic, strong) NSString *resource_type;
+/** 价格排序 */
+@property (nonatomic, strong) NSString *price_sort;
 @end
-@interface Model_arts_selling_Rsp : Model_Rsp_V1
+@interface Model_arts_selling_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////

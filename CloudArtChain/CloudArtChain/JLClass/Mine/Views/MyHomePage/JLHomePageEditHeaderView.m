@@ -11,6 +11,7 @@
 @interface JLHomePageEditHeaderView ()
 @property (nonatomic, strong) UIView *avatarBackView;
 @property (nonatomic, strong) UIImageView *avatarImageView;
+@property (nonatomic, strong) UIButton *avatarEditButton;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *nameEditButton;
 @property (nonatomic, strong) UILabel *infoLabel;
@@ -68,11 +69,15 @@
         [_avatarBackView addSubview:innerView];
         
         [innerView addSubview:self.avatarImageView];
+        [innerView addSubview:self.avatarEditButton];
         
         [innerView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_avatarBackView).insets(UIEdgeInsetsMake(8.0f, 8.0f, 8.0f, 8.0f));
         }];
         [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(innerView).insets(UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f));
+        }];
+        [self.avatarEditButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(innerView).insets(UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f));
         }];
     }
@@ -85,6 +90,20 @@
         ViewBorderRadius(_avatarImageView, 45.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
+}
+
+- (UIButton *)avatarEditButton {
+    if (!_avatarEditButton) {
+        _avatarEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_avatarEditButton addTarget:self action:@selector(avatarEditButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _avatarEditButton;
+}
+
+- (void)avatarEditButtonClick {
+    if (self.avatarEditBlock) {
+        self.avatarEditBlock();
+    }
 }
 
 - (UILabel *)nameLabel {

@@ -132,12 +132,24 @@
 
 - (void)nextButtonClick {
     [self.view endEditing:YES];
-    if ([self.pwdInputView.inputContent isEqualToString:self.confirmPwdInputView.inputContent]) {
-        JLExportKeystoreViewController *exportKeyStoreVC = [[JLExportKeystoreViewController alloc] init];
-        exportKeyStoreVC.keystorePwd = self.pwdInputView.inputContent;
-        [self.navigationController pushViewController:exportKeyStoreVC animated:YES];
-    } else {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"密码输入不一致" hideTime:KToastDismissDelayTimeInterval];
+    if ([NSString stringIsEmpty:self.pwdInputView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入Keystore密码" hideTime:KToastDismissDelayTimeInterval];
+        return;
     }
+    if ([NSString stringIsEmpty:self.pwdInputView.inputContent] || self.pwdInputView.inputContent.length < 6) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"Keystore密码仅支持6-18位数字与字母组合" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (![JLUtils checkPasswordForNumAndLetter:self.pwdInputView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"Keystore密码仅支持6-18位数字与字母组合" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (![self.pwdInputView.inputContent isEqualToString:self.confirmPwdInputView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"两次密码输入不一致，请重新输入" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    JLExportKeystoreViewController *exportKeyStoreVC = [[JLExportKeystoreViewController alloc] init];
+    exportKeyStoreVC.keystorePwd = self.pwdInputView.inputContent;
+    [self.navigationController pushViewController:exportKeyStoreVC animated:YES];
 }
 @end

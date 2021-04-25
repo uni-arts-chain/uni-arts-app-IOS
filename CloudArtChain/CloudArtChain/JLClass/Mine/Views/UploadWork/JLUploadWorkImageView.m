@@ -179,6 +179,7 @@
     UIView *view = [[UIView alloc] init];
     
     UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     JLUploadImageModel *imageModel = self.imageArray[index];
     if ([imageModel.imageType isEqualToString:@"gif"]) {
         UIImage *gifImage = [UIImage sd_imageWithGIFData:imageModel.imageData];

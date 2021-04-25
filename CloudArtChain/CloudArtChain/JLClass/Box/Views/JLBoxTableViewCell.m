@@ -93,7 +93,6 @@
     if (!_titleImageView) {
         _titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 15.0f * 2, 165.0f)];
         [_titleImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
-        _titleImageView.backgroundColor = [UIColor randomColor];
     }
     return _titleImageView;
 }
@@ -107,7 +106,7 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"哈利·波特与凤凰社盲盒" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         _titleLabel.numberOfLines = 1;
     }
     return _titleLabel;
@@ -129,9 +128,18 @@
 
 - (UILabel *)descLabel {
     if (!_descLabel) {
-        _descLabel = [JLUIFactory labelInitText:@"哈利波特与凤凰社盲盒内含59位电影人物，开启一次将随机获得一位NFT所有权，可用于收藏或转卖" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
     }
     return _descLabel;
+}
+
+- (void)setBoxData:(Model_blind_boxes_Data *)boxData {
+    if (![NSString stringIsEmpty:boxData.img_path]) {
+        [self.titleImageView sd_setImageWithURL:[NSURL URLWithString:boxData.img_path]];
+    }
+    self.titleLabel.text = boxData.title;
+    self.descLabel.text = boxData.desc;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", boxData.price];
 }
 
 @end

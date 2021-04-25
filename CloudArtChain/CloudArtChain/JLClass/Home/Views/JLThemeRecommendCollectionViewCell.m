@@ -56,6 +56,7 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;

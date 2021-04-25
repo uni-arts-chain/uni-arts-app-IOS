@@ -116,6 +116,19 @@
     }
     self.arrowImageView.hidden = !showArrow;
     self.lineView.hidden = !showLine;
+    if (!showArrow) {
+        [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(-22.0f);
+            make.top.bottom.equalTo(self.contentView);
+            make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+        }];
+    } else {
+        [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.arrowImageView.mas_left).offset(-8.0f);
+            make.top.bottom.equalTo(self.contentView);
+            make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+        }];
+    }
 }
 
 - (void)setAvatarImage:(UIImage *)avatarImage {

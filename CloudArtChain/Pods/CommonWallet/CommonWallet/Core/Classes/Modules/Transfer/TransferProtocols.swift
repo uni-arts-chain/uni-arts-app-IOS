@@ -22,4 +22,11 @@ protocol TransferAssemblyProtocol: class {
                              call: ScaleCodable,
                              moduleIndex: UInt8,
                              callIndex: UInt8) -> TransferViewProtocol?
+    
+    static func assembleViewToGetSignMessage(with resolver: ResolverProtocol,
+                             payload: TransferPayload,
+                             call: ScaleCodable,
+                             moduleIndex: UInt8,
+                             callIndex: UInt8,
+                             signMessageBlock: @escaping (String?) -> Void) -> TransferViewProtocol?
 }

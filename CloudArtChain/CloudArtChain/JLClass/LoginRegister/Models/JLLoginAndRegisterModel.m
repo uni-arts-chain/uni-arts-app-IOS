@@ -43,3 +43,21 @@
 }
 @end
 // ==========================================================
+#pragma mark /v1/members/send_sms 发送绑定手机号验证码
+@implementation Model_members_send_sms_Req
+@end
+@implementation Model_members_send_sms_Rsp
+- (NSString *)interfacePath {
+    return @"members/send_sms";
+}
+@end
+// ==========================================================
+#pragma mark /v1/members/bind_phone 绑定手机号码
+@implementation Model_members_bind_phone_Req
+@end
+@implementation Model_members_bind_phone_Rsp
+- (NSString *)interfacePath {
+    return @"members/bind_phone";
+}
+@end
+// ==========================================================

@@ -54,7 +54,7 @@
 // 主题
 @property (nonatomic, strong) NSArray *tempThemeArray;
 @property (nonatomic, assign) NSInteger currentSelectedThemeIndex;
-@property (nonatomic, strong) Model_arts_categories_Data *currentSelectedThemeData;
+@property (nonatomic, strong) Model_arts_theme_Data *currentSelectedThemeData;
 // 作品是否拆分
 @property (nonatomic, assign) BOOL workSplit;
 // 拆分数量
@@ -250,7 +250,7 @@
             pickerView.selectBlock = ^(NSInteger index, NSString *result) {
                 [weakSelf.themeView setSelectContent:result];
                 weakSelf.currentSelectedThemeIndex = index;
-                weakSelf.currentSelectedThemeData = [AppSingleton sharedAppSingleton].artCategoryArray[index];
+                weakSelf.currentSelectedThemeData = [AppSingleton sharedAppSingleton].artThemeArray[index];
                 [weakSelf checkUpload];
             };
             [pickerView showWithAnimation:nil];
@@ -476,7 +476,7 @@
 - (NSArray *)tempThemeArray {
     if (!_tempThemeArray) {
         NSMutableArray *themeArray = [NSMutableArray array];
-        for (Model_arts_categories_Data *themeData in [AppSingleton sharedAppSingleton].artCategoryArray) {
+        for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [themeArray addObject:themeData.title];
         }
         _tempThemeArray = [themeArray copy];
