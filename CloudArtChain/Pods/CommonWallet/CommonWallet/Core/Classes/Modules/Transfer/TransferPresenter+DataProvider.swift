@@ -195,6 +195,7 @@ extension TransferPresenter {
             let confirmVC: WalletNewFormViewController? = coordinator.jlConfirm(with: composedPayload, call: call, moduleIndex: moduleIndex, callIndex: callIndex)
             self.callbackBlock?(confirmVC)
         } catch {
+            confirmationState = .completed
             if !attempHandleError(error) {
                 logger?.error("Can't handle confirmation error \(error)")
             }

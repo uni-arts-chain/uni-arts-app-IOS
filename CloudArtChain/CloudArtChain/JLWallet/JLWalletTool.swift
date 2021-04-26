@@ -73,7 +73,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     @objc func pincodeExists() -> Bool {
         return getRootPresenter().pincodeExists()
     }
-    
+    // 获取账户余额
     func getAccountBalanceFromAccountList(balanceBlock: @escaping (String) -> Void) {
         let updateBlock: ([WalletViewModelProtocol]) -> Void = { models in
             if models.count > 0 {
@@ -85,14 +85,14 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         }
         getRootPresenter().getAccountBalance(balanceBlock: updateBlock)
     }
-    
+    // 显示备份钱包提示
     @objc func showBackupNotice(navigationController: UINavigationController, username: String) {
         guard let backupNotice = JLBackupNoticeViewFactory.createViewForBackupNotice(username: username) else {
             return
         }
         navigationController.pushViewController(backupNotice.controller, animated: true)
     }
-    
+    // 默认创建钱包 备份钱包提示
     @objc func showBackupNoticeDefaultCreateWallet(navigationController: UINavigationController, username: String) {
         guard let backupNotice = JLBackupNoticeViewFactory.createViewForBackupNoticeDefaultCreateWallet(username: username) else {
             return
@@ -109,14 +109,14 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
 
         navigationController.pushViewController(restorationController, animated: true)
     }
-    
+    // 获取当前账户
     @objc func getCurrentAccount() -> JLAccountItem? {
         guard let selectedAccount = SettingsManager.shared.selectedAccount else {
             return nil
         }
         return JLAccountItem(address: selectedAccount.address, cryptoType: selectedAccount.cryptoType, username: selectedAccount.username, publicKeyData: selectedAccount.publicKeyData)
     }
-    
+    // 保存钱包名称
     @objc func saveUsername(username: String, address: String) {
         let facade = UserDataStorageFacade.shared
         let mapper = ManagedAccountItemMapper()
@@ -136,7 +136,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
             SettingsManager.shared.selectedAccount = newSelectedAccount
         }
     }
-    
+    // 验证密码
     @objc func authorize(animated: Bool,
                    cancellable: Bool,
                    with completionBlock: @escaping AuthorizationCompletionBlock) {
@@ -163,7 +163,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         authorizationView.controller.modalPresentationStyle = .fullScreen
         presentingController.present(authorizationView.controller, animated: animated, completion: nil)
     }
-    
+    // 导出私钥
     @objc func fetchExportDataForAddress(address: String, seedBlock: @escaping (String) -> Void) {
         let keychain = Keychain()
         let repository: CoreDataRepository<AccountItem, CDAccountItem> =
@@ -174,7 +174,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
                                               operationManager: OperationManagerFacade.sharedManager)
         self.seedInteractor?.fetchExportSeedDataForAddress(address, seedBlock)
     }
-    
+    // 导出KeyStore
     @objc func fetchExportRestoreDataForAddress(address: String, password: String, restoreBlock: @escaping (String) -> Void) {
         let exportJsonWrapper = KeystoreExportWrapper(keystore: Keychain())
 
@@ -187,7 +187,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         
         self.restoreInteractor?.exportAccount(address: address, password: password, restoreBlock: restoreBlock)
     }
-    
+    // 导出助记词
     @objc func backupMnemonic(address: String, navigationController: UINavigationController) {
         guard let mnemonicView = ExportMnemonicViewFactory.createViewForAddress(address) else {
             return
