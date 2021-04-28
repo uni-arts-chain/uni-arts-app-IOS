@@ -11,11 +11,12 @@
 #import "JLBoxPayDetailTableViewCell.h"
 #import "JLOrderDetailPayMethodTableViewCell.h"
 
-@interface JLBoxOpenPayViewController ()
+@interface JLBoxOpenPayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, assign) JLOrderPayType currentPayType;
 @end
 
 @implementation JLBoxOpenPayViewController
@@ -24,6 +25,7 @@
     self.navigationItem.title = @"支付";
     [self addBackItem];
     [self createSubViews];
+    self.currentPayType = JLOrderPayTypeWeChat;
 }
 
 - (void)createSubViews {
@@ -71,7 +73,10 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        NSString *priceString = [NSString stringWithFormat:@"¥%@", @"950"];
+        NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:self.boxData.price];
+        NSDecimalNumber *tenPriceNumber = [priceNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"10"]];
+        
+        NSString *priceString = [NSString stringWithFormat:@"¥%@", self.boxOpenPayType == JLBoxOpenPayTypeTen ? tenPriceNumber.stringValue : priceNumber.stringValue];
         UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
         self.priceLabel = priceLabel;
         [_bottomView addSubview:priceLabel];
@@ -105,14 +110,22 @@
 
 - (void)submitBtnClick {
     WS(weakSelf)
-    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-        if (success) {
-            [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                if (success) {
-                    [weakSelf.navigationController popToRootViewControllerAnimated:true];
-                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
+    Model_blind_box_orders_Req *request = [[Model_blind_box_orders_Req alloc] init];
+    request.box_id = self.boxData.ID;
+    request.amount = self.boxOpenPayType == JLBoxOpenPayTypeTen ? @"10" : @"1";
+    request.order_from = @"ios";
+    request.pay_type = self.currentPayType == JLOrderPayTypeWeChat ? @"wepay" : @"alipay";
+    Model_blind_box_orders_Rsp *response = [[Model_blind_box_orders_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.buySuccessBlock) {
+                weakSelf.buySuccessBlock();
+            }
+            [weakSelf.navigationController popToRootViewControllerAnimated:true];
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -126,9 +139,13 @@
     WS(weakSelf)
     if (indexPath.row == 0) {
         JLBoxPayDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLBoxPayDetailTableViewCell" forIndexPath:indexPath];
+        [cell setBoxData:self.boxData boxOpenPayType:self.boxOpenPayType];
         return cell;
     } else {
         JLOrderDetailPayMethodTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailPayMethodTableViewCell" forIndexPath:indexPath];
+        cell.selectedMethodBlock = ^(JLOrderPayType payType) {
+            weakSelf.currentPayType = payType;
+        };
         return cell;
     }
 }

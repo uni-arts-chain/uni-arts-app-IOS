@@ -150,7 +150,7 @@
 
 - (UIButton *)focusButton {
     if (!_focusButton) {
-        _focusButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"关注%ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
+        _focusButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"关注 %ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(focusButtonClick)];
         _focusButton.contentEdgeInsets = UIEdgeInsetsZero;
         [_focusButton edgeTouchAreaWithTop:10.0f right:10.0f bottom:10.0f left:10.0f];
     }
@@ -173,7 +173,7 @@
 
 - (UIButton *)fansButton {
     if (!_fansButton) {
-        _fansButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"粉丝%ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(fansButtonClick)];
+        _fansButton = [JLUIFactory buttonInitTitle:[NSString stringWithFormat:@"粉丝 %ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] titleColor:JL_color_gray_101010 backgroundColor:JL_color_white_ffffff font:kFontPingFangSCRegular(11.0f) addTarget:self action:@selector(fansButtonClick)];
         _fansButton.contentEdgeInsets = UIEdgeInsetsZero;
         [_fansButton edgeTouchAreaWithTop:10.0f right:10.0f bottom:10.0f left:10.0f];
     }
@@ -193,8 +193,8 @@
         [self.avatarBtn setImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"] forState:UIControlStateNormal];
     }
     self.nameLabel.text = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.display_name] ? @"未设置昵称" : [AppSingleton sharedAppSingleton].userBody.display_name;
-    [self.focusButton setTitle:[NSString stringWithFormat:@"关注%ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] forState:UIControlStateNormal];
-    [self.fansButton setTitle:[NSString stringWithFormat:@"粉丝%ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] forState:UIControlStateNormal];
+    [self.focusButton setTitle:[NSString stringWithFormat:@"关注 %ld", [AppSingleton sharedAppSingleton].userBody.following_user_size] forState:UIControlStateNormal];
+    [self.fansButton setTitle:[NSString stringWithFormat:@"粉丝 %ld", [AppSingleton sharedAppSingleton].userBody.follow_user_size] forState:UIControlStateNormal];
 }
 
 @end

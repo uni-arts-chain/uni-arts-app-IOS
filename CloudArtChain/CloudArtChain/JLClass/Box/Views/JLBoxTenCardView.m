@@ -41,7 +41,7 @@
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
-        make.height.mas_equalTo(65.0f);
+        make.height.mas_equalTo(60.0f);
     }];
     [self.backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self).insets(UIEdgeInsetsMake(35.0f, 15.0f, 90.0f, 15.0f));
@@ -53,8 +53,8 @@
     }];
     [self.cardView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(6.0f);
-        make.height.mas_equalTo(300.0f);
+        make.top.equalTo(self.titleLabel.mas_bottom);
+        make.height.mas_equalTo(310.0f);
     }];
     [self.noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
@@ -109,7 +109,7 @@
 
 - (NewPagedFlowView *)pageFlowView {
     if (!_pageFlowView) {
-        _pageFlowView = [[NewPagedFlowView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frameWidth, 300.0f)];
+        _pageFlowView = [[NewPagedFlowView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.frameWidth, 310.0f)];
         _pageFlowView.backgroundColor = JL_color_clear;
         _pageFlowView.delegate = self;
         _pageFlowView.dataSource = self;
@@ -149,11 +149,11 @@
 
 #pragma mark NewPagedFlowView Datasource
 - (CGSize)sizeForPageInFlowView:(NewPagedFlowView *)flowView {
-    return CGSizeMake(self.frameWidth - 45.0f * 2, 300.0f);
+    return CGSizeMake(self.frameWidth - 45.0f * 2, 310.0f);
 }
 
 - (NSInteger)numberOfPagesInFlowView:(NewPagedFlowView *)flowView {
-    return 10;
+    return self.cardList.count;
 }
 
 - (UIView *)flowView:(NewPagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index {
@@ -161,7 +161,13 @@
     if (!bannerView) {
         bannerView = [[JLBoxCardView alloc] init];
     }
+    bannerView.cardData = self.cardList[index];
     return bannerView;
+}
+
+- (void)setCardList:(NSArray *)cardList {
+    _cardList = cardList;
+    [self.pageFlowView reloadData];
 }
 
 @end

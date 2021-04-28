@@ -127,6 +127,8 @@
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artsData.art.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artsData.start_price];
@@ -135,6 +137,8 @@
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
     if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = popularArtData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", popularArtData.price];
@@ -154,6 +158,8 @@
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
     if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = themeArtData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", themeArtData.price];
@@ -169,6 +175,8 @@
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
     if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = collectionArtData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", collectionArtData.price];
@@ -179,6 +187,10 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + collectionArtData.imgHeight) itemW:itemW];
+    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
 
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {

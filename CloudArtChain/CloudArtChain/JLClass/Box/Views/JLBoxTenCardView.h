@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxTenCardView : JLBaseView
+@property (nonatomic, strong) NSArray *cardList;
 @property (nonatomic, copy) void(^closeBlock)(void);
 @property (nonatomic, copy) void(^homepageBlock)(void);
 @end

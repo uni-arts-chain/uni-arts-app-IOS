@@ -111,16 +111,19 @@
 #pragma mark  请求订单
 - (void)requestOpenRecord {
     WS(weakSelf)
-    Model_blind_box_draws_Req *request = [[Model_blind_box_draws_Req alloc] init];
-    Model_blind_box_draws_Rsp *response = [[Model_blind_box_draws_Rsp alloc] init];
+    Model_blind_box_orders_history_Req *request = [[Model_blind_box_orders_history_Req alloc] init];
+    request.box_id = self.boxData.ID;
+    request.page = self.currentPage;
+    request.per_page = kPageSize;
+    Model_blind_box_orders_history_Rsp *response = [[Model_blind_box_orders_history_Rsp alloc] init];
 
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             if (weakSelf.currentPage == 1) {
                 [weakSelf.dataArray removeAllObjects];
             }
-//            [weakSelf.dataArray addObjectsFromArray:response.body];
-//            [weakSelf endRefresh:response.body];
+            [weakSelf.dataArray addObjectsFromArray:response.body];
+            [weakSelf endRefresh:response.body];
             [weakSelf setEmptyViewShow];
             [weakSelf.tableView reloadData];
         } else {

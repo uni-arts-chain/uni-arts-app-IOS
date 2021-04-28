@@ -28,7 +28,7 @@ extension Era: ScaleCodable {
         let encoded = UInt64(firstByte) + (UInt64(secondByte) << 8)
         let period = 2 << (encoded % (1 << 4))
         let quantizeFactor = max(period >> 12, 1)
-        let phase = (encoded >> 4) * quantizeFactor
+        let phase = (Int(encoded) >> 4) * Int(quantizeFactor)
 
         guard period >= 4 else {
             throw EraCodingError.invalidPeriod
@@ -38,7 +38,7 @@ extension Era: ScaleCodable {
             throw EraCodingError.phaseAndPeriodMismatch
         }
 
-        self = .mortal(period: period, phase: phase)
+        self = .mortal(period: UInt64(period), phase: UInt64(phase))
     }
 
     func encode(scaleEncoder: ScaleEncoding) throws {

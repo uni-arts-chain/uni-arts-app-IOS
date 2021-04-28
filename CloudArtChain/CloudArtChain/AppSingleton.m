@@ -68,11 +68,12 @@
 }
 
 + (void)systemInfo {
-    if ([JLLoginUtil haveToken]) {
-        [[AppSingleton sharedAppSingleton] requestArtTheme];
-        [[AppSingleton sharedAppSingleton] requestArtType];
-        [[AppSingleton sharedAppSingleton] requestArtPrice];
-    }
+    [[AppSingleton sharedAppSingleton] requestArtTheme];
+    [[AppSingleton sharedAppSingleton] requestArtType];
+    [[AppSingleton sharedAppSingleton] requestArtPrice];
+//    if ([JLLoginUtil haveToken]) {
+//
+//    }
 }
 
 #pragma mark 请求作品主题

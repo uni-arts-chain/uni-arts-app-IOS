@@ -178,7 +178,7 @@
         if (sellingOrderData.is_mine) {
             // 下架
             if (self.offFromListBlock) {
-                self.offFromListBlock();
+                self.offFromListBlock(sellingOrderData);
             }
         } else {
             if (self.buyBlock) {

@@ -51,12 +51,14 @@
         _evaluateLabel.font = kFontPingFangSCRegular(14.0f);
         _evaluateLabel.textColor = JL_color_gray_101010;
         _evaluateLabel.numberOfLines = 0;
-        _evaluateLabel.text = self.artDetailData.details;
-        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
-        paragraph.lineSpacing = 12.0f;
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_evaluateLabel.text];
-        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraph} range:NSMakeRange(0, _evaluateLabel.text.length)];
-        _evaluateLabel.attributedText = attr;
+        if (![NSString stringIsEmpty:self.artDetailData.details]) {
+            _evaluateLabel.text = self.artDetailData.details;
+            NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+            paragraph.lineSpacing = 12.0f;
+            NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_evaluateLabel.text];
+            [attr addAttributes:@{NSParagraphStyleAttributeName: paragraph} range:NSMakeRange(0, _evaluateLabel.text.length)];
+            _evaluateLabel.attributedText = attr;
+        }
     }
     return _evaluateLabel;
 }

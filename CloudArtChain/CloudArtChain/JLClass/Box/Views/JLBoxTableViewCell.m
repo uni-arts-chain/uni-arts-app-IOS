@@ -138,7 +138,9 @@
         [self.titleImageView sd_setImageWithURL:[NSURL URLWithString:boxData.img_path]];
     }
     self.titleLabel.text = boxData.title;
-    self.descLabel.text = boxData.desc;
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:boxData.desc]];
+    [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(12.0f), NSForegroundColorAttributeName: JL_color_gray_999999} range:NSMakeRange(0, [NSString strToAttriWithStr: boxData.desc].length)];
+    self.descLabel.attributedText = attr;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", boxData.price];
 }
 

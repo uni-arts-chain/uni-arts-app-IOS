@@ -159,6 +159,7 @@
 }
 
 - (void)configCell:(JLEditWalletCell *)cell indexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
     if (indexPath.row == 0) {
         cell.title = @"钱包名";
         cell.statusText = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount].username;
@@ -176,6 +177,11 @@
     } else {
         cell.title = @"隐私协议";
         cell.isEdit = NO;
+    }
+    if (indexPath.row != 0) {
+        cell.selectedBlock = ^{
+            [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:indexPath];
+        };
     }
 }
 

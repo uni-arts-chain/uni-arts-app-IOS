@@ -122,8 +122,8 @@
 - (UIImageView *)cardImageView {
     if (!_cardImageView) {
         _cardImageView = [[UIImageView alloc] initWithFrame:CGRectMake(55.0f, self.titleLabel.frameBottom + 15.0f, self.frameWidth - 55.0f * 2, 250.0f)];
-        _cardImageView.backgroundColor = [UIColor randomColor];
         [_cardImageView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+        ViewBorderRadius(_cardImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _cardImageView;
 }
@@ -198,6 +198,14 @@
     if (self.homepageBlock) {
         self.homepageBlock();
     }
+}
+
+- (void)setCardData:(Model_blind_box_orders_open_Data *)cardData {
+    if (![NSString stringIsEmpty:cardData.img_main_file1[@"url"]]) {
+        [self.cardImageView sd_setImageWithURL:[NSURL URLWithString:cardData.img_main_file1[@"url"]]];
+    }
+    self.cardNameLabel.text = cardData.name;
+    self.rareView.hidden = [NSString stringIsEmpty:cardData.special_attr];
 }
 
 @end

@@ -227,7 +227,7 @@
     }
     self.authorNameLabel.text = [NSString stringIsEmpty:artDetailData.author.display_name] ? @"" : artDetailData.author.display_name;
     self.productNameLabel.text = artDetailData.name;
-    self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
+    self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     
     if (artDetailData.collection_mode == 3) {
         self.balanceLabel.text = [NSString stringWithFormat:@"（剩余%@）", sellingOrderData.amount];

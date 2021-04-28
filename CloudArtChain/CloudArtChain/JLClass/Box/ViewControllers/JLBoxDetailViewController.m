@@ -14,8 +14,7 @@
 
 #import "JLBoxDetailCardCollectionWaterLayout.h"
 #import "JLBoxCardCollectionViewCell.h"
-#import "JLBoxOneCardView.h"
-//#import "JLBoxTenCardView.h"
+#import "JLBoxTenCardView.h"
 
 @interface JLBoxDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -31,6 +30,8 @@
 @property (nonatomic, strong) UIImageView *footerImageView;
 
 @property (nonatomic, strong) NSMutableArray *boxCardArray;
+
+@property (nonatomic, strong) NSArray *boxCheckList;
 @end
 
 @implementation JLBoxDetailViewController
@@ -42,6 +43,9 @@
     [self addRightBarButton];
     [self createSubViews];
     [self getBoxCardList];
+    
+    // 请求是否有未开启盲盒
+    [self requestBoxListCheck];
 }
 
 - (void)addRightBarButton {
@@ -159,14 +163,20 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%@盲盒", self.boxData.title] font:kFontPingFangSCMedium(18.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        _nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%@", self.boxData.title] font:kFontPingFangSCMedium(18.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _nameLabel;
 }
 
 - (UILabel *)detailLabel {
     if (!_detailLabel) {
-        _detailLabel = [JLUIFactory labelInitText:self.boxData.desc font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
+        _detailLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.boxData.desc]];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.desc].length)];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.desc].length)];
+        _detailLabel.attributedText = attr;
     }
     return _detailLabel;
 }
@@ -174,7 +184,8 @@
 - (UIButton *)oneTimeButton {
     if (!_oneTimeButton) {
         _oneTimeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_oneTimeButton setTitle:@"开启 x1" forState:UIControlStateNormal];
+        [_oneTimeButton setTitle:@"开启1次" forState:UIControlStateNormal];
+        [_oneTimeButton setTitle:@"开启 x1" forState:UIControlStateSelected];
         [_oneTimeButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _oneTimeButton.titleLabel.font = kFontPingFangSCMedium(15.0f);
         [_oneTimeButton setBackgroundImage:[UIImage imageNamed:@"icon_box_one_time"] forState:UIControlStateNormal];
@@ -185,27 +196,58 @@
 
 - (void)oneTimeButtonClick {
     WS(weakSelf)
-    JLBoxOneCardView *boxOneCardView = [[JLBoxOneCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
-    boxOneCardView.closeBlock = ^{
-        [weakSelf lew_dismissPopupView];
-    };
-    boxOneCardView.homepageBlock = ^{
-        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
-        [weakSelf.navigationController pushViewController:homePageVC animated:YES];
-        [weakSelf lew_dismissPopupViewWithanimation:nil];
-    };
-    boxOneCardView.center = self.view.window.center;
-    ViewBorderRadius(boxOneCardView, 5.0f, 0.0f, JL_color_clear);
-    LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
-    [self lew_presentPopupView:boxOneCardView animation:animation backgroundClickable:NO dismissed:^{
-       NSLog(@"动画结束");
-    }];
+    if (self.oneTimeButton.selected) {
+        // 开启盲盒
+        Model_blind_box_orders_open_Req *request = [[Model_blind_box_orders_open_Req alloc] init];
+        for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
+            if (orderCheckData.total == 1) {
+                request.sn = orderCheckData.sn;
+                break;
+            }
+        }
+        Model_blind_box_orders_open_Rsp *response = [[Model_blind_box_orders_open_Rsp alloc] init];
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                JLBoxTenCardView *boxOneCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
+                boxOneCardView.cardList = response.body;
+                boxOneCardView.closeBlock = ^{
+                    [weakSelf lew_dismissPopupView];
+                };
+                boxOneCardView.homepageBlock = ^{
+                    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                    [weakSelf lew_dismissPopupViewWithanimation:nil];
+                };
+                boxOneCardView.center = self.view.window.center;
+                ViewBorderRadius(boxOneCardView, 5.0f, 0.0f, JL_color_clear);
+                LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
+                [self lew_presentPopupView:boxOneCardView animation:animation backgroundClickable:NO dismissed:^{
+                   NSLog(@"动画结束");
+                }];
+                [weakSelf requestBoxListCheck];
+            }
+        }];
+    } else {
+        // 购买盲盒
+        JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
+        boxOpenPayVC.boxOpenPayType = JLBoxOpenPayTypeOne;
+        boxOpenPayVC.boxData = self.boxData;
+        boxOpenPayVC.buySuccessBlock = ^{
+            // 刷新是否有未开启盲盒
+            [weakSelf requestBoxListCheck];
+        };
+        [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+    }
 }
 
 - (UIButton *)tenTimeButton {
     if (!_tenTimeButton) {
         _tenTimeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_tenTimeButton setTitle:@"开启10次" forState:UIControlStateNormal];
+        [_tenTimeButton setTitle:@"开启 x10" forState:UIControlStateSelected];
         [_tenTimeButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _tenTimeButton.titleLabel.font = kFontPingFangSCMedium(15.0f);
         [_tenTimeButton setBackgroundImage:[UIImage imageNamed:@"icon_box_ten_time"] forState:UIControlStateNormal];
@@ -215,8 +257,52 @@
 }
 
 - (void)tenTimeButtonClick {
-    JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
-    [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+    WS(weakSelf)
+    if (self.tenTimeButton.selected) {
+        // 开启盲盒
+        Model_blind_box_orders_open_Req *request = [[Model_blind_box_orders_open_Req alloc] init];
+        for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
+            if (orderCheckData.total == 10) {
+                request.sn = orderCheckData.sn;
+                break;
+            }
+        }
+        Model_blind_box_orders_open_Rsp *response = [[Model_blind_box_orders_open_Rsp alloc] init];
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                JLBoxTenCardView *boxTenCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
+                boxTenCardView.cardList = response.body;
+                boxTenCardView.closeBlock = ^{
+                    [weakSelf lew_dismissPopupView];
+                };
+                boxTenCardView.homepageBlock = ^{
+                    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                    [weakSelf lew_dismissPopupViewWithanimation:nil];
+                };
+                boxTenCardView.center = self.view.window.center;
+                ViewBorderRadius(boxTenCardView, 5.0f, 0.0f, JL_color_clear);
+                LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
+                [self lew_presentPopupView:boxTenCardView animation:animation backgroundClickable:NO dismissed:^{
+                   NSLog(@"动画结束");
+                }];
+                [weakSelf requestBoxListCheck];
+            }
+        }];
+    } else {
+        // 购买盲盒
+        JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
+        boxOpenPayVC.boxOpenPayType = JLBoxOpenPayTypeTen;
+        boxOpenPayVC.boxData = self.boxData;
+        boxOpenPayVC.buySuccessBlock = ^{
+            // 刷新是否有未开启盲盒
+            [weakSelf requestBoxListCheck];
+        };
+        [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+    }
 }
 
 - (UILabel *)cardTitleLabel {
@@ -235,7 +321,10 @@
 
 - (UILabel *)ruleDescLabel {
     if (!_ruleDescLabel) {
-        _ruleDescLabel = [JLUIFactory labelInitText:self.boxData.rule font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
+        _ruleDescLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.boxData.rule]];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.rule].length)];
+        _ruleDescLabel.attributedText = attr;
     }
     return _ruleDescLabel;
 }
@@ -269,7 +358,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLBoxCardCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLBoxCardCollectionViewCell" forIndexPath:indexPath];
-    cell.artDetailData = self.boxCardArray[indexPath.row];
+    cell.cardGroupData = self.boxData.onchain_card_groups[indexPath.row];
     return cell;
 }
 
@@ -282,7 +371,7 @@
 
 - (void)getBoxCardList {
     [self.boxCardArray removeAllObjects];
-    for (Model_Model_blind_boxes_card_groups_Data *cardData in self.boxData.card_groups) {
+    for (Model_blind_boxes_card_groups_Data *cardData in self.boxData.onchain_card_groups) {
         [self.boxCardArray addObject:cardData.art];
     }
     [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -312,6 +401,33 @@
 //计算cell的高度
 - (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
     return itemW * originSize.height / originSize.width;
+}
+
+- (void)requestBoxListCheck {
+    WS(weakSelf)
+    Model_blind_box_orders_check_Req *request = [[Model_blind_box_orders_check_Req alloc] init];
+    request.box_id = self.boxData.ID;
+    Model_blind_box_orders_check_Rsp *response = [[Model_blind_box_orders_check_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.boxCheckList = response.body;
+            [weakSelf updateOpenButtonStatus];
+        }
+    }];
+}
+
+// 刷新按钮状态
+- (void)updateOpenButtonStatus {
+    for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
+        if (orderCheckData.total == 1) {
+            self.oneTimeButton.selected = YES;
+        } else if (orderCheckData.total == 10) {
+            self.tenTimeButton.selected = YES;
+        }
+    }
 }
 
 @end

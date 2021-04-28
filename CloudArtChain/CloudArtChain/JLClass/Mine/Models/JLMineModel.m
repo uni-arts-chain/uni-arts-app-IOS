@@ -96,3 +96,18 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/art_orders/cancel 作品下架
+@implementation Model_art_orders_cancel_Req
+@end
+@implementation Model_art_orders_cancel_Rsp
+- (NSString *)interfacePath {
+    return @"art_orders/cancel";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/feedbacks 提交反馈
+@implementation Model_feedbacks_Req
+@end
+@implementation Model_feedbacks_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////

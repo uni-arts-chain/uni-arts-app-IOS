@@ -7,12 +7,19 @@
 //
 
 #import "JLUploadWorkSampleView.h"
+#import "WMPhotoBrowser.h"
 
 @interface JLUploadWorkSampleView ()
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *firstImageView;
 @property (nonatomic, strong) UIImageView *secondImageView;
 @property (nonatomic, strong) UIImageView *thirdImageView;
+
+@property (nonatomic, strong) UIButton *firstImageButton;
+@property (nonatomic, strong) UIButton *secondImageButton;
+@property (nonatomic, strong) UIButton *thirdImageButton;
+
+@property (nonatomic, strong) NSArray *tempImageArray;
 @end
 
 @implementation JLUploadWorkSampleView
@@ -57,6 +64,20 @@
         make.width.equalTo(self.firstImageView);
         make.right.mas_equalTo(-15.0f);
     }];
+    
+    [self.firstImageView addSubview:self.firstImageButton];
+    [self.secondImageView addSubview:self.secondImageButton];
+    [self.thirdImageView addSubview:self.thirdImageButton];
+    
+    [self.firstImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.firstImageView);
+    }];
+    [self.secondImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.secondImageView);
+    }];
+    [self.thirdImageButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.thirdImageView);
+    }];
 }
 
 - (UILabel *)titleLabel {
@@ -70,6 +91,7 @@
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
         _firstImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg1"];
+        _firstImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_firstImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _firstImageView;
@@ -79,6 +101,7 @@
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
         _secondImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg2"];
+        _secondImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_secondImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _secondImageView;
@@ -88,8 +111,64 @@
     if (!_thirdImageView) {
         _thirdImageView = [[UIImageView alloc] init];
         _thirdImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg3"];
+        _thirdImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_thirdImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _thirdImageView;
 }
+
+- (UIButton *)firstImageButton {
+    if (!_firstImageButton) {
+        _firstImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_firstImageButton addTarget:self action:@selector(firstImageButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _firstImageButton;
+}
+
+- (void)firstImageButtonClick {
+    [self showImageWithIndex:0];
+}
+
+- (UIButton *)secondImageButton {
+    if (!_secondImageButton) {
+        _secondImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_secondImageButton addTarget:self action:@selector(secondImageButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _secondImageButton;
+}
+
+- (void)secondImageButtonClick {
+    [self showImageWithIndex:1];
+}
+
+- (UIButton *)thirdImageButton {
+    if (!_thirdImageButton) {
+        _thirdImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_thirdImageButton addTarget:self action:@selector(thirdImageButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _thirdImageButton;
+}
+
+- (void)thirdImageButtonClick {
+    [self showImageWithIndex:2];
+}
+
+- (void)showImageWithIndex:(NSInteger)index {
+    //图片查看
+    WMPhotoBrowser *browser = [WMPhotoBrowser new];
+    //数据源
+    browser.dataSource = [self.tempImageArray mutableCopy];
+    browser.downLoadNeeded = YES;
+    browser.currentPhotoIndex = index;
+    browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+}
+
+- (NSArray *)tempImageArray {
+    if (!_tempImageArray) {
+        _tempImageArray = @[self.firstImageView.image, self.secondImageView.image, self.thirdImageView.image];
+    }
+    return _tempImageArray;
+}
+
 @end

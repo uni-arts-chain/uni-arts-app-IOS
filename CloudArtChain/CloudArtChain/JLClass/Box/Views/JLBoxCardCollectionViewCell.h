@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxCardCollectionViewCell : UICollectionViewCell
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, strong) Model_blind_boxes_card_groups_Data *cardGroupData;
 @end
 
 NS_ASSUME_NONNULL_END

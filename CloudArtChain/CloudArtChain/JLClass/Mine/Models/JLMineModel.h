@@ -178,3 +178,19 @@
 
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/art_orders/cancel 作品下架
+@interface Model_art_orders_cancel_Req : Model_Req
+@property (nonatomic, strong) NSString *sn;
+@end
+@interface Model_art_orders_cancel_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/feedbacks 提交反馈
+@interface Model_feedbacks_Req : Model_Req
+@property (nonatomic, strong) NSString *contact;
+@property (nonatomic, strong) NSString *advise;
+@end
+@interface Model_feedbacks_Rsp : Model_Rsp_V1
+@end
+//////////////////////////////////////////////////////////////////////////

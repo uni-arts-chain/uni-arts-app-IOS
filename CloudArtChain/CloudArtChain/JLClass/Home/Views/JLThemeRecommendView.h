@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JLThemeRecommendView : JLBaseView
 @property (nonatomic, strong) Model_arts_topic_Data *topicData;
 @property (nonatomic, copy) void(^themeRecommendBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^seeMoreBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

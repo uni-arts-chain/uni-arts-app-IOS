@@ -57,17 +57,38 @@
     }];
 
     [self.inputTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
-        if (x.length > weakSelf.maxInput) {
-            weakSelf.inputTF.text = [x substringToIndex:weakSelf.maxInput];
-        }
-        weakSelf.inputContent = weakSelf.inputTF.text;
-        weakSelf.maxInputLabel.text = [NSString stringWithFormat:@"%lu/%ld", (unsigned long)weakSelf.inputTF.text.length, (long)weakSelf.maxInput];
-        if (weakSelf.inputTF.text.length > 0) {
-            NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:weakSelf.maxInputLabel.text];
-            [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [weakSelf.maxInputLabel.text rangeOfString:@"/"].location)];
-            weakSelf.maxInputLabel.attributedText = attr;
+        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
+            UITextRange *selectedRange = [weakSelf.inputTF markedTextRange];
+            UITextPosition *position = [weakSelf.inputTF positionFromPosition:selectedRange.start offset:0];
+            if (!position) {
+                NSString *result = [JLUtils trimSpace:x];
+                if (result.length > weakSelf.maxInput) {
+                    weakSelf.inputTF.text = [result substringToIndex:weakSelf.maxInput];
+                }
+                weakSelf.inputContent = weakSelf.inputTF.text;
+                weakSelf.maxInputLabel.text = [NSString stringWithFormat:@"%lu/%ld", (unsigned long)weakSelf.inputTF.text.length, (long)weakSelf.maxInput];
+                if (weakSelf.inputTF.text.length > 0) {
+                    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:weakSelf.maxInputLabel.text];
+                    [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [weakSelf.maxInputLabel.text rangeOfString:@"/"].location)];
+                    weakSelf.maxInputLabel.attributedText = attr;
+                } else {
+                    weakSelf.maxInputLabel.textColor = JL_color_gray_909090;
+                }
+            }
         } else {
-            weakSelf.maxInputLabel.textColor = JL_color_gray_909090;
+            NSString *result = [JLUtils trimSpace:x];
+            if (result.length > weakSelf.maxInput) {
+                weakSelf.inputTF.text = [result substringToIndex:weakSelf.maxInput];
+            }
+            weakSelf.inputContent = weakSelf.inputTF.text;
+            weakSelf.maxInputLabel.text = [NSString stringWithFormat:@"%lu/%ld", (unsigned long)weakSelf.inputTF.text.length, (long)weakSelf.maxInput];
+            if (weakSelf.inputTF.text.length > 0) {
+                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:weakSelf.maxInputLabel.text];
+                [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [weakSelf.maxInputLabel.text rangeOfString:@"/"].location)];
+                weakSelf.maxInputLabel.attributedText = attr;
+            } else {
+                weakSelf.maxInputLabel.textColor = JL_color_gray_909090;
+            }
         }
     }];
 }

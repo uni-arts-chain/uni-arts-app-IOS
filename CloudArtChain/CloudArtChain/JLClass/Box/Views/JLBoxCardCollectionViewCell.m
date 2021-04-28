@@ -115,9 +115,12 @@
     return _live2DView;
 }
 
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
-        [self.cardImageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
+- (void)setCardGroupData:(Model_blind_boxes_card_groups_Data *)cardGroupData {
+    if (![NSString stringIsEmpty:cardGroupData.art.img_main_file1[@"url"]]) {
+        [self.cardImageView sd_setImageWithURL:[NSURL URLWithString:cardGroupData.art.img_main_file1[@"url"]]];
     }
+    self.rareView.hidden = [NSString stringIsEmpty:cardGroupData.special_attr];
+    self.hadView.hidden = !cardGroupData.art.is_owner;
+    self.live2DView.hidden = [NSString stringIsEmpty:cardGroupData.art.live2d_file];
 }
 @end

@@ -277,3 +277,12 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/arts/:id 个人艺术品详情
+@implementation Model_arts_detail_Req
+@end
+@implementation Model_arts_detail_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"arts/%@", self.request.art_id];
+}
+@end
+//////////////////////////////////////////////////////////////////////////

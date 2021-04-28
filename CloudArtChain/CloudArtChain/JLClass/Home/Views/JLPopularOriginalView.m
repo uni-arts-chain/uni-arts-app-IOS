@@ -28,7 +28,6 @@
 - (void)createSubViews {
     [self addSubview:self.titleView];
     [self addSubview:self.collectionView];
-    [self.collectionView  registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
     
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self);
@@ -91,6 +90,7 @@
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.scrollEnabled = NO;
+        [_collectionView registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
     }
     return _collectionView;
 }
@@ -101,19 +101,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    JLPopularOriginalCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
     cell.popularArtData = self.waterDataArray[indexPath.row];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock(self.waterDataArray[indexPath.row]);
+        self.artDetailBlock(self.popularArray[indexPath.row]);
     }
 }
 
 - (void)setPopularArray:(NSArray *)popularArray {
-    _popularArray = popularArray;
     [self.waterDataArray removeAllObjects];
     [self.waterDataArray addObjectsFromArray:popularArray];
     [self.collectionView reloadData];
@@ -129,5 +128,4 @@
 - (void)refreshFrame:(CGRect)frame {
     self.collectionView.frame = CGRectMake(0.0f, 80.0f, kScreenWidth, frame.size.height - 80.0f);
 }
-
 @end

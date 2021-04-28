@@ -140,7 +140,31 @@
 }
 
 - (void)submitButtonClick {
+    WS(weakSelf)
     [self.view endEditing:YES];
+    
+    if ([NSString stringIsEmpty:self.suggestionView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写反馈意见" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    Model_feedbacks_Req *request = [[Model_feedbacks_Req alloc] init];
+    if (![NSString stringIsEmpty:self.phoneWeChatInputTF.text]) {
+        request.contact = self.phoneWeChatInputTF.text;
+    }
+    request.advise = self.suggestionView.inputContent;
+    Model_feedbacks_Rsp *response = [[Model_feedbacks_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"提交成功" hideTime:KToastDismissDelayTimeInterval];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
 }
 
 @end

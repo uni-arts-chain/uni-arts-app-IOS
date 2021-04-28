@@ -163,16 +163,16 @@
             UITextPosition *position = [weakSelf.currentNumTF positionFromPosition:selectedRange.start offset:0];
             if (!position) {
                 NSString *result = [JLUtils trimSpace:x];
-                if (result.intValue > self.artDetailData.has_amount) {
-                    weakSelf.currentNumTF.text = @(self.artDetailData.has_amount).stringValue;
+                if (result.intValue > (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue)) {
+                    weakSelf.currentNumTF.text = @(self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue).stringValue;
                 } else {
                     weakSelf.currentNumTF.text = result;
                 }
             }
         } else {
             NSString *result = [JLUtils trimSpace:x];
-            if (result.intValue > self.artDetailData.has_amount) {
-                weakSelf.currentNumTF.text = @(self.artDetailData.has_amount).stringValue;
+            if (result.intValue > (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue)) {
+                weakSelf.currentNumTF.text = @(self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue).stringValue;
             } else {
                 weakSelf.currentNumTF.text = result;
             }
@@ -259,11 +259,10 @@
 
 - (UILabel *)artBalanceLabel {
     if (!_artBalanceLabel) {
-        _artBalanceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%ld份", self.artDetailData.has_amount] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _artBalanceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%ld份", self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _artBalanceLabel;
 }
-
 
 - (UIView *)currentNumView {
     if (!_currentNumView) {

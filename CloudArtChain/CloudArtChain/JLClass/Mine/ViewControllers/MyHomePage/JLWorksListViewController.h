@@ -21,8 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) JLPagetableCollectionView *collectionView;
 @property (nonatomic, copy) void(^addToListBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^applyAddCertBlock)(Model_art_Detail_Data *artDetailData);
-@property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^artDetailBlock)(Model_art_Detail_Data *artDetailData, JLWorkListType workListType);
 @property (nonatomic, copy) void(^launchAuctionBlock)(Model_art_Detail_Data *artDetailData, NSIndexPath *indexPath);
+@property (nonatomic, copy) void(^endRefreshBlock)(void);
 // 出售
 @property (nonatomic, copy) void(^sellBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData, JLWorkListType workListType);

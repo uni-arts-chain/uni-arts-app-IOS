@@ -16,7 +16,8 @@ extension Chain {
     var existentialDeposit: Decimal {
         switch self {
         case .uniarts:
-            return Decimal(string: "1")!
+//            return Decimal(string: "1")!
+            return Decimal(string: "0")!
         case .kusama:
             return Decimal(string: "0.001666666666")!
         case .westend:

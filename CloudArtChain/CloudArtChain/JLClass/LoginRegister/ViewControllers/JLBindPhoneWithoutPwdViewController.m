@@ -50,7 +50,7 @@
 
 - (JLInputView *)phoneInputView {
     if (!_phoneInputView) {
-        _phoneInputView = [[JLInputView alloc] initWithHeadImage:@"icon_phone" placeholder:@"手机号" trailType:JLInputTrailTypeNone];
+        _phoneInputView = [[JLInputView alloc] initWithHeadImage:@"icon_phone" placeholder:@"手机号" trailType:JLInputTrailTypePhone];
     }
     return _phoneInputView;
 }

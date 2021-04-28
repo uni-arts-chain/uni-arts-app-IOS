@@ -58,6 +58,9 @@
  */
 @property (nonatomic , assign) BOOL  canSlide;
 
+/** 当前选择index */
+@property (nonatomic, assign) NSInteger currentSelectedIndex;
+
 
 /**
  可选 设置角标的数据

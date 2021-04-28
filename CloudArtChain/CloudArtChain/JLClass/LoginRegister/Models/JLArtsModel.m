@@ -43,6 +43,9 @@
 // ==========================================================
 #pragma mark /arts/prices 价格区间
 @implementation Model_arts_prices_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
 @end
 @implementation Model_arts_prices_Req
 @end

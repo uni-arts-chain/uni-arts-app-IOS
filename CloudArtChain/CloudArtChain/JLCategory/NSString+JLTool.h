@@ -192,6 +192,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// 去除空格和回车
 - (NSString *)removeBlankSpace;
 
+
+/**
+ *  字符串转富文本
+ */
++ (NSAttributedString *)strToAttriWithStr:(NSString *)htmlStr;
+
+
+/**
+ *  富文本转html字符串
+ */
++ (NSString *)attriToStrWithAttri:(NSAttributedString *)attri;
+
+/**
+ *获得富文本的高度
+ **/
++ (CGFloat)getAttriHeightWithLabel:(UILabel *)label width:(CGFloat)width;
+
 @end
 
 NS_ASSUME_NONNULL_END

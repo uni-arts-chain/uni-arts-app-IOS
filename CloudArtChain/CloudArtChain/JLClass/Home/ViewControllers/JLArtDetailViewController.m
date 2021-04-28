@@ -70,7 +70,7 @@
         self.cancelFavorateBlock();
     }
     if (self.backBlock) {
-        self.backBlock();
+        self.backBlock(self.artDetailData);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -189,34 +189,7 @@
     [immediatelyBuyBtn addTarget:self action:@selector(immediatelyBuyBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomBar addSubview:immediatelyBuyBtn];
     self.immediatelyBuyBtn = immediatelyBuyBtn;
-    if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
-        // 判断是否可以拆分
-        if (self.artDetailData.collection_mode == 3) {
-            // 可以拆分
-            // 判断是否有可售作品
-            if (self.artDetailData.has_amount > 0) {
-                // 有可出售的作品
-                [immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-            } else {
-                immediatelyBuyBtn.enabled = NO;
-                immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
-            }
-        } else {
-            if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
-                [immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
-            } else {
-                [immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-            }
-        }
-        
-    } else {
-        // 判断是否可以拆分
-        if (self.artDetailData.collection_mode == 3) {
-            // 可以拆分
-            immediatelyBuyBtn.enabled = NO;
-            immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
-        }
-    }
+    [self refreshImmediatelyBuyBtnStatus];
     
     [immediatelyBuyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10.0f);
@@ -239,6 +212,38 @@
         make.top.bottom.equalTo(self.bottomBar);
         make.width.mas_equalTo(60.0f);
     }];
+}
+
+- (void)refreshImmediatelyBuyBtnStatus {
+    if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
+        // 判断是否可以拆分
+        if (self.artDetailData.collection_mode == 3) {
+            // 可以拆分
+            // 判断是否有可售作品
+            if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
+                // 有可出售的作品
+                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+            } else {
+                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                self.immediatelyBuyBtn.enabled = NO;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+            }
+        } else {
+            if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                [self.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+            } else {
+                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+            }
+        }
+        
+    } else {
+        // 判断是否可以拆分
+        if (self.artDetailData.collection_mode == 3) {
+            // 可以拆分
+            self.immediatelyBuyBtn.enabled = NO;
+            self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+        }
+    }
 }
 
 - (void)likeButtonClick:(UIButton *)sender {
@@ -375,7 +380,7 @@
             if (self.artDetailData.collection_mode == 3) {
                 // 可以拆分
                 // 判断是否有可售作品
-                if (self.artDetailData.has_amount > 0) {
+                if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
                     // 有可出售的作品 跳转到出售
                     JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
                     sellWithSplitVC.artDetailData = self.artDetailData;
@@ -383,7 +388,7 @@
                         // 刷新艺术品详情
                         weakSelf.artDetailData = artDetailData;
                         // 判断是否有可售作品
-                        if (self.artDetailData.has_amount > 0) {
+                        if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
                             // 有可出售的作品
                             [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                         } else {
@@ -398,6 +403,14 @@
             } else {
                 if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
                     // 跳转到 下架
+                    if (weakSelf.currentSellingList.count > 0) {
+                        Model_arts_id_orders_Data *orderData = [weakSelf.currentSellingList firstObject];
+                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                            if (success) {
+                                [weakSelf artOffFromSellingList:orderData.sn];
+                            }
+                        }];
+                    }
                 } else {
                     // 出售
                     // 不可拆分
@@ -427,6 +440,24 @@
             }
         }
     }
+}
+
+- (void)artOffFromSellingList:(NSString *)order_sn {
+    WS(weakSelf)
+    Model_art_orders_cancel_Req *request = [[Model_art_orders_cancel_Req alloc] init];
+    request.sn = order_sn;
+    Model_art_orders_cancel_Rsp *response = [[Model_art_orders_cancel_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.artDetailData = response.body;
+            [weakSelf refreshImmediatelyBuyBtnStatus];
+            // 请求出售列表
+            [weakSelf requestSellingList];
+        }
+    }];
 }
 
 - (UIView *)certificateView {
@@ -676,8 +707,12 @@
     if (!_artSellingView) {
         WS(weakSelf)
         _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f)];
-        _artSellingView.offFromListBlock = ^{
-            
+        _artSellingView.offFromListBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
+            [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                if (success) {
+                    [weakSelf artOffFromSellingList:sellOrderData.sn];
+                }
+            }];
         };
         _artSellingView.buyBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
             JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
@@ -783,11 +818,12 @@
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             weakSelf.artSellingView.sellingArray = response.body;
             weakSelf.currentSellingList = response.body;
-            
+            if (response.body.count == 4) {
+                weakSelf.artSellingViewOpen = NO;
+            }
             // 更新视图
             if (weakSelf.artDetailData.collection_mode == 3) {
                 if (weakSelf.artSellingViewOpen) {
@@ -804,6 +840,23 @@
                     weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
                 }
             }
+        }
+        [weakSelf updateArtDetailData];
+    }];
+}
+
+// 更新艺术品信息
+- (void)updateArtDetailData {
+    WS(weakSelf)
+    Model_arts_detail_Req *reqeust = [[Model_arts_detail_Req alloc] init];
+    reqeust.art_id = self.artDetailData.ID;
+    Model_arts_detail_Rsp *response = [[Model_arts_detail_Rsp alloc] init];
+    response.request = reqeust;
+    
+    [JLNetHelper netRequestGetParameters:reqeust respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.artDetailData = response.body;
         }
     }];
 }

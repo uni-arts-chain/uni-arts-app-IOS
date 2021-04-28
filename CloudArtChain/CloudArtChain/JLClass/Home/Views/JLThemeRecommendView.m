@@ -129,8 +129,14 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.themeRecommendBlock) {
-        self.themeRecommendBlock(self.themeArray[indexPath.row]);
+    if (indexPath.row == self.themeArray.count - 1) {
+        if (self.seeMoreBlock) {
+            self.seeMoreBlock();
+        }
+    } else {
+        if (self.themeRecommendBlock) {
+            self.themeRecommendBlock(self.themeArray[indexPath.row]);
+        }
     }
 }
 

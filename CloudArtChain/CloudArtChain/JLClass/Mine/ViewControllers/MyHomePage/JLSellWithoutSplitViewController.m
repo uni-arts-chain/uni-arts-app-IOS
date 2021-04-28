@@ -173,7 +173,7 @@
 
 - (UILabel *)artPriceLabel {
     if (!_artPriceLabel) {
-        _artPriceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"¥%@", self.artDetailData.price] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _artPriceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:self.artDetailData.price] ? @"0" : self.artDetailData.price] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _artPriceLabel;
 }

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkViewController : JLBaseViewController
 @property (nonatomic, copy) void(^checkProcessBlock)(void);
+@property (nonatomic, copy) void(^uploadSuccessBackBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

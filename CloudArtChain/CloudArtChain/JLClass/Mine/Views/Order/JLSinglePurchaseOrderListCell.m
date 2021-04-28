@@ -111,7 +111,7 @@
 
 - (UIView *)shadowView {
     if (!_shadowView) {
-        _shadowView = [[UIView alloc] init];
+        _shadowView = [[UIView alloc] initWithFrame:CGRectMake(15.0f, 10.0f, kScreenWidth - 15.0f * 2, 200.0f - 10.0f * 2)];
         _shadowView.backgroundColor = JL_color_white_ffffff;
     }
     return _shadowView;
@@ -149,7 +149,7 @@
 
 - (UILabel *)numLabel {
     if (!_numLabel) {
-        _numLabel = [JLUIFactory labelInitText:@"X10" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _numLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _numLabel;
 }
@@ -206,6 +206,14 @@
     
     self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.amount];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.total_price];
+    
+    if (soldData.art.collection_mode == 3) {
+        // 可拆分作品，显示购买数量
+        self.numLabel.text = [NSString stringWithFormat:@"X%@", [NSDecimalNumber decimalNumberWithString:soldData.amount].stringValue];
+    } else {
+        self.numLabel.text = @"";
+    }
+    [self.shadowView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
 @end

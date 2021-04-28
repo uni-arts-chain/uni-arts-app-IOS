@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) JLArtDetailType artDetailType;
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) void(^cancelFavorateBlock)(void);
-@property (nonatomic, copy) void(^backBlock)(void);
+@property (nonatomic, copy) void(^backBlock)(Model_art_Detail_Data *artDetailData);
 @end
 
 NS_ASSUME_NONNULL_END

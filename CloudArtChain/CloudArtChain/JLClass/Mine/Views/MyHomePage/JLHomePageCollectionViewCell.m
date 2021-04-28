@@ -220,7 +220,7 @@
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artDetailData.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:artDetailData.price] ? @"0" : artDetailData.price];
     
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中

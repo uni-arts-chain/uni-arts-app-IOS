@@ -176,6 +176,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
     Model_art_Detail_Data *artDetailData = self.dataArray[indexPath.row];
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中
@@ -189,6 +190,9 @@
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
+        artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            [weakSelf.dataArray replaceObjectAtIndex:indexPath.row withObject:artDetailData];
+        };
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }
 }

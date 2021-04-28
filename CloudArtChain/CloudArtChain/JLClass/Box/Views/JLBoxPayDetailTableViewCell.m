@@ -100,7 +100,6 @@
 - (UIImageView *)productImageView {
     if (!_productImageView) {
         _productImageView = [[UIImageView alloc] init];
-        _productImageView.backgroundColor = [UIColor randomColor];
         ViewBorderRadius(_productImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _productImageView;
@@ -108,14 +107,14 @@
 
 - (UILabel *)cardNameLabel {
     if (!_cardNameLabel) {
-        _cardNameLabel = [JLUIFactory labelInitText:@"哈利·波特与凤凰社盲盒" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _cardNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _cardNameLabel;
 }
 
 - (UILabel *)numLabel {
     if (!_numLabel) {
-        _numLabel = [JLUIFactory labelInitText:@"购买数量： 10" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _numLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _numLabel;
 }
@@ -129,8 +128,26 @@
 
 - (UILabel *)totalPriceLabel {
     if (!_totalPriceLabel) {
-        _totalPriceLabel = [JLUIFactory labelInitText:@"¥950" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+        _totalPriceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
     }
     return _totalPriceLabel;
+}
+
+- (void)setBoxData:(Model_blind_boxes_Data *)boxData boxOpenPayType:(JLBoxOpenPayType)boxOpenPayType {
+    if (![NSString stringIsEmpty:boxData.img_path]) {
+        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:boxData.img_path]];
+    }
+    self.cardNameLabel.text = [NSString stringWithFormat:@"%@", boxData.title];
+    if (boxOpenPayType == JLBoxOpenPayTypeTen) {
+        self.numLabel.text = @"购买数量： 10";
+    } else {
+        self.numLabel.text = @"购买数量： 1";
+    }
+    NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:boxData.price];
+    NSDecimalNumber *tenPriceNumber = [priceNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"10"]];
+    
+    NSString *priceString = [NSString stringWithFormat:@"¥%@", boxOpenPayType == JLBoxOpenPayTypeTen ? tenPriceNumber.stringValue : priceNumber.stringValue];
+    self.totalPriceLabel.text = priceString;
+    
 }
 @end

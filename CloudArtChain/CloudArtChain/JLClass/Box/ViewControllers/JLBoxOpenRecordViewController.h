@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxOpenRecordViewController : JLBaseViewController
-
+@property (nonatomic, strong) Model_blind_boxes_Data *boxData;
 @end
 
 NS_ASSUME_NONNULL_END

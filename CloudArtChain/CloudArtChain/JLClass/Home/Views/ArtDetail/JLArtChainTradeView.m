@@ -77,7 +77,7 @@
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     _artDetailData = artDetailData;
-    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", artDetailData.item_hash];
+    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     self.transactionTimesLabel.text = [NSString stringWithFormat:@"交易次数：%@次", artDetailData.trades_count];
 }
 @end

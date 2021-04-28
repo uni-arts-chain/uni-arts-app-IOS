@@ -426,3 +426,12 @@
 @property (nonatomic, strong) NSArray<Model_arts_id_orders_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/arts/:id 个人艺术品详情
+@interface Model_arts_detail_Req : Model_Req
+@property (nonatomic, strong) NSString *art_id;
+@end
+@interface Model_arts_detail_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) Model_arts_detail_Req *request;
+@property (nonatomic, strong) Model_art_Detail_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////

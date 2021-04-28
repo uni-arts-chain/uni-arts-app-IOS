@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, JLInputTrailType) {
     JLInputTrailTypeNone = 1, /** 无操作 */
     JLInputTrailTypePwd, /** 密码显示/隐藏 */
     JLInputTrailTypeVerifyCode, /** 获取验证码 */
+    JLInputTrailTypePhone, /** 手机号码 */
 };
 
 @interface JLInputView : JLBaseView

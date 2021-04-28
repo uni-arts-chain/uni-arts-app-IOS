@@ -158,7 +158,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock(self.artsArray[indexPath.row]);
+        self.artDetailBlock(self.artsArray[indexPath.row], self.workListType);
     }
 }
 
@@ -178,6 +178,9 @@
         _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
             [weakSelf footRefresh];
         }];
+        _collectionView.scrollViewDidScroll = ^(UIScrollView *scrollView) {
+            
+        };
     }
     return _collectionView;
 }
@@ -196,9 +199,12 @@
             }
             [weakSelf.artsArray addObjectsFromArray:response.body];
             [weakSelf endRefresh:response.body];
-            [self.collectionView reloadData];
-            [self setNoDataShow];
+            [weakSelf.collectionView reloadData];
+            [weakSelf setNoDataShow];
         } else {
+            if (weakSelf.endRefreshBlock) {
+                weakSelf.endRefreshBlock();
+            }
             [weakSelf.collectionView.mj_footer endRefreshing];
         }
     }];
@@ -215,6 +221,9 @@
 }
 
 - (void)endRefresh:(NSArray*)artsArray {
+    if (self.endRefreshBlock) {
+        self.endRefreshBlock();
+    }
     if (artsArray.count < kPageSize) {
         [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
     } else {

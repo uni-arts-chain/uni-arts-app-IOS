@@ -128,8 +128,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    JLIntegralListViewController *integralListVC = [[JLIntegralListViewController alloc] init];
-    [self.navigationController pushViewController:integralListVC animated:YES];
+//    JLIntegralListViewController *integralListVC = [[JLIntegralListViewController alloc] init];
+//    [self.navigationController pushViewController:integralListVC animated:YES];
 }
 
 - (UIView *)tableHeaderView {

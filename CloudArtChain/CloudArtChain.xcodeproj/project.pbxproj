@@ -1059,6 +1059,11 @@
 		B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */; };
 		B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */; };
 		B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */; };
+		B3BE6DF92636C7A800BB0F60 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DF82636C7A800BB0F60 /* AudioToolbox.framework */; };
+		B3BE6DFB2636C7F800BB0F60 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DFA2636C7F800BB0F60 /* GLKit.framework */; };
+		B3BE6DFD2636C81400BB0F60 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DFC2636C81400BB0F60 /* QuartzCore.framework */; };
+		B3BE6DFF2636C81D00BB0F60 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DFE2636C81D00BB0F60 /* OpenGLES.framework */; };
+		B3BFE8742636A73C006FF316 /* JLNewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BFE8732636A73C006FF316 /* JLNewsDetailViewController.m */; };
 		B3C05AE2263163F9002741B1 /* JLBoxTenCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AE1263163F9002741B1 /* JLBoxTenCardView.m */; };
 		B3C05AE826316B22002741B1 /* JLBoxCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AE726316B22002741B1 /* JLBoxCardView.m */; };
 		B3C05AED263180E1002741B1 /* ProductSellTransferCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C05AEC263180E1002741B1 /* ProductSellTransferCall.swift */; };
@@ -2638,6 +2643,12 @@
 		B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderViewController.m; sourceTree = "<group>"; };
 		B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSingleSellOrderListCell.h; sourceTree = "<group>"; };
 		B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderListCell.m; sourceTree = "<group>"; };
+		B3BE6DF82636C7A800BB0F60 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B3BE6DFA2636C7F800BB0F60 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B3BE6DFC2636C81400BB0F60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B3BE6DFE2636C81D00BB0F60 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		B3BFE8722636A73C006FF316 /* JLNewsDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewsDetailViewController.h; sourceTree = "<group>"; };
+		B3BFE8732636A73C006FF316 /* JLNewsDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewsDetailViewController.m; sourceTree = "<group>"; };
 		B3C05AE0263163F9002741B1 /* JLBoxTenCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxTenCardView.h; sourceTree = "<group>"; };
 		B3C05AE1263163F9002741B1 /* JLBoxTenCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxTenCardView.m; sourceTree = "<group>"; };
 		B3C05AE626316B22002741B1 /* JLBoxCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxCardView.h; sourceTree = "<group>"; };
@@ -2690,11 +2701,15 @@
 				B3AA62D025E4DD0200D28627 /* GTSDK.framework in Frameworks */,
 				B3648CF22518B64300BBDB57 /* libz.tbd in Frameworks */,
 				B3648CEC2518B5F200BBDB57 /* libc++.tbd in Frameworks */,
+				B3BE6DFD2636C81400BB0F60 /* QuartzCore.framework in Frameworks */,
 				B3648CF02518B62A00BBDB57 /* libsqlite3.tbd in Frameworks */,
 				5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */,
+				B3BE6DF92636C7A800BB0F60 /* AudioToolbox.framework in Frameworks */,
 				B3753DAB2554F54E003A86CF /* WebP.framework in Frameworks */,
 				B3648CEE2518B61300BBDB57 /* libresolv.tbd in Frameworks */,
+				B3BE6DFB2636C7F800BB0F60 /* GLKit.framework in Frameworks */,
 				F0D3C8CF056DA7F72D6DDF7B /* Pods_CloudArtChain.framework in Frameworks */,
+				B3BE6DFF2636C81D00BB0F60 /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2874,6 +2889,10 @@
 		7A8BEFDABCD0FB1B82B9A351 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B3BE6DFE2636C81D00BB0F60 /* OpenGLES.framework */,
+				B3BE6DFC2636C81400BB0F60 /* QuartzCore.framework */,
+				B3BE6DFA2636C7F800BB0F60 /* GLKit.framework */,
+				B3BE6DF82636C7A800BB0F60 /* AudioToolbox.framework */,
 				B3648CF12518B63D00BBDB57 /* libz.tbd */,
 				B3648CEF2518B62300BBDB57 /* libsqlite3.tbd */,
 				B3648CED2518B5FD00BBDB57 /* libresolv.tbd */,
@@ -6061,6 +6080,8 @@
 				5C2429662504A77300C74B6A /* JLMessageViewController.m */,
 				5C24296B2504AC0400C74B6A /* JLCustomerServiceViewController.h */,
 				5C24296C2504AC0400C74B6A /* JLCustomerServiceViewController.m */,
+				B3BFE8722636A73C006FF316 /* JLNewsDetailViewController.h */,
+				B3BFE8732636A73C006FF316 /* JLNewsDetailViewController.m */,
 				B35EBA0A24FF462900F5BF84 /* ChainQuery */,
 			);
 			path = ViewControllers;
@@ -7595,6 +7616,7 @@
 				B312269E25B6B60B00562ECA /* PurchaseViewController.swift in Sources */,
 				B312261C25B6B60A00562ECA /* ProfileViewFactory.swift in Sources */,
 				B31224AC25B6B60900562ECA /* SigningWrapperProtocol.swift in Sources */,
+				B3BFE8742636A73C006FF316 /* JLNewsDetailViewController.m in Sources */,
 				B312253525B6B60A00562ECA /* UserSettings.swift in Sources */,
 				B3753DB62554F573003A86CF /* UIView+SLFrame.m in Sources */,
 				B31224E025B6B60900562ECA /* AccountImportSource+ViewModel.swift in Sources */,

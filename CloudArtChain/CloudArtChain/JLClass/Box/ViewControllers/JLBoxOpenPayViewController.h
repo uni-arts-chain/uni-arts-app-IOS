@@ -10,8 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JLBoxOpenPayViewController : JLBaseViewController
+typedef NS_ENUM(NSUInteger, JLBoxOpenPayType) {
+    JLBoxOpenPayTypeOne, /** 开启一次 */
+    JLBoxOpenPayTypeTen, /** 开启10次 */
+};
 
+@interface JLBoxOpenPayViewController : JLBaseViewController
+@property (nonatomic, assign) JLBoxOpenPayType boxOpenPayType;
+@property (nonatomic, strong) Model_blind_boxes_Data *boxData;
+@property (nonatomic, copy) void(^buySuccessBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

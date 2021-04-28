@@ -15,6 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,   copy) NSString *title;
 @property (nonatomic,   copy) NSString *statusText;
 @property (nonatomic, strong) NSString *editContent;
+@property (nonatomic, copy) void(^selectedBlock)(void);
 @end
-
 NS_ASSUME_NONNULL_END

@@ -27,6 +27,7 @@
 @property (nonatomic,   copy) NSArray <NSString *> *titles;
 @property (nonatomic, strong) UIButton *uploadWorkBtn;
 @property (nonatomic, strong) JLHomePageEditHeaderView *homePageHeaderView;
+@property (nonatomic, strong) JLHoveringView *hovering;
 @end
 
 @implementation JLHomePageViewController
@@ -39,6 +40,7 @@
 }
 
 - (void)setupSubViews {
+    WS(weakSelf)
     [self.view addSubview:self.uploadWorkBtn];
     
     CGFloat height = kScreenHeight - KTouch_Responder_Height - KStatusBar_Navigation_Height - 47.0f;
@@ -46,6 +48,7 @@
     JLHoveringView *hovering = [[JLHoveringView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, height) deleaget:self];
     hovering.isMidRefresh = NO;
     [self.view addSubview:hovering];
+    self.hovering = hovering;
 
     hovering.pageView.defaultTitleColor = JL_color_gray_999999;
     hovering.pageView.selectTitleColor = JL_color_gray_101010;
@@ -54,10 +57,15 @@
     hovering.pageView.defaultTitleFont = kFontPingFangSCRegular(15.0f);
     hovering.pageView.selectTitleFont = kFontPingFangSCSCSemibold(16.0f);
         
-        //设置头部刷新的方法。头部刷新的话isMidRefresh 必须为NO
-    //    hovering.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-    //        [hovering.scrollView.mj_header endRefreshing];
-    //    }];
+    //设置头部刷新的方法。头部刷新的话isMidRefresh 必须为NO
+    hovering.scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+        [weakSelf workListHeadRefresh];
+    }];
+}
+
+- (void)workListHeadRefresh {
+    JLWorksListViewController *workListVC = (JLWorksListViewController *)self.viewControllers[self.hovering.pageView.currentSelectedIndex];
+    [workListVC headRefresh];
 }
 
 - (NSArray *)listView {
@@ -163,14 +171,14 @@
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
-                artDetailVC.backBlock = ^{
-                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)self.viewControllers[workListType];
+                artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[workListType];
                     [biddingVC headRefresh];
                 };
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }
         };
-        workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+        workListVC.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData, JLWorkListType workListType) {
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
                 JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
@@ -183,6 +191,10 @@
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
+                artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[workListType];
+                    [biddingVC headRefresh];
+                };
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }
         };
@@ -215,8 +227,11 @@
                 JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
                 sellWithSplitVC.artDetailData = artDetailData;
                 sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
-                    [biddingVC addToBiddingList:artDetailData];
+                    for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
+                        [workListVC headRefresh];
+                    }
+//                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
+//                    [biddingVC addToBiddingList:artDetailData];
                 };
                 [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
             } else {
@@ -224,11 +239,17 @@
                 JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
                 sellWithoutSplitVC.artDetailData = artDetailData;
                 sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
-                    [biddingVC addToBiddingList:artDetailData];
+                    for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
+                        [workListVC headRefresh];
+                    }
+//                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
+//                    [biddingVC addToBiddingList:artDetailData];
                 };
                 [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
             }
+        };
+        workListVC.endRefreshBlock = ^{
+            [weakSelf.hovering.scrollView.mj_header endRefreshing];
         };
         [workListVCArray addObject:workListVC];
     }];
@@ -257,6 +278,18 @@
 
 - (void)uploadWorkBtnClick {
     JLUploadWorkViewController *uploadWorkVC = [[JLUploadWorkViewController alloc] init];
+    __block typeof(uploadWorkVC) weakUploadVC = uploadWorkVC;
+    uploadWorkVC.checkProcessBlock = ^{
+        [weakUploadVC.navigationController popViewControllerAnimated:YES];
+        for (JLWorksListViewController *workListVC in self.viewControllers) {
+            [workListVC headRefresh];
+        }
+    };
+    uploadWorkVC.uploadSuccessBackBlock = ^{
+        for (JLWorksListViewController *workListVC in self.viewControllers) {
+            [workListVC headRefresh];
+        }
+    };
     [self.navigationController pushViewController:uploadWorkVC animated:YES];
 }
 @end

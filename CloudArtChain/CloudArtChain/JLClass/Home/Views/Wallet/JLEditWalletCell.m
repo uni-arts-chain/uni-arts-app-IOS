@@ -161,10 +161,16 @@
 }
 
 - (void)editBtnClick {
-    self.statusView.hidden = YES;
-    self.editTF.hidden = NO;
-    self.editTF.text = self.statusLabel.text;
-    [self.editTF becomeFirstResponder];
+    if (self.isEdit) {
+        self.statusView.hidden = YES;
+        self.editTF.hidden = NO;
+        self.editTF.text = self.statusLabel.text;
+        [self.editTF becomeFirstResponder];
+    } else {
+        if (self.selectedBlock) {
+            self.selectedBlock();
+        }
+    }
 }
 
 - (UIImageView *)arrowImageView {
@@ -183,6 +189,7 @@
 }
 
 - (void)setIsEdit:(BOOL)isEdit {
+    _isEdit = isEdit;
     if (isEdit) {
         self.statusLabel.hidden = NO;
         self.editBtn.hidden = NO;

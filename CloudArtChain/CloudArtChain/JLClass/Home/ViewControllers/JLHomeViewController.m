@@ -19,6 +19,7 @@
 #import "JLAuctionDetailViewController.h"
 #import "JLBaseWebViewController.h"
 #import "JLAuctionArtDetailViewController.h"
+#import "JLNewsDetailViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLHomeAppView.h"
@@ -69,25 +70,36 @@
         NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
 //        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
     } else {
-        [self reloadAllService];
+        if ([JLLoginUtil haveToken]) {
+            [self requestThemeList];
+//            [self requestPopularList];
+        }
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     if ([JLLoginUtil haveToken]) {
         [self reloadAllService];
 //        [self requestHasUnreadMessages];
     }
 }
 
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    if ([JLLoginUtil haveToken]) {
+//        [self reloadAllService];
+////        [self requestHasUnreadMessages];
+//    }
+//}
+
 - (void)reloadAllService {
     [self requestHasUnreadMessages];
     [self requestBannersData];
     [self requestAnnounceData];
 //    [self requestAuctionMeetingList];
-    [self requestThemeList];
-    [self requestPopularList];
+//    [self requestThemeList];
+//    [self requestPopularList];
 }
 
 - (void)headRefreshService {
@@ -95,7 +107,7 @@
     [self requestBannersData];
     [self requestAnnounceData];
     [self requestThemeList];
-    [self requestPopularList];
+//    [self requestPopularList];
 }
 
 - (void)createOrImportWalletNotification:(NSNotification *)notification {
@@ -105,16 +117,16 @@
 }
 
 - (void)userLoginNotification:(NSNotification *)notification {
-    [self reloadAllService];
+    [self headRefreshService];
 }
 
 - (void)createView {
     [self.view addSubview:self.homeNaviView];
     [self.view addSubview:self.scrollView];
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.homeNaviView.mas_bottom);
-        make.left.bottom.right.equalTo(self.view);
-    }];
+//    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.homeNaviView.mas_bottom);
+//        make.left.bottom.right.equalTo(self.view);
+//    }];
     // banner
     [self.scrollView addSubview:self.pageFlowView];
     // 应用列表
@@ -133,7 +145,7 @@
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         WS(weakSelf)
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, self.homeNaviView.frameBottom, kScreenWidth, kScreenHeight - self.homeNaviView.frameBottom - KTabBar_Height - KTouch_Responder_Height)];
         _scrollView.backgroundColor = JL_color_gray_F5F5F5;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
@@ -289,6 +301,7 @@
     if (!_popularOriginalView) {
         WS(weakSelf)
         _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f)];
+        _popularOriginalView.backgroundColor = [UIColor randomColor];
         _popularOriginalView.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
@@ -365,8 +378,11 @@
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     Model_news_Data *annouceData = self.announceArray[index];
-    JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
-    [self.navigationController pushViewController:detailVC animated:YES];
+//    JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
+//    [self.navigationController pushViewController:detailVC animated:YES];
+    JLNewsDetailViewController *newsDetailVC = [[JLNewsDetailViewController alloc] init];
+    newsDetailVC.newsData = annouceData;
+    [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 
 #pragma mark 查询用户是否有未读消息
@@ -565,9 +581,14 @@
                         [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
                     }
                 };
+                themeView.seeMoreBlock = ^{
+                    UITabBarController *tabBarController = [[AppSingleton sharedAppSingleton].globalNavController.viewControllers objectAtIndex:0];
+                    tabBarController.selectedIndex = 1;
+                };
                 [self.themeRecommendView addSubview:themeView];
             }
         }
+        [weakSelf requestPopularList];
     }];
 }
 

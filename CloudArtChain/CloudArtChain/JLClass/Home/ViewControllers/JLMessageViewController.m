@@ -61,6 +61,9 @@
                 [weakSelf.messageListArray addObject:messageData];
             }
             [weakSelf.tableView reloadData];
+            
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+            [GeTuiSdk resetBadge];
         }
     }];
 }

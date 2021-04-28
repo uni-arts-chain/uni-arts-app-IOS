@@ -250,6 +250,15 @@ class RPCTest: XCTestCase {
             XCTFail("Unexpected error: \(error)")
         }
     }
+    
+    func testAccountSign() throws {
+//        let originalData = try! Data(hexString: "123")
+//        let secretKey = try! Data(hexString: "2a94456b9c9fdfbde25ee42b199d149d8cd071eac498d4b2c469ea642ac203a3")
+//        let publicKeyData = try! Data(hexString: "3657ba066b5ee422e1dc421a5f1ceb5d2b00344dfd87989a58daf2f9d5399859")
+//        let signature = try signSr25519(originalData,
+//                               secretKeyData: secretKey,
+//                               publicKeyData: publicKeyData)
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

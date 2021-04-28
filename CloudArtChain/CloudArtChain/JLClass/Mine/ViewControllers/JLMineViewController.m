@@ -137,6 +137,12 @@
                 {
                     // 上传作品
                     JLUploadWorkViewController *uploadWorkVC = [[JLUploadWorkViewController alloc] init];
+                    __block typeof(uploadWorkVC) weakUploadWorkVC = uploadWorkVC;
+                    uploadWorkVC.checkProcessBlock = ^{
+                        [weakUploadWorkVC.navigationController popViewControllerAnimated:NO];
+                        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                    };
                     [weakSelf.navigationController pushViewController:uploadWorkVC animated:YES];
                 }
                     break;

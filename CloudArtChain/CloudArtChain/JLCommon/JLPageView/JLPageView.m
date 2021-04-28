@@ -220,6 +220,7 @@ static const NSInteger  minTitleButtonWitdh = 60;
         [self.lastItem setTitleColor:self.defaultTitleColor ?self.defaultTitleColor:itemDefaultColor forState:UIControlStateNormal];
     }
     self.lastIndex = index;
+    self.currentSelectedIndex = index;
     self.lastItem = Item;
     Item.titleLabel.font = self.selectTitleFont ?self.selectTitleFont:[UIFont systemFontOfSize:14];
     [Item setTitleColor:self.selectTitleColor ?self.selectTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

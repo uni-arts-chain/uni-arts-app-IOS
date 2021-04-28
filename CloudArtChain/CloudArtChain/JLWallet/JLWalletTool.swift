@@ -195,7 +195,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
 
         navigationController.pushViewController(mnemonicView.controller, animated: true)
     }
-    
+    // 修改密码
     @objc func changePinSetup(from: UINavigationController) {
         authorize(animated: true, cancellable: true) { (success) in
             if success {
@@ -209,7 +209,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
             }
         }
     }
-    
+    // 重新加载用户数据
     @objc func reloadContacts() {
         getRootPresenter()
         self.getContacts()
@@ -241,7 +241,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         }
         getRootPresenter().getAccountBalance(balanceBlock: updateBlock)
     }
-    
+    // 账户签名
     @objc func accountSign(originData: Data) throws -> String {
         let accountSigner = SigningWrapper(keystore: Keychain(), settings: SettingsManager.shared)
         let signature = try accountSigner.sign(originData)

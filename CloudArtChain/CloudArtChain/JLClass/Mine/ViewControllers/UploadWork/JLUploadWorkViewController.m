@@ -374,11 +374,11 @@
         self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
         return;
     }
-    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
-        self.confirmUploadBtn.enabled = NO;
-        self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
-        return;
-    }
+//    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
+//        self.confirmUploadBtn.enabled = NO;
+//        self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
+//        return;
+//    }
     self.confirmUploadBtn.enabled = YES;
     self.confirmUploadBtn.backgroundColor = JL_color_gray_101010;
 }
@@ -401,10 +401,10 @@
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品所属主题" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
-    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品价格" hideTime:KToastDismissDelayTimeInterval];
-        return;
-    }
+//    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
+//        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品价格" hideTime:KToastDismissDelayTimeInterval];
+//        return;
+//    }
     
     NSMutableArray *paramsArray = [NSMutableArray array];
     NSMutableArray *fileNameArray = [NSMutableArray array];
@@ -443,7 +443,9 @@
     if (self.workSplit) {
         request.refungible_decimal = [self.tempSplitNumArray[self.currentSelectedSplitNumIndex] stringByReplacingOccurrencesOfString:@"份" withString:@""];
     }
-    request.price = self.priceView.inputContent;
+    if (![NSString stringIsEmpty:self.priceView.inputContent]) {
+        request.price = self.priceView.inputContent;
+    }
     request.resource_type = 1;
     for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
         if ([imageModel.imageType isEqualToString:@"gif"]) {
@@ -458,6 +460,9 @@
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+                if (weakSelf.uploadSuccessBackBlock) {
+                    weakSelf.uploadSuccessBackBlock();
+                }
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             } confirm:@"去查看" confirmHandler:^{
                 if (weakSelf.checkProcessBlock) {

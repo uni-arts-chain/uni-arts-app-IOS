@@ -57,7 +57,7 @@
     cancelBtn.frame = CGRectMake(16, 19, 32, 22);
     [alertView addSubview:cancelBtn];
     //完成按钮
-    UIButton *doneBtn = [JLUIFactory buttonInitTitle:@"确定" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_38B2F1 font:kFontPingFangSCRegular(14) addTarget:self action:@selector(doneAction)];
+    UIButton *doneBtn = [JLUIFactory buttonInitTitle:@"确定" titleColor:JL_color_white_ffffff backgroundColor:JL_color_gray_101010 font:kFontPingFangSCRegular(14) addTarget:self action:@selector(doneAction)];
     doneBtn.contentEdgeInsets = UIEdgeInsetsZero;
     doneBtn.frame = CGRectMake(alertView.frameWidth - 44 - 16, 16, 44.0f,28.0f);
     doneBtn.layer.cornerRadius = 5.0f;

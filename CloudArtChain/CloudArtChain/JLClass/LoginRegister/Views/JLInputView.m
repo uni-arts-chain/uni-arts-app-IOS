@@ -129,6 +129,9 @@
         _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _inputTF.secureTextEntry = (self.trailType == JLInputTrailTypePwd);
+        if (self.trailType == JLInputTrailTypePhone) {
+            _inputTF.keyboardType = UIKeyboardTypeNumberPad;
+        }
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dic];
         _inputTF.attributedPlaceholder = attr;
