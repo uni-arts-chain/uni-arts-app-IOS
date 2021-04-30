@@ -431,10 +431,17 @@
         } else {
             // 判断是否可以拆分 不可以拆分
             if (self.artDetailData.collection_mode != 3) {
-                if (self.currentSellingList.count >0) {
+                if (self.currentSellingList.count > 0) {
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = self.artDetailData;
                     orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
+                    orderSubmitVC.buySuccessBlock = ^{
+                        // 退出详情页面
+                        if (weakSelf.buySuccessDeleteBlock) {
+                            weakSelf.buySuccessDeleteBlock();
+                        }
+                        [weakSelf.navigationController popViewControllerAnimated:NO];
+                    };
                     [self.navigationController pushViewController:orderSubmitVC animated:YES];
                 }
             }

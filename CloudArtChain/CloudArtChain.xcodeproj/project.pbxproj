@@ -1050,6 +1050,7 @@
 		B3AA62C425E49B3E00D28627 /* UIView+ST.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62BE25E49B3D00D28627 /* UIView+ST.m */; };
 		B3AA62C525E49B3E00D28627 /* STPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62C025E49B3E00D28627 /* STPickerView.m */; };
 		B3AA62D025E4DD0200D28627 /* GTSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3AA62CF25E4DD0200D28627 /* GTSDK.framework */; };
+		B3AA6DA5263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA6DA4263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m */; };
 		B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */; };
 		B3B626EC25E3646E009BE119 /* JLFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B626EB25E3646E009BE119 /* JLFeedBackViewController.m */; };
 		B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B88927261817C900A2C5D7 /* AuctionInfo.swift */; };
@@ -2628,6 +2629,8 @@
 		B3AA62C125E49B3E00D28627 /* STPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPickerView.h; sourceTree = "<group>"; };
 		B3AA62CF25E4DD0200D28627 /* GTSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GTSDK.framework; sourceTree = "<group>"; };
 		B3AA62D425E4E1CA00D28627 /* 云画链.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "云画链.entitlements"; sourceTree = "<group>"; };
+		B3AA6DA3263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBoxImageSizeCacheDefaults.h; sourceTree = "<group>"; };
+		B3AA6DA4263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxImageSizeCacheDefaults.m; sourceTree = "<group>"; };
 		B3ABE99A25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPurchaseOrderListCloseTableViewCell.h; sourceTree = "<group>"; };
 		B3ABE99B25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPurchaseOrderListCloseTableViewCell.m; sourceTree = "<group>"; };
 		B3B626EA25E3646E009BE119 /* JLFeedBackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLFeedBackViewController.h; sourceTree = "<group>"; };
@@ -5981,6 +5984,8 @@
 				B394E3F825ECF37C00685F8D /* UIImage+ImgSize.m */,
 				B394E3FE25ECF39B00685F8D /* JLImageSizeCacheDefaults.h */,
 				B394E3FF25ECF39B00685F8D /* JLImageSizeCacheDefaults.m */,
+				B3AA6DA3263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.h */,
+				B3AA6DA4263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m */,
 				B39655FD24F38DF4007A8EC2 /* UIView+anmit.h */,
 				B39655EA24F38DF4007A8EC2 /* UIView+anmit.m */,
 				B39655F524F38DF4007A8EC2 /* UIView+JLCorner.h */,
@@ -7300,6 +7305,7 @@
 				B312256125B6B60A00562ECA /* ModalPickerFactory.swift in Sources */,
 				B3E98E2E25022E99004AABD2 /* JLExportKeystoreFileView.m in Sources */,
 				B312264C25B6B60A00562ECA /* AccountShareFactory.swift in Sources */,
+				B3AA6DA5263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m in Sources */,
 				B312267C25B6B60A00562ECA /* WalletInputAmountView.swift in Sources */,
 				B396554124F38D6D007A8EC2 /* JLNetHelper.m in Sources */,
 				B312255325B6B60A00562ECA /* TitledMnemonicView.swift in Sources */,

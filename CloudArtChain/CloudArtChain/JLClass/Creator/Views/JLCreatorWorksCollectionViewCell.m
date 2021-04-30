@@ -11,8 +11,7 @@
 @interface JLCreatorWorksCollectionViewCell ()
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UILabel *descLabel;
-@property (nonatomic, strong) UILabel *addressLabel;
+@property (nonatomic, strong) UILabel *nameLabel;
 
 @property (nonatomic, strong) UIView *auctioningView;
 @end
@@ -29,23 +28,17 @@
 - (void)createSubViews {
     [self addSubview:self.imageView];
     [self addSubview:self.priceLabel];
-    [self addSubview:self.descLabel];
-    [self addSubview:self.addressLabel];
+    [self addSubview:self.nameLabel];
     [self addSubview:self.auctioningView];
     
-    [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
         make.bottom.equalTo(self);
         make.height.mas_equalTo(13.0f);
     }];
-    [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self.addressLabel.mas_top).offset(-12.0f);
-        make.height.mas_equalTo(13.0f);
-    }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
-        make.bottom.equalTo(self.descLabel.mas_top).offset(-12.0f);
+        make.bottom.equalTo(self.nameLabel.mas_top).offset(-12.0f);
         make.height.mas_equalTo(15.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -62,6 +55,7 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
@@ -76,22 +70,13 @@
     return _priceLabel;
 }
 
-- (UILabel *)descLabel {
-    if (!_descLabel) {
-        _descLabel = [[UILabel alloc] init];
-        _descLabel.font = kFontPingFangSCRegular(13.0f);
-        _descLabel.textColor = JL_color_gray_101010;
+- (UILabel *)nameLabel {
+    if (!_nameLabel) {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.font = kFontPingFangSCRegular(13.0f);
+        _nameLabel.textColor = JL_color_gray_101010;
     }
-    return _descLabel;
-}
-
-- (UILabel *)addressLabel {
-    if (!_addressLabel) {
-        _addressLabel = [[UILabel alloc] init];
-        _addressLabel.font = kFontPingFangSCRegular(13.0f);
-        _addressLabel.textColor = JL_color_gray_909090;
-    }
-    return _addressLabel;
+    return _nameLabel;
 }
 
 - (UIView *)auctioningView {
@@ -124,8 +109,7 @@
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:detailData.img_main_file1[@"url"]]];
     }
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", detailData.price];
-//    self.descLabel.text = [NSString stringWithFormat:@"%@，%@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(detailData.material_id).stringValue], detailData.name];
-    self.addressLabel.text = [NSString stringWithFormat:@"证书地址:%@", [NSString stringIsEmpty:detailData.item_hash] ? @"" : detailData.item_hash];
+    self.nameLabel.text = [NSString stringIsEmpty:detailData.name] ? @"" : detailData.name;
     
     if ([detailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中

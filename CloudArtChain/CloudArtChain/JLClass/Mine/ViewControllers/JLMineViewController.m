@@ -29,6 +29,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) JLMineOrderView *orderView;
 @property (nonatomic, strong) JLMineAppView *mineAppView;
+@property (nonatomic, assign) NSInteger messageUnreadNumber;
 @end
 
 @implementation JLMineViewController
@@ -48,6 +49,7 @@
     [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
         [weakSelf.orderView setCurrentAccountBalance:amount];
     }];
+    [self requestHasUnreadMessages];
 }
 
 - (void)viewDidLoad {
@@ -176,6 +178,7 @@
                 {
                     // 消息
                     JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
+                    messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
                     [weakSelf.navigationController pushViewController:messageVC animated:YES];
                 }
                     break;
@@ -193,4 +196,20 @@
     }
     return _mineAppView;
 }
+
+#pragma mark 查询用户是否有未读消息
+- (void)requestHasUnreadMessages {
+    WS(weakSelf)
+    Model_messages_has_unread_Req *request = [[Model_messages_has_unread_Req alloc] init];
+    Model_messages_has_unread_Rsp *response = [[Model_messages_has_unread_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.messageUnreadNumber = response.body.has_unread;
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:weakSelf.messageUnreadNumber];
+            [GeTuiSdk setBadge:weakSelf.messageUnreadNumber];
+        }
+    }];
+}
+
 @end

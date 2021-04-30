@@ -37,6 +37,9 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     @objc init(window: UIWindow) {
         self.window = window
         super.init()
+        self.getGenisisHash { genisisHash in
+            print("genisisHash: \(genisisHash)")
+        }
         self.getMetadata()
         self.getContacts()
     }
@@ -669,6 +672,30 @@ extension JLWalletTool {
                 self?.metadata = tempMetaData
             } catch {
                 print("Unexpected error: \(error)")
+            }
+        }
+        operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
+    }
+    
+    /** 获取GenisisHash */
+    func getGenisisHash(genisisHashBlock: @escaping (String?) -> Void) {
+        let logger = Logger.shared
+        let operationQueue = OperationQueue()
+        let engine = WebSocketEngine(url: ConnectionItem.defaultConnection.url, logger: logger)
+        
+        var currentBlock: UInt32 = 0
+        
+        let param = Data(Data(bytes: &currentBlock, count: MemoryLayout<UInt32>.size).reversed())
+                    .toHex(includePrefix: true)
+        let operation = JSONRPCListOperation<String>(engine: engine,method: RPCMethod.getBlockHash, parameters: [param])
+        
+        let operationsWrapper = CompoundOperationWrapper(targetOperation: operation)
+        operationsWrapper.targetOperation.completionBlock = {
+            do {
+                let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+                genisisHashBlock(result)
+            } catch {
+                genisisHashBlock(nil)
             }
         }
         operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)

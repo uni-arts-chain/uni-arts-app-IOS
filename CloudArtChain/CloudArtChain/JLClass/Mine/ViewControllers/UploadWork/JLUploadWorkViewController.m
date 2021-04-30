@@ -69,6 +69,7 @@
     self.navigationItem.title = @"上传作品";
     [self addBackItem];
     [self createView];
+    [self refreshThemeArray];
 }
 
 - (void)createView {
@@ -487,6 +488,12 @@
         _tempThemeArray = [themeArray copy];
     }
     return _tempThemeArray;
+}
+
+- (void)refreshThemeArray {
+    if ([AppSingleton sharedAppSingleton].artThemeArray.count == 0) {
+        [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:nil];
+    }
 }
 
 - (NSArray *)tempSplitNumArray {

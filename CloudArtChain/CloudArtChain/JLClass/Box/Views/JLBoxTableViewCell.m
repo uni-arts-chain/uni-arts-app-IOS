@@ -134,8 +134,8 @@
 }
 
 - (void)setBoxData:(Model_blind_boxes_Data *)boxData {
-    if (![NSString stringIsEmpty:boxData.img_path]) {
-        [self.titleImageView sd_setImageWithURL:[NSURL URLWithString:boxData.img_path]];
+    if (![NSString stringIsEmpty:boxData.app_img_path]) {
+        [self.titleImageView sd_setImageWithURL:[NSURL URLWithString:boxData.app_img_path]];
     }
     self.titleLabel.text = boxData.title;
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:boxData.desc]];

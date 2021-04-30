@@ -88,8 +88,23 @@
             }
             [weakSelf headRefresh];
         }];
+        [self refreshThemeFilterView];
     }
     return _themeFilterView;
+}
+
+- (void)refreshThemeFilterView {
+    WS(weakSelf)
+    if ([AppSingleton sharedAppSingleton].artThemeArray.count == 0) {
+        // 重新请求列表
+        [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:^{
+            NSMutableArray *tempThemeArray = [NSMutableArray array];
+            for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
+                [tempThemeArray addObject:themeData.title];
+            }
+            [weakSelf.themeFilterView refreshItems:[tempThemeArray copy]];
+        }];
+    }
 }
 
 - (JLCateFilterView *)typeFilterView {
@@ -108,8 +123,23 @@
             }
             [weakSelf headRefresh];
         }];
+        [self refreshTypeFilterView];
     }
     return _typeFilterView;
+}
+
+- (void)refreshTypeFilterView {
+    WS(weakSelf)
+    if ([AppSingleton sharedAppSingleton].artTypeArray.count == 0) {
+        // 重新请求列表
+        [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:^{
+            NSMutableArray *tempTypeArray = [NSMutableArray array];
+            for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
+                [tempTypeArray addObject:typeData.title];
+            }
+            [weakSelf.typeFilterView refreshItems:[tempTypeArray copy]];
+        }];
+    }
 }
 
 - (JLCateFilterView *)priceFilterView {
@@ -128,8 +158,23 @@
             }
             [weakSelf headRefresh];
         }];
+        [self refreshPriceFilterView];
     }
     return _priceFilterView;
+}
+
+- (void)refreshPriceFilterView {
+    WS(weakSelf)
+    if ([AppSingleton sharedAppSingleton].artPriceArray.count == 0) {
+        // 重新请求列表
+        [[AppSingleton sharedAppSingleton] requestArtPriceWithSuccessBlock:^{
+            NSMutableArray *tempPriceArray = [NSMutableArray array];
+            for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
+                [tempPriceArray addObject:priceData.title];
+            }
+            [weakSelf.priceFilterView refreshItems:[tempPriceArray copy]];
+        }];
+    }
 }
 
 - (NSMutableArray *)dataArray {
@@ -192,6 +237,10 @@
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
         artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             [weakSelf.dataArray replaceObjectAtIndex:indexPath.row withObject:artDetailData];
+        };
+        artDetailVC.buySuccessDeleteBlock = ^{
+            [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
+            [weakSelf.collectionView reloadData];
         };
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }

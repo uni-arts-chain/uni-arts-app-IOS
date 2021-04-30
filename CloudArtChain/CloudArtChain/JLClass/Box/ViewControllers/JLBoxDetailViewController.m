@@ -18,6 +18,7 @@
 
 @interface JLBoxDetailViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIImageView *contentBackImageView;
 @property (nonatomic, strong) UIImageView *headerImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *detailLabel;
@@ -41,11 +42,16 @@
     self.navigationItem.title = self.boxData.title;
     [self addBackItem];
     [self addRightBarButton];
-    [self createSubViews];
-    [self getBoxCardList];
-    
-    // 请求是否有未开启盲盒
-    [self requestBoxListCheck];
+    if (self.boxData != nil) {
+        [self createSubViews];
+        [self getBoxCardList];
+        
+        // 请求是否有未开启盲盒
+        [self requestBoxListCheck];
+    } else {
+        // 请求盲盒详情
+        [self requestBoxDetail];
+    }
 }
 
 - (void)addRightBarButton {
@@ -59,6 +65,7 @@
 
 - (void)openRecordClick {
     JLBoxOpenRecordViewController *boxOpenRecordVC = [[JLBoxOpenRecordViewController alloc] init];
+    boxOpenRecordVC.boxData = self.boxData;
     [self.navigationController pushViewController:boxOpenRecordVC animated:YES];
 }
 
@@ -71,6 +78,7 @@
         make.width.mas_equalTo(kScreenWidth);
     }];
     
+    [self.scrollView addSubview:self.contentBackImageView];
     [self.scrollView addSubview:self.headerImageView];
     [self.scrollView addSubview:self.nameLabel];
     [self.scrollView addSubview:self.detailLabel];
@@ -82,10 +90,14 @@
     [self.scrollView addSubview:self.ruleDescLabel];
     [self.scrollView addSubview:self.footerImageView];
     
+    [self.contentBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.equalTo(self.scrollView);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
     [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.scrollView);
         make.width.mas_equalTo(kScreenWidth);
-        make.height.mas_equalTo(230.0f);
+//        make.height.mas_equalTo(230.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -144,18 +156,29 @@
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = JL_color_gray_101010;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
     }
     return _scrollView;
 }
 
+- (UIImageView *)contentBackImageView {
+    if (!_contentBackImageView) {
+        _contentBackImageView = [[UIImageView alloc] init];
+        if (![NSString stringIsEmpty:self.boxData.app_background_img_path]) {
+            [_contentBackImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.app_background_img_path]];
+        } else {
+            _contentBackImageView.backgroundColor = JL_color_gray_101010;
+        }
+    }
+    return _contentBackImageView;
+}
+
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] init];
-        if (![NSString stringIsEmpty:self.boxData.img_path]) {
-            [_headerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.img_path]];
+        if (![NSString stringIsEmpty:self.boxData.app_img_path]) {
+            [_headerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.app_img_path]];
         }
     }
     return _headerImageView;
@@ -200,7 +223,7 @@
         // 开启盲盒
         Model_blind_box_orders_open_Req *request = [[Model_blind_box_orders_open_Req alloc] init];
         for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
-            if (orderCheckData.total == 1) {
+            if (orderCheckData.total.intValue == 1) {
                 request.sn = orderCheckData.sn;
                 break;
             }
@@ -211,35 +234,32 @@
         [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
-                JLBoxTenCardView *boxOneCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
-                boxOneCardView.cardList = response.body;
-                boxOneCardView.closeBlock = ^{
-                    [weakSelf lew_dismissPopupView];
-                };
-                boxOneCardView.homepageBlock = ^{
-                    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:homePageVC animated:YES];
-                    [weakSelf lew_dismissPopupViewWithanimation:nil];
-                };
-                boxOneCardView.center = self.view.window.center;
-                ViewBorderRadius(boxOneCardView, 5.0f, 0.0f, JL_color_clear);
-                LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
-                [self lew_presentPopupView:boxOneCardView animation:animation backgroundClickable:NO dismissed:^{
-                   NSLog(@"动画结束");
-                }];
+                if (response.body.count == 0) {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
+                } else {
+                    JLBoxTenCardView *boxOneCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
+                    boxOneCardView.cardList = response.body;
+                    boxOneCardView.closeBlock = ^{
+                        [weakSelf lew_dismissPopupView];
+                    };
+                    boxOneCardView.homepageBlock = ^{
+                        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                        [weakSelf lew_dismissPopupViewWithanimation:nil];
+                    };
+                    boxOneCardView.center = self.view.window.center;
+                    ViewBorderRadius(boxOneCardView, 5.0f, 0.0f, JL_color_clear);
+                    LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
+                    [self lew_presentPopupView:boxOneCardView animation:animation backgroundClickable:NO dismissed:^{
+                       NSLog(@"动画结束");
+                    }];
+                }
                 [weakSelf requestBoxListCheck];
             }
         }];
     } else {
         // 购买盲盒
-        JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
-        boxOpenPayVC.boxOpenPayType = JLBoxOpenPayTypeOne;
-        boxOpenPayVC.boxData = self.boxData;
-        boxOpenPayVC.buySuccessBlock = ^{
-            // 刷新是否有未开启盲盒
-            [weakSelf requestBoxListCheck];
-        };
-        [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+        [self buyBoxWithType:JLBoxOpenPayTypeOne];
     }
 }
 
@@ -262,7 +282,7 @@
         // 开启盲盒
         Model_blind_box_orders_open_Req *request = [[Model_blind_box_orders_open_Req alloc] init];
         for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
-            if (orderCheckData.total == 10) {
+            if (orderCheckData.total.intValue == 10) {
                 request.sn = orderCheckData.sn;
                 break;
             }
@@ -273,36 +293,61 @@
         [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
-                JLBoxTenCardView *boxTenCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
-                boxTenCardView.cardList = response.body;
-                boxTenCardView.closeBlock = ^{
-                    [weakSelf lew_dismissPopupView];
-                };
-                boxTenCardView.homepageBlock = ^{
-                    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:homePageVC animated:YES];
-                    [weakSelf lew_dismissPopupViewWithanimation:nil];
-                };
-                boxTenCardView.center = self.view.window.center;
-                ViewBorderRadius(boxTenCardView, 5.0f, 0.0f, JL_color_clear);
-                LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
-                [self lew_presentPopupView:boxTenCardView animation:animation backgroundClickable:NO dismissed:^{
-                   NSLog(@"动画结束");
-                }];
+                if (response.body.count == 0) {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
+                } else {
+                    JLBoxTenCardView *boxTenCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
+                    boxTenCardView.cardList = response.body;
+                    boxTenCardView.closeBlock = ^{
+                        [weakSelf lew_dismissPopupView];
+                    };
+                    boxTenCardView.homepageBlock = ^{
+                        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                        [weakSelf lew_dismissPopupViewWithanimation:nil];
+                    };
+                    boxTenCardView.center = self.view.window.center;
+                    ViewBorderRadius(boxTenCardView, 5.0f, 0.0f, JL_color_clear);
+                    LewPopupViewAnimationSpring *animation = [[LewPopupViewAnimationSpring alloc] init];
+                    [self lew_presentPopupView:boxTenCardView animation:animation backgroundClickable:NO dismissed:^{
+                       NSLog(@"动画结束");
+                    }];
+                }
                 [weakSelf requestBoxListCheck];
             }
         }];
     } else {
         // 购买盲盒
-        JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
-        boxOpenPayVC.boxOpenPayType = JLBoxOpenPayTypeTen;
-        boxOpenPayVC.boxData = self.boxData;
-        boxOpenPayVC.buySuccessBlock = ^{
-            // 刷新是否有未开启盲盒
-            [weakSelf requestBoxListCheck];
-        };
-        [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+        [self buyBoxWithType:JLBoxOpenPayTypeTen];
     }
+}
+
+- (void)buyBoxWithType:(JLBoxOpenPayType)boxPayType {
+    WS(weakSelf)
+    Model_blind_box_orders_check_order_Req *request = [[Model_blind_box_orders_check_order_Req alloc] init];
+    request.box_id = self.boxData.ID;
+    request.amount = (boxPayType == JLBoxOpenPayTypeTen) ? @"10" : @"1";
+    Model_blind_box_orders_check_order_Rsp *response = [[Model_blind_box_orders_check_order_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (response.body.allow) {
+                // 购买盲盒
+                JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
+                boxOpenPayVC.boxOpenPayType = boxPayType;
+                boxOpenPayVC.boxData = self.boxData;
+                boxOpenPayVC.buySuccessBlock = ^{
+                    // 刷新是否有未开启盲盒
+                    [weakSelf requestBoxListCheck];
+                };
+                [self.navigationController pushViewController:boxOpenPayVC animated:YES];
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据正在传输，请稍后再试！" hideTime:KToastDismissDelayTimeInterval];
+            }
+        }
+    }];
 }
 
 - (UILabel *)cardTitleLabel {
@@ -332,6 +377,9 @@
 - (UIImageView *)footerImageView {
     if (!_footerImageView) {
         _footerImageView = [[UIImageView alloc] init];
+        if (![NSString stringIsEmpty:self.boxData.app_cover_img_path]) {
+            [_footerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.app_cover_img_path]];
+        }
     }
     return _footerImageView;
 }
@@ -421,13 +469,36 @@
 
 // 刷新按钮状态
 - (void)updateOpenButtonStatus {
+    self.oneTimeButton.selected = NO;
+    self.tenTimeButton.selected = NO;
     for (Model_blind_box_orders_check_Data *orderCheckData in self.boxCheckList) {
-        if (orderCheckData.total == 1) {
+        if (orderCheckData.total.intValue == 1) {
             self.oneTimeButton.selected = YES;
-        } else if (orderCheckData.total == 10) {
+        } else if (orderCheckData.total.intValue == 10) {
             self.tenTimeButton.selected = YES;
         }
     }
+}
+
+#pragma mark 请求盲盒详情
+- (void)requestBoxDetail {
+    WS(weakSelf)
+    Model_blind_boxes_detail_Req *request = [[Model_blind_boxes_detail_Req alloc] init];
+    request.boxId = self.boxId;
+    Model_blind_boxes_detail_Rsp *response = [[Model_blind_boxes_detail_Rsp alloc] init];
+    response.request = request;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.boxData = response.body;
+            [weakSelf createSubViews];
+            [weakSelf getBoxCardList];
+            // 请求是否有未开启盲盒
+            [weakSelf requestBoxListCheck];
+        }
+    }];
 }
 
 @end

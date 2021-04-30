@@ -8,6 +8,8 @@
 
 #import "JLMessageViewController.h"
 #import "JLHomePageViewController.h"
+#import "JLSingleSellOrderViewController.h"
+#import "JLBoxDetailViewController.h"
 
 #import "JLMessageTableViewCell.h"
 #import "JLNormalEmptyView.h"
@@ -89,7 +91,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
     [self requestMessageList];
 }
 
@@ -126,8 +127,24 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
-    [self.navigationController pushViewController:homePageVC animated:YES];
+    Model_messages_Data *messageData = self.messageListArray[indexPath.row];
+    if ([messageData.resource_type.lowercaseString isEqualToString:@"art"]) {
+        // 作品审核
+        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+        [self.navigationController pushViewController:homePageVC animated:YES];
+    } else if ([messageData.resource_type.lowercaseString isEqualToString:@"arttrade"]) {
+        // 作品卖出
+        JLSingleSellOrderViewController *sellOrderVC = [[JLSingleSellOrderViewController alloc] init];
+        [self.navigationController pushViewController:sellOrderVC animated:YES];
+    } else if ([messageData.resource_type.lowercaseString isEqualToString:@"blindboxdrawgroup"]) {
+        // 盲盒链上操作完成
+        NSArray *params = [messageData.action_str componentsSeparatedByString:@"#"];
+        if (params.count >= 2) {
+            JLBoxDetailViewController *boxDetailVC = [[JLBoxDetailViewController alloc] init];
+            boxDetailVC.boxId = params[1];
+            [self.navigationController pushViewController:boxDetailVC animated:YES];
+        }
+    }
     // 标记消息已读
     [self maskMessageReaded:indexPath];
 }
@@ -180,6 +197,9 @@
             messageData.read = YES;
             [weakSelf.messageListArray replaceObjectAtIndex:indexPath.row withObject:messageData];
             [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            weakSelf.messageUnreadNumber = weakSelf.messageUnreadNumber - 1;
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:weakSelf.messageUnreadNumber];
+            [GeTuiSdk setBadge:weakSelf.messageUnreadNumber];
         }
     }];
 }
@@ -203,4 +223,9 @@
         }
     }
 }
+
+- (void)refreshMessageList {
+    [self.tableView.mj_header beginRefreshing];
+}
+
 @end

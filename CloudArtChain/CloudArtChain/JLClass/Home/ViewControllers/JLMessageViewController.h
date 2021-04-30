@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMessageViewController : JLBaseViewController
-
+@property (nonatomic, assign) NSInteger messageUnreadNumber;
+- (void)refreshMessageList;
 @end
 
 NS_ASSUME_NONNULL_END

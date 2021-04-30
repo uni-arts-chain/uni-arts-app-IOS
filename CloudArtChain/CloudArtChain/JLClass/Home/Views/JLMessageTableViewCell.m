@@ -87,7 +87,7 @@
 }
 
 - (void)setMessageData:(Model_messages_Data *)messageData {
-    self.titleLabel.text = messageData.body;
+    self.titleLabel.text = messageData.title;
     NSDate *messageDate = [NSDate dateWithTimeIntervalSince1970:messageData.created_at.doubleValue];
     self.timeLabel.text = [messageDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
     self.unreadMaskView.hidden = messageData.read;

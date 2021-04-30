@@ -129,7 +129,7 @@
             if (weakSelf.buySuccessBlock) {
                 weakSelf.buySuccessBlock();
             }
-            [weakSelf.navigationController popToRootViewControllerAnimated:true];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
             [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
         }
     }];

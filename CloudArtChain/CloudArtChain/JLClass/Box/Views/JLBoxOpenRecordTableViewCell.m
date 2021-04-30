@@ -7,6 +7,7 @@
 //
 
 #import "JLBoxOpenRecordTableViewCell.h"
+#import "NSDate+Extension.h"
 
 @interface JLBoxOpenRecordTableViewCell ()
 @property (nonatomic, strong) UIView *backView;
@@ -66,6 +67,7 @@
         make.bottom.equalTo(self.backView);
         make.height.mas_equalTo(43.0f);
     }];
+    [self.backView layoutIfNeeded];
 }
 
 - (UIView *)backView {
@@ -80,29 +82,28 @@
 - (UIImageView *)cardImageView {
     if (!_cardImageView) {
         _cardImageView = [[UIImageView alloc] init];
-        _cardImageView.backgroundColor = [UIColor randomColor];
-        ViewBorderRadius(_cardImageView, 5.0f, 0.0f, JL_color_clear);
+        ViewBorderRadius(_cardImageView, 5.0f, 1.0f, JL_color_white_ffffff);
     }
     return _cardImageView;
 }
 
 - (UILabel *)cardNameLabel {
     if (!_cardNameLabel) {
-        _cardNameLabel = [JLUIFactory labelInitText:@"爱丽丝梦游仙境盲盒" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _cardNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _cardNameLabel;
 }
 
 - (UILabel *)cardAuthorLabel {
     if (!_cardAuthorLabel) {
-        _cardAuthorLabel = [JLUIFactory labelInitText:@"荒野猎人" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _cardAuthorLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
     }
     return _cardAuthorLabel;
 }
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"NFT地址：646sked841dfooa" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _addressLabel.numberOfLines = 1;
     }
     return _addressLabel;
@@ -110,8 +111,21 @@
 
 - (UILabel *)timeLabel {
     if (!_timeLabel) {
-        _timeLabel = [JLUIFactory labelInitText:@"2020/08/16 12:36:28" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _timeLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
     }
     return _timeLabel;
+}
+
+- (void)setBoxHistoryData:(Model_blind_box_orders_history_Data *)boxHistoryData {
+    if (![NSString stringIsEmpty:boxHistoryData.img_main_file1[@"url"]]) {
+        [self.cardImageView sd_setImageWithURL:[NSURL URLWithString:boxHistoryData.img_main_file1[@"url"]]];
+    }
+    
+    self.cardNameLabel.text = boxHistoryData.name;
+    self.cardAuthorLabel.text = [NSString stringIsEmpty:boxHistoryData.author] ? @"" : boxHistoryData.author;
+    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:boxHistoryData.nft_address] ? @"" : boxHistoryData.nft_address];
+    
+    NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:boxHistoryData.created_at.doubleValue];
+    self.timeLabel.text = [createDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
 }
 @end

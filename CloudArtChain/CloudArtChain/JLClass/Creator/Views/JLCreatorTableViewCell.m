@@ -231,15 +231,8 @@
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_worksLabel.text];
     [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(3, _worksLabel.text.length - 3)];
     self.worksLabel.attributedText = attr;
-    NSString *borthDesc = @"";
-    if (![NSString stringIsEmpty:preTopicData.member.residential_address]) {
-        borthDesc = [NSString stringWithFormat:@"现居于%@", preTopicData.member.residential_address];
-    }
-    NSString *colledgeDesc = @"";
-    if (![NSString stringIsEmpty:preTopicData.member.college]) {
-        colledgeDesc = preTopicData.member.college;
-    }
-    self.infoLabel.text = [NSString stringWithFormat:@"%@ %@", borthDesc, colledgeDesc];
+ 
+    self.infoLabel.text = [NSString stringIsEmpty:preTopicData.member.desc] ? @"" : preTopicData.member.desc;
     
     self.artsArray = preTopicData.arts;
     [self.collectionView reloadData];

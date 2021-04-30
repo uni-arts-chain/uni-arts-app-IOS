@@ -134,8 +134,8 @@
 }
 
 - (void)setBoxData:(Model_blind_boxes_Data *)boxData boxOpenPayType:(JLBoxOpenPayType)boxOpenPayType {
-    if (![NSString stringIsEmpty:boxData.img_path]) {
-        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:boxData.img_path]];
+    if (![NSString stringIsEmpty:boxData.app_img_path]) {
+        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:boxData.app_img_path]];
     }
     self.cardNameLabel.text = [NSString stringWithFormat:@"%@", boxData.title];
     if (boxOpenPayType == JLBoxOpenPayTypeTen) {

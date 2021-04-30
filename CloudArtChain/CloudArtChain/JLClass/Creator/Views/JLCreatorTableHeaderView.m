@@ -14,8 +14,8 @@
 @property (nonatomic, strong) UIImageView *platformImageView;
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *cityLabel;
-@property (nonatomic, strong) UILabel *schoolLabel;
+//@property (nonatomic, strong) UILabel *cityLabel;
+//@property (nonatomic, strong) UILabel *schoolLabel;
 @property (nonatomic, strong) UIButton *pressBtn;
 @end
 
@@ -50,35 +50,35 @@
     }];
     
     [self.bottomView addSubview:self.nameLabel];
-    UIImageView *cityMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_city"];
-    [self.bottomView addSubview:cityMaskImageView];
-    [self.bottomView addSubview:self.cityLabel];
-    UIImageView *schoolMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_school"];
-    [self.bottomView addSubview:schoolMaskImageView];
-    [self.bottomView addSubview:self.schoolLabel];
+//    UIImageView *cityMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_city"];
+//    [self.bottomView addSubview:cityMaskImageView];
+//    [self.bottomView addSubview:self.cityLabel];
+//    UIImageView *schoolMaskImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_school"];
+//    [self.bottomView addSubview:schoolMaskImageView];
+//    [self.bottomView addSubview:self.schoolLabel];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(13.0f);
         make.top.bottom.equalTo(self.bottomView);
     }];
-    [self.schoolLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-10.0f);
-        make.top.bottom.equalTo(self.bottomView);
-    }];
-    [schoolMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.schoolLabel.mas_left).offset(-5.0f);
-        make.size.mas_equalTo(18.0f);
-        make.centerY.equalTo(self.bottomView.mas_centerY);
-    }];
-    [self.cityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(schoolMaskImageView.mas_left).offset(-20.0f);
-        make.top.bottom.equalTo(self.bottomView);
-    }];
-    [cityMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.cityLabel.mas_left).offset(-3.0f);
-        make.size.mas_equalTo(18.0f);
-        make.centerY.equalTo(self.bottomView.mas_centerY);
-    }];
+//    [self.schoolLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(-10.0f);
+//        make.top.bottom.equalTo(self.bottomView);
+//    }];
+//    [schoolMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.schoolLabel.mas_left).offset(-5.0f);
+//        make.size.mas_equalTo(18.0f);
+//        make.centerY.equalTo(self.bottomView.mas_centerY);
+//    }];
+//    [self.cityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(schoolMaskImageView.mas_left).offset(-20.0f);
+//        make.top.bottom.equalTo(self.bottomView);
+//    }];
+//    [cityMaskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.cityLabel.mas_left).offset(-3.0f);
+//        make.size.mas_equalTo(18.0f);
+//        make.centerY.equalTo(self.bottomView.mas_centerY);
+//    }];
     
     [self.contentView addSubview:self.pressBtn];
     [self.pressBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,19 +133,19 @@
     return _nameLabel;
 }
 
-- (UILabel *)cityLabel {
-    if (!_cityLabel) {
-        _cityLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
-    }
-    return _cityLabel;
-}
-
-- (UILabel *)schoolLabel {
-    if (!_schoolLabel) {
-        _schoolLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
-    }
-    return _schoolLabel;
-}
+//- (UILabel *)cityLabel {
+//    if (!_cityLabel) {
+//        _cityLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+//    }
+//    return _cityLabel;
+//}
+//
+//- (UILabel *)schoolLabel {
+//    if (!_schoolLabel) {
+//        _schoolLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+//    }
+//    return _schoolLabel;
+//}
 
 - (UIButton *)pressBtn {
     if (!_pressBtn) {
@@ -167,8 +167,8 @@
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorData.recommend_image[@"url"]]];
     }
     self.nameLabel.text = authorData.display_name;
-    self.cityLabel.text = [NSString stringIsEmpty:authorData.residential_address] ? @"" : authorData.residential_address;
-    self.schoolLabel.text = [NSString stringIsEmpty:authorData.college] ? @"" : authorData.college;
+//    self.cityLabel.text = [NSString stringIsEmpty:authorData.residential_address] ? @"" : authorData.residential_address;
+//    self.schoolLabel.text = [NSString stringIsEmpty:authorData.college] ? @"" : authorData.college;
 }
 
 @end

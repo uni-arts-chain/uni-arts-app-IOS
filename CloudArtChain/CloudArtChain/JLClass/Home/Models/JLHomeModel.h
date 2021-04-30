@@ -372,6 +372,10 @@
 @property (nonatomic, assign) BOOL read;
 @property (nonatomic, strong) NSString *created_at;
 @property (nonatomic, strong) NSString *updated_at;
+/** ArtSignature 艺术品签名， Art 艺术品审核, ArtTrade 艺术品交易, BlindBoxDrawGroup 盲盒链上操作完成 */
+@property (nonatomic, strong) NSString *resource_type;
+@property (nonatomic, strong) NSString *resource_id;
+@property (nonatomic, strong) NSString *action_str;
 @end
 @interface Model_messages_Req : Model_Req
 /** 页码 */
@@ -390,7 +394,7 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /messages/has_unread 用户是否有未读消息
 @interface Model_messages_has_unread_Data: Model_Interface
-@property (nonatomic, assign) BOOL has_unread;
+@property (nonatomic, assign) NSInteger has_unread;
 @end
 @interface Model_messages_has_unread_Req : Model_Req
 @end

@@ -37,6 +37,10 @@
 	<string>"云画链"需要您的同意,才能使用相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>"云画链"需要您的同意,才能使用相册</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

@@ -68,16 +68,16 @@
 }
 
 + (void)systemInfo {
-    [[AppSingleton sharedAppSingleton] requestArtTheme];
-    [[AppSingleton sharedAppSingleton] requestArtType];
-    [[AppSingleton sharedAppSingleton] requestArtPrice];
+    [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:nil];
+    [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:nil];
+    [[AppSingleton sharedAppSingleton] requestArtPriceWithSuccessBlock:nil];
 //    if ([JLLoginUtil haveToken]) {
 //
 //    }
 }
 
 #pragma mark 请求作品主题
-- (void)requestArtTheme {
+- (void)requestArtThemeWithSuccessBlock:(void(^)(void))successBlock {
     WS(weakSelf)
     Model_arts_theme_Req *request = [[Model_arts_theme_Req alloc] init];
     Model_arts_theme_Rsp *response = [[Model_arts_theme_Rsp alloc] init];
@@ -85,12 +85,15 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.artThemeArray = response.body;
+            if (successBlock) {
+                successBlock();
+            }
         }
     }];
 }
 
 #pragma mark 请求作品类型
-- (void)requestArtType {
+- (void)requestArtTypeWithSuccessBlock:(void(^)(void))successBlock {
     WS(weakSelf)
     Model_arts_art_types_Req *request = [[Model_arts_art_types_Req alloc] init];
     Model_arts_art_types_Rsp *response = [[Model_arts_art_types_Rsp alloc] init];
@@ -98,12 +101,15 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.artTypeArray = response.body;
+            if (successBlock) {
+                successBlock();
+            }
         }
     }];
 }
 
 #pragma mark 请求作品价格区间
-- (void)requestArtPrice {
+- (void)requestArtPriceWithSuccessBlock:(void(^)(void))successBlock {
     WS(weakSelf)
     Model_arts_prices_Req *request = [[Model_arts_prices_Req alloc] init];
     Model_arts_prices_Rsp *response = [[Model_arts_prices_Rsp alloc] init];
@@ -111,6 +117,9 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.artPriceArray = response.body;
+            if (successBlock) {
+                successBlock();
+            }
         }
     }];
 }

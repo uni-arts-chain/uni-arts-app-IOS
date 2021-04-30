@@ -10,8 +10,6 @@
 #import "UserDataBody.h"
 #import "JLArtsModel.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface AppSingleton : NSObject
 + (AppSingleton *)sharedAppSingleton;
 
@@ -38,6 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 请求系统信息
 + (void)systemInfo;
-@end
 
-NS_ASSUME_NONNULL_END
+// 请求作品主题
+- (void)requestArtThemeWithSuccessBlock:(void(^)(void))successBlock;
+
+// 请求作品类型
+- (void)requestArtTypeWithSuccessBlock:(void(^)(void))successBlock;
+
+// 请求作品价格区间
+- (void)requestArtPriceWithSuccessBlock:(void(^)(void))successBlock;
+@end

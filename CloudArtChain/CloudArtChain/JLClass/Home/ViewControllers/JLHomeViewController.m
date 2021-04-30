@@ -54,6 +54,7 @@
 @property (nonatomic, strong) NSMutableArray *popularArray;
 // 主题推荐
 @property (nonatomic, strong) NSMutableArray *themeArray;
+@property (nonatomic, assign) NSInteger messageUnreadNumber;
 @end
 
 @implementation JLHomeViewController
@@ -123,10 +124,10 @@
 - (void)createView {
     [self.view addSubview:self.homeNaviView];
     [self.view addSubview:self.scrollView];
-//    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.homeNaviView.mas_bottom);
-//        make.left.bottom.right.equalTo(self.view);
-//    }];
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.homeNaviView.mas_bottom);
+        make.left.bottom.right.equalTo(self.view);
+    }];
     // banner
     [self.scrollView addSubview:self.pageFlowView];
     // 应用列表
@@ -170,6 +171,7 @@
         };
         _homeNaviView.messageBlock = ^{
             JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
+            messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
             [weakSelf.navigationController pushViewController:messageVC animated:YES];
         };
     }
@@ -393,7 +395,10 @@
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
-            [weakSelf.homeNaviView refreshHasMessagesUnread:response.body.has_unread];
+            weakSelf.messageUnreadNumber = response.body.has_unread;
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:weakSelf.messageUnreadNumber];
+            [GeTuiSdk setBadge:weakSelf.messageUnreadNumber];
+            [weakSelf.homeNaviView refreshHasMessagesUnread:(weakSelf.messageUnreadNumber != 0)];
         } else {
             [weakSelf.homeNaviView refreshHasMessagesUnread:NO];
         }

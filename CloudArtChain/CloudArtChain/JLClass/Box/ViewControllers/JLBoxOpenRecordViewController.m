@@ -47,6 +47,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLBoxOpenRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLBoxOpenRecordTableViewCell" forIndexPath:indexPath];
+    cell.boxHistoryData = self.dataArray[indexPath.row];
     return cell;
 }
 
@@ -116,6 +117,7 @@
     request.page = self.currentPage;
     request.per_page = kPageSize;
     Model_blind_box_orders_history_Rsp *response = [[Model_blind_box_orders_history_Rsp alloc] init];
+    response.request = request;
 
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {

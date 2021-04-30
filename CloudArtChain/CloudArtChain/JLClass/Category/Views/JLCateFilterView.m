@@ -126,4 +126,10 @@
         self.selectBlock(self.currentIndex);
     }
 }
+
+- (void)refreshItems:(NSArray *)items {
+    self.items = items;
+    [self setupItems];
+}
+
 @end

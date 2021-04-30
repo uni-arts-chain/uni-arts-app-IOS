@@ -175,7 +175,7 @@
 @property (nonatomic, strong) NSString *pay_type;
 @end
 @interface Model_art_trades_Rsp : Model_Rsp_V1
-
+@property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /v1/art_orders/cancel 作品下架

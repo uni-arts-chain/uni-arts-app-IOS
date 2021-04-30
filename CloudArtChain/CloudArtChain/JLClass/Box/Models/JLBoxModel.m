@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JLBoxModel.h"
-#import "JLImageSizeCacheDefaults.h"
+#import "JLBoxImageSizeCacheDefaults.h"
 #import "UIImage+ImgSize.h"
 
 @implementation JLBoxModel
@@ -34,12 +34,14 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
-#pragma mark /v1/blind_box_orders/history 盲盒开启记录
+#pragma mark /v1/blind_box_orders/:id/history 盲盒开启记录
+@implementation Model_blind_box_orders_history_Data
+@end
 @implementation Model_blind_box_orders_history_Req
 @end
 @implementation Model_blind_box_orders_history_Rsp
 - (NSString *)interfacePath {
-    return @"blind_box_orders/history";
+    return [NSString stringWithFormat:@"blind_box_orders/%@/history", self.request.box_id];
 }
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -70,14 +72,13 @@
     _img_main_file1 = img_main_file1;
     NSString *mainFileUrl = img_main_file1[@"url"];
     if (![NSString stringIsEmpty:mainFileUrl]) {
-        if (![[JLImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl]) {
+        if (![[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl]) {
             CGSize imageSize = [UIImage getImageSizeWithURL:mainFileUrl];
             CGFloat imgH = 0;
             if (imageSize.height > 0) {
                 imgH = imageSize.height * 185.0f / imageSize.width;
-                [[JLImageSizeCacheDefaults standardUserDefaults] setObject:@(imgH) forKey:mainFileUrl];
+                [[JLBoxImageSizeCacheDefaults standardUserDefaults] setObject:@(imgH) forKey:mainFileUrl];
             }
-            
         }
     }
 }
@@ -85,7 +86,7 @@
 - (CGFloat)imgHeight {
     NSString *mainFileUrl = self.img_main_file1[@"url"];
     if (![NSString stringIsEmpty:mainFileUrl]) {
-        NSNumber *imgHeightNumber = [[JLImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl];
+        NSNumber *imgHeightNumber = [[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl];
         if (imgHeightNumber) {
             return imgHeightNumber.floatValue;
         } else {
@@ -101,6 +102,26 @@
 @implementation Model_blind_box_orders_open_Rsp
 - (NSString *)interfacePath {
     return @"blind_box_orders/open";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/blind_box_orders/check_order 检查盲盒是否可继续购买
+@implementation Model_blind_box_orders_check_order_Data
+@end
+@implementation Model_blind_box_orders_check_order_Req
+@end
+@implementation Model_blind_box_orders_check_order_Rsp
+- (NSString *)interfacePath {
+    return @"blind_box_orders/check_order";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/blind_boxes/:id 盲盒详情
+@implementation Model_blind_boxes_detail_Req : Model_Req
+@end
+@implementation Model_blind_boxes_detail_Rsp : Model_Rsp_V1
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"blind_boxes/%@", self.request.boxId];
 }
 @end
 //////////////////////////////////////////////////////////////////////////

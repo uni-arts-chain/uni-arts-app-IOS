@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxOpenRecordTableViewCell : UITableViewCell
-
+@property (nonatomic, strong) Model_blind_box_orders_history_Data *boxHistoryData;
 @end
 
 NS_ASSUME_NONNULL_END

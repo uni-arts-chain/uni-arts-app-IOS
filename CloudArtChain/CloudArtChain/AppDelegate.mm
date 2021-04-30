@@ -10,6 +10,10 @@
 #import "JLGuidePageView.h"
 #import <UMCommon/UMCommon.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
+#import "JLMessageViewController.h"
+#import "JLHomePageViewController.h"
+#import "JLSingleSellOrderViewController.h"
+#import "JLBoxDetailViewController.h"
 
 #import "LAppViewController.h"
 #import "LAppAllocator.h"
@@ -230,6 +234,7 @@
     // [ GTSDK ]：将收到的APNs信息同步给个推统计
     [GeTuiSdk handleRemoteNotification:response.notification.request.content.userInfo];
     completionHandler();
+    [self getNotification:response.notification.request.content.userInfo];
 }
 
 #endif
@@ -243,6 +248,60 @@
     
     // [ 参考代码，开发者注意根据实际需求自行修改 ] 根据APP需要自行修改参数值
     completionHandler(UIBackgroundFetchResultNewData);
+    [self getNotification:userInfo];
+}
+
+#pragma mark 获取到推送消息 并 跳转
+- (void)getNotification:(NSDictionary *)userInfo {
+    UITabBarController *tabBarController = [[AppSingleton sharedAppSingleton].globalNavController.viewControllers objectAtIndex:0];
+    tabBarController.selectedIndex = 0;
+    JLNavigationViewController *selectedNavi = tabBarController.selectedViewController;
+    
+    NSString *payload = userInfo[@"payload"];
+    NSArray *payloadParams = [payload componentsSeparatedByString:@"#"];
+    if (payloadParams.count >= 4) {
+        NSString *messageId = payloadParams[1];
+        NSString *resourceType = payloadParams[2];
+        NSString *resourceId = payloadParams[3];
+        
+        // 标记消息已读
+        [self maskMessageReaded:messageId];
+        
+        // 获取消息页面
+        JLMessageViewController *messageVC;
+        for (UIViewController *subViewController in selectedNavi.viewControllers) {
+            if ([subViewController isKindOfClass:[JLMessageViewController class]]) {
+                messageVC = (JLMessageViewController *)subViewController;
+                [selectedNavi popToViewController:messageVC animated:NO];
+                [messageVC refreshMessageList];
+                break;
+            }
+        }
+        
+        if ([resourceType.lowercaseString isEqualToString:@"art"]) {
+            // 作品审核
+            JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+            [selectedNavi pushViewController:homePageVC animated:YES];
+        } else if ([resourceType.lowercaseString isEqualToString:@"trade"]) {
+            // 作品卖出
+            JLSingleSellOrderViewController *sellOrderVC = [[JLSingleSellOrderViewController alloc] init];
+            [selectedNavi pushViewController:sellOrderVC animated:YES];
+        } else if ([resourceType.lowercaseString isEqualToString:@"blind_box"]) {
+            // 盲盒链上操作完成
+            JLBoxDetailViewController *boxDetailVC = [[JLBoxDetailViewController alloc] init];
+            boxDetailVC.boxId = resourceId;
+            [selectedNavi pushViewController:boxDetailVC animated:YES];
+        }
+    }
+}
+
+- (void)maskMessageReaded:(NSString *)messageId {
+    Model_messages_read_Req *request = [[Model_messages_read_Req alloc] init];
+    request.id = messageId;
+    Model_messages_read_Rsp *response = [[Model_messages_read_Rsp alloc] init];
+    
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+    }];
 }
 
 #pragma mark - GeTuiSdkDelegate

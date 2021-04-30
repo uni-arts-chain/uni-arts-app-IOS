@@ -33,10 +33,17 @@
 @implementation JLHomePageViewController
 
 - (void)viewDidLoad {
+    WS(weakSelf)
     [super viewDidLoad];
     self.navigationItem.title = @"我的主页";
     [self addBackItem];
-    [self setupSubViews];
+    if ([AppSingleton sharedAppSingleton].userBody == nil) {
+        [AppSingleton loginInfonWithBlock:^{
+            [weakSelf setupSubViews];
+        }];
+    } else {
+        [self setupSubViews];
+    }
 }
 
 - (void)setupSubViews {
