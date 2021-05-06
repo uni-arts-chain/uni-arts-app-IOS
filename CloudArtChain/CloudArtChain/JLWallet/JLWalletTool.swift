@@ -39,6 +39,11 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         super.init()
         self.getGenisisHash { genisisHash in
             print("genisisHash: \(genisisHash)")
+            if let tempGenisisHash = genisisHash {
+                let tempData = try! Data(hexString: tempGenisisHash)
+                UserDefaults.standard.set(tempData.toHex(includePrefix:false), forKey: "JLGenisisHash")
+                UserDefaults.standard.synchronize()
+            }
         }
         self.getMetadata()
         self.getContacts()

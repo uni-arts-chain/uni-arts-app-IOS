@@ -217,8 +217,10 @@ static NSString *const keyArrKey = @"Live2DCackeKeyArr";
                     }
                 }];
             } else {
-                if (failBlock) {
-                    failBlock(@"下载失败");
+                if (![error.localizedDescription isEqualToString:@"已取消"]) {
+                    if (failBlock) {
+                        failBlock(@"下载失败");
+                    }
                 }
             }
         });

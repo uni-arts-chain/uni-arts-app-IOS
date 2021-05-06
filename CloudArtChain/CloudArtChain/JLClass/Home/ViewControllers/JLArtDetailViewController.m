@@ -53,6 +53,8 @@
 @property (nonatomic, strong) NSArray *currentSellingList;
 // 立即购买
 @property (nonatomic, strong) UIButton *immediatelyBuyBtn;
+/** live2d下载 task */
+@property (nonatomic, strong) NSURLSessionTask *live2DDownloadTask;
 @end
 
 @implementation JLArtDetailViewController
@@ -66,6 +68,11 @@
 }
 
 - (void)backClick {
+    if (self.live2DDownloadTask) {
+        [self.live2DDownloadTask cancel];
+        self.live2DDownloadTask = nil;
+        [[JLLoading sharedLoading] hideLoading];
+    }
     if (!self.artDetailData.favorite_by_me && self.cancelFavorateBlock) {
         self.cancelFavorateBlock();
     }
@@ -629,14 +636,16 @@
 - (void)photoBrowserBtnClick {
     WS(weakSelf)
     if ([NSString stringIsEmpty:self.artDetailData.live2d_file]) {
-        //图片查看
-        WMPhotoBrowser *browser = [WMPhotoBrowser new];
-        //数据源
-        browser.dataSource = [self.tempImageArray mutableCopy];
-        browser.downLoadNeeded = YES;
-        browser.currentPhotoIndex = self.pageFlowView.currentPageIndex;
-        browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+        if (self.tempImageArray.count > 0) {
+            //图片查看
+            WMPhotoBrowser *browser = [WMPhotoBrowser new];
+            //数据源
+            browser.dataSource = [self.tempImageArray mutableCopy];
+            browser.downLoadNeeded = YES;
+            browser.currentPhotoIndex = self.pageFlowView.currentPageIndex;
+            browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+        }
     } else {
         NSString *live2d_file = self.artDetailData.live2d_file;
         NSString *live2d_ipfs_url = self.artDetailData.live2d_ipfs_zip_url;
@@ -646,7 +655,8 @@
             // 查看Live2D
             [self showLive2D];
         } else {
-            NSURLSessionTask *task = [[JLLive2DCacheManager shareManager] downLive2DWithPath:live2d_ipfs_url fileID:self.artDetailData.ID fileKey:[NSString stringWithFormat:@"%@.zip", live2d_file] progressBlock:^(CGFloat progress) {
+            [[JLLoading sharedLoading] showProgressWithView:nil message:@"正在下载Live2D文件" progress:0.0f];
+            self.live2DDownloadTask = [[JLLive2DCacheManager shareManager] downLive2DWithPath:live2d_ipfs_url fileID:self.artDetailData.ID fileKey:[NSString stringWithFormat:@"%@.zip", live2d_file] progressBlock:^(CGFloat progress) {
                 [[JLLoading sharedLoading] showProgressWithView:nil message:@"正在下载Live2D文件" progress:progress];
             } success:^(NSURL *URL) {
                 [[JLLoading sharedLoading] hideLoading];

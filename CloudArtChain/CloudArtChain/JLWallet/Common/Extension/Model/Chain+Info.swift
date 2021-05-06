@@ -4,7 +4,11 @@ extension Chain {
     var genesisHash: String {
         switch self {
         case .uniarts:
-            return "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
+            if let tempGenesisHash = UserDefaults.standard.value(forKey: "JLGenisisHash") as? String {
+                return tempGenesisHash
+            } else {
+                return "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
+            }
 //            return "91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3"
         case .kusama:
             return "b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe"

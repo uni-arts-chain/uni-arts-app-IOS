@@ -44,13 +44,7 @@ namespace LAppDefine {
     // 模型定义------------------------------------------
     // 配置模型的目录名称排列
     // 使目录名和model3.json的名字一致
-    const csmChar* ModelDir[] = {
-        "Haru",
-        "Hiyori",
-        "Mark",
-        "Natori",
-        "Rice"
-    };
+    const csmChar* ModelDir[] = {};
     const csmInt32 ModelDirSize = sizeof(ModelDir) / sizeof(const csmChar*);
 
     // 匹配外部定义文件（json）
