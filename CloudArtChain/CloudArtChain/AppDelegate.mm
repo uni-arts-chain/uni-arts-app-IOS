@@ -54,6 +54,9 @@
     _textureManager = [[LAppTextureManager alloc]init];
     
     LAppViewController *lappViewController = [[LAppViewController alloc] initWithNibName:nil bundle:nil];
+    lappViewController.snapshotBlock = ^(UIImage *snapshotImage) {
+//        UIImageWriteToSavedPhotosAlbum(snapshotImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    };
     lappViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     self.lAppViewController = lappViewController;
     
@@ -71,12 +74,21 @@
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
-    #ifdef DEBUG
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[PAirSandbox sharedInstance] enableSwipe];
-    });
-    #endif
+//    #ifdef DEBUG
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [[PAirSandbox sharedInstance] enableSwipe];
+//    });
+//    #endif
     return YES;
+}
+
+#pragma mark -- <保存到相册>
+-(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if(error){
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"图片保存失败" hideTime:KToastDismissDelayTimeInterval];
+    }else{
+        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已保存到手机" hideTime:KToastDismissDelayTimeInterval];
+    }
 }
 
 - (void)rpcTest {

@@ -11,6 +11,7 @@
 #import "JLBoxOpenPayViewController.h"
 #import "LewPopupViewController.h"
 #import "JLHomePageViewController.h"
+#import "JLPayWebViewController.h"
 
 #import "JLBoxDetailCardCollectionWaterLayout.h"
 #import "JLBoxCardCollectionViewCell.h"
@@ -39,10 +40,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = self.boxData.title;
+   
     [self addBackItem];
     [self addRightBarButton];
     if (self.boxData != nil) {
+        self.navigationItem.title = self.boxData.title;
         [self createSubViews];
         [self getBoxCardList];
         
@@ -51,6 +53,45 @@
     } else {
         // 请求盲盒详情
         [self requestBoxDetail];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.boxData != nil) {
+        [self loadImageViews];
+    }
+}
+
+/** 显示头部底部图片 */
+- (void)loadImageViews {
+    WS(weakSelf)
+    if (![NSString stringIsEmpty:self.boxData.app_img_path]) {
+        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:self.boxData.app_img_path] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+            weakSelf.headerImageView.image = image;
+            [weakSelf.headerImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.equalTo(weakSelf.scrollView);
+                make.width.mas_equalTo(kScreenWidth);
+                make.height.mas_equalTo(image.size.height / image.size.width * kScreenWidth);
+            }];
+        }];
+    }
+    
+    if (![NSString stringIsEmpty:self.boxData.app_cover_img_path]) {
+        [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:self.boxData.app_cover_img_path] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            
+        } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+            weakSelf.footerImageView.image = image;
+            [weakSelf.footerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(weakSelf.scrollView);
+                make.top.equalTo(weakSelf.ruleDescLabel.mas_bottom).offset(20.0f);
+                make.width.mas_equalTo(kScreenWidth);
+                make.bottom.equalTo(self.scrollView);
+                make.height.mas_equalTo(image.size.height / image.size.width * kScreenWidth);
+            }];
+        }];
     }
 }
 
@@ -148,7 +189,7 @@
         make.left.equalTo(self.scrollView);
         make.top.equalTo(self.ruleDescLabel.mas_bottom).offset(20.0f);
         make.width.mas_equalTo(kScreenWidth);
-        make.height.mas_equalTo(73.0f);
+//        make.height.mas_equalTo(73.0f);
         make.bottom.equalTo(self.scrollView);
     }];
 }
@@ -176,26 +217,24 @@
 
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
+        WS(weakSelf)
         _headerImageView = [[UIImageView alloc] init];
-        if (![NSString stringIsEmpty:self.boxData.app_img_path]) {
-            [_headerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.app_img_path]];
-        }
     }
     return _headerImageView;
 }
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%@", self.boxData.title] font:kFontPingFangSCMedium(18.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        _nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"%@", self.boxData.title] font:kFontPingFangSCMedium(18.0f) textColor:self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _nameLabel;
 }
 
 - (UILabel *)detailLabel {
     if (!_detailLabel) {
-        _detailLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
+        _detailLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_BEBEBE textAlignment:NSTextAlignmentCenter];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.boxData.desc]];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.desc].length)];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.desc].length)];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.alignment = NSTextAlignmentCenter;
         [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.desc].length)];
@@ -211,7 +250,11 @@
         [_oneTimeButton setTitle:@"开启 x1" forState:UIControlStateSelected];
         [_oneTimeButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _oneTimeButton.titleLabel.font = kFontPingFangSCMedium(15.0f);
-        [_oneTimeButton setBackgroundImage:[UIImage imageNamed:@"icon_box_one_time"] forState:UIControlStateNormal];
+        if ([NSString stringIsEmpty:self.boxData.app_background_1x_img_path]) {
+            _oneTimeButton.backgroundColor = JL_color_gray_999999;
+        } else {
+            [_oneTimeButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.boxData.app_background_1x_img_path] forState:UIControlStateNormal];
+        }
         [_oneTimeButton addTarget:self action:@selector(oneTimeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _oneTimeButton;
@@ -270,7 +313,11 @@
         [_tenTimeButton setTitle:@"开启 x10" forState:UIControlStateSelected];
         [_tenTimeButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _tenTimeButton.titleLabel.font = kFontPingFangSCMedium(15.0f);
-        [_tenTimeButton setBackgroundImage:[UIImage imageNamed:@"icon_box_ten_time"] forState:UIControlStateNormal];
+        if ([NSString stringIsEmpty:self.boxData.app_background_10x_img_path]) {
+            _tenTimeButton.backgroundColor = JL_color_gray_999999;
+        } else {
+            [_tenTimeButton sd_setBackgroundImageWithURL:[NSURL URLWithString:self.boxData.app_background_10x_img_path] forState:UIControlStateNormal];
+        }
         [_tenTimeButton addTarget:self action:@selector(tenTimeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _tenTimeButton;
@@ -338,7 +385,16 @@
                 JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
                 boxOpenPayVC.boxOpenPayType = boxPayType;
                 boxOpenPayVC.boxData = self.boxData;
-                boxOpenPayVC.buySuccessBlock = ^{
+                __block JLBoxOpenPayViewController *weakBoxOpenPayVC = boxOpenPayVC;
+                boxOpenPayVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                    [weakBoxOpenPayVC.navigationController popViewControllerAnimated:NO];
+                    if (payType == JLOrderPayTypeWeChat) {
+                        JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                        payWebVC.payUrl = payUrl;
+                        [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+                    } else {
+                        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+                    }
                     // 刷新是否有未开启盲盒
                     [weakSelf requestBoxListCheck];
                 };
@@ -352,23 +408,23 @@
 
 - (UILabel *)cardTitleLabel {
     if (!_cardTitleLabel) {
-        _cardTitleLabel = [JLUIFactory labelInitText:@"可能获得" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _cardTitleLabel = [JLUIFactory labelInitText:@"可能获得" font:kFontPingFangSCRegular(15.0f) textColor:self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
     }
     return _cardTitleLabel;
 }
 
 - (UILabel *)ruleTitleLabel {
     if (!_ruleTitleLabel) {
-        _ruleTitleLabel = [JLUIFactory labelInitText:@"规则说明：" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
+        _ruleTitleLabel = [JLUIFactory labelInitText:@"规则说明：" font:kFontPingFangSCRegular(15.0f) textColor:self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
     }
     return _ruleTitleLabel;
 }
 
 - (UILabel *)ruleDescLabel {
     if (!_ruleDescLabel) {
-        _ruleDescLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
+        _ruleDescLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_BEBEBE textAlignment:NSTextAlignmentLeft];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.boxData.rule]];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.rule].length)];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(13.0f), NSForegroundColorAttributeName: self.boxData.background_color == 1 ? JL_color_gray_101010 : JL_color_gray_BEBEBE} range:NSMakeRange(0, [NSString strToAttriWithStr:self.boxData.rule].length)];
         _ruleDescLabel.attributedText = attr;
     }
     return _ruleDescLabel;
@@ -377,9 +433,6 @@
 - (UIImageView *)footerImageView {
     if (!_footerImageView) {
         _footerImageView = [[UIImageView alloc] init];
-        if (![NSString stringIsEmpty:self.boxData.app_cover_img_path]) {
-            [_footerImageView sd_setImageWithURL:[NSURL URLWithString:self.boxData.app_cover_img_path]];
-        }
     }
     return _footerImageView;
 }
@@ -493,10 +546,14 @@
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             weakSelf.boxData = response.body;
-            [weakSelf createSubViews];
             [weakSelf getBoxCardList];
+            weakSelf.navigationItem.title = weakSelf.boxData.title;
+            [weakSelf createSubViews];
+            // 显示图片
+            [weakSelf loadImageViews];
             // 请求是否有未开启盲盒
             [weakSelf requestBoxListCheck];
+            
         }
     }];
 }

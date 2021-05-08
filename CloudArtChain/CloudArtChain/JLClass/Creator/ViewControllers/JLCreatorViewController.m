@@ -82,6 +82,9 @@
             if (authorData != nil) {
                 JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
                 creatorPageVC.authorData = authorData;
+                creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                    weakSelf.creatorTableHeaderView.authorData = authorData;
+                };
                 [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
             }
         };

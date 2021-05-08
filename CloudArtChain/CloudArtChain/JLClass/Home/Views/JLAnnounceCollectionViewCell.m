@@ -23,13 +23,13 @@
 
 - (void)createSubViews {
     UIView *firstDotView = [[UIView alloc] init];
-    firstDotView.backgroundColor = JL_color_blue_5FB9EB;
+    firstDotView.backgroundColor = JL_color_blue_B2CDFF;
     ViewBorderRadius(firstDotView, 1.5f, 0.0f, JL_color_clear);
     [self addSubview:firstDotView];
     [self addSubview:self.firstLabel];
     
     UIView *secondDotView = [[UIView alloc] init];
-    secondDotView.backgroundColor = JL_color_blue_5FB9EB;
+    secondDotView.backgroundColor = JL_color_blue_B2CDFF;
     ViewBorderRadius(secondDotView, 1.5f, 0.0f, JL_color_clear);
     [self addSubview:secondDotView];
     [self addSubview:self.secondLabel];

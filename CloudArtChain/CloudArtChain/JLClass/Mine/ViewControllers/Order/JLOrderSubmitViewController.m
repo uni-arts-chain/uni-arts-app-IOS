@@ -8,6 +8,7 @@
 
 #import "JLOrderSubmitViewController.h"
 #import "JLEditAddressViewController.h"
+#import "JLPayWebViewController.h"
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
 #import "JLOrderDetailPayMethodTableViewCell.h"
@@ -126,11 +127,13 @@
     [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            if (weakSelf.buySuccessBlock) {
-                weakSelf.buySuccessBlock();
+            NSString *payUrl = response.body[@"url"];
+            if (![NSString stringIsEmpty:payUrl]) {
+                if (weakSelf.buySuccessBlock) {
+                    weakSelf.buySuccessBlock(weakSelf.currentPayType ,payUrl);
+                }
+//                [weakSelf.navigationController popViewControllerAnimated:NO];
             }
-            [weakSelf.navigationController popViewControllerAnimated:YES];
-            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
         }
     }];
     

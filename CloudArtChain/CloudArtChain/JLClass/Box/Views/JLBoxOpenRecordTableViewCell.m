@@ -82,6 +82,7 @@
 - (UIImageView *)cardImageView {
     if (!_cardImageView) {
         _cardImageView = [[UIImageView alloc] init];
+        _cardImageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_cardImageView, 5.0f, 1.0f, JL_color_white_ffffff);
     }
     return _cardImageView;

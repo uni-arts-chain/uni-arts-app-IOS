@@ -42,6 +42,9 @@
     if (!self.authorData.follow_by_me && self.cancelFollowBlock) {
         self.cancelFollowBlock(self.authorData);
     }
+    if (self.backBlock) {
+        self.backBlock(self.authorData);
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

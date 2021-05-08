@@ -19,6 +19,9 @@
 #import "JLFocusViewController.h"
 #import "JLFansViewController.h"
 #import "JLFeedBackViewController.h"
+#import "UIAlertController+Alert.h"
+#import "JLBindPhoneWithoutPwdViewController.h"
+#import "JLExchangeNFTViewController.h"
 
 #import "JLMineNaviView.h"
 #import "JLMineOrderView.h"
@@ -171,7 +174,23 @@
                     break;
                 case 5:
                 {
-                    // 关于我们
+                    // 兑换NFT 判断用户是否绑定手机号码
+                    if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+                        UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"请先绑定手机号" cancel:@"取消" cancelHandler:^{
+                            
+                        } confirm:@"去绑定" confirmHandler:^{
+                            JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
+                            bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
+                                [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
+                            };
+                            [weakSelf.navigationController pushViewController:bindPhoneVC animated:YES];
+                        }];
+                        [weakSelf presentViewController:alert animated:YES completion:nil];
+                    } else {
+                        // 兑换NFT
+                        JLExchangeNFTViewController *exchangeNFTVC = [[JLExchangeNFTViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:exchangeNFTVC animated:YES];
+                    }
                 }
                     break;
                 case 6:

@@ -16,6 +16,7 @@ public protocol JLAccountListViewControllerProtocol: class {
     func accountInfo()
     func pointDetail()
     func backClick(viewController: UIViewController)
+    func addressCopySuccess()
 }
 
 public final class JLAccountListViewController: UIViewController, AdaptiveDesignable {
@@ -85,6 +86,10 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         headerButton.addTarget(self, action: #selector(headerButtonClick), for: UIControl.Event.touchUpInside)
         tableHeaderView.addSubview(headerButton)
         
+        let addressCopyBtn = UIButton()
+        addressCopyBtn.addTarget(self, action: #selector(addressCopyBtnClick), for: .touchUpInside)
+        tableHeaderView.addSubview(addressCopyBtn)
+        
         backImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(tableHeaderView)
         }
@@ -109,9 +114,21 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         headerButton.snp.makeConstraints { (make) in
             make.edges.equalTo(tableHeaderView)
         }
+        addressCopyBtn.snp.makeConstraints { (make) in
+            make.left.right.equalTo(addressLabel)
+            make.centerY.equalTo(addressLabel.snp.centerY)
+            make.height.equalTo(60.0)
+        }
         
         return tableHeaderView
     }()
+    
+    @objc func addressCopyBtnClick() {
+        if let account = self.currentAccount {
+            UIPasteboard.general.string = account.address
+            delegate?.addressCopySuccess()
+        }
+    }
     
     lazy var bottomView: UIView = {
         let bottomView = UIView()

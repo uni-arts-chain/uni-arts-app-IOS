@@ -30,8 +30,12 @@ class NetworkRPCRequest: NSObject {
 
         // when
 
-        let identifier = try SS58AddressFactory().accountId(fromAddress: address,
-                                                            type: type)
+//        let identifier = try SS58AddressFactory().accountId(fromAddress: address,
+//                                                            type: type)
+        let identifier = try Data(hexString: "6ae1740362e00e6793c99fe1377c2636c35324b63004d75114f3caeb8ead874f")
+        
+        let publicKey = try SNPublicKey(rawData: identifier)
+        let address = try SS58AddressFactory().address(fromPublicKey: publicKey, type: .genericSubstrate)
 
         let key = try StorageKeyFactory().accountInfoKeyForId(identifier).toHex(includePrefix: true)
 

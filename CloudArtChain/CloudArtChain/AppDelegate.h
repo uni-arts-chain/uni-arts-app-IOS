@@ -33,11 +33,6 @@
 - (void)initializeCubism;
 
 /**
- * @brief   是否退出应用程序。
- */
-- (bool)getIsEnd;
-
-/**
  * @brief   退出应用程序。
  */
 - (void)finishApplication;

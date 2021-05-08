@@ -70,8 +70,8 @@ class RPCTest: XCTestCase {
 
         // when
 
-        let identifier = try SS58AddressFactory().accountId(fromAddress: address,
-                                                            type: type)
+        let identifier = try SS58AddressFactory().accountId(fromAddress: address, type: type)
+//        let identifier = try Data(hexString: "b682e7480e2a6466771adfac3f55a7abeeabdd89f8428a6cf18cf4975c204822")
 
         let key = try StorageKeyFactory().accountInfoKeyForId(identifier).toHex(includePrefix: true)
 
@@ -166,6 +166,7 @@ class RPCTest: XCTestCase {
 //        let operation = JSONRPCListOperation<Array<BidHistory>>(engine: engine, method: RPCMethod.getStorage, parameters: [key])
         
         operationQueue.addOperations([operation], waitUntilFinished: true)
+        
         do {
             let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
 

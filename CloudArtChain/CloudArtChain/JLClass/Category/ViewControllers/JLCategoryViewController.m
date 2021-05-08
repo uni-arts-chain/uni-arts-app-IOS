@@ -11,6 +11,7 @@
 #import "UICollectionWaterLayout.h"
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
+#import "JLPayWebViewController.h"
 
 #import "JLCategoryNaviView.h"
 #import "JLCateFilterView.h"
@@ -236,11 +237,26 @@
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
         artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            [weakSelf.dataArray replaceObjectAtIndex:indexPath.row withObject:artDetailData];
+            if ([artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                [weakSelf.dataArray replaceObjectAtIndex:indexPath.row withObject:artDetailData];
+            } else {
+                [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
+                [weakSelf.collectionView reloadData];
+            }
         };
-        artDetailVC.buySuccessDeleteBlock = ^{
+        __block JLArtDetailViewController *weakArtDetailVC = artDetailVC;
+        artDetailVC.buySuccessDeleteBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+            [weakArtDetailVC.navigationController popViewControllerAnimated:NO];
             [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
             [weakSelf.collectionView reloadData];
+            if (payType == JLOrderPayTypeWeChat) {
+                // 调用支付
+                JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                payWebVC.payUrl = payUrl;
+                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+            } else {
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+            }
         };
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }

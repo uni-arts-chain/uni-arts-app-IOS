@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, JLBoxOpenPayType) {
 @interface JLBoxOpenPayViewController : JLBaseViewController
 @property (nonatomic, assign) JLBoxOpenPayType boxOpenPayType;
 @property (nonatomic, strong) Model_blind_boxes_Data *boxData;
-@property (nonatomic, copy) void(^buySuccessBlock)(void);
+@property (nonatomic, copy) void(^buySuccessBlock)(JLOrderPayType payType, NSString *payUrl);
 @end
 
 NS_ASSUME_NONNULL_END

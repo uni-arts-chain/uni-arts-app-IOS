@@ -155,7 +155,7 @@
 
 - (UILabel *)numLabel {
     if (!_numLabel) {
-        _numLabel = [JLUIFactory labelInitText:@"10份" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+        _numLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
     }
     return _numLabel;
 }
@@ -181,6 +181,7 @@
     self.authorNameLabel.text = [NSString stringIsEmpty:orderData.art.author.display_name] ? @"" : orderData.art.author.display_name;
     self.productNameLabel.text = orderData.art.name;
     self.certifyAddressLabel.text = [NSString stringIsEmpty:orderData.art.item_hash] ? @"NFT地址：" : orderData.art.item_hash;
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.amount];
+    self.numLabel.text = [NSString stringWithFormat:@"%@份", [NSDecimalNumber decimalNumberWithString:orderData.amount].stringValue];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.total_price];
 }
 @end

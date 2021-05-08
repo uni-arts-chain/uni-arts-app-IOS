@@ -22,6 +22,10 @@ class PinSetupWireframe: PinSetupWireframeProtocol, JLAccountListViewControllerP
 //        self.navigationController?.pushViewController(integralListVC, animated: true)
     }
     
+    func addressCopySuccess() {
+        JLLoading.shared().showMBSuccessTipMessage("复制成功", hideTime: 2.0)
+    }
+    
     func backClick(viewController: UIViewController) {
         self.interactor = nil
         let navigationController = JLNavigationViewController(rootViewController: JLTabbarController());

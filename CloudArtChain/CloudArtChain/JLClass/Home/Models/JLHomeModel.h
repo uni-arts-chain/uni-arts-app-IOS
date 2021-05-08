@@ -27,7 +27,7 @@
 /** 平台 0 pc, 1 mobil */
 @property (nonatomic, strong) NSString *platform;
 @end
-@interface Model_banners_Rsp : Model_Rsp_V1
+@interface Model_banners_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_banners_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@
 /** 类型  Available values : New::New, New::Announcement */
 @property (nonatomic, strong) NSString *type;
 @end
-@interface Model_news_Rsp : Model_Rsp_V1
+@interface Model_news_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_news_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_auction_meetings_Rsp : Model_Rsp_V1
+@interface Model_auction_meetings_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_auction_meetings_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -211,7 +211,7 @@
 /** 拍卖会id */
 @property (nonatomic, strong) NSString *meeting_id;
 @end
-@interface Model_auction_meetings_arts_Rsp : Model_Rsp_V1
+@interface Model_auction_meetings_arts_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_auction_meetings_arts_Req *request;
 @property (nonatomic, strong) NSArray<Model_auction_meetings_arts_Data> *body;
 @end
@@ -223,7 +223,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_popular_Rsp : Model_Rsp_V1
+@interface Model_arts_popular_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -239,7 +239,7 @@
 /** 页码 */
 @property (nonatomic, assign) NSInteger page;
 @end
-@interface Model_arts_topic_Rsp : Model_Rsp_V1
+@interface Model_arts_topic_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_arts_topic_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@
 @interface Model_arts_like_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_arts_like_Rsp : Model_Rsp_V1
+@interface Model_arts_like_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_arts_like_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -256,7 +256,7 @@
 @interface Model_art_cancel_like_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_art_cancel_like_Rsp : Model_Rsp_V1
+@interface Model_art_cancel_like_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_cancel_like_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -265,7 +265,7 @@
 @interface Model_art_dislike_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_art_dislike_Rsp : Model_Rsp_V1
+@interface Model_art_dislike_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_dislike_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -274,7 +274,7 @@
 @interface Model_art_cancel_dislike_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_art_cancel_dislike_Rsp : Model_Rsp_V1
+@interface Model_art_cancel_dislike_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_cancel_dislike_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -283,7 +283,7 @@
 @interface Model_art_favorite_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_art_favorite_Rsp : Model_Rsp_V1
+@interface Model_art_favorite_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_favorite_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -292,7 +292,7 @@
 @interface Model_art_unfavorite_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_art_unfavorite_Rsp : Model_Rsp_V1
+@interface Model_art_unfavorite_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_unfavorite_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
@@ -304,7 +304,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_my_signatures_Rsp : Model_Rsp_V1
+@interface Model_arts_my_signatures_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -325,7 +325,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_organizations_Rsp : Model_Rsp_V1
+@interface Model_organizations_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_organizations_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -336,7 +336,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_applying_signatures_Rsp : Model_Rsp_V1
+@interface Model_arts_applying_signatures_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -346,7 +346,7 @@
 @property (nonatomic, strong) NSString *organization_name;
 @property (nonatomic, strong) NSString *memo;
 @end
-@interface Model_arts_apply_signature_Rsp : Model_Rsp_V1
+@interface Model_arts_apply_signature_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_arts_apply_signature_Req *request;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -359,7 +359,7 @@
 /** 机构名称 */
 @property (nonatomic, strong) NSString *organization_name;
 @end
-@interface Model_arts_available_signature_arts_Rsp : Model_Rsp_V1
+@interface Model_arts_available_signature_arts_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -381,7 +381,7 @@
 /** 页码 */
 @property (nonatomic, assign) NSInteger page;
 @end
-@interface Model_messages_Rsp : Model_Rsp_V1
+@interface Model_messages_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_messages_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -389,7 +389,7 @@
 @interface Model_messages_read_Req : Model_Req
 @property (nonatomic, strong) NSString *id;
 @end
-@interface Model_messages_read_Rsp : Model_Rsp_V1
+@interface Model_messages_read_Rsp : Model_Rsp_V2
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /messages/has_unread 用户是否有未读消息
@@ -398,14 +398,14 @@
 @end
 @interface Model_messages_has_unread_Req : Model_Req
 @end
-@interface Model_messages_has_unread_Rsp : Model_Rsp_V1
+@interface Model_messages_has_unread_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_messages_has_unread_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /messages/read_all 全部已读
 @interface Model_messages_read_all_Req : Model_Req
 @end
-@interface Model_messages_read_all_Rsp : Model_Rsp_V1
+@interface Model_messages_read_all_Rsp : Model_Rsp_V2
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /v1/arts/#{id}/orders 出售列表
@@ -425,7 +425,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_id_orders_Rsp : Model_Rsp_V1
+@interface Model_arts_id_orders_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_arts_id_orders_Req *request;
 @property (nonatomic, strong) NSArray<Model_arts_id_orders_Data> *body;
 @end
@@ -434,7 +434,7 @@
 @interface Model_arts_detail_Req : Model_Req
 @property (nonatomic, strong) NSString *art_id;
 @end
-@interface Model_arts_detail_Rsp : Model_Rsp_V1
+@interface Model_arts_detail_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_arts_detail_Req *request;
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end

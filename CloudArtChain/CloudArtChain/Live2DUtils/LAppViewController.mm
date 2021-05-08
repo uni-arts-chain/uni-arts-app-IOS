@@ -23,6 +23,7 @@
 #import "LAppTextureManager.h"
 #import "LAppPal.h"
 #import "LAppModel.h"
+#import "UIView+JLCorner.h"
 
 #define BUFFER_OFFSET(bytes) ((GLubyte *)NULL + (bytes))
 
@@ -42,6 +43,7 @@ using namespace LAppDefine;
 
 @implementation LAppViewController
 @synthesize mOpenGLRun;
+@synthesize mSaveSnapshot;
 
 - (void)releaseView
 {
@@ -52,7 +54,7 @@ using namespace LAppDefine;
     _back = nil;
     _close = nil;
 
-    GLKView *view = (GLKView*)self.view;
+    GLKView *view = (GLKView *)self.view;
 
     view = nil;
 
@@ -66,6 +68,7 @@ using namespace LAppDefine;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     mOpenGLRun = true;
 
     _anotherTarget = false;
@@ -161,13 +164,13 @@ using namespace LAppDefine;
     {
         // 清除屏幕
         glClear(GL_COLOR_BUFFER_BIT);
-
+        
         [_back render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
-
+        
 //        [_gear render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
-
+        
         [_close render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
-
+        
         LAppLive2DManager* Live2DManager = [LAppLive2DManager getInstance];
         [Live2DManager SetViewMatrix:_viewMatrix];
         [Live2DManager onUpdate];
@@ -199,6 +202,11 @@ using namespace LAppDefine;
         }
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        
+        if (mSaveSnapshot) {
+            [self saveSnapshot];
+            mSaveSnapshot = false;
+        }
     }
 }
 
@@ -229,7 +237,7 @@ using namespace LAppDefine;
 //    fWidth = static_cast<float>(gearTexture->width);
 //    fHeight = static_cast<float>(gearTexture->height);
 //    _gear = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:gearTexture->id];
-
+    
     imageName = PowerImageName;
     TextureInfo* powerTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
 //    x = static_cast<float>(width - powerTexture->width * 0.5f);
@@ -244,6 +252,24 @@ using namespace LAppDefine;
     fWidth = static_cast<float>(width*2);
     fHeight = static_cast<float>(height*2);
     _renderSprite = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth/2 Height:fHeight/2 TextureId:0];
+}
+
+- (void)snapShotRefreshCloseImage {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    int width = screenRect.size.width;
+    int height = screenRect.size.height;
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    LAppTextureManager* textureManager = [delegate getTextureManager];
+    const string resourcesPath = "/Res.bundle/";
+    
+    string imageName = PowerImageName;
+    TextureInfo* powerTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
+    float x = static_cast<float>(width);
+    float y = static_cast<float>(height);
+    float fWidth = static_cast<float>(powerTexture->width);
+    float fHeight = static_cast<float>(powerTexture->height);
+    _close = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:powerTexture->id];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -290,7 +316,7 @@ using namespace LAppDefine;
         }
         [live2DManager onTap:x floatY:y];
 
-//        // 有没有碰到齿轮
+//         有没有碰到齿轮
 //        if ([_gear isHit:point.x PointY:pointY])
 //        {
 //            [live2DManager nextScene];
@@ -299,10 +325,32 @@ using namespace LAppDefine;
         // 有没有点击电源按钮
         if ([_close isHit:point.x PointY:pointY])
         {
-            AppDelegate *delegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-            [delegate finishApplication];
-
+            [self snapShotRefreshCloseImage];
+            mSaveSnapshot = true;
         }
+    }
+}
+
+// 保存截图到本地
+- (void)saveSnapshot {
+    WS(weakSelf)
+    dispatch_after(2.0f, dispatch_get_main_queue(), ^{
+        UIImage *image = [UIView snapshotImageFromView:self.view atFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight)];
+    //    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+        if (weakSelf.snapshotBlock) {
+            weakSelf.snapshotBlock(image);
+        }
+    });
+    AppDelegate *delegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+    [delegate finishApplication];
+}
+
+#pragma mark -- <保存到相册>
+-(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if(error){
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"图片保存失败" hideTime:KToastDismissDelayTimeInterval];
+    }else{
+        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已保存到手机" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 

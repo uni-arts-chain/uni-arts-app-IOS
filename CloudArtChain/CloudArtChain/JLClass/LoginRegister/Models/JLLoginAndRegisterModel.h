@@ -26,7 +26,7 @@
 @property (nonatomic, strong) NSString *os;
 @end
 
-@interface Model_members_user_address_login_Rsp : Model_Rsp_V1
+@interface Model_members_user_address_login_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) UserDataBody *body;
 @end
 
@@ -34,7 +34,7 @@
 #pragma mark 用户信息(持久化登录) /members/user_info
 @interface Model_members_user_info_Req : Model_Req
 @end
-@interface Model_members_user_info_Rsp : Model_Rsp_V1
+@interface Model_members_user_info_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) UserDataBody *body;
 @end
 // ==========================================================
@@ -63,7 +63,7 @@
 /** 毕业院校 */
 @property (nonatomic, strong) NSString *college;
 @end
-@interface Model_members_change_user_info_Rsp : Model_Rsp_V1
+@interface Model_members_change_user_info_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) UserDataBody *body;
 @end
 // ==========================================================
@@ -73,7 +73,7 @@
 /** change_phone */
 @property (nonatomic, strong) NSString *send_type;
 @end
-@interface Model_members_send_sms_Rsp : Model_Rsp_V1
+@interface Model_members_send_sms_Rsp : Model_Rsp_V2
 @end
 // ==========================================================
 #pragma mark /v1/members/bind_phone 绑定手机号码
@@ -81,7 +81,7 @@
 @property (nonatomic, strong) NSString *phone_number;
 @property (nonatomic, strong) NSString *phone_token;
 @end
-@interface Model_members_bind_phone_Rsp : Model_Rsp_V1
+@interface Model_members_bind_phone_Rsp : Model_Rsp_V2
 
 @end
 // ==========================================================

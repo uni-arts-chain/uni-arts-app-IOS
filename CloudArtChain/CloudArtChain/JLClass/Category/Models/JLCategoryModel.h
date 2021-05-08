@@ -43,7 +43,7 @@
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_search_Rsp : Model_Rsp_V1
+@interface Model_arts_search_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////

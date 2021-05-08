@@ -21,6 +21,7 @@
 #define JL_color_fontdeep   JL_COLOR_MAG.fontDeep
 #define JL_color_clear      JL_COLOR_MAG.clearColor
 
+#define JL_color_gray_030303 JL_COLOR_MAG.gray_030303
 #define JL_color_gray_101010 JL_COLOR_MAG.gray_101010
 #define JL_color_gray_1A1A1A JL_COLOR_MAG.gray_1A1A1A
 #define JL_color_gray_212121 JL_COLOR_MAG.gray_212121
@@ -50,6 +51,7 @@
 #define JL_color_gray_B3B3B3 JL_COLOR_MAG.gray_B3B3B3
 #define JL_color_gray_D4D4D4 JL_COLOR_MAG.gray_D4D4D4
 #define JL_color_gray_DDDDDD JL_COLOR_MAG.gray_DDDDDD
+#define JL_color_gray_777575 JL_COLOR_MAG.gray_777575
 
 #define JL_color_white_ffffff JL_COLOR_MAG.white_ffffff
 
@@ -72,6 +74,9 @@
 #define JL_color_blue_E1F5FF JL_COLOR_MAG.blue_E1F5FF
 #define JL_color_blue_EAF8FF JL_COLOR_MAG.blue_EAF8FF
 #define JL_color_blue_99DCFF JL_COLOR_MAG.blue_99DCFF
+#define JL_color_blue_3D75ED JL_COLOR_MAG.blue_3D75ED
+#define JL_color_blue_78A7FF JL_COLOR_MAG.blue_78A7FF
+#define JL_color_blue_B2CDFF JL_COLOR_MAG.blue_B2CDFF
 
 #define JL_color_purple_F0F5FF JL_COLOR_MAG.purple_F0F5FF
 #define JL_color_purple_CADEFF JL_COLOR_MAG.purple_CADEFF
@@ -119,6 +124,7 @@
 @property (nonatomic, strong) UIColor *fontDeep;
 @property (nonatomic, strong) UIColor *clearColor;
 
+@property (nonatomic, strong) UIColor *gray_030303;
 @property (nonatomic, strong) UIColor *gray_101010;
 @property (nonatomic, strong) UIColor *gray_1A1A1A;
 @property (nonatomic, strong) UIColor *gray_212121;
@@ -148,6 +154,7 @@
 @property (nonatomic, strong) UIColor *gray_B3B3B3;
 @property (nonatomic, strong) UIColor *gray_D4D4D4;
 @property (nonatomic, strong) UIColor *gray_DDDDDD;
+@property (nonatomic, strong) UIColor *gray_777575;
 
 @property (nonatomic, strong) UIColor *white_ffffff;
 
@@ -171,6 +178,9 @@
 @property (nonatomic, strong) UIColor *blue_E1F5FF;
 @property (nonatomic, strong) UIColor *blue_EAF8FF;
 @property (nonatomic, strong) UIColor *blue_99DCFF;
+@property (nonatomic, strong) UIColor *blue_3D75ED;
+@property (nonatomic, strong) UIColor *blue_78A7FF;
+@property (nonatomic, strong) UIColor *blue_B2CDFF;
 
 @property (nonatomic, strong) UIColor *purple_F0F5FF;
 @property (nonatomic, strong) UIColor *purple_CADEFF;

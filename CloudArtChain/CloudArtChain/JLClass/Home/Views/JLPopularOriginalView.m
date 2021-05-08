@@ -108,7 +108,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.artDetailBlock) {
-        self.artDetailBlock(self.popularArray[indexPath.row]);
+        self.artDetailBlock(self.waterDataArray[indexPath.row]);
     }
 }
 

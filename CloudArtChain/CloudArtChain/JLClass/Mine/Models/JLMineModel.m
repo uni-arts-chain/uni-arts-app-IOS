@@ -111,3 +111,12 @@
 @implementation Model_feedbacks_Rsp
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/lotteries/get_reward 领奖
+@implementation Model_lotteries_get_reward_Req
+@end
+@implementation Model_lotteries_get_reward_Rsp
+- (NSString *)interfacePath {
+    return @"lotteries/get_reward";
+}
+@end
+//////////////////////////////////////////////////////////////////////////

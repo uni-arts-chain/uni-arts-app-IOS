@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, JLOrderPayType) {
+    JLOrderPayTypeWeChat,
+    JLOrderPayTypeAlipay,
+};
+
+
 @interface JLMineModel : NSObject
 @end
 
@@ -24,7 +30,7 @@
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_members_favorate_arts_Rsp : Model_Rsp_V1
+@interface Model_members_favorate_arts_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_members_favorate_arts_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -35,7 +41,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_members_followings_Rsp : Model_Rsp_V1
+@interface Model_members_followings_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_author_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -46,7 +52,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_members_followers_Rsp : Model_Rsp_V1
+@interface Model_members_followers_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_author_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -131,7 +137,7 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_sold_Rsp : Model_Rsp_V1
+@interface Model_arts_sold_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_arts_sold_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -142,14 +148,14 @@
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_arts_bought_Rsp : Model_Rsp_V1
+@interface Model_arts_bought_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_arts_sold_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark 请求出售转账地址 art_orders/lock_account_id
 @interface Model_art_orders_lock_account_id_Req : Model_Req
 @end
-@interface Model_art_orders_lock_account_id_Rsp : Model_Rsp_V1
+@interface Model_art_orders_lock_account_id_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -161,7 +167,7 @@
 @property (nonatomic, strong) NSString *currency;
 @property (nonatomic, strong) NSString *encrpt_extrinsic_message;
 @end
-@interface Model_art_orders_Rsp : Model_Rsp_V1
+@interface Model_art_orders_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -174,7 +180,7 @@
 /** (值：wepay/alipay) */
 @property (nonatomic, strong) NSString *pay_type;
 @end
-@interface Model_art_trades_Rsp : Model_Rsp_V1
+@interface Model_art_trades_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -182,7 +188,7 @@
 @interface Model_art_orders_cancel_Req : Model_Req
 @property (nonatomic, strong) NSString *sn;
 @end
-@interface Model_art_orders_cancel_Rsp : Model_Rsp_V1
+@interface Model_art_orders_cancel_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -191,6 +197,16 @@
 @property (nonatomic, strong) NSString *contact;
 @property (nonatomic, strong) NSString *advise;
 @end
-@interface Model_feedbacks_Rsp : Model_Rsp_V1
+@interface Model_feedbacks_Rsp : Model_Rsp_V2
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v1/lotteries/get_reward 领奖
+@interface Model_lotteries_get_reward_Req : Model_Req
+/** 领奖码 */
+@property (nonatomic, strong) NSString *sn;
+/** 推荐手机号 */
+@property (nonatomic, strong) NSString *ref;
+@end
+@interface Model_lotteries_get_reward_Rsp : Model_Rsp_V2
 @end
 //////////////////////////////////////////////////////////////////////////

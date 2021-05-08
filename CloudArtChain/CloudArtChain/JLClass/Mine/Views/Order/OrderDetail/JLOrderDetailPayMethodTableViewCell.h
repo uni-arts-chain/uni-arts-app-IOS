@@ -10,11 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, JLOrderPayType) {
-    JLOrderPayTypeWeChat,
-    JLOrderPayTypeAlipay,
-};
-
 @interface JLOrderDetailPayMethodTableViewCell : UITableViewCell
 @property (nonatomic, copy) void(^selectedMethodBlock)(JLOrderPayType payType);
 @end

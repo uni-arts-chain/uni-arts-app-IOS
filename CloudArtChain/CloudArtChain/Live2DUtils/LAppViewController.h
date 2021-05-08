@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, SelectTarget)
 @property (nonatomic) GLuint vertexBufferId;
 @property (nonatomic) GLuint fragmentBufferId;
 @property (nonatomic) GLuint programId;
+@property (nonatomic, assign) bool mSaveSnapshot;
 
 @property (nonatomic) bool anotherTarget;
 @property (nonatomic) Csm::Rendering::CubismOffscreenFrame_OpenGLES2 renderBuffer;
@@ -37,6 +38,7 @@ typedef NS_ENUM(NSUInteger, SelectTarget)
 @property (nonatomic) float clearColorB;
 @property (nonatomic) float clearColorA;
 @property (nonatomic) SelectTarget renderTarget;
+@property (nonatomic, copy) void(^snapshotBlock)(UIImage *snapshotImage);
 
 /**
  * @brief 解放处理

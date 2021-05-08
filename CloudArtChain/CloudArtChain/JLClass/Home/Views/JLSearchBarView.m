@@ -32,9 +32,12 @@
     _searchField.backgroundColor = JL_color_gray_F3F3F3;
     _searchField.font = kFontPingFangSCRegular(16.0f);
     _searchField.tintColor =  JL_color_gray_101010;
-    _searchField.keyboardType = UIKeyboardTypeASCIICapable;
+//    _searchField.keyboardType = UIKeyboardTypeASCIICapable;
     _searchField.returnKeyType = UIReturnKeySearch;
     _searchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _searchField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _searchField.spellCheckingType = UITextSpellCheckingTypeNo;
     UIView * paddView  = [self createImageView];
     _searchField.leftView = paddView;
     _searchField.leftViewMode = UITextFieldViewModeAlways;

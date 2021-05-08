@@ -34,6 +34,10 @@
 @property (nonatomic, strong) NSString *app_img_path;
 @property (nonatomic, strong) NSString *app_background_img_path;
 @property (nonatomic, strong) NSString *app_cover_img_path;
+@property (nonatomic, strong) NSString *app_background_1x_img_path;
+@property (nonatomic, strong) NSString *app_background_10x_img_path;
+/** 主题颜色 1-白色 2-黑色 */
+@property (nonatomic, assign) NSInteger background_color;
 @property (nonatomic, strong) NSString *rule;
 @property (nonatomic, strong) NSString *start_time;
 @property (nonatomic, strong) NSString *end_time;
@@ -42,7 +46,7 @@
 @end
 @interface Model_blind_boxes_Req : Model_Req
 @end
-@interface Model_blind_boxes_Rsp : Model_Rsp_V1
+@interface Model_blind_boxes_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_blind_boxes_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -66,7 +70,7 @@
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, assign) NSInteger per_page;
 @end
-@interface Model_blind_box_orders_history_Rsp : Model_Rsp_V1
+@interface Model_blind_box_orders_history_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_blind_box_orders_history_Req *request;
 @property (nonatomic, strong) NSArray<Model_blind_box_orders_history_Data> *body;
 @end
@@ -79,7 +83,7 @@
 @property (nonatomic, strong) NSString *order_from;
 @property (nonatomic, strong) NSString *pay_type;
 @end
-@interface Model_blind_box_orders_Rsp : Model_Rsp_V1
+@interface Model_blind_box_orders_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -94,7 +98,7 @@
 @interface Model_blind_box_orders_check_Req : Model_Req
 @property (nonatomic, strong) NSString *box_id;
 @end
-@interface Model_blind_box_orders_check_Rsp : Model_Rsp_V1
+@interface Model_blind_box_orders_check_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_blind_box_orders_check_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -118,7 +122,7 @@
 @interface Model_blind_box_orders_open_Req : Model_Req
 @property (nonatomic, strong) NSString *sn;
 @end
-@interface Model_blind_box_orders_open_Rsp : Model_Rsp_V1
+@interface Model_blind_box_orders_open_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_blind_box_orders_open_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -130,7 +134,7 @@
 @property (nonatomic, strong) NSString *box_id;
 @property (nonatomic, strong) NSString *amount;
 @end
-@interface Model_blind_box_orders_check_order_Rsp : Model_Rsp_V1
+@interface Model_blind_box_orders_check_order_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_blind_box_orders_check_order_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
@@ -138,7 +142,7 @@
 @interface Model_blind_boxes_detail_Req : Model_Req
 @property (nonatomic, strong) NSString *boxId;
 @end
-@interface Model_blind_boxes_detail_Rsp : Model_Rsp_V1
+@interface Model_blind_boxes_detail_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_blind_boxes_detail_Req *request;
 @property (nonatomic, strong) Model_blind_boxes_Data *body;
 @end

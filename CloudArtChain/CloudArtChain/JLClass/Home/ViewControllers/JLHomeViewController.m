@@ -252,7 +252,7 @@
         
         NSString *currentDateStr = [[NSDate date] dateWithCustomFormat:@"MM月dd日"];
         CGFloat dateLabelWidth = [JLTool getAdaptionSizeWithText:currentDateStr labelHeight:13.0f font:kFontPingFangSCMedium(9.0f)].width + 2.0f;
-        UILabel *dateLabel = [JLUIFactory gradientLabelWithFrame:CGRectMake(backImageView.frameWidth - 4.0f - dateLabelWidth, backImageView.frameHeight - 5.0f - 13.0f, dateLabelWidth, 13.0f) colors:nil text:currentDateStr textColor:JL_color_white_ffffff font:kFontPingFangSCMedium(9.0f) textAlignment:NSTextAlignmentCenter cornerRadius:0.0f];
+        UILabel *dateLabel = [JLUIFactory gradientLabelWithFrame:CGRectMake(backImageView.frameWidth - 4.0f - dateLabelWidth, backImageView.frameHeight - 5.0f - 13.0f, dateLabelWidth, 13.0f) colors:@[(__bridge id)[JL_color_blue_78A7FF colorWithAlphaComponent:1.0f].CGColor, (__bridge id)[JL_color_blue_3D75ED colorWithAlphaComponent:1.0f].CGColor] text:currentDateStr textColor:JL_color_white_ffffff font:kFontPingFangSCMedium(9.0f) textAlignment:NSTextAlignmentCenter cornerRadius:0.0f];
         [backImageView addSubview:dateLabel];
         
         [contentView addSubview:self.cycleScrollView];
@@ -303,7 +303,7 @@
     if (!_popularOriginalView) {
         WS(weakSelf)
         _popularOriginalView = [[JLPopularOriginalView alloc] initWithFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f)];
-        _popularOriginalView.backgroundColor = [UIColor randomColor];
+        _popularOriginalView.backgroundColor = JL_color_white_ffffff;
         _popularOriginalView.artDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
                 // 拍卖中
@@ -513,12 +513,16 @@
             }
             CGFloat themeRecommendViewHeight = 380.0f;
             if (weakSelf.auctionArray.count == 0) {
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                if (self.themeArray.count > 0) {
+                    weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                }
                 weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
                 [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
                 weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom + 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
             } else {
-                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                if (self.themeArray.count > 0) {
+                    weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+                }
                 weakSelf.popularOriginalView.frame = CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
                 [weakSelf.popularOriginalView refreshFrame:CGRectMake(0.0f, self.themeRecommendView.frameBottom, kScreenWidth, 80.0f + [self getPopularViewHeight:popularOriginalViewRow])];
                 weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom + 80.0f + [self getPopularViewHeight:popularOriginalViewRow]);
@@ -565,7 +569,9 @@
             [weakSelf.themeArray addObjectsFromArray:response.body];
             
             CGFloat themeRecommendViewHeight = 380.0f;
-            weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+            if (weakSelf.themeArray.count > 0) {
+                weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
+            }
 //            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.themeRecommendView.frameBottom);
             for (int i = 0; i < weakSelf.themeArray.count; i++) {
                 JLThemeRecommendView *themeView = [[JLThemeRecommendView alloc] initWithFrame:CGRectMake(0.0f, (themeRecommendViewHeight + 16.0f) * i, kScreenWidth, themeRecommendViewHeight)];

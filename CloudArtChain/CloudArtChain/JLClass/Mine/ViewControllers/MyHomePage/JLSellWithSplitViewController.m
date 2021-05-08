@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceUnitLabel;
 @property (nonatomic, strong) JLBaseTextField *priceTF;
+@property (nonatomic, strong) UILabel *priceUnitEndLabel;
 @property (nonatomic, strong) UIView *priceLineView;
 
 @property (nonatomic, strong) UIButton *sellButton;
@@ -66,6 +67,7 @@
     [self.priceView addSubview:self.priceTitleLabel];
     [self.priceView addSubview:self.priceUnitLabel];
     [self.priceView addSubview:self.priceTF];
+    [self.priceView addSubview:self.priceUnitEndLabel];
     [self.priceView addSubview:self.priceLineView];
     
     [self.view addSubview:self.sellButton];
@@ -134,10 +136,14 @@
         make.left.equalTo(self.priceView);
         make.centerY.equalTo(self.priceView.mas_centerY);
     }];
-    [self.priceTF mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.priceUnitEndLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.priceView);
+        make.centerY.equalTo(self.priceTitleLabel.mas_centerY);
+    }];
+    [self.priceTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.priceUnitEndLabel.mas_left).offset(-8.0f);
         make.bottom.equalTo(self.priceTitleLabel.mas_bottom);
-        make.width.mas_equalTo(100.0f);
+        make.width.mas_equalTo(70.0f);
     }];
     [self.priceLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.priceTF.mas_left);
@@ -304,7 +310,7 @@
 
 - (UILabel *)currentNumUnitLabel {
     if (!_currentNumUnitLabel) {
-        _currentNumUnitLabel = [JLUIFactory labelInitText:@"/份" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _currentNumUnitLabel = [JLUIFactory labelInitText:@"份" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _currentNumUnitLabel;
 }
@@ -351,7 +357,7 @@
 
 - (UILabel *)priceTitleLabel {
     if (!_priceTitleLabel) {
-        _priceTitleLabel = [JLUIFactory labelInitText:@"设置作品价格" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _priceTitleLabel = [JLUIFactory labelInitText:@"每份价格" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _priceTitleLabel;
 }
@@ -387,6 +393,13 @@
     return _priceTF;
 }
 
+- (UILabel *)priceUnitEndLabel {
+    if (!_priceUnitEndLabel) {
+        _priceUnitEndLabel = [JLUIFactory labelInitText:@"/份" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    }
+    return _priceUnitEndLabel;
+}
+
 - (UIButton *)sellButton {
     if (!_sellButton) {
         _sellButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -408,7 +421,7 @@
         return;
     }
     if ([NSString stringIsEmpty:self.priceTF.text] || self.currentNumTF.text.doubleValue == 0) {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置作品价格" hideTime:KToastDismissDelayTimeInterval];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置每份价格" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     

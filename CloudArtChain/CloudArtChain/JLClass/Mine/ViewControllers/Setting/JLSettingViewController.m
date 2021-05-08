@@ -17,6 +17,7 @@
 #import <AVKit/AVKit.h>
 #import "HVideoViewController.h"
 #import "JLFeedBackViewController.h"
+#import "JLAboutUsViewController.h"
 
 #import "JLSettingTableViewCell.h"
 
@@ -33,7 +34,7 @@
 - (NSArray *)titleArray {
     if (!_titleArray) {
 //        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号", @"微信", @"登录密码"], @[@"实人认证", @"支付宝实名认证"]];
-        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号", @"意见反馈"]];
+        _titleArray = @[@[@"头像", @"昵称", @"描述", @"手机号"], @[@"意见反馈", @"关于我们"]];
     }
     return _titleArray;
 }
@@ -119,11 +120,7 @@
             status = [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
         } else if(indexPath.row == 1) {
             status = [AppSingleton sharedAppSingleton].userBody.display_name;
-        } else {
-            status = @"";
-        }
-    } else {
-        if (indexPath.row == 0) {
+        } else if(indexPath.row == 3) {
             status = [[AppSingleton sharedAppSingleton].userBody getPhoneNumberWithoutCountryCode];
             if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
                 showArrow = NO;
@@ -131,6 +128,8 @@
         } else {
             status = @"";
         }
+    } else {
+        status = @"";
     }
     [cell setTitle:self.titleArray[indexPath.section][indexPath.row] status:status isAvatar:(indexPath.section == 0 && indexPath.row == 0) showLine:indexPath.row != sectionArray.count - 1 showArrow:showArrow];
     return cell;
@@ -224,13 +223,7 @@
                 [self.navigationController pushViewController:personalDescVC animated:YES];
             }
                 break;
-                
-            default:
-                break;
-        }
-    } else if (indexPath.section == 1) {
-        switch (indexPath.row) {
-            case 0:
+            case 3:
             {
                 if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
                     JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
@@ -242,11 +235,24 @@
                 }
             }
                 break;
-            case 1:
+                
+            default:
+                break;
+        }
+    } else if (indexPath.section == 1) {
+        switch (indexPath.row) {
+            case 0:
             {
                 // 意见反馈
                 JLFeedBackViewController *feedbackVC = [[JLFeedBackViewController alloc] init];
                 [weakSelf.navigationController pushViewController:feedbackVC animated:YES];
+            }
+                break;
+            case 1:
+            {
+                // 关于我们
+                JLAboutUsViewController *aboutUsVC = [[JLAboutUsViewController alloc] init];
+                [weakSelf.navigationController pushViewController:aboutUsVC animated:YES];
             }
                 break;
             case 2:

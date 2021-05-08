@@ -165,8 +165,12 @@
 }
 
 - (void)authorInfoDetailBtnClick {
+    WS(weakSelf)
     JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
     creatorPageVC.authorData = self.preTopicData.member;
+    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+        weakSelf.preTopicData.member = authorData;
+    };
     [self.viewController.navigationController pushViewController:creatorPageVC animated:YES];
 }
 

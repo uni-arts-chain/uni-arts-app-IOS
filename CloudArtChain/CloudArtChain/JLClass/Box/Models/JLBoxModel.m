@@ -117,9 +117,9 @@
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /v1/blind_boxes/:id 盲盒详情
-@implementation Model_blind_boxes_detail_Req : Model_Req
+@implementation Model_blind_boxes_detail_Req
 @end
-@implementation Model_blind_boxes_detail_Rsp : Model_Rsp_V1
+@implementation Model_blind_boxes_detail_Rsp
 - (NSString *)interfacePath {
     return [NSString stringWithFormat:@"blind_boxes/%@", self.request.boxId];
 }

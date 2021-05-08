@@ -13,8 +13,10 @@
 #import "LewPopupViewController.h"
 #import "JLOrderSubmitViewController.h"
 #import "JLCreatorPageViewController.h"
+#import "JLHomePageViewController.h"
 #import "JLSellWithSplitViewController.h"
 #import "JLSellWithoutSplitViewController.h"
+#import "JLPayWebViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLArtDetailNamePriceView.h"
@@ -28,6 +30,7 @@
 
 #import "NSDate+Extension.h"
 #import "JLLive2DCacheManager.h"
+#import "UIButton+TouchArea.h"
 
 @interface JLArtDetailViewController ()<NewPagedFlowViewDelegate, NewPagedFlowViewDataSource>
 @property (nonatomic, strong) UITabBar *bottomBar;
@@ -230,16 +233,23 @@
             if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
                 // 有可出售的作品
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                self.immediatelyBuyBtn.enabled = YES;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
             } else {
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = NO;
                 self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
             }
         } else {
+            // 不可拆分
             if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
                 [self.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+                self.immediatelyBuyBtn.enabled = YES;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
             } else {
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                self.immediatelyBuyBtn.enabled = YES;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
             }
         }
         
@@ -247,6 +257,7 @@
         // 判断是否可以拆分
         if (self.artDetailData.collection_mode == 3) {
             // 可以拆分
+            [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
             self.immediatelyBuyBtn.enabled = NO;
             self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
         }
@@ -442,12 +453,14 @@
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = self.artDetailData;
                     orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
-                    orderSubmitVC.buySuccessBlock = ^{
+                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                        [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         // 退出详情页面
                         if (weakSelf.buySuccessDeleteBlock) {
-                            weakSelf.buySuccessDeleteBlock();
+                            weakSelf.buySuccessDeleteBlock(payType, payUrl);
                         }
-                        [weakSelf.navigationController popViewControllerAnimated:NO];
+//                        [weakSelf.navigationController popViewControllerAnimated:NO];
                     };
                     [self.navigationController pushViewController:orderSubmitVC animated:YES];
                 }
@@ -629,6 +642,7 @@
         _photoBrowserBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_photoBrowserBtn setImage:[UIImage imageNamed:@"icon_home_artdetail_photo_browser"] forState:UIControlStateNormal];
         [_photoBrowserBtn addTarget:self action:@selector(photoBrowserBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_photoBrowserBtn edgeTouchAreaWithTop:20.0f right:20.0f bottom:20.0f left:20.0f];
     }
     return _photoBrowserBtn;
 }
@@ -735,7 +749,17 @@
             JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
             orderSubmitVC.artDetailData = weakSelf.artDetailData;
             orderSubmitVC.sellingOrderData = sellOrderData;
-            orderSubmitVC.buySuccessBlock = ^{
+            __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+            orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
+                if (payType == JLOrderPayTypeWeChat) {
+                    // 打开支付页面
+                    JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                    payWebVC.payUrl = payUrl;
+                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+                } else {
+                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+                }
                 [weakSelf requestSellingList];
             };
             [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
@@ -773,9 +797,15 @@
         _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
         _artAuthorDetailView.artDetailData = self.artDetailData;
         _artAuthorDetailView.introduceBlock = ^{
-            JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
-            creatorPageVC.authorData = weakSelf.artDetailData.author;
-            [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+            // 判断是否是自己
+            if ([weakSelf.artDetailData.author.ID isEqualToString: [AppSingleton sharedAppSingleton].userBody.ID]) {
+                JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+            } else {
+                JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+                creatorPageVC.authorData = weakSelf.artDetailData.author;
+                [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+            }
         };
     }
     return _artAuthorDetailView;
