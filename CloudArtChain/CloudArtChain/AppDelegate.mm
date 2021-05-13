@@ -56,6 +56,7 @@
     LAppViewController *lappViewController = [[LAppViewController alloc] initWithNibName:nil bundle:nil];
     lappViewController.snapshotBlock = ^(UIImage *snapshotImage) {
 //        UIImageWriteToSavedPhotosAlbum(snapshotImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"JLLive2dSnapshotNotification" object:nil userInfo:@{@"snapshot": snapshotImage}];
     };
     lappViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     self.lAppViewController = lappViewController;
@@ -70,7 +71,7 @@
     [self showMainViewController];
     [JLGuidePageView showGuidePage];
     [self setupAppearance];
-    [self rpcTest];
+//    [self rpcTest];
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
@@ -156,7 +157,7 @@
     manager.toolbarTintColor = JL_color_gray_101010;
 }
 
-- (void) initUM{
+- (void)initUM {
     [UMConfigure setEncryptEnabled:YES];//打开加密传输
     //开发者需要显式的调用此函数，日志系统才能工作
     [UMCommonLogManager setUpUMCommonLogManager];

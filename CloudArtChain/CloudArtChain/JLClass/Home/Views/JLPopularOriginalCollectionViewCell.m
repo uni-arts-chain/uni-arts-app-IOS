@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *auctioningView;
+@property (nonatomic, strong) UIView *live2DView;
 @end
 
 @implementation JLPopularOriginalCollectionViewCell
@@ -36,6 +37,7 @@
     [self.backView addSubview:self.nameLabel];
     [self.backView addSubview:self.priceLabel];
     [self.backView addSubview:self.auctioningView];
+    [self.backView addSubview:self.live2DView];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
@@ -59,6 +61,12 @@
         make.left.top.equalTo(self.backView);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
+    }];
+    [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.imageView);
+        make.bottom.equalTo(self.imageView).offset(-15.0f);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(15.0f);
     }];
 }
 
@@ -124,6 +132,22 @@
     return _auctioningView;
 }
 
+- (UIView *)live2DView {
+    if (!_live2DView) {
+        _live2DView = [[UIView alloc] init];
+        _live2DView.backgroundColor = JL_color_black;
+        _live2DView.hidden = YES;
+        
+        UILabel *live2DLabel = [JLUIFactory labelInitText:@"Live 2D" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        [_live2DView addSubview:live2DLabel];
+        
+        [live2DLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_live2DView);
+        }];
+    }
+    return _live2DView;
+}
+
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
@@ -149,6 +173,7 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    self.live2DView.hidden = [NSString stringIsEmpty:popularArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + popularArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
@@ -187,6 +212,7 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    self.live2DView.hidden = [NSString stringIsEmpty:collectionArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + collectionArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
@@ -208,6 +234,7 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    self.live2DView.hidden = [NSString stringIsEmpty:authorArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + authorArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);

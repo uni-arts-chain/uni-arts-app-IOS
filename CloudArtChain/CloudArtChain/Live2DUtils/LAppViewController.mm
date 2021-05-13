@@ -265,7 +265,7 @@ using namespace LAppDefine;
     
     string imageName = PowerImageName;
     TextureInfo* powerTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
-    float x = static_cast<float>(width);
+    float x = static_cast<float>(width + powerTexture->width);
     float y = static_cast<float>(height);
     float fWidth = static_cast<float>(powerTexture->width);
     float fHeight = static_cast<float>(powerTexture->height);

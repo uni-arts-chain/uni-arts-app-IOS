@@ -7,6 +7,7 @@
 //
 
 #import "JLFansViewController.h"
+#import "JLCreatorPageViewController.h"
 
 #import "JLFocusFansTableViewCell.h"
 #import "JLNormalEmptyView.h"
@@ -120,6 +121,21 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [UIView new];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
+    JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+    creatorPageVC.authorData = self.fansArray[indexPath.row];
+//    creatorPageVC.cancelFollowBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+//        [weakSelf.fansArray replaceObjectAtIndex:indexPath.row withObject:authorData];
+//        [weakSelf.tableView reloadData];
+//    };
+    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+        [weakSelf.fansArray replaceObjectAtIndex:indexPath.row withObject:authorData];
+        [weakSelf.tableView reloadData];
+    };
+    [self.navigationController pushViewController:creatorPageVC animated:YES];
 }
 
 #pragma mark 请求粉丝列表

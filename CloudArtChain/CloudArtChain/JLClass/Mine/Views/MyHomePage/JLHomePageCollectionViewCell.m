@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIButton *offShelfButton;
 
 @property (nonatomic, strong) UIView *auctioningView;
+@property (nonatomic, strong) UIView *live2DView;
+
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
 
@@ -40,6 +42,7 @@
     [self.contentView addSubview:self.backView];
     [self.backView addSubview:self.imageView];
     [self.backView addSubview:self.auctioningView];
+    [self.backView addSubview:self.live2DView];
     
     [self.backView addSubview:self.bottomView];
     [self.bottomView addSubview:self.nameLabel];
@@ -93,6 +96,12 @@
         make.left.top.equalTo(self.backView);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
+    }];
+    [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.backView);
+        make.bottom.equalTo(self.bottomView.mas_top).offset(-15.0f);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(15.0f);
     }];
     [self.contentView setNeedsLayout];
 }
@@ -212,6 +221,22 @@
     return _auctioningView;
 }
 
+- (UIView *)live2DView {
+    if (!_live2DView) {
+        _live2DView = [[UIView alloc] init];
+        _live2DView.backgroundColor = JL_color_black;
+        _live2DView.hidden = YES;
+        
+        UILabel *live2DLabel = [JLUIFactory labelInitText:@"Live 2D" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        [_live2DView addSubview:live2DLabel];
+        
+        [live2DLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_live2DView);
+        }];
+    }
+    return _live2DView;
+}
+
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData type:(JLWorkListType)listType {
     self.artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
@@ -228,6 +253,7 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    self.live2DView.hidden = [NSString stringIsEmpty:artDetailData.live2d_file];
     
     if (listType == JLWorkListTypeNotList) {
         self.sellButton.hidden = NO;

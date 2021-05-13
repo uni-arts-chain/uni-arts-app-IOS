@@ -70,6 +70,15 @@
     [self addBackItem];
     [self createView];
     [self refreshThemeArray];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(live2dSnapshotNotification:) name:@"JLLive2dSnapshotNotification" object:nil];
+}
+
+- (void)live2dSnapshotNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    UIImage *snapshotImage = userInfo[@"snapshot"];
+    
+    [self.uploadImageView addLive2dSnapshotImage:snapshotImage];
 }
 
 - (void)createView {
@@ -407,6 +416,108 @@
 //        return;
 //    }
     
+    // 判断是否是上传Live2d文件
+    JLUploadImageModel *firstImageModel = [[self.uploadImageView getImageArray] firstObject];
+    if ([firstImageModel.imageType isEqualToString:@"live2d"]) {
+        [self uploadZipFile];
+    } else {
+        NSMutableArray *paramsArray = [NSMutableArray array];
+        NSMutableArray *fileNameArray = [NSMutableArray array];
+        NSMutableArray *fileDataArray = [NSMutableArray array];
+        NSMutableArray *mainFileNameArray = [NSMutableArray array];
+        NSMutableArray *fileTypeArray = [NSMutableArray array];
+        
+        for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
+            NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+            [mainFileNameArray addObject:fileTimeString];
+        }
+        Model_arts_Req *request = [[Model_arts_Req alloc] init];
+        request.img_main_file1 = mainFileNameArray[0];
+        [paramsArray addObject:@"img_main_file1"];
+        [fileNameArray addObject:mainFileNameArray[0]];
+        [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageData];
+        [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageType];
+        if (mainFileNameArray.count > 1) {
+            request.img_main_file2 = mainFileNameArray[1];
+            [paramsArray addObject:@"img_main_file2"];
+            [fileNameArray addObject:mainFileNameArray[1]];
+            [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][1]).imageData];
+            [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][1]).imageType];
+        }
+        if (mainFileNameArray.count > 2) {
+            request.img_main_file3 = mainFileNameArray[2];
+            [paramsArray addObject:@"img_main_file3"];
+            [fileNameArray addObject:mainFileNameArray[2]];
+            [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageData];
+            [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageType];
+        }
+        request.name = self.workTitleView.inputContent;
+        request.category_id = self.currentSelectedThemeData.ID;
+        request.details = self.workDetailView.inputContent;
+        request.is_refungible = self.workSplit ? @"true" : @"false";
+        if (self.workSplit) {
+            request.refungible_decimal = [self.tempSplitNumArray[self.currentSelectedSplitNumIndex] stringByReplacingOccurrencesOfString:@"份" withString:@""];
+        }
+        if (![NSString stringIsEmpty:self.priceView.inputContent]) {
+            request.price = self.priceView.inputContent;
+        }
+        request.resource_type = 1;
+        for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
+            if ([imageModel.imageType isEqualToString:@"gif"]) {
+                request.resource_type = 2;
+                break;
+            }
+        }
+        Model_arts_Rsp *response = [[Model_arts_Rsp alloc] init];
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestUploadImagesParameters:request respondParameters:response paramsNames:[paramsArray copy] fileNames:[fileNameArray copy] fileData:[fileDataArray copy] fileType:[fileTypeArray copy] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+                    if (weakSelf.uploadSuccessBackBlock) {
+                        weakSelf.uploadSuccessBackBlock();
+                    }
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                } confirm:@"去查看" confirmHandler:^{
+                    if (weakSelf.checkProcessBlock) {
+                        weakSelf.checkProcessBlock();
+                    } else {
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+                [self presentViewController:alert animated:YES completion:nil];
+            } else {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            }
+        }];
+    }
+}
+
+- (void)uploadZipFile {
+    WS(weakSelf)
+    NSString *fileTimeString = [NSString stringWithFormat:@"%@%d.zip", [JLNetHelper getTimeString], (arc4random() % 999999)];
+    Model_arts_upload_live2d_file_Req *request = [[Model_arts_upload_live2d_file_Req alloc] init];
+    request.live2d_file = fileTimeString;
+    Model_arts_upload_live2d_file_Rsp *response = [[Model_arts_upload_live2d_file_Rsp alloc] init];
+    
+    JLUploadImageModel *firstImageModel = [[self.uploadImageView getImageArray] firstObject];
+    NSData *fileData = [NSData dataWithContentsOfFile:firstImageModel.zipFilePath];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestUploadZipFileParameters:request respondParameters:response paramName:@"live2d_file" fileName:fileTimeString fileData:fileData callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            [weakSelf saveLive2dToServer:response.body];
+        } else {
+            [[JLLoading sharedLoading] hideLoading];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
+/** 服务端保存live2d */
+- (void)saveLive2dToServer:(Model_arts_upload_live2d_file_Data *)live2dFileData {
+    WS(weakSelf)
     NSMutableArray *paramsArray = [NSMutableArray array];
     NSMutableArray *fileNameArray = [NSMutableArray array];
     NSMutableArray *fileDataArray = [NSMutableArray array];
@@ -447,16 +558,13 @@
     if (![NSString stringIsEmpty:self.priceView.inputContent]) {
         request.price = self.priceView.inputContent;
     }
-    request.resource_type = 1;
-    for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
-        if ([imageModel.imageType isEqualToString:@"gif"]) {
-            request.resource_type = 2;
-            break;
-        }
-    }
+    request.resource_type = 3;
+    request.live2d_file = live2dFileData.live2d_file;
+    request.live2d_ipfs_hash = live2dFileData.live2d_ipfs_hash;
+    request.live2d_ipfs_zip_hash = live2dFileData.live2d_ipfs_zip_hash;
+
     Model_arts_Rsp *response = [[Model_arts_Rsp alloc] init];
     
-    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestUploadImagesParameters:request respondParameters:response paramsNames:[paramsArray copy] fileNames:[fileNameArray copy] fileData:[fileDataArray copy] fileType:[fileTypeArray copy] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {

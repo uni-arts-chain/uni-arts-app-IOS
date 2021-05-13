@@ -135,6 +135,7 @@
 - (UIImageView *)productImageView {
     if (!_productImageView) {
         _productImageView = [[UIImageView alloc] init];
+        _productImageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_productImageView, 5.0f, 0, JL_color_clear);
     }
     return _productImageView;
@@ -195,6 +196,8 @@
     self.orderNoLabel.text = soldData.sn;
     if (![NSString stringIsEmpty:soldData.art.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:soldData.art.img_main_file1[@"url"]]];
+    } else {
+        self.productImageView.image = nil;
     }
     
     NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.finished_at.doubleValue];

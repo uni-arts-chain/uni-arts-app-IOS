@@ -195,10 +195,10 @@ extension PinSetupViewController: PinSetupViewProtocol {
         switch biometryType {
         case .touchId:
             title = "Touch ID"
-            message = "Would you like to use Touch ID for authentication?"
+            message = "是否要使用Touch ID进行身份验证？"
         case .faceId:
             title = "Face ID"
-            message = "Would you like to user Face ID for authentication?"
+            message = "是否要使用Face ID进行身份验证？"
         case .none:
             completionBlock(true)
             return
@@ -206,12 +206,12 @@ extension PinSetupViewController: PinSetupViewProtocol {
 
         let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        let useAction = UIAlertAction(title: "Use",
+        let useAction = UIAlertAction(title: "使用",
                                       style: .default) { (_: UIAlertAction) -> Void in
             completionBlock(true)
         }
 
-        let skipAction = UIAlertAction(title: "Skip",
+        let skipAction = UIAlertAction(title: "跳过",
                                        style: .cancel) { (_: UIAlertAction) -> Void in
             completionBlock(false)
         }

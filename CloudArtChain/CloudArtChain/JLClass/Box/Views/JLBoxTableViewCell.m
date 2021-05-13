@@ -92,6 +92,7 @@
 - (UIImageView *)titleImageView {
     if (!_titleImageView) {
         _titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 15.0f * 2, 165.0f)];
+        _titleImageView.contentMode = UIViewContentModeScaleAspectFill;
         [_titleImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _titleImageView;
@@ -136,6 +137,8 @@
 - (void)setBoxData:(Model_blind_boxes_Data *)boxData {
     if (![NSString stringIsEmpty:boxData.app_img_path]) {
         [self.titleImageView sd_setImageWithURL:[NSURL URLWithString:boxData.app_img_path]];
+    } else {
+        self.titleImageView.image = nil;
     }
     self.titleLabel.text = boxData.title;
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:boxData.desc]];

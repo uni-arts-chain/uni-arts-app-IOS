@@ -12,6 +12,7 @@
 
 #import "JLArtDetailViewController.h"
 #import "JLCreatorPageViewController.h"
+#import "JLHomePageViewController.h"
 
 @interface JLCreatorTableViewCell()<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UIView *authorInfoView;
@@ -71,15 +72,16 @@
         make.left.equalTo(self.authorAvatarImageView.mas_right).offset(13.0f);
         make.height.mas_equalTo(22.0f);
     }];
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.mas_bottom);
-        make.left.equalTo(self.nameLabel);
-        make.height.mas_equalTo(22.0f);
-    }];
     [self.worksLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.authorInfoView);
         make.centerY.equalTo(self.infoLabel.mas_centerY);
         make.left.equalTo(self.infoLabel.mas_right).offset(10.0f);
+    }];
+    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameLabel.mas_bottom);
+        make.left.equalTo(self.nameLabel);
+        make.height.mas_equalTo(22.0f);
+        make.right.equalTo(self.worksLabel.mas_left).offset(-12.0f);
     }];
     [self.authorInfoDetailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.authorInfoView);
@@ -166,16 +168,21 @@
 
 - (void)authorInfoDetailBtnClick {
     WS(weakSelf)
-    JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
-    creatorPageVC.authorData = self.preTopicData.member;
-    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
-        weakSelf.preTopicData.member = authorData;
-    };
-    [self.viewController.navigationController pushViewController:creatorPageVC animated:YES];
+    if ([self.preTopicData.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
+        JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+        [weakSelf.viewController.navigationController pushViewController:homePageVC animated:YES];
+    } else {
+        JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+        creatorPageVC.authorData = self.preTopicData.member;
+        creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+            weakSelf.preTopicData.member = authorData;
+        };
+        [self.viewController.navigationController pushViewController:creatorPageVC animated:YES];
+    }
 }
 
 #pragma mark - 懒加载
--(UICollectionView*)collectionView{
+- (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f - 22.0f * 2) / 2.5f, 197.0f);
@@ -194,12 +201,11 @@
 }
 
 #pragma mark - UICollectionViewDelegate
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.artsArray.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLCreatorWorksCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLCreatorWorksCollectionViewCell" forIndexPath:indexPath];
     cell.detailData = self.artsArray[indexPath.row];
     return cell;

@@ -134,9 +134,17 @@
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData totalCount:(NSInteger)totalCount index:(NSInteger)index {
     WS(weakSelf)
     if (index == totalCount - 1) {
-        [self.imageView addSubview:self.moreView];
+        UIView *backView = [[UIView alloc] init];
+        backView.backgroundColor = [JL_color_gray_101010 colorWithAlphaComponent:0.5f];
+        [self.imageView addSubview:backView];
+        
+        [backView addSubview:self.moreView];
+        
+        [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.imageView);
+        }];
         [self.moreView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.imageView);
+            make.center.equalTo(backView);
         }];
         if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
             [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {

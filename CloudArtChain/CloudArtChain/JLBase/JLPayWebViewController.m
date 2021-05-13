@@ -28,7 +28,7 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"qianchishuke.com";
 
 - (void)requestData {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.payUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f];
-    [request setValue:@"http://nft.qianchishuke.com" forHTTPHeaderField: @"Referer"];
+    [request setValue:@"nft.qianchishuke.com://" forHTTPHeaderField: @"Referer"];
     [self.wkWebView loadRequest:request];
 }
 
@@ -83,7 +83,7 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"qianchishuke.com";
     static NSString *endPayRedirectURL = nil;
     
     // Wechat Pay, Note : modify redirect_url to resolve we couldn't return our app from wechat client.
-    if ([absoluteString hasPrefix:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb"] && ![absoluteString hasSuffix:[NSString stringWithFormat:@"redirect_url=http://nft.%@://",CompanyFirstDomainByWeChatRegister]]) {
+    if ([absoluteString hasPrefix:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb"] && ![absoluteString hasSuffix:[NSString stringWithFormat:@"redirect_url=nft.%@://",CompanyFirstDomainByWeChatRegister]]) {
         decisionHandler(WKNavigationActionPolicyCancel);
         
 #warning Note : The string "xiaodongxie.cn://" must be configured by wechat background. It must be your company first domin. You also should configure "URL types" in the Info.plist file.
@@ -94,15 +94,15 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"qianchishuke.com";
         NSString *redirectUrl = nil;
         if ([absoluteString containsString:@"redirect_url="]) {
             NSRange redirectRange = [absoluteString rangeOfString:@"redirect_url"];
-            endPayRedirectURL =  [absoluteString substringFromIndex:redirectRange.location+redirectRange.length+1];
-            redirectUrl = [[absoluteString substringToIndex:redirectRange.location] stringByAppendingString:[NSString stringWithFormat:@"redirect_url=http://nft.%@://",CompanyFirstDomainByWeChatRegister]];
+            endPayRedirectURL =  [absoluteString substringFromIndex:redirectRange.location+redirectRange.length + 1];
+            redirectUrl = [[absoluteString substringToIndex:redirectRange.location] stringByAppendingString:[NSString stringWithFormat:@"redirect_url=nft.%@://",CompanyFirstDomainByWeChatRegister]];
         } else {
-            redirectUrl = [absoluteString stringByAppendingString:[NSString stringWithFormat:@"&redirect_url=http://nft.%@://",CompanyFirstDomainByWeChatRegister]];
+            redirectUrl = [absoluteString stringByAppendingString:[NSString stringWithFormat:@"&redirect_url=nft.%@://",CompanyFirstDomainByWeChatRegister]];
         }
         
         NSMutableURLRequest *newRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:redirectUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f];
         newRequest.allHTTPHeaderFields = request.allHTTPHeaderFields;
-        [newRequest setValue:@"http://nft.qianchishuke.com" forHTTPHeaderField: @"Referer"];
+        [newRequest setValue:@"nft.qianchishuke.com://" forHTTPHeaderField: @"Referer"];
         newRequest.URL = [NSURL URLWithString:redirectUrl];
         [webView loadRequest:newRequest];
         return;
@@ -117,7 +117,7 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"qianchishuke.com";
                 [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:endPayRedirectURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f]];
             }
         } else if ([scheme isEqualToString:[NSString stringWithFormat:@"nft.%@",CompanyFirstDomainByWeChatRegister]]) {
-            
+            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://nft.%@",CompanyFirstDomainByWeChatRegister]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f]];
         }
         
         BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:request.URL];

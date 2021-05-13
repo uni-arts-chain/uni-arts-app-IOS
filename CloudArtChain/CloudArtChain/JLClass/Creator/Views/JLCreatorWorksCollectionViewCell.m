@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 
 @property (nonatomic, strong) UIView *auctioningView;
+@property (nonatomic, strong) UIView *live2DView;
 @end
 
 @implementation JLCreatorWorksCollectionViewCell
@@ -30,6 +31,7 @@
     [self addSubview:self.priceLabel];
     [self addSubview:self.nameLabel];
     [self addSubview:self.auctioningView];
+    [self addSubview:self.live2DView];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
@@ -49,6 +51,12 @@
         make.left.top.equalTo(self);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
+    }];
+    [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.bottom.equalTo(self.priceLabel.mas_top).offset(-23.0f - 15.0f);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(15.0f);
     }];
 }
 
@@ -104,6 +112,22 @@
     return _auctioningView;
 }
 
+- (UIView *)live2DView {
+    if (!_live2DView) {
+        _live2DView = [[UIView alloc] init];
+        _live2DView.backgroundColor = JL_color_black;
+        _live2DView.hidden = YES;
+        
+        UILabel *live2DLabel = [JLUIFactory labelInitText:@"Live 2D" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        [_live2DView addSubview:live2DLabel];
+        
+        [live2DLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_live2DView);
+        }];
+    }
+    return _live2DView;
+}
+
 - (void)setDetailData:(Model_art_Detail_Data *)detailData {
     if (![NSString stringIsEmpty:detailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:detailData.img_main_file1[@"url"]]];
@@ -117,5 +141,6 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    self.live2DView.hidden = [NSString stringIsEmpty:detailData.live2d_file];
 }
 @end

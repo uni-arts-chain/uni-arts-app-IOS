@@ -52,7 +52,7 @@ class PinSetupInteractor {
     private func handleFaceId() {
         state = .waitingBiometrics
 
-        let reason = "Authenticate to access the account"
+        let reason = "验证以访问帐户"
         biometryAuth
             .authenticate(localizedReason: reason, completionQueue: .main) { [weak self] result in
                 self?.processResponseForBiometrics(result: result)

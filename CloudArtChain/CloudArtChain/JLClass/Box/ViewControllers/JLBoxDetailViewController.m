@@ -546,9 +546,9 @@
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             weakSelf.boxData = response.body;
+            [weakSelf createSubViews];
             [weakSelf getBoxCardList];
             weakSelf.navigationItem.title = weakSelf.boxData.title;
-            [weakSelf createSubViews];
             // 显示图片
             [weakSelf loadImageViews];
             // 请求是否有未开启盲盒

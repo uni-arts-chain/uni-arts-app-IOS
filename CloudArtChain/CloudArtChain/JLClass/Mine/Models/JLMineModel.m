@@ -52,6 +52,17 @@
 
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /v2/arts/upload_live2d_file 上传live2d zip文件
+@implementation Model_arts_upload_live2d_file_Data
+@end
+@implementation Model_arts_upload_live2d_file_Req
+@end
+@implementation Model_arts_upload_live2d_file_Rsp
+- (NSString *)interfacePath {
+    return @"arts/upload_live2d_file";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
 @implementation Model_arts_sold_Data
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];

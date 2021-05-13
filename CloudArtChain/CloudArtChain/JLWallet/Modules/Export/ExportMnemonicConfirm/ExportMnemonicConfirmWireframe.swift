@@ -9,12 +9,15 @@ final class ExportMnemonicConfirmWireframe: AccountConfirmWireframeProtocol, Mod
     }
 
     func proceed(from view: AccountConfirmViewProtocol?) {
-        let title = "Confirm"
-
-        presentSuccessNotification(title, from: view) {
-            DispatchQueue.main.async {
-                view?.controller.navigationController?.popToRootViewController(animated: true)
-            }
+//        let title = "Confirm"
+//
+//        presentSuccessNotification(title, from: view) {
+//            DispatchQueue.main.async {
+//                view?.controller.navigationController?.popToRootViewController(animated: true)
+//            }
+//        }
+        DispatchQueue.main.async {
+            view?.controller.navigationController?.popToRootViewController(animated: true)
         }
     }
 }

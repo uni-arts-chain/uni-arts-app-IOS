@@ -9,14 +9,14 @@
 #import "JLSinglePurchaseOrderViewController.h"
 #import "JLOrderDetailViewController.h"
 
-#import "JLNoOrderView.h"
+#import "JLNormalEmptyView.h"
 #import "JLSinglePurchaseOrderListCell.h"
 #import "JLLogisticsView.h"
 
 @interface JLSinglePurchaseOrderViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) JLNoOrderView *noOrderView;
+@property (nonatomic, strong) JLNormalEmptyView *noOrderView;
 @property (nonatomic, assign) NSInteger currentPage;
 @end
 
@@ -145,9 +145,9 @@
     return _tableView;
 }
 
-- (JLNoOrderView *)noOrderView {
+- (JLNormalEmptyView *)noOrderView {
     if (!_noOrderView) {
-        _noOrderView = [[JLNoOrderView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+        _noOrderView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
     }
     return _noOrderView;
 }

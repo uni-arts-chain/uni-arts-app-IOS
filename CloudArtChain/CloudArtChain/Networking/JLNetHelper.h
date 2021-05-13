@@ -86,6 +86,15 @@ typedef enum
 /// @param callBackBlock 请求回调
 + (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
+/// 文件上传 zip文件上传
+/// @param reqPar 请求参数
+/// @param rspPar 请求应答
+/// @param paramName 参数名称
+/// @param fileName 文件名称
+/// @param fileData 文件数据
+/// @param callBackBlock 请求回调
++ (void)netRequestUploadZipFileParameters:(id)reqPar respondParameters:(id)rspPar paramName:(NSString *)paramName fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
+
 + (NSString*)getTimeString;
 + (void)managerHeadBaseConfig:(AFHTTPSessionManager*)manager withTime:(NSString*)nowTime;
 + (void)setToken:(AFHTTPSessionManager*)manager url:(NSString *)url para:(NSDictionary *)para isGET:(BOOL)isGET timeString:(NSString*)timeString;

@@ -138,6 +138,7 @@
 - (UIImageView *)productImageView {
     if (!_productImageView) {
         _productImageView = [[UIImageView alloc] init];
+        _productImageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_productImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _productImageView;

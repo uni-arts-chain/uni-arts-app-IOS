@@ -41,6 +41,7 @@
 
 - (void)exchangeBtnClick {
     WS(weakSelf)
+    [self.view endEditing:YES];
     if ([NSString stringIsEmpty:self.codeInputTextField.text]) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入兑换码" hideTime:KToastDismissDelayTimeInterval];
         return;
@@ -57,7 +58,7 @@
             UIAlertController *alert = [UIAlertController alertShowWithTitle:@"兑换成功" message:@"NFT卡片将在5分钟内划转完成，可在\"我的主页\"查看!" confirm:@"确定" confirmHandler:^{
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
-            [self presentViewController:alert animated:YES completion:nil];
+            [weakSelf presentViewController:alert animated:YES completion:nil];
         }
     }];
 }

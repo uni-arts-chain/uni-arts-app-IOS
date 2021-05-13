@@ -135,7 +135,7 @@
         _noticeView = [[UIView alloc] init];
         _noticeView.backgroundColor = JL_color_blue_C7ECFF;
         
-        UILabel *noticeLabel = [JLUIFactory labelInitText:@"· 密码用于保护私钥和交易授权，强度非常重要。\r\n· 云画链不存储密码，也无法帮您找回，请务必牢记。" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_blue_165B7F textAlignment:NSTextAlignmentLeft];
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"· 密码用于保护私钥和交易授权，强度非常重要。\r\n· 饭团密画不存储密码，也无法帮您找回，请务必牢记。" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_blue_165B7F textAlignment:NSTextAlignmentLeft];
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 10.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:noticeLabel.text];

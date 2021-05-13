@@ -36,7 +36,7 @@ extension JLBackupNoticePresenter: JLBackupNoticePresenterProtocol {
     
     func defaultCreateWalletProceed() {
         let value = viewModel.inputHandler.value
-        self.wireframe.proceedDefaultCreateWallet(from: self.view, username: value)
+        self.wireframe.proceedDefaultCreateWallet(from: self.view, username: "钱包")
     }
 }
 

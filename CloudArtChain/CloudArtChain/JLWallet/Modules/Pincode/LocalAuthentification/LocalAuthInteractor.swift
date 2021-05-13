@@ -52,7 +52,7 @@ class LocalAuthInteractor {
         }
 
         biometryAuth.authenticate(
-            localizedReason: "Authenticate to access the account",
+            localizedReason: "验证以访问帐户",
             completionQueue: DispatchQueue.main) { [weak self] (result: Bool) -> Void in
 
             self?.processBiometryAuth(result: result)

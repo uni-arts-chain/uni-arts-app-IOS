@@ -179,8 +179,9 @@
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[workListType];
-                    [biddingVC headRefresh];
+                    for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
+                        [workListVC headRefresh];
+                    }
                 };
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }
@@ -199,8 +200,9 @@
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[workListType];
-                    [biddingVC headRefresh];
+                    for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
+                        [workListVC headRefresh];
+                    }
                 };
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
             }

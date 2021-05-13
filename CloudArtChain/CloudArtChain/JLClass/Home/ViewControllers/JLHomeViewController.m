@@ -67,13 +67,12 @@
     
     NSLog(@"signed token %@", [[JLViewControllerTool appDelegate].walletTool accountSignWithOriginData:[[[AppSingleton sharedAppSingleton].userBody getToken].token dataUsingEncoding:NSUTF8StringEncoding] error:nil]);
     
-    if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
+    if ([JLLoginUtil haveSelectedAccount] && ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
         NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
-//        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
     } else {
         if ([JLLoginUtil haveToken]) {
             [self requestThemeList];
-//            [self requestPopularList];
         }
     }
 }
@@ -86,21 +85,12 @@
     }
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    if ([JLLoginUtil haveToken]) {
-//        [self reloadAllService];
-////        [self requestHasUnreadMessages];
-//    }
-//}
-
 - (void)reloadAllService {
     [self requestHasUnreadMessages];
     [self requestBannersData];
     [self requestAnnounceData];
 //    [self requestAuctionMeetingList];
 //    [self requestThemeList];
-//    [self requestPopularList];
 }
 
 - (void)headRefreshService {
@@ -108,7 +98,6 @@
     [self requestBannersData];
     [self requestAnnounceData];
     [self requestThemeList];
-//    [self requestPopularList];
 }
 
 - (void)createOrImportWalletNotification:(NSNotification *)notification {

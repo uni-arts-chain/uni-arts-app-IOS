@@ -853,6 +853,7 @@
 		B38E912E25B972C700174AAC /* JLBackupNoticeWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E912D25B972C700174AAC /* JLBackupNoticeWireframe.swift */; };
 		B38E913025B9738500174AAC /* JLBackupNoticePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E912F25B9738500174AAC /* JLBackupNoticePresenter.swift */; };
 		B38E913225B9749300174AAC /* JLBackupNoticeViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E913125B9749300174AAC /* JLBackupNoticeViewFactory.swift */; };
+		B38F2B43264A2BAC00C827A7 /* JLDocumentPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38F2B42264A2BAC00C827A7 /* JLDocumentPickerViewController.m */; };
 		B38F5B1F25EE188B00057B24 /* JLCreatorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B38F5B1E25EE188B00057B24 /* JLCreatorModel.m */; };
 		B38FD54225CB8C560028797E /* JLCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54125CB8C560028797E /* JLCollectViewController.m */; };
 		B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B38FD54425CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m */; };
@@ -2220,6 +2221,8 @@
 		B38E912D25B972C700174AAC /* JLBackupNoticeWireframe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticeWireframe.swift; sourceTree = "<group>"; };
 		B38E912F25B9738500174AAC /* JLBackupNoticePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticePresenter.swift; sourceTree = "<group>"; };
 		B38E913125B9749300174AAC /* JLBackupNoticeViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLBackupNoticeViewFactory.swift; sourceTree = "<group>"; };
+		B38F2B41264A2BAC00C827A7 /* JLDocumentPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDocumentPickerViewController.h; sourceTree = "<group>"; };
+		B38F2B42264A2BAC00C827A7 /* JLDocumentPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDocumentPickerViewController.m; sourceTree = "<group>"; };
 		B38F5B1D25EE188B00057B24 /* JLCreatorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorModel.h; sourceTree = "<group>"; };
 		B38F5B1E25EE188B00057B24 /* JLCreatorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorModel.m; sourceTree = "<group>"; };
 		B38FD54025CB8C560028797E /* JLCollectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCollectViewController.h; sourceTree = "<group>"; };
@@ -5322,6 +5325,15 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		B38F2B40264A2B9100C827A7 /* JLDocumentPickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B38F2B41264A2BAC00C827A7 /* JLDocumentPickerViewController.h */,
+				B38F2B42264A2BAC00C827A7 /* JLDocumentPickerViewController.m */,
+			);
+			path = JLDocumentPickerViewController;
+			sourceTree = "<group>";
+		};
 		B38FD53F25CB8C2C0028797E /* Collect */ = {
 			isa = PBXGroup;
 			children = (
@@ -5742,6 +5754,7 @@
 		B396551724F37354007A8EC2 /* JLCommon */ = {
 			isa = PBXGroup;
 			children = (
+				B38F2B40264A2B9100C827A7 /* JLDocumentPickerViewController */,
 				B391E2C826285DA5002CCC9D /* JLStepper */,
 				B38BCFE225B81D1F00FD37F7 /* JLEmptyDataView */,
 				B39BEAC1251332E400DE69A6 /* AuthenticationView */,
@@ -7613,6 +7626,7 @@
 				B391E2B226280E12002CCC9D /* JLThemeRecommendCollectionViewCell.m in Sources */,
 				B312250D25B6B60A00562ECA /* WebSocketEngine+Protocol.swift in Sources */,
 				B31226BE25B6B60B00562ECA /* ExportMnemonicViewFactory.swift in Sources */,
+				B38F2B43264A2BAC00C827A7 /* JLDocumentPickerViewController.m in Sources */,
 				B312251525B6B60A00562ECA /* SubstrateDataStorageFacade.swift in Sources */,
 				B3890B3025DFA82E00028F78 /* JLAuctionOfferRecordViewController.m in Sources */,
 				B39655C924F38DBA007A8EC2 /* WMMenuView.m in Sources */,
@@ -8024,6 +8038,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8420,6 +8435,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;

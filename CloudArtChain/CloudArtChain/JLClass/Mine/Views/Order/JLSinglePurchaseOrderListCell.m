@@ -135,6 +135,7 @@
 - (UIImageView *)productImageView {
     if (!_productImageView) {
         _productImageView = [[UIImageView alloc] init];
+        _productImageView.contentMode = UIViewContentModeScaleAspectFit;
         ViewBorderRadius(_productImageView, 5.0f, 0, JL_color_clear);
     }
     return _productImageView;
@@ -163,7 +164,7 @@
 
 - (UILabel *)cerAddressLabel {
     if (!_cerAddressLabel) {
-        _cerAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _cerAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _cerAddressLabel.numberOfLines = 1;
     }
     return _cerAddressLabel;
@@ -195,6 +196,8 @@
     self.orderNoLabel.text = soldData.sn;
     if (![NSString stringIsEmpty:soldData.art.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:soldData.art.img_main_file1[@"url"]]];
+    } else {
+        self.productImageView.image = nil;
     }
     
     NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.finished_at.doubleValue];

@@ -133,6 +133,9 @@
         _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
             [weakSelf.scrollView.mj_header endRefreshing];
         }];
+        _scrollView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
+            [weakSelf footRefresh];
+        }];
     }
     return _scrollView;
 }
@@ -194,7 +197,6 @@
 
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
-        WS(weakSelf)
         JLCreatorCollectionWaterLayout *layout = [JLCreatorCollectionWaterLayout layoutWithColoumn:2 data:self.artArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
         NSInteger row = self.artArray.count / 2;
         if (self.artArray.count % 2 != 0) {
@@ -208,9 +210,6 @@
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.scrollEnabled = NO;
-        _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
-            [weakSelf footRefresh];
-        }];
     }
     return _collectionView;
 }
@@ -275,9 +274,9 @@
 
 - (void)endRefresh:(NSArray*)collectionArray {
     if (collectionArray.count < kPageSize) {
-        [(JLRefreshFooter *)self.collectionView.mj_footer endWithNoMoreDataNotice];
+        [(JLRefreshFooter *)self.scrollView.mj_footer endWithNoMoreDataNotice];
     } else {
-        [self.collectionView.mj_footer endRefreshing];
+        [self.scrollView.mj_footer endRefreshing];
     }
 }
 
@@ -324,14 +323,14 @@
             [self setNoDataShow];
             [self.collectionView reloadData];
         } else {
-            [weakSelf.collectionView.mj_footer endRefreshing];
+            [weakSelf.scrollView.mj_footer endRefreshing];
         }
     }];
 }
 
 - (CGFloat)getCollectionViewHeight:(NSInteger)row {
-    CGFloat columnFirstHeight = (row + 2) * 14.0f;
-    CGFloat columnSecondHeight = (row + 2) * 14.0f;
+    CGFloat columnFirstHeight = row * 14.0f;
+    CGFloat columnSecondHeight = row * 14.0f;
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     for (int i = 0; i < self.artArray.count; i++) {
         Model_art_Detail_Data *iconModel = self.artArray[i];

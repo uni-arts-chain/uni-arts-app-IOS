@@ -8,6 +8,7 @@
 
 #import "JLCreatorViewController.h"
 #import "JLCreatorPageViewController.h"
+#import "JLHomePageViewController.h"
 
 #import "JLCreatorTableViewCell.h"
 #import "JLCreatorTableHeaderView.h"
@@ -80,12 +81,17 @@
         _creatorTableHeaderView = [[JLCreatorTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 243.0f)];
         _creatorTableHeaderView.headerClickBlock = ^(Model_art_author_Data * _Nonnull authorData) {
             if (authorData != nil) {
-                JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
-                creatorPageVC.authorData = authorData;
-                creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
-                    weakSelf.creatorTableHeaderView.authorData = authorData;
-                };
-                [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+                if ([authorData.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
+                    JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+                } else {
+                    JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+                    creatorPageVC.authorData = authorData;
+                    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                        weakSelf.creatorTableHeaderView.authorData = authorData;
+                    };
+                    [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+                }
             }
         };
     }

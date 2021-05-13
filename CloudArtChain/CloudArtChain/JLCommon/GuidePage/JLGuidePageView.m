@@ -115,6 +115,10 @@ BOOL isCurrentShow;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
         isCurrentShow = NO;
+        if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
+            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+            [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        }
     }];
 }
 

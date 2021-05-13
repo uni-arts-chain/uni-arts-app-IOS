@@ -104,12 +104,10 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         nameLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(tableHeaderView)
             make.top.equalTo(avatarView.snp.bottom).offset(18.0)
-            make.height.equalTo((13.0))
         }
         addressLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(tableHeaderView)
             make.top.equalTo(nameLabel.snp.bottom).offset(26.0)
-            make.height.equalTo(13.0)
         }
         headerButton.snp.makeConstraints { (make) in
             make.edges.equalTo(tableHeaderView)

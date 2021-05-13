@@ -13,7 +13,6 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
     JLOrderPayTypeAlipay,
 };
 
-
 @interface JLMineModel : NSObject
 @end
 
@@ -108,11 +107,28 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @property (nonatomic, strong) NSString *is_refungible;
 /** 拆分精度 */
 @property (nonatomic, strong) NSString *refungible_decimal;
-/** 资源类型 */
+/** 资源类型  1: 静图 2: gif 3: live2d 4: movie */
 @property (nonatomic, assign) NSInteger resource_type;
 
+@property (nonatomic, strong) NSString *live2d_file;
+@property (nonatomic, strong) NSString *live2d_ipfs_hash;
+@property (nonatomic, strong) NSString *live2d_ipfs_zip_hash;
 @end
 @interface Model_arts_Rsp : Model_Rsp_V2
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark /v2/arts/upload_live2d_file 上传live2d zip文件
+@interface Model_arts_upload_live2d_file_Data : Model_Interface
+@property (nonatomic, strong) NSString *live2d_file;
+@property (nonatomic, strong) NSString *live2d_ipfs_hash;
+@property (nonatomic, strong) NSString *live2d_ipfs_url;
+@property (nonatomic, strong) NSString *live2d_ipfs_zip_hash;
+@end
+@interface Model_arts_upload_live2d_file_Req : Model_Req
+@property (nonatomic, strong) NSString *live2d_file;
+@end
+@interface Model_arts_upload_live2d_file_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_arts_upload_live2d_file_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 @protocol Model_arts_sold_Data @end
@@ -197,7 +213,7 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @property (nonatomic, strong) NSString *contact;
 @property (nonatomic, strong) NSString *advise;
 @end
-@interface Model_feedbacks_Rsp : Model_Rsp_V2
+@interface Model_feedbacks_Rsp : Model_Rsp_V1
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /v1/lotteries/get_reward 领奖

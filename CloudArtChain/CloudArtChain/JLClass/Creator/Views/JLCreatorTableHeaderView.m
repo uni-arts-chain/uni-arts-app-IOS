@@ -105,6 +105,7 @@
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.contentView.frameWidth, self.contentView.frameHeight - 40.0f)];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
         [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _imageView;
