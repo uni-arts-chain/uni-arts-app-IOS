@@ -31,7 +31,6 @@
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(24.0f);
         make.bottom.mas_equalTo(-10.0f);
-        make.height.mas_equalTo(15.0f);
     }];
     [self.deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-27.0f);

@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 出售
 @property (nonatomic, copy) void(^sellBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData, JLWorkListType workListType);
+@property (nonatomic, copy) void(^transferBlock)(Model_art_Detail_Data *artDetailData);
 - (void)addToBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)launchAuctionFromNotList:(NSIndexPath *)indexPath;

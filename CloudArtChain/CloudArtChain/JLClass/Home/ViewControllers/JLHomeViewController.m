@@ -336,6 +336,7 @@
     }
     if (![NSString stringIsEmpty:bannerModel.img_min]) {
         [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:bannerModel.img_min] placeholderImage:nil];
+        bannerView.mainImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
     return bannerView;
 }

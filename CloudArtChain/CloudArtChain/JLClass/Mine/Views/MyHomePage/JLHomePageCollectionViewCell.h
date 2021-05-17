@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JLHomePageCollectionViewCell : UICollectionViewCell
 @property (nonatomic, copy) void(^addToListBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^transferBlock)(Model_art_Detail_Data *artDetailData);
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData type:(JLWorkListType)listType;
 @end

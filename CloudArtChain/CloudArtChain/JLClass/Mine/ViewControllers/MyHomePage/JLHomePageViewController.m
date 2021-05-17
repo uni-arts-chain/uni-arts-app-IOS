@@ -18,6 +18,7 @@
 #import "JLSellWithoutSplitViewController.h"
 #import "JLSellWithSplitViewController.h"
 #import "JLSettingViewController.h"
+#import "JLTransferViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageEditHeaderView.h"
@@ -259,6 +260,16 @@
         };
         workListVC.endRefreshBlock = ^{
             [weakSelf.hovering.scrollView.mj_header endRefreshing];
+        };
+        workListVC.transferBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            JLTransferViewController *transferVC = [[JLTransferViewController alloc] init];
+            transferVC.artDetailData = artDetailData;
+            transferVC.transferSuccessBlock = ^{
+                for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
+                    [workListVC headRefresh];
+                }
+            };
+            [weakSelf.navigationController pushViewController:transferVC animated:YES];
         };
         [workListVCArray addObject:workListVC];
     }];

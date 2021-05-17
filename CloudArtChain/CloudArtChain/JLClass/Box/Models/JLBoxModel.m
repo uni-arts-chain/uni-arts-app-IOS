@@ -71,13 +71,14 @@
 - (void)setImg_main_file1:(NSDictionary *)img_main_file1 {
     _img_main_file1 = img_main_file1;
     NSString *mainFileUrl = img_main_file1[@"url"];
+    NSString *mainFileUrlKey = [mainFileUrl stringByAppendingString:self.art_id];
     if (![NSString stringIsEmpty:mainFileUrl]) {
-        if (![[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl]) {
+        if (![[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrlKey]) {
             CGSize imageSize = [UIImage getImageSizeWithURL:mainFileUrl];
             CGFloat imgH = 0;
             if (imageSize.height > 0) {
                 imgH = imageSize.height * 185.0f / imageSize.width;
-                [[JLBoxImageSizeCacheDefaults standardUserDefaults] setObject:@(imgH) forKey:mainFileUrl];
+                [[JLBoxImageSizeCacheDefaults standardUserDefaults] setObject:@(imgH) forKey:mainFileUrlKey];
             }
         }
     }
@@ -85,8 +86,9 @@
 
 - (CGFloat)imgHeight {
     NSString *mainFileUrl = self.img_main_file1[@"url"];
+    NSString *mainFileUrlKey = [mainFileUrl stringByAppendingString:self.art_id];
     if (![NSString stringIsEmpty:mainFileUrl]) {
-        NSNumber *imgHeightNumber = [[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrl];
+        NSNumber *imgHeightNumber = [[JLBoxImageSizeCacheDefaults standardUserDefaults] objectForKey:mainFileUrlKey];
         if (imgHeightNumber) {
             return imgHeightNumber.floatValue;
         } else {

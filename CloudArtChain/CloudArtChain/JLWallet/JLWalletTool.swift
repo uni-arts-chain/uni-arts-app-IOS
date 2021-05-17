@@ -397,6 +397,18 @@ extension JLWalletTool {
 
 /** 作品出售 */
 extension JLWalletTool {
+    @objc func addressVerify(address: String) -> String? {
+        do {
+            let accountId = try SS58AddressFactory().accountId(fromAddress: address, type: SNAddressType.genericSubstrate)
+            if accountId != nil {
+                return accountId.toHex()
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
+    
     @objc func productSellCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block:(Bool, String) -> Void) {
         guard let unitValue = Decimal(string: value)?.toSubstrateAmountUInt64(precision: 0) else { return }
         let transferAccountId = AccountId(accountId: accountId)
@@ -432,6 +444,39 @@ extension JLWalletTool {
         } else {
             block(nil)
         }
+    }
+    
+    @objc func productSellTransferCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block:@escaping (Bool, String?) -> Void) {
+        guard let unitValue = Decimal(string: value)?.toSubstrateAmountUInt64(precision: 0) else { return }
+        let transferAccountId = AccountId(accountId: accountId)
+        productSellCallSwiftTransfer(accountId: transferAccountId, collectionId: collectionId, itemId: itemId, value: unitValue, block: block)
+    }
+    
+    func productSellCallSwiftTransfer(accountId: AccountId, collectionId: UInt64, itemId: UInt64, value: UInt64, block: @escaping (Bool, String?) -> Void) {
+        let productSellTransferCall = ProductSellTransferCall(recipient: accountId, collectionId: collectionId, itemId: itemId, value: value)
+//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
+        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "transfer") {
+            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: productSellTransferCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
+            if (self.transferVC != nil) {
+                productSellSubmit(block: block)
+            } else {
+                block(false, "")
+            }
+        } else {
+            block(false, "不存在Metadata")
+        }
+    }
+    
+    @objc func productSellSubmit(block: @escaping (Bool, String?) -> Void) {
+        let callbackBlock: (WalletNewFormViewController?) -> Void = { [weak self] confirmViewController in
+            self?.confirmVC = confirmViewController
+            self?.productSellConfirmTransfer(callbackBlock: block)
+        }
+        self.transferVC?.presenter.proceed(callbackBlock: callbackBlock)
+    }
+    
+    @objc func productSellConfirmTransfer(callbackBlock: @escaping (Bool, String?) -> Void) {
+        self.confirmVC?.presenter.jlperformAction(callbackBlock: callbackBlock)
     }
     
     @objc func productSellCancel() {

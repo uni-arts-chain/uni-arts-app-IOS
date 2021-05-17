@@ -943,6 +943,7 @@
 		B3946DF22632C94E00D97430 /* JLArtChainTradeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946DF12632C94E00D97430 /* JLArtChainTradeView.m */; };
 		B3946DFB2632CBB100D97430 /* JLArtDetailSellingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946DFA2632CBB100D97430 /* JLArtDetailSellingView.m */; };
 		B3946E042632CDE000D97430 /* JLArtDetailSellingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3946E032632CDE000D97430 /* JLArtDetailSellingTableViewCell.m */; };
+		B3948A79264D355200415B3B /* JLTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3948A78264D355200415B3B /* JLTransferViewController.m */; };
 		B394A08D2629627400A8DAE4 /* JLHomePageEditHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A08C2629627400A8DAE4 /* JLHomePageEditHeaderView.m */; };
 		B394A0952629752B00A8DAE4 /* JLPageEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A0942629752B00A8DAE4 /* JLPageEmptyView.m */; };
 		B394A09E2629766D00A8DAE4 /* JLPagetableCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B394A09D2629766D00A8DAE4 /* JLPagetableCollectionView.m */; };
@@ -2415,6 +2416,8 @@
 		B3946DFA2632CBB100D97430 /* JLArtDetailSellingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailSellingView.m; sourceTree = "<group>"; };
 		B3946E022632CDE000D97430 /* JLArtDetailSellingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailSellingTableViewCell.h; sourceTree = "<group>"; };
 		B3946E032632CDE000D97430 /* JLArtDetailSellingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailSellingTableViewCell.m; sourceTree = "<group>"; };
+		B3948A77264D355200415B3B /* JLTransferViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLTransferViewController.h; sourceTree = "<group>"; };
+		B3948A78264D355200415B3B /* JLTransferViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLTransferViewController.m; sourceTree = "<group>"; };
 		B394A08B2629627400A8DAE4 /* JLHomePageEditHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomePageEditHeaderView.h; sourceTree = "<group>"; };
 		B394A08C2629627400A8DAE4 /* JLHomePageEditHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHomePageEditHeaderView.m; sourceTree = "<group>"; };
 		B394A0932629752B00A8DAE4 /* JLPageEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPageEmptyView.h; sourceTree = "<group>"; };
@@ -4865,6 +4868,8 @@
 				B394A0B92629912E00A8DAE4 /* JLSellWithoutSplitViewController.m */,
 				B394A0BE2629914700A8DAE4 /* JLSellWithSplitViewController.h */,
 				B394A0BF2629914700A8DAE4 /* JLSellWithSplitViewController.m */,
+				B3948A77264D355200415B3B /* JLTransferViewController.h */,
+				B3948A78264D355200415B3B /* JLTransferViewController.m */,
 			);
 			path = MyHomePage;
 			sourceTree = "<group>";
@@ -6932,6 +6937,7 @@
 				B396562824F38EE3007A8EC2 /* JLUtils.m in Sources */,
 				B312252325B6B60A00562ECA /* ConnectionItem.swift in Sources */,
 				B312268B25B6B60A00562ECA /* AssetDetailsViewModel.swift in Sources */,
+				B3948A79264D355200415B3B /* JLTransferViewController.m in Sources */,
 				B312258F25B6B60A00562ECA /* ApplicationService.swift in Sources */,
 				B312259225B6B60A00562ECA /* WebSocketServiceProtocol.swift in Sources */,
 				B38BCFBD25B8173800FD37F7 /* JLPurchaseOrderViewController.m in Sources */,

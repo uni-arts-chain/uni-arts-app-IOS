@@ -149,6 +149,11 @@
 //            }];
 //        }
     };
+    cell.transferBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+        if (weakSelf.transferBlock) {
+            weakSelf.transferBlock(artDetailData);
+        }
+    };
     return cell;
 }
 

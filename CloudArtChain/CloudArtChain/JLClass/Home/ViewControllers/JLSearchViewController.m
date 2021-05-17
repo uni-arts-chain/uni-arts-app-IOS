@@ -72,6 +72,9 @@ NSString *const JLSearchHistory = @"SearchHistory";
     if (self.searchHistoryArray.count == 10) {
         [self.searchHistoryArray removeLastObject];
     }
+    if ([self.searchHistoryArray containsObject:content]) {
+        [self.searchHistoryArray removeObject:content];
+    }
     [self.searchHistoryArray insertObject:content atIndex:0];
     YYCache *cache = [[YYCache alloc] initWithName:JLSearchHistoryName];
     [cache setObject:self.searchHistoryArray forKey:JLSearchHistory];

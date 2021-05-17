@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIImageView *lineImageView;
 @property (nonatomic, strong) UIButton *sellButton;
 @property (nonatomic, strong) UIButton *offShelfButton;
+@property (nonatomic, strong) UIButton *transferButton;
 
 @property (nonatomic, strong) UIView *auctioningView;
 @property (nonatomic, strong) UIView *live2DView;
@@ -50,6 +51,7 @@
     [self.bottomView addSubview:self.lineImageView];
     [self.bottomView addSubview:self.sellButton];
     [self.bottomView addSubview:self.offShelfButton];
+    [self.bottomView addSubview:self.transferButton];
     
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -75,6 +77,12 @@
         make.left.mas_equalTo(12.0f);
         make.right.mas_equalTo(-12.0f);
         make.height.mas_equalTo(0.5f);
+    }];
+    [self.transferButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
+        make.left.mas_equalTo(15.0f);
+        make.width.mas_equalTo(60.0f);
+        make.height.mas_equalTo(22.0f);
     }];
     [self.sellButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
@@ -196,6 +204,24 @@
     }
 }
 
+- (UIButton *)transferButton {
+    if (!_transferButton) {
+        _transferButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_transferButton setTitle:@"转账" forState:UIControlStateNormal];
+        [_transferButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        _transferButton.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_transferButton addTarget:self action:@selector(transferButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        ViewBorderRadius(_transferButton, 11.0f, 1.0f, JL_color_gray_101010);
+    }
+    return _transferButton;
+}
+
+- (void)transferButtonClick {
+    if (self.transferBlock) {
+        self.transferBlock(self.artDetailData);
+    }
+}
+
 - (UIView *)auctioningView {
     if (!_auctioningView) {
         _auctioningView = [[UIView alloc] init];
@@ -258,9 +284,19 @@
     if (listType == JLWorkListTypeNotList) {
         self.sellButton.hidden = NO;
         self.offShelfButton.hidden = YES;
+        self.transferButton.hidden = NO;
     } else {
         self.sellButton.hidden = YES;
         self.offShelfButton.hidden = NO;
+        if (artDetailData.collection_mode == 3) {
+            if (artDetailData.has_amount - artDetailData.selling_amount.intValue > 0) {
+                self.transferButton.hidden = NO;
+            } else {
+                self.transferButton.hidden = YES;
+            }
+        } else {
+            self.transferButton.hidden = YES;
+        }
     }
     
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;

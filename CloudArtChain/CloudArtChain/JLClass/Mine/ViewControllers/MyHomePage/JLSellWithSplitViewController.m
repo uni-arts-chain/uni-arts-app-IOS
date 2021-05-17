@@ -474,7 +474,9 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:resonse callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.lockAccountId = resonse.body[@"lock_account_id"];
-            weakSelf.lockAccountId = [weakSelf.lockAccountId substringFromIndex:2];
+            if ([weakSelf.lockAccountId hasPrefix:@"0x"]) {
+                weakSelf.lockAccountId = [weakSelf.lockAccountId substringFromIndex:2];
+            }
         }
     }];
 }
