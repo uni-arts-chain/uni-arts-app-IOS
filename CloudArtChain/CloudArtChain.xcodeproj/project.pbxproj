@@ -8060,6 +8060,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/SmallVideo/General/SLAnimateImageView",
@@ -8457,6 +8458,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CloudArtChain/Vendes/SmallVideo/General/SLAnimateImageView",
