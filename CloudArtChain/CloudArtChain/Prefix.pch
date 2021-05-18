@@ -58,6 +58,7 @@
 #import "JLRefreshHeader.h"
 #import "JLRefreshFooter.h"
 #import "JLViewControllerTool.h"
+#import "UIAlertController+Alert.h"
 
 // model
 #import "AppSingleton.h"

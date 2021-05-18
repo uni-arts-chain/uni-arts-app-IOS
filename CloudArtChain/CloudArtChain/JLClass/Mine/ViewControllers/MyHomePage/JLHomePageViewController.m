@@ -19,6 +19,7 @@
 #import "JLSellWithSplitViewController.h"
 #import "JLSettingViewController.h"
 #import "JLTransferViewController.h"
+#import "JLCustomerServiceViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageEditHeaderView.h"
@@ -242,6 +243,15 @@
                     }
 //                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
 //                    [biddingVC addToBiddingList:artDetailData];
+                    
+                    // 用户提示
+                    UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                        
+                    } confirm:@"联系客服" confirmHandler:^{
+                        JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                    }];
+                    [weakSelf presentViewController:alertVC animated:YES completion:nil];
                 };
                 [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
             } else {
@@ -254,6 +264,15 @@
                     }
 //                    JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
 //                    [biddingVC addToBiddingList:artDetailData];
+                    
+                    // 用户提示
+                    UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                        
+                    } confirm:@"联系客服" confirmHandler:^{
+                        JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                        [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                    }];
+                    [weakSelf presentViewController:alertVC animated:YES completion:nil];
                 };
                 [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
             }
@@ -268,6 +287,7 @@
                 for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
                     [workListVC headRefresh];
                 }
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交转让申请" hideTime:KToastDismissDelayTimeInterval];
             };
             [weakSelf.navigationController pushViewController:transferVC animated:YES];
         };

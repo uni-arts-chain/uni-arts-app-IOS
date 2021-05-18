@@ -4,6 +4,15 @@ import SoraKeystore
 import CommonWallet
 
 class PinSetupWireframe: PinSetupWireframeProtocol, JLAccountListViewControllerProtocol {
+    func addressQRCode(address: String, viewController: UIViewController) {
+        let addressQRCodeView = JLChainQRCodeView.init(frame: CGRect(x: 0.0, y: 0.0, width: 225.0, height: 225.0), qrcodeString: address)
+        addressQRCodeView.center = viewController.view.center
+        let animation = LewPopupViewAnimationSpring()
+        viewController.lew_presentPopupView(addressQRCodeView, animation: animation) {
+            print("动画结束")
+        }
+    }
+    
     lazy var rootAnimator: RootControllerAnimationCoordinatorProtocol = RootControllerAnimationCoordinator()
     var navigationController: UINavigationController?
     var interactor: MainTabBarInteractor?

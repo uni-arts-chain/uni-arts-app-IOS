@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, JLScanType) {
     JLScanTypeChainQuery = 1,
     JLScanTypeImportWallet,
     JLScanTypeOther,
+    JLScanTypeAddress,
 };
 
 typedef void(^ScanResultBlock)(NSString *scanResult);

@@ -207,7 +207,7 @@
 - (UIButton *)transferButton {
     if (!_transferButton) {
         _transferButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_transferButton setTitle:@"转账" forState:UIControlStateNormal];
+        [_transferButton setTitle:@"转让" forState:UIControlStateNormal];
         [_transferButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
         _transferButton.titleLabel.font = kFontPingFangSCRegular(13.0f);
         [_transferButton addTarget:self action:@selector(transferButtonClick) forControlEvents:UIControlEventTouchUpInside];

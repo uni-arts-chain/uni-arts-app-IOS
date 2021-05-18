@@ -8,7 +8,7 @@
 
 #import "JLOrderSubmitViewController.h"
 #import "JLEditAddressViewController.h"
-#import "JLPayWebViewController.h"
+#import "JLWechatPayWebViewController.h"
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
 #import "JLOrderDetailPayMethodTableViewCell.h"

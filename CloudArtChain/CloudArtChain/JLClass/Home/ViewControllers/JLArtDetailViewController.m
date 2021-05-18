@@ -16,7 +16,9 @@
 #import "JLHomePageViewController.h"
 #import "JLSellWithSplitViewController.h"
 #import "JLSellWithoutSplitViewController.h"
-#import "JLPayWebViewController.h"
+#import "JLWechatPayWebViewController.h"
+#import "JLAlipayWebViewController.h"
+#import "JLCustomerServiceViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLArtDetailNamePriceView.h"
@@ -415,6 +417,15 @@
                         }
                         // 请求出售列表
                         [weakSelf requestSellingList];
+                        
+                        // 用户提示
+                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                            
+                        } confirm:@"联系客服" confirmHandler:^{
+                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                            [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                        }];
+                        [weakSelf presentViewController:alertVC animated:YES completion:nil];
                     };
                     [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
                 }
@@ -442,6 +453,15 @@
                         } else {
                             [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                         }
+                        
+                        // 用户提示
+                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                            
+                        } confirm:@"联系客服" confirmHandler:^{
+                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                            [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                        }];
+                        [weakSelf presentViewController:alertVC animated:YES completion:nil];
                     };
                     [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
                 }
@@ -754,11 +774,13 @@
                 [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                 if (payType == JLOrderPayTypeWeChat) {
                     // 打开支付页面
-                    JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                    JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                     payWebVC.payUrl = payUrl;
                     [weakSelf.navigationController pushViewController:payWebVC animated:YES];
                 } else {
-                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+                    JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+                    payWebVC.payUrl = payUrl;
+                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
                 }
                 [weakSelf requestSellingList];
             };

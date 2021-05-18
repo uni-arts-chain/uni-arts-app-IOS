@@ -99,7 +99,7 @@
     button.frame = frame;
     button.tag = tag;
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:JL_color_gray_606060 forState:UIControlStateNormal];
+    [button setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
     [button setTitleColor:JL_color_white_ffffff forState:UIControlStateSelected];
     button.titleLabel.font = kFontPingFangSCRegular(14.0f);
     [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];

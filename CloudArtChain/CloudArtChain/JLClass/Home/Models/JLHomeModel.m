@@ -288,3 +288,14 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark api/v2/members/user_agreement 隐私协议
+@implementation Model_members_user_agreement_Data
+@end
+@implementation Model_members_user_agreement_Req
+@end
+@implementation Model_members_user_agreement_Rsp
+- (NSString *)interfacePath {
+    return @"members/user_agreement";
+}
+@end
+//////////////////////////////////////////////////////////////////////////

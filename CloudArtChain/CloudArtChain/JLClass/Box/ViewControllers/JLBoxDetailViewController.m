@@ -11,7 +11,8 @@
 #import "JLBoxOpenPayViewController.h"
 #import "LewPopupViewController.h"
 #import "JLHomePageViewController.h"
-#import "JLPayWebViewController.h"
+#import "JLWechatPayWebViewController.h"
+#import "JLAlipayWebViewController.h"
 
 #import "JLBoxDetailCardCollectionWaterLayout.h"
 #import "JLBoxCardCollectionViewCell.h"
@@ -389,11 +390,13 @@
                 boxOpenPayVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                     [weakBoxOpenPayVC.navigationController popViewControllerAnimated:NO];
                     if (payType == JLOrderPayTypeWeChat) {
-                        JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                        JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                         payWebVC.payUrl = payUrl;
                         [weakSelf.navigationController pushViewController:payWebVC animated:YES];
                     } else {
-                        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+                        JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+                        payWebVC.payUrl = payUrl;
+                        [weakSelf.navigationController pushViewController:payWebVC animated:YES];
                     }
                     // 刷新是否有未开启盲盒
                     [weakSelf requestBoxListCheck];

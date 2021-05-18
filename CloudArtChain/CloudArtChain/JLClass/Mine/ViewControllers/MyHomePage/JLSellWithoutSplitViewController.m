@@ -245,41 +245,49 @@
     }
     
     if (![NSString stringIsEmpty:self.lockAccountId]) {
-        [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:@"1" block:^(BOOL success, NSString * _Nonnull message) {
-            if (success) {
-                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+        [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
+            NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
+            if ([amountNumber isGreaterThanZero]) {
+                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:@"1" block:^(BOOL success, NSString * _Nonnull message) {
                     if (success) {
-                        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-                        [[JLViewControllerTool appDelegate].walletTool productSellConfirmWithBlock:^(NSString * _Nullable transferSignedMessage) {
-                            if ([NSString stringIsEmpty:transferSignedMessage]) {
-                                [[JLLoading sharedLoading] hideLoading];
-                                [[JLLoading sharedLoading] showMBFailedTipMessage:@"签名错误" hideTime:KToastDismissDelayTimeInterval];
-                            } else {
-                                // 发送网络请求
-                                Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
-                                request.art_id = weakSelf.artDetailData.ID;
-                                request.amount = @"1";
-                                request.price = [JLUtils trimSpace:self.currentPriceTF.text];
-                                request.currency = @"rmb";
-                                request.encrpt_extrinsic_message = transferSignedMessage;
-                                Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
-                                [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-                                    [[JLLoading sharedLoading] hideLoading];
-                                    if (netIsWork) {
-                                        if (weakSelf.sellBlock) {
-                                            weakSelf.sellBlock(response.body);
-                                        }
-                                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                            if (success) {
+                                [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                                [[JLViewControllerTool appDelegate].walletTool productSellConfirmWithBlock:^(NSString * _Nullable transferSignedMessage) {
+                                    if ([NSString stringIsEmpty:transferSignedMessage]) {
+                                        [[JLLoading sharedLoading] hideLoading];
+                                        [[JLLoading sharedLoading] showMBFailedTipMessage:@"签名错误" hideTime:KToastDismissDelayTimeInterval];
                                     } else {
-                                        [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                                        // 发送网络请求
+                                        Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
+                                        request.art_id = weakSelf.artDetailData.ID;
+                                        request.amount = @"1";
+                                        request.price = [JLUtils trimSpace:self.currentPriceTF.text];
+                                        request.currency = @"rmb";
+                                        request.encrpt_extrinsic_message = transferSignedMessage;
+                                        Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
+                                        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                                            [[JLLoading sharedLoading] hideLoading];
+                                            if (netIsWork) {
+                                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                if (weakSelf.sellBlock) {
+                                                    weakSelf.sellBlock(response.body);
+                                                }
+                                            } else {
+                                                [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                                            }
+                                        }];
                                     }
                                 }];
                             }
                         }];
+                    } else {
+                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
                     }
                 }];
             } else {
-                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                UIAlertController *alertController = [UIAlertController alertShowWithTitle:@"提示" message:@"当前积分为0，无法进行操作\r\n（购买NFT卡片可获得积分）" confirm:@"确定"];
+                [weakSelf presentViewController:alertController animated:YES completion:nil];
             }
         }];
     }

@@ -51,13 +51,18 @@
         _contentTextView.typingAttributes = attributes;
         _contentTextView.textColor = JL_color_gray_101010;
         _contentTextView.font = kFontPingFangSCRegular(15.0f);
-        NSData *data = [self.newsData.content dataUsingEncoding:NSUnicodeStringEncoding];
-        NSDictionary *options = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType};
-        NSAttributedString *html = [[NSAttributedString alloc] initWithData:data
-                                                                   options:options
-                                                        documentAttributes:nil
-                                                                     error:nil];
-        _contentTextView.attributedText = html;
+//        NSData *data = [self.newsData.content dataUsingEncoding:NSUnicodeStringEncoding];
+//        NSDictionary *options = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType};
+//        NSAttributedString *html = [[NSAttributedString alloc] initWithData:data
+//                                                                   options:options
+//                                                        documentAttributes:nil
+//                                                                     error:nil];
+//        _contentTextView.attributedText = html;
+        
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.newsData.content]];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [NSString strToAttriWithStr:self.newsData.content].length)];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, [NSString strToAttriWithStr:self.newsData.content].length)];
+        _contentTextView.attributedText = attr;
     }
     return _contentTextView;
 }

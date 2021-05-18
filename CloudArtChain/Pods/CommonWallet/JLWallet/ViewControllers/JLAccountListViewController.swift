@@ -17,6 +17,7 @@ public protocol JLAccountListViewControllerProtocol: class {
     func pointDetail()
     func backClick(viewController: UIViewController)
     func addressCopySuccess()
+    func addressQRCode(address: String, viewController: UIViewController)
 }
 
 public final class JLAccountListViewController: UIViewController, AdaptiveDesignable {
@@ -86,9 +87,21 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         headerButton.addTarget(self, action: #selector(headerButtonClick), for: UIControl.Event.touchUpInside)
         tableHeaderView.addSubview(headerButton)
         
-        let addressCopyBtn = UIButton()
-        addressCopyBtn.addTarget(self, action: #selector(addressCopyBtnClick), for: .touchUpInside)
-        tableHeaderView.addSubview(addressCopyBtn)
+        let addressLabelCopyBtn = UIButton()
+        addressLabelCopyBtn.addTarget(self, action: #selector(addressCopyBtnClick), for: .touchUpInside)
+        tableHeaderView.addSubview(addressLabelCopyBtn)
+        
+        let copyAddressBtn = UIButton()
+        copyAddressBtn.setEnlargeEdge(top: 25.0, bottom: 25.0, left: 8.0, right: 8.0)
+        copyAddressBtn.setBackgroundImage(UIImage(named: "icon_wallet_address_copy"), for: .normal)
+        copyAddressBtn.addTarget(self, action: #selector(addressCopyBtnClick), for: .touchUpInside)
+        tableHeaderView.addSubview(copyAddressBtn)
+        
+        let addressQRCodeBtn = UIButton()
+        addressQRCodeBtn.setEnlargeEdge(top: 25.0, bottom: 25.0, left: 8.0, right: 8.0)
+        addressQRCodeBtn.setBackgroundImage(UIImage(named: "icon_wallet_address_qrcode"), for: .normal)
+        addressQRCodeBtn.addTarget(self, action: #selector(addressQRCodeBtnClick), for: .touchUpInside)
+        tableHeaderView.addSubview(addressQRCodeBtn)
         
         backImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(tableHeaderView)
@@ -106,16 +119,27 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
             make.top.equalTo(avatarView.snp.bottom).offset(18.0)
         }
         addressLabel.snp.makeConstraints { (make) in
-            make.left.right.equalTo(tableHeaderView)
+//            make.left.right.equalTo(tableHeaderView)
             make.top.equalTo(nameLabel.snp.bottom).offset(26.0)
+            make.centerX.equalTo(tableHeaderView.snp.centerX)
         }
         headerButton.snp.makeConstraints { (make) in
             make.edges.equalTo(tableHeaderView)
         }
-        addressCopyBtn.snp.makeConstraints { (make) in
+        addressLabelCopyBtn.snp.makeConstraints { (make) in
             make.left.right.equalTo(addressLabel)
             make.centerY.equalTo(addressLabel.snp.centerY)
             make.height.equalTo(60.0)
+        }
+        copyAddressBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(addressLabel.snp.right).offset(8.0);
+            make.centerY.equalTo(addressLabel.snp.centerY);
+            make.size.equalTo(10.0)
+        }
+        addressQRCodeBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(copyAddressBtn.snp.right).offset(16.0)
+            make.centerY.equalTo(addressLabel.snp.centerY)
+            make.size.equalTo(10.0)
         }
         
         return tableHeaderView
@@ -125,6 +149,12 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         if let account = self.currentAccount {
             UIPasteboard.general.string = account.address
             delegate?.addressCopySuccess()
+        }
+    }
+    
+    @objc func addressQRCodeBtnClick() {
+        if let account = self.currentAccount {
+            delegate?.addressQRCode(address: account.address, viewController: self)
         }
     }
     

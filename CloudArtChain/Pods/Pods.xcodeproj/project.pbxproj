@@ -1378,6 +1378,7 @@
 		B38C861B261DC1E0006B5324 /* JLAccountListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C8610261DC1DF006B5324 /* JLAccountListAssembly.swift */; };
 		B38C861C261DC1E0006B5324 /* SettingsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C8612261DC1DF006B5324 /* SettingsExtension.swift */; };
 		B38C861D261DC1E0006B5324 /* AccountItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38C8613261DC1DF006B5324 /* AccountItem.swift */; };
+		B39395C62653BC38006C7054 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39395C52653BC38006C7054 /* UIButton.swift */; };
 		B3B12168AC29BDD473CE558A49001F9C /* SDWebImageTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F7105CC6F42AC48F5F6EE8DC818247D5 /* SDWebImageTransition.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B3D063CB2BE3677DD72759F86E26070E /* NSData+Base58.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E12674E9CC78F8BE5C2FBF025318945 /* NSData+Base58.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B3D8928709B508337FE1CA274763DD35 /* ModaAlertPresentationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C863C0ABB0DF7CB1959D3726EA0C6E70 /* ModaAlertPresentationConfiguration.swift */; };
@@ -4103,6 +4104,7 @@
 		B38C8610261DC1DF006B5324 /* JLAccountListAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLAccountListAssembly.swift; sourceTree = "<group>"; };
 		B38C8612261DC1DF006B5324 /* SettingsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsExtension.swift; sourceTree = "<group>"; };
 		B38C8613261DC1DF006B5324 /* AccountItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountItem.swift; sourceTree = "<group>"; };
+		B39395C52653BC38006C7054 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		B397C61F546269B161D75293A4A7159B /* Pods-CloudArtChain.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-CloudArtChain.modulemap"; sourceTree = "<group>"; };
 		B3A93BD93D1A9C3DF0B9CCE303A9AEDC /* JXCategoryTitleImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = JXCategoryTitleImageView.h; path = Sources/TitleImage/JXCategoryTitleImageView.h; sourceTree = "<group>"; };
 		B3B353B7050EBA168AEF41ADE63C0B8A /* basic-config.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "basic-config.h"; path = "secp256k1/basic-config.h"; sourceTree = "<group>"; };
@@ -7541,6 +7543,7 @@
 			children = (
 				B38C860C261DC1DF006B5324 /* UIColor.swift */,
 				B38C860D261DC1DF006B5324 /* Decimal.swift */,
+				B39395C52653BC38006C7054 /* UIButton.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -11420,6 +11423,7 @@
 				B38C861B261DC1E0006B5324 /* JLAccountListAssembly.swift in Sources */,
 				AF7C6E59D82BB3AF0670C10F84B8D299 /* AmountInputView.swift in Sources */,
 				8E17A82BBC07120ECF711AAF60247B62 /* AmountInputViewModel.swift in Sources */,
+				B39395C62653BC38006C7054 /* UIButton.swift in Sources */,
 				465BF200F648558EA3492D706B0BB410 /* ApplicationSettingsPresentable.swift in Sources */,
 				E86AC1228D2E8B10BA11BF92DA110AB8 /* AssetCellStyle.swift in Sources */,
 				224A2ECD3E104993934E5ED1896DC580 /* AssetCellStyleFactory.swift in Sources */,

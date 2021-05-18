@@ -439,3 +439,13 @@
 @property (nonatomic, strong) Model_art_Detail_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark api/v2/members/user_agreement 隐私协议
+@interface Model_members_user_agreement_Data : Model_Interface
+@property (nonatomic, strong) NSString *user_agreement;
+@end
+@interface Model_members_user_agreement_Req : Model_Req
+@end
+@interface Model_members_user_agreement_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_members_user_agreement_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////

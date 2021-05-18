@@ -16,3 +16,5 @@
 #import "JLAlert.h"
 #import "JLExportKeystoreSnapshotView.h"
 #import "JLLoading.h"
+#import "LewPopupViewController.h"
+#import "JLChainQRCodeView.h"

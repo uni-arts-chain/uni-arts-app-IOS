@@ -209,6 +209,10 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 + (CGFloat)getAttriHeightWithLabel:(UILabel *)label width:(CGFloat)width;
 
++ (NSString *)urlEncodeStr:(NSString *)input;
+
++ (NSString *)decoderUrlEncodeStr: (NSString *)input;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -1045,7 +1045,7 @@
 		B39BEAD12513644300DE69A6 /* JLUploadWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD02513644300DE69A6 /* JLUploadWorkViewController.m */; };
 		B39BEAD5251368A600DE69A6 /* JLUploadWorkSampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */; };
 		B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */; };
-		B39F8CC626453B5B008AF37F /* JLPayWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39F8CC526453B5B008AF37F /* JLPayWebViewController.m */; };
+		B39F8CC626453B5B008AF37F /* JLWechatPayWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */; };
 		B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62AF25E49B3300D28627 /* STPickerArea.m */; };
 		B3AA62B325E49B3300D28627 /* ChinaCity.json in Resources */ = {isa = PBXBuildFile; fileRef = B3AA62B125E49B3300D28627 /* ChinaCity.json */; };
 		B3AA62C225E49B3E00D28627 /* STConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62BA25E49B3D00D28627 /* STConst.m */; };
@@ -1063,6 +1063,7 @@
 		B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968BA26155FC800347B27 /* JLSinglePurchaseOrderListCell.m */; };
 		B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */; };
 		B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */; };
+		B3BE47B92652613E004184DF /* JLAlipayWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BE47B82652613E004184DF /* JLAlipayWebViewController.m */; };
 		B3BE6DF92636C7A800BB0F60 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DF82636C7A800BB0F60 /* AudioToolbox.framework */; };
 		B3BE6DFB2636C7F800BB0F60 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DFA2636C7F800BB0F60 /* GLKit.framework */; };
 		B3BE6DFD2636C81400BB0F60 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BE6DFC2636C81400BB0F60 /* QuartzCore.framework */; };
@@ -1080,6 +1081,7 @@
 		B3C0ED3825C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C0ED3725C2BD33001B8BCA /* JLOrderDetailAddressTableViewCell.m */; };
 		B3C9C60B2635967800186796 /* JLBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C9C60A2635967800186796 /* JLBoxModel.m */; };
 		B3CB6DAA26462BA40068B27E /* JLExchangeNFTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CB6DA926462BA40068B27E /* JLExchangeNFTViewController.m */; };
+		B3CC0B5D265284FE00EFB053 /* JLProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CC0B5C265284FE00EFB053 /* JLProtocolViewController.m */; };
 		B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */; };
 		B3CDC57725E77FA100CB84CE /* JLHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57625E77FA100CB84CE /* JLHomeModel.m */; };
 		B3CDC57D25E7B8AB00CB84CE /* JLArtsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC57C25E7B8AB00CB84CE /* JLArtsModel.m */; };
@@ -2624,8 +2626,8 @@
 		B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkSampleView.m; sourceTree = "<group>"; };
 		B39BEAD625136F3D00DE69A6 /* JLUploadWorkImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadWorkImageView.h; sourceTree = "<group>"; };
 		B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkImageView.m; sourceTree = "<group>"; };
-		B39F8CC426453B5B008AF37F /* JLPayWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLPayWebViewController.h; sourceTree = "<group>"; };
-		B39F8CC526453B5B008AF37F /* JLPayWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPayWebViewController.m; sourceTree = "<group>"; };
+		B39F8CC426453B5B008AF37F /* JLWechatPayWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWechatPayWebViewController.h; sourceTree = "<group>"; };
+		B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWechatPayWebViewController.m; sourceTree = "<group>"; };
 		B3AA62AF25E49B3300D28627 /* STPickerArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPickerArea.m; sourceTree = "<group>"; };
 		B3AA62B025E49B3300D28627 /* STPickerArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STPickerArea.h; sourceTree = "<group>"; };
 		B3AA62B125E49B3300D28627 /* ChinaCity.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChinaCity.json; sourceTree = "<group>"; };
@@ -2657,6 +2659,8 @@
 		B3B968C326156CB800347B27 /* JLSingleSellOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderViewController.m; sourceTree = "<group>"; };
 		B3B968C826156EA900347B27 /* JLSingleSellOrderListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSingleSellOrderListCell.h; sourceTree = "<group>"; };
 		B3B968C926156EA900347B27 /* JLSingleSellOrderListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSingleSellOrderListCell.m; sourceTree = "<group>"; };
+		B3BE47B72652613E004184DF /* JLAlipayWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAlipayWebViewController.h; sourceTree = "<group>"; };
+		B3BE47B82652613E004184DF /* JLAlipayWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAlipayWebViewController.m; sourceTree = "<group>"; };
 		B3BE6DF82636C7A800BB0F60 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B3BE6DFA2636C7F800BB0F60 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		B3BE6DFC2636C81400BB0F60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -2686,6 +2690,8 @@
 		B3C9C60A2635967800186796 /* JLBoxModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBoxModel.m; sourceTree = "<group>"; };
 		B3CB6DA826462BA40068B27E /* JLExchangeNFTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExchangeNFTViewController.h; sourceTree = "<group>"; };
 		B3CB6DA926462BA40068B27E /* JLExchangeNFTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExchangeNFTViewController.m; sourceTree = "<group>"; };
+		B3CC0B5B265284FE00EFB053 /* JLProtocolViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLProtocolViewController.h; sourceTree = "<group>"; };
+		B3CC0B5C265284FE00EFB053 /* JLProtocolViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLProtocolViewController.m; sourceTree = "<group>"; };
 		B3CDC56F25E743FC00CB84CE /* JLLoginAndRegisterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLoginAndRegisterModel.h; sourceTree = "<group>"; };
 		B3CDC57025E743FC00CB84CE /* JLLoginAndRegisterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLoginAndRegisterModel.m; sourceTree = "<group>"; };
 		B3CDC57525E77FA100CB84CE /* JLHomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomeModel.h; sourceTree = "<group>"; };
@@ -4791,6 +4797,8 @@
 				B3C0ED2425C256DE001B8BCA /* JLExportKeystorePwdViewController.m */,
 				B3E98E2925022C49004AABD2 /* JLExportKeystoreViewController.h */,
 				B3E98E2A25022C49004AABD2 /* JLExportKeystoreViewController.m */,
+				B3CC0B5B265284FE00EFB053 /* JLProtocolViewController.h */,
+				B3CC0B5C265284FE00EFB053 /* JLProtocolViewController.m */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -5817,8 +5825,10 @@
 				B396552D24F38D17007A8EC2 /* JLBaseTextField.m */,
 				B396553124F38D24007A8EC2 /* JLBaseWebViewController.h */,
 				B396553024F38D24007A8EC2 /* JLBaseWebViewController.m */,
-				B39F8CC426453B5B008AF37F /* JLPayWebViewController.h */,
-				B39F8CC526453B5B008AF37F /* JLPayWebViewController.m */,
+				B39F8CC426453B5B008AF37F /* JLWechatPayWebViewController.h */,
+				B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */,
+				B3BE47B72652613E004184DF /* JLAlipayWebViewController.h */,
+				B3BE47B82652613E004184DF /* JLAlipayWebViewController.m */,
 			);
 			path = JLBase;
 			sourceTree = "<group>";
@@ -7380,7 +7390,7 @@
 				B312262A25B6B60A00562ECA /* AccountInfoProtocols.swift in Sources */,
 				B312266B25B6B60A00562ECA /* HistoryItemViewModel.swift in Sources */,
 				B35EBA1424FF678600F5BF84 /* JLScanViewController.m in Sources */,
-				B39F8CC626453B5B008AF37F /* JLPayWebViewController.m in Sources */,
+				B39F8CC626453B5B008AF37F /* JLWechatPayWebViewController.m in Sources */,
 				B31226C325B6B60B00562ECA /* ExportGenericViewModelBinder.swift in Sources */,
 				B38C831E261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m in Sources */,
 				B31225A125B6B60A00562ECA /* NetworkInfoProtocols.swift in Sources */,
@@ -7446,6 +7456,7 @@
 				B39655BB24F38DBA007A8EC2 /* LewPopupViewAnimationDrop.m in Sources */,
 				B31224F425B6B60A00562ECA /* SubscanOperationFactory.swift in Sources */,
 				B312265125B6B60A00562ECA /* TransferConfirmViewModelFactory.swift in Sources */,
+				B3BE47B92652613E004184DF /* JLAlipayWebViewController.m in Sources */,
 				B3753D9C2554F524003A86CF /* SLEditVideoClipping.m in Sources */,
 				B3890B3325DFB22D00028F78 /* JLLogisticsView.m in Sources */,
 				B312262325B6B60A00562ECA /* CommingSoonViewFactory.swift in Sources */,
@@ -7722,6 +7733,7 @@
 				B312262725B6B60A00562ECA /* AccountInfoViewController.swift in Sources */,
 				B31224A925B6B60900562ECA /* WalletStakingChanged.swift in Sources */,
 				B394E3E825ECD23800685F8D /* JLMineModel.m in Sources */,
+				B3CC0B5D265284FE00EFB053 /* JLProtocolViewController.m in Sources */,
 				B31226A225B6B60B00562ECA /* PurchasePresenter.swift in Sources */,
 				B312254425B6B60A00562ECA /* TriangularedButton+Inspectable.swift in Sources */,
 				B312262625B6B60A00562ECA /* CommingSoonProtocols.swift in Sources */,

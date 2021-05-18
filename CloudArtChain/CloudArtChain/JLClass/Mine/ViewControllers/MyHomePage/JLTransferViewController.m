@@ -9,13 +9,18 @@
 #import "JLTransferViewController.h"
 #import "JLBaseTextField.h"
 #import "JLStepper.h"
+#import "JLScanViewController.h"
+#import "UIButton+TouchArea.h"
 
 @interface JLTransferViewController ()
 @property (nonatomic, strong) UIView *addressView;
 @property (nonatomic, strong) UILabel *addressTitleLabel;
 @property (nonatomic, strong) JLBaseTextField *addressTF;
+@property (nonatomic, strong) UIButton *qrcodeScanBtn;
+
 @property (nonatomic, strong) UIView *numView;
 @property (nonatomic, strong) UILabel *numTitleLabel;
+@property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) JLStepper *numStepper;
 @property (nonatomic, strong) UIButton *transferButton;
 
@@ -26,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"转账";
+    self.navigationItem.title = @"转让";
     [self addBackItem];
     self.currentNumStr = @"1";
     [self createSubviews];
@@ -37,9 +42,11 @@
     [self.view addSubview:self.addressView];
     [self.addressView addSubview:self.addressTitleLabel];
     [self.addressView addSubview:self.addressTF];
+    [self.addressView addSubview:self.qrcodeScanBtn];
     
     [self.view addSubview:self.numView];
     [self.numView addSubview:self.numTitleLabel];
+    [self.numView addSubview:self.balanceLabel];
     [self.numView addSubview:self.numStepper];
     
     [self.view addSubview:self.transferButton];
@@ -52,8 +59,13 @@
         make.left.mas_equalTo(15.0f);
         make.top.bottom.equalTo(self.addressView);
     }];
-    [self.addressTF mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.qrcodeScanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-15.0f);
+        make.centerY.equalTo(self.addressTitleLabel.mas_centerY);
+        make.size.mas_equalTo(16.0f);
+    }];
+    [self.addressTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.qrcodeScanBtn.mas_left).offset(-12.0f);
         make.left.equalTo(self.addressTitleLabel.mas_right).offset(10.0f);
         make.top.bottom.equalTo(self.addressView);
     }];
@@ -66,6 +78,10 @@
     [self.numTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.top.bottom.equalTo(self.numView);
+    }];
+    [self.balanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.numTitleLabel.mas_right).offset(0.0f);
+        make.centerY.equalTo(self.numTitleLabel.mas_centerY);
     }];
     [self.numStepper mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.numView).offset(-20.0f);
@@ -105,7 +121,7 @@
 
 - (UILabel *)addressTitleLabel {
     if (!_addressTitleLabel) {
-        _addressTitleLabel = [JLUIFactory labelInitText:@"转账地址" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressTitleLabel = [JLUIFactory labelInitText:@"转让地址" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _addressTitleLabel;
 }
@@ -121,10 +137,33 @@
         _addressTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _addressTF.textAlignment = NSTextAlignmentRight;
         NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_BBBBBB, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
-        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入转账地址" attributes:dic];
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"请输入转让地址" attributes:dic];
         _addressTF.attributedPlaceholder = attr;
     }
     return _addressTF;
+}
+
+- (UIButton *)qrcodeScanBtn {
+    if (!_qrcodeScanBtn) {
+        _qrcodeScanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_qrcodeScanBtn edgeTouchAreaWithTop:12.0f right:12.0f bottom:12.0f left:12.0f];
+        [_qrcodeScanBtn setBackgroundImage:[UIImage imageNamed:@"icon_wallet_transfer_qrcodescan"] forState:UIControlStateNormal];
+        [_qrcodeScanBtn addTarget:self action:@selector(qrcodeScanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _qrcodeScanBtn;
+}
+
+- (void)qrcodeScanBtnClick {
+    WS(weakSelf)
+    JLScanViewController *scanVC = [JLScanViewController new];
+    scanVC.scanType = JLScanTypeAddress;
+    scanVC.qrCode = YES;
+    scanVC.resultBlock = ^(NSString *scanResult) {
+        NSLog(@"%@", scanResult);
+        weakSelf.addressTF.text = scanResult;
+    };
+    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:scanVC animated:YES completion:nil];
 }
 
 - (UIView *)numView {
@@ -136,9 +175,16 @@
 
 - (UILabel *)numTitleLabel {
     if (!_numTitleLabel) {
-        _numTitleLabel = [JLUIFactory labelInitText:@"转账数量" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _numTitleLabel = [JLUIFactory labelInitText:@"转让数量" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _numTitleLabel;
+}
+
+- (UILabel *)balanceLabel {
+    if (!_balanceLabel) {
+        _balanceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"（余额%ld）", self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue] font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+    }
+    return _balanceLabel;
 }
 
 - (JLStepper *)numStepper {
@@ -160,7 +206,7 @@
 - (UIButton *)transferButton {
     if (!_transferButton) {
         _transferButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_transferButton setTitle:@"转账" forState:UIControlStateNormal];
+        [_transferButton setTitle:@"转让" forState:UIControlStateNormal];
         [_transferButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _transferButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
         _transferButton.backgroundColor = JL_color_gray_101010;
@@ -175,7 +221,7 @@
     [self.view endEditing:YES];
     
     if ([NSString stringIsEmpty:self.addressTF.text]) {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入转账地址" hideTime:KToastDismissDelayTimeInterval];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入转让地址" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     NSString *transferAddress = self.addressTF.text;
@@ -186,24 +232,33 @@
     NSString *accountId = [[JLViewControllerTool appDelegate].walletTool addressVerifyWithAddress:transferAddress];
     
     if (![NSString stringIsEmpty:accountId]) {
-        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-            if (success) {
-                [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-                [[JLViewControllerTool appDelegate].walletTool productSellTransferCallWithAccountId:accountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:weakSelf.currentNumStr block:^(BOOL success, NSString * _Nullable message) {
-                    [[JLLoading sharedLoading] hideLoading];
+        //判断余额
+        [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
+            NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
+            if ([amountNumber isGreaterThanZero]) {
+                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
                     if (success) {
-                        if (weakSelf.transferSuccessBlock) {
-                            weakSelf.transferSuccessBlock();
-                        }
-                        [weakSelf.navigationController popViewControllerAnimated:YES];
-                    } else {
-                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                        [[JLViewControllerTool appDelegate].walletTool productSellTransferCallWithAccountId:accountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:weakSelf.currentNumStr block:^(BOOL success, NSString * _Nullable message) {
+                            [[JLLoading sharedLoading] hideLoading];
+                            if (success) {
+                                [weakSelf.navigationController popViewControllerAnimated:YES];
+                                if (weakSelf.transferSuccessBlock) {
+                                    weakSelf.transferSuccessBlock();
+                                }
+                            } else {
+                                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                            }
+                        }];
                     }
                 }];
+            } else {
+                UIAlertController *alertController = [UIAlertController alertShowWithTitle:@"提示" message:@"当前积分为0，无法进行操作\r\n（购买NFT卡片可获得积分）" confirm:@"确定"];
+                [weakSelf presentViewController:alertController animated:YES completion:nil];
             }
         }];
     } else {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入正确的转账地址" hideTime:KToastDismissDelayTimeInterval];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"地址错误" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 @end

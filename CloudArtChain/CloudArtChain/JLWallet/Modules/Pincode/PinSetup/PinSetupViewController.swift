@@ -97,11 +97,19 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
     private func updateTitleLabelState() {
         if pinView.mode == .create {
             if  pinView.creationState == .normal {
-                titleLabel.text = "设置密码"
+                if self.title == "创建密码" {
+                    topLabel.isHidden = false
+                    titleLabel.text = "请设置饭团密码，用于保护私钥"
+                } else {
+                    topLabel.isHidden = true
+                    titleLabel.text = "设置密码"
+                }
             } else {
+                topLabel.isHidden = true
                 titleLabel.text = "确认密码"
             }
         } else {
+            topLabel.isHidden = true
             titleLabel.text = "输入密码"
         }
     }
@@ -115,11 +123,11 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
     }
 
     private func setupLocalization() {
-        let locale = localizationManager?.selectedLocale ?? Locale.current
+//        let locale = localizationManager?.selectedLocale ?? Locale.current
         cancelButton?.setTitle("取消",
                                for: .normal)
 
-        topLabel.text = localizableTopTitle.value(for: locale)
+//        topLabel.text = localizableTopTitle.value(for: locale)
 
         updateTitleLabelState()
     }

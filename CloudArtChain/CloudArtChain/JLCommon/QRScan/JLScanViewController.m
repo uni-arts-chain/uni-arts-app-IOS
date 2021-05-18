@@ -379,6 +379,8 @@
     UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, kScreenHeight - KTouch_Responder_Height - 97.0f, self.view.bounds.size.width, 97.0f)];
     if (self.scanType == JLScanTypeChainQuery) {
         tipsLabel.text = @"只支持扫描证书二维码";
+    } else if (self.scanType == JLScanTypeAddress) {
+        tipsLabel.text = @"只支持扫描钱包二维码";
     }
     tipsLabel.font = kFontPingFangSCRegular(17.0f);
     tipsLabel.textAlignment = NSTextAlignmentCenter;

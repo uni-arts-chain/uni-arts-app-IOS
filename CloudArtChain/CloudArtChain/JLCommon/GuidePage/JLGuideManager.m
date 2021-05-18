@@ -18,14 +18,23 @@ static NSString *const kCFBundleShortVersionString = @"CFBundleShortVersionStrin
     NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:kAppVersion];
     //版本升级或首次登录
     if (version == nil) {
-        //获取当前版本号
-        NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-        NSString *currentVersion = infoDic[kCFBundleShortVersionString];
-        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:kAppVersion];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         return YES;
-    }else {
+    } else {
         return NO;
     }
 }
+
++ (void)setFirstLaunch {
+    //获取当前版本号
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion = infoDic[kCFBundleShortVersionString];
+    [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:kAppVersion];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (void)removeFirstLaunch {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kAppVersion];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 @end

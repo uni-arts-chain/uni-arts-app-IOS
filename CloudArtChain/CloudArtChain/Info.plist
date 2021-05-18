@@ -28,6 +28,16 @@
 				<string>mall.senmeo.tech</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>alipayH5Return</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>alipayreturn.senmeo.tech</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

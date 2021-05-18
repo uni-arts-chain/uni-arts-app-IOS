@@ -11,6 +11,7 @@
 #import "JLWalletChangePwdViewController.h"
 #import "JLExportKeystorePwdViewController.h"
 #import "UIButton+AxcButtonContentLayout.h"
+#import "JLProtocolViewController.h"
 
 #import "JLEditWalletCell.h"
 #import "JLWalletPwdInputView.h"
@@ -223,6 +224,8 @@
         }];
     } else {
         // 隐私协议
+        JLProtocolViewController *protocolVC = [[JLProtocolViewController alloc] init];
+        [self.navigationController pushViewController:protocolVC animated:YES];
     }
 }
 

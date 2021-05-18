@@ -472,4 +472,46 @@
     [[LAppLive2DManager getInstance] changeScene:modelPath modelJsonName:jsonName];
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    // 判断一个这个host, safepay是支付宝支付
+    if ([url.host isEqualToString:@"safepay"]) {
+        NSString *urlNeedJsonStr = url.absoluteString;
+        NSArray *kkstr = [urlNeedJsonStr componentsSeparatedByString:@"?"];
+        NSString *lastStr = [NSString decoderUrlEncodeStr:kkstr.lastObject];
+        NSDictionary *dict = [self dictionaryWithJsonString:lastStr];
+//        memo =     {
+//        ResultStatus = 6001;
+//        memo = "\U652f\U4ed8\U672a\U5b8c\U6210";
+//        result = "";
+//        }
+        //  9000 ：支付成功
+        //  8000 ：订单处理中
+        //  4000 ：订单支付失败
+        //  6001 ：用户中途取消
+        //  6002 ：网络连接出错
+        NSDictionary *memoDic = dict[@"memo"];
+        if (memoDic != nil) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"JLAliPayResultNotification" object:nil userInfo:@{@"result": memoDic}];
+        }
+    }
+    
+    return YES;
+}
+
+-  (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    return dic;
+}
 @end

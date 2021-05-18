@@ -11,7 +11,8 @@
 #import "UICollectionWaterLayout.h"
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
-#import "JLPayWebViewController.h"
+#import "JLWechatPayWebViewController.h"
+#import "JLAlipayWebViewController.h"
 
 #import "JLCategoryNaviView.h"
 #import "JLCateFilterView.h"
@@ -241,11 +242,13 @@
             [weakSelf.collectionView reloadData];
             if (payType == JLOrderPayTypeWeChat) {
                 // 调用支付
-                JLPayWebViewController *payWebVC = [[JLPayWebViewController alloc] init];
+                JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                 payWebVC.payUrl = payUrl;
                 [weakSelf.navigationController pushViewController:payWebVC animated:YES];
             } else {
-                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
+                JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+                payWebVC.payUrl = payUrl;
+                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
             }
         };
         [self.navigationController pushViewController:artDetailVC animated:YES];
