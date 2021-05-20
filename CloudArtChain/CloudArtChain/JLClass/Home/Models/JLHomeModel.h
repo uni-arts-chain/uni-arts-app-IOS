@@ -417,6 +417,9 @@
 @property (nonatomic, strong) NSString *total_amount;
 @property (nonatomic, strong) NSString *sn;
 @property (nonatomic, assign) BOOL is_mine;
+@property (nonatomic, strong) NSString *seller_id;
+@property (nonatomic, strong) NSString *royalty;
+@property (nonatomic, assign) BOOL need_royalty;
 @end
 @interface Model_arts_id_orders_Req : Model_Req
 @property (nonatomic, strong) NSString *ID;

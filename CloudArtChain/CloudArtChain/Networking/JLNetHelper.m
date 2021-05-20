@@ -681,20 +681,11 @@ static AFHTTPSessionManager *sessionManager = nil;
 
 #pragma mark token过期重新登录
 + (void)reloadLogin:(NSInteger)showTabIndex {
-//    [AppSingleton sharedAppSingleton].userBody = nil;
-    
-//    删除登录token信息
-//    [LoginUtil logout];
-    
-    UIViewController *topVC = [JLViewControllerTool topViewController];
-    if (!topVC.presentingViewController) {
-        [topVC.navigationController popToRootViewControllerAnimated:NO];
-    }
-    
-    UITabBarController * tabBarController = [[AppSingleton sharedAppSingleton].globalNavController.viewControllers objectAtIndex:0];
-    [tabBarController setSelectedIndex:showTabIndex];
+    [AppSingleton sharedAppSingleton].userBody = nil;
+    // 删除登录token信息
+    [JLLoginUtil logout];
+    // 重新登录
     [JLLoginUtil loginWallet];
-//    [LoginUtil presentLoginViewController];
 }
 
 + (BOOL)isTimeOut:(NSError*)error task:(NSURLSessionDataTask*)task {
@@ -788,23 +779,18 @@ static AFHTTPSessionManager *sessionManager = nil;
     if (errorHead) {
         //对错误码进行处理
         //重新登录
-        if (errorHead.code==1070) {
+        if (errorHead.code == 1032) {
             [JLNetHelper reloadLogin:0];
-            [[JLLoading sharedLoading] showMBFailedTipMessage:@"很抱歉，您还未登录" hideTime:KToastDismissDelayTimeInterval];
+//            [[JLLoading sharedLoading] showMBFailedTipMessage:@"很抱歉，您还未登录" hideTime:KToastDismissDelayTimeInterval];
             return;
         }
-        //两步验证失效，弹出两步验证
-//        if (errorHead.code==1051) {
-//            [[AppSingleton sharedAppSingleton].loginUtil secondCheckOnlyWithSuccessBlock:nil AndFailureBlock:nil];
-//        }
         
         if(errorHead.msg.length>0) {
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorHead.msg hideTime:KToastDismissDelayTimeInterval];
         } else {
             [[JLLoading sharedLoading] hideLoading];
         }
-        
-    }else{
+    } else {
         [JLNetHelper showTimeOutToast:error];
     }
 }

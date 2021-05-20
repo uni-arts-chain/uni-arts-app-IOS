@@ -113,6 +113,12 @@
     return temp;
 }
 
++ (BOOL)isPureInt:(NSString *)string {
+    NSScanner *scan = [NSScanner scannerWithString:string];
+    int val;
+    return [scan scanInt:&val] && [scan isAtEnd];
+}
+
 + (NSString *)MD5ByAStr:(NSString *)aSourceStr {
     const char* cStr = [aSourceStr UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];

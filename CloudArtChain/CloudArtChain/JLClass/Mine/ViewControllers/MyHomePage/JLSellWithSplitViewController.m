@@ -102,7 +102,7 @@
     [self.currentNumTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.currentNumUnitLabel.mas_left).offset(-8.0f);
         make.bottom.equalTo(self.currentNumTitleLabel.mas_bottom);
-        make.width.mas_equalTo(40.0f);
+        make.width.mas_equalTo(60.0f);
     }];
     [self.currentNumLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.currentNumTF.mas_left);

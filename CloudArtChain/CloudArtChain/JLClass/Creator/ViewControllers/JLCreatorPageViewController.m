@@ -142,11 +142,20 @@
 
 - (JLHomePageHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
-        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f)];
+        NSString *descStr = [NSString stringIsEmpty:self.authorData.desc] ? @"未设置描述" : self.authorData.desc;
+        CGFloat descHeight = [self getDescLabelHeight:descStr];
+        
+        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight)];
         _homePageHeaderView.authorData = self.authorData;
         _homePageHeaderView.backgroundColor = JL_color_white_ffffff;
     }
     return _homePageHeaderView;
+}
+
+- (CGFloat)getDescLabelHeight:(NSString *)descStr {
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
+    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
+    return rect.size.height + 20.0f;
 }
 
 - (UIView *)worksTitleView {

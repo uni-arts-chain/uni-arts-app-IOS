@@ -87,19 +87,6 @@
 #define debugMethod()
 #endif
 
-
-// 定义环境地址
-#if (ENV == KF)//开发环境
-//网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
-
-#elif (ENV == OL)//正式环境
-//网络接口访问地址
-//#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://tatmasglobal.com/"
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
-
-#endif
-
 #define KServerVersion @"v1"
 
 //快速的定义一个weakSelf

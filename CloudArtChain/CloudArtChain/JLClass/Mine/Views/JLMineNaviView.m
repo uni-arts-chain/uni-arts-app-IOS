@@ -83,7 +83,7 @@
 - (UIView *)avatarView {
     if (!_avatarView) {
         _avatarView = [[UIView alloc] initWithFrame:CGRectMake(15.0f, 22.0f, 54.0f, 54.0f)];
-        _avatarView.backgroundColor = JL_color_white_ffffff;
+        _avatarView.backgroundColor = JL_color_purple_F0F5FF;
         _avatarView.layer.cornerRadius = 27.0f;
         _avatarView.layer.masksToBounds = NO;
 //        _avatarView.layer.shadowColor = JL_color_black.CGColor;

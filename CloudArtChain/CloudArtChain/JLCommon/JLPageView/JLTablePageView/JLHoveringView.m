@@ -41,6 +41,12 @@
     return self;
 }
 
+- (void)reloadView {
+    UIView *headView = [self.delegate headView];
+    self.headHeight = headView.frame.size.height;
+    self.pageView.frame = CGRectMake(0, self.headHeight, self.frame.size.width, self.frame.size.height + self.headHeight);
+}
+
 - (JLPageView *)pageView
 {
     if (!_pageView) {

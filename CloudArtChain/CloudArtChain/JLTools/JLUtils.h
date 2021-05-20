@@ -22,6 +22,9 @@
 //去掉string前后的空格
 + (NSString *)trimSpace:(NSString *)str;
 
+// 是否是否为纯数字
++ (BOOL)isPureInt:(NSString *)string;
+
 + (NSString *)MD5ByAStr:(NSString *)aSourceStr;
 
 #pragma 正则匹配手机号

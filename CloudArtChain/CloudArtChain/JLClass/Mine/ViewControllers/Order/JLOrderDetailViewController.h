@@ -8,9 +8,15 @@
 
 #import "JLBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, JLOrderDetailType) {
+    JLOrderDetailTypeBuy, /** 买入订单 */
+    JLOrderDetailTypeSell, /** 卖出订单 */
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderDetailViewController : JLBaseViewController
+@property (nonatomic, assign) JLOrderDetailType orderDetailType;
 @property (nonatomic, strong) Model_arts_sold_Data *orderData;
 @end
 

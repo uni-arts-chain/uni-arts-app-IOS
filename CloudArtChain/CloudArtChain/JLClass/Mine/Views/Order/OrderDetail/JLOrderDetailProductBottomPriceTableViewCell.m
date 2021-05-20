@@ -23,8 +23,11 @@
 @property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
+@property (nonatomic, strong) UILabel *royaltyTitleLabel;
+@property (nonatomic, strong) UILabel *royaltyLabel;
 
 @property (nonatomic, strong) Model_arts_id_orders_Data *sellingOrderData;
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
 
 @implementation JLOrderDetailProductBottomPriceTableViewCell
@@ -50,6 +53,8 @@
     [self.shadowView addSubview:self.numLabel];
     [self.shadowView addSubview:self.totalPriceTitleLabel];
     [self.shadowView addSubview:self.totalPriceLabel];
+    [self.shadowView addSubview:self.royaltyTitleLabel];
+    [self.shadowView addSubview:self.royaltyLabel];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -106,11 +111,20 @@
         make.left.equalTo(self.productImageView.mas_left);
         make.top.equalTo(self.numTitleLabel.mas_bottom);
         make.height.mas_equalTo(32.0f);
-        make.bottom.equalTo(self.shadowView).offset(-10.0f);
     }];
     [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.shadowView).offset(-23.0f);
         make.centerY.equalTo(self.totalPriceTitleLabel.mas_centerY);
+    }];
+    [self.royaltyTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.productImageView.mas_left);
+        make.top.equalTo(self.totalPriceTitleLabel.mas_bottom);
+        make.height.mas_equalTo(32.0f);
+        make.bottom.equalTo(self.shadowView).offset(-10.0f);
+    }];
+    [self.royaltyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.shadowView).offset(-23.0f);
+        make.centerY.equalTo(self.royaltyTitleLabel.mas_centerY);
     }];
 }
 
@@ -191,6 +205,17 @@
             NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:weakSelf.sellingOrderData.price];
             NSDecimalNumber *totalPriceNumber = [valueNumber decimalNumberByMultiplyingBy:priceNumber];
             weakSelf.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
+            
+            //![weakSelf.artDetailData.author.ID isEqualToString:weakSelf.sellingOrderData.seller_id]
+            if (![NSString stringIsEmpty:weakSelf.artDetailData.royalty] && weakSelf.sellingOrderData.need_royalty) {
+                NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:weakSelf.artDetailData.royalty];
+                
+                NSDecimalNumber *currentRoyaltyNumber = [totalPriceNumber decimalNumberByMultiplyingBy:royaltyNumber];
+                weakSelf.royaltyLabel.text = [NSString stringWithFormat:@"¥%@", [currentRoyaltyNumber roundUpScale:2].stringValue];
+                
+                totalPriceNumber = [totalPriceNumber decimalNumberByAdding:[currentRoyaltyNumber roundUpScale:2]];
+            }
+            
             if (weakSelf.totalPriceChangeBlock) {
                 weakSelf.totalPriceChangeBlock(totalPriceNumber.stringValue, @(value).stringValue);
             }
@@ -220,7 +245,22 @@
     return _totalPriceLabel;
 }
 
+- (UILabel *)royaltyTitleLabel {
+    if (!_royaltyTitleLabel) {
+        _royaltyTitleLabel = [JLUIFactory labelInitText:@"版税（0%）" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    }
+    return _royaltyTitleLabel;
+}
+
+- (UILabel *)royaltyLabel {
+    if (!_royaltyLabel) {
+        _royaltyLabel = [JLUIFactory labelInitText:@"¥0" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+    }
+    return _royaltyLabel;
+}
+
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData sellingOrderData:(Model_arts_id_orders_Data *)sellingOrderData {
+    self.artDetailData = artDetailData;
     self.sellingOrderData = sellingOrderData;
     
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
@@ -246,5 +286,18 @@
     }
     
     self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", [NSDecimalNumber decimalNumberWithString:sellingOrderData.price].stringValue];
+    if (![NSString stringIsEmpty:artDetailData.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:artDetailData.royalty];
+        NSDecimalNumber *royaltyPersentNumber = [royaltyNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        self.royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", royaltyPersentNumber.stringValue];
+        
+        // [artDetailData.author.ID isEqualToString:sellingOrderData.seller_id]
+        if (self.sellingOrderData.need_royalty) {
+            NSDecimalNumber *currentRoyaltyNumber = [[NSDecimalNumber decimalNumberWithString:sellingOrderData.price] decimalNumberByMultiplyingBy:royaltyNumber];
+            self.royaltyLabel.text = [NSString stringWithFormat:@"¥%@", [currentRoyaltyNumber roundUpScale:2].stringValue];
+        } else {
+            self.royaltyLabel.text = @"¥0";
+        }
+    }
 }
 @end

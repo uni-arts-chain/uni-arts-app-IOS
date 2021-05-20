@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JLOrderDetailViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderDetailProductTableViewCell : UITableViewCell
-@property (nonatomic, strong) Model_arts_sold_Data *orderData;
+- (void)setOrderData:(Model_arts_sold_Data *)orderData orderDetailType:(JLOrderDetailType)orderDetailType;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -209,7 +209,11 @@
     
     self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.total_price];
+    NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:soldData.price];
+    NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:soldData.amount];
+    NSDecimalNumber *totalPriceNumber = [priceNumber decimalNumberByMultiplyingBy:amountNumber];
+    
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
     
     if (soldData.art.collection_mode == 3) {
         // 可拆分作品，显示购买数量

@@ -63,7 +63,8 @@
         make.right.equalTo(self.cardNameLabel.mas_right);
     }];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.cardImageView.mas_left);
+//        make.left.equalTo(self.cardImageView.mas_left);
+        make.right.mas_equalTo(-12.0f);
         make.bottom.equalTo(self.backView);
         make.height.mas_equalTo(43.0f);
     }];

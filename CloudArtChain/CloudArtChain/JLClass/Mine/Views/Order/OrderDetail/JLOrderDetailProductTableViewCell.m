@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UILabel *numLabel;
 @property (nonatomic, strong) UILabel *totalPriceTitleLabel;
 @property (nonatomic, strong) UILabel *totalPriceLabel;
+@property (nonatomic, strong) UILabel *royaltyLabel;
 @end
 
 @implementation JLOrderDetailProductTableViewCell
@@ -43,6 +44,7 @@
     [self.shadowView addSubview:self.numLabel];
     [self.shadowView addSubview:self.totalPriceTitleLabel];
     [self.shadowView addSubview:self.totalPriceLabel];
+    [self.shadowView addSubview:self.royaltyLabel];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -92,10 +94,16 @@
         make.width.mas_equalTo(80.0f);
         make.height.mas_equalTo(35.0f);
     }];
-    [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.totalPriceTitleLabel.mas_right);
+    [self.royaltyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.totalPriceTitleLabel.mas_top);
         make.right.mas_equalTo(-25.0f);
+        make.height.mas_equalTo(35.0f);
+        make.bottom.mas_equalTo(-8.0f);
+    }];
+    [self.totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.totalPriceTitleLabel.mas_right);
+        make.top.equalTo(self.totalPriceTitleLabel.mas_top);
+        make.right.equalTo(self.royaltyLabel.mas_left);
         make.height.mas_equalTo(35.0f);
         make.bottom.mas_equalTo(-8.0f);
     }];
@@ -175,7 +183,14 @@
     return _totalPriceLabel;
 }
 
-- (void)setOrderData:(Model_arts_sold_Data *)orderData {
+- (UILabel *)royaltyLabel {
+    if (!_royaltyLabel) {
+        _royaltyLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+    }
+    return _royaltyLabel;
+}
+
+- (void)setOrderData:(Model_arts_sold_Data *)orderData orderDetailType:(JLOrderDetailType)orderDetailType {
     if (![NSString stringIsEmpty:orderData.art.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:orderData.art.img_main_file1[@"url"]]];
     }
@@ -183,6 +198,15 @@
     self.productNameLabel.text = orderData.art.name;
     self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:orderData.art.item_hash] ? @"" : orderData.art.item_hash];
     self.numLabel.text = [NSString stringWithFormat:@"%@份", [NSDecimalNumber decimalNumberWithString:orderData.amount].stringValue];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.total_price];
+    
+    if (orderDetailType == JLOrderDetailTypeSell) {
+        NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:orderData.price];
+        NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:orderData.amount];
+        NSDecimalNumber *totalPriceNumber = [priceNumber decimalNumberByMultiplyingBy:amountNumber];
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
+    } else {
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.total_price];
+        self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", orderData.royalty];
+    }
 }
 @end

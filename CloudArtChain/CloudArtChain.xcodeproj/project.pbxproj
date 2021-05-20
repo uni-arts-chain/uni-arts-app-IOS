@@ -19,6 +19,7 @@
 		5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF026C2503F96900A81E32 /* UIView+JLPageFrame.m */; };
 		5CFF02712503FDE000A81E32 /* JLWorksListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02702503FDE000A81E32 /* JLWorksListViewController.m */; };
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
+		B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */; };
 		B312249D25B6B60900562ECA /* OperationManagerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */; };
 		B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */; };
 		B312249F25B6B60900562ECA /* ScaleDecoderOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DD25B6B60700562ECA /* ScaleDecoderOperation.swift */; };
@@ -1206,6 +1207,8 @@
 		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
 		95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.release.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.release.xcconfig"; sourceTree = "<group>"; };
+		B309B1D32655095600CE9FDF /* JLUploadPersentInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadPersentInputView.h; sourceTree = "<group>"; };
+		B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadPersentInputView.m; sourceTree = "<group>"; };
 		B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationManagerFacade.swift; sourceTree = "<group>"; };
 		B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOperationFactory.swift; sourceTree = "<group>"; };
 		B31221DD25B6B60700562ECA /* ScaleDecoderOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleDecoderOperation.swift; sourceTree = "<group>"; };
@@ -6426,6 +6429,8 @@
 				B37B860625149DBC00E43B36 /* JLUploadWorkDetailView.m */,
 				B37B86082514A58500E43B36 /* JLUploadWorkMoneyInputView.h */,
 				B37B86092514A58500E43B36 /* JLUploadWorkMoneyInputView.m */,
+				B309B1D32655095600CE9FDF /* JLUploadPersentInputView.h */,
+				B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */,
 			);
 			path = UploadWork;
 			sourceTree = "<group>";
@@ -7431,6 +7436,7 @@
 				B31225C925B6B60A00562ECA /* AddConnectionPresenter.swift in Sources */,
 				B359364125121A2900E2B2FD /* JLForgetPwdViewController.m in Sources */,
 				B312265325B6B60A00562ECA /* TransferConfirmBinder.swift in Sources */,
+				B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */,
 				B31224EE25B6B60900562ECA /* ErrorContent+Wallet.swift in Sources */,
 				B312253B25B6B60A00562ECA /* AccountItem.swift in Sources */,
 				B312259E25B6B60A00562ECA /* NetworkInfoPresenter.swift in Sources */,

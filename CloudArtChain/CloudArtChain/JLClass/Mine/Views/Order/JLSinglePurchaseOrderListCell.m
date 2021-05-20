@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UILabel *royaltyLabel;
 @end
 
 @implementation JLSinglePurchaseOrderListCell
@@ -53,6 +54,7 @@
     [self.shadowView addSubview:self.timeLabel];
     [self.shadowView addSubview:self.priceTitleLabel];
     [self.shadowView addSubview:self.priceLabel];
+    [self.shadowView addSubview:self.royaltyLabel];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f));
@@ -99,12 +101,16 @@
         make.bottom.equalTo(self.shadowView);
         make.height.mas_equalTo(43.0f);
     }];
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.royaltyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-20.0f);
         make.centerY.equalTo(self.timeLabel.mas_centerY);
     }];
+    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.royaltyLabel.mas_left);
+        make.centerY.equalTo(self.timeLabel.mas_centerY);
+    }];
     [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.priceLabel.mas_left).offset(-6.0f);
+        make.right.equalTo(self.priceLabel.mas_left);
         make.centerY.equalTo(self.priceLabel.mas_centerY);
     }];
 }
@@ -192,6 +198,13 @@
     return _priceLabel;
 }
 
+- (UILabel *)royaltyLabel {
+    if (!_royaltyLabel) {
+        _royaltyLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+    }
+    return _royaltyLabel;
+}
+
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
     self.orderNoLabel.text = soldData.sn;
     if (![NSString stringIsEmpty:soldData.art.img_main_file1[@"url"]]) {
@@ -210,6 +223,8 @@
     self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.total_price];
+    
+    self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", soldData.royalty];
     
     if (soldData.art.collection_mode == 3) {
         // 可拆分作品，显示购买数量

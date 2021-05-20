@@ -789,13 +789,13 @@
         _artSellingView.openCloseListBlock = ^(BOOL isOpen) {
             if (isOpen) {
                 weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
-                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
                 weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
                 weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
                 weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
             } else {
                 weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
-                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
                 weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
                 weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
                 weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
@@ -807,7 +807,7 @@
 
 - (JLArtChainTradeView *)artChainTradeView {
     if (!_artChainTradeView) {
-        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artSellingView.frameBottom + 10.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 120.0f)];
+        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artSellingView.frameBottom + 10.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 210.0f)];
         _artChainTradeView.artDetailData = self.artDetailData;
     }
     return _artChainTradeView;
@@ -897,13 +897,13 @@
             if (weakSelf.artDetailData.collection_mode == 3) {
                 if (weakSelf.artSellingViewOpen) {
                     weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
-                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
                     weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
                     weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
                     weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
                 } else {
                     weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
-                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 120.0f);
+                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
                     weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
                     weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
                     weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);

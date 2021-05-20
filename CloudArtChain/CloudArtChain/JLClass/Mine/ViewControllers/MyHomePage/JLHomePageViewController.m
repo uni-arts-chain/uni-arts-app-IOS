@@ -100,7 +100,9 @@
 - (JLHomePageEditHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
         WS(weakSelf)
-        _homePageHeaderView = [[JLHomePageEditHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 350.0f)];
+        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
+        CGFloat descHeight = [self getDescLabelHeight:descStr];
+        _homePageHeaderView = [[JLHomePageEditHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight)];
         _homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
         
         _homePageHeaderView.nameEditBlock = ^{
@@ -114,6 +116,10 @@
                     [[JLLoading sharedLoading] hideLoading];
                     if (netIsWork) {
                         [AppSingleton sharedAppSingleton].userBody = response.body;
+                        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
+                        CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
+                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                        [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
                     } else {
                         [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
@@ -134,6 +140,10 @@
                     [[JLLoading sharedLoading] hideLoading];
                     if (netIsWork) {
                         [AppSingleton sharedAppSingleton].userBody = response.body;
+                        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
+                        CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
+                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                        [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
                     } else {
                         [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
@@ -145,12 +155,22 @@
         _homePageHeaderView.avatarEditBlock = ^{
             JLSettingViewController *settingVC = [[JLSettingViewController alloc] init];
             settingVC.backBlock = ^{
+                NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
+                CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
+                weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                [weakSelf.hovering reloadView];
                 weakSelf.homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
             };
             [weakSelf.navigationController pushViewController:settingVC animated:YES];
         };
     }
     return _homePageHeaderView;
+}
+
+- (CGFloat)getDescLabelHeight:(NSString *)descStr {
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
+    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
+    return rect.size.height + 20.0f;
 }
 
 - (NSArray <UIViewController *> *)viewControllers {

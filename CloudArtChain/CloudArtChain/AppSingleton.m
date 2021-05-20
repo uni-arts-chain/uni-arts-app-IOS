@@ -71,9 +71,6 @@
     [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtPriceWithSuccessBlock:nil];
-//    if ([JLLoginUtil haveToken]) {
-//
-//    }
 }
 
 #pragma mark 请求作品主题

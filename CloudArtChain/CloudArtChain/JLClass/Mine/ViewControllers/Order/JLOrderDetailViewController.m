@@ -65,7 +65,7 @@
         return cell;
     } else if (indexPath.row == 1) {
         JLOrderDetailProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailProductTableViewCell" forIndexPath:indexPath];
-        cell.orderData = self.orderData;
+        [cell setOrderData:self.orderData orderDetailType:self.orderDetailType];
         return cell;
     } else if (indexPath.row == 2) {
         JLOrderDetailInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailInfoTableViewCell" forIndexPath:indexPath];

@@ -123,6 +123,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     JLOrderDetailViewController *orderDetailVC = [[JLOrderDetailViewController alloc] init];
+    orderDetailVC.orderDetailType = JLOrderDetailTypeBuy;
     orderDetailVC.orderData = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:orderDetailVC animated:YES];
 }

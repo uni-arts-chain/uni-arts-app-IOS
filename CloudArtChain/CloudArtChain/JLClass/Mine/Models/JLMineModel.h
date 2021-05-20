@@ -102,6 +102,10 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @property (nonatomic, strong) NSString *img_detail_file1_desc;
 /** 细节说明2 */
 @property (nonatomic, strong) NSString *img_detail_file2_desc;
+/** 版税比例 */
+@property (nonatomic, strong) NSString *royalty;
+/** 版税有效期 */
+@property (nonatomic, strong) NSString *royalty_expired_at;
 
 /**  */
 @property (nonatomic, strong) NSString *is_refungible;
@@ -142,6 +146,7 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @property (nonatomic, strong) NSString *total_price;
 @property (nonatomic, strong) NSString *finished_at;
 @property (nonatomic, strong) NSString *pay_type;
+@property (nonatomic, strong) NSString *royalty;
 @property (nonatomic, strong) Model_art_Detail_Data *art;
 @property (nonatomic, strong) Model_art_author_Data *buyer;
 @property (nonatomic, strong) Model_art_author_Data *seller;

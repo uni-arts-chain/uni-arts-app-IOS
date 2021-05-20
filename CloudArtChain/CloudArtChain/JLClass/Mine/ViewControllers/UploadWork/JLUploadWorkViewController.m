@@ -19,6 +19,7 @@
 #import "JLDatePicker.h"
 #import "JLPickerView.h"
 #import "JLUploadWorkSwitchView.h"
+#import "JLUploadPersentInputView.h"
 
 #import "NSDate+Extension.h"
 #import "UIAlertController+Alert.h"
@@ -48,6 +49,12 @@
 @property (nonatomic, strong) JLUploadWorkSelectView *splitNumView;
 // 价格信息
 @property (nonatomic, strong) JLUploadWorkMoneyInputView *priceView;
+// 版税比例
+@property (nonatomic, strong) JLUploadPersentInputView *royaltyView;
+// 版税有效期
+@property (nonatomic, strong) JLUploadWorkSelectView *royaltyDateView;
+@property (nonatomic, strong) NSDate *royaltyDate;
+
 // 确认上传
 @property (nonatomic, strong) UIButton *confirmUploadBtn;
 
@@ -112,6 +119,8 @@
     [self.scrollView addSubview:self.workSplitSwitchView];
     [self.scrollView addSubview:self.splitNumView];
     [self.scrollView addSubview:self.priceView];
+    [self.scrollView addSubview:self.royaltyView];
+    [self.scrollView addSubview:self.royaltyDateView];
     
     [self.uploadImageTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -178,11 +187,23 @@
         make.height.mas_equalTo(55.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
+    [self.royaltyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.scrollView);
+        make.top.equalTo(self.priceView.mas_bottom);
+        make.height.mas_equalTo(55.0f);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
+    [self.royaltyDateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.scrollView);
+        make.top.equalTo(self.royaltyView.mas_bottom);
+        make.height.mas_equalTo(55.0f);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.priceView.frameBottom + 50.0f);
+    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.royaltyDateView.frameBottom + 50.0f);
 }
 
 - (UIView *)noticeView {
@@ -314,7 +335,7 @@
                 }];
             }
             [weakSelf.scrollView layoutIfNeeded];
-            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.priceView.frameBottom + 50.0f);
+            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.royaltyDateView.frameBottom + 50.0f);
             [weakSelf checkUpload];
         }];
     }
@@ -348,6 +369,30 @@
         };
     }
     return _priceView;
+}
+
+- (JLUploadPersentInputView *)royaltyView {
+    if (!_royaltyView) {
+        _royaltyView = [[JLUploadPersentInputView alloc] initWithTitle:@"设置版税比例"];
+    }
+    return _royaltyView;
+}
+
+- (JLUploadWorkSelectView *)royaltyDateView {
+    if (!_royaltyDateView) {
+        WS(weakSelf)
+        _royaltyDateView = [[JLUploadWorkSelectView alloc] initWithTitle:@"设置版税有效期" selectBlock:^{
+            [weakSelf.view endEditing:YES];
+            JLDatePicker *datePicker = [[JLDatePicker alloc] initWithDateStyle:DateStyleShowYearMonthDay scrollToDate:weakSelf.royaltyDate == nil ? [NSDate date] : weakSelf.royaltyDate CompleteBlock:^(NSDate *selectedDate) {
+                [weakSelf.royaltyDateView setSelectContent:[selectedDate dateWithCustomFormat:@"yyyy年MM月dd日"]];
+                weakSelf.royaltyDate = selectedDate;
+            }];
+            datePicker.newStyle = YES;
+            datePicker.minLimitDate = [NSDate date];
+            [datePicker show];
+        }];
+    }
+    return _royaltyDateView;
 }
 
 - (UIButton *)confirmUploadBtn {
@@ -411,6 +456,21 @@
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择作品所属主题" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
+    if (![NSString stringIsEmpty:self.royaltyView.inputContent]) {
+        if (![JLUtils isPureInt:self.royaltyView.inputContent]) {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置正确的版税比例" hideTime:KToastDismissDelayTimeInterval];
+            return;
+        }
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:self.royaltyView.inputContent];
+        if ([royaltyNumber isGreaterThan:[NSDecimalNumber decimalNumberWithString:@"100"]]) {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"版税比例不能超过100%" hideTime:KToastDismissDelayTimeInterval];
+            return;
+        }
+    }
+    if (self.royaltyDate != nil && [NSString stringIsEmpty:self.royaltyView.inputContent]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请设置版税比例" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
 //    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
 //        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品价格" hideTime:KToastDismissDelayTimeInterval];
 //        return;
@@ -460,6 +520,15 @@
         }
         if (![NSString stringIsEmpty:self.priceView.inputContent]) {
             request.price = self.priceView.inputContent;
+        }
+        if (![NSString stringIsEmpty:self.royaltyView.inputContent]) {
+            NSDecimalNumber *royaltyPersentNumber = [NSDecimalNumber decimalNumberWithString:self.royaltyView.inputContent];
+            NSDecimalNumber *royaltyNumber = [royaltyPersentNumber decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+            request.royalty = royaltyNumber.stringValue;
+        }
+        if (self.royaltyDate != nil) {
+            NSInteger royaltyDateTimeInterval = [self.royaltyDate timeIntervalSince1970] * 1000;
+            request.royalty_expired_at = @(royaltyDateTimeInterval).stringValue;
         }
         request.resource_type = 1;
         for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
@@ -558,6 +627,15 @@
     if (![NSString stringIsEmpty:self.priceView.inputContent]) {
         request.price = self.priceView.inputContent;
     }
+    if (![NSString stringIsEmpty:self.royaltyView.inputContent]) {
+        NSDecimalNumber *royaltyPersentNumber = [NSDecimalNumber decimalNumberWithString:self.royaltyView.inputContent];
+        NSDecimalNumber *royaltyNumber = [royaltyPersentNumber decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        request.royalty = royaltyNumber.stringValue;
+    }
+    if (self.royaltyDate != nil) {
+        NSInteger royaltyDateTimeInterval = [self.royaltyDate timeIntervalSince1970] * 1000;
+        request.royalty_expired_at = @(royaltyDateTimeInterval).stringValue;
+    }
     request.resource_type = 3;
     request.live2d_file = live2dFileData.live2d_file;
     request.live2d_ipfs_hash = live2dFileData.live2d_ipfs_hash;
@@ -606,7 +684,7 @@
 
 - (NSArray *)tempSplitNumArray {
     if (!_tempSplitNumArray) {
-        _tempSplitNumArray = @[@"10份", @"100份", @"1000份"];
+        _tempSplitNumArray = @[@"10份", @"100份", @"1000份", @"10000份"];
     }
     return _tempSplitNumArray;
 }

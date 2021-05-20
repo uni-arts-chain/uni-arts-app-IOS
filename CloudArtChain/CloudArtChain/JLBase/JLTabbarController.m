@@ -91,6 +91,13 @@
                 [JLLoginUtil presentCreateWallet];
                 return NO;
             }
+        } else if ([topVC isKindOfClass:[JLBoxViewController class]]) {
+            if ([JLLoginUtil haveSelectedAccount]) {
+                return YES;
+            } else {
+                [JLLoginUtil presentCreateWallet];
+                return NO;
+            }
         }
     }
     return YES;

@@ -82,7 +82,17 @@
         UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
-        NSString *priceString = [NSString stringWithFormat:@"¥%@", self.sellingOrderData.price];
+        NSDecimalNumber *totalPriceNumber = [NSDecimalNumber decimalNumberWithString:self.sellingOrderData.price];
+        if (![NSString stringIsEmpty:self.artDetailData.royalty]) {
+            NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:self.artDetailData.royalty];
+//            ![self.artDetailData.author.ID isEqualToString:self.sellingOrderData.seller_id]
+            if (self.sellingOrderData.need_royalty) {
+                NSDecimalNumber *currentRoyaltyNumber = [[NSDecimalNumber decimalNumberWithString:self.sellingOrderData.price] decimalNumberByMultiplyingBy:royaltyNumber];
+                totalPriceNumber = [totalPriceNumber decimalNumberByAdding:[NSDecimalNumber decimalNumberWithString:[currentRoyaltyNumber roundUpScale:2].stringValue]];
+            }
+        }
+        
+        NSString *priceString = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
         UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
         self.priceLabel = priceLabel;
         [_bottomView addSubview:priceLabel];

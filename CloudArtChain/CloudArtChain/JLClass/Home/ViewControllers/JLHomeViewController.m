@@ -69,7 +69,11 @@
     
     if ([JLLoginUtil haveSelectedAccount] && ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
         NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+#if (WALLET_ENV == AUTOCREATEWALLET)
         [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+#elif (WALLET_ENV == MANUALCREATEWALLET)
+        [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+#endif
     } else {
         if ([JLLoginUtil haveToken]) {
             [self requestThemeList];

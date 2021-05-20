@@ -218,7 +218,6 @@
 
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
-        WS(weakSelf)
         _headerImageView = [[UIImageView alloc] init];
     }
     return _headerImageView;

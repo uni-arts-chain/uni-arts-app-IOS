@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 //**分页View*/
 @property (nonatomic , strong) JLPageView * pageView;
 
+- (void)reloadView;
+
 @end
 
 NS_ASSUME_NONNULL_END
