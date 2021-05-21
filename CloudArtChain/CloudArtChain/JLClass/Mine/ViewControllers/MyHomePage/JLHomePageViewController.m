@@ -189,13 +189,13 @@
         workListVC.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             // 上架
             artDetailData.aasm_state = @"bidding";
-            JLWorksListViewController *biddingVC = (JLWorksListViewController *)self.viewControllers[1];
+            JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
             [biddingVC addToBiddingList:artDetailData];
         };
         workListVC.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData, JLWorkListType workListType) {
             {
     //            artDetailData.aasm_state = @"online";
-    //            JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[0];
+    //            JLWorksListViewController *prepareVC = (JLWorksListViewController *)weakSelf.viewControllers[0];
     //            [prepareVC offFromBiddingList:artDetailData];
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
@@ -243,10 +243,10 @@
                 artDetailData.aasm_state = @"auctioning";
                 artDetailData.auction_start_time = startTime;
                 artDetailData.auction_end_time = finishTime;
-                JLWorksListViewController *biddingVC = (JLWorksListViewController *)self.viewControllers[1];
+                JLWorksListViewController *biddingVC = (JLWorksListViewController *)weakSelf.viewControllers[1];
                 [biddingVC addToBiddingList:artDetailData];
                 
-                JLWorksListViewController *prepareVC = (JLWorksListViewController *)self.viewControllers[0];
+                JLWorksListViewController *prepareVC = (JLWorksListViewController *)weakSelf.viewControllers[0];
                 [prepareVC launchAuctionFromNotList:indexPath];
                 [[JLLoading sharedLoading] showMBSuccessTipMessage:@"发起拍卖成功" hideTime:KToastDismissDelayTimeInterval];
             };
@@ -337,19 +337,20 @@
 }
 
 - (void)uploadWorkBtnClick {
+    WS(weakSelf)
     JLUploadWorkViewController *uploadWorkVC = [[JLUploadWorkViewController alloc] init];
     __block typeof(uploadWorkVC) weakUploadVC = uploadWorkVC;
     uploadWorkVC.checkProcessBlock = ^{
         [weakUploadVC.navigationController popViewControllerAnimated:YES];
-        for (JLWorksListViewController *workListVC in self.viewControllers) {
+        for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
             [workListVC headRefresh];
         }
     };
     uploadWorkVC.uploadSuccessBackBlock = ^{
-        for (JLWorksListViewController *workListVC in self.viewControllers) {
+        for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
             [workListVC headRefresh];
         }
     };
-    [self.navigationController pushViewController:uploadWorkVC animated:YES];
+    [weakSelf.navigationController pushViewController:uploadWorkVC animated:YES];
 }
 @end

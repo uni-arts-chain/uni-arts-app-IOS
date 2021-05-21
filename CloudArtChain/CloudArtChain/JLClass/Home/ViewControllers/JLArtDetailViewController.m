@@ -407,7 +407,7 @@
                         // 刷新艺术品详情
                         weakSelf.artDetailData = artDetailData;
                         // 判断是否有可售作品
-                        if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
+                        if (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue > 0) {
                             // 有可出售的作品
                             [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                         } else {
