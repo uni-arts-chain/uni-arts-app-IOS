@@ -72,16 +72,16 @@
         make.left.equalTo(self.authorAvatarImageView.mas_right).offset(13.0f);
         make.height.mas_equalTo(22.0f);
     }];
-    [self.worksLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.authorInfoView);
-        make.centerY.equalTo(self.infoLabel.mas_centerY);
-        make.left.equalTo(self.infoLabel.mas_right).offset(10.0f);
-    }];
     [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom);
         make.left.equalTo(self.nameLabel);
         make.height.mas_equalTo(22.0f);
-        make.right.equalTo(self.worksLabel.mas_left).offset(-12.0f);
+//        make.right.equalTo(self.worksLabel.mas_left).offset(-12.0f);
+    }];
+    [self.worksLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.infoLabel.mas_right).offset(12.0f);
+        make.right.equalTo(self.authorInfoView);
+        make.centerY.equalTo(self.infoLabel.mas_centerY);
     }];
     [self.authorInfoDetailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.authorInfoView);
@@ -154,6 +154,7 @@
         _worksLabel.font = kFontPingFangSCRegular(13.0f);
         _worksLabel.textColor = JL_color_gray_909090;
         _worksLabel.textAlignment = NSTextAlignmentRight;
+        [_worksLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }
     return _worksLabel;
 }
@@ -185,9 +186,9 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f - 22.0f * 2) / 2.5f, 197.0f);
+        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 10.0f * 2) / 3.5f, 197.0f);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        flowLayout.minimumLineSpacing = 22.0f;
+        flowLayout.minimumLineSpacing = 10.0f;
         flowLayout.minimumInteritemSpacing = 0.0f;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         _collectionView.delegate = self;
