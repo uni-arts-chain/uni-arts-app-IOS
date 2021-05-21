@@ -73,7 +73,7 @@
 
 - (JLCustomerServiceSectionView *)wechatView {
     if (!_wechatView) {
-        NSArray *itemsArray = @[@"YunHuaLian001", @"YunHuaLian001", @"YunHuaLian001"];
+        NSArray *itemsArray = @[];
         _wechatView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.titleLabel.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"微信" items:itemsArray];
     }
     return _wechatView;
@@ -81,7 +81,7 @@
 
 - (JLCustomerServiceSectionView *)qqView {
     if (!_qqView) {
-        NSArray *itemsArray = @[@"3259654853", @"3259654853", @"3259654853"];
+        NSArray *itemsArray = @[];
         _qqView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.wechatView.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"QQ" items:itemsArray];
     }
     return _qqView;
@@ -89,7 +89,7 @@
 
 - (JLCustomerServiceSectionView *)emailView {
     if (!_emailView) {
-        NSArray *itemsArray = @[@"yunhualian01@uart.com", @"yunhualian01@uart.com", @"yunhualian01@uart.com"];
+        NSArray *itemsArray = @[];
         _emailView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.qqView.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"邮箱" items:itemsArray];
     }
     return _emailView;

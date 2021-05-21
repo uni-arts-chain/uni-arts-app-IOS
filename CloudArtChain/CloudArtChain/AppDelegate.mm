@@ -493,6 +493,8 @@
         if (memoDic != nil) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"JLAliPayResultNotification" object:nil userInfo:@{@"result": memoDic}];
         }
+    } else if([url.scheme isEqualToString:@"mall.senmeo.tech"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"H5PayFinishedGoback" object:nil];
     }
     
     return YES;

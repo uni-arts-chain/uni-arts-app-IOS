@@ -24,6 +24,20 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
     [self addBackItem];
     [self setupViews];
     [self requestData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(h5PayFinishedGoback:) name:@"H5PayFinishedGoback" object:nil];
+}
+
+- (void)h5PayFinishedGoback:(NSNotification *)noti {
+    WS(weakSelf)
+    NSString *redirectUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"H5PayFinishedRedirectUrl"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSURL *url = [NSURL URLWithString:redirectUrl];
+            NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+            [weakSelf.wkWebView loadRequest:request];
+        });
+    });
 }
 
 - (void)requestData {
@@ -92,9 +106,18 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
         // 2. If the url not contain "redirect_url" , We should add it so that we will could jump to our app.
         //  Note : 2. if the redirect_url is not last string, you should use correct strategy, because the redirect_url's value may contain some "&" special character so that my cut method may be incorrect.
         NSString *redirectUrl = nil;
+        NSString *prepay_id = nil;
         if ([absoluteString containsString:@"redirect_url="]) {
             NSRange redirectRange = [absoluteString rangeOfString:@"redirect_url"];
-            endPayRedirectURL =  [absoluteString substringFromIndex:redirectRange.location+redirectRange.length + 1];
+            endPayRedirectURL = [absoluteString substringFromIndex:redirectRange.location+redirectRange.length + 1];
+            
+            prepay_id = [self getParamByName:@"prepay_id" URLString:absoluteString];
+            
+            endPayRedirectURL = [NSString stringWithFormat:@"%@?prepay_id=%@&token=%@", endPayRedirectURL, prepay_id, [AppSingleton getToken]];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:endPayRedirectURL forKey:@"H5PayFinishedRedirectUrl"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             redirectUrl = [[absoluteString substringToIndex:redirectRange.location] stringByAppendingString:[NSString stringWithFormat:@"redirect_url=%@://",CompanyFirstDomainByWeChatRegister]];
         } else {
             redirectUrl = [absoluteString stringByAppendingString:[NSString stringWithFormat:@"&redirect_url=%@://",CompanyFirstDomainByWeChatRegister]];
@@ -117,7 +140,9 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
                 [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:endPayRedirectURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f]];
             }
         } else if ([scheme isEqualToString:CompanyFirstDomainByWeChatRegister]) {
-            [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@",CompanyFirstDomainByWeChatRegister]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f]];
+            if (endPayRedirectURL) {
+                [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:endPayRedirectURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0f]];
+            }
         }
         
         BOOL canOpen = [[UIApplication sharedApplication] canOpenURL:request.URL];
@@ -128,6 +153,24 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
     }
     
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+- (NSString *)getParamByName:(NSString *)name URLString:(NSString *)url{
+    NSError *error;
+    NSString *regTags=[[NSString alloc] initWithFormat:@"(^|&|\\?)+%@=+([^&]*)(&|$)", name];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regTags
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    
+    // 执行匹配的过程
+    NSArray *matches = [regex matchesInString:url
+                                      options:0
+                                        range:NSMakeRange(0, [url length])];
+    for (NSTextCheckingResult *match in matches) {
+        NSString *tagValue = [url substringWithRange:[match rangeAtIndex:2]];  // 分组2所对应的串
+        return tagValue;
+    }
+    return @"";
 }
 
 - (void)setupViews {

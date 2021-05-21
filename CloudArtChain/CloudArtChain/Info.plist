@@ -56,6 +56,8 @@
 	<string>"饭团密画"需要您的同意,才能使用相机</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>"饭团密画"需要您的同意,才能使用Face ID</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>"饭团密画"需要您的同意,才能使用定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>"饭团密画"需要您的同意,才能使用麦克风</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

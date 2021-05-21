@@ -21,17 +21,19 @@
 //网络接口访问地址
 #define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.me"
+#define CHAIN_GenesisHash                    "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
 
 #elif (ENV == OL)//正式环境
 //网络接口访问地址
 #define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://uniarts.senmeo.tech/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://mainnet.uniarts.vip:9443"
+#define CHAIN_GenesisHash                    "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077"
 #endif
 
 // 定义是否自动创建钱包
 #define AUTOCREATEWALLET 0
 #define MANUALCREATEWALLET 1
-#define WALLET_ENV MANUALCREATEWALLET
+#define WALLET_ENV AUTOCREATEWALLET
 
 //状态栏高度
 #define KStatus_Bar_Height [[UIApplication sharedApplication] statusBarFrame].size.height
