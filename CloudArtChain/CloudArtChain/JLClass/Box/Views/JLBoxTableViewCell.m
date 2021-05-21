@@ -62,17 +62,17 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.bottomView);
         make.height.mas_offset(30.0f);
-        make.width.mas_greaterThanOrEqualTo(200.0f);
-    }];
-    [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.bottomView);
-        make.centerY.equalTo(self.titleLabel.mas_centerY);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.unitLabel.mas_left).offset(-4.0f);
         make.centerY.equalTo(self.titleLabel.mas_centerY);
         make.left.equalTo(self.titleLabel.mas_right).offset(16.0f);
     }];
+    [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.priceLabel.mas_right).offset(4.0f);
+        make.right.equalTo(self.bottomView);
+        make.centerY.equalTo(self.titleLabel.mas_centerY);
+    }];
+    
     [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.bottomView);
         make.top.equalTo(self.titleLabel.mas_bottom);
@@ -115,7 +115,9 @@
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"¥95" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentRight];
+        _priceLabel.numberOfLines = 1;
+        [_priceLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }
     return _priceLabel;
 }
@@ -123,6 +125,8 @@
 - (UILabel *)unitLabel {
     if (!_unitLabel) {
         _unitLabel = [JLUIFactory labelInitText:@"/次" font:kFontPingFangSCRegular(11.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _unitLabel.numberOfLines = 1;
+        [_unitLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }
     return _unitLabel;
 }

@@ -52,8 +52,8 @@
     [self.view addSubview:self.focusButton];
     [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.bottom.mas_equalTo(-KTouch_Responder_Height);
-        make.height.mas_equalTo(46.0f);
+        make.bottom.equalTo(self.view);
+        make.height.mas_equalTo(46.0f + KTouch_Responder_Height);
     }];
     
     [self.view addSubview:self.scrollView];

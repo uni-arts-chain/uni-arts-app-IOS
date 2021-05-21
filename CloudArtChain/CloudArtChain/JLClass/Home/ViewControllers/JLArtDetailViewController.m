@@ -254,14 +254,13 @@
                 self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
             }
         }
-        
     } else {
         // 判断是否可以拆分
         if (self.artDetailData.collection_mode == 3) {
             // 可以拆分
             [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
-            self.immediatelyBuyBtn.enabled = NO;
-            self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+            self.immediatelyBuyBtn.enabled = YES;
+            self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
         }
     }
 }
@@ -419,7 +418,7 @@
                         [weakSelf requestSellingList];
                         
                         // 用户提示
-                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
                             
                         } confirm:@"联系客服" confirmHandler:^{
                             JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
@@ -455,7 +454,7 @@
                         }
                         
                         // 用户提示
-                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您以提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
                             
                         } confirm:@"联系客服" confirmHandler:^{
                             JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
@@ -483,6 +482,35 @@
 //                        [weakSelf.navigationController popViewControllerAnimated:NO];
                     };
                     [self.navigationController pushViewController:orderSubmitVC animated:YES];
+                }
+            } else {
+                // 可以拆分作品，直接购买最低价作品
+                if (self.currentSellingList.count > 0) {
+                    Model_arts_id_orders_Data *minPriceSellingOrderData = [self.currentSellingList firstObject];
+                    for (Model_arts_id_orders_Data *sellingOrderData in self.currentSellingList) {
+                        if ([[NSDecimalNumber decimalNumberWithString:sellingOrderData.price] isLessThan:[NSDecimalNumber decimalNumberWithString:minPriceSellingOrderData.price]]) {
+                            minPriceSellingOrderData = sellingOrderData;
+                        }
+                    }
+                    JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                    orderSubmitVC.artDetailData = weakSelf.artDetailData;
+                    orderSubmitVC.sellingOrderData = minPriceSellingOrderData;
+                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                        [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
+                        if (payType == JLOrderPayTypeWeChat) {
+                            // 打开支付页面
+                            JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+                            payWebVC.payUrl = payUrl;
+                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+                        } else {
+                            JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+                            payWebVC.payUrl = payUrl;
+                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+                        }
+                        [weakSelf requestSellingList];
+                    };
+                    [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
                 }
             }
         }
