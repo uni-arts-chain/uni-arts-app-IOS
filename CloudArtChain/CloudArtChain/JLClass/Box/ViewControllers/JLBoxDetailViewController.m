@@ -385,7 +385,7 @@
                 JLBoxOpenPayViewController *boxOpenPayVC = [[JLBoxOpenPayViewController alloc] init];
                 boxOpenPayVC.boxOpenPayType = boxPayType;
                 boxOpenPayVC.boxData = self.boxData;
-                __block JLBoxOpenPayViewController *weakBoxOpenPayVC = boxOpenPayVC;
+                __weak JLBoxOpenPayViewController *weakBoxOpenPayVC = boxOpenPayVC;
                 boxOpenPayVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                     [weakBoxOpenPayVC.navigationController popViewControllerAnimated:NO];
                     if (payType == JLOrderPayTypeWeChat) {

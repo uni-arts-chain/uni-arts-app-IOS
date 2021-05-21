@@ -472,7 +472,7 @@
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = self.artDetailData;
                     orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
-                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
                     orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         // 退出详情页面
@@ -495,7 +495,7 @@
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = weakSelf.artDetailData;
                     orderSubmitVC.sellingOrderData = minPriceSellingOrderData;
-                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
                     orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         if (payType == JLOrderPayTypeWeChat) {
@@ -797,7 +797,7 @@
             JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
             orderSubmitVC.artDetailData = weakSelf.artDetailData;
             orderSubmitVC.sellingOrderData = sellOrderData;
-            __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+            __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
             orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                 [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                 if (payType == JLOrderPayTypeWeChat) {

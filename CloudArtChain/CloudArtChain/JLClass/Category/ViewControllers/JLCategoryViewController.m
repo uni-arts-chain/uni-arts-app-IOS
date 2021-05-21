@@ -235,7 +235,7 @@
                 [weakSelf.collectionView reloadData];
             }
         };
-        __block JLArtDetailViewController *weakArtDetailVC = artDetailVC;
+        __weak JLArtDetailViewController *weakArtDetailVC = artDetailVC;
         artDetailVC.buySuccessDeleteBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
             [weakArtDetailVC.navigationController popViewControllerAnimated:NO];
             [weakSelf.dataArray removeObjectAtIndex:indexPath.row];

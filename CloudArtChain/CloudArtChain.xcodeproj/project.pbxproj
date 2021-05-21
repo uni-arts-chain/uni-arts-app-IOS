@@ -11,6 +11,17 @@
 		5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2429692504A7D700C74B6A /* JLMessageTableViewCell.m */; };
 		5C24296D2504AC0400C74B6A /* JLCustomerServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C24296C2504AC0400C74B6A /* JLCustomerServiceViewController.m */; };
 		5C2429702504AF6C00C74B6A /* JLCustomerServiceSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C24296F2504AF6C00C74B6A /* JLCustomerServiceSectionView.m */; };
+		5C573125265819AB008D341A /* UINavigationController+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C57310E265819AB008D341A /* UINavigationController+MemoryLeak.m */; };
+		5C573126265819AB008D341A /* MLeakedObjectProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573112265819AB008D341A /* MLeakedObjectProxy.m */; };
+		5C573127265819AB008D341A /* UIView+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573114265819AB008D341A /* UIView+MemoryLeak.m */; };
+		5C573128265819AB008D341A /* UITouch+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573117265819AB008D341A /* UITouch+MemoryLeak.m */; };
+		5C573129265819AB008D341A /* UISplitViewController+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573118265819AB008D341A /* UISplitViewController+MemoryLeak.m */; };
+		5C57312A265819AB008D341A /* UIPageViewController+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C57311A265819AB008D341A /* UIPageViewController+MemoryLeak.m */; };
+		5C57312B265819AB008D341A /* UITabBarController+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C57311C265819AB008D341A /* UITabBarController+MemoryLeak.m */; };
+		5C57312C265819AB008D341A /* MLeaksMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C57311D265819AB008D341A /* MLeaksMessenger.m */; };
+		5C57312D265819AB008D341A /* UIViewController+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C57311F265819AB008D341A /* UIViewController+MemoryLeak.m */; };
+		5C57312E265819AB008D341A /* UIApplication+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573122265819AB008D341A /* UIApplication+MemoryLeak.m */; };
+		5C57312F265819AB008D341A /* NSObject+MemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C573123265819AB008D341A /* NSObject+MemoryLeak.m */; };
 		5CD773DD250145A100F0F49A /* JLWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD773DC250145A100F0F49A /* JLWalletViewController.m */; };
 		5CD773E1250148A700F0F49A /* JLWalletPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD773E0250148A700F0F49A /* JLWalletPointCell.m */; };
 		5CFF02652503F94800A81E32 /* JLHoveringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02632503F94800A81E32 /* JLHoveringView.m */; };
@@ -1125,6 +1136,29 @@
 		5C24296C2504AC0400C74B6A /* JLCustomerServiceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCustomerServiceViewController.m; sourceTree = "<group>"; };
 		5C24296E2504AF6C00C74B6A /* JLCustomerServiceSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCustomerServiceSectionView.h; sourceTree = "<group>"; };
 		5C24296F2504AF6C00C74B6A /* JLCustomerServiceSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCustomerServiceSectionView.m; sourceTree = "<group>"; };
+		5C57310E265819AB008D341A /* UINavigationController+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C57310F265819AB008D341A /* MLeaksMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLeaksMessenger.h; sourceTree = "<group>"; };
+		5C573110265819AB008D341A /* UITabBarController+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573111265819AB008D341A /* UIPageViewController+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPageViewController+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573112265819AB008D341A /* MLeakedObjectProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLeakedObjectProxy.m; sourceTree = "<group>"; };
+		5C573113265819AB008D341A /* UIViewController+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573114265819AB008D341A /* UIView+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573115265819AB008D341A /* NSObject+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573116265819AB008D341A /* UIApplication+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573117265819AB008D341A /* UITouch+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573118265819AB008D341A /* UISplitViewController+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573119265819AB008D341A /* MLeaksFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLeaksFinder.h; sourceTree = "<group>"; };
+		5C57311A265819AB008D341A /* UIPageViewController+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPageViewController+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C57311B265819AB008D341A /* MLeakedObjectProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLeakedObjectProxy.h; sourceTree = "<group>"; };
+		5C57311C265819AB008D341A /* UITabBarController+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C57311D265819AB008D341A /* MLeaksMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLeaksMessenger.m; sourceTree = "<group>"; };
+		5C57311E265819AB008D341A /* UINavigationController+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C57311F265819AB008D341A /* UIViewController+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573120265819AB008D341A /* UISplitViewController+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISplitViewController+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573121265819AB008D341A /* UITouch+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITouch+MemoryLeak.h"; sourceTree = "<group>"; };
+		5C573122265819AB008D341A /* UIApplication+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573123265819AB008D341A /* NSObject+MemoryLeak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MemoryLeak.m"; sourceTree = "<group>"; };
+		5C573124265819AB008D341A /* UIView+MemoryLeak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MemoryLeak.h"; sourceTree = "<group>"; };
 		5CD773DB250145A100F0F49A /* JLWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletViewController.h; sourceTree = "<group>"; };
 		5CD773DC250145A100F0F49A /* JLWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWalletViewController.m; sourceTree = "<group>"; };
 		5CD773DF250148A700F0F49A /* JLWalletPointCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWalletPointCell.h; sourceTree = "<group>"; };
@@ -2767,6 +2801,36 @@
 				95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		5C57310D265819AB008D341A /* MLeaksFinder */ = {
+			isa = PBXGroup;
+			children = (
+				5C57310E265819AB008D341A /* UINavigationController+MemoryLeak.m */,
+				5C57310F265819AB008D341A /* MLeaksMessenger.h */,
+				5C573110265819AB008D341A /* UITabBarController+MemoryLeak.h */,
+				5C573111265819AB008D341A /* UIPageViewController+MemoryLeak.h */,
+				5C573112265819AB008D341A /* MLeakedObjectProxy.m */,
+				5C573113265819AB008D341A /* UIViewController+MemoryLeak.h */,
+				5C573114265819AB008D341A /* UIView+MemoryLeak.m */,
+				5C573115265819AB008D341A /* NSObject+MemoryLeak.h */,
+				5C573116265819AB008D341A /* UIApplication+MemoryLeak.h */,
+				5C573117265819AB008D341A /* UITouch+MemoryLeak.m */,
+				5C573118265819AB008D341A /* UISplitViewController+MemoryLeak.m */,
+				5C573119265819AB008D341A /* MLeaksFinder.h */,
+				5C57311A265819AB008D341A /* UIPageViewController+MemoryLeak.m */,
+				5C57311B265819AB008D341A /* MLeakedObjectProxy.h */,
+				5C57311C265819AB008D341A /* UITabBarController+MemoryLeak.m */,
+				5C57311D265819AB008D341A /* MLeaksMessenger.m */,
+				5C57311E265819AB008D341A /* UINavigationController+MemoryLeak.h */,
+				5C57311F265819AB008D341A /* UIViewController+MemoryLeak.m */,
+				5C573120265819AB008D341A /* UISplitViewController+MemoryLeak.h */,
+				5C573121265819AB008D341A /* UITouch+MemoryLeak.h */,
+				5C573122265819AB008D341A /* UIApplication+MemoryLeak.m */,
+				5C573123265819AB008D341A /* NSObject+MemoryLeak.m */,
+				5C573124265819AB008D341A /* UIView+MemoryLeak.h */,
+			);
+			path = MLeaksFinder;
 			sourceTree = "<group>";
 		};
 		5CD773DE2501488100F0F49A /* Wallet */ = {
@@ -5873,6 +5937,7 @@
 		B396554424F38DBA007A8EC2 /* Vendes */ = {
 			isa = PBXGroup;
 			children = (
+				5C57310D265819AB008D341A /* MLeaksFinder */,
 				B391CC5D262D75B100FF48B0 /* SSZipArchive */,
 				B391CC56262D73DA00FF48B0 /* AirSandbox */,
 				B3AA62CE25E4DD0200D28627 /* GtSdkLib-noidfa */,
@@ -6858,6 +6923,7 @@
 			files = (
 				B391CC45262D545600FF48B0 /* LAppModel.mm in Sources */,
 				B312252D25B6B60A00562ECA /* ExportOption.swift in Sources */,
+				5C57312E265819AB008D341A /* UIApplication+MemoryLeak.m in Sources */,
 				B31225C525B6B60A00562ECA /* NetworkManagementWireframe.swift in Sources */,
 				B312252525B6B60A00562ECA /* ChainStorageItem.swift in Sources */,
 				B312257125B6B60A00562ECA /* SelectionListProtocols.swift in Sources */,
@@ -7020,6 +7086,7 @@
 				B312261925B6B60A00562ECA /* ProfileSectionTableViewCell.swift in Sources */,
 				B358599B2513082F003BA185 /* JLBindPhoneViewController.m in Sources */,
 				B312253125B6B60A00562ECA /* SubstrateAccountId.swift in Sources */,
+				5C57312F265819AB008D341A /* NSObject+MemoryLeak.m in Sources */,
 				B312252625B6B60A00562ECA /* AboutData.swift in Sources */,
 				B31224FD25B6B60A00562ECA /* WalletNetworkOperationFactory.swift in Sources */,
 				B312262E25B6B60A00562ECA /* WalletEmptyStateDataSource.swift in Sources */,
@@ -7190,6 +7257,7 @@
 				B312254F25B6B60A00562ECA /* SubtitleActionControl.swift in Sources */,
 				B312265925B6B60A00562ECA /* WalletAssetViewModelFactory.swift in Sources */,
 				B391B098262E7CDF00127532 /* JLUploadImageModel.m in Sources */,
+				5C57312B265819AB008D341A /* UITabBarController+MemoryLeak.m in Sources */,
 				B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */,
 				B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */,
 				B31225CA25B6B60A00562ECA /* ModifyConnectionViewFactory.swift in Sources */,
@@ -7197,6 +7265,7 @@
 				B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */,
 				B31225A025B6B60A00562ECA /* NetworkInfoViewFactory.swift in Sources */,
 				B312258525B6B60A00562ECA /* AlertPresentable.swift in Sources */,
+				5C573128265819AB008D341A /* UITouch+MemoryLeak.m in Sources */,
 				B31225BE25B6B60A00562ECA /* NetworkManagementProtocols.swift in Sources */,
 				B3C9C60B2635967800186796 /* JLBoxModel.m in Sources */,
 				B31224DE25B6B60900562ECA /* ExportOption+ViewModel.swift in Sources */,
@@ -7257,6 +7326,7 @@
 				B31226B225B6B60B00562ECA /* AccountExportPasswordInteractor.swift in Sources */,
 				B396566424F3AFD4007A8EC2 /* JLDownloadLoading.m in Sources */,
 				B312263B25B6B60A00562ECA /* TransferConfigurator.swift in Sources */,
+				5C573125265819AB008D341A /* UINavigationController+MemoryLeak.m in Sources */,
 				B312258E25B6B60A00562ECA /* ByteLengthProcessor.swift in Sources */,
 				B38BCFE825B81D1F00FD37F7 /* JLNoOrderView.m in Sources */,
 				B396561824F38DF4007A8EC2 /* UIView+JLFrame.m in Sources */,
@@ -7386,6 +7456,7 @@
 				B3B889352618444A00A2C5D7 /* JSONScaleListDecodable.swift in Sources */,
 				B31225FE25B6B60A00562ECA /* AddAccountImportInteractor.swift in Sources */,
 				B31224E925B6B60900562ECA /* ConnectionItem+Default.swift in Sources */,
+				5C573129265819AB008D341A /* UISplitViewController+MemoryLeak.m in Sources */,
 				B31225E325B6B60A00562ECA /* AccountImportViewController.swift in Sources */,
 				B396566324F3AFD4007A8EC2 /* JLLoading.m in Sources */,
 				B391E2C426284B1C002CCC9D /* JLCreatorCollectionWaterLayout.m in Sources */,
@@ -7421,6 +7492,7 @@
 				B312251925B6B60A00562ECA /* ChainStorageIdFactory.swift in Sources */,
 				B312261F25B6B60A00562ECA /* ProfileInteractor.swift in Sources */,
 				B329C89225B5924800AE3938 /* NetworkRPCRequest.swift in Sources */,
+				5C573127265819AB008D341A /* UIView+MemoryLeak.m in Sources */,
 				B31224FF25B6B60A00562ECA /* WalletNetworkFacade.swift in Sources */,
 				B31225CD25B6B60A00562ECA /* AddConnectionError.swift in Sources */,
 				B31224B125B6B60900562ECA /* ExtrinsicFactory.swift in Sources */,
@@ -7429,10 +7501,12 @@
 				B391CC4F262D65D100FF48B0 /* JLLive2DCacheManager.m in Sources */,
 				B31226CF25B6B60B00562ECA /* ManagedAccountViewModelFactory.swift in Sources */,
 				B3648CE92518B2B800BBDB57 /* JLRealNameFailedView.m in Sources */,
+				5C57312C265819AB008D341A /* MLeaksMessenger.m in Sources */,
 				B312264B25B6B60A00562ECA /* WalletFormCellStyle+Internal.swift in Sources */,
 				B31226AF25B6B60B00562ECA /* ExportSeedData.swift in Sources */,
 				B38D505725EF6E7500056EED /* JLBorderInputView.m in Sources */,
 				B31224CB25B6B60900562ECA /* TransformAnimator+Common.swift in Sources */,
+				5C57312A265819AB008D341A /* UIPageViewController+MemoryLeak.m in Sources */,
 				B31225C925B6B60A00562ECA /* AddConnectionPresenter.swift in Sources */,
 				B359364125121A2900E2B2FD /* JLForgetPwdViewController.m in Sources */,
 				B312265325B6B60A00562ECA /* TransferConfirmBinder.swift in Sources */,
@@ -7603,6 +7677,7 @@
 				B38E41A325E8A7FB006AA9EE /* AuctionListCall.swift in Sources */,
 				B312269125B6B60B00562ECA /* ExistentialDepositInfoCommand.swift in Sources */,
 				B396560F24F38DF4007A8EC2 /* JLRefreshFooter.m in Sources */,
+				5C57312D265819AB008D341A /* UIViewController+MemoryLeak.m in Sources */,
 				B391CB9D262D2AD700FF48B0 /* CubismViewMatrix.cpp in Sources */,
 				B31224CE25B6B60900562ECA /* Decimal+Precision.swift in Sources */,
 				B391B0B9262F032A00127532 /* JLBoxDetailCardCollectionWaterLayout.m in Sources */,
@@ -7816,6 +7891,7 @@
 				B31224C225B6B60900562ECA /* UIViewController+Modal.swift in Sources */,
 				B312250525B6B60A00562ECA /* Block.swift in Sources */,
 				B312251E25B6B60A00562ECA /* FieldStatus.swift in Sources */,
+				5C573126265819AB008D341A /* MLeakedObjectProxy.m in Sources */,
 				B312266E25B6B60A00562ECA /* WalletHistoryStyle.swift in Sources */,
 				B312266F25B6B60A00562ECA /* WalletHistoryBackgroundView.swift in Sources */,
 				B31224E225B6B60900562ECA /* CodableExtensions.swift in Sources */,

@@ -98,7 +98,7 @@
     
     cell.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
         if (weakSelf.offFromListBlock) {
-            weakSelf.offFromListBlock(artDetailData, self.workListType);
+            weakSelf.offFromListBlock(artDetailData, weakSelf.workListType);
         }
 //        if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
 //            [[JLViewControllerTool appDelegate].walletTool cancelAuctionCallWithCollectionId:artDetailData.collection_id.intValue itemId:artDetailData.item_id.intValue block:^(BOOL success, NSString * _Nonnull message) {

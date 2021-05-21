@@ -339,7 +339,7 @@
 - (void)uploadWorkBtnClick {
     WS(weakSelf)
     JLUploadWorkViewController *uploadWorkVC = [[JLUploadWorkViewController alloc] init];
-    __block typeof(uploadWorkVC) weakUploadVC = uploadWorkVC;
+    __weak typeof(uploadWorkVC) weakUploadVC = uploadWorkVC;
     uploadWorkVC.checkProcessBlock = ^{
         [weakUploadVC.navigationController popViewControllerAnimated:YES];
         for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
