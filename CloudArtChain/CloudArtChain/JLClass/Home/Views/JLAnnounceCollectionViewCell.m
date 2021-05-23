@@ -7,10 +7,13 @@
 //
 
 #import "JLAnnounceCollectionViewCell.h"
+#import "UIButton+TouchArea.h"
 
 @interface JLAnnounceCollectionViewCell ()
 @property (nonatomic, strong) UILabel *firstLabel;
 @property (nonatomic, strong) UILabel *secondLabel;
+@property (nonatomic, strong) UIButton *firstButton;
+@property (nonatomic, strong) UIButton *secondButton;
 @end
 
 @implementation JLAnnounceCollectionViewCell
@@ -27,14 +30,21 @@
     ViewBorderRadius(firstDotView, 1.5f, 0.0f, JL_color_clear);
     [self addSubview:firstDotView];
     [self addSubview:self.firstLabel];
+    [self addSubview:self.firstButton];
     
     UIView *secondDotView = [[UIView alloc] init];
     secondDotView.backgroundColor = JL_color_blue_B2CDFF;
     ViewBorderRadius(secondDotView, 1.5f, 0.0f, JL_color_clear);
     [self addSubview:secondDotView];
     [self addSubview:self.secondLabel];
+    [self addSubview:self.secondButton];
     
     [self.firstLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.mas_equalTo(self);
+        make.left.mas_equalTo(13.0f);
+        make.height.mas_equalTo(13.0f);
+    }];
+    [self.firstButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.mas_equalTo(self);
         make.left.mas_equalTo(13.0f);
         make.height.mas_equalTo(13.0f);
@@ -45,6 +55,11 @@
         make.centerY.equalTo(self.firstLabel.mas_centerY);
     }];
     [self.secondLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.mas_equalTo(self);
+        make.left.mas_equalTo(13.0f);
+        make.height.mas_equalTo(13.0f);
+    }];
+    [self.secondButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.mas_equalTo(self);
         make.left.mas_equalTo(13.0f);
         make.height.mas_equalTo(13.0f);
@@ -80,4 +95,36 @@
     }
     return _secondLabel;
 }
+
+- (UIButton *)firstButton {
+    if (!_firstButton) {
+        _firstButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_firstButton edgeTouchAreaWithTop:12.0f right:0.0f bottom:12.0f left:0.0f];
+        [_firstButton addTarget:self action:@selector(firstButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _firstButton;
+}
+
+- (void)firstButtonClick {
+    if (self.announceBlock) {
+        self.announceBlock(0);
+    }
+}
+
+- (UIButton *)secondButton {
+    if (!_secondButton) {
+        _secondButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_secondButton edgeTouchAreaWithTop:12.0f right:0.0f bottom:12.0f left:0.0f];
+        [_secondButton addTarget:self action:@selector(secondButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _secondButton;
+}
+
+- (void)secondButtonClick {
+    if (self.announceBlock) {
+        self.announceBlock(1);
+    }
+}
+
+
 @end

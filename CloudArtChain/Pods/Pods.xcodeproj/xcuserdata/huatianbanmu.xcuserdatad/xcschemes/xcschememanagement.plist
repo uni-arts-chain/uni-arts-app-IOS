@@ -21,12 +21,12 @@
 		<key>BigInt.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>31</integer>
+			<integer>47</integer>
 		</dict>
 		<key>CommonWallet.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>49</integer>
+			<integer>38</integer>
 		</dict>
 		<key>CoreBitcoin.xcscheme</key>
 		<dict>
@@ -38,7 +38,7 @@
 		<key>Cuckoo.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>40</integer>
+			<integer>39</integer>
 		</dict>
 		<key>DateTools.xcscheme</key>
 		<dict>
@@ -64,12 +64,12 @@
 		<key>FearlessUtils.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>41</integer>
+			<integer>30</integer>
 		</dict>
 		<key>FireMock.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>34</integer>
+			<integer>54</integer>
 		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
@@ -88,7 +88,7 @@
 		<key>IrohaCrypto.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>36</integer>
+			<integer>44</integer>
 		</dict>
 		<key>JSONModel.xcscheme</key>
 		<dict>
@@ -128,7 +128,7 @@
 		<key>LSTTimer.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>48</integer>
+			<integer>53</integer>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
 		<dict>
@@ -161,22 +161,22 @@
 		<key>Pods-CloudArtChainTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>52</integer>
+			<integer>42</integer>
 		</dict>
 		<key>R.swift.Library.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>33</integer>
+			<integer>48</integer>
 		</dict>
 		<key>R.swift.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>43</integer>
+			<integer>37</integer>
 		</dict>
 		<key>ReachabilitySwift.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>54</integer>
+			<integer>33</integer>
 		</dict>
 		<key>ReactiveObjC.xcscheme</key>
 		<dict>
@@ -188,7 +188,7 @@
 		<key>RobinHood.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>55</integer>
+			<integer>31</integer>
 		</dict>
 		<key>SDCycleScrollView.xcscheme</key>
 		<dict>
@@ -221,42 +221,42 @@
 		<key>SnapKit.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>53</integer>
+			<integer>32</integer>
 		</dict>
 		<key>SoraFoundation.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>46</integer>
+			<integer>55</integer>
 		</dict>
 		<key>SoraKeystore.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>45</integer>
+			<integer>50</integer>
 		</dict>
 		<key>SoraUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>39</integer>
+			<integer>35</integer>
 		</dict>
 		<key>Starscream.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>38</integer>
+			<integer>43</integer>
 		</dict>
 		<key>SwiftGifOrigin.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>47</integer>
+			<integer>49</integer>
 		</dict>
 		<key>SwiftLint.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>50</integer>
+			<integer>34</integer>
 		</dict>
 		<key>SwiftyBeaver.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>42</integer>
+			<integer>46</integer>
 		</dict>
 		<key>TOCropViewController-TOCropViewControllerBundle.xcscheme</key>
 		<dict>
@@ -275,12 +275,12 @@
 		<key>TweetNacl.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>37</integer>
+			<integer>51</integer>
 		</dict>
 		<key>UMAPM.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>51</integer>
+			<integer>40</integer>
 		</dict>
 		<key>UMCCommon.xcscheme</key>
 		<dict>
@@ -299,7 +299,7 @@
 		<key>UMDevice.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>35</integer>
+			<integer>36</integer>
 		</dict>
 		<key>YYCache.xcscheme</key>
 		<dict>
@@ -325,17 +325,17 @@
 		<key>scrypt.c.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>32</integer>
+			<integer>52</integer>
 		</dict>
 		<key>secp256k1.c.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>44</integer>
+			<integer>45</integer>
 		</dict>
 		<key>xxHash-Swift.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>30</integer>
+			<integer>41</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

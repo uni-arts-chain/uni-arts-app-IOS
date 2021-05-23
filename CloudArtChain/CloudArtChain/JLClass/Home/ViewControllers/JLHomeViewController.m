@@ -361,6 +361,7 @@
 }
 
 - (void)setupCustomCell:(UICollectionViewCell *)cell forIndex:(NSInteger)index cycleScrollView:(SDCycleScrollView *)view {
+    WS(weakSelf)
     JLAnnounceCollectionViewCell *annonuceCell = (JLAnnounceCollectionViewCell *)cell;
     NSMutableArray *array = [NSMutableArray array];
     [array addObject:self.cycleScrollView.titlesGroup[index]];
@@ -370,15 +371,26 @@
         [array addObject:self.cycleScrollView.titlesGroup[index + 1]];
     }
     annonuceCell.announceArray = [array copy];
+    annonuceCell.announceBlock = ^(NSInteger subIndex) {
+        Model_news_Data *annouceData = weakSelf.announceArray[index];
+        if (subIndex == 1) {
+            if (index == weakSelf.cycleScrollView.titlesGroup.count - 1) {
+                annouceData = weakSelf.announceArray[0];
+            } else {
+                annouceData = weakSelf.announceArray[index + 1];
+            }
+        }
+        JLNewsDetailViewController *newsDetailVC = [[JLNewsDetailViewController alloc] init];
+        newsDetailVC.newsData = annouceData;
+        [weakSelf.navigationController pushViewController:newsDetailVC animated:YES];
+    };
 }
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    Model_news_Data *annouceData = self.announceArray[index];
-//    JLBaseWebViewController *detailVC = [[JLBaseWebViewController alloc] initWithHtmlContent:annouceData.content naviTitle:annouceData.title];
-//    [self.navigationController pushViewController:detailVC animated:YES];
-    JLNewsDetailViewController *newsDetailVC = [[JLNewsDetailViewController alloc] init];
-    newsDetailVC.newsData = annouceData;
-    [self.navigationController pushViewController:newsDetailVC animated:YES];
+//    Model_news_Data *annouceData = self.announceArray[index];
+//    JLNewsDetailViewController *newsDetailVC = [[JLNewsDetailViewController alloc] init];
+//    newsDetailVC.newsData = annouceData;
+//    [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 
 #pragma mark 查询用户是否有未读消息

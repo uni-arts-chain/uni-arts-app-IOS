@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAnnounceCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) NSArray *announceArray;
+@property (nonatomic, copy) void(^announceBlock)(NSInteger subIndex);
 @end
 
 NS_ASSUME_NONNULL_END
