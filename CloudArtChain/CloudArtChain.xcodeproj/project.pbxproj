@@ -2806,29 +2806,29 @@
 		5C57310D265819AB008D341A /* MLeaksFinder */ = {
 			isa = PBXGroup;
 			children = (
-				5C57310E265819AB008D341A /* UINavigationController+MemoryLeak.m */,
-				5C57310F265819AB008D341A /* MLeaksMessenger.h */,
-				5C573110265819AB008D341A /* UITabBarController+MemoryLeak.h */,
-				5C573111265819AB008D341A /* UIPageViewController+MemoryLeak.h */,
-				5C573112265819AB008D341A /* MLeakedObjectProxy.m */,
-				5C573113265819AB008D341A /* UIViewController+MemoryLeak.h */,
-				5C573114265819AB008D341A /* UIView+MemoryLeak.m */,
-				5C573115265819AB008D341A /* NSObject+MemoryLeak.h */,
-				5C573116265819AB008D341A /* UIApplication+MemoryLeak.h */,
-				5C573117265819AB008D341A /* UITouch+MemoryLeak.m */,
-				5C573118265819AB008D341A /* UISplitViewController+MemoryLeak.m */,
-				5C573119265819AB008D341A /* MLeaksFinder.h */,
-				5C57311A265819AB008D341A /* UIPageViewController+MemoryLeak.m */,
 				5C57311B265819AB008D341A /* MLeakedObjectProxy.h */,
-				5C57311C265819AB008D341A /* UITabBarController+MemoryLeak.m */,
+				5C573112265819AB008D341A /* MLeakedObjectProxy.m */,
+				5C573119265819AB008D341A /* MLeaksFinder.h */,
+				5C57310F265819AB008D341A /* MLeaksMessenger.h */,
 				5C57311D265819AB008D341A /* MLeaksMessenger.m */,
-				5C57311E265819AB008D341A /* UINavigationController+MemoryLeak.h */,
-				5C57311F265819AB008D341A /* UIViewController+MemoryLeak.m */,
-				5C573120265819AB008D341A /* UISplitViewController+MemoryLeak.h */,
-				5C573121265819AB008D341A /* UITouch+MemoryLeak.h */,
-				5C573122265819AB008D341A /* UIApplication+MemoryLeak.m */,
+				5C573115265819AB008D341A /* NSObject+MemoryLeak.h */,
 				5C573123265819AB008D341A /* NSObject+MemoryLeak.m */,
+				5C573116265819AB008D341A /* UIApplication+MemoryLeak.h */,
+				5C573122265819AB008D341A /* UIApplication+MemoryLeak.m */,
+				5C57311E265819AB008D341A /* UINavigationController+MemoryLeak.h */,
+				5C57310E265819AB008D341A /* UINavigationController+MemoryLeak.m */,
+				5C573111265819AB008D341A /* UIPageViewController+MemoryLeak.h */,
+				5C57311A265819AB008D341A /* UIPageViewController+MemoryLeak.m */,
+				5C573120265819AB008D341A /* UISplitViewController+MemoryLeak.h */,
+				5C573118265819AB008D341A /* UISplitViewController+MemoryLeak.m */,
+				5C573110265819AB008D341A /* UITabBarController+MemoryLeak.h */,
+				5C57311C265819AB008D341A /* UITabBarController+MemoryLeak.m */,
+				5C573121265819AB008D341A /* UITouch+MemoryLeak.h */,
+				5C573117265819AB008D341A /* UITouch+MemoryLeak.m */,
 				5C573124265819AB008D341A /* UIView+MemoryLeak.h */,
+				5C573114265819AB008D341A /* UIView+MemoryLeak.m */,
+				5C573113265819AB008D341A /* UIViewController+MemoryLeak.h */,
+				5C57311F265819AB008D341A /* UIViewController+MemoryLeak.m */,
 			);
 			path = MLeaksFinder;
 			sourceTree = "<group>";
@@ -8138,7 +8138,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8536,7 +8536,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;

@@ -169,16 +169,16 @@
             UITextPosition *position = [weakSelf.currentNumTF positionFromPosition:selectedRange.start offset:0];
             if (!position) {
                 NSString *result = [JLUtils trimSpace:x];
-                if (result.intValue > (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue)) {
-                    weakSelf.currentNumTF.text = @(self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue).stringValue;
+                if (result.intValue > (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue)) {
+                    weakSelf.currentNumTF.text = @(weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue).stringValue;
                 } else {
                     weakSelf.currentNumTF.text = result;
                 }
             }
         } else {
             NSString *result = [JLUtils trimSpace:x];
-            if (result.intValue > (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue)) {
-                weakSelf.currentNumTF.text = @(self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue).stringValue;
+            if (result.intValue > (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue)) {
+                weakSelf.currentNumTF.text = @(weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue).stringValue;
             } else {
                 weakSelf.currentNumTF.text = result;
             }
@@ -429,7 +429,7 @@
         [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
             NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
             if ([amountNumber isGreaterThanZero]) {
-                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:self.currentNumTF.text block:^(BOOL success, NSString * _Nonnull message) {
+                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:weakSelf.lockAccountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:weakSelf.currentNumTF.text block:^(BOOL success, NSString * _Nonnull message) {
                     if (success) {
                         [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
                             if (success) {
@@ -442,8 +442,8 @@
                                         // 发送网络请求
                                         Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
                                         request.art_id = weakSelf.artDetailData.ID;
-                                        request.amount = [JLUtils trimSpace:self.currentNumTF.text];
-                                        request.price = [JLUtils trimSpace:self.priceTF.text];
+                                        request.amount = [JLUtils trimSpace:weakSelf.currentNumTF.text];
+                                        request.price = [JLUtils trimSpace:weakSelf.priceTF.text];
                                         request.currency = @"rmb";
                                         request.encrpt_extrinsic_message = transferSignedMessage;
                                         Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];

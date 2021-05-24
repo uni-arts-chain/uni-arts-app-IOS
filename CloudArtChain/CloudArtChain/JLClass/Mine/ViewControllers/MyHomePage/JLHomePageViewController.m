@@ -303,11 +303,13 @@
         workListVC.transferBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
             JLTransferViewController *transferVC = [[JLTransferViewController alloc] init];
             transferVC.artDetailData = artDetailData;
+            __weak JLTransferViewController *weakTransferVC = transferVC;
             transferVC.transferSuccessBlock = ^{
+                [weakTransferVC.navigationController popViewControllerAnimated:YES];
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交转让申请" hideTime:KToastDismissDelayTimeInterval];
                 for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
                     [workListVC headRefresh];
                 }
-                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交转让申请" hideTime:KToastDismissDelayTimeInterval];
             };
             [weakSelf.navigationController pushViewController:transferVC animated:YES];
         };

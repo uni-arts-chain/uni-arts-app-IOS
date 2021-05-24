@@ -475,7 +475,9 @@
 - (void)getBoxCardList {
     [self.boxCardArray removeAllObjects];
     for (Model_blind_boxes_card_groups_Data *cardData in self.boxData.onchain_card_groups) {
-        [self.boxCardArray addObject:cardData.art];
+        if (cardData.art != nil) {
+            [self.boxCardArray addObject:cardData.art];
+        }
     }
     [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo([self getCollectionHeight]);

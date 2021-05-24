@@ -37,6 +37,7 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
     func backClick(viewController: UIViewController) {
         self.interactor = nil
         viewController.navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController = nil;
     }
     
     lazy var rootAnimator: RootControllerAnimationCoordinatorProtocol = RootControllerAnimationCoordinator()

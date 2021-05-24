@@ -161,25 +161,25 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
     lazy var bottomView: UIView = {
         let bottomView = UIView()
         bottomView.backgroundColor = .white
-        
+
         let centerView = UIView()
         bottomView.addSubview(centerView)
         centerView.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(bottomView)
             make.centerX.equalTo(bottomView.snp.centerX)
         }
-        
+
         let titleLabel = UILabel()
         titleLabel.text = "积分说明"
         titleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
         titleLabel.textColor = UIColor(hex: "909090")
         titleLabel.textAlignment = .center
         centerView.addSubview(titleLabel)
-        
+
         let iconImageView = UIImageView()
         iconImageView.image = UIImage(named: "icon_wallet_point_help")
         centerView.addSubview(iconImageView)
-        
+
         titleLabel.snp.makeConstraints { (make) in
             make.left.top.bottom.equalTo(centerView)
         }
@@ -189,14 +189,14 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
             make.size.equalTo(14.0)
             make.centerY.equalTo(titleLabel.snp.centerY)
         }
-        
+
         let pointDescBtn = UIButton(type: .custom)
         pointDescBtn.addTarget(self, action: #selector(pointDescBtnClick), for: .touchUpInside)
         bottomView.addSubview(pointDescBtn)
         pointDescBtn.snp.makeConstraints { (make) in
             make.edges.equalTo(bottomView)
         }
-        
+
         return bottomView
     }()
     

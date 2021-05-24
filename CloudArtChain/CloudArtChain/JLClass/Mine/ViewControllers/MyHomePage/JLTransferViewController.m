@@ -242,7 +242,7 @@
                         [[JLViewControllerTool appDelegate].walletTool productSellTransferCallWithAccountId:accountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:weakSelf.currentNumStr block:^(BOOL success, NSString * _Nullable message) {
                             [[JLLoading sharedLoading] hideLoading];
                             if (success) {
-                                [weakSelf.navigationController popViewControllerAnimated:YES];
+//                                [weakSelf.navigationController popViewControllerAnimated:YES];
                                 if (weakSelf.transferSuccessBlock) {
                                     weakSelf.transferSuccessBlock();
                                 }
