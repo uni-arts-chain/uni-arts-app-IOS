@@ -81,6 +81,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(live2dSnapshotNotification:) name:@"JLLive2dSnapshotNotification" object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
+}
+
 - (void)live2dSnapshotNotification:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
     UIImage *snapshotImage = userInfo[@"snapshot"];
@@ -246,8 +251,9 @@
 
 - (JLUploadWorkImageView *)uploadImageView {
     if (!_uploadImageView) {
+        WS(weakSelf)
         _uploadImageView = [[JLUploadWorkImageView alloc] init];
-        _uploadImageView.controller = self;
+        _uploadImageView.controller = weakSelf;
     }
     return _uploadImageView;
 }
@@ -276,7 +282,7 @@
         _themeView = [[JLUploadWorkSelectView alloc] initWithTitle:@"作品所属主题" selectBlock:^{
             [weakSelf.view endEditing:YES];
             JLPickerView *pickerView = [[JLPickerView alloc] init];
-            pickerView.dataSource = self.tempThemeArray;
+            pickerView.dataSource = weakSelf.tempThemeArray;
             pickerView.selectIndex = weakSelf.currentSelectedThemeData == nil ? 0 : weakSelf.currentSelectedThemeIndex;
             pickerView.selectBlock = ^(NSInteger index, NSString *result) {
                 [weakSelf.themeView setSelectContent:result];
@@ -296,7 +302,7 @@
         _splitNumView = [[JLUploadWorkSelectView alloc] initWithTitle:@"拆分数量：" selectBlock:^{
             [weakSelf.view endEditing:YES];
             JLPickerView *pickerView = [[JLPickerView alloc] init];
-            pickerView.dataSource = self.tempSplitNumArray;
+            pickerView.dataSource = weakSelf.tempSplitNumArray;
             pickerView.selectIndex = weakSelf.currentSelectedSplitNumIndex;
             pickerView.selectBlock = ^(NSInteger index, NSString *result) {
                 [weakSelf.splitNumView setSelectContent:result];
@@ -319,17 +325,17 @@
             [weakSelf.priceView refreshWithTitle:workSplit ? @"每份价格：" : @"设置作品价格" showUnit:workSplit];
             if (workSplit) {
                 weakSelf.splitNumView.hidden = NO;
-                [self.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.left.mas_equalTo(self.scrollView);
-                    make.top.equalTo(self.splitNumView.mas_bottom);
+                [weakSelf.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(weakSelf.scrollView);
+                    make.top.equalTo(weakSelf.splitNumView.mas_bottom);
                     make.height.mas_equalTo(55.0f);
                     make.width.mas_equalTo(kScreenWidth);
                 }];
             } else {
                 weakSelf.splitNumView.hidden = YES;
-                [self.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.left.mas_equalTo(self.scrollView);
-                    make.top.equalTo(self.workSplitSwitchView.mas_bottom);
+                [weakSelf.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(weakSelf.scrollView);
+                    make.top.equalTo(weakSelf.workSplitSwitchView.mas_bottom);
                     make.height.mas_equalTo(55.0f);
                     make.width.mas_equalTo(kScreenWidth);
                 }];
@@ -555,7 +561,7 @@
                         [weakSelf.navigationController popViewControllerAnimated:YES];
                     }
                 }];
-                [self presentViewController:alert animated:YES completion:nil];
+                [weakSelf presentViewController:alert animated:YES completion:nil];
             } else {
                 [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
             }
@@ -658,7 +664,7 @@
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
             }];
-            [self presentViewController:alert animated:YES completion:nil];
+            [weakSelf presentViewController:alert animated:YES completion:nil];
         } else {
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }

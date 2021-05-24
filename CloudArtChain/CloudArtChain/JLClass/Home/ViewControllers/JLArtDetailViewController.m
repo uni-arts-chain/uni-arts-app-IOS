@@ -407,7 +407,7 @@
                         // 刷新艺术品详情
                         weakSelf.artDetailData = artDetailData;
                         // 判断是否有可售作品
-                        if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
+                        if (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue > 0) {
                             // 有可出售的作品
                             [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                         } else {
@@ -472,7 +472,7 @@
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = self.artDetailData;
                     orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
-                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
                     orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         // 退出详情页面
@@ -495,7 +495,7 @@
                     JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
                     orderSubmitVC.artDetailData = weakSelf.artDetailData;
                     orderSubmitVC.sellingOrderData = minPriceSellingOrderData;
-                    __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                    __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
                     orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         if (payType == JLOrderPayTypeWeChat) {
@@ -797,7 +797,7 @@
             JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
             orderSubmitVC.artDetailData = weakSelf.artDetailData;
             orderSubmitVC.sellingOrderData = sellOrderData;
-            __block JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+            __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
             orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                 [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                 if (payType == JLOrderPayTypeWeChat) {

@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, JLWorkListType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JLWorksListViewController : UIViewController
+@interface JLWorksListViewController : JLBaseViewController
 @property (nonatomic, assign) JLWorkListType workListType;
 @property (nonatomic, strong) JLPagetableCollectionView *collectionView;
 @property (nonatomic, copy) void(^addToListBlock)(Model_art_Detail_Data *artDetailData);

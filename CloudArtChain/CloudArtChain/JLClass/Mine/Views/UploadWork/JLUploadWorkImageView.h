@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkImageView : JLBaseView
-@property (nonatomic, strong) UIViewController *controller;
+@property (nonatomic, weak) UIViewController *controller;
+//@property (nonatomic, strong) UIViewController *controller;
 - (NSArray *)getImageArray;
 - (void)addLive2dSnapshotImage:(UIImage *)snapshotImage;
 @end

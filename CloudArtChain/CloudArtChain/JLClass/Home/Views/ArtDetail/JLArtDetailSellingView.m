@@ -172,17 +172,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
     JLArtDetailSellingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLArtDetailSellingTableViewCell" forIndexPath:indexPath];
     cell.sellingOrderData = self.sellingArray[indexPath.row];
     cell.operationBlock = ^(Model_arts_id_orders_Data * _Nonnull sellingOrderData) {
         if (sellingOrderData.is_mine) {
             // 下架
-            if (self.offFromListBlock) {
-                self.offFromListBlock(sellingOrderData);
+            if (weakSelf.offFromListBlock) {
+                weakSelf.offFromListBlock(sellingOrderData);
             }
         } else {
-            if (self.buyBlock) {
-                self.buyBlock(sellingOrderData);
+            if (weakSelf.buyBlock) {
+                weakSelf.buyBlock(sellingOrderData);
             }
         }
     };
