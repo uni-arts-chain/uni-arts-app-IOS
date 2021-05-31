@@ -20,7 +20,8 @@ static AFHTTPSessionManager *sessionManager = nil;
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         // 设置超时时间
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-        manager.requestSerializer.timeoutInterval = 15.f;
+//        manager.requestSerializer.timeoutInterval = 15.f;
+        manager.requestSerializer.timeoutInterval = 120.f;
         [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
         sessionManager = manager;
     }

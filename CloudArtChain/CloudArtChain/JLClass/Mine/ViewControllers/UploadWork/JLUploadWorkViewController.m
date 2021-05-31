@@ -77,13 +77,12 @@
     [self addBackItem];
     [self createView];
     [self refreshThemeArray];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(live2dSnapshotNotification:) name:@"JLLive2dSnapshotNotification" object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)backClick {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)live2dSnapshotNotification:(NSNotification *)notification {
@@ -553,11 +552,13 @@
                     if (weakSelf.uploadSuccessBackBlock) {
                         weakSelf.uploadSuccessBackBlock();
                     }
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 } confirm:@"去查看" confirmHandler:^{
                     if (weakSelf.checkProcessBlock) {
                         weakSelf.checkProcessBlock();
                     } else {
+                        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                         [weakSelf.navigationController popViewControllerAnimated:YES];
                     }
                 }];
@@ -656,11 +657,13 @@
                 if (weakSelf.uploadSuccessBackBlock) {
                     weakSelf.uploadSuccessBackBlock();
                 }
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             } confirm:@"去查看" confirmHandler:^{
                 if (weakSelf.checkProcessBlock) {
                     weakSelf.checkProcessBlock();
                 } else {
+                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
             }];

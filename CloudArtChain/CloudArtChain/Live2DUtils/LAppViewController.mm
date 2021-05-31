@@ -169,8 +169,6 @@ using namespace LAppDefine;
         
 //        [_gear render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
         
-        [_close render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
-        
         LAppLive2DManager* Live2DManager = [LAppLive2DManager getInstance];
         [Live2DManager SetViewMatrix:_viewMatrix];
         [Live2DManager onUpdate];
@@ -200,7 +198,7 @@ using namespace LAppDefine;
                 }
             }
         }
-
+        [_close render:_vertexBufferId fragmentBufferID:_fragmentBufferId];
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         
         if (mSaveSnapshot) {
