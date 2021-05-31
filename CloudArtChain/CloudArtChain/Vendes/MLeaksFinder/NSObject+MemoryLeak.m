@@ -116,6 +116,9 @@ const void *const kLatestSenderKey = &kLatestSenderKey;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         whitelist = [NSMutableSet setWithObjects:
+                     @"UIImagePickerController",
+                     @"LAppViewController",
+                     @"JLDocumentPickerViewController",
                      @"UITextView",
                      @"JLBaseTextField",
                      @"UITextField",

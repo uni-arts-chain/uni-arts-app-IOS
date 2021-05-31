@@ -152,7 +152,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.collectionView.mj_footer.hidden = YES;
     [self requestCollectionList];
 }
 

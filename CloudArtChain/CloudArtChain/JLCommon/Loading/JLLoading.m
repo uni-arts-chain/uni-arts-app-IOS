@@ -258,7 +258,7 @@
         _HUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
         _HUD.bezelView.color = [UIColor colorWithHexString:@"333333" alpha:0.9];
         _HUD.animationType = MBProgressHUDAnimationFade;
-        _HUD.userInteractionEnabled = NO;
+        _HUD.userInteractionEnabled = YES;
         _HUD.detailsLabel.numberOfLines = 0;
         _HUD.margin = 16;
         _HUD.label.font = kFontPingFangSCRegular(10);

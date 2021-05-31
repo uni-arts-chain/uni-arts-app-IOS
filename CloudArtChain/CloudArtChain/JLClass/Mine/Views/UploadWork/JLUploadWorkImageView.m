@@ -69,7 +69,7 @@
         UIImageView *noticeImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_notice"];
         [_noticeView addSubview:noticeImageView];
         
-        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF、Live 2D)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
         [_noticeView addSubview:noticeLabel];
         
         [noticeImageView mas_makeConstraints:^(MASConstraintMaker *make) {

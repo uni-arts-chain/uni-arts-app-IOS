@@ -32,7 +32,6 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    self.tableView.mj_footer.hidden = YES;
     [self requestOrder];
 }
 

@@ -61,6 +61,7 @@
     [self.cardNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_right).offset(18.0f);
         make.top.equalTo(self.productImageView.mas_top);
+        make.right.mas_equalTo(-15.0f);
     }];
     [self.numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.cardNameLabel.mas_left);
@@ -109,6 +110,7 @@
 - (UILabel *)cardNameLabel {
     if (!_cardNameLabel) {
         _cardNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _cardNameLabel.numberOfLines = 1;
     }
     return _cardNameLabel;
 }

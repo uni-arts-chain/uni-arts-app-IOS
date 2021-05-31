@@ -717,9 +717,9 @@
             // 查看Live2D
             [self showLive2D];
         } else {
-            [[JLLoading sharedLoading] showProgressWithView:nil message:@"正在下载Live2D文件" progress:0.0f];
+            [[JLLoading sharedLoading] showProgressWithView:self.view message:@"正在下载Live2D文件" progress:0.0f];
             self.live2DDownloadTask = [[JLLive2DCacheManager shareManager] downLive2DWithPath:live2d_ipfs_url fileID:self.artDetailData.ID fileKey:[NSString stringWithFormat:@"%@.zip", live2d_file] progressBlock:^(CGFloat progress) {
-                [[JLLoading sharedLoading] showProgressWithView:nil message:@"正在下载Live2D文件" progress:progress];
+                [[JLLoading sharedLoading] showProgressWithView:weakSelf.view message:@"正在下载Live2D文件" progress:progress];
             } success:^(NSURL *URL) {
                 [[JLLoading sharedLoading] hideLoading];
                 [weakSelf showLive2D];

@@ -19,12 +19,30 @@ static AFHTTPSessionManager *sessionManager = nil;
         manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         // 设置超时时间
-        [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-//        manager.requestSerializer.timeoutInterval = 15.f;
-        manager.requestSerializer.timeoutInterval = 120.f;
-        [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+//        [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+//        manager.requestSerializer.timeoutInterval = 30.f;
+//        manager.requestSerializer.timeoutInterval = 120.f;
+//        [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
         sessionManager = manager;
     }
+    // 设置超时时间
+    [sessionManager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    sessionManager.requestSerializer.timeoutInterval = 30.f;
+    [sessionManager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    return sessionManager;
+}
+
++ (AFHTTPSessionManager *)getUploadSessionManager {
+    if (!sessionManager) {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        sessionManager = manager;
+    }
+    // 设置超时时间
+    [sessionManager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+    sessionManager.requestSerializer.timeoutInterval = 120.0f;
+    [sessionManager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
     return sessionManager;
 }
 
@@ -195,7 +213,7 @@ static AFHTTPSessionManager *sessionManager = nil;
                            fileData:(NSData *)fileData
                                name:(NSString *)name
                            callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", NETINTERFACE_URL_CLOUDARTCHAIN, url];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:para];
     //获取时间戳
@@ -241,7 +259,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileData 文件数据
 /// @param callBackBlock 请求回调
 + (void)netRequestPostUploadParameters:(id)reqPar respondParameters:(id)rspPar fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
     NSString *timeString = [JLNetHelper getTimeString];
@@ -306,7 +324,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileData 文件数据
 /// @param callBackBlock 请求回调
 + (void)netRequestPostUploadParameters:(id)reqPar respondParameters:(id)rspPar paramsName:(NSString *)parasName fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
     NSString *timeString = [JLNetHelper getTimeString];
@@ -369,7 +387,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileDataArray 文件数据数组
 /// @param callBackBlock 请求回调
 + (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
     NSString *timeString = [JLNetHelper getTimeString];
@@ -437,7 +455,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileDataArray 文件数据数组
 /// @param callBackBlock 请求回调
 + (void)netRequestUploadImagesParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
     NSString *timeString = [JLNetHelper getTimeString];
@@ -511,7 +529,7 @@ static AFHTTPSessionManager *sessionManager = nil;
 /// @param fileData 文件数据
 /// @param callBackBlock 请求回调
 + (void)netRequestUploadZipFileParameters:(id)reqPar respondParameters:(id)rspPar paramName:(NSString *)paramName fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
-    AFHTTPSessionManager *manager = [JLNetHelper getSessionManager];
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
     NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
     //获取时间戳
     NSString *timeString = [JLNetHelper getTimeString];
@@ -760,14 +778,14 @@ static AFHTTPSessionManager *sessionManager = nil;
     }
 }
 
-+(void)removeProtectView{
++ (void)removeProtectView{
 //    if ([AppSingleton sharedAppSingleton].protectView.coverProView) {
 //        [[AppSingleton sharedAppSingleton].protectView dismissProView];
 //        [AppSingleton sharedAppSingleton].protectView= nil;
 //    }
 }
 
-+(void)dealWithAllError:(NSError*)error needError:(BOOL)needDealError {
++ (void)dealWithAllError:(NSError*)error needError:(BOOL)needDealError {
     if (needDealError) {
         [self dealWithError:error];
     }
@@ -780,7 +798,7 @@ static AFHTTPSessionManager *sessionManager = nil;
     if (errorHead) {
         //对错误码进行处理
         //重新登录
-        if (errorHead.code == 1032) {
+        if (errorHead.code == 1032 || errorHead.code == 1070) {
             [JLNetHelper reloadLogin:0];
 //            [[JLLoading sharedLoading] showMBFailedTipMessage:@"很抱歉，您还未登录" hideTime:KToastDismissDelayTimeInterval];
             return;
