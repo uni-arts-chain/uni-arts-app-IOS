@@ -18,13 +18,12 @@
 /**
  * @brief 图像信息结构
  */
-typedef struct
-{
+typedef struct {
     GLuint id;              ///< 纹理ID
     int width;              ///< 宽度
     int height;             ///< 高度
     std::string fileName;       ///< 文件名
-}TextureInfo;
+} TextureInfo;
 
 /**
  * @brief 初始化

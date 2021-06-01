@@ -26,8 +26,7 @@ double LAppPal::s_currentFrame = 0.0;
 double LAppPal::s_lastFrame = 0.0;
 double LAppPal::s_deltaTime = 0.0;
 
-csmByte* LAppPal::LoadFileAsBytesWithBundle(const string filePath, csmSizeInt* outSize)
-{
+csmByte* LAppPal::LoadFileAsBytesWithBundle(const string filePath, csmSizeInt* outSize) {
     int path_i = static_cast<int>(filePath.find_last_of("/")+1);
     int ext_i = static_cast<int>(filePath.find_last_of("."));
     std::string pathname = filePath.substr(0,path_i);
@@ -47,8 +46,7 @@ csmByte* LAppPal::LoadFileAsBytesWithBundle(const string filePath, csmSizeInt* o
     return static_cast<Csm::csmByte*>(byteData);
 }
 
-csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
-{
+csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize) {
     int path_i = static_cast<int>(filePath.find_last_of("/")+1);
     int ext_i = static_cast<int>(filePath.find_last_of("."));
     std::string pathname = filePath.substr(0,path_i);
@@ -69,13 +67,11 @@ csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
     return static_cast<Csm::csmByte*>(byteData);
 }
 
-void LAppPal::ReleaseBytes(csmByte* byteData)
-{
+void LAppPal::ReleaseBytes(csmByte* byteData) {
     free(byteData);
 }
 
-void LAppPal::UpdateTime()
-{
+void LAppPal::UpdateTime() {
     NSDate *now = [NSDate date];
     double unixtime = [now timeIntervalSince1970];
     s_currentFrame = unixtime;
@@ -83,8 +79,7 @@ void LAppPal::UpdateTime()
     s_lastFrame = s_currentFrame;
 }
 
-void LAppPal::PrintLog(const csmChar* format, ...)
-{
+void LAppPal::PrintLog(const csmChar* format, ...) {
     va_list args;
     Csm::csmChar buf[256];
     va_start(args, format);
@@ -93,7 +88,6 @@ void LAppPal::PrintLog(const csmChar* format, ...)
     va_end(args);
 }
 
-void LAppPal::PrintMessage(const csmChar* message)
-{
+void LAppPal::PrintMessage(const csmChar* message) {
     PrintLog("%s", message);
 }

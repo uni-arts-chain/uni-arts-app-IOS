@@ -23,13 +23,12 @@
 /**
  * @brief Rect 構造体。
  */
-typedef struct
-{
+typedef struct {
     float left;     ///< 左边
     float right;    ///< 右边
     float up;       ///< 上边
     float down;     ///< 下边
-}SpriteRect;
+} SpriteRect;
 
 /**
  * @brief 初期化

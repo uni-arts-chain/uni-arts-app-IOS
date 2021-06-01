@@ -18,8 +18,7 @@
  * 从框架中调用。
  *
  */
-class LAppAllocator : public Csm::ICubismAllocator
-{
+class LAppAllocator : public Csm::ICubismAllocator {
     /**
      * @brief  分配内存区域。
      *

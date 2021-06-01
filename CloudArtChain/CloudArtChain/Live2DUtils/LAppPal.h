@@ -17,8 +17,7 @@
  * 汇总与平台相关的函数，例如读取文件和获取时间
  *
  */
-class LAppPal
-{
+class LAppPal {
 public:
     /**
      * @brief 读取文件作为字节数据

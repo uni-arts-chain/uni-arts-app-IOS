@@ -19,8 +19,7 @@
  *         进行模型生成、功能组件生成、更新处理和呈现的调用。
  *
  */
-class LAppModel : public Csm::CubismUserModel
-{
+class LAppModel : public Csm::CubismUserModel {
 public:
     /**
      * @brief 构造器

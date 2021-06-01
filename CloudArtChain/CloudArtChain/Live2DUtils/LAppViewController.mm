@@ -45,8 +45,7 @@ using namespace LAppDefine;
 @synthesize mOpenGLRun;
 @synthesize mSaveSnapshot;
 
-- (void)releaseView
-{
+- (void)releaseView {
     _renderBuffer.DestroyOffscreenFrame();
 
     _renderSprite = nil;
@@ -65,8 +64,7 @@ using namespace LAppDefine;
     _touchManager = nil;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     mOpenGLRun = true;
@@ -112,8 +110,7 @@ using namespace LAppDefine;
     glBindBuffer(GL_ARRAY_BUFFER,  _fragmentBufferId);
 }
 
-- (void)initializeScreen
-{
+- (void)initializeScreen {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     int width = screenRect.size.width;
     int height = screenRect.size.height;
@@ -130,13 +127,10 @@ using namespace LAppDefine;
     _viewMatrix->Scale(ViewScale, ViewScale);
 
     _deviceToScreen->LoadIdentity(); // 尺寸变了的时候等必须复位
-    if (width > height)
-    {
+    if (width > height) {
       float screenW = fabsf(right - left);
       _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
-    }
-    else
-    {
+    } else {
       float screenH = fabsf(top - bottom);
       _deviceToScreen->ScaleRelative(screenH / height, -screenH / height);
     }
@@ -155,13 +149,11 @@ using namespace LAppDefine;
                                   );
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
     //时间更新
     LAppPal::UpdateTime();
 
-    if(mOpenGLRun)
-    {
+    if(mOpenGLRun) {
         // 清除屏幕
         glClear(GL_COLOR_BUFFER_BIT);
         
@@ -174,24 +166,20 @@ using namespace LAppDefine;
         [Live2DManager onUpdate];
 
         // 如果各个模型的绘图目标是纹理，在sprite上的绘制就在这里
-        if (_renderTarget == SelectTarget_ModelFrameBuffer && _renderSprite)
-        {
-            float uvVertex[] =
-            {
+        if (_renderTarget == SelectTarget_ModelFrameBuffer && _renderSprite) {
+            float uvVertex[] = {
                 0.0f, 0.0f,
                 1.0f, 0.0f,
                 0.0f, 1.0f,
                 1.0f, 1.0f,
             };
 
-            for(csmUint32 i=0; i<[Live2DManager GetModelNum]; i++)
-            {
+            for(csmUint32 i=0; i<[Live2DManager GetModelNum]; i++) {
                 float a = [self GetSpriteAlpha:i]; // 样品与α有适当的差别
                 [_renderSprite SetColor:1.0f g:1.0f b:1.0f a:a];
 
                 LAppModel* model = [Live2DManager getModel:i];
-                if (model)
-                {
+                if (model) {
                     Csm::Rendering::CubismOffscreenFrame_OpenGLES2& useTarget = model->GetRenderBuffer();
                     GLuint id = useTarget.GetColorBuffer();
                     [_renderSprite renderImmidiate:_vertexBufferId fragmentBufferID:_fragmentBufferId TextureId:id uvArray:uvVertex];
@@ -208,8 +196,7 @@ using namespace LAppDefine;
     }
 }
 
-- (void)initializeSprite
-{
+- (void)initializeSprite {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     int width = screenRect.size.width;
     int height = screenRect.size.height;
@@ -270,16 +257,14 @@ using namespace LAppDefine;
     _close = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:powerTexture->id];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self.view];
 
     [_touchManager touchesBegan:point.x DeciveY:point.y];
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self.view];
 
@@ -290,8 +275,7 @@ using namespace LAppDefine;
     [[LAppLive2DManager getInstance] onDrag:viewX floatY:viewY];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     NSLog(@"%@", touch.view);
 
@@ -308,8 +292,7 @@ using namespace LAppDefine;
         float x = _deviceToScreen->TransformX(getX);
         float y = _deviceToScreen->TransformY(getY);
 
-        if (DebugTouchLogEnable)
-        {
+        if (DebugTouchLogEnable) {
             LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", x, y);
         }
         [live2DManager onTap:x floatY:y];
@@ -321,8 +304,7 @@ using namespace LAppDefine;
 //        }
 
         // 有没有点击电源按钮
-        if ([_close isHit:point.x PointY:pointY])
-        {
+        if ([_close isHit:point.x PointY:pointY]) {
             [self snapShotRefreshCloseImage];
             mSaveSnapshot = true;
         }
@@ -333,7 +315,7 @@ using namespace LAppDefine;
 - (void)saveSnapshot {
     WS(weakSelf)
     dispatch_after(2.0f, dispatch_get_main_queue(), ^{
-        UIImage *image = [UIView snapshotImageFromView:self.view atFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight)];
+        UIImage *image = [UIView snapshotImageFromView:weakSelf.view atFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight)];
     //    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
         if (weakSelf.snapshotBlock) {
             weakSelf.snapshotBlock(image);
@@ -344,68 +326,58 @@ using namespace LAppDefine;
 }
 
 #pragma mark -- <保存到相册>
--(void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if(error){
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if(error) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"图片保存失败" hideTime:KToastDismissDelayTimeInterval];
-    }else{
+    } else {
         [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已保存到手机" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 
-- (float)transformViewX:(float)deviceX
-{
+- (float)transformViewX:(float)deviceX {
     float screenX = _deviceToScreen->TransformX(deviceX); // 获得逻辑坐标转换后的坐标。
     return _viewMatrix->InvertTransformX(screenX); // 放大、缩小和移动后的值。
 }
 
-- (float)transformViewY:(float)deviceY
-{
+- (float)transformViewY:(float)deviceY {
     float screenY = _deviceToScreen->TransformY(deviceY); // 获得逻辑坐标转换后的坐标。
     return _viewMatrix->InvertTransformY(screenY); // 放大、缩小和移动后的值。
 }
 
-- (float)transformScreenX:(float)deviceX
-{
+- (float)transformScreenX:(float)deviceX {
     return _deviceToScreen->TransformX(deviceX);
 }
 
-- (float)transformScreenY:(float)deviceY
-{
+- (float)transformScreenY:(float)deviceY {
     return _deviceToScreen->TransformY(deviceY);
 }
 
-- (float)transformTapY:(float)deviceY
-{
+- (float)transformTapY:(float)deviceY {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     int height = screenRect.size.height;
     return deviceY * -1 + height;
 }
 
-- (void)PreModelDraw:(LAppModel&)refModel
-{
+- (void)PreModelDraw:(LAppModel&)refModel {
     // 用于绘制到其他渲染目标的帧缓冲区
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2* useTarget = NULL;
 
-    if (_renderTarget != SelectTarget_None)
-    {// 绘制到其他渲染目标时
-
+    if (_renderTarget != SelectTarget_None) {
+        // 绘制到其他渲染目标时
         // 要使用的目标
         useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
 
-        if (!useTarget->IsValid())
-        {// 如果绘图目标内部未创建，请在此创建
+        if (!useTarget->IsValid()) {
+            // 如果绘图目标内部未创建，请在此创建
             CGRect screenRect = [[UIScreen mainScreen] nativeBounds];
             int width = screenRect.size.width;
             int height = screenRect.size.height;
 
             // 模型画布
             // 用Pad和Phone改变纵横
-            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-            {
+            if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
                 useTarget->CreateOffscreenFrame(height, width);
-            }
-            else
-            {
+            } else {
                 useTarget->CreateOffscreenFrame(width, height);
             }
         }
@@ -416,14 +388,12 @@ using namespace LAppDefine;
     }
 }
 
-- (void)PostModelDraw:(LAppModel&)refModel
-{
+- (void)PostModelDraw:(LAppModel&)refModel {
     // 用于绘制到其他渲染目标的帧缓冲区
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2* useTarget = NULL;
 
-    if (_renderTarget != SelectTarget_None)
-    {// 绘制到其他渲染目标时
-
+    if (_renderTarget != SelectTarget_None) {
+        // 绘制到其他渲染目标时
         // 要使用的目标
         useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
 
@@ -431,10 +401,8 @@ using namespace LAppDefine;
         useTarget->EndDraw();
 
         // 如果使用LAppView所具有的帧缓冲器，在sprite上的描绘就在这里
-        if (_renderTarget == SelectTarget_ViewFrameBuffer && _renderSprite)
-        {
-            float uvVertex[] =
-            {
+        if (_renderTarget == SelectTarget_ViewFrameBuffer && _renderSprite) {
+            float uvVertex[] = {
                 0.0f, 0.0f,
                 1.0f, 0.0f,
                 0.0f, 1.0f,
@@ -448,32 +416,26 @@ using namespace LAppDefine;
     }
 }
 
-- (void)SwitchRenderingTarget:(SelectTarget)targetType
-{
+- (void)SwitchRenderingTarget:(SelectTarget)targetType {
     _renderTarget = targetType;
 }
 
-- (void)SetRenderTargetClearColor:(float)r g:(float)g b:(float)b
-{
+- (void)SetRenderTargetClearColor:(float)r g:(float)g b:(float)b {
     _clearColorR = r;
     _clearColorG = g;
     _clearColorB = b;
 }
 
-- (float)GetSpriteAlpha:(int)assign
-{
+- (float)GetSpriteAlpha:(int)assign {
     // 根据assign的数值适当决定
     float alpha = 0.25f + static_cast<float>(assign) * 0.5f; // 样品与α有适当的差别
-    if (alpha > 1.0f)
-    {
+    if (alpha > 1.0f) {
         alpha = 1.0f;
     }
-    if (alpha < 0.1f)
-    {
+    if (alpha < 0.1f) {
         alpha = 0.1f;
     }
 
     return alpha;
 }
-
 @end

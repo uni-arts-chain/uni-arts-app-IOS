@@ -26,12 +26,10 @@
 @implementation LAppSprite
 @synthesize baseEffect;
 
-- (id)initWithMyVar:(float)x Y:(float)y Width:(float)width Height:(float)height TextureId:(GLuint) textureId
-{
+- (id)initWithMyVar:(float)x Y:(float)y Width:(float)width Height:(float)height TextureId:(GLuint) textureId {
     self = [super self];
 
-    if(self != nil)
-    {
+    if(self != nil) {
         _rect.left = (x - width * 0.5f);
         _rect.right = (x + width * 0.5f);
         _rect.up = (y + height * 0.5f);
@@ -45,13 +43,10 @@
         self.baseEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
         self.baseEffect.texture2d0.enabled = GL_TRUE;
     }
-
-
     return self;
 }
 
-- (void)render:(GLuint)vertexBufferID fragmentBufferID:(GLuint)fragmentBufferID
-{
+- (void)render:(GLuint)vertexBufferID fragmentBufferID:(GLuint)fragmentBufferID {
     //修改绘图图像
     self.baseEffect.texture2d0.name = _textureId;
 
@@ -64,8 +59,7 @@
     float maxWidth = screenRect.size.width;
     float maxHeight = screenRect.size.height;
 
-    float positionVertex[] =
-    {
+    float positionVertex[] = {
         (_rect.left  - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f),
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f),
         (_rect.left  - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.up   - maxHeight * 0.5f) / (maxHeight * 0.5f),
@@ -83,8 +77,7 @@
 
     glBindBuffer(GL_ARRAY_BUFFER, fragmentBufferID);
 
-    const GLfloat uv[] =
-    {
+    const GLfloat uv[] = {
         0.0f, 1.0f,
         1.0f, 1.0f,
         0.0f, 0.0f,
@@ -101,8 +94,7 @@
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
-- (void)renderImmidiate:(GLuint)vertexBufferID fragmentBufferID:(GLuint)fragmentBufferID TextureId:(GLuint) textureId uvArray:(float *)uvArray
-{
+- (void)renderImmidiate:(GLuint)vertexBufferID fragmentBufferID:(GLuint)fragmentBufferID TextureId:(GLuint) textureId uvArray:(float *)uvArray {
     //修改绘图图像
     self.baseEffect.texture2d0.name = textureId;
 
@@ -115,8 +107,7 @@
     float maxWidth = screenRect.size.width;
     float maxHeight = screenRect.size.height;
 
-    float positionVertex[] =
-    {
+    float positionVertex[] = {
         (_rect.left  - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f),
         (_rect.right - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.down - maxHeight * 0.5f) / (maxHeight * 0.5f),
         (_rect.left  - maxWidth * 0.5f) / (maxWidth * 0.5f), (_rect.up   - maxHeight * 0.5f) / (maxHeight * 0.5f),
@@ -143,14 +134,12 @@
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
-- (bool)isHit:(float)pointX PointY:(float)pointY
-{
+- (bool)isHit:(float)pointX PointY:(float)pointY {
     return (pointX >= _rect.left && pointX <= _rect.right &&
             pointY >= _rect.down && pointY <= _rect.up);
 }
 
-- (void)SetColor:(float)r g:(float)g b:(float)b a:(float)a
-{
+- (void)SetColor:(float)r g:(float)g b:(float)b a:(float)a {
     self.baseEffect.constantColor = GLKVector4Make(r, g, b, a);
 
     _spriteColorR = r;
@@ -158,6 +147,4 @@
     _spriteColorB = b;
     _spriteColorA = a;
 }
-
 @end
-

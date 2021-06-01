@@ -15,7 +15,6 @@
 #import "LAppPal.h"
 
 @interface LAppLive2DManager()
-
 - (id)init;
 - (void)dealloc;
 @end
@@ -25,33 +24,27 @@
 static LAppLive2DManager* s_instance = nil;
 
 
-void FinishedMotion(Csm::ACubismMotion* self)
-{
+void FinishedMotion(Csm::ACubismMotion* self) {
     LAppPal::PrintLog("Motion Finished: %x", self);
 }
 
-+ (LAppLive2DManager*)getInstance
-{
++ (LAppLive2DManager*)getInstance {
     @synchronized(self)
     {
-        if(s_instance == nil)
-        {
+        if(s_instance == nil {
             s_instance = [[LAppLive2DManager alloc] init];
         }
     }
     return s_instance;
 }
 
-+ (void)releaseInstance
-{
-    if(s_instance != nil)
-    {
++ (void)releaseInstance {
+    if(s_instance != nil) {
         s_instance = nil;
     }
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if ( self ) {
         _viewMatrix = nil;
@@ -68,11 +61,9 @@ void FinishedMotion(Csm::ACubismMotion* self)
     return self;
 }
 
-- (void)defaultScene:(NSString *)path modelJsonName:(NSString *)jsonName
-{
+- (void)defaultScene:(NSString *)path modelJsonName:(NSString *)jsonName {
     if (path != nil && path.length > 0 && jsonName != nil && jsonName.length > 0) {
-        if (LAppDefine::DebugLogEnable)
-        {
+        if (LAppDefine::DebugLogEnable) {
             LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
         }
 
@@ -128,60 +119,45 @@ void FinishedMotion(Csm::ACubismMotion* self)
     }
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self releaseAllModel];
 }
 
-- (void)releaseAllModel
-{
-    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
+- (void)releaseAllModel {
+    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++) {
         delete _models[i];
     }
 
     _models.Clear();
 }
 
-- (LAppModel*)getModel:(Csm::csmUint32)no
-{
-    if (no < _models.GetSize())
-    {
+- (LAppModel*)getModel:(Csm::csmUint32)no {
+    if (no < _models.GetSize()) {
         return _models[no];
     }
     return nil;
 }
 
-- (void)onDrag:(Csm::csmFloat32)x floatY:(Csm::csmFloat32)y
-{
-    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
+- (void)onDrag:(Csm::csmFloat32)x floatY:(Csm::csmFloat32)y {
+    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++) {
         Csm::CubismUserModel* model = static_cast<Csm::CubismUserModel*>([self getModel:i]);
         model->SetDragging(x,y);
     }
 }
 
-- (void)onTap:(Csm::csmFloat32)x floatY:(Csm::csmFloat32)y;
-{
-    if (LAppDefine::DebugLogEnable)
-    {
+- (void)onTap:(Csm::csmFloat32)x floatY:(Csm::csmFloat32)y {
+    if (LAppDefine::DebugLogEnable) {
         LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
     }
 
-    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
-        if(_models[i]->HitTest(LAppDefine::HitAreaNameHead,x,y))
-        {
-            if (LAppDefine::DebugLogEnable)
-            {
+    for (Csm::csmUint32 i = 0; i < _models.GetSize(); i++) {
+        if(_models[i]->HitTest(LAppDefine::HitAreaNameHead,x,y)) {
+            if (LAppDefine::DebugLogEnable) {
                 LAppPal::PrintLog("[APP]hit area: [%s]", LAppDefine::HitAreaNameHead);
             }
             _models[i]->SetRandomExpression();
-        }
-        else if (_models[i]->HitTest(LAppDefine::HitAreaNameBody, x, y))
-        {
-            if (LAppDefine::DebugLogEnable)
-            {
+        } else if (_models[i]->HitTest(LAppDefine::HitAreaNameBody, x, y)) {
+            if (LAppDefine::DebugLogEnable) {
                 LAppPal::PrintLog("[APP]hit area: [%s]", LAppDefine::HitAreaNameBody);
             }
             _models[i]->StartRandomMotion(LAppDefine::MotionGroupTapBody, LAppDefine::PriorityNormal, FinishedMotion);
@@ -189,8 +165,7 @@ void FinishedMotion(Csm::ACubismMotion* self)
     }
 }
 
-- (void)onUpdate;
-{
+- (void)onUpdate {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     int width = screenRect.size.width;
     int height = screenRect.size.height;
@@ -200,23 +175,18 @@ void FinishedMotion(Csm::ACubismMotion* self)
 
     Csm::CubismMatrix44 projection;
     Csm::csmUint32 modelCount = _models.GetSize();
-    for (Csm::csmUint32 i = 0; i < modelCount; ++i)
-    {
+    for (Csm::csmUint32 i = 0; i < modelCount; ++i) {
         LAppModel* model = [self getModel:i];
-        if (model->GetModel()->GetCanvasWidth() > 1.0f && width < height)
-        {
+        if (model->GetModel()->GetCanvasWidth() > 1.0f && width < height) {
           // 在纵向窗口中显示横向长的模型时，根据模型的横向尺寸计算scale
           model->GetModelMatrix()->SetWidth(2.0f);
           projection.Scale(1.0f, static_cast<float>(width) / static_cast<float>(height));
-        }
-        else
-        {
+        } else {
           projection.Scale(static_cast<float>(height) / static_cast<float>(width), 1.0f);
         }
 
         // 必要时在这里相乘
-        if (_viewMatrix != NULL)
-        {
+        if (_viewMatrix != NULL) {
           projection.MultiplyByMatrix(_viewMatrix);
         }
 
@@ -229,17 +199,14 @@ void FinishedMotion(Csm::ACubismMotion* self)
     }
 }
 
-- (void)nextScene;
-{
+- (void)nextScene; {
     Csm::csmInt32 no = (_sceneIndex + 1) % LAppDefine::ModelDirSize;
 //    [self changeScene:no];
 }
 
-- (void)changeScene:(NSString *)path modelJsonName:(NSString *)jsonName
-{
+- (void)changeScene:(NSString *)path modelJsonName:(NSString *)jsonName {
     if (path != nil && path.length > 0 && jsonName != nil && jsonName.length > 0) {
-        if (LAppDefine::DebugLogEnable)
-        {
+        if (LAppDefine::DebugLogEnable) {
             LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
         }
 
@@ -354,18 +321,13 @@ void FinishedMotion(Csm::ACubismMotion* self)
 //    }
 //}
 
-- (Csm::csmUint32)GetModelNum;
-{
+- (Csm::csmUint32)GetModelNum; {
     return _models.GetSize();
 }
 
-- (void)SetViewMatrix:(Csm::CubismMatrix44*)m;
-{
+- (void)SetViewMatrix:(Csm::CubismMatrix44*)m {
     for (int i = 0; i < 16; i++) {
         _viewMatrix->GetArray()[i] = m->GetArray()[i];
     }
 }
-
 @end
-
-

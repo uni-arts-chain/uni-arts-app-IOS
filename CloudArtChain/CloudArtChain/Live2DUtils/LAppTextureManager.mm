@@ -28,25 +28,19 @@
 
 @implementation LAppTextureManager
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self releaseTextures];
 }
 
-- (TextureInfo*) createTextureFromPngFile:(std::string)fileName
-{
-
+- (TextureInfo*) createTextureFromPngFile:(std::string)fileName {
     //search loaded texture already.
-    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
-    {
-        if (_textures[i]->fileName == fileName)
-        {
+    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++) {
+        if (_textures[i]->fileName == fileName) {
             return _textures[i];
         }
     }
@@ -72,8 +66,7 @@
     {
 #ifdef PREMULTIPLIED_ALPHA_ENABLE
         unsigned int* fourBytes = reinterpret_cast<unsigned int*>(png);
-        for (int i = 0; i < width * height; i++)
-        {
+        for (int i = 0; i < width * height; i++) {
             unsigned char* p = png + i * 4;
             int tes = [self pemultiply:p[0] Green:p[1] Blue:p[2] Alpha:p[3]];
             fourBytes[i] = tes;
@@ -106,14 +99,10 @@
 }
 
 
-- (TextureInfo*) createTextureFromPngFileWithBundle:(std::string)fileName
-{
-
+- (TextureInfo*) createTextureFromPngFileWithBundle:(std::string)fileName {
     //search loaded texture already.
-    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
-    {
-        if (_textures[i]->fileName == fileName)
-        {
+    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++) {
+        if (_textures[i]->fileName == fileName) {
             return _textures[i];
         }
     }
@@ -139,8 +128,7 @@
     {
 #ifdef PREMULTIPLIED_ALPHA_ENABLE
         unsigned int* fourBytes = reinterpret_cast<unsigned int*>(png);
-        for (int i = 0; i < width * height; i++)
-        {
+        for (int i = 0; i < width * height; i++) {
             unsigned char* p = png + i * 4;
             int tes = [self pemultiply:p[0] Green:p[1] Blue:p[2] Alpha:p[3]];
             fourBytes[i] = tes;
@@ -172,8 +160,7 @@
     return textureInfo;
 }
 
-- (unsigned int)pemultiply:(unsigned char)red Green:(unsigned char)green Blue:(unsigned char)blue Alpha:(unsigned char) alpha
-{
+- (unsigned int)pemultiply:(unsigned char)red Green:(unsigned char)green Blue:(unsigned char)blue Alpha:(unsigned char) alpha {
     return static_cast<unsigned>(\
                                  (red * (alpha + 1) >> 8) | \
                                  ((green * (alpha + 1) >> 8) << 8) | \
@@ -181,22 +168,18 @@
                                  (((alpha)) << 24)   \
                                  );
 }
-- (void)releaseTextures
-{
-    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
-    {
+
+- (void)releaseTextures {
+    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++) {
         delete _textures[i];
     }
 
     _textures.Clear();
 }
 
-- (void)releaseTextureWithId:(Csm::csmUint32)textureId
-{
-    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
-    {
-        if (_textures[i]->id != textureId)
-        {
+- (void)releaseTextureWithId:(Csm::csmUint32)textureId {
+    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++) {
+        if (_textures[i]->id != textureId) {
             continue;
         }
         delete _textures[i];
@@ -205,12 +188,9 @@
     }
 }
 
-- (void)releaseTextureByName:(std::string)fileName;
-{
-    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++)
-    {
-        if (_textures[i]->fileName == fileName)
-        {
+- (void)releaseTextureByName:(std::string)fileName {
+    for (Csm::csmUint32 i = 0; i < _textures.GetSize(); i++) {
+        if (_textures[i]->fileName == fileName) {
             delete _textures[i];
             _textures.Remove(i);
             break;

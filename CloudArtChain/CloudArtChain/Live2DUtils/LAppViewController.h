@@ -13,8 +13,7 @@
 
 @interface LAppViewController : GLKViewController <GLKViewDelegate>
 
-typedef NS_ENUM(NSUInteger, SelectTarget)
-{
+typedef NS_ENUM(NSUInteger, SelectTarget) {
     SelectTarget_None,                ///< 在默认帧缓冲器中呈现
     SelectTarget_ModelFrameBuffer,    ///< 在LAppModel各自具有的帧缓冲器中呈现
     SelectTarget_ViewFrameBuffer,     ///< 在LAppView的帧缓冲器中呈现
