@@ -714,15 +714,27 @@
         NSString *cacheFolder = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"Live2DFiles"];
         NSString *path = [cacheFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@.model3.json", self.artDetailData.ID, live2d_file, live2d_file]];
         if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            // 查找是否有背景图片
+            NSString *jsonDirPath = [cacheFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/", self.artDetailData.ID, live2d_file]];
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            NSArray *contents = [fileManager contentsOfDirectoryAtPath:jsonDirPath error:nil];
+            NSEnumerator *e = [contents objectEnumerator];
+            NSString *fileName;
+            NSString *backImageName = @"";
+            while (fileName = [e nextObject]) {
+                if ([fileName containsString:@"BG"] && ![fileName containsString:@"MACOS"]) {
+                    backImageName = fileName;
+                }
+            }
             // 查看Live2D
-            [self showLive2D];
+            [self showLive2D:backImageName];
         } else {
             [[JLLoading sharedLoading] showProgressWithView:self.view message:@"正在下载Live2D文件" progress:0.0f];
             self.live2DDownloadTask = [[JLLive2DCacheManager shareManager] downLive2DWithPath:live2d_ipfs_url fileID:self.artDetailData.ID fileKey:[NSString stringWithFormat:@"%@.zip", live2d_file] progressBlock:^(CGFloat progress) {
                 [[JLLoading sharedLoading] showProgressWithView:weakSelf.view message:@"正在下载Live2D文件" progress:progress];
-            } success:^(NSURL *URL) {
+            } success:^(NSURL *URL, NSString *backImageName) {
                 [[JLLoading sharedLoading] hideLoading];
-                [weakSelf showLive2D];
+                [weakSelf showLive2D: backImageName];
             } fail:^(NSString *message) {
                 [[JLLoading sharedLoading] hideLoading];
                 [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
@@ -731,16 +743,20 @@
     }
 }
 
-- (void)showLive2D {
+- (void)showLive2D:(NSString *)backImageName {
     NSString *live2d_file = self.artDetailData.live2d_file;
     NSString *live2d_ipfs_url = self.artDetailData.live2d_ipfs_zip_url;
     NSString *cacheFolder = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"Live2DFiles"];
     NSString *path = [cacheFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@.model3.json", self.artDetailData.ID, live2d_file, live2d_file]];
     AppDelegate* delegate = (AppDelegate*) [[UIApplication sharedApplication] delegate];
     [self presentViewController:delegate.lAppViewController animated:YES completion:nil];
-    [delegate initializeCubism];
     NSString *modelPath = [cacheFolder stringByAppendingString:[NSString stringWithFormat:@"/%@/%@/", self.artDetailData.ID, live2d_file]];
     NSString *modelJsonName = [NSString stringWithFormat:@"%@.model3.json", live2d_file];
+    NSString *backImagePath = @"";
+    if (![NSString stringIsEmpty:backImageName]) {
+        backImagePath = [modelPath stringByAppendingPathComponent:backImageName];
+    }
+    [delegate initializeCubismWithBack:backImagePath];
     [delegate changeSence:modelPath jsonName:modelJsonName];
 }
 

@@ -79,7 +79,7 @@
                                         fileID:(NSString *)fileId
                                         fileKey:(NSString *)fileKey
                                   progressBlock:(void(^)(CGFloat progress))progressBlock
-                                        success:(void(^)(NSURL *URL))successBlock
+                                        success:(void(^)(NSURL *URL, NSString *backImageName))successBlock
                                            fail:(void(^)(NSString *message))failBlock;
 
 /// 移除指定Live2D本地

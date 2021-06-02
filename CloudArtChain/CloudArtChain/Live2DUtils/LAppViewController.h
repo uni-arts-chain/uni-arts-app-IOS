@@ -54,6 +54,8 @@ typedef NS_ENUM(NSUInteger, SelectTarget) {
  */
 - (void)initializeSprite;
 
+- (void)initializeSpriteWithBack:(NSString *)backImagePath;
+
 /**
  * @brief 将X坐标转换成View坐标。
  *
@@ -110,5 +112,7 @@ typedef NS_ENUM(NSUInteger, SelectTarget) {
  * @param[in]   b   青(0.0~1.0)
  */
 - (void)SetRenderTargetClearColor:(float)r g:(float)g b:(float)b;
+
+- (void)changeBack:(NSString *)backImagePath;
 
 @end

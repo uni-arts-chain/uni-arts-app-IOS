@@ -433,6 +433,25 @@
     self.lAppViewController = nil;
 }
 
+- (void)initializeCubismWithBack:(NSString *)backImagePath
+{
+    _cubismOption.LogFunction = LAppPal::PrintMessage;
+    _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
+
+    Csm::CubismFramework::StartUp(&_cubismAllocator,&_cubismOption);
+
+    Csm::CubismFramework::Initialize();
+
+    [LAppLive2DManager getInstance];
+
+    Csm::CubismMatrix44 projection;
+
+    LAppPal::UpdateTime();
+    
+    [self.lAppViewController initializeSpriteWithBack:backImagePath];
+
+}
+
 - (void)initializeCubism
 {
     _cubismOption.LogFunction = LAppPal::PrintMessage;
@@ -470,6 +489,10 @@
 
 - (void)changeSence:(NSString *)modelPath jsonName:(NSString *)jsonName {
     [[LAppLive2DManager getInstance] changeScene:modelPath modelJsonName:jsonName];
+}
+
+- (void)changeLive2DBack:(NSString *)backImagepath {
+    [self.lAppViewController changeBack:backImagepath];
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {

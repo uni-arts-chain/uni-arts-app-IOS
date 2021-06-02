@@ -31,7 +31,7 @@ void FinishedMotion(Csm::ACubismMotion* self) {
 + (LAppLive2DManager*)getInstance {
     @synchronized(self)
     {
-        if(s_instance == nil {
+        if(s_instance == nil) {
             s_instance = [[LAppLive2DManager alloc] init];
         }
     }

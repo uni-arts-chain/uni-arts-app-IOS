@@ -108,13 +108,17 @@
     }
     
     if (self.imageArray.count < 3) {
+        UIView *addView = [self uploadImageView:NO];
         if (self.imageArray.count > 0) {
             JLUploadImageModel *imageModel = self.imageArray[0];
             if ([imageModel.imageType isEqualToString:@"live2d"]) {
-                return;
+                if (self.imageArray.count == 2) {
+                    return;
+                } else {
+                    addView = [self uploadImageView:YES];
+                }
             }
         }
-        UIView *addView = [self uploadImageView];
         [self.contentView addSubview:addView];
         [addView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.imageArray.count * (itemWidth + itemSep));
@@ -124,7 +128,7 @@
     }
 }
 
-- (UIView *)uploadImageView {
+- (UIView *)uploadImageView:(BOOL)live2dPreview {
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = JL_color_gray_EBEBEB;
     ViewBorderRadius(view, 5.0f, 0.0f, JL_color_clear);
@@ -135,7 +139,7 @@
     UIImageView *addImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_add"];
     [centerView addSubview:addImageView];
     
-    UILabel *addLabel = [JLUIFactory labelInitText:@"上传图片" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentCenter];
+    UILabel *addLabel = [JLUIFactory labelInitText:live2dPreview ? @"上传预览图" : @"上传图片" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentCenter];
     [centerView addSubview:addLabel];
     
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -167,7 +171,12 @@
     WS(weakSelf)
     NSArray *sourceArray = @[@"从相册选取", @"拍照", @"Live2D"];
     if (self.imageArray.count > 0) {
-        sourceArray = @[@"从相册选取", @"拍照"];
+        JLUploadImageModel *imageModel = self.imageArray[0];
+        if ([imageModel.imageType isEqualToString:@"live2d"]) {
+            sourceArray = @[@"从相册选取"];
+        } else {
+            sourceArray = @[@"从相册选取", @"拍照"];
+        }
     }
     UIAlertController *alert = [UIAlertController actionSheetWithButtonTitleArray:sourceArray handler:^(NSInteger index) {
         if (index == 0) {
@@ -255,6 +264,15 @@
     NSData *imageData = [NSData dataWithContentsOfFile:info[@"UIImagePickerControllerImageURL"]];
     NSString *imageType = [JLTool contentTypeForImageData:imageData];
     
+    // 判断Live 2D只能选择gif作为预览图
+    if (self.imageArray.count > 0) {
+        JLUploadImageModel *imageModel = self.imageArray[0];
+        if ([imageModel.imageType isEqualToString:@"live2d"] && ![imageType isEqualToString:@"gif"]) {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"只能选择Gif" hideTime:KToastDismissDelayTimeInterval];
+            return;
+        }
+    }
+    
     if ([imageType isEqualToString:@"gif"]) {
         JLUploadImageModel *imageModel = [JLUploadImageModel uploadImageModelWithImage:image imageType:@"gif" imageData:imageData];
         [self.imageArray addObject:imageModel];
@@ -340,17 +358,20 @@
                 BOOL saveSuccess = [fileData writeToFile:zipfilePath atomically:YES];
                 // 解压zip文件
                 if (saveSuccess) {
-                    [self unzipLive2DFile:zipfilePath filePathBlock:^(NSString *filePath) {
+                    [self unzipLive2DFile:zipfilePath filePathBlock:^(NSString *filePath, NSString *backImagePath) {
                         if ([NSString stringIsEmpty:filePath]) {
                             [[JLLoading sharedLoading] showMBFailedTipMessage:@"文件格式错误" hideTime:KToastDismissDelayTimeInterval];
                         } else {
                             NSString *fileName = [filePath lastPathComponent];
                             AppDelegate* delegate = (AppDelegate*) [[UIApplication sharedApplication] delegate];
                             [weakSelf.controller presentViewController:delegate.lAppViewController animated:YES completion:nil];
-                            [delegate initializeCubism];
+                            [delegate initializeCubismWithBack:backImagePath];
                             NSString *modelPath = [filePath stringByAppendingString:@"/"];
                             NSString *modelJsonName = [NSString stringWithFormat:@"%@.model3.json", fileName];
                             [delegate changeSence:modelPath jsonName:modelJsonName];
+//                            if (![NSString stringIsEmpty:backImagePath]) {
+//                                [delegate changeLive2DBack:backImagePath];
+//                            }
                             
                             weakSelf.live2dFileName = fileName;
                             weakSelf.live2dZipFilePath = zipfilePath;
@@ -372,27 +393,34 @@
     }
 }
 
-- (void)unzipLive2DFile:(NSString *)zipPath filePathBlock:(void(^)(NSString *filePath))filePathBlock {
+- (void)unzipLive2DFile:(NSString *)zipPath filePathBlock:(void(^)(NSString *filePath, NSString *backImagePath))filePathBlock {
     NSString *cacheFolder = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"UploadLive2DFile"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:cacheFolder]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:cacheFolder withIntermediateDirectories:YES attributes:nil error:nil];
     }
     __block NSString *fileDirectory = @"";
+    __block NSString *backImageName = @"";
     [SSZipArchive unzipFileAtPath:zipPath toDestination:cacheFolder progressHandler:^(NSString * _Nonnull entry, unz_file_info zipInfo, long entryNumber, long total) {
         if (![NSString stringIsEmpty:entry] && [entry containsString:@"model3.json"] && [NSString stringIsEmpty:fileDirectory]) {
             NSString *fileName = [NSString stringWithFormat:@"/%@", [entry lastPathComponent]];
             fileDirectory = [entry stringByReplacingOccurrencesOfString:fileName withString:@""];
+        } else if (![NSString stringIsEmpty:entry] && [entry containsString:@"BG"] && ![entry containsString:@"MACOS"]) {
+            backImageName = [entry lastPathComponent];
         }
     } completionHandler:^(NSString * _Nonnull path, BOOL succeeded, NSError * _Nonnull error) {
         if (succeeded) {
             if ([NSString stringIsEmpty:fileDirectory]) {
                 if (filePathBlock) {
-                    filePathBlock(@"");
+                    filePathBlock(@"", @"");
                 }
             } else {
                 NSString *filePath = [cacheFolder stringByAppendingPathComponent:fileDirectory];
+                NSString *backImagePath = @"";
+                if (![NSString stringIsEmpty:backImageName]) {
+                    backImagePath = [filePath stringByAppendingPathComponent:backImageName];
+                }
                 if (filePathBlock) {
-                    filePathBlock(filePath);
+                    filePathBlock(filePath, backImagePath);
                 }
             }
         } else {

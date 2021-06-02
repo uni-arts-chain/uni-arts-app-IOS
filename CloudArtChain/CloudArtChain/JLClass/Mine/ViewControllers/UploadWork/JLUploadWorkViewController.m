@@ -605,24 +605,18 @@
         [mainFileNameArray addObject:fileTimeString];
     }
     Model_arts_Req *request = [[Model_arts_Req alloc] init];
-    request.img_main_file1 = mainFileNameArray[0];
-    [paramsArray addObject:@"img_main_file1"];
-    [fileNameArray addObject:mainFileNameArray[0]];
-    [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageData];
-    [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageType];
     if (mainFileNameArray.count > 1) {
-        request.img_main_file2 = mainFileNameArray[1];
-        [paramsArray addObject:@"img_main_file2"];
+        request.img_main_file1 = mainFileNameArray[1];
+        [paramsArray addObject:@"img_main_file1"];
         [fileNameArray addObject:mainFileNameArray[1]];
         [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][1]).imageData];
         [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][1]).imageType];
-    }
-    if (mainFileNameArray.count > 2) {
-        request.img_main_file3 = mainFileNameArray[2];
-        [paramsArray addObject:@"img_main_file3"];
-        [fileNameArray addObject:mainFileNameArray[2]];
-        [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageData];
-        [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageType];
+    } else {
+        request.img_main_file1 = mainFileNameArray[0];
+        [paramsArray addObject:@"img_main_file1"];
+        [fileNameArray addObject:mainFileNameArray[0]];
+        [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageData];
+        [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageType];
     }
     request.name = self.workTitleView.inputContent;
     request.category_id = self.currentSelectedThemeData.ID;

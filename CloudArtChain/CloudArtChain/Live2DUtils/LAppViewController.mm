@@ -196,6 +196,98 @@ using namespace LAppDefine;
     }
 }
 
+- (void)changeBack:(NSString *)backImagePath {
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    int width = screenRect.size.width;
+    int height = screenRect.size.height;
+
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    LAppTextureManager* textureManager = [delegate getTextureManager];
+    const string resourcesPath = "/Res.bundle/";
+
+    [textureManager releaseTextures];
+
+    std::string backPath = [backImagePath UTF8String];
+    TextureInfo* backgroundTexture = [textureManager createTextureFromPngFile:backPath.c_str()];
+    float x = width * 0.5f;
+    float y = height * 0.5f;
+    float fWidth = 300.0f;
+    float fHeight = 300.0f;
+    fWidth = static_cast<float>(width * 2.0f);
+    fHeight = static_cast<float>(height * 1.0f);
+//    _back = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:backgroundTexture->id];
+    _back = [[LAppSprite alloc] initWithJLTextureId:backgroundTexture->id textureWidth:backgroundTexture->width textureHeight:backgroundTexture->height];
+
+    string imageName = PowerImageName;
+    TextureInfo* powerTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
+//    x = static_cast<float>(width - powerTexture->width * 0.5f);
+    x = static_cast<float>(width) * 0.1f;
+    y = static_cast<float>(height - powerTexture->height);
+    fWidth = static_cast<float>(powerTexture->width);
+    fHeight = static_cast<float>(powerTexture->height);
+    _close = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:powerTexture->id];
+
+    x = static_cast<float>(width) * 0.5f;
+    y = static_cast<float>(height) * 0.5f;
+    fWidth = static_cast<float>(width*2);
+    fHeight = static_cast<float>(height*2);
+    _renderSprite = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth/2 Height:fHeight/2 TextureId:0];
+}
+
+- (void)initializeSpriteWithBack:(NSString *)backImagePath {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    int width = screenRect.size.width;
+    int height = screenRect.size.height;
+
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    LAppTextureManager* textureManager = [delegate getTextureManager];
+    const string resourcesPath = "/Res.bundle/";
+
+    string imageName = BackImageName;
+    float fWidth = 300.0f;
+    float fHeight = 300.0f;
+    float x = width * 0.5f;
+    float y = height * 0.5f;
+    if ([NSString stringIsEmpty:backImagePath]) {
+        TextureInfo* backgroundTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
+        fWidth = static_cast<float>(width * 1.0f);
+        fHeight = static_cast<float>(height * 1.0f);
+        _back = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:backgroundTexture->id];
+    } else {
+        std::string backPath = [backImagePath UTF8String];
+        TextureInfo* backgroundTexture = [textureManager createTextureFromPngFile:backPath.c_str()];
+        fWidth = static_cast<float>(width * 2.0f);
+        fHeight = static_cast<float>(height * 1.0f);
+    //    _back = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:backgroundTexture->id];
+        _back = [[LAppSprite alloc] initWithJLTextureId:backgroundTexture->id textureWidth:backgroundTexture->width textureHeight:backgroundTexture->height];
+    }
+    
+
+//    imageName = GearImageName;
+//    TextureInfo* gearTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
+//    x = static_cast<float>(width - gearTexture->width * 0.5f);
+//    y = static_cast<float>(height - gearTexture->height * 0.5f);
+//    fWidth = static_cast<float>(gearTexture->width);
+//    fHeight = static_cast<float>(gearTexture->height);
+//    _gear = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:gearTexture->id];
+    
+    imageName = PowerImageName;
+    TextureInfo* powerTexture = [textureManager createTextureFromPngFileWithBundle:resourcesPath+imageName];
+//    x = static_cast<float>(width - powerTexture->width * 0.5f);
+    x = static_cast<float>(width) * 0.1f;
+    y = static_cast<float>(height - powerTexture->height);
+    fWidth = static_cast<float>(powerTexture->width);
+    fHeight = static_cast<float>(powerTexture->height);
+    _close = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth Height:fHeight TextureId:powerTexture->id];
+
+    x = static_cast<float>(width) * 0.5f;
+    y = static_cast<float>(height) * 0.5f;
+    fWidth = static_cast<float>(width*2);
+    fHeight = static_cast<float>(height*2);
+    _renderSprite = [[LAppSprite alloc] initWithMyVar:x Y:y Width:fWidth/2 Height:fHeight/2 TextureId:0];
+}
+
 - (void)initializeSprite {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     int width = screenRect.size.width;

@@ -37,6 +37,10 @@
  */
 - (void)finishApplication;
 
+- (void)initializeCubismWithBack:(NSString *)backImagePath;
+
 - (void)changeSence:(NSString *)modelPath jsonName:(NSString *)jsonName;
+
+- (void)changeLive2DBack:(NSString *)backImagepath;
 
 @end

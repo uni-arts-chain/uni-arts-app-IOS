@@ -46,6 +46,30 @@
     return self;
 }
 
+- (id)initWithJLTextureId:(GLuint) textureId textureWidth:(float)textureWidth textureHeight:(float)textureHeight {
+    self = [super self];
+
+    if(self != nil) {
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        int width = screenRect.size.width;
+        int height = screenRect.size.height;
+        
+        _rect.left = -15.0f;
+        _rect.right = width * 1.73f;
+        _rect.up = height;
+        _rect.down = 0.0f;
+        _textureId = textureId;
+
+        _spriteColorR = _spriteColorG = _spriteColorB = _spriteColorA = 1.0f;
+
+        self.baseEffect = [[GLKBaseEffect alloc] init];
+        self.baseEffect.useConstantColor = GL_TRUE;
+        self.baseEffect.constantColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
+        self.baseEffect.texture2d0.enabled = GL_TRUE;
+    }
+    return self;
+}
+
 - (void)render:(GLuint)vertexBufferID fragmentBufferID:(GLuint)fragmentBufferID {
     //修改绘图图像
     self.baseEffect.texture2d0.name = _textureId;

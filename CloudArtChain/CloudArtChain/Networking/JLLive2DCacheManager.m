@@ -169,7 +169,7 @@ static NSString *const keyArrKey = @"Live2DCackeKeyArr";
                                           fileID:(NSString *)fileId
                                         fileKey:(NSString *)fileKey
                                   progressBlock:(void(^)(CGFloat progress))progressBlock
-                                        success:(void(^)(NSURL *URL))successBlock
+                                        success:(void(^)(NSURL *URL, NSString *backImageName))successBlock
                                            fail:(void(^)(NSString *message))failBlock {
     WS(weakSelf)
 //    if ([JLLive2DCacheManager cachedLive2DWithUrl:[NSURL URLWithString:path]]) {
@@ -203,14 +203,17 @@ static NSString *const keyArrKey = @"Live2DCackeKeyArr";
                 // 解压文件
                 NSString *tempFilePath = [filePath.filePathURL.absoluteString stringByReplacingOccurrencesOfString:@"file://" withString:@""];
 //                BOOL unzipSuccess = [SSZipArchive unzipFileAtPath:localLive2DTempPathWithKey(fileKey) toDestination:localLive2DPath];
+                __block NSString *backImageName = @"";
                 [SSZipArchive unzipFileAtPath:localLive2DTempPathWithKey(fileKey) toDestination:live2DFileDir progressHandler:^(NSString * _Nonnull entry, unz_file_info zipInfo, long entryNumber, long total) {
-                    
+                    if (![NSString stringIsEmpty:entry] && [entry containsString:@"BG"] && ![entry containsString:@"MACOS"]) {
+                        backImageName = [entry lastPathComponent];
+                    }
                 } completionHandler:^(NSString * _Nonnull path, BOOL succeeded, NSError * _Nonnull error) {
                     [[NSFileManager defaultManager] removeItemAtURL:filePath error:nil];
                     if (succeeded) {
                         if (successBlock) {
         //                    [weakSelf cacheFileKey:fileKey];
-                            successBlock(filePath);
+                            successBlock(filePath, backImageName);
                         }
                     } else {
                         NSLog(@"error: %@", error);

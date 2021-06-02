@@ -41,6 +41,8 @@ typedef struct {
  */
 - (id)initWithMyVar:(float)x Y:(float)y Width:(float)width Height:(float)height TextureId:(GLuint) textureId;
 
+- (id)initWithJLTextureId:(GLuint) textureId textureWidth:(float)width textureHeight:(float)height;
+
 /**
  * @brief 解放处理
  */
