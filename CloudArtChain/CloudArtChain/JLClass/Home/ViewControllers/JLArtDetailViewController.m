@@ -406,6 +406,8 @@
                     sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
                         // 刷新艺术品详情
                         weakSelf.artDetailData = artDetailData;
+                        // 跟新作品价格
+                        weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
                         // 判断是否有可售作品
                         if (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue > 0) {
                             // 有可出售的作品
@@ -447,6 +449,9 @@
                     sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
                         // 刷新艺术品详情
                         weakSelf.artDetailData = artDetailData;
+                        // 更新作品价格
+                        weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
+                        
                         if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
                             [weakSelf.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
                         } else {
@@ -528,6 +533,8 @@
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             weakSelf.artDetailData = response.body;
+            // 更新作品价格
+            weakSelf.artDetailNamePriceView.artDetailData = response.body;
             [weakSelf refreshImmediatelyBuyBtnStatus];
             // 请求出售列表
             [weakSelf requestSellingList];
