@@ -16,8 +16,29 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
     var navigationController: UINavigationController?
     var interactor: MainTabBarInteractor?
     
-    func pointDesc() {
-        
+    func importWallet(from viewController: UIViewController) {
+//        let onboardingView = OnboardingMainViewFactory.createViewForOnboarding()
+//        let onboardingController = onboardingView?.controller ?? OnboardingMainViewController()
+//        (onboardingController as! OnboardingMainViewController).presenter.setup()
+//
+//        let walletBoardVC = JLWalletBoardViewController()
+//
+//        let navigationController = JLNavigationViewController()
+//        navigationController.viewControllers = [walletBoardVC]
+//        navigationController.modalPresentationStyle = .fullScreen
+//
+//        viewController.present(navigationController, animated: true, completion: nil)
+//        guard let restorationController = AccountImportViewFactory
+//            .createViewForOnboarding()?.controller else {
+//            return
+//        }
+        guard let restorationController = AccountImportViewFactory.createViewForAdding()?.controller else {
+            return
+        }
+        let navigationController = JLNavigationViewController()
+        navigationController.viewControllers = [restorationController]
+        navigationController.modalPresentationStyle = .fullScreen
+        viewController.present(navigationController, animated: true, completion: nil)
     }
     
     func accountInfo() {

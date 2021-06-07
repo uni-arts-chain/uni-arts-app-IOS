@@ -98,6 +98,7 @@ final class WebSocketService: WebSocketServiceProtocol {
         self.engine = engine
 
         if let address = settings.address, let type = settings.addressType {
+//            let currentAddress = SettingsManager.shared.selectedAccount?.address ?? address
             subscriptions = try? subscriptionsFactory.createSubscriptions(address: address,
                                                                           type: type,
                                                                           engine: engine)

@@ -74,6 +74,18 @@ final class AccountImportViewController: JLBaseViewController {
         presenter.setup()
     }
     
+    override func backClick() {
+        let controllerArray = self.navigationController!.viewControllers
+        if controllerArray.count > 1 {
+            if controllerArray[controllerArray.count - 1] == self {
+                // push 方式
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func configNavigationItem() {
         let infoItem = UIBarButtonItem(image: UIImage(named: "icon_wallet_qrscan"),
                                        style: .plain,

@@ -33,7 +33,7 @@
 // 定义是否自动创建钱包
 #define AUTOCREATEWALLET 0
 #define MANUALCREATEWALLET 1
-#define WALLET_ENV MANUALCREATEWALLET
+#define WALLET_ENV AUTOCREATEWALLET
 
 //状态栏高度
 #define KStatus_Bar_Height [[UIApplication sharedApplication] statusBarFrame].size.height

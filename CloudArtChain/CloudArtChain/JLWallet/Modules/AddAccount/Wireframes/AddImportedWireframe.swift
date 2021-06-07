@@ -2,13 +2,19 @@ import Foundation
 import IrohaCrypto
 
 final class AddImportedWireframe: AccountImportWireframeProtocol {
+    lazy var rootAnimator: RootControllerAnimationCoordinatorProtocol = RootControllerAnimationCoordinator()
     func proceed(from view: AccountImportViewProtocol?) {
-        guard let navigationController = view?.controller.navigationController else {
+//        guard let navigationController = view?.controller.navigationController else {
+//            return
+//        }
+//
+//        MainTransitionHelper.transitToMainTabBarController(closing: navigationController,
+//                                                           animated: true)
+        guard let pincodeViewController = PinViewFactory.createPinSetupView(navigationController: view?.controller.navigationController, userAvatar: nil)?.controller else {
             return
         }
 
-        MainTransitionHelper.transitToMainTabBarController(closing: navigationController,
-                                                           animated: true)
+        rootAnimator.animateTransition(to: pincodeViewController)
     }
 
     func presentSourceTypeSelection(from view: AccountImportViewProtocol?,

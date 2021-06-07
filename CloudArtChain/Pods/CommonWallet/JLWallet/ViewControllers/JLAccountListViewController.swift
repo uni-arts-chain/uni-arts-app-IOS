@@ -12,7 +12,7 @@ import SnapKit
 import SDWebImage
 
 public protocol JLAccountListViewControllerProtocol: class {
-    func pointDesc()
+    func importWallet(from viewController: UIViewController)
     func accountInfo()
     func pointDetail()
     func backClick(viewController: UIViewController)
@@ -170,38 +170,39 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         }
 
         let titleLabel = UILabel()
-        titleLabel.text = "积分说明"
+        titleLabel.text = "导入钱包"
         titleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
-        titleLabel.textColor = UIColor(hex: "909090")
+        titleLabel.textColor = UIColor(hex: "50C3FF")
         titleLabel.textAlignment = .center
         centerView.addSubview(titleLabel)
 
-        let iconImageView = UIImageView()
-        iconImageView.image = UIImage(named: "icon_wallet_point_help")
-        centerView.addSubview(iconImageView)
+//        let iconImageView = UIImageView()
+//        iconImageView.image = UIImage(named: "icon_wallet_point_help")
+//        centerView.addSubview(iconImageView)
 
         titleLabel.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalTo(centerView)
+//            make.left.top.bottom.equalTo(centerView)
+            make.edges.equalTo(centerView)
         }
-        iconImageView.snp.makeConstraints { (make) in
-            make.left.equalTo(titleLabel.snp.right).offset(7.0)
-            make.right.equalTo(centerView)
-            make.size.equalTo(14.0)
-            make.centerY.equalTo(titleLabel.snp.centerY)
-        }
+//        iconImageView.snp.makeConstraints { (make) in
+//            make.left.equalTo(titleLabel.snp.right).offset(7.0)
+//            make.right.equalTo(centerView)
+//            make.size.equalTo(14.0)
+//            make.centerY.equalTo(titleLabel.snp.centerY)
+//        }
 
-        let pointDescBtn = UIButton(type: .custom)
-        pointDescBtn.addTarget(self, action: #selector(pointDescBtnClick), for: .touchUpInside)
-        bottomView.addSubview(pointDescBtn)
-        pointDescBtn.snp.makeConstraints { (make) in
+        let importWalletBtn = UIButton(type: .custom)
+        importWalletBtn.addTarget(self, action: #selector(importWalletBtnClick), for: .touchUpInside)
+        bottomView.addSubview(importWalletBtn)
+        importWalletBtn.snp.makeConstraints { (make) in
             make.edges.equalTo(bottomView)
         }
 
         return bottomView
     }()
     
-    @objc func pointDescBtnClick() {
-        delegate?.pointDesc()
+    @objc func importWalletBtnClick() {
+        delegate?.importWallet(from: self)
     }
     
     @objc func headerButtonClick() {
@@ -294,18 +295,18 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         view.backgroundColor = .white
         
         view.addSubview(self.tableView)
-//        view.addSubview(self.bottomView)
+        view.addSubview(self.bottomView)
         
         let touchResponderHeight = UIApplication.shared.statusBarFrame.size.height > 20.0 ? 34.0 : 0.0
-//        self.bottomView.snp.makeConstraints { (make) in
-//            make.left.right.equalTo(self.view)
-//            make.bottom.equalTo(-touchResponderHeight)
-//            make.height.equalTo(62.0)
-//        }
+        self.bottomView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(self.view)
+            make.bottom.equalTo(-touchResponderHeight)
+            make.height.equalTo(62.0)
+        }
         self.tableView.snp.makeConstraints { (make) in
             make.left.top.right.equalTo(self.view)
-//            make.bottom.equalTo(self.bottomView.snp.top)
-            make.bottom.equalTo(-touchResponderHeight)
+            make.bottom.equalTo(self.bottomView.snp.top)
+//            make.bottom.equalTo(-touchResponderHeight)
         }
         
         configueTableView()
