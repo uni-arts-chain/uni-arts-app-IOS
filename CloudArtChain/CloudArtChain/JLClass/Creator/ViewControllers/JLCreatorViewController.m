@@ -19,7 +19,7 @@
 @property (nonatomic, strong) JLCreatorTableHeaderView *creatorTableHeaderView;
 
 @property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, strong) NSArray *topList;
+@property (nonatomic, strong) NSMutableArray *topList;
 @property (nonatomic, strong) NSMutableArray *preTopicList;
 @end
 
@@ -90,7 +90,7 @@
                 } else {
                     JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
                     creatorPageVC.authorData = authorData;
-                    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                    creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
                         weakSelf.creatorTableHeaderView.authorData = authorData;
                     };
                     [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
@@ -203,8 +203,8 @@
         } else {
             JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
             creatorPageVC.authorData = authorData;
-            creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
-                weakSelf.creatorTableHeaderView.authorData = authorData;
+            creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                [weakSelf.topList replaceObjectAtIndex:indexPath.row withObject:authorData];
             };
             [self.navigationController pushViewController:creatorPageVC animated:YES];
         }
@@ -221,7 +221,7 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
 //            weakSelf.creatorTableHeaderView.authorData = [response.body firstObject];
-            weakSelf.topList = response.body;
+            weakSelf.topList = [response.body mutableCopy];
         } else {
             NSLog(@"error: %@", errorStr);
         }
@@ -260,5 +260,12 @@
         _preTopicList = [NSMutableArray array];
     }
     return _preTopicList;
+}
+
+- (NSMutableArray *)topList {
+    if (!_topList) {
+        _topList = [NSMutableArray array];
+    }
+    return _topList;
 }
 @end

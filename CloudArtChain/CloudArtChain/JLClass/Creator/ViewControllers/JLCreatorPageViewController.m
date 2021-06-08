@@ -38,15 +38,15 @@
     [self headRefresh];
 }
 
-- (void)backClick {
-    if (!self.authorData.follow_by_me && self.cancelFollowBlock) {
-        self.cancelFollowBlock(self.authorData);
-    }
-    if (self.backBlock) {
-        self.backBlock(self.authorData);
-    }
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//- (void)backClick {
+//    if (!self.authorData.follow_by_me && self.followOrCancelBlock) {
+//        self.followOrCancelBlock(self.authorData);
+//    }
+//    if (self.backBlock) {
+//        self.backBlock(self.authorData);
+//    }
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 - (void)createSubviews {
     [self.view addSubview:self.focusButton];
@@ -99,6 +99,9 @@
                     sender.backgroundColor = JL_color_gray_C5C5C5;
                     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
                     weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+                    if (weakSelf.followOrCancelBlock) {
+                        weakSelf.followOrCancelBlock(response.body);
+                    }
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -115,6 +118,9 @@
                     sender.backgroundColor = JL_color_gray_101010;
                     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
                     weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+                    if (weakSelf.followOrCancelBlock) {
+                        weakSelf.followOrCancelBlock(response.body);
+                    }
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }

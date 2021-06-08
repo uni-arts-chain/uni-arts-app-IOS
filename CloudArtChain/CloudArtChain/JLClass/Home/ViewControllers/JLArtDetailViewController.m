@@ -877,6 +877,9 @@
             } else {
                 JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
                 creatorPageVC.authorData = weakSelf.artDetailData.author;
+                creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                    weakSelf.artDetailData.author = authorData;
+                };
                 [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
             }
         };

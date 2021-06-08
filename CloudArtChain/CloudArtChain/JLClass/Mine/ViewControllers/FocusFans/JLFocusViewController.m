@@ -107,11 +107,7 @@
     WS(weakSelf)
     JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
     creatorPageVC.authorData = self.focusArray[indexPath.row];
-//    creatorPageVC.cancelFollowBlock = ^(Model_art_author_Data * _Nonnull authorData) {
-//        [weakSelf.focusArray replaceObjectAtIndex:indexPath.row withObject:authorData];
-//        [weakSelf.tableView reloadData];
-//    };
-    creatorPageVC.backBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+    creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
         [weakSelf.focusArray replaceObjectAtIndex:indexPath.row withObject:authorData];
         [weakSelf.tableView reloadData];
     };
