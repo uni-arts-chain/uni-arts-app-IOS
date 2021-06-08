@@ -225,6 +225,7 @@ final class AccountImportViewController: JLBaseViewController {
 
         if let viewModel = usernameViewModel, viewModel.inputHandler.required {
             isEnabled = isEnabled && !(usernameTextFieldView.textField.text?.isEmpty ?? true)
+            viewModel.inputHandler.changeValue(to: usernameTextFieldView.textField.text ?? "")
         }
 
         if let viewModel = passwordViewModel, viewModel.inputHandler.required {
@@ -517,7 +518,7 @@ extension AccountImportViewController: UITextFieldDelegate {
         guard let currentViewModel = viewModel else {
             return true
         }
-        currentViewModel.inputHandler.didReceiveReplacement(string, for: range)
+//        currentViewModel.inputHandler.didReceiveReplacement(string, for: range)
 //        let shouldApply = currentViewModel.inputHandler.didReceiveReplacement(string, for: range)
         let shouldApply = true
         

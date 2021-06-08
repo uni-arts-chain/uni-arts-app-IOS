@@ -89,7 +89,7 @@
 - (UIView *)bottomView {
     if (!_bottomView) {
         _bottomView = [[UIView alloc] init];
-    }
+    }   
     return _bottomView;
 }
 
@@ -105,9 +105,11 @@
 - (void)setAuthorData:(Model_art_author_Data *)authorData indexPath:(NSIndexPath *)indexPath {
     if (![NSString stringIsEmpty:authorData.recommend_image[@"url"]]) {
         [self.recommendImageView sd_setImageWithURL:[NSURL URLWithString:authorData.recommend_image[@"url"]]];
-        self.recommendImageView.frame = CGRectMake(0.0f, 0.0f, self.shadowContentView.frameWidth, self.shadowContentView.frameHeight - 40.0f);
-        [self.recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
+    } else {
+        self.recommendImageView.image = nil;
     }
+    self.recommendImageView.frame = CGRectMake(0.0f, 0.0f, self.shadowContentView.frameWidth, self.shadowContentView.frameHeight - 40.0f);
+    [self.recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     self.nameLabel.text = authorData.display_name;
     self.platformImageView.hidden = (indexPath.row != 0);
 }

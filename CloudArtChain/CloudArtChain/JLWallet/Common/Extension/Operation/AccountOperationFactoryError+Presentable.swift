@@ -7,11 +7,11 @@ extension AccountOperationFactoryError: ErrorContentConvertible {
 
         switch self {
         case .decryption:
-            title = "Keystore decryption failed"
-            message = "Please, check password correctness and try again."
+            title = "Keystore JSON解密失败"
+            message = "请检查密码正确性，然后重试。"
         default:
-            title = "Error"
-            message = "Please, try again with another input. If the error appears again, please, contact support."
+            title = "错误"
+            message = "请用其他输入再试一次。如果错误再次出现，请联系支持人员。"
         }
 
         return ErrorContent(title: title, message: message)
