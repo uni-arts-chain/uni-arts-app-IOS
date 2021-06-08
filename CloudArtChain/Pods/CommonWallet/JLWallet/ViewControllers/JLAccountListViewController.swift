@@ -202,7 +202,18 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
     }()
     
     @objc func importWalletBtnClick() {
-        delegate?.importWallet(from: self)
+        let alertView = UIAlertController(title: "提示", message: "重新导入钱包后，当前钱包将被覆盖，请先备份好当前钱包助记词", preferredStyle: .alert)
+        let importAction = UIAlertAction(title: "继续导入", style: .default) { [weak self] action in
+            self?.delegate?.importWallet(from: self!)
+        }
+        importAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
+        alertView.addAction(importAction)
+        
+        let closeAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        closeAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
+        alertView.addAction(closeAction)
+        
+        self.present(alertView, animated: true, completion: nil)
     }
     
     @objc func headerButtonClick() {
