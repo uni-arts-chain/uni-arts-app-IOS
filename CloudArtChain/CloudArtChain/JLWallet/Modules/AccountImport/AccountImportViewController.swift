@@ -231,6 +231,7 @@ final class AccountImportViewController: JLBaseViewController {
         if let viewModel = passwordViewModel, viewModel.inputHandler.required {
             isEnabled = isEnabled && !(passwordView.textField.text?.isEmpty ?? true)
         }
+        passwordViewModel?.inputHandler.changeValue(to: passwordView.textField.text ?? "")
 
         if let viewModel = derivationPathModel, viewModel.inputHandler.required {
             isEnabled = isEnabled && !(derivationPathField.text?.isEmpty ?? true)

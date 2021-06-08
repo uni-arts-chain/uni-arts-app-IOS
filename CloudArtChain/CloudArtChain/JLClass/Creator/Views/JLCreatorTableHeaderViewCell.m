@@ -89,7 +89,7 @@
 - (UIView *)bottomView {
     if (!_bottomView) {
         _bottomView = [[UIView alloc] init];
-    }   
+    }
     return _bottomView;
 }
 
