@@ -36,7 +36,7 @@ extension ErrorPresentable where Self: AlertPresentable {
             return false
         }
 
-        let closeAction = "Close"
+        let closeAction = "关闭"
 
         present(message: content.message, title: content.title, closeAction: closeAction, from: view)
 

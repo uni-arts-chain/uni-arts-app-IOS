@@ -30,10 +30,10 @@ final class AddAccountImportInteractor: BaseAccountImportInteractor {
                                                               options: RepositoryFetchOptions())
 
         let persistentOperation = accountRepository.saveOperation({
-            if try checkOperation
-                .extractResultData(throwing: BaseOperationError.parentOperationCancelled) != nil {
-                throw AccountCreateError.duplicated
-            }
+//            if try checkOperation
+//                .extractResultData(throwing: BaseOperationError.parentOperationCancelled) != nil {
+//                throw AccountCreateError.duplicated
+//            }
 
             return [item]
         }, { [] })

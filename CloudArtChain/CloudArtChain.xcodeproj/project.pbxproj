@@ -1057,6 +1057,7 @@
 		B39BEAD12513644300DE69A6 /* JLUploadWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD02513644300DE69A6 /* JLUploadWorkViewController.m */; };
 		B39BEAD5251368A600DE69A6 /* JLUploadWorkSampleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */; };
 		B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */; };
+		B39DA758266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B39DA757266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m */; };
 		B39F8CC626453B5B008AF37F /* JLWechatPayWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */; };
 		B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AA62AF25E49B3300D28627 /* STPickerArea.m */; };
 		B3AA62B325E49B3300D28627 /* ChinaCity.json in Resources */ = {isa = PBXBuildFile; fileRef = B3AA62B125E49B3300D28627 /* ChinaCity.json */; };
@@ -2663,6 +2664,8 @@
 		B39BEAD4251368A600DE69A6 /* JLUploadWorkSampleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkSampleView.m; sourceTree = "<group>"; };
 		B39BEAD625136F3D00DE69A6 /* JLUploadWorkImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadWorkImageView.h; sourceTree = "<group>"; };
 		B39BEAD725136F3D00DE69A6 /* JLUploadWorkImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadWorkImageView.m; sourceTree = "<group>"; };
+		B39DA756266F1F3E001A273F /* JLCreatorTableHeaderViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorTableHeaderViewCell.h; sourceTree = "<group>"; };
+		B39DA757266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorTableHeaderViewCell.m; sourceTree = "<group>"; };
 		B39F8CC426453B5B008AF37F /* JLWechatPayWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLWechatPayWebViewController.h; sourceTree = "<group>"; };
 		B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLWechatPayWebViewController.m; sourceTree = "<group>"; };
 		B3AA62AF25E49B3300D28627 /* STPickerArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STPickerArea.m; sourceTree = "<group>"; };
@@ -6302,6 +6305,8 @@
 				B37FFB6D24F519AB004B9CC8 /* JLCreatorTableViewCell.m */,
 				B370C80424F5EE8A00A2D699 /* JLCreatorTableHeaderView.h */,
 				B370C80524F5EE8A00A2D699 /* JLCreatorTableHeaderView.m */,
+				B39DA756266F1F3E001A273F /* JLCreatorTableHeaderViewCell.h */,
+				B39DA757266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m */,
 				B3266F5024FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.h */,
 				B3266F5124FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.m */,
 			);
@@ -7072,6 +7077,7 @@
 				B3946DEC2632C88F00D97430 /* JLArtDetailNamePriceView.m in Sources */,
 				B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.mm in Sources */,
 				B3983F8A25DE3F200068084D /* JLAuctionArtDetailViewController.m in Sources */,
+				B39DA758266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m in Sources */,
 				B31225FC25B6B60A00562ECA /* AddUsernameWireframe.swift in Sources */,
 				B396554324F38D6D007A8EC2 /* JLModelInterface.m in Sources */,
 				B312263F25B6B60A00562ECA /* TransferHeaderViewModelFactory.swift in Sources */,

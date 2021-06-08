@@ -517,7 +517,7 @@ extension AccountImportViewController: UITextFieldDelegate {
         guard let currentViewModel = viewModel else {
             return true
         }
-
+        currentViewModel.inputHandler.didReceiveReplacement(string, for: range)
 //        let shouldApply = currentViewModel.inputHandler.didReceiveReplacement(string, for: range)
         let shouldApply = true
         
