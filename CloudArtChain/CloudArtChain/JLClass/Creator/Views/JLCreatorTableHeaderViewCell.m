@@ -42,7 +42,7 @@
     [self.platformImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.recommendImageView);
         make.top.mas_equalTo(15.0f);
-        make.width.mas_equalTo(93.0f);
+        make.width.mas_equalTo(70.0f);
         make.height.mas_equalTo(30.0f);
     }];
     
@@ -81,7 +81,7 @@
 - (UIImageView *)platformImageView {
     if (!_platformImageView) {
         _platformImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_platform"];
-        _platformImageView.hidden = YES;
+//        _platformImageView.hidden = YES;
     }
     return _platformImageView;
 }
@@ -111,6 +111,6 @@
     self.recommendImageView.frame = CGRectMake(0.0f, 0.0f, self.shadowContentView.frameWidth, self.shadowContentView.frameHeight - 40.0f);
     [self.recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     self.nameLabel.text = authorData.display_name;
-    self.platformImageView.hidden = (indexPath.row != 0);
+//    self.platformImageView.hidden = (indexPath.row != 0);
 }
 @end
