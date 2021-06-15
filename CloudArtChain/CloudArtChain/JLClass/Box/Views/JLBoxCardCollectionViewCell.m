@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIView *rareView;
 @property (nonatomic, strong) UIView *hadView;
 @property (nonatomic, strong) UIView *live2DView;
+@property (nonatomic, strong) UIImageView *playImgView;
 @end
 
 @implementation JLBoxCardCollectionViewCell
@@ -29,6 +30,7 @@
     [self.cardImageView addSubview:self.rareView];
     [self.cardImageView addSubview:self.hadView];
     [self.cardImageView addSubview:self.live2DView];
+    [self.cardImageView addSubview:self.playImgView];
     
     [self.cardImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
@@ -50,6 +52,11 @@
         make.bottom.equalTo(self.cardImageView).offset(-15.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
+    }];
+    [self.playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.cardImageView).offset(9.0f);
+        make.bottom.equalTo(self.cardImageView.mas_bottom).offset(-12.0f);
+        make.width.height.mas_equalTo(@26.0f);
     }];
 }
 
@@ -115,12 +122,27 @@
     return _live2DView;
 }
 
+- (UIImageView *)playImgView {
+    if (!_playImgView) {
+        _playImgView = [[UIImageView alloc] init];
+        _playImgView.hidden = YES;
+        _playImgView.image = [UIImage imageNamed:@"nft_video_play_icon2"];
+    }
+    return _playImgView;
+}
+
 - (void)setCardGroupData:(Model_blind_boxes_card_groups_Data *)cardGroupData {
     if (![NSString stringIsEmpty:cardGroupData.art.img_main_file1[@"url"]]) {
         [self.cardImageView sd_setImageWithURL:[NSURL URLWithString:cardGroupData.art.img_main_file1[@"url"]]];
     }
     self.rareView.hidden = [NSString stringIsEmpty:cardGroupData.special_attr];
     self.hadView.hidden = !cardGroupData.art.is_owner;
+//    if (cardGroupData.resource_type == 4) {
+//        self.playImgView.hidden = NO;
+//    }else {
+//        self.playImgView.hidden = YES;
+//    }
+//        self.playImgView.hidden = [NSString stringIsEmpty:themeArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:cardGroupData.art.live2d_file];
 }
 @end

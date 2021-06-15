@@ -44,6 +44,8 @@
 
 #import "NSString+JLTool.h"
 #import "UIColor+JLColor.h"
+#import "UIImage+JLTool.h"
+#import "NSData+JLExtension.h"
 #import "JLColorManager.h"
 #import "UIView+JLShadow.h"
 #import "JLUtils.h"
@@ -59,6 +61,8 @@
 #import "JLRefreshFooter.h"
 #import "JLViewControllerTool.h"
 #import "UIAlertController+Alert.h"
+#import "QGYAnimationEasingHelper.h"
+#import "JLViewAniamtionTool.h"
 
 // model
 #import "AppSingleton.h"

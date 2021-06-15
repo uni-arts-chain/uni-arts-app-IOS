@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *auctioningView;
 @property (nonatomic, strong) UIView *live2DView;
+@property (nonatomic, strong) UIImageView *playImgView;
 @end
 
 @implementation JLPopularOriginalCollectionViewCell
@@ -38,24 +39,26 @@
     [self.backView addSubview:self.priceLabel];
     [self.backView addSubview:self.auctioningView];
     [self.backView addSubview:self.live2DView];
+    [self.backView addSubview:self.playImgView];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.backView).offset(-8.0f);
-        make.bottom.equalTo(self.backView);
-        make.height.mas_equalTo(30.0f);
+        make.left.equalTo(self.backView).offset(8.0f);
+        make.bottom.equalTo(self.backView).offset(-6.0f);
+        make.height.mas_equalTo(19.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView).offset(8.0f);
-        make.bottom.equalTo(self.backView);
-        make.height.mas_equalTo(30.0f);
-        make.right.equalTo(self.priceLabel.mas_left).offset(-16.0f);
+        make.bottom.equalTo(self.priceLabel.mas_top);
+        make.height.mas_equalTo(19.0f);
+        make.right.equalTo(self.backView).offset(-8.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.backView);
-        make.bottom.equalTo(self.nameLabel.mas_top);
+        make.bottom.equalTo(self.nameLabel.mas_top).offset(-5.0f);
     }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.backView);
@@ -67,6 +70,11 @@
         make.bottom.equalTo(self.imageView).offset(-15.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
+    }];
+    [self.playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.imageView).offset(9.0f);
+        make.bottom.equalTo(self.imageView.mas_bottom).offset(-12.0f);
+        make.width.height.mas_equalTo(@26.0f);
     }];
 }
 
@@ -102,7 +110,6 @@
         _priceLabel = [[UILabel alloc] init];
         _priceLabel.font = kFontPingFangSCRegular(13.0f);
         _priceLabel.textColor = JL_color_gray_101010;
-        _priceLabel.textAlignment = NSTextAlignmentRight;
     }
     return _priceLabel;
 }
@@ -148,6 +155,15 @@
     return _live2DView;
 }
 
+- (UIImageView *)playImgView {
+    if (!_playImgView) {
+        _playImgView = [[UIImageView alloc] init];
+        _playImgView.hidden = YES;
+        _playImgView.image = [UIImage imageNamed:@"nft_video_play_icon2"];
+    }
+    return _playImgView;
+}
+
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
@@ -173,9 +189,15 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    if (popularArtData.resource_type == 4) {
+        self.playImgView.hidden = NO;
+    }else {
+        self.playImgView.hidden = YES;
+    }
+//    self.playImgView.hidden = [NSString stringIsEmpty:popularArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:popularArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + popularArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 34.0f + popularArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
@@ -212,9 +234,15 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    if (collectionArtData.resource_type == 4) {
+        self.playImgView.hidden = NO;
+    }else {
+        self.playImgView.hidden = YES;
+    }
+//    self.playImgView.hidden = [NSString stringIsEmpty:collectionArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:collectionArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + collectionArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 35.0f + collectionArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
@@ -234,9 +262,15 @@
     } else {
         self.auctioningView.hidden = YES;
     }
+    if (authorArtData.resource_type == 4) {
+        self.playImgView.hidden = NO;
+    }else {
+        self.playImgView.hidden = YES;
+    }
+//    self.playImgView.hidden = [NSString stringIsEmpty:authorArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:authorArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + authorArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 34.0f + authorArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }

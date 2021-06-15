@@ -137,6 +137,9 @@
 @property (nonatomic, strong) NSString *size_length;
 @property (nonatomic, strong) NSString *size_width;
 @property (nonatomic, strong) NSString *details;
+@property (nonatomic, strong) NSArray *detail_imgs;
+@property (nonatomic, strong) NSString *video_url;
+@property (nonatomic, assign) NSInteger resource_type;
 @property (nonatomic, strong) NSDictionary *img_main_file1;
 @property (nonatomic, strong) NSDictionary *img_main_file2;
 @property (nonatomic, strong) NSDictionary *img_main_file3;

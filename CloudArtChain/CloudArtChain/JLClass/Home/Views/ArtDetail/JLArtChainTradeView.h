@@ -10,8 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^JLArtChainTradeViewShowCertificateBlock)(void);
+
 @interface JLArtChainTradeView : JLBaseView
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, copy) JLArtChainTradeViewShowCertificateBlock showCertificateBlock;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -35,6 +35,9 @@
 #define MANUALCREATEWALLET 1
 #define WALLET_ENV AUTOCREATEWALLET
 
+/// app testFlight 测试地址
+#define APP_TESTFLIGHT_URL [NSURL URLWithString:@"https://testflight.apple.com/join/mBtF5vdq"]
+
 //状态栏高度
 #define KStatus_Bar_Height [[UIApplication sharedApplication] statusBarFrame].size.height
 //全屏宽
@@ -57,5 +60,8 @@
 #define KMainWindow [UIApplication sharedApplication].keyWindow
 
 #define KToastDismissDelayTimeInterval 1.5f
+
+#pragma mark - Local NotificationCenter
+#define LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED @"LocalNotification_JLNetworkStatusChanged"
 
 #endif /* PartMacro_h */

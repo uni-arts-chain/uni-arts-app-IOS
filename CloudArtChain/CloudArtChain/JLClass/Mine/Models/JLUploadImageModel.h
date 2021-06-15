@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *fileName;
 @property (nonatomic, strong) NSString *zipFilePath;
 
+/// 视频
+@property (nonatomic, strong) NSURL *videoUrl;
+@property (nonatomic, strong) NSData *videoData;
+
 + (instancetype)uploadImageModelWithImage:(UIImage *)image imageType:(NSString *)imageType imageData:(NSData *)imageData;
 @end
 

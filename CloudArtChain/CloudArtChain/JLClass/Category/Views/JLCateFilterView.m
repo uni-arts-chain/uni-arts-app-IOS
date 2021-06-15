@@ -27,14 +27,19 @@
     return _itemsArray;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items defaultSelectIndex: (NSInteger)defaultSelectIndex selectBlock:(void(^)(NSInteger index))selectBlock {
     if (self = [super initWithFrame:frame]) {
         self.title = title;
         self.items = items;
+        self.currentIndex = defaultSelectIndex;
         self.selectBlock = selectBlock;
         [self createSubViews];
     }
     return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
+    return [self initWithFrame:frame title:title items:items defaultSelectIndex:-1 selectBlock:selectBlock];
 }
 
 - (void)createSubViews {
@@ -87,6 +92,10 @@
     CGFloat currentX = 0.0f;
     for (int i = 0; i < self.items.count; i++) {
         UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, 10.0f, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2, self.frameHeight - 10.0f * 2) title:self.items[i] tag:2001 + i];
+        if (self.currentIndex >= 0 && self.currentIndex == i + 1) {
+            button.selected = YES;
+            button.backgroundColor = JL_color_gray_101010;
+        }
         [self.scrollView addSubview:button];
         [self.itemsArray addObject:button];
         currentX += [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2 + 14.0f;

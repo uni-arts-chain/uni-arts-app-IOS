@@ -59,6 +59,13 @@ typedef enum
 /// @param callBackBlock 请求回调
 + (void)netRequestPostUploadParameters:(id)reqPar respondParameters:(id)rspPar fileName:(NSString *)fileName fileData:(NSData *)fileData callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
+/// 文件上传 视频
+/// @param reqPar 请求参数
+/// @param rspPar 请求应答
+/// @param fileNameArray 文件名称数组
+/// @param fileDataArray 文件数据数组
+/// @param callBackBlock 请求回调
++ (void)netRequestUploadVideoParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock;
 
 /// 文件上传 并完成Post 请求 身份核验
 /// @param reqPar 请求参数

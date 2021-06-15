@@ -640,4 +640,11 @@
     return nil;
 }
 
+/// 跳转到 app testflight
++ (void)openTestFlight {
+    if ([[UIApplication sharedApplication] canOpenURL:APP_TESTFLIGHT_URL]) {
+        [[UIApplication sharedApplication] openURL:APP_TESTFLIGHT_URL options:@{} completionHandler:nil];
+    }
+}
+
 @end

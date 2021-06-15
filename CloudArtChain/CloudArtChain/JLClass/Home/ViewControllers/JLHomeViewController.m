@@ -517,7 +517,7 @@
             if (weakSelf.popularArray.count % 2 != 0) {
                 popularOriginalViewRow += 1;
             }
-            CGFloat themeRecommendViewHeight = 380.0f;
+            CGFloat themeRecommendViewHeight = 397.0f;
             if (weakSelf.auctionArray.count == 0) {
                 if (self.themeArray.count > 0) {
                     weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
@@ -547,7 +547,7 @@
     for (int i = 0; i < self.popularArray.count; i++) {
         Model_art_Detail_Data *iconModel = self.popularArray[i];
         //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW] + 14.0f;
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 45.0f + iconModel.imgHeight) itemW:itemW] + 14.0f;
         if (columnFirstHeight <= columnSecondHeight) {
             columnFirstHeight += itemH;
         } else {
@@ -574,7 +574,7 @@
             [weakSelf.themeArray removeAllObjects];
             [weakSelf.themeArray addObjectsFromArray:response.body];
             
-            CGFloat themeRecommendViewHeight = 380.0f;
+            CGFloat themeRecommendViewHeight = 397.0f;
             if (weakSelf.themeArray.count > 0) {
                 weakSelf.themeRecommendView.frame = CGRectMake(0.0f, self.announceView.frameBottom, kScreenWidth, themeRecommendViewHeight * self.themeArray.count + 16.0f * (self.themeArray.count - 1));
             }

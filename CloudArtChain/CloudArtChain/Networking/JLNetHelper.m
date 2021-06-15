@@ -521,6 +521,81 @@ static AFHTTPSessionManager *sessionManager = nil;
     }];
 }
 
+/// 文件上传 视频
+/// @param reqPar 请求参数
+/// @param rspPar 请求应答
+/// @param fileNameArray 文件名称数组
+/// @param fileDataArray 文件数据数组
+/// @param callBackBlock 请求回调
++ (void)netRequestUploadVideoParameters:(id)reqPar respondParameters:(id)rspPar paramsNames:(NSArray *)paramsArray fileNames:(NSArray *)fileNameArray fileData:(NSArray *)fileDataArray fileType:(NSArray *)fileTypeArray callBack:(void(^)(BOOL netIsWork, NSString *errorStr, NSInteger errorCode))callBackBlock {
+    AFHTTPSessionManager *manager = [JLNetHelper getUploadSessionManager];
+    NSMutableDictionary * mutablePara = [NSMutableDictionary dictionaryWithDictionary:[reqPar toDictionary]];
+    //获取时间戳
+    NSString *timeString = [JLNetHelper getTimeString];
+    //头部设置
+    [JLNetHelper managerHeadBaseConfig:manager withTime:timeString];
+    //设置Token
+    Model_Rsp *modelRsp = (Model_Rsp *)rspPar;
+    [mutablePara setObject:timeString forKey:@"tonce"];
+    NSString *url = [NSString stringWithFormat:@"%@%@", [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, ![NSString stringIsEmpty:modelRsp.interfacePath] ? modelRsp.interfacePath : [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"]];
+    [JLNetHelper setToken:manager url:[NSString stringWithFormat:@"/%@", url] para:mutablePara isGET:NO timeString:timeString];
+    
+    
+    NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" : modelRsp.serverVersionSubpath, [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
+    __block id rsp = rspPar;
+    
+    
+    [manager POST:baseUrl parameters:[reqPar toDictionary] headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (int i = 0; i < fileNameArray.count; i++) {
+            NSData *fileData = fileDataArray[i];
+            NSString *fileName = fileNameArray[i];
+            NSString *paramsName = paramsArray[i];
+            NSString *fileType = fileTypeArray[i];
+            if ([fileType isEqualToString:@"mp4"]) {
+                [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"video/quicktime"];
+            }else if ([fileType isEqualToString:@"gif"]) {
+                [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"image/gif"];
+            } else {
+                [formData appendPartWithFileData:fileData name:paramsName fileName:fileName mimeType:@"image/jpeg"];
+            }
+        }
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //网络获取数据成功
+        NSString *jsonStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        JSONModelError *error;
+        rsp = [rsp initWithString : jsonStr error : &error];
+        if (error) {
+            NSLog(@"jsonError : %@",error);
+        }
+        NSLog(@"当前的请求接口====%@,当前请求参数为===%@，当前接口的响应数据======%@",baseUrl,[reqPar toJSONString],jsonStr);
+        Model_Rsp *rspBase = (Model_Rsp*)rsp;
+        
+        if (rspBase.head.code.integerValue == 1000) {
+            if (callBackBlock) {
+                callBackBlock(YES,rspBase.head.msg,rspBase.head.code.integerValue);
+            }
+            [JLNetHelper removeProtectView];
+        } else {
+            if (callBackBlock) {
+                callBackBlock(NO,rspBase.head.msg,rspBase.head.code.integerValue);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        BOOL isTimeout = [JLNetHelper isTimeOut:error task:task];
+        if (isTimeout) {
+            [JLNetHelper requestTimeOut:task error:error showError:YES];
+        }
+        if (callBackBlock) {
+            ErrorRoot * rootError = [self serializationError:error];
+            ErrorHead * errorHead = rootError.head;
+            callBackBlock(NO,errorHead.msg, errorHead.code);
+        }
+        if (!isTimeout) {
+            [JLNetHelper dealErrorWith:task error:error needError:YES];
+        }
+    }];
+}
+
 /// 文件上传 zip文件上传
 /// @param reqPar 请求参数
 /// @param rspPar 请求应答

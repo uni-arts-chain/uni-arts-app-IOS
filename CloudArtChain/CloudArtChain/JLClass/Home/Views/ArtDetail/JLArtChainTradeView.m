@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *publishNumLabel;
 @property (nonatomic, strong) UILabel *transactionTimesLabel;
+@property (nonatomic, strong) UIView *certificateBgView;
+@property (nonatomic, strong) UIImageView *certificateImgView;
 @end
 
 @implementation JLArtChainTradeView
@@ -41,6 +43,8 @@
     [self.chainView addSubview:self.addressLabel];
     [self.chainView addSubview:self.publishNumLabel];
     [self.chainView addSubview:self.transactionTimesLabel];
+    [self.chainView addSubview:self.certificateBgView];
+    [self.chainView addSubview:self.certificateImgView];
     
     [chainInfoTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -61,8 +65,19 @@
     [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.royaltyDateLabel.mas_bottom);
         make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-32.0f);
+        make.right.mas_equalTo(-64.0f);
         make.height.mas_equalTo(30.0f);
+    }];
+    [self.certificateBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-20.0f);
+        make.centerY.equalTo(self.addressLabel);
+    }];
+    [self.certificateImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.certificateBgView).offset(-20);
+        make.top.equalTo(self.certificateBgView).offset(10.0f);
+        make.left.equalTo(self.certificateBgView);
+        make.bottom.equalTo(self.certificateBgView).offset(-10.0f);
+        make.size.mas_equalTo(CGSizeMake(16.0f, 20.0f));
     }];
     [self.publishNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -116,6 +131,29 @@
         _transactionTimesLabel = [JLUIFactory labelInitText:@"交易次数：0次" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _transactionTimesLabel;
+}
+
+- (UIView *)certificateBgView {
+    if (!_certificateBgView) {
+        _certificateBgView = [[UIView alloc] init];
+        _certificateBgView.userInteractionEnabled = YES;
+        [_certificateBgView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(certificateBgViewDidTap:)]];
+    }
+    return _certificateBgView;
+}
+
+- (UIImageView *)certificateImgView {
+    if (!_certificateImgView) {
+        _certificateImgView = [[UIImageView alloc] init];
+        _certificateImgView.image = [UIImage imageNamed:@"certificate_thumbnail"];
+    }
+    return _certificateImgView;
+}
+
+- (void)certificateBgViewDidTap: (UITapGestureRecognizer *)ges {
+    if (_showCertificateBlock) {
+        _showCertificateBlock();
+    }
 }
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {

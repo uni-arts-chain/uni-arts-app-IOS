@@ -11,6 +11,8 @@
 @interface JLArtEvaluateView ()
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, strong) UILabel *evaluateLabel;
+@property (nonatomic, strong) UIView *imageContentView;
+@property (nonatomic, strong) NSMutableArray<UIImageView *> *imageViewArray;
 @end
 
 @implementation JLArtEvaluateView
@@ -26,7 +28,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGRect frame = self.frame;
-    frame.size.height = self.evaluateLabel.frameBottom;
+    if (self.artDetailData.detail_imgs.count) {
+        frame.size.height = self.imageContentView.frameBottom;
+    }else {
+        frame.size.height = self.evaluateLabel.frameBottom;
+    }
     self.frame = frame;
 }
 
@@ -38,11 +44,75 @@
         make.height.mas_equalTo(65.0f);
     }];
     [self addSubview:self.evaluateLabel];
-    [self.evaluateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(titleView.mas_bottom);
-    }];
+    
+    
+    if (self.artDetailData.detail_imgs.count) {
+        [self.evaluateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.top.equalTo(titleView.mas_bottom);
+        }];
+        
+        _imageContentView = [[UIView alloc] init];
+        [self addSubview:_imageContentView];
+        [_imageContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.evaluateLabel.mas_bottom).offset(10.0f);
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.bottom.equalTo(self);
+        }];
+        
+        UIImageView *lastImgView = nil;
+        for (int i = 0; i < self.artDetailData.detail_imgs.count; i++) {
+            UIImageView *imgView = [[UIImageView alloc] init];
+            imgView.tag = 100 + i;
+            imgView.userInteractionEnabled = YES;
+            [imgView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewDidTap:)]];
+            [_imageContentView addSubview:imgView];
+            [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                if (!lastImgView) {
+                    make.top.equalTo(self.imageContentView);
+                }else {
+                    make.top.equalTo(lastImgView.mas_bottom).offset(10.0f);
+                }
+                make.left.right.equalTo(self.imageContentView);
+                make.height.mas_equalTo(@200);
+                if (i == self.artDetailData.detail_imgs.count - 1) {
+                    make.bottom.equalTo(self.imageContentView).offset(-10.0f);
+                }
+            }];
+            
+            lastImgView = imgView;
+            
+            [self.imageViewArray addObject:imgView];
+            
+            [imgView sd_setImageWithURL:[NSURL URLWithString:self.artDetailData.detail_imgs[i]] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                
+                if (image) {
+                    for (int j = 0; j < self.artDetailData.detail_imgs.count; j++) {
+                        if ([imageURL.absoluteString isEqualToString:self.artDetailData.detail_imgs[j]]) {
+                            [self.imageViewArray[j] mas_updateConstraints:^(MASConstraintMaker *make) {
+                                make.height.mas_equalTo((kScreenWidth - 30.0f) * image.size.height / image.size.width);
+                            }];
+                        }
+                    }
+                }
+            }];
+        }
+    }else {
+        [self.evaluateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(15.0f);
+            make.right.mas_equalTo(-15.0f);
+            make.top.equalTo(titleView.mas_bottom);
+            make.bottom.equalTo(self);
+        }];
+    }
+}
+
+- (void)imgViewDidTap: (UITapGestureRecognizer *)ges {
+    if (_lookImageBlock) {
+        _lookImageBlock(ges.view.tag - 100, _artDetailData.detail_imgs);
+    }
 }
 
 - (UILabel *)evaluateLabel {
@@ -66,6 +136,13 @@
 - (CGFloat)getFrameBottom {
     [self layoutIfNeeded];
     return self.frameY + self.frameHeight;
+}
+
+- (NSMutableArray<UIImageView *> *)imageViewArray {
+    if (!_imageViewArray) {
+        _imageViewArray = [NSMutableArray array];
+    }
+    return _imageViewArray;
 }
 
 @end

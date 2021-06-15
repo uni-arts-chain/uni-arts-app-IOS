@@ -180,6 +180,9 @@ NS_ASSUME_NONNULL_BEGIN
 //通过图片Data数据第一个字节 来获取图片扩展名
 + (NSString *)contentTypeForImageData:(NSData *)data;
 
+/// 跳转到 app testflight
++ (void)openTestFlight;
+
 @end
 
 NS_ASSUME_NONNULL_END

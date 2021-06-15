@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkImageView : JLBaseView
+/// 是否只支持选择图片
+@property (nonatomic, assign) BOOL isOnlySelectImage;
 @property (nonatomic, weak) UIViewController *controller;
 //@property (nonatomic, strong) UIViewController *controller;
 - (NSArray *)getImageArray;

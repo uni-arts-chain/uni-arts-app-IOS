@@ -84,6 +84,7 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         tableHeaderView.addSubview(addressLabel)
         
         let headerButton = UIButton(type: UIButton.ButtonType.custom)
+        headerButton.setImage(UIImage(named: "icon_mine_setting")?.imageWithTintColor(color: .white), for: .normal)
         headerButton.addTarget(self, action: #selector(headerButtonClick), for: UIControl.Event.touchUpInside)
         tableHeaderView.addSubview(headerButton)
         
@@ -124,7 +125,9 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
             make.centerX.equalTo(tableHeaderView.snp.centerX)
         }
         headerButton.snp.makeConstraints { (make) in
-            make.edges.equalTo(tableHeaderView)
+            make.top.equalTo(tableHeaderView).offset(5.0)
+            make.right.equalTo(tableHeaderView).offset(-5.0)
+            make.size.equalTo(44.0)
         }
         addressLabelCopyBtn.snp.makeConstraints { (make) in
             make.left.right.equalTo(addressLabel)
@@ -455,5 +458,23 @@ extension JLAccountListViewController: Containable {
 extension JLAccountListViewController: Reloadable {
     func reload() {
         presenter.reload()
+    }
+}
+extension UIImage {
+    
+    /// 更改图片颜色
+    public func imageWithTintColor(color : UIColor) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        let context = UIGraphicsGetCurrentContext()
+        context?.translateBy(x: 0, y: self.size.height)
+        context?.scaleBy(x: 1.0, y: -1.0)
+        context?.setBlendMode(CGBlendMode.normal)
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        context?.clip(to: rect, mask: self.cgImage!)
+        color.setFill()
+        context?.fill(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return (newImage != nil) ? newImage! : self
     }
 }

@@ -94,14 +94,20 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @property (nonatomic, strong) NSString *img_main_file2;
 /** 主图3 */
 @property (nonatomic, strong) NSString *img_main_file3;
+/** 视频 */
+@property (nonatomic, strong) NSString *video_url;
 /** 细节图1 */
 @property (nonatomic, strong) NSString *img_detail_file1;
 /** 细节图2 */
 @property (nonatomic, strong) NSString *img_detail_file2;
+/** 细节图3 */
+@property (nonatomic, strong) NSString *img_detail_file3;
 /** 细节说明1 */
 @property (nonatomic, strong) NSString *img_detail_file1_desc;
 /** 细节说明2 */
 @property (nonatomic, strong) NSString *img_detail_file2_desc;
+/** 细节说明3 */
+@property (nonatomic, strong) NSString *img_detail_file3_desc;
 /** 版税比例 */
 @property (nonatomic, strong) NSString *royalty;
 /** 版税有效期 */

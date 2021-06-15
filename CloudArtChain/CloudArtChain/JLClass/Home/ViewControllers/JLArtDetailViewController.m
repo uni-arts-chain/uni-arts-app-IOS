@@ -7,6 +7,8 @@
 //
 
 #import "JLArtDetailViewController.h"
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "UITabBar+JLTool.h"
 #import "UIButton+AxcButtonContentLayout.h"
 #import "WMPhotoBrowser.h"
@@ -29,6 +31,8 @@
 #import "JLArtEvaluateView.h"
 //#import "JLArtDetailDescriptionView.h"
 #import "JLChainQRCodeView.h"
+#import "JLArtDetailVideoView.h"
+#import "JLArtDetailShowCertificateView.h"
 
 #import "NSDate+Extension.h"
 #import "JLLive2DCacheManager.h"
@@ -38,9 +42,11 @@
 @property (nonatomic, strong) UITabBar *bottomBar;
 @property (nonatomic, strong) UIView *certificateView;
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) NewPagedFlowView *pageFlowView;
 @property (nonatomic, strong) UILabel *pageLabel;
 @property (nonatomic, strong) UIButton *photoBrowserBtn;
+@property (nonatomic, strong) JLArtDetailVideoView *videoView;
 @property (nonatomic, strong) JLArtDetailNamePriceView *artDetailNamePriceView;
 @property (nonatomic, strong) JLArtChainTradeView *artChainTradeView;
 @property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
@@ -49,6 +55,8 @@
 //@property (nonatomic, strong) JLArtInfoView *artInfoView;
 @property (nonatomic, strong) JLArtEvaluateView *artEvaluateView;
 //@property (nonatomic, strong) JLArtDetailDescriptionView *artDetailDescView;
+
+@property (nonatomic, strong) MASConstraint *artSellingViewHeightConstraint;
 
 @property (nonatomic, strong) UIButton *likeButton;
 @property (nonatomic, strong) UIButton *dislikeButton;
@@ -60,6 +68,7 @@
 @property (nonatomic, strong) UIButton *immediatelyBuyBtn;
 /** live2d下载 task */
 @property (nonatomic, strong) NSURLSessionTask *live2DDownloadTask;
+@property (nonatomic, assign) NSInteger networkStatus;
 @end
 
 @implementation JLArtDetailViewController
@@ -67,9 +76,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"详情";
+    self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
+    
     [self addBackItem];
     [self createSubView];
     [self requestSellingList];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
 }
 
 - (void)backClick {
@@ -87,10 +100,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.artEvaluateView.frameBottom);
+- (void)networkStatusChanged: (NSNotification *)notification {
+    NSDictionary *dict = notification.userInfo;
+    _networkStatus = [dict[@"status"] integerValue];
 }
+
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.artEvaluateView.frameBottom);
+//}
 
 - (void)createSubView {
     [self initBottomUI];
@@ -100,40 +118,101 @@
         make.bottom.equalTo(self.bottomBar.mas_top);
         make.left.top.right.equalTo(self.view);
     }];
-    // 主图
-    [self.scrollView addSubview:self.pageFlowView];
-    // 页码
-    [self.pageFlowView addSubview:self.pageLabel];
-    // 查看主图
-    [self.scrollView addSubview:self.photoBrowserBtn];
-    
-    [self.pageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.pageFlowView).offset(-9.0f);
-        make.width.mas_equalTo(35.0f);
-        make.height.mas_equalTo(17.0f);
-        make.centerX.equalTo(self.pageFlowView.mas_centerX);
+    [self.scrollView addSubview:self.contentView];
+    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scrollView);
+        make.width.mas_equalTo(self.scrollView);
     }];
-    [self.photoBrowserBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenWidth - 23.0f - 16.0f);
-        make.bottom.equalTo(self.pageFlowView.mas_bottom).offset(-10.0f);
-        make.size.mas_equalTo(16.0f);
-    }];
+    if (self.artDetailData.resource_type == 4) {
+        // 视频
+        [self.contentView addSubview:self.videoView];
+        [self.videoView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.contentView);
+            make.height.mas_equalTo(@250.0f);
+        }];
+    }else {
+        // 主图
+        [self.contentView addSubview:self.pageFlowView];
+        [self.pageFlowView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.contentView);
+            make.height.mas_equalTo(@250.0f);
+        }];
+        // 页码
+        [self.contentView addSubview:self.pageLabel];
+        // 查看主图
+        [self.contentView addSubview:self.photoBrowserBtn];
+        
+        [self.pageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.pageFlowView).offset(-9.0f);
+            make.width.mas_equalTo(35.0f);
+            make.height.mas_equalTo(17.0f);
+            make.centerX.equalTo(self.pageFlowView.mas_centerX);
+        }];
+        [self.photoBrowserBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(kScreenWidth - 23.0f - 16.0f);
+            make.bottom.equalTo(self.pageFlowView.mas_bottom).offset(-10.0f);
+            make.size.mas_equalTo(16.0f);
+        }];
+    }
+
     // 作品详情
-    [self.scrollView addSubview:self.artDetailNamePriceView];
+    [self.contentView addSubview:self.artDetailNamePriceView];
+    [self.artDetailNamePriceView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (self.artDetailData.resource_type == 4) {
+            make.top.equalTo(self.videoView.mas_bottom);
+            make.left.right.equalTo(self.videoView);
+        }else {
+            make.top.equalTo(self.pageFlowView.mas_bottom);
+            make.left.right.equalTo(self.pageFlowView);
+        }
+        make.height.mas_equalTo(@90.0f);
+    }];
     if (self.artDetailData.collection_mode == 3) {
         // 出售列表
-        [self.scrollView addSubview:self.artSellingView];
+        [self.contentView addSubview:self.artSellingView];
+        [self.artSellingView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.artDetailNamePriceView.mas_bottom);
+            make.left.right.equalTo(self.artDetailNamePriceView);
+            self.artSellingViewHeightConstraint = make.height.mas_equalTo(@(55.0f + 35.0f));
+        }];
     }
     // 区块链交易信息
-    [self.scrollView addSubview:self.artChainTradeView];
+    [self.contentView addSubview:self.artChainTradeView];
+    [self.artChainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (self.artDetailData.collection_mode == 3) {
+            make.top.equalTo(self.artSellingView.mas_bottom).offset(10.0f);
+            make.left.right.equalTo(self.artSellingView);
+        }else {
+            make.top.equalTo(self.artDetailNamePriceView.mas_bottom);
+            make.left.right.equalTo(self.artDetailNamePriceView);
+        }
+        make.height.mas_equalTo(@210.0f);
+    }];
     // 创作者简介
-    [self.scrollView addSubview:self.artAuthorDetailView];
+    [self.contentView addSubview:self.artAuthorDetailView];
+    [self.artAuthorDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.artChainTradeView.mas_bottom).offset(10.0f);
+        make.left.right.equalTo(self.artChainTradeView);
+        make.height.mas_equalTo(@204.0f);
+    }];
     // 作品信息
 //    [self.scrollView addSubview:self.artInfoView];
     // 艺术评析
-    [self.scrollView addSubview:self.artEvaluateView];
+    [self.contentView addSubview:self.artEvaluateView];
+    [self.artEvaluateView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.artAuthorDetailView.mas_bottom).offset(10.0f);
+        make.left.right.equalTo(self.artAuthorDetailView);
+        make.bottom.equalTo(self.contentView);
+    }];
     // 艺术品细节
 //    [self.scrollView addSubview:self.artDetailDescView];
+}
+
+- (UIView *)contentView {
+    if (!_contentView) {
+        _contentView = [[UIView alloc] init];
+    }
+    return _contentView;
 }
 
 - (void)initBottomUI {
@@ -797,6 +876,42 @@
     self.pageLabel.text = [NSString stringWithFormat:@"%ld/%ld", pageNumber + 1, (long)[self numberOfPagesInFlowView:self.pageFlowView]];
 }
 
+- (JLArtDetailVideoView *)videoView {
+    if (!_videoView) {
+        _videoView = [[JLArtDetailVideoView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 250.0f)];
+        
+//        NSString *urlStr = self.artDetailData.video_url;
+        NSString *urlStr = self.artDetailData.img_main_file2[@"url"];
+        WS(weakSelf)
+        _videoView.playOrStopBlock = ^(NSInteger status) {
+            
+            if (weakSelf.networkStatus == AFNetworkReachabilityStatusUnknown ||
+                weakSelf.networkStatus == AFNetworkReachabilityStatusNotReachable) {
+                [JLAlert jlalertDefaultView:@"当前无网络或网络不可用，请稍后再试!" cancel:@"好的"];
+                return;
+            }else if (weakSelf.networkStatus == AFNetworkReachabilityStatusReachableViaWWAN) {
+                [JLAlert jlalertView:@"提示" message:@"当前网络不是Wifi，继续播放将消耗数据流量，是否继续播放？" cancel:@"取消" cancelBlock:^{
+                    
+                } confirm:@"播放" confirmBlock:^{
+                    AVPlayerViewController *aVPlayerViewController = [[AVPlayerViewController alloc] init];
+                    aVPlayerViewController.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:urlStr]];
+                    [weakSelf presentViewController:aVPlayerViewController animated:YES completion:^{
+                        [aVPlayerViewController.player play];
+                    }];
+                }];
+            }else {
+                AVPlayerViewController *aVPlayerViewController = [[AVPlayerViewController alloc] init];
+                aVPlayerViewController.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:urlStr]];
+                [weakSelf presentViewController:aVPlayerViewController animated:YES completion:^{
+                    [aVPlayerViewController.player play];
+                }];
+            }
+        };
+        _videoView.artDetailData = self.artDetailData;
+    }
+    return _videoView;
+}
+
 - (JLArtDetailNamePriceView *)artDetailNamePriceView {
     if (!_artDetailNamePriceView) {
         _artDetailNamePriceView = [[JLArtDetailNamePriceView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 90.0f)];
@@ -838,19 +953,16 @@
             [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
         };
         _artSellingView.openCloseListBlock = ^(BOOL isOpen) {
+            CGFloat height = 55.0f + 35.0f;
             if (isOpen) {
-                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
-                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
-                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
-                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
             } else {
-                weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
-                weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
-                weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
-                weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
-                weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
             }
+            [weakSelf.artSellingViewHeightConstraint uninstall];
+            [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
+                weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
+            }];
         };
     }
     return _artSellingView;
@@ -860,6 +972,10 @@
     if (!_artChainTradeView) {
         _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artSellingView.frameBottom + 10.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 210.0f)];
         _artChainTradeView.artDetailData = self.artDetailData;
+        WS(weakSelf)
+        _artChainTradeView.showCertificateBlock = ^{
+            [JLArtDetailShowCertificateView showWithArtDetailData:weakSelf.artDetailData];
+        };
     }
     return _artChainTradeView;
 }
@@ -897,7 +1013,28 @@
 
 - (JLArtEvaluateView *)artEvaluateView {
     if (!_artEvaluateView) {
+        NSMutableArray *arr = [NSMutableArray array];
+        if (![NSString stringIsEmpty:self.artDetailData.img_detail_file1[@"url"]]) {
+            [arr addObject:self.artDetailData.img_detail_file1[@"url"]];
+        }
+        if (![NSString stringIsEmpty:self.artDetailData.img_detail_file2[@"url"]]) {
+            [arr addObject:self.artDetailData.img_detail_file2[@"url"]];
+        }
+        if (![NSString stringIsEmpty:self.artDetailData.img_detail_file3[@"url"]]) {
+            [arr addObject:self.artDetailData.img_detail_file3[@"url"]];
+        }
+        self.artDetailData.detail_imgs = [arr copy];
         _artEvaluateView = [[JLArtEvaluateView alloc] initWithFrame:CGRectMake(0.0f, self.artAuthorDetailView.frameBottom, kScreenWidth, 0.0f) artDetailData:self.artDetailData];
+        _artEvaluateView.lookImageBlock = ^(NSInteger index, NSArray * _Nonnull imageArray) {
+            //图片查看
+            WMPhotoBrowser *browser = [WMPhotoBrowser new];
+            //数据源
+            browser.dataSource = [imageArray mutableCopy];
+            browser.downLoadNeeded = YES;
+            browser.currentPhotoIndex = index;
+            browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+        };
     }
     return _artEvaluateView;
 }
@@ -949,19 +1086,16 @@
             }
             // 更新视图
             if (weakSelf.artDetailData.collection_mode == 3) {
+                CGFloat height = 55.0f + 35.0f;
                 if (weakSelf.artSellingViewOpen) {
-                    weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f);
-                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
-                    weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
-                    weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
-                    weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
                 } else {
-                    weakSelf.artSellingView.frame = CGRectMake(0.0f, weakSelf.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f));
-                    weakSelf.artChainTradeView.frame = CGRectMake(0.0f, weakSelf.artSellingView.frameBottom + 10.0f, kScreenWidth, 210.0f);
-                    weakSelf.artAuthorDetailView.frame = CGRectMake(0.0f, weakSelf.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f);
-                    weakSelf.artEvaluateView.frame = CGRectMake(0.0f, weakSelf.artAuthorDetailView.frameBottom, kScreenWidth, weakSelf.artEvaluateView.frameHeight);
-                    weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, weakSelf.artEvaluateView.frameBottom);
+                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
                 }
+                [weakSelf.artSellingViewHeightConstraint uninstall];
+                [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
+                }];
             }
         }
         [weakSelf updateArtDetailData];

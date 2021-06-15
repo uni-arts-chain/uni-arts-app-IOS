@@ -26,7 +26,7 @@
 #import "LAppTextureManager.h"
 
 #import "PAirSandbox.h"
-
+#import <AFNetworking/AFNetworking.h>
 
 @interface AppDelegate ()
 @property (assign, nonatomic) BOOL isLandscapeRight; //是否允许转向
@@ -75,6 +75,8 @@
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
+    
+    [self startNetworkMonitor];
 //    #ifdef DEBUG
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [[PAirSandbox sharedInstance] enableSwipe];
@@ -538,5 +540,20 @@
         return nil;
     }
     return dic;
+}
+
+#pragma mark - 网络监听
+- (void)startNetworkMonitor {
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [[NSUserDefaults standardUserDefaults] setInteger:manager.networkReachabilityStatus forKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"当前网络状态: %ld", status);
+        [[NSUserDefaults standardUserDefaults] setInteger:status forKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil userInfo:@{@"status":@(status)}];
+    }];
+    [manager startMonitoring];
 }
 @end

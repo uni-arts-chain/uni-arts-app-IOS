@@ -43,6 +43,9 @@
 // 作品详情
 @property (nonatomic, strong) UILabel *workDetailTitleLabel;
 @property (nonatomic, strong) JLUploadWorkDescriptionView *workDetailView;
+// 作品图片
+@property (nonatomic, strong) UILabel *workDetailImageTitleLabel;
+@property (nonatomic, strong) JLUploadWorkImageView *workDetailUploadImageView;
 // 作品是否拆分
 @property (nonatomic, strong) JLUploadWorkSwitchView *workSplitSwitchView;
 // 作品拆分数量
@@ -119,6 +122,8 @@
     [self.scrollView addSubview:self.workTitleView];
     [self.scrollView addSubview:self.workDetailTitleLabel];
     [self.scrollView addSubview:self.workDetailView];
+    [self.scrollView addSubview:self.workDetailImageTitleLabel];
+    [self.scrollView addSubview:self.workDetailUploadImageView];
     [self.scrollView addSubview:self.themeView];
     [self.scrollView addSubview:self.workSplitSwitchView];
     [self.scrollView addSubview:self.splitNumView];
@@ -167,9 +172,21 @@
         make.height.mas_equalTo(176.0f);
         make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
     }];
+    [self.workDetailImageTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15.0f);
+        make.top.equalTo(self.workDetailView.mas_bottom).offset(15.0f);
+        make.height.mas_equalTo(50.0f);
+        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
+    }];
+    [self.workDetailUploadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView);
+        make.top.equalTo(self.workDetailImageTitleLabel.mas_bottom);
+        make.height.mas_equalTo(93.0f + 55.0f);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
     [self.themeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
-        make.top.equalTo(self.workDetailView.mas_bottom).offset(15.0f);
+        make.top.equalTo(self.workDetailUploadImageView.mas_bottom).offset(15.0f);
         make.height.mas_equalTo(55.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
@@ -365,6 +382,23 @@
     return _workDetailView;
 }
 
+- (UILabel *)workDetailImageTitleLabel {
+    if (!_workDetailImageTitleLabel) {
+        _workDetailImageTitleLabel =  [JLUIFactory labelInitText:@"作品图片" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    }
+    return _workDetailImageTitleLabel;
+}
+
+- (JLUploadWorkImageView *)workDetailUploadImageView {
+    if (!_workDetailUploadImageView) {
+        WS(weakSelf)
+        _workDetailUploadImageView = [[JLUploadWorkImageView alloc] init];
+        _workDetailUploadImageView.isOnlySelectImage = YES;
+        _workDetailUploadImageView.controller = weakSelf;
+    }
+    return _workDetailUploadImageView;
+}
+
 - (JLUploadWorkMoneyInputView *)priceView {
     if (!_priceView) {
         WS(weakSelf)
@@ -483,6 +517,13 @@
     
     // 判断是否是上传Live2d文件
     JLUploadImageModel *firstImageModel = [[self.uploadImageView getImageArray] firstObject];
+    
+    // 判断是否为视频文件
+    if (![NSString stringIsEmpty:firstImageModel.videoUrl.absoluteString]) {
+        [self uploadVideo:firstImageModel];
+        return;
+    }
+    
     if ([firstImageModel.imageType isEqualToString:@"live2d"]) {
         [self uploadZipFile];
     } else {
@@ -490,11 +531,17 @@
         NSMutableArray *fileNameArray = [NSMutableArray array];
         NSMutableArray *fileDataArray = [NSMutableArray array];
         NSMutableArray *mainFileNameArray = [NSMutableArray array];
+        NSMutableArray *detailFileNameArray = [NSMutableArray array];
         NSMutableArray *fileTypeArray = [NSMutableArray array];
         
         for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
             NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
             [mainFileNameArray addObject:fileTimeString];
+        }
+        // 作品详情图片
+        for (JLUploadImageModel *imageModel in [self.workDetailUploadImageView getImageArray]) {
+            NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+            [detailFileNameArray addObject:fileTimeString];
         }
         Model_arts_Req *request = [[Model_arts_Req alloc] init];
         request.img_main_file1 = mainFileNameArray[0];
@@ -515,6 +562,24 @@
             [fileNameArray addObject:mainFileNameArray[2]];
             [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageData];
             [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][2]).imageType];
+        }
+        // 作品详情图片
+        for (int i = 0; i < detailFileNameArray.count; i++) {
+            if (i == 0) {
+                request.img_detail_file1 = detailFileNameArray[i];
+                [paramsArray addObject:@"img_detail_file1"];
+            }
+            if (i == 1) {
+                request.img_detail_file2 = detailFileNameArray[i];
+                [paramsArray addObject:@"img_detail_file2"];
+            }
+            if (i == 2) {
+                request.img_detail_file3 = detailFileNameArray[i];
+                [paramsArray addObject:@"img_detail_file3"];
+            }
+            [fileNameArray addObject:detailFileNameArray[i]];
+            [fileDataArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageData];
+            [fileTypeArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageType];
         }
         request.name = self.workTitleView.inputContent;
         request.category_id = self.currentSelectedThemeData.ID;
@@ -570,6 +635,107 @@
     }
 }
 
+- (void)uploadVideo:(JLUploadImageModel *)imageModel {
+    
+    NSMutableArray *paramsArray = [NSMutableArray array];
+    NSMutableArray *fileNameArray = [NSMutableArray array];
+    NSMutableArray *fileDataArray = [NSMutableArray array];
+    NSMutableArray *detailFileNameArray = [NSMutableArray array];
+    NSMutableArray *fileTypeArray = [NSMutableArray array];
+    // 图片
+    [paramsArray addObject:@"img_main_file1"];
+    [fileNameArray addObject:[NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)]];
+    UIImage *image = [UIImage thumbnailImageForVideo:imageModel.videoUrl atTime:1.0];
+    NSData *imageData = [NSData getDataFromImage:image];
+    NSString *imageType = [JLTool contentTypeForImageData:imageData];
+    [fileTypeArray addObject:imageType];
+    [fileDataArray addObject:imageData];
+    
+    Model_arts_Req *request = [[Model_arts_Req alloc] init];
+    request.img_main_file1 = fileNameArray[0];
+    // 作品详情图片
+    for (JLUploadImageModel *imageModel in [self.workDetailUploadImageView getImageArray]) {
+        NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+        [detailFileNameArray addObject:fileTimeString];
+    }
+    for (int i = 0; i < detailFileNameArray.count; i++) {
+        if (i == 0) {
+            request.img_detail_file1 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file1"];
+        }
+        if (i == 1) {
+            request.img_detail_file2 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file2"];
+        }
+        if (i == 2) {
+            request.img_detail_file3 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file3"];
+        }
+        [fileNameArray addObject:detailFileNameArray[i]];
+        [fileDataArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageData];
+        [fileTypeArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageType];
+    }
+    request.name = self.workTitleView.inputContent;
+    request.category_id = self.currentSelectedThemeData.ID;
+    request.details = self.workDetailView.inputContent;
+    request.is_refungible = self.workSplit ? @"true" : @"false";
+    if (self.workSplit) {
+        request.refungible_decimal = [self.tempSplitNumArray[self.currentSelectedSplitNumIndex] stringByReplacingOccurrencesOfString:@"份" withString:@""];
+    }
+    if (![NSString stringIsEmpty:self.priceView.inputContent]) {
+        request.price = self.priceView.inputContent;
+    }
+    if (![NSString stringIsEmpty:self.royaltyView.inputContent]) {
+        NSDecimalNumber *royaltyPersentNumber = [NSDecimalNumber decimalNumberWithString:self.royaltyView.inputContent];
+        NSDecimalNumber *royaltyNumber = [royaltyPersentNumber decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        request.royalty = royaltyNumber.stringValue;
+    }
+    if (self.royaltyDate != nil) {
+        NSInteger royaltyDateTimeInterval = [self.royaltyDate timeIntervalSince1970] * 1000;
+        request.royalty_expired_at = @(royaltyDateTimeInterval).stringValue;
+    }
+    request.resource_type = 4;
+    Model_arts_Rsp *response = [[Model_arts_Rsp alloc] init];
+   
+    // 视频
+    [paramsArray addObject:@"img_main_file2"];
+    [fileNameArray addObject:[NSString stringWithFormat:@"%@%d.mp4", [JLNetHelper getTimeString], (arc4random() % 999999)]];
+    NSData *videoData = [NSData dataWithContentsOfURL:imageModel.videoUrl.filePathURL];
+    [fileTypeArray addObject:@"mp4"];
+    [fileDataArray addObject:videoData];
+    request.img_main_file2 = [fileNameArray lastObject];
+    
+    NSLog(@"视频文件大小: %.2fM", [videoData length] / 1024.0 / 1024.0);
+    if ([videoData length] / 1024.0 / 1024.0 > 50.0) {
+        [JLAlert jlalertView:@"提示" message:@"视频文件不能大于50M" cancel:@"好的"];
+        return;
+    }
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    WS(weakSelf)
+    [JLNetHelper netRequestUploadVideoParameters:request respondParameters:response paramsNames:paramsArray fileNames:fileNameArray fileData:fileDataArray fileType:fileTypeArray callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+       [[JLLoading sharedLoading] hideLoading];
+       if (netIsWork) {
+           UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+               if (weakSelf.uploadSuccessBackBlock) {
+                   weakSelf.uploadSuccessBackBlock();
+               }
+               [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
+               [weakSelf.navigationController popViewControllerAnimated:YES];
+           } confirm:@"去查看" confirmHandler:^{
+               if (weakSelf.checkProcessBlock) {
+                   weakSelf.checkProcessBlock();
+               } else {
+                   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
+                   [weakSelf.navigationController popViewControllerAnimated:YES];
+               }
+           }];
+           [weakSelf presentViewController:alert animated:YES completion:nil];
+       } else {
+           [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+       }
+    }];
+}
+
 - (void)uploadZipFile {
     WS(weakSelf)
     NSString *fileTimeString = [NSString stringWithFormat:@"%@%d.zip", [JLNetHelper getTimeString], (arc4random() % 999999)];
@@ -596,6 +762,7 @@
     WS(weakSelf)
     NSMutableArray *paramsArray = [NSMutableArray array];
     NSMutableArray *fileNameArray = [NSMutableArray array];
+    NSMutableArray *detailFileNameArray = [NSMutableArray array];
     NSMutableArray *fileDataArray = [NSMutableArray array];
     NSMutableArray *mainFileNameArray = [NSMutableArray array];
     NSMutableArray *fileTypeArray = [NSMutableArray array];
@@ -603,6 +770,11 @@
     for (JLUploadImageModel *imageModel in [self.uploadImageView getImageArray]) {
         NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
         [mainFileNameArray addObject:fileTimeString];
+    }
+    // 作品详情图片
+    for (JLUploadImageModel *imageModel in [self.workDetailUploadImageView getImageArray]) {
+        NSString *fileTimeString = [NSString stringWithFormat:@"%@%d", [JLNetHelper getTimeString], (arc4random() % 999999)];
+        [detailFileNameArray addObject:fileTimeString];
     }
     Model_arts_Req *request = [[Model_arts_Req alloc] init];
     if (mainFileNameArray.count > 1) {
@@ -617,6 +789,24 @@
         [fileNameArray addObject:mainFileNameArray[0]];
         [fileDataArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageData];
         [fileTypeArray addObject:((JLUploadImageModel *)[self.uploadImageView getImageArray][0]).imageType];
+    }
+    // 作品详情图片
+    for (int i = 0; i < detailFileNameArray.count; i++) {
+        if (i == 0) {
+            request.img_detail_file1 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file1"];
+        }
+        if (i == 1) {
+            request.img_detail_file2 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file2"];
+        }
+        if (i == 2) {
+            request.img_detail_file3 = detailFileNameArray[i];
+            [paramsArray addObject:@"img_detail_file3"];
+        }
+        [fileNameArray addObject:detailFileNameArray[i]];
+        [fileDataArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageData];
+        [fileTypeArray addObject:((JLUploadImageModel *)[self.workDetailUploadImageView getImageArray][i]).imageType];
     }
     request.name = self.workTitleView.inputContent;
     request.category_id = self.currentSelectedThemeData.ID;

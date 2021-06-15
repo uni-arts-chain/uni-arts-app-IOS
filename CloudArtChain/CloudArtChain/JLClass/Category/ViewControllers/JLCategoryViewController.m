@@ -141,7 +141,8 @@
         for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
             [tempPriceArray addObject:priceData.title];
         }
-        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] selectBlock:^(NSInteger index) {
+        NSInteger defaultSelectIndex = 1; // 从1开始
+        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] defaultSelectIndex:defaultSelectIndex selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentPriceID = nil;
             } else {
@@ -150,12 +151,12 @@
             }
             [weakSelf headRefresh];
         }];
-        [self refreshPriceFilterView];
+        [self refreshPriceFilterView: defaultSelectIndex];
     }
     return _priceFilterView;
 }
 
-- (void)refreshPriceFilterView {
+- (void)refreshPriceFilterView: (NSInteger)defaultSelectIndex {
     WS(weakSelf)
     if ([AppSingleton sharedAppSingleton].artPriceArray.count == 0) {
         // 重新请求列表
@@ -164,8 +165,18 @@
             for (Model_arts_prices_Data *priceData in [AppSingleton sharedAppSingleton].artPriceArray) {
                 [tempPriceArray addObject:priceData.title];
             }
+            if (defaultSelectIndex >= 1 && defaultSelectIndex <= [AppSingleton sharedAppSingleton].artPriceArray.count) {
+                weakSelf.currentPriceID = [AppSingleton sharedAppSingleton].artPriceArray[defaultSelectIndex - 1].ID;
+                
+                [self requestSellingList];
+            }
+            
             [weakSelf.priceFilterView refreshItems:[tempPriceArray copy]];
         }];
+    }else {
+        if (defaultSelectIndex >= 1 && defaultSelectIndex <= [AppSingleton sharedAppSingleton].artPriceArray.count) {
+            self.currentPriceID = [AppSingleton sharedAppSingleton].artPriceArray[defaultSelectIndex - 1].ID;
+        }
     }
 }
 

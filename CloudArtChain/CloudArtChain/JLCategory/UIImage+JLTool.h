@@ -62,4 +62,7 @@
 
 /** 图片压缩 */
 + (NSData*)compressOriginalImage:(UIImage *)image;
+
+/// 根据url获取视频第几帧
++ (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
 @end

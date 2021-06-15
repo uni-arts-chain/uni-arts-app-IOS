@@ -14,6 +14,8 @@
 #import <SDWebImage/UIImage+GIF.h>
 #import "JLDocumentPickerViewController.h"
 #import "SSZipArchive.h"
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface JLUploadWorkImageView ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate>
 @property (nonatomic, strong) NSMutableArray *imageArray;
@@ -69,7 +71,7 @@
         UIImageView *noticeImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_notice"];
         [_noticeView addSubview:noticeImageView];
         
-        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF、Live 2D)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF、Live 2D、视频)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
         [_noticeView addSubview:noticeLabel];
         
         [noticeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -105,6 +107,11 @@
             make.top.bottom.equalTo(self.contentView);
             make.width.mas_equalTo(itemWidth);
         }];
+    }
+    
+    // 判断如果选择的是视频文件就不显示继续添加按钮
+    if (self.imageArray.count >= 1 && ![NSString stringIsEmpty:((JLUploadImageModel *)self.imageArray[0]).videoUrl.absoluteString]) {
+        return;
     }
     
     if (self.imageArray.count < 3) {
@@ -169,7 +176,10 @@
 
 - (void)addButtonClick {
     WS(weakSelf)
-    NSArray *sourceArray = @[@"从相册选取", @"拍照", @"Live2D"];
+    NSArray *sourceArray = @[@"从相册选取", @"拍照", @"Live2D", @"视频"];
+    if (_isOnlySelectImage) {
+        sourceArray = @[@"从相册选取", @"拍照"];
+    }
     if (self.imageArray.count > 0) {
         JLUploadImageModel *imageModel = self.imageArray[0];
         if ([imageModel.imageType isEqualToString:@"live2d"]) {
@@ -179,7 +189,7 @@
         }
     }
     UIAlertController *alert = [UIAlertController actionSheetWithButtonTitleArray:sourceArray handler:^(NSInteger index) {
-        if (index == 0) {
+        if ([sourceArray[index] isEqualToString:@"从相册选取"]) {
             //从手机相册选择
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -189,7 +199,7 @@
                 UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
             }
             [weakSelf.controller presentViewController:picker animated:YES completion:nil];
-        } else if (index == 1) {
+        } else if ([sourceArray[index] isEqualToString:@"拍照"]) {
             SLShotViewController * shotViewController = [[SLShotViewController alloc] init];
             shotViewController.modalPresentationStyle = UIModalPresentationFullScreen;
             shotViewController.getImageBlock = ^(UIImage * _Nonnull image) {
@@ -198,12 +208,29 @@
                 [weakSelf setupContentView];
             };
             [weakSelf.controller presentViewController:shotViewController animated:YES completion:nil];
-        } else {
+        } else if ([sourceArray[index] isEqualToString:@"Live2D"]) {
             // 选择Live2D文件
             if (@available(iOS 11.0, *)) {
                 UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
             }
             [weakSelf.controller presentViewController:self.documentPickerVC animated:YES completion:nil];
+        }else if ([sourceArray[index] isEqualToString:@"视频"]) {
+            //从手机相册选择
+            [[JLLoading sharedLoading] showLoadingWithMessage:@"请稍后..." onView:weakSelf.controller.view];
+            
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.allowsEditing = YES;
+            picker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+            picker.mediaTypes = [NSArray arrayWithObjects:@"public.movie", nil];
+            picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            picker.delegate = weakSelf;
+            picker.modalPresentationStyle = UIModalPresentationFullScreen;
+            if (@available(iOS 11.0, *)) {
+                UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+            }
+            [weakSelf.controller presentViewController:picker animated:YES completion:^{
+                [[JLLoading sharedLoading] hideLoading];
+            }];
         }
     }];
     [self.controller presentViewController:alert animated:YES completion:nil];
@@ -218,11 +245,24 @@
     if ([imageModel.imageType isEqualToString:@"gif"]) {
         UIImage *gifImage = [UIImage sd_imageWithGIFData:imageModel.imageData];
         imageView.image = gifImage;
+    } else if (![NSString stringIsEmpty:imageModel.videoUrl.absoluteString]) {
+        imageView.image = [UIImage thumbnailImageForVideo:imageModel.videoUrl atTime:1.0];
     } else {
         imageView.image = imageModel.image;
     }
     ViewBorderRadius(imageView, 5.0f, 0.0f, JL_color_clear);
     [view addSubview:imageView];
+    
+    if (![NSString stringIsEmpty:imageModel.videoUrl.absoluteString]) {
+        UIButton *playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [playBtn setImage:[UIImage imageNamed:@"nft_video_play_icon2"] forState:UIControlStateNormal];
+        [playBtn addTarget:self action:@selector(playBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:playBtn];
+        [playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(view);
+            make.width.height.mas_equalTo(@40);
+        }];
+    }
     
     UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [deleteBtn setImage:[UIImage imageNamed:@"icon_mine_upload_delete"] forState:UIControlStateNormal];
@@ -235,6 +275,7 @@
         make.top.mas_equalTo(6.0f);
         make.right.mas_equalTo(-7.0f);
     }];
+    
     [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.equalTo(view);
         make.size.mas_equalTo(18.0f);
@@ -248,9 +289,32 @@
     [self setupContentView];
 }
 
+- (void)playBtnClick:(UIButton *)sender {
+    
+    JLUploadImageModel *imageModel = self.imageArray[0];
+    AVPlayerViewController *aVPlayerViewController = [[AVPlayerViewController alloc] init];
+    aVPlayerViewController.player = [[AVPlayer alloc] initWithURL:imageModel.videoUrl];
+    [self.controller presentViewController:aVPlayerViewController animated:YES completion:^{
+        [aVPlayerViewController.player play];
+    }];
+}
+
+
 #pragma mark - imagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     WS(weakSelf)
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:@"public.movie"]) {
+        NSURL *url = info[UIImagePickerControllerMediaURL];//获得视频的URL
+        NSLog(@"url %@",url);
+        JLUploadImageModel *imageModel = [[JLUploadImageModel alloc] init];
+        imageModel.videoUrl = url;
+        [self.imageArray addObject:imageModel];
+        [self setupContentView];
+        
+        [self.controller dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
     UIImage *image = info[@"UIImagePickerControllerOriginalImage"];
     [picker dismissViewControllerAnimated:NO completion:nil];
     if (@available(iOS 11.0, *)) {
@@ -454,5 +518,17 @@
     imageModel.zipFilePath = self.live2dZipFilePath;
     [self.imageArray addObject:imageModel];
     [self setupContentView];
+}
+
+- (void)setIsOnlySelectImage:(BOOL)isOnlySelectImage {
+    _isOnlySelectImage = isOnlySelectImage;
+    
+    if (_isOnlySelectImage) {
+        [self.noticeView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:UILabel.class]) {
+                ((UILabel *)obj).text = @"上传作品(支持静态图、GIF)";
+            }
+        }];
+    }
 }
 @end

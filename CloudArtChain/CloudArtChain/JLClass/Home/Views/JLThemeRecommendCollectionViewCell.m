@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIView *auctioningView;
 @property (nonatomic, strong) UIView *moreView;
 @property (nonatomic, strong) UIView *live2DView;
+@property (nonatomic, strong) UIImageView *playImgView;
 @end
 
 @implementation JLThemeRecommendCollectionViewCell
@@ -32,21 +33,23 @@
     [self addSubview:self.priceLabel];
     [self addSubview:self.auctioningView];
     [self addSubview:self.live2DView];
+    [self addSubview:self.playImgView];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
         make.right.equalTo(self);
         make.bottom.equalTo(self);
-        make.height.mas_equalTo(25.0f);
+        make.height.mas_equalTo(19.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self);
-        make.bottom.equalTo(self);
-        make.height.mas_equalTo(25.0f);
-        make.right.equalTo(self.priceLabel.mas_left).offset(-16.0f);
+        make.bottom.equalTo(self.priceLabel.mas_top);
+        make.height.mas_equalTo(19.0f);
+        make.right.equalTo(self);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
-        make.bottom.equalTo(self.nameLabel.mas_top);
+        make.bottom.equalTo(self.nameLabel.mas_top).offset(-4.0f);
     }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self);
@@ -58,6 +61,11 @@
         make.bottom.equalTo(self.imageView).offset(-15.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
+    }];
+    [self.playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.imageView).offset(8.0f);
+        make.bottom.equalTo(self.imageView.mas_bottom).offset(-10.0f);
+        make.width.height.mas_equalTo(@16.0f);
     }];
 }
 
@@ -84,7 +92,6 @@
         _priceLabel = [[UILabel alloc] init];
         _priceLabel.font = kFontPingFangSCRegular(12.0f);
         _priceLabel.textColor = JL_color_gray_101010;
-        _priceLabel.textAlignment = NSTextAlignmentRight;
     }
     return _priceLabel;
 }
@@ -155,6 +162,15 @@
     return _moreView;
 }
 
+- (UIImageView *)playImgView {
+    if (!_playImgView) {
+        _playImgView = [[UIImageView alloc] init];
+        _playImgView.hidden = YES;
+        _playImgView.image = [UIImage imageNamed:@"nft_video_play_icon1"];
+    }
+    return _playImgView;
+}
+
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData totalCount:(NSInteger)totalCount index:(NSInteger)index {
     WS(weakSelf)
     if (index == totalCount - 1) {
@@ -177,6 +193,7 @@
                 weakSelf.imageView.image = [self coreBlurImage:image withBlurNumber:15.0f];
             }];
         }
+        self.playImgView.hidden = YES;
         self.live2DView.hidden = YES;
     } else {
         if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
@@ -191,6 +208,12 @@
         } else {
             self.auctioningView.hidden = YES;
         }
+        if (themeArtData.resource_type == 4) {
+            self.playImgView.hidden = NO;
+        }else {
+            self.playImgView.hidden = YES;
+        }
+//        self.playImgView.hidden = [NSString stringIsEmpty:themeArtData.video_url];
         self.live2DView.hidden = [NSString stringIsEmpty:themeArtData.live2d_file];
     }
 }
