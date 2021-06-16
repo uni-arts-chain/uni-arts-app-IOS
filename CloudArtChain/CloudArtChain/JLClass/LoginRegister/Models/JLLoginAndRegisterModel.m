@@ -61,3 +61,24 @@
 }
 @end
 // ==========================================================
+#pragma mark ------ 移动端
+@implementation VersionUpdateBody
+@end
+#pragma mark 移动端版本信息 /mobile_versions/info
+@implementation Model_mobile_versions_info_Req
+@end
+@implementation Model_mobile_versions_info_Rsp
+- (NSString *)interfacePath {
+    return @"mobile_versions/info";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 移动端版本下载 /mobile_versions/download
+@implementation Model_mobile_versions_download_Req
+@end
+@implementation Model_mobile_versions_download_Rsp
+- (NSString *)interfacePath {
+    return @"mobile_versions/download";
+}
+// ==========================================================
+@end

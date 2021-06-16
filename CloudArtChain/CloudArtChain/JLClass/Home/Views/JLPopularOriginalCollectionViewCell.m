@@ -167,7 +167,7 @@
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artsData.art.name;
@@ -177,7 +177,7 @@
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
     if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = popularArtData.name;
@@ -197,7 +197,7 @@
 //    self.playImgView.hidden = [NSString stringIsEmpty:popularArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:popularArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 34.0f + popularArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + popularArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
@@ -205,7 +205,7 @@
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
     if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = themeArtData.name;
@@ -222,7 +222,7 @@
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
     if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = collectionArtData.name;
@@ -242,7 +242,7 @@
 //    self.playImgView.hidden = [NSString stringIsEmpty:collectionArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:collectionArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 35.0f + collectionArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + collectionArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
@@ -250,7 +250,7 @@
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
     if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - self.nameLabel.frameHeight);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = authorArtData.name;
@@ -270,7 +270,7 @@
 //    self.playImgView.hidden = [NSString stringIsEmpty:authorArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:authorArtData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 34.0f + authorArtData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + authorArtData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }

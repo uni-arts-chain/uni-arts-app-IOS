@@ -75,6 +75,8 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel.numberOfLines = 1;
+        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _nameLabel;
 }
@@ -83,6 +85,7 @@
     if (!_descLabel) {
         _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _descLabel.numberOfLines = 2;
+        _descLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _descLabel;
 }

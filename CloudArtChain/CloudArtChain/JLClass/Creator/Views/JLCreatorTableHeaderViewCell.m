@@ -12,7 +12,6 @@
 @property (nonatomic, strong) UIView *shadowContentView;
 @property (nonatomic, strong) UIImageView *recommendImageView;
 @property (nonatomic, strong) UIImageView *platformImageView;
-@property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @end
 
@@ -29,15 +28,18 @@
     [self.contentView addSubview:self.shadowContentView];
     [self.shadowContentView addSubview:self.recommendImageView];
     [self.recommendImageView addSubview:self.platformImageView];
-    [self.shadowContentView addSubview:self.bottomView];
+    [self.shadowContentView addSubview:self.nameLabel];
     
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(self.shadowContentView);
-        make.height.mas_equalTo(40.0f);
+    [self.shadowContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(7.0f);
+        make.left.equalTo(self.contentView).offset(15.0f);
+        make.right.equalTo(self.contentView).offset(-15.0f);
+        make.bottom.equalTo(self.contentView).offset(-7.0f);
     }];
+
     [self.recommendImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.shadowContentView);
-        make.bottom.equalTo(self.bottomView.mas_top);
+        make.height.mas_equalTo(190.0f);
     }];
     [self.platformImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.recommendImageView);
@@ -46,16 +48,16 @@
         make.height.mas_equalTo(30.0f);
     }];
     
-    [self.bottomView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(13.0f);
-        make.top.bottom.equalTo(self.bottomView);
+        make.top.equalTo(self.recommendImageView.mas_bottom).offset(9.0f);
+        make.left.equalTo(self.shadowContentView).offset(13.0f);
+        make.right.equalTo(self.shadowContentView).offset(-10.0f);
     }];
 }
 
 - (UIView *)shadowContentView {
     if (!_shadowContentView) {
-        _shadowContentView = [[UIView alloc] initWithFrame:CGRectMake(15.0f, 7.0f, kScreenWidth - 15.0f * 2, 243.0f - 7.0f * 2)];
+        _shadowContentView = [[UIView alloc] init];
         _shadowContentView.backgroundColor = JL_color_white_ffffff;
         _shadowContentView.layer.cornerRadius = 5.0f;
         _shadowContentView.layer.masksToBounds = NO;
@@ -63,8 +65,6 @@
         _shadowContentView.layer.shadowOpacity = 0.13f;
         _shadowContentView.layer.shadowOffset = CGSizeZero;
         _shadowContentView.layer.shadowRadius = 7.0f;
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:_shadowContentView.bounds];
-        _shadowContentView.layer.shadowPath = path.CGPath;
     }
     return _shadowContentView;
 }
@@ -73,7 +73,6 @@
     if (!_recommendImageView) {
         _recommendImageView = [[UIImageView alloc] init];
         _recommendImageView.contentMode = UIViewContentModeScaleAspectFill;
-//        [_recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     return _recommendImageView;
 }
@@ -81,16 +80,8 @@
 - (UIImageView *)platformImageView {
     if (!_platformImageView) {
         _platformImageView = [JLUIFactory imageViewInitImageName:@"icon_creator_platform"];
-//        _platformImageView.hidden = YES;
     }
     return _platformImageView;
-}
-
-- (UIView *)bottomView {
-    if (!_bottomView) {
-        _bottomView = [[UIView alloc] init];
-    }
-    return _bottomView;
 }
 
 - (UILabel *)nameLabel {
@@ -98,6 +89,8 @@
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCSCSemibold(17.0f);
         _nameLabel.textColor = JL_color_gray_101010;
+        _nameLabel.numberOfLines = 0;
+        _nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
     }
     return _nameLabel;
 }
@@ -108,9 +101,9 @@
     } else {
         self.recommendImageView.image = nil;
     }
-    self.recommendImageView.frame = CGRectMake(0.0f, 0.0f, self.shadowContentView.frameWidth, self.shadowContentView.frameHeight - 40.0f);
-    [self.recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     self.nameLabel.text = authorData.display_name;
-//    self.platformImageView.hidden = (indexPath.row != 0);
+    
+    [self.recommendImageView layoutIfNeeded];
+    [self.recommendImageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
 }
 @end

@@ -96,6 +96,7 @@ static id inst = nil;
     _blue_3D75ED = [UIColor colorWithHexString:@"#3D75ED"];
     _blue_78A7FF = [UIColor colorWithHexString:@"#78A7FF"];
     _blue_B2CDFF = [UIColor colorWithHexString:@"#B2CDFF"];
+    _blue_6077DF = [UIColor colorWithHexString:@"#6077DF"];
     
     _purple_F0F5FF = [UIColor colorWithHexString:@"#F0F5FF"];
     _purple_CADEFF = [UIColor colorWithHexString:@"#CADEFF"];

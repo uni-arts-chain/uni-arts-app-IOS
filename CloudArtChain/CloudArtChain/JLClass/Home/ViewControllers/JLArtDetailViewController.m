@@ -79,8 +79,12 @@
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
     
     [self addBackItem];
-    [self createSubView];
-    [self requestSellingList];
+    if (self.artDetailData) {
+        [self createSubView];
+        [self requestSellingList];
+    }else {
+        [self updateArtDetailData];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
 }
@@ -1070,7 +1074,7 @@
 - (void)requestSellingList {
     WS(weakSelf)
     Model_arts_id_orders_Req *request = [[Model_arts_id_orders_Req alloc] init];
-    request.ID = self.artDetailData.ID;
+    request.ID = self.artDetailData ? self.artDetailData.ID : self.artDetailId;
     request.page = 1;
     request.per_page = 9999;
     Model_arts_id_orders_Rsp *response = [[Model_arts_id_orders_Rsp alloc] init];
@@ -1106,14 +1110,25 @@
 - (void)updateArtDetailData {
     WS(weakSelf)
     Model_arts_detail_Req *reqeust = [[Model_arts_detail_Req alloc] init];
-    reqeust.art_id = self.artDetailData.ID;
+    reqeust.art_id = self.artDetailData ? self.artDetailData.ID : self.artDetailId;
     Model_arts_detail_Rsp *response = [[Model_arts_detail_Rsp alloc] init];
     response.request = reqeust;
     
+    if (!self.artDetailData) {
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    }
     [JLNetHelper netRequestGetParameters:reqeust respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            weakSelf.artDetailData = response.body;
+            if (!weakSelf.artDetailData) {
+                weakSelf.artDetailData = response.body;
+                weakSelf.artDetailType = weakSelf.artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                [weakSelf createSubView];
+                
+                [weakSelf requestSellingList];
+            }else {
+                weakSelf.artDetailData = response.body;
+            }
         }
     }];
 }

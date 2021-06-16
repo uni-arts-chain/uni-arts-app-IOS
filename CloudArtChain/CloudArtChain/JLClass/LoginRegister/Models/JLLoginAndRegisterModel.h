@@ -85,3 +85,33 @@
 
 @end
 // ==========================================================
+
+//////////////////////////////////////////////////////////////////////////
+#pragma mark ------ 移动端
+@interface VersionUpdateBody : Model_Interface
+@property (nonatomic, strong) NSString *version_code;
+@property (nonatomic, copy)   NSString *version_name;
+@property (nonatomic, strong) NSString *phone_type;
+@property (nonatomic, strong) NSString *download_count;
+@property (nonatomic, copy)   NSDictionary *download_url;
+@property (nonatomic, assign) BOOL force_updated;
+@property (nonatomic, copy)   NSString *desc;
+@property (nonatomic, strong) NSString *ios_download;
+@end
+#pragma mark 移动端版本信息 /mobile_versions/info
+@interface Model_mobile_versions_info_Req : Model_Req
+/** 移动端类型 Available values : andr, ios */
+@property (nonatomic, strong) NSString *phone_type;
+/** 版本 */
+@property (nonatomic, strong) NSString *version_code;
+@end
+@interface Model_mobile_versions_info_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) VersionUpdateBody *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark 移动端版本下载 /mobile_versions/download
+@interface Model_mobile_versions_download_Req : Model_Req
+@end
+@interface Model_mobile_versions_download_Rsp : Model_Rsp_V1
+@property (nonatomic, strong) NSDictionary *body;
+@end

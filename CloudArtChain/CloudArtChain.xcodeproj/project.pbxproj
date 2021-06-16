@@ -30,6 +30,8 @@
 		5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF026C2503F96900A81E32 /* UIView+JLPageFrame.m */; };
 		5CFF02712503FDE000A81E32 /* JLWorksListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02702503FDE000A81E32 /* JLWorksListViewController.m */; };
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
+		5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF42679F36E00A81FA7 /* JLVersionManager.m */; };
+		5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1244,6 +1246,10 @@
 		5CFF02B32504084400A81E32 /* crypto_sign_edwards25519sha512batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_edwards25519sha512batch.h; sourceTree = "<group>"; };
 		5CFF02B42504084400A81E32 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
 		5CFF02B62504084400A81E32 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsodium.a; sourceTree = "<group>"; };
+		5E300DF42679F36E00A81FA7 /* JLVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionManager.m; sourceTree = "<group>"; };
+		5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionUpdateView.h; sourceTree = "<group>"; };
+		5E300DF62679F36E00A81FA7 /* JLVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionManager.h; sourceTree = "<group>"; };
+		5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionUpdateView.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -2996,6 +3002,17 @@
 				5CFF02B62504084400A81E32 /* libsodium.a */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		5E300DF32679F36E00A81FA7 /* JLVersionManager */ = {
+			isa = PBXGroup;
+			children = (
+				5E300DF62679F36E00A81FA7 /* JLVersionManager.h */,
+				5E300DF42679F36E00A81FA7 /* JLVersionManager.m */,
+				5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */,
+				5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */,
+			);
+			path = JLVersionManager;
 			sourceTree = "<group>";
 		};
 		5E76DFE426733C7100727C8C /* QGYAnimationEasingHelper */ = {
@@ -5870,6 +5887,7 @@
 		B396551724F37354007A8EC2 /* JLCommon */ = {
 			isa = PBXGroup;
 			children = (
+				5E300DF32679F36E00A81FA7 /* JLVersionManager */,
 				B38F2B40264A2B9100C827A7 /* JLDocumentPickerViewController */,
 				B391E2C826285DA5002CCC9D /* JLStepper */,
 				B38BCFE225B81D1F00FD37F7 /* JLEmptyDataView */,
@@ -7406,6 +7424,7 @@
 				B31226AC25B6B60B00562ECA /* ExportSeedProtocols.swift in Sources */,
 				B38E90F625B91E5500174AAC /* JLNoAddressView.m in Sources */,
 				B312259325B6B60A00562ECA /* WebSocketEngineFactory.swift in Sources */,
+				5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */,
 				B312269525B6B60B00562ECA /* WalletBuyCommand.swift in Sources */,
 				B366C7EE25524D29007F9583 /* UIAlertViewBlock.m in Sources */,
 				B312251C25B6B60A00562ECA /* ApplicationConfigs.swift in Sources */,
@@ -7721,6 +7740,7 @@
 				B312263825B6B60A00562ECA /* ContactsConstants.swift in Sources */,
 				B31225E225B6B60A00562ECA /* AccountImportInteractor.swift in Sources */,
 				5CFF026B2503F96100A81E32 /* JLPagetableView.m in Sources */,
+				5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */,
 				B312262F25B6B60A00562ECA /* WalletCommandDecorator.swift in Sources */,
 				B38E41A325E8A7FB006AA9EE /* AuctionListCall.swift in Sources */,
 				B312269125B6B60B00562ECA /* ExistentialDepositInfoCommand.swift in Sources */,

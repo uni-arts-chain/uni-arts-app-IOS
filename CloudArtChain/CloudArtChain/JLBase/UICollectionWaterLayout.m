@@ -49,7 +49,7 @@
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:index];
         [self.attrArray addObject:attributes];
         //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
+        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + iconModel.imgHeight) itemW:itemW];
         //计算当前cell处于第几列
         int lie = [self getMinLie:self.frameYa];
         float itemX = self.sectionInset.left + (self.minimumInteritemSpacing + itemW) * (lie);

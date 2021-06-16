@@ -67,6 +67,7 @@
     }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
+        make.right.mas_equalTo(-15.0f);
         make.top.mas_equalTo(17.0f);
     }];
     [self.productImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -77,10 +78,12 @@
     }];
     [self.productNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_right).offset(15.0f);
+        make.right.equalTo(self.shadowView).offset(-10);
         make.top.equalTo(self.productImageView.mas_top);
     }];
     [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productNameLabel.mas_left);
+        make.right.equalTo(self.shadowView).offset(-10);
         make.centerY.equalTo(self.productImageView.mas_centerY);
     }];
     [self.certifyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -161,6 +164,8 @@
 - (UILabel *)authorNameLabel {
     if (!_authorNameLabel) {
         _authorNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _authorNameLabel.numberOfLines = 1;
+        _authorNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _authorNameLabel;
 }
@@ -168,6 +173,8 @@
 - (UILabel *)productNameLabel {
     if (!_productNameLabel) {
         _productNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _productNameLabel.numberOfLines = 1;
+        _productNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _productNameLabel;
 }

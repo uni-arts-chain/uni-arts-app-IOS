@@ -27,6 +27,7 @@
 
 #import "PAirSandbox.h"
 #import <AFNetworking/AFNetworking.h>
+#import "JLVersionManager.h"
 
 @interface AppDelegate ()
 @property (assign, nonatomic) BOOL isLandscapeRight; //是否允许转向
@@ -65,7 +66,7 @@
     [AppSingleton systemInfo];
     // 检测持久化登录token有效期
     [AppSingleton loginInfonWithBlock:nil];
-//    [JLVersionManager checkVersion];
+    [JLVersionManager checkVersion];
     [self createIQKeyboardManager];
     [self initUM];
     [self showMainViewController];

@@ -135,5 +135,10 @@
 #define kGtAppKey @"wsbCt4mpXa56dAKUxueNs7"
 #define kGtAppSecret @"YffOF4Agzt90M95RytW0j4"
 
+#pragma mark - WKScriptMessageHandlerName
+typedef NSString *WKScriptMessageHandlerName NS_STRING_ENUM;
+static WKScriptMessageHandlerName const WKScriptMessageHandlerNameNftDetail = @"NftDetail";
+static WKScriptMessageHandlerName const WKScriptMessageHandlerNameMysteryBoxDetail = @"MysteryBoxDetail";
+
 #endif /* Prefix_pch */
 #endif

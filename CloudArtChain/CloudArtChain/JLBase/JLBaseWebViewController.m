@@ -8,13 +8,15 @@
 
 #import "JLBaseWebViewController.h"
 #import <WebKit/WebKit.h>
+#import "JLArtDetailViewController.h"
+#import "JLBoxDetailViewController.h"
 
 typedef NS_ENUM(NSUInteger, JLWebViewType) {
     JLWebViewTypeUrl,
     JLWebViewTypeTextHtml,
 };
 
-@interface JLBaseWebViewController ()<WKNavigationDelegate>
+@interface JLBaseWebViewController ()<WKNavigationDelegate, WKScriptMessageHandler>
 @property (nonatomic, strong) WKWebView *wkWebView;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) NSString *originURLString;
@@ -54,12 +56,53 @@ typedef NS_ENUM(NSUInteger, JLWebViewType) {
     [self requestData];
 }
 
+- (void)setupViews {
+    
+    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    WKUserContentController *userContentController = [[WKUserContentController alloc] init];
+    [userContentController addScriptMessageHandler:self name:WKScriptMessageHandlerNameNftDetail];
+    [userContentController addScriptMessageHandler:self name:WKScriptMessageHandlerNameMysteryBoxDetail];
+    configuration.userContentController = userContentController;
+    
+    CGRect webViewFrame = CGRectMake(25.0f, 25.0f, kScreenWidth - 25.0f * 2, kScreenHeight - KStatusBar_Navigation_Height - 25.0f);
+    if (self.webViewType == JLWebViewTypeUrl) {
+        webViewFrame = CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height);
+    }
+    self.wkWebView = [[WKWebView alloc] initWithFrame:webViewFrame configuration:configuration];
+    self.wkWebView.navigationDelegate = self;
+    self.wkWebView.allowsBackForwardNavigationGestures = YES;
+    [self.view addSubview:self.wkWebView];
+    [self.wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, [[UIScreen mainScreen] bounds].size.width, 2.0f)];
+    self.progressView.progressTintColor = JL_color_gray_101010;
+    self.progressView.trackTintColor = JL_color_clear;
+    self.progressView.transform = CGAffineTransformMakeScale(1.0f, 1.5f);
+    [self.view addSubview:self.progressView];
+}
+
 - (void)requestData {
     if (![NSString stringIsEmpty:self.originURLString]) {
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:self.originURLString] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
         [self.wkWebView loadRequest:request];
     } else if(![NSString stringIsEmpty:self.originHTMLString]) {
         [self.wkWebView loadHTMLString:self.originHTMLString baseURL:nil];
+    }
+}
+
+#pragma mark - WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    NSLog(@"name: %@, body: %@", message.name, message.body);
+    if ([message.name isEqualToString:WKScriptMessageHandlerNameNftDetail]) {
+        JLArtDetailViewController *vc = [[JLArtDetailViewController alloc] init];
+        vc.artDetailId = message.body;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([message.name isEqualToString:WKScriptMessageHandlerNameMysteryBoxDetail]) {
+        JLBoxDetailViewController *vc = [[JLBoxDetailViewController alloc] init];
+        vc.boxId = message.body;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -103,23 +146,4 @@ typedef NS_ENUM(NSUInteger, JLWebViewType) {
     self.progressView.hidden = YES;
 }
 
-- (void)setupViews {
-    CGRect webViewFrame = CGRectMake(25.0f, 25.0f, kScreenWidth - 25.0f * 2, kScreenHeight - KStatusBar_Navigation_Height - 25.0f);
-    if (self.webViewType == JLWebViewTypeUrl) {
-        webViewFrame = CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height);
-    }
-    self.wkWebView = [[WKWebView alloc] initWithFrame:webViewFrame];
-    self.wkWebView.navigationDelegate = self;
-    self.wkWebView.allowsBackForwardNavigationGestures = YES;
-    [self.view addSubview:self.wkWebView];
-    [self.wkWebView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
-
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, [[UIScreen mainScreen] bounds].size.width, 2.0f)];
-    self.progressView.progressTintColor = JL_color_gray_101010;
-    self.progressView.trackTintColor = JL_color_clear;
-    self.progressView.transform = CGAffineTransformMakeScale(1.0f, 1.5f);
-    [self.view addSubview:self.progressView];
-}
 @end

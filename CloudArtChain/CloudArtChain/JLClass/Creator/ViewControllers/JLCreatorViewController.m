@@ -21,6 +21,7 @@
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSMutableArray *topList;
 @property (nonatomic, strong) NSMutableArray *preTopicList;
+@property (nonatomic, strong) NSMutableDictionary *cellHeightDic;
 @end
 
 @implementation JLCreatorViewController
@@ -61,6 +62,7 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
+    [self.cellHeightDic removeAllObjects];
     [self requestArtistTopic];
 }
 
@@ -132,7 +134,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 243.0f;
+        NSString *key = [NSString stringWithFormat:@"%ld", indexPath.row];
+        if (!self.cellHeightDic[key]) {
+            CGFloat textH = [JLTool getAdaptionSizeWithText:((Model_art_author_Data *)self.topList[indexPath.row]).display_name labelWidth:kScreenWidth - 53.0f font:kFontPingFangSCSCSemibold(17.0f)].height;
+            self.cellHeightDic[key] = @(225.0f + textH);
+        }
+        return [self.cellHeightDic[key] floatValue];
     }
     return 314.0f;
 }
@@ -267,5 +274,11 @@
         _topList = [NSMutableArray array];
     }
     return _topList;
+}
+- (NSMutableDictionary *)cellHeightDic {
+    if (!_cellHeightDic) {
+        _cellHeightDic = [NSMutableDictionary dictionary];
+    }
+    return _cellHeightDic;
 }
 @end

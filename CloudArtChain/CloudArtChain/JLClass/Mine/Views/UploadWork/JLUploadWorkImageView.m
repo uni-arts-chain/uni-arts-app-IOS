@@ -7,6 +7,7 @@
 //
 
 #import "JLUploadWorkImageView.h"
+#import "WMPhotoBrowser.h"
 #import "UIAlertController+Alert.h"
 #import "JLImageRectClipViewController.h"
 #import "SLShotViewController.h"
@@ -101,6 +102,9 @@
     CGFloat itemSep = 11.0f;
     for (int i = 0; i < self.imageArray.count; i++) {
         UIView *itemView = [self itemViewWithIndex:i];
+        itemView.tag = 100 + i;
+        itemView.userInteractionEnabled = YES;
+        [itemView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showImageWithIndex:)]];
         [self.contentView addSubview:itemView];
         [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(i * (itemWidth + itemSep));
@@ -254,13 +258,12 @@
     [view addSubview:imageView];
     
     if (![NSString stringIsEmpty:imageModel.videoUrl.absoluteString]) {
-        UIButton *playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [playBtn setImage:[UIImage imageNamed:@"nft_video_play_icon2"] forState:UIControlStateNormal];
-        [playBtn addTarget:self action:@selector(playBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:playBtn];
-        [playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIImageView *playImgView = [[UIImageView alloc] init];
+        playImgView.image = [UIImage imageNamed:@"nft_video_play_icon2"];
+        [view addSubview:playImgView];
+        [playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(view);
-            make.width.height.mas_equalTo(@40);
+            make.width.height.mas_equalTo(@26);
         }];
     }
     
@@ -289,8 +292,19 @@
     [self setupContentView];
 }
 
-- (void)playBtnClick:(UIButton *)sender {
+- (void)showImageWithIndex:(UITapGestureRecognizer *)ges {
     
+    if (self.imageArray.count) {
+        JLUploadImageModel *imageModel = self.imageArray[0];
+        if ([imageModel.imageType isEqualToString:@"video"]) {
+            [self playVideo];
+        }else {
+            [self previewImage:ges.view.tag - 100];
+        }
+    }
+}
+
+- (void)playVideo {
     JLUploadImageModel *imageModel = self.imageArray[0];
     AVPlayerViewController *aVPlayerViewController = [[AVPlayerViewController alloc] init];
     aVPlayerViewController.player = [[AVPlayer alloc] initWithURL:imageModel.videoUrl];
@@ -299,6 +313,22 @@
     }];
 }
 
+- (void)previewImage: (NSInteger)index {
+    NSMutableArray *arr = [NSMutableArray array];
+    for (JLUploadImageModel *imageModel in self.imageArray) {
+        UIImage *image = [UIImage imageWithData:imageModel.imageData];
+        NSString *imageType = [JLTool contentTypeForImageData:imageModel.imageData];
+        if ([imageType isEqualToString:@"gif"]) {
+            image = [UIImage sd_imageWithGIFData:imageModel.imageData];
+        }
+        [arr addObject: image];
+    }
+    WMPhotoBrowser *browser = [WMPhotoBrowser new];
+    browser.dataSource = [arr mutableCopy];
+    browser.currentPhotoIndex = index;
+    browser.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [[JLTool currentViewController] presentViewController:browser animated:YES completion:nil];
+}
 
 #pragma mark - imagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -309,6 +339,7 @@
         NSLog(@"url %@",url);
         JLUploadImageModel *imageModel = [[JLUploadImageModel alloc] init];
         imageModel.videoUrl = url;
+        imageModel.imageType = @"video";
         [self.imageArray addObject:imageModel];
         [self setupContentView];
         
@@ -422,25 +453,7 @@
                 BOOL saveSuccess = [fileData writeToFile:zipfilePath atomically:YES];
                 // 解压zip文件
                 if (saveSuccess) {
-                    [self unzipLive2DFile:zipfilePath filePathBlock:^(NSString *filePath, NSString *backImagePath) {
-                        if ([NSString stringIsEmpty:filePath]) {
-                            [[JLLoading sharedLoading] showMBFailedTipMessage:@"文件格式错误" hideTime:KToastDismissDelayTimeInterval];
-                        } else {
-                            NSString *fileName = [filePath lastPathComponent];
-                            AppDelegate* delegate = (AppDelegate*) [[UIApplication sharedApplication] delegate];
-                            [weakSelf.controller presentViewController:delegate.lAppViewController animated:YES completion:nil];
-                            [delegate initializeCubismWithBack:backImagePath];
-                            NSString *modelPath = [filePath stringByAppendingString:@"/"];
-                            NSString *modelJsonName = [NSString stringWithFormat:@"%@.model3.json", fileName];
-                            [delegate changeSence:modelPath jsonName:modelJsonName];
-//                            if (![NSString stringIsEmpty:backImagePath]) {
-//                                [delegate changeLive2DBack:backImagePath];
-//                            }
-                            
-                            weakSelf.live2dFileName = fileName;
-                            weakSelf.live2dZipFilePath = zipfilePath;
-                        }
-                    }];
+                    [weakSelf previewLive2D:zipfilePath];
                 }
             }
         }];
@@ -489,6 +502,29 @@
             }
         } else {
             NSLog(@"error: %@", error);
+        }
+    }];
+}
+
+- (void)previewLive2D: (NSString *)zipfilePath {
+    WS(weakSelf)
+    [self unzipLive2DFile:zipfilePath filePathBlock:^(NSString *filePath, NSString *backImagePath) {
+        if ([NSString stringIsEmpty:filePath]) {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"文件格式错误" hideTime:KToastDismissDelayTimeInterval];
+        } else {
+            NSString *fileName = [filePath lastPathComponent];
+            AppDelegate* delegate = (AppDelegate*) [[UIApplication sharedApplication] delegate];
+            [weakSelf.controller presentViewController:delegate.lAppViewController animated:YES completion:nil];
+            [delegate initializeCubismWithBack:backImagePath];
+            NSString *modelPath = [filePath stringByAppendingString:@"/"];
+            NSString *modelJsonName = [NSString stringWithFormat:@"%@.model3.json", fileName];
+            [delegate changeSence:modelPath jsonName:modelJsonName];
+//                            if (![NSString stringIsEmpty:backImagePath]) {
+//                                [delegate changeLive2DBack:backImagePath];
+//                            }
+            
+            weakSelf.live2dFileName = fileName;
+            weakSelf.live2dZipFilePath = zipfilePath;
         }
     }];
 }

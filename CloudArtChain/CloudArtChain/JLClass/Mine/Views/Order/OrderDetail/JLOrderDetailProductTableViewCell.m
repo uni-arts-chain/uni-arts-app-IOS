@@ -68,6 +68,7 @@
     }];
     [self.authorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productNameLabel.mas_left);
+        make.right.equalTo(self.shadowView).offset(-10.0f);
         make.centerY.equalTo(self.productImageView.mas_centerY);
     }];
     [self.certifyAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -136,6 +137,8 @@
 - (UILabel *)productNameLabel {
     if (!_productNameLabel) {
         _productNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _productNameLabel.numberOfLines = 1;
+        _productNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _productNameLabel;
 }
@@ -143,6 +146,8 @@
 - (UILabel *)authorNameLabel {
     if (!_authorNameLabel) {
         _authorNameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _authorNameLabel.numberOfLines = 1;
+        _authorNameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _authorNameLabel;
 }

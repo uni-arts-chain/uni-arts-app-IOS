@@ -77,6 +77,7 @@
 #define JL_color_blue_3D75ED JL_COLOR_MAG.blue_3D75ED
 #define JL_color_blue_78A7FF JL_COLOR_MAG.blue_78A7FF
 #define JL_color_blue_B2CDFF JL_COLOR_MAG.blue_B2CDFF
+#define JL_color_blue_6077DF JL_COLOR_MAG.blue_6077DF
 
 #define JL_color_purple_F0F5FF JL_COLOR_MAG.purple_F0F5FF
 #define JL_color_purple_CADEFF JL_COLOR_MAG.purple_CADEFF
@@ -181,6 +182,7 @@
 @property (nonatomic, strong) UIColor *blue_3D75ED;
 @property (nonatomic, strong) UIColor *blue_78A7FF;
 @property (nonatomic, strong) UIColor *blue_B2CDFF;
+@property (nonatomic, strong) UIColor *blue_6077DF;
 
 @property (nonatomic, strong) UIColor *purple_F0F5FF;
 @property (nonatomic, strong) UIColor *purple_CADEFF;
