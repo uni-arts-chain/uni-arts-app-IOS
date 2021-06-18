@@ -18,6 +18,8 @@
 @property (nonatomic,strong) JLLoginUtil * loginUtil;
 //用户信息
 @property (nonatomic, strong) UserDataBody * userBody;
+/// 交易
+@property (nonatomic, copy) NSArray<Model_arts_transaction_Data *> *artTransactionArray;
 //作品主题
 @property (nonatomic, strong) NSArray<Model_arts_theme_Data *> *artThemeArray;
 //作品类型
@@ -36,6 +38,9 @@
 
 // 请求系统信息
 + (void)systemInfo;
+
+/// 请求作品交易
+- (void)requestArtTransactionWithSuccessBlock:(void(^)(void))successBlock;
 
 // 请求作品主题
 - (void)requestArtThemeWithSuccessBlock:(void(^)(void))successBlock;

@@ -41,7 +41,7 @@
 - (void)addRightBarButton {
     NSString *title = @"全部已读";
     UIBarButtonItem * rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(maskAllReadedClick)];
-    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_212121, NSFontAttributeName: kFontPingFangSCRegular(14.0f)};
+    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_white_ffffff, NSFontAttributeName: kFontPingFangSCRegular(14.0f)};
     [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateNormal];
     [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateHighlighted];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;

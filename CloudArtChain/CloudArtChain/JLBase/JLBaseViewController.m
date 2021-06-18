@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = JL_color_white_ffffff;
+    self.view.backgroundColor = JL_color_vcBgColor;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationController.navigationBar.translucent = NO;
@@ -80,5 +80,9 @@
     } else {
         [MobClick endLogPageView:NSStringFromClass([self class])];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 @end

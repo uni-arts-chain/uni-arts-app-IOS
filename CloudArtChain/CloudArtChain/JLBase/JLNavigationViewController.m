@@ -38,4 +38,8 @@
     }
     [super pushViewController:viewController animated:animated];
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return self.topViewController.preferredStatusBarStyle;
+}
 @end

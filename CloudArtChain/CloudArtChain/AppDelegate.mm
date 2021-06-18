@@ -180,17 +180,19 @@
 }
 
 - (void)setupAppearance {
-    [[UITextView appearance] setTintColor:JL_color_gray_101010];
-    [[UITextField appearance] setTintColor:JL_color_gray_101010];
+    [[UITextView appearance] setTintColor:JL_color_mainColor];
+    [[UITextField appearance] setTintColor:JL_color_mainColor];
     
     // 设置导航条背景色
-    [[UINavigationBar appearance] setBarTintColor:JL_color_white_ffffff];
+    [[UINavigationBar appearance] setBarTintColor:JL_color_navBgColor];
     
     // tintColor(这里主要调整返回箭头颜色)
-    [[UINavigationBar appearance] setTintColor:JL_color_gray_212121];
+    [[UINavigationBar appearance] setTintColor:JL_color_white_ffffff];
     
     // 设置导航条title颜色及字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(18),NSForegroundColorAttributeName: JL_color_gray_212121}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(18),NSForegroundColorAttributeName: JL_color_white_ffffff}];
+    
+    [[UITabBar appearance] setBackgroundImage:[UIImage getImageWithColor:JL_color_tabbarBgColor width:1.0f height:1.0f]];
     
     [[UITabBar appearance] setTranslucent:NO];
 }

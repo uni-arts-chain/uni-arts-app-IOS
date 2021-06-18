@@ -10,6 +10,17 @@
 
 #define JL_COLOR_MAG [JLColorManager share]
 
+#pragma mark - 通用颜色
+/// 主色调
+#define JL_color_mainColor     JL_COLOR_MAG.mainColor
+/// 导航条背景颜色
+#define JL_color_navBgColor     JL_COLOR_MAG.navBgColor
+/// 标签栏背景颜色
+#define JL_color_tabbarBgColor     JL_COLOR_MAG.tabbarBgColor
+/// 控制器颜色
+#define JL_color_vcBgColor     JL_COLOR_MAG.vcBgColor
+
+#pragma mark - 定义颜色
 #define JL_color_bgmain     JL_COLOR_MAG.bgcolorMain
 #define JL_color_black      JL_COLOR_MAG.blackColor
 #define JL_color_darkgray   JL_COLOR_MAG.darkgrayColor
@@ -38,6 +49,7 @@
 #define JL_color_gray_C5C5C5 JL_COLOR_MAG.gray_C5C5C5
 #define JL_color_gray_CBCBCB JL_COLOR_MAG.gray_CBCBCB
 #define JL_color_gray_CCCCCC JL_COLOR_MAG.gray_CCCCCC
+#define JL_color_gray_E1E1E1 JL_COLOR_MAG.gray_E1E1E1
 #define JL_color_gray_E2E2E2 JL_COLOR_MAG.gray_E2E2E2
 #define JL_color_gray_E6E6E6 JL_COLOR_MAG.gray_E6E6E6
 #define JL_color_gray_EBEBEB JL_COLOR_MAG.gray_EBEBEB
@@ -52,6 +64,7 @@
 #define JL_color_gray_D4D4D4 JL_COLOR_MAG.gray_D4D4D4
 #define JL_color_gray_DDDDDD JL_COLOR_MAG.gray_DDDDDD
 #define JL_color_gray_777575 JL_COLOR_MAG.gray_777575
+#define JL_color_gray_87888F JL_COLOR_MAG.gray_87888F
 
 #define JL_color_white_ffffff JL_COLOR_MAG.white_ffffff
 
@@ -83,6 +96,7 @@
 #define JL_color_purple_CADEFF JL_COLOR_MAG.purple_CADEFF
 
 #define JL_color_red_D70000 JL_COLOR_MAG.red_D70000
+#define JL_color_red_FF4832 JL_COLOR_MAG.red_FF4832
 
 #define JL_color_orange_FF8150     JL_COLOR_MAG.orange_FF8150
 #define JL_color_orange_FFEBD4     JL_COLOR_MAG.orange_FFEBD4
@@ -95,6 +109,9 @@
 #define JL_color_black_010034     JL_COLOR_MAG.black_010034
 #define JL_color_black_1E1D1E     JL_COLOR_MAG.black_1E1D1E
 #define JL_color_black_34394C     JL_COLOR_MAG.black_34394C
+#define JL_color_black_40414D     JL_COLOR_MAG.black_40414D
+#define JL_color_black_080C19     JL_COLOR_MAG.black_080C19
+#define JL_color_black_101220     JL_COLOR_MAG.black_101220
 
 #define JL_color_other_D2D4DC      JL_COLOR_MAG.other_D2D4DC
 #define JL_color_other_4C5B86      JL_COLOR_MAG.other_4C5B86
@@ -114,6 +131,11 @@
 #define JL_color_bgBorder      JL_COLOR_MAG.bgBorderColor
 
 @interface JLColorManager : NSObject
+@property (nonatomic, strong) UIColor *mainColor;
+@property (nonatomic, strong) UIColor *navBgColor;
+@property (nonatomic, strong) UIColor *tabbarBgColor;
+@property (nonatomic, strong) UIColor *vcBgColor;
+
 @property (nonatomic, strong) UIColor *bgcolorMain;
 @property (nonatomic, strong) UIColor *blackColor;
 @property (nonatomic, strong) UIColor *darkgrayColor;
@@ -142,6 +164,7 @@
 @property (nonatomic, strong) UIColor *gray_C5C5C5;
 @property (nonatomic, strong) UIColor *gray_CBCBCB;
 @property (nonatomic, strong) UIColor *gray_CCCCCC;
+@property (nonatomic, strong) UIColor *gray_E1E1E1;
 @property (nonatomic, strong) UIColor *gray_E2E2E2;
 @property (nonatomic, strong) UIColor *gray_E6E6E6;
 @property (nonatomic, strong) UIColor *gray_EBEBEB;
@@ -156,6 +179,7 @@
 @property (nonatomic, strong) UIColor *gray_D4D4D4;
 @property (nonatomic, strong) UIColor *gray_DDDDDD;
 @property (nonatomic, strong) UIColor *gray_777575;
+@property (nonatomic, strong) UIColor *gray_87888F;
 
 @property (nonatomic, strong) UIColor *white_ffffff;
 
@@ -188,6 +212,7 @@
 @property (nonatomic, strong) UIColor *purple_CADEFF;
 
 @property (nonatomic, strong) UIColor *red_D70000;
+@property (nonatomic, strong) UIColor *red_FF4832;
 
 @property (nonatomic, strong) UIColor *orange_FF8150;
 @property (nonatomic, strong) UIColor *orange_FFEBD4;
@@ -200,6 +225,9 @@
 @property (nonatomic, strong) UIColor *black_010034;
 @property (nonatomic, strong) UIColor *black_1E1D1E;
 @property (nonatomic, strong) UIColor *black_34394C;
+@property (nonatomic, strong) UIColor *black_40414D;
+@property (nonatomic, strong) UIColor *black_080C19;
+@property (nonatomic, strong) UIColor *black_101220;
 
 @property (nonatomic, strong) UIColor *other_D2D4DC;
 @property (nonatomic, strong) UIColor *other_4C5B86;

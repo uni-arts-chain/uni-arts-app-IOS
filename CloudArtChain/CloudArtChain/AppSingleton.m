@@ -68,9 +68,38 @@
 }
 
 + (void)systemInfo {
+    [[AppSingleton sharedAppSingleton] requestArtTransactionWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtPriceWithSuccessBlock:nil];
+}
+
+#pragma mark 请求作品交易
+- (void)requestArtTransactionWithSuccessBlock:(void(^)(void))successBlock {
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    NSArray *titleArr = @[@"新品",@"二手"];
+    for (int i = 0; i < titleArr.count; i++) {
+        Model_arts_transaction_Data *data = [[Model_arts_transaction_Data alloc] init];
+        data.ID = [NSString stringWithFormat:@"%d", i];
+        data.title = titleArr[i];
+        data.desc = titleArr[i];
+        [arr addObject:data];
+    }
+    self.artTransactionArray = [arr copy];
+    
+//    WS(weakSelf)
+//    Model_arts_transaction_Req *request = [[Model_arts_transaction_Req alloc] init];
+//    Model_arts_transaction_Rsp *response = [[Model_arts_transaction_Rsp alloc] init];
+//
+//    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+//        if (netIsWork) {
+//            weakSelf.artTransactionArray = response.body;
+//            if (successBlock) {
+//                successBlock();
+//            }
+//        }
+//    }];
 }
 
 #pragma mark 请求作品主题

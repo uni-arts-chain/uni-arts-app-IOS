@@ -17,6 +17,10 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *itemsArray;
 @property (nonatomic, assign) NSInteger currentIndex;
+/// 是否没有选中效果
+@property (nonatomic, assign) BOOL isNoSelectEffect;
+/// 默认选中index
+@property (nonatomic, assign) NSInteger defaultSelectIndex;
 @end
 
 @implementation JLCateFilterView
@@ -27,19 +31,26 @@
     return _itemsArray;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
+    return [self initWithFrame:frame title:title items:items defaultSelectIndex:-1 selectBlock:selectBlock];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items defaultSelectIndex: (NSInteger)defaultSelectIndex selectBlock:(void(^)(NSInteger index))selectBlock {
+    return [self initWithFrame:frame title:title isNoSelectEffect:NO defaultSelectIndex:defaultSelectIndex items:items selectBlock:selectBlock];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title isNoSelectEffect: (BOOL)isNoSelectEffect defaultSelectIndex: (NSInteger)defaultSelectIndex items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = JL_color_white_ffffff;
         self.title = title;
         self.items = items;
         self.currentIndex = defaultSelectIndex;
+        self.isNoSelectEffect = isNoSelectEffect;
+        self.defaultSelectIndex = defaultSelectIndex;
         self.selectBlock = selectBlock;
         [self createSubViews];
     }
     return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
-    return [self initWithFrame:frame title:title items:items defaultSelectIndex:-1 selectBlock:selectBlock];
 }
 
 - (void)createSubViews {
@@ -92,9 +103,16 @@
     CGFloat currentX = 0.0f;
     for (int i = 0; i < self.items.count; i++) {
         UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, 10.0f, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2, self.frameHeight - 10.0f * 2) title:self.items[i] tag:2001 + i];
-        if (self.currentIndex >= 0 && self.currentIndex == i + 1) {
-            button.selected = YES;
-            button.backgroundColor = JL_color_gray_101010;
+        if (_isNoSelectEffect) {
+            if (_defaultSelectIndex == i) {
+                button.selected = YES;
+                button.backgroundColor = JL_color_gray_101010;
+            }
+        }else {
+            if (self.currentIndex >= 0 && self.currentIndex == i + 1) {
+                button.selected = YES;
+                button.backgroundColor = JL_color_gray_101010;
+            }
         }
         [self.scrollView addSubview:button];
         [self.itemsArray addObject:button];
@@ -118,18 +136,23 @@
 
 - (void)buttonClick:(UIButton *)sender {
     NSInteger selectIndex = sender.tag - 2000;
-    if (self.currentIndex == selectIndex) {
-        sender.selected = NO;
-        sender.backgroundColor = JL_color_clear;
-        self.currentIndex = 0;
-    } else {
-        self.currentIndex = selectIndex;
-        for (UIButton *button in self.itemsArray) {
-            button.selected = NO;
-            button.backgroundColor = JL_color_clear;
+    
+    if (_isNoSelectEffect) {
+        self.currentIndex = sender.tag - 2001;
+    }else {
+        if (self.currentIndex == selectIndex) {
+            sender.selected = NO;
+            sender.backgroundColor = JL_color_clear;
+            self.currentIndex = 0;
+        } else {
+            self.currentIndex = selectIndex;
+            for (UIButton *button in self.itemsArray) {
+                button.selected = NO;
+                button.backgroundColor = JL_color_clear;
+            }
+            sender.selected = YES;
+            sender.backgroundColor = JL_color_gray_101010;
         }
-        sender.selected = YES;
-        sender.backgroundColor = JL_color_gray_101010;
     }
     if (self.selectBlock) {
         self.selectBlock(self.currentIndex);

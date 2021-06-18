@@ -7,19 +7,19 @@
 //
 
 #import "JLPopularOriginalView.h"
-#import "JLPopularOriginalCollectionViewCell.h"
-#import "JLPopularCollectionWaterLayout.h"
+#import "JLNFTGoodCollectionCell.h"
+#import "XPCollectionViewWaterfallFlowLayout.h"
 
-@interface JLPopularOriginalView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface JLPopularOriginalView ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, XPCollectionViewWaterfallFlowLayoutDataSource>
 @property (nonatomic, strong) NSMutableArray *waterDataArray;
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) MASConstraint *collectionViewHeightConstraint;
 @end
 
 @implementation JLPopularOriginalView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
     return self;
@@ -30,51 +30,34 @@
     [self addSubview:self.collectionView];
     
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self);
-        make.height.mas_equalTo(80.0f);
+        make.top.equalTo(self);
+        make.left.equalTo(self).offset(12);
+        make.right.equalTo(self).offset(-12);
+        make.height.mas_equalTo(18.0f);
     }];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.titleView.mas_bottom);
-        make.left.right.bottom.mas_equalTo(0.0f);
+        make.left.right.equalTo(self);
+        make.top.equalTo(self.titleView.mas_bottom).offset(11.0f);
+        self.collectionViewHeightConstraint = make.height.mas_equalTo(@20);
+        make.bottom.equalTo(self);
     }];
 }
 
 - (UIView *)titleView {
     if (!_titleView) {
         _titleView = [[UIView alloc] init];
-        _titleView.backgroundColor = JL_color_white_ffffff;
         
         UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.font = kFontPingFangSCSCSemibold(19.0f);
-        titleLabel.textColor = JL_color_gray_101010;
-        titleLabel.text = @"热门原创";
+        titleLabel.font = kFontPingFangSCSCSemibold(17.0f);
+        titleLabel.textColor = JL_color_black_080C19;
+        titleLabel.text = @"热卖二手商品";
         [_titleView addSubview:titleLabel];
         
-        UIView *leftLineView = [[UIView alloc] init];
-        leftLineView.backgroundColor = JL_color_black;
-        [_titleView addSubview:leftLineView];
-        
-        UIView *rightLineView = [[UIView alloc] init];
-        rightLineView.backgroundColor = JL_color_black;
-        [_titleView addSubview:rightLineView];
-        
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(_titleView);
-            make.centerX.equalTo(_titleView.mas_centerX);
+            make.top.left.bottom.right.equalTo(_titleView);
         }];
-        [leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(21.0f);
-            make.height.mas_equalTo(2.0f);
-            make.right.mas_equalTo(titleLabel.mas_left).offset(-13.0f);
-            make.centerY.mas_equalTo(_titleView.mas_centerY);
-        }];
-        [rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(21.0f);
-            make.height.mas_equalTo(2.0f);
-            make.left.mas_equalTo(titleLabel.mas_right).offset(13.0f);
-            make.centerY.mas_equalTo(_titleView.mas_centerY);
-        }];
+
     }
     return _titleView;
 }
@@ -82,17 +65,61 @@
 #pragma mark - 懒加载
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
-        JLPopularCollectionWaterLayout *layout = [JLPopularCollectionWaterLayout layoutWithColoumn:2 data:self.waterDataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 80.0f, kScreenWidth, self.frameHeight - 80.0f) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
+        layout.dataSource = self;
+        
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.scrollEnabled = NO;
-        [_collectionView registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
+        [_collectionView registerClass:[JLNFTGoodCollectionCell class] forCellWithReuseIdentifier:@"JLNFTGoodCollectionCell"];
     }
     return _collectionView;
+}
+
+#pragma - mark - XPCollectionViewWaterfallFlowLayoutDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout numberOfColumnInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout itemWidth:(CGFloat)width heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.waterDataArray[indexPath.item];
+    
+    CGFloat textH = [JLTool getAdaptionSizeWithText:artDetailData.name labelWidth:width - 25 font:kFontPingFangSCMedium(13.0f)].height;
+    if (textH > 36.4) {
+        textH = 36.4;
+    }
+    return 45 + textH + artDetailData.imgHeight;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0, 12, 12, 12);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (void)collectionViewContentSizeChange:(CGFloat)height {
+    [self.collectionViewHeightConstraint uninstall];
+    [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.collectionViewHeightConstraint = make.height.mas_equalTo(@(height));
+    }];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -101,8 +128,8 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLPopularOriginalCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
-    cell.popularArtData = self.waterDataArray[indexPath.row];
+    JLNFTGoodCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    cell.artDetailData = self.waterDataArray[indexPath.row];
     return cell;
 }
 
@@ -115,7 +142,9 @@
 - (void)setPopularArray:(NSArray *)popularArray {
     [self.waterDataArray removeAllObjects];
     [self.waterDataArray addObjectsFromArray:popularArray];
+    
     [self.collectionView reloadData];
+    [_collectionView.mj_footer endRefreshingWithNoMoreData];
 }
 
 - (NSMutableArray *)waterDataArray {
@@ -125,7 +154,4 @@
     return _waterDataArray;
 }
 
-- (void)refreshFrame:(CGRect)frame {
-    self.collectionView.frame = CGRectMake(0.0f, 80.0f, kScreenWidth, frame.size.height - 80.0f);
-}
 @end

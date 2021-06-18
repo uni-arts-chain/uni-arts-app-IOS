@@ -8,9 +8,18 @@
 
 #import "JLBaseViewController.h"
 
+typedef NS_ENUM(NSUInteger, JLCategoryViewControllerType) {
+    /// 新品
+    JLCategoryViewControllerTypeNew,
+    /// 二手
+    JLCategoryViewControllerTypeOld
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCategoryViewController : JLBaseViewController
+
+@property (nonatomic, assign) JLCategoryViewControllerType type;
 
 @end
 

@@ -12,6 +12,21 @@
 @end
 
 // ==========================================================
+#pragma mark /arts/transaction 交易
+@implementation Model_arts_transaction_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_arts_transaction_Req
+@end
+@implementation Model_arts_transaction_Rsp
+- (NSString *)interfacePath {
+    return @"arts/transaction";
+}
+@end
+
+// ==========================================================
 #pragma mark /arts/categories 分类
 @implementation Model_arts_theme_Data
 + (JSONKeyMapper *)keyMapper {

@@ -41,6 +41,7 @@
 #import "JLTabbarController.h"
 #import "JLUIFactory.h"
 #import "JLAuthenticationView.h"
+#import "JLTextField.h"
 
 #import "NSString+JLTool.h"
 #import "UIColor+JLColor.h"

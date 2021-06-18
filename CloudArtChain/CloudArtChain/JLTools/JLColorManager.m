@@ -28,6 +28,12 @@ static id inst = nil;
 }
 
 - (void)setupColor {
+    
+    _mainColor = [UIColor colorWithHexString:@"#EF4136"];
+    _navBgColor = [UIColor colorWithHexString:@"#EF4136"];
+    _tabbarBgColor = [UIColor colorWithHexString:@"#EF4136"];
+    _vcBgColor = [UIColor colorWithHexString:@"#F4F4F4"];
+    
     _bgcolorMain = [UIColor colorWithHexString:@"#F2F2F7"];
     _blackColor = [UIColor colorWithHexString:@"#000000"];
     _darkgrayColor = [UIColor colorWithHexString:@"#7a7d80"];
@@ -56,6 +62,7 @@ static id inst = nil;
     _gray_C5C5C5 = [UIColor colorWithHexString:@"#C5C5C5"];
     _gray_CBCBCB = [UIColor colorWithHexString:@"#CBCBCB"];
     _gray_CCCCCC = [UIColor colorWithHexString:@"#CCCCCC"];
+    _gray_E1E1E1 = [UIColor colorWithHexString:@"#E1E1E1"];
     _gray_E2E2E2 = [UIColor colorWithHexString:@"#E2E2E2"];
     _gray_E6E6E6 = [UIColor colorWithHexString:@"#E6E6E6"];
     _gray_EBEBEB = [UIColor colorWithHexString:@"#EBEBEB"];
@@ -70,6 +77,7 @@ static id inst = nil;
     _gray_D4D4D4 = [UIColor colorWithHexString:@"#D4D4D4"];
     _gray_DDDDDD = [UIColor colorWithHexString:@"#DDDDDD"];
     _gray_777575 = [UIColor colorWithHexString:@"#777575"];
+    _gray_87888F = [UIColor colorWithHexString:@"#87888F"];
     
     _white_ffffff = [UIColor colorWithHexString:@"#FFFFFF"];
     
@@ -102,6 +110,7 @@ static id inst = nil;
     _purple_CADEFF = [UIColor colorWithHexString:@"#CADEFF"];
     
     _red_D70000 = [UIColor colorWithHexString:@"#D70000"];
+    _red_FF4832 = [UIColor colorWithHexString:@"#FF4832"];
     
     _orange_FF8150 = [UIColor colorWithHexString:@"#FF8150"];
     _orange_FFEBD4 = [UIColor colorWithHexString:@"#FFEBD4"];
@@ -114,6 +123,9 @@ static id inst = nil;
     _black_010034 = [UIColor colorWithHexString:@"#010034"];
     _black_1E1D1E = [UIColor colorWithHexString:@"#1E1D1E"];
     _black_34394C = [UIColor colorWithHexString:@"#34394C"];
+    _black_40414D = [UIColor colorWithHexString:@"#40414D"];
+    _black_080C19 = [UIColor colorWithHexString:@"#080C19"];
+    _black_101220 = [UIColor colorWithHexString:@"#101220"];
     
     _other_D2D4DC = [UIColor colorWithHexString:@"#D2D4DC"];
     _other_4C5B86 = [UIColor colorWithHexString:@"#4C5B86"];
@@ -131,10 +143,10 @@ static id inst = nil;
     _bgBlockColor = [UIColor colorWithHexString:@"#f2f3f5"];
     _bgBorderColor = [UIColor colorWithHexString:@"#D1D9E6"];
     
-    if (@available(iOS 13.0, *)){
-        [[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDarkContent) animated:YES];
-    }else {
-        [[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDefault) animated:YES];
-    }
+//    if (@available(iOS 13.0, *)){
+//        [[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDarkContent) animated:YES];
+//    }else {
+//        [[UIApplication sharedApplication] setStatusBarStyle:(UIStatusBarStyleDefault) animated:YES];
+//    }
 }
 @end

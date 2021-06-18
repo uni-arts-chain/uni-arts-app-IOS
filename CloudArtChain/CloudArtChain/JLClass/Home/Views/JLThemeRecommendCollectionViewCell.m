@@ -9,6 +9,7 @@
 #import "JLThemeRecommendCollectionViewCell.h"
 
 @interface JLThemeRecommendCollectionViewCell ()
+@property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
@@ -28,31 +29,36 @@
 }
 
 - (void)createSubViews {
-    [self addSubview:self.imageView];
-    [self addSubview:self.nameLabel];
-    [self addSubview:self.priceLabel];
-    [self addSubview:self.auctioningView];
-    [self addSubview:self.live2DView];
-    [self addSubview:self.playImgView];
     
-    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self);
-        make.right.equalTo(self);
-        make.bottom.equalTo(self);
-        make.height.mas_equalTo(19.0f);
-    }];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self);
-        make.bottom.equalTo(self.priceLabel.mas_top);
-        make.height.mas_equalTo(19.0f);
-        make.right.equalTo(self);
+    [self.contentView addSubview:self.bgView];
+    [self.bgView addSubview:self.imageView];
+    [self.bgView addSubview:self.nameLabel];
+    [self.bgView addSubview:self.priceLabel];
+    [self.bgView addSubview:self.auctioningView];
+    [self.bgView addSubview:self.live2DView];
+    [self.bgView addSubview:self.playImgView];
+    
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self.contentView).offset(5.0f);
+        make.right.bottom.equalTo(self.contentView).offset(-5.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
-        make.bottom.equalTo(self.nameLabel.mas_top).offset(-4.0f);
+        make.left.top.right.equalTo(self.bgView);
+        make.height.mas_equalTo(154.0f);
+    }];
+    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.bgView).offset(13.0f);
+        make.right.equalTo(self.bgView).offset(-12.0f);
+        make.bottom.equalTo(self.bgView).offset(-14.0f);
+        make.height.mas_equalTo(11.0f);
+    }];
+    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.priceLabel);
+        make.bottom.equalTo(self.priceLabel.mas_top).offset(-7.0f);
+        make.top.equalTo(self.imageView.mas_bottom).offset(7.0f);
     }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self);
+        make.left.top.equalTo(self.bgView);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
     }];
@@ -69,11 +75,19 @@
     }];
 }
 
+- (UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = JL_color_white_ffffff;
+        _bgView.layer.cornerRadius = 5.0f;
+    }
+    return _bgView;
+}
+
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
 }
@@ -82,7 +96,9 @@
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = kFontPingFangSCMedium(13.0f);
-        _nameLabel.textColor = JL_color_gray_101010;
+        _nameLabel.textColor = JL_color_black_40414D;
+        _nameLabel.numberOfLines = 2;
+        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _nameLabel;
 }
@@ -90,8 +106,8 @@
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc] init];
-        _priceLabel.font = kFontPingFangSCRegular(12.0f);
-        _priceLabel.textColor = JL_color_gray_101010;
+        _priceLabel.font = kFontPingFangSCMedium(13.0f);
+        _priceLabel.textColor = JL_color_red_FF4832;
     }
     return _priceLabel;
 }
@@ -174,6 +190,7 @@
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData totalCount:(NSInteger)totalCount index:(NSInteger)index {
     WS(weakSelf)
     if (index == totalCount - 1) {
+        _bgView.backgroundColor = JL_color_clear;
         UIView *backView = [[UIView alloc] init];
         backView.backgroundColor = [JL_color_gray_101010 colorWithAlphaComponent:0.5f];
         [self.imageView addSubview:backView];
@@ -195,7 +212,11 @@
         }
         self.playImgView.hidden = YES;
         self.live2DView.hidden = YES;
+        
+        self.imageView.layer.cornerRadius = 6.0f;
+        self.imageView.clipsToBounds = YES;
     } else {
+        _bgView.backgroundColor = JL_color_white_ffffff;
         if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
             [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
         }
@@ -213,8 +234,10 @@
         }else {
             self.playImgView.hidden = YES;
         }
-//        self.playImgView.hidden = [NSString stringIsEmpty:themeArtData.video_url];
         self.live2DView.hidden = [NSString stringIsEmpty:themeArtData.live2d_file];
+        
+        [self.imageView layoutIfNeeded];
+        [self.imageView setCorners:UIRectCornerTopLeft|UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
 }
 

@@ -32,6 +32,9 @@
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
 		5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF42679F36E00A81FA7 /* JLVersionManager.m */; };
 		5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */; };
+		5E300DFD267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DFB267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m */; };
+		5E300E00267C480000A81FA7 /* JLNFTGoodCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DFF267C480000A81FA7 /* JLNFTGoodCollectionCell.m */; };
+		5E300E03267C7FEB00A81FA7 /* JLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300E02267C7FEB00A81FA7 /* JLTextField.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1250,6 +1253,12 @@
 		5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionUpdateView.h; sourceTree = "<group>"; };
 		5E300DF62679F36E00A81FA7 /* JLVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionManager.h; sourceTree = "<group>"; };
 		5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionUpdateView.m; sourceTree = "<group>"; };
+		5E300DFB267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPCollectionViewWaterfallFlowLayout.m; sourceTree = "<group>"; };
+		5E300DFC267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPCollectionViewWaterfallFlowLayout.h; sourceTree = "<group>"; };
+		5E300DFE267C480000A81FA7 /* JLNFTGoodCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNFTGoodCollectionCell.h; sourceTree = "<group>"; };
+		5E300DFF267C480000A81FA7 /* JLNFTGoodCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNFTGoodCollectionCell.m; sourceTree = "<group>"; };
+		5E300E01267C7FEB00A81FA7 /* JLTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLTextField.h; sourceTree = "<group>"; };
+		5E300E02267C7FEB00A81FA7 /* JLTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLTextField.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -3013,6 +3022,15 @@
 				5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */,
 			);
 			path = JLVersionManager;
+			sourceTree = "<group>";
+		};
+		5E300DFA267C3A1900A81FA7 /* WaterfallFlowLayout */ = {
+			isa = PBXGroup;
+			children = (
+				5E300DFC267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.h */,
+				5E300DFB267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m */,
+			);
+			path = WaterfallFlowLayout;
 			sourceTree = "<group>";
 		};
 		5E76DFE426733C7100727C8C /* QGYAnimationEasingHelper */ = {
@@ -5904,6 +5922,8 @@
 				B396562B24F38F5F007A8EC2 /* JLAlert.h */,
 				B396562C24F38F5F007A8EC2 /* JLAlert.m */,
 				B396551824F37369007A8EC2 /* GuidePage */,
+				5E300E01267C7FEB00A81FA7 /* JLTextField.h */,
+				5E300E02267C7FEB00A81FA7 /* JLTextField.m */,
 			);
 			path = JLCommon;
 			sourceTree = "<group>";
@@ -5991,6 +6011,7 @@
 		B396554424F38DBA007A8EC2 /* Vendes */ = {
 			isa = PBXGroup;
 			children = (
+				5E300DFA267C3A1900A81FA7 /* WaterfallFlowLayout */,
 				5C57310D265819AB008D341A /* MLeaksFinder */,
 				B391CC5D262D75B100FF48B0 /* SSZipArchive */,
 				B391CC56262D73DA00FF48B0 /* AirSandbox */,
@@ -6270,6 +6291,8 @@
 				B37FFB4824F4A965004B9CC8 /* JLHomeAppView.m */,
 				B37FFB4A24F4AF2F004B9CC8 /* JLPopularOriginalView.h */,
 				B37FFB4B24F4AF2F004B9CC8 /* JLPopularOriginalView.m */,
+				5E300DFE267C480000A81FA7 /* JLNFTGoodCollectionCell.h */,
+				5E300DFF267C480000A81FA7 /* JLNFTGoodCollectionCell.m */,
 				B37FFB5024F4B1CC004B9CC8 /* JLPopularOriginalCollectionViewCell.h */,
 				B37FFB5124F4B1CC004B9CC8 /* JLPopularOriginalCollectionViewCell.m */,
 				B37FFB5324F4B76A004B9CC8 /* JLHomeNaviView.h */,
@@ -7225,6 +7248,7 @@
 				B396565024F39201007A8EC2 /* JLCreatorViewController.m in Sources */,
 				B312253225B6B60A00562ECA /* Chain.swift in Sources */,
 				B312266625B6B60A00562ECA /* TransferMetadataContext.swift in Sources */,
+				5E300DFD267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m in Sources */,
 				B396551E24F37369007A8EC2 /* JLGuideManager.m in Sources */,
 				B312259925B6B60A00562ECA /* AccountInfoSubscription.swift in Sources */,
 				5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */,
@@ -7296,6 +7320,7 @@
 				B3946DF22632C94E00D97430 /* JLArtChainTradeView.m in Sources */,
 				B312254225B6B60A00562ECA /* MultilineImageWithTitleView.swift in Sources */,
 				B31224A125B6B60900562ECA /* SelectableViewModel.swift in Sources */,
+				5E300E00267C480000A81FA7 /* JLNFTGoodCollectionCell.m in Sources */,
 				B3266F5224FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.m in Sources */,
 				B312252F25B6B60A00562ECA /* ManagedAccountItem.swift in Sources */,
 				B391CB90262D2AD700FF48B0 /* CubismMotionQueueManager.cpp in Sources */,
@@ -7565,6 +7590,7 @@
 				B391CC4F262D65D100FF48B0 /* JLLive2DCacheManager.m in Sources */,
 				B31226CF25B6B60B00562ECA /* ManagedAccountViewModelFactory.swift in Sources */,
 				B3648CE92518B2B800BBDB57 /* JLRealNameFailedView.m in Sources */,
+				5E300E03267C7FEB00A81FA7 /* JLTextField.m in Sources */,
 				5C57312C265819AB008D341A /* MLeaksMessenger.m in Sources */,
 				B312264B25B6B60A00562ECA /* WalletFormCellStyle+Internal.swift in Sources */,
 				B31226AF25B6B60B00562ECA /* ExportSeedData.swift in Sources */,
@@ -8208,7 +8234,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8584,7 +8610,7 @@
 					"\"xxHash_Swift\"",
 					"-lLive2DCubismCore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.MengYi;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
@@ -8606,7 +8632,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8982,7 +9008,7 @@
 					"\"xxHash_Swift\"",
 					"-lLive2DCubismCore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.MengYi;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;

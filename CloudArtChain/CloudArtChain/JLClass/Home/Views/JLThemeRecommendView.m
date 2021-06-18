@@ -20,7 +20,6 @@
 @implementation JLThemeRecommendView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
     return self;
@@ -33,58 +32,37 @@
     [self.collectionView  registerClass:[JLThemeRecommendCollectionViewCell class] forCellWithReuseIdentifier:@"JLThemeRecommendCollectionViewCell"];
     
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self);
-        make.height.mas_equalTo(80.0f);
+        make.top.equalTo(self);
+        make.left.equalTo(self).offset(12);
+        make.right.equalTo(self).offset(-12);
+        make.height.mas_equalTo(18.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.right.mas_equalTo(-15.0f);
+        make.left.right.equalTo(self.titleView);
+        make.top.equalTo(self.titleView.mas_bottom).offset(11);
         make.height.mas_equalTo(115.0f);
     }];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
-        make.top.equalTo(self.imageView.mas_bottom).offset(15.0f);
-        make.bottom.equalTo(self);
+        make.top.equalTo(self.imageView.mas_bottom).offset(6.0f);
+        make.bottom.equalTo(self).offset(-18);
     }];
 }
 
 - (UIView *)titleView {
     if (!_titleView) {
         _titleView = [[UIView alloc] init];
-        _titleView.backgroundColor = JL_color_white_ffffff;
         
         UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.font = kFontPingFangSCSCSemibold(19.0f);
-        titleLabel.textColor = JL_color_gray_101010;
+        titleLabel.font = kFontPingFangSCSCSemibold(17.0f);
+        titleLabel.textColor = JL_color_black_080C19;
         titleLabel.text = @"主题";
         [_titleView addSubview:titleLabel];
-        self.titleLabel = titleLabel;
-        
-        UIView *leftLineView = [[UIView alloc] init];
-        leftLineView.backgroundColor = JL_color_black;
-        [_titleView addSubview:leftLineView];
-        
-        UIView *rightLineView = [[UIView alloc] init];
-        rightLineView.backgroundColor = JL_color_black;
-        [_titleView addSubview:rightLineView];
+        self.titleLabel = titleLabel;;
         
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(_titleView);
-            make.centerX.equalTo(_titleView.mas_centerX);
-        }];
-        [leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(21.0f);
-            make.height.mas_equalTo(2.0f);
-            make.right.mas_equalTo(titleLabel.mas_left).offset(-13.0f);
-            make.centerY.mas_equalTo(_titleView.mas_centerY);
-        }];
-        [rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(21.0f);
-            make.height.mas_equalTo(2.0f);
-            make.left.mas_equalTo(titleLabel.mas_right).offset(13.0f);
-            make.centerY.mas_equalTo(_titleView.mas_centerY);
+            make.top.left.bottom.right.equalTo(_titleView);
         }];
     }
     return _titleView;
@@ -94,7 +72,7 @@
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        ViewBorderRadius(_imageView, 5.0f, 0.0f, JL_color_clear);
+        ViewBorderRadius(_imageView, 9.0f, 0.0f, JL_color_clear);
     }
     return _imageView;
 }
@@ -103,17 +81,17 @@
 -(UICollectionView*)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        flowLayout.itemSize = CGSizeMake((kScreenWidth - 15.0f * 2 - 10.0f * 3) / 3.2f, 187.0f);
+        flowLayout.itemSize = CGSizeMake((kScreenWidth - 7.0f) / (2 + 83.0f / 130.0f), 230.0f);
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        flowLayout.minimumLineSpacing = 10.0f;
+        flowLayout.minimumLineSpacing = 0.0f;
         flowLayout.minimumInteritemSpacing = 0.0f;
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 15.0f, 0.0f, 15.0f);
+        _collectionView.contentInset = UIEdgeInsetsMake(0.0f, 7.0f, 0.0f, 7.0f);
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView.backgroundColor = JL_color_clear;
     }
     return _collectionView;
 }

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>饭团密画</string>
+	<string>萌易</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -53,17 +53,17 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用相机</string>
+	<string>"萌易"需要您的同意,才能使用相机</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用Face ID</string>
+	<string>"萌易"需要您的同意,才能使用Face ID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用定位</string>
+	<string>"萌易"需要您的同意,才能使用定位</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用麦克风</string>
+	<string>"萌易"需要您的同意,才能使用麦克风</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用相册</string>
+	<string>"萌易"需要您的同意,才能使用相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>"饭团密画"需要您的同意,才能使用相册</string>
+	<string>"萌易"需要您的同意,才能使用相册</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -72,6 +72,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -20,7 +20,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = JL_color_white_ffffff;
+        self.backgroundColor = JL_color_navBgColor;
         [self createSubViews];
     }
     return self;
@@ -50,15 +50,15 @@
     }];
     [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.customerServiceBtn.mas_right);
-        make.top.mas_equalTo(KStatus_Bar_Height + 6.0f);
+        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
         make.right.equalTo(self.messageBtn.mas_left);
-        make.bottom.equalTo(self).offset(-6.0f);
+        make.bottom.equalTo(self).offset(-7.0f);
     }];
     [self.searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.customerServiceBtn.mas_right);
-        make.top.mas_equalTo(KStatus_Bar_Height + 6.0f);
+        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
         make.right.equalTo(self.messageBtn.mas_left);
-        make.bottom.equalTo(self).offset(-6.0f);
+        make.bottom.equalTo(self).offset(-7.0f);
     }];
 }
 
@@ -83,7 +83,7 @@
 - (UIView *)unreadMessageView {
     if (!_unreadMessageView) {
         _unreadMessageView = [[UIView alloc] init];
-        _unreadMessageView.backgroundColor = JL_color_red_D70000;
+        _unreadMessageView.backgroundColor = JL_color_white_ffffff;
         _unreadMessageView.hidden = YES;
         ViewBorderRadius(_unreadMessageView, 4.0f, 0.0f, JL_color_clear);
     }
@@ -93,7 +93,7 @@
 - (UIButton *)searchBtn {
     if (!_searchBtn) {
         _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        ViewBorderRadius(_searchBtn, (KNavigation_Height - 6.0f * 2) * 0.5f, 0.0f, JL_color_clear);
+        ViewBorderRadius(_searchBtn, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
         [_searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _searchBtn;
@@ -102,15 +102,15 @@
 - (UIView *)searchView {
     if (!_searchView) {
         _searchView = [[UIView alloc] init];
-        _searchView.backgroundColor = JL_color_gray_F3F3F3;
-        ViewBorderRadius(_searchView, (KNavigation_Height - 6.0f * 2) * 0.5f, 0.0f, JL_color_clear);
+        _searchView.backgroundColor = JL_color_gray_F5F5F5;
+        ViewBorderRadius(_searchView, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
         
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_common_search"]];
         [_searchView addSubview:imageView];
         
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.font = kFontPingFangSCRegular(13.0f);
-        titleLabel.textColor = JL_color_gray_BBBBBB;
+        titleLabel.textColor = JL_color_gray_87888F;
         titleLabel.text = @"请输入关键字搜索作品";
         [_searchView addSubview:titleLabel];
         

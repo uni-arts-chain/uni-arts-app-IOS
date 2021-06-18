@@ -8,7 +8,7 @@
 
 #import "JLCategoryViewController.h"
 #import "JLSearchViewController.h"
-#import "UICollectionWaterLayout.h"
+#import "XPCollectionViewWaterfallFlowLayout.h"
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
 #import "JLWechatPayWebViewController.h"
@@ -16,11 +16,12 @@
 
 #import "JLCategoryNaviView.h"
 #import "JLCateFilterView.h"
-#import "JLCategoryWorkCollectionViewCell.h"
+#import "JLNFTGoodCollectionCell.h"
 #import "JLNormalEmptyView.h"
 
-@interface JLCategoryViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface JLCategoryViewController ()<XPCollectionViewWaterfallFlowLayoutDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) JLCategoryNaviView *cateNaviView;
+@property (nonatomic, strong) JLCateFilterView *transactionFilterView;
 @property (nonatomic, strong) JLCateFilterView *themeFilterView;
 @property (nonatomic, strong) JLCateFilterView *typeFilterView;
 @property (nonatomic, strong) JLCateFilterView *priceFilterView;
@@ -46,6 +47,7 @@
 
 - (void)createView {
     [self.view addSubview:self.cateNaviView];
+    [self.view addSubview:self.transactionFilterView];
     [self.view addSubview:self.themeFilterView];
     [self.view addSubview:self.typeFilterView];
     [self.view addSubview:self.priceFilterView];
@@ -64,6 +66,46 @@
     return _cateNaviView;
 }
 
+- (JLCateFilterView *)transactionFilterView {
+    if (!_transactionFilterView) {
+        WS(weakSelf)
+        NSMutableArray *tempThemeArray = [NSMutableArray array];
+        for (Model_arts_transaction_Data *themeData in [AppSingleton sharedAppSingleton].artTransactionArray) {
+            [tempThemeArray addObject:themeData.title];
+        }
+        _transactionFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"交易" isNoSelectEffect:YES defaultSelectIndex: _type items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+            if (index == 0) {
+                weakSelf.currentThemeID = nil;
+            } else {
+                Model_arts_transaction_Data *selectedTransactionData = [AppSingleton sharedAppSingleton].artTransactionArray[index - 1];
+                weakSelf.currentThemeID = selectedTransactionData.ID;
+            }
+            if (weakSelf.type == JLCategoryViewControllerTypeNew && index != 0) {
+                [weakSelf.tabBarController setSelectedIndex:2];
+            }else if (weakSelf.type == JLCategoryViewControllerTypeOld && index != 1) {
+                [weakSelf.tabBarController setSelectedIndex:1];
+            }
+        }];
+        
+        [self refreshTransactionFilterView];
+    }
+    return _transactionFilterView;
+}
+
+- (void)refreshTransactionFilterView {
+    WS(weakSelf)
+    if ([AppSingleton sharedAppSingleton].artTransactionArray.count == 0) {
+        // 重新请求列表
+        [[AppSingleton sharedAppSingleton] requestArtTransactionWithSuccessBlock:^{
+            NSMutableArray *tempTransactionArray = [NSMutableArray array];
+            for (Model_arts_transaction_Data *transactionData in [AppSingleton sharedAppSingleton].artTransactionArray) {
+                [tempTransactionArray addObject:transactionData.title];
+            }
+            [weakSelf.transactionFilterView refreshItems:[tempTransactionArray copy]];
+        }];
+    }
+}
+
 - (JLCateFilterView *)themeFilterView {
     if (!_themeFilterView) {
         WS(weakSelf)
@@ -71,7 +113,7 @@
         for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.transactionFilterView.frameBottom, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -190,15 +232,17 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
+        layout.dataSource = self;
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        [_collectionView registerClass:[JLCategoryWorkCollectionViewCell class] forCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell"];
+        _collectionView.contentInset = UIEdgeInsetsMake(18, 0, 0, 0);
+        [_collectionView registerClass:[JLNFTGoodCollectionCell class] forCellWithReuseIdentifier:@"JLNFTGoodCollectionCell"];
         _collectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
             [weakSelf footRefresh];
         }];
@@ -209,12 +253,47 @@
     return _collectionView;
 }
 
+#pragma mark - XPCollectionViewWaterfallFlowLayout
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout numberOfColumnInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout itemWidth:(CGFloat)width heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.dataArray[indexPath.item];
+    
+    CGFloat textH = [JLTool getAdaptionSizeWithText:artDetailData.name labelWidth:width - 25 font:kFontPingFangSCMedium(13.0f)].height;
+    if (textH > 36.4) {
+        textH = 36.4;
+    }
+    return 45 + textH + artDetailData.imgHeight;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0, 12, 12, 12);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.dataArray.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLCategoryWorkCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell" forIndexPath:indexPath];
+    JLNFTGoodCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
     cell.artDetailData = self.dataArray[indexPath.row];
     return cell;
 }

@@ -12,6 +12,21 @@
 @end
 
 // ==========================================================
+#pragma mark /arts/transaction 交易
+@protocol Model_arts_transaction_Data @end
+@interface Model_arts_transaction_Data : Model_Interface
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *ID;
+@end
+@interface Model_arts_transaction_Req : Model_Req
+
+@end
+@interface Model_arts_transaction_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_arts_transaction_Data> *body;
+@end
+
+// ==========================================================
 #pragma mark /arts/categories 主题
 @protocol Model_arts_theme_Data @end
 @interface Model_arts_theme_Data : Model_Interface

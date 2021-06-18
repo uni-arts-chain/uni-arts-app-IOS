@@ -22,14 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // 创建viewControllers
-    JLNavigationViewController *navHomeVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLHomeViewController alloc] init]];
-    JLNavigationViewController *navCategoryVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCategoryViewController alloc] init]];
-    JLNavigationViewController *navBoxVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLBoxViewController alloc] init]];
-//    JLNavigationViewController *navShoppingCartVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLShoppingCartViewController alloc] init]];
-    JLNavigationViewController *naviCreatorVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCreatorViewController alloc] init]];
-    JLNavigationViewController *navMineVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLMineViewController alloc] init]];
+    JLHomeViewController *homeVC = [[JLHomeViewController alloc] init];
+    JLCategoryViewController *newVC = [[JLCategoryViewController alloc] init];
+    newVC.type = JLCategoryViewControllerTypeNew;
+    JLCategoryViewController *oldVC = [[JLCategoryViewController alloc] init];
+    oldVC.type = JLCategoryViewControllerTypeOld;
+    JLMineViewController *mineVC = [[JLMineViewController alloc] init];
     
-    self.viewControllers = @[navHomeVC, navCategoryVC, navBoxVC, naviCreatorVC, navMineVC];
+    JLNavigationViewController *homeNav = [[JLNavigationViewController alloc] initWithRootViewController:homeVC];
+    JLNavigationViewController *newNav = [[JLNavigationViewController alloc] initWithRootViewController:newVC];
+    JLNavigationViewController *oldNav = [[JLNavigationViewController alloc] initWithRootViewController:oldVC];
+    JLNavigationViewController *mineNav = [[JLNavigationViewController alloc] initWithRootViewController:mineVC];
+    
+    self.viewControllers = @[homeNav, newNav, oldNav, mineNav];
     
     // 使tabbar显示出来
     self.tabBar.translucent = NO;
@@ -41,24 +46,21 @@
     self.tabBar.barTintColor = JL_color_white_ffffff;
     
     // 设置tabbarItem.title两种状态颜色
-    NSDictionary *normalDic = @{NSForegroundColorAttributeName: JL_color_gray_606060, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
-    NSDictionary *selectedDic = @{NSForegroundColorAttributeName: JL_color_gray_101010, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
+    NSDictionary *normalDic = @{NSForegroundColorAttributeName: JL_color_white_ffffff, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
+    NSDictionary *selectedDic = @{NSForegroundColorAttributeName: JL_color_white_ffffff, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
     
     NSArray *titleArray = @[@"首页",
-                            @"市场",
-                            @"盲盒",
-                            @"创作者",
+                            @"新品",
+                            @"二手",
                             @"我的"];
     NSArray *normalImageNameArray = @[@"icon_tab_nomal_home",
-                                      @"icon_tab_normal_market",
-                                      @"icon_tab_normal_box",
-                                      @"icon_tab_nomal_creator",
+                                      @"icon_tab_normal_new",
+                                      @"icon_tab_normal_old",
                                       @"icon_tab_nomal_mine"];
     
     NSArray *selectedImageNameArray = @[@"icon_tab_selected_home",
-                                        @"icon_tab_selected_market",
-                                        @"icon_tab_selected_box",
-                                        @"icon_tab_selected_creator",
+                                        @"icon_tab_selected_new",
+                                        @"icon_tab_selected_old",
                                         @"icon_tab_selected_mine"];
     // 设置  tabBarItem.title  tabBarItem.image  tabBarItem.selectedImage
     for (int i = 0; i < titleArray.count; i++)  {
