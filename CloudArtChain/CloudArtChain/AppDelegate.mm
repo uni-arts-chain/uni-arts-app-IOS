@@ -72,7 +72,6 @@
     [self showMainViewController];
     [JLGuidePageView showGuidePage];
     [self setupAppearance];
-    [self rpcTest];
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
