@@ -33,6 +33,9 @@
 //关闭定时器
 - (void)otc_closeTime;
 
+/// 获取顶层的窗口
+- (UIWindow *)getTopLevelWindow;
+
 @end
 
 

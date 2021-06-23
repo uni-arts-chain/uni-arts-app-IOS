@@ -49,7 +49,7 @@
     if (![NSString stringIsEmpty:self.headImage]) {
         [self.headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self);
-            make.size.mas_equalTo(26.0f);
+            make.size.mas_equalTo(CGSizeMake(16.0f, 19.0f));
             make.centerY.equalTo(self);
         }];
     }
@@ -57,7 +57,7 @@
     CGFloat inputTFLeft = 0.0f;
     CGFloat inputTFRight = -0.0f;
     if (![NSString stringIsEmpty:self.headImage]) {
-        inputTFLeft = 26.0f + 8.0f;
+        inputTFLeft = 26.0f + 1.0f;
     }
     if (self.trailType == JLInputTrailTypePwd) {
         inputTFRight = - 26.0f - 8.0f;
@@ -77,7 +77,7 @@
         }];
     } else if (self.trailType == JLInputTrailTypeVerifyCode) {
         [self.verifyCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-8.0f);
+            make.right.equalTo(self).offset(10.0f);
             make.width.mas_equalTo(110.0f);
             make.height.mas_equalTo(32.0f);
             make.centerY.equalTo(self);
@@ -122,8 +122,8 @@
 - (JLBaseTextField *)inputTF {
     if (!_inputTF) {
         _inputTF = [[JLBaseTextField alloc] init];
-        _inputTF.font = kFontPingFangSCRegular(16.0f);
-        _inputTF.textColor = JL_color_gray_101010;
+        _inputTF.font = kFontPingFangSCRegular(15.0f);
+        _inputTF.textColor = JL_color_black_101220;
         _inputTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -132,7 +132,7 @@
         if (self.trailType == JLInputTrailTypePhone) {
             _inputTF.keyboardType = UIKeyboardTypeNumberPad;
         }
-        NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_909090, NSFontAttributeName: kFontPingFangSCRegular(16.0f)};
+        NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_87888F, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dic];
         _inputTF.attributedPlaceholder = attr;
     }
@@ -157,12 +157,11 @@
 - (JLTimeButton *)verifyCodeButton {
     if (!_verifyCodeButton) {
         _verifyCodeButton = [[JLTimeButton alloc] init];
-        [_verifyCodeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        [_verifyCodeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateDisabled];
-        _verifyCodeButton.titleLabel.font = kFontPingFangSCRegular(16.0f);
+        [_verifyCodeButton setTitleColor:JL_color_mainColor forState:UIControlStateNormal];
+        [_verifyCodeButton setTitleColor:JL_color_mainColor forState:UIControlStateDisabled];
+        _verifyCodeButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
         [_verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
         [_verifyCodeButton addTarget:self action:@selector(verifyCodeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_verifyCodeButton, 16.0f, 1.0f, JL_color_gray_101010);
     }
     return _verifyCodeButton;
 }

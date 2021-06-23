@@ -7,91 +7,31 @@
 //
 
 #import "JLCustomerServiceViewController.h"
-
-#import "JLCustomerServiceSectionView.h"
+#import "JLCustomerServiceContentView.h"
 
 @interface JLCustomerServiceViewController ()
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *backImageView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) JLCustomerServiceSectionView *wechatView;
-@property (nonatomic, strong) JLCustomerServiceSectionView *qqView;
-@property (nonatomic, strong) JLCustomerServiceSectionView *emailView;
+
+@property (nonatomic, strong) JLCustomerServiceContentView *contentView;
+
 @end
 
 @implementation JLCustomerServiceViewController
+
+#pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"客服";
     [self addBackItem];
-    [self createSubViews];
-}
-
-- (void)createSubViews {
-    [self.view addSubview:self.backImageView];
-    [self.view addSubview:self.scrollView];
     
-    [self.backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    [self.scrollView addSubview:self.titleLabel];
-    [self.scrollView addSubview:self.wechatView];
-    [self.scrollView addSubview:self.qqView];
-    [self.scrollView addSubview:self.emailView];
-    
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.emailView.frameBottom + 20.0f);
+    [self.view addSubview:self.contentView];
 }
 
-- (UIImageView *)backImageView {
-    if (!_backImageView) {
-        _backImageView = [JLUIFactory imageViewInitImageName:@"icon_customer_service_back"];
-//        _backImageView.contentMode = UIViewContentModeScaleAspectFill;
+#pragma mark - setters and getters
+- (JLCustomerServiceContentView *)contentView {
+    if (!_contentView) {
+        _contentView = [[JLCustomerServiceContentView alloc] initWithFrame:self.view.bounds];
     }
-    return _backImageView;
+    return _contentView;
 }
 
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = JL_color_clear;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-    }
-    return _scrollView;
-}
-
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"请通过以下方式联系我们：" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
-        _titleLabel.frame = CGRectMake(90.0f, 103.0f, kScreenWidth - 90.0f, 15.0f);
-    }
-    return _titleLabel;
-}
-
-- (JLCustomerServiceSectionView *)wechatView {
-    if (!_wechatView) {
-        NSArray *itemsArray = @[];
-        _wechatView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.titleLabel.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"微信" items:itemsArray];
-    }
-    return _wechatView;
-}
-
-- (JLCustomerServiceSectionView *)qqView {
-    if (!_qqView) {
-        NSArray *itemsArray = @[];
-        _qqView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.wechatView.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"QQ" items:itemsArray];
-    }
-    return _qqView;
-}
-
-- (JLCustomerServiceSectionView *)emailView {
-    if (!_emailView) {
-        NSArray *itemsArray = @[];
-        _emailView = [[JLCustomerServiceSectionView alloc] initWithFrame:CGRectMake(87.0f, self.qqView.frameBottom + 27.0f, kScreenWidth - 87.0f, 15.0f + itemsArray.count * (12.0f + 18.0f)) title:@"邮箱" items:itemsArray];
-    }
-    return _emailView;
-}
 @end

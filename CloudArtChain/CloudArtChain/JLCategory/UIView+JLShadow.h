@@ -23,6 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
  @param radius 圆角大小
  */
 - (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius  offsetX:(CGFloat)x;
+
+/**
+ ** lineView:       需要绘制成虚线的view
+ ** lineLength:     虚线的宽度
+ ** lineSpacing:    虚线的间距
+ ** lineColor:      虚线的颜色
+ ** orientation:    方向（0）竖线 （1）横线
+ **/
++ (UIView *)drawDashLine:(UIView *)lineView lineLength:(int)lineLength lineSpacing:(int)lineSpacing lineColor:(UIColor *)lineColor orientation:(int)orientation;
 @end
 
 NS_ASSUME_NONNULL_END

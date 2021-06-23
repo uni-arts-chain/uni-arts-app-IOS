@@ -8,11 +8,10 @@
 
 #import "JLOrderDetailPayMethodTableViewCell.h"
 
-static const CGFloat KMethodViewHeight = 43.0f;
+static const CGFloat KMethodViewHeight = 45.0f;
 
 @interface JLOrderDetailPayMethodTableViewCell ()
 @property (nonatomic, strong) UIView *shadowView;
-@property (nonatomic, strong) UIImageView *shadowImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @property (nonatomic, strong) UIView *payMethodView;
@@ -32,49 +31,37 @@ static const CGFloat KMethodViewHeight = 43.0f;
 
 - (void)createSubViews {
     [self.contentView addSubview:self.shadowView];
-    [self.shadowView addSubview:self.shadowImageView];
     [self.shadowView addSubview:self.titleLabel];
     [self.shadowView addSubview:self.payMethodView];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.mas_equalTo(5.0f);
-        make.bottom.mas_equalTo(-5.0f);
-    }];
-    [self.shadowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.shadowView);
+        make.top.left.bottom.right.equalTo(self.contentView);
     }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.mas_equalTo(17.0f);
+        make.left.equalTo(self.shadowView).offset(12.0f);
+        make.right.equalTo(self.shadowView).offset(-12.0f);
+        make.top.equalTo(self.shadowView).offset(16.0f);
     }];
     [self.payMethodView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.equalTo(self.titleLabel.mas_bottom);
+        make.left.equalTo(self.shadowView).offset(12.0f);
+        make.right.equalTo(self.shadowView).offset(-12.0f);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(5.0f);
         make.height.mas_equalTo(self.payImageArray.count * KMethodViewHeight);
-        make.bottom.equalTo(self.shadowView).offset(-10.0f);
+        make.bottom.equalTo(self.shadowView).offset(-12.0f);
     }];
 }
 
 - (UIView *)shadowView {
     if (!_shadowView) {
         _shadowView = [[UIView alloc] init];
+        _shadowView.backgroundColor = JL_color_white_ffffff;
     }
     return _shadowView;
 }
 
-- (UIImageView *)shadowImageView {
-    if (!_shadowImageView) {
-        _shadowImageView = [JLUIFactory imageViewInitImageName:@"icon_address_back"];
-    }
-    return _shadowImageView;
-}
-
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"支付方式" font:kFontPingFangSCMedium(17.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"支付方式" font:kFontPingFangSCSCSemibold(16) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
 }
@@ -103,7 +90,7 @@ static const CGFloat KMethodViewHeight = 43.0f;
     maskImageView.image = self.payImageArray[index];
     [methodView addSubview:maskImageView];
     
-    UILabel *titleLabel = [JLUIFactory labelInitText:self.payTitleArray[index] font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    UILabel *titleLabel = [JLUIFactory labelInitText:self.payTitleArray[index] font:kFontPingFangSCRegular(14.0f) textColor:JL_color_black_40414D textAlignment:NSTextAlignmentLeft];
     [methodView addSubview:titleLabel];
     
     UIButton *selectedButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -126,16 +113,16 @@ static const CGFloat KMethodViewHeight = 43.0f;
     
     [maskImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(3.0f);
-        make.size.mas_equalTo(23.0f);
+        make.size.mas_equalTo(24.0f);
         make.centerY.equalTo(methodView.mas_centerY);
     }];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(maskImageView.mas_right).offset(13.0f);
+        make.left.equalTo(maskImageView.mas_right).offset(10.0f);
         make.centerY.equalTo(methodView.mas_centerY);
     }];
     [selectedButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(methodView);
-        make.size.mas_equalTo(13.0f);
+        make.size.mas_equalTo(20.0f);
         make.centerY.equalTo(methodView.mas_centerY);
     }];
     [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {

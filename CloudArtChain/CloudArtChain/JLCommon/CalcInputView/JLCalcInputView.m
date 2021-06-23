@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) JLBaseTextField *inputTF;
 @property (nonatomic, strong) UILabel *maxInputLabel;
-@property (nonatomic, strong) UIImageView *lineImageView;
 @end
 
 @implementation JLCalcInputView
@@ -32,29 +31,19 @@
 - (void)createSubviews {
     WS(weakSelf)
     [self addSubview:self.inputTF];
-    [self addSubview:self.lineImageView];
     [self addSubview:self.maxInputLabel];
     
-    
-    [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self);
-        make.right.mas_equalTo(-15.0f);
-        make.centerY.equalTo(self.inputTF.mas_centerY);
-    }];
-    [self.lineImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.maxInputLabel.mas_bottom);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(0.5f);
-    }];
     [self.inputTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.mas_equalTo(15.0f);
-        make.bottom.equalTo(self.lineImageView.mas_top);
-        make.right.equalTo(self.maxInputLabel.mas_left).offset(-16.0f);
-        make.height.mas_equalTo(50.0f);
-        make.width.mas_greaterThanOrEqualTo(200.0f);
+        make.top.left.equalTo(self).offset(12.0f);
+        make.right.equalTo(self).offset(-12.0f);
+        make.bottom.equalTo(self).offset(-27.0f);
     }];
+    [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self);
+        make.right.equalTo(self.inputTF);
+        make.height.mas_equalTo(@27.0f);
+    }];
+    
 
     [self.inputTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
         if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
@@ -96,13 +85,16 @@
 - (JLBaseTextField *)inputTF {
     if (!_inputTF) {
         _inputTF = [[JLBaseTextField alloc]init];
+        _inputTF.backgroundColor = JL_color_white_ffffff;
+        _inputTF.textAlignment = NSTextAlignmentCenter;
+        _inputTF.layer.cornerRadius = 8;
         _inputTF.font = kFontPingFangSCRegular(16.0f);
-        _inputTF.textColor = JL_color_gray_101010;
+        _inputTF.textColor = JL_color_black_101220;
         _inputTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _inputTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _inputTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _inputTF.spellCheckingType = UITextSpellCheckingTypeNo;
-        NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_909090,NSFontAttributeName:kFontPingFangSCRegular(16.0f)};
+        NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_87888F,NSFontAttributeName:kFontPingFangSCRegular(13.0f)};
         NSAttributedString *attr = [[NSAttributedString alloc]initWithString:self.placeholder attributes:dic];
         _inputTF.attributedPlaceholder = attr;
         if (![NSString stringIsEmpty:self.inputContent]) {
@@ -115,19 +107,12 @@
 - (UILabel *)maxInputLabel {
     if (!_maxInputLabel) {
         _maxInputLabel = [[UILabel alloc] init];
-        _maxInputLabel.font = kFontPingFangSCRegular(16.0f);
-        _maxInputLabel.textColor = JL_color_gray_909090;
+        _maxInputLabel.font = kFontPingFangSCRegular(13.0f);
+        _maxInputLabel.textColor = JL_color_gray_87888F;
         _maxInputLabel.text = [NSString stringWithFormat:@"0/%ld", (long)self.maxInput];
         _maxInputLabel.textAlignment = NSTextAlignmentRight;
     }
     return _maxInputLabel;
 }
 
-- (UIImageView *)lineImageView {
-    if (!_lineImageView) {
-        _lineImageView = [[UIImageView alloc] init];
-        _lineImageView.image = [UIImage imageNamed:@"icon_calcinput_line"];
-    }
-    return _lineImageView;
-}
 @end

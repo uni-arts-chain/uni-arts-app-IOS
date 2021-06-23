@@ -12,6 +12,7 @@
 
 @interface JLModifyNickNameViewController ()
 @property (nonatomic, strong) JLCalcInputView *calcInputView;
+@property (nonatomic, strong) UIButton *doneBtn;
 @end
 
 @implementation JLModifyNickNameViewController
@@ -19,17 +20,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"修改昵称";
     [self addBackItem];
-    [self addRightNavigationItem];
+    
     [self createView];
-}
-
-- (void)addRightNavigationItem {
-    NSString *title = @"保存";
-    UIBarButtonItem * rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(saveBtnClick)];
-    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_blue_337FFF, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
-    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateNormal];
-    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateHighlighted];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 }
 
 - (void)saveBtnClick {
@@ -43,9 +35,11 @@
 - (void)createView {
     [self.view addSubview:self.calcInputView];
     [self.calcInputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(8.0f);
-        make.left.right.equalTo(self.view);
+        make.top.left.right.equalTo(self.view);
+        make.height.mas_equalTo(@87.0f);
     }];
+    
+    [self.view addSubview:self.doneBtn];
 }
 
 - (JLCalcInputView *)calcInputView {
@@ -53,5 +47,12 @@
         _calcInputView = [[JLCalcInputView alloc] initWithMaxInput:8 placeholder:@"请输入昵称" content:[AppSingleton sharedAppSingleton].userBody.display_name];
     }
     return _calcInputView;
+}
+- (UIButton *)doneBtn {
+    if (!_doneBtn) {
+        _doneBtn = [JLUIFactory buttonInitTitle:@"保存" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCMedium(16.0f) addTarget:self action:@selector(saveBtnClick)];
+        _doneBtn.frame = CGRectMake(0.0f, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height - 44.0f, kScreenWidth, 44.0f + KTouch_Responder_Height);
+    }
+    return _doneBtn;
 }
 @end

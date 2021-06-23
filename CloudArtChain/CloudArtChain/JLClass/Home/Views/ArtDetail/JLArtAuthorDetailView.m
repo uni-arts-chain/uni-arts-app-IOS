@@ -10,7 +10,8 @@
 #import "UIButton+AxcButtonContentLayout.h"
 
 @interface JLArtAuthorDetailView ()
-@property (nonatomic, strong) UIView *titleView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *descLabel;
@@ -20,61 +21,80 @@
 @implementation JLArtAuthorDetailView
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = JL_color_white_ffffff;
         [self createSubViews];
     }
     return self;
 }
 
 - (void)createSubViews {
-    UIView *titleView = [JLUIFactory titleViewWithTitle:@"创作者简介"];
-    [self addSubview:titleView];
+    [self addSubview:self.titleLabel];
+    [self addSubview:self.bgView];
     
-    [self addSubview:self.avatarImageView];
-    [self addSubview:self.nameLabel];
-    [self addSubview:self.descLabel];
-    [self addSubview:self.goToHomePageView];
+    [self.bgView addSubview:self.avatarImageView];
+    [self.bgView addSubview:self.nameLabel];
+    [self.bgView addSubview:self.descLabel];
+    [self.bgView addSubview:self.goToHomePageView];
     
-    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
-        make.height.mas_equalTo(65.0f);
+        make.height.mas_equalTo(48.0f);
     }];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self);
+        make.top.equalTo(self.titleLabel.mas_bottom);
+    }];
+    
     [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(titleView.mas_bottom).offset(8.0f);
-        make.size.mas_equalTo(110.0f);
+        make.left.equalTo(self.bgView).offset(12.0f);
+        make.top.equalTo(self.bgView).offset(23.0f);
+        make.size.mas_equalTo(70.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
-        make.top.equalTo(self.avatarImageView);
-        make.height.mas_equalTo(25.0f);
-        make.right.mas_equalTo(-50.0f);
+        make.left.equalTo(self.avatarImageView.mas_right).offset(13.0f);
+        make.top.equalTo(self.avatarImageView).offset(-4.0f);
+        make.right.equalTo(self.bgView).offset(-15.0f);
     }];
     [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
+        make.left.right.equalTo(self.nameLabel);
         make.top.equalTo(self.nameLabel.mas_bottom).offset(5.0f);
-        make.height.mas_equalTo(55.0f);
-        make.right.mas_equalTo(-28.0f);
     }];
     [self.goToHomePageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarImageView.mas_right).offset(20.0f);
-        make.top.equalTo(self.descLabel.mas_bottom).offset(5.0f);
-        make.height.mas_equalTo(25.0f);
+        make.left.right.equalTo(self.nameLabel);
+        make.bottom.equalTo(self.bgView);
+        make.height.mas_equalTo(36.0f);
     }];
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.text = @"品牌简介";
+        _titleLabel.textColor = JL_color_black_101220;
+        _titleLabel.font = kFontPingFangSCSCSemibold(15);
+        _titleLabel.jl_contentInsets = UIEdgeInsetsMake(5, 13, 0, 0);
+    }
+    return _titleLabel;
+}
+
+- (UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = JL_color_white_ffffff;
+    }
+    return _bgView;
 }
 
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
-        _avatarImageView.backgroundColor = [UIColor randomColor];
-        ViewBorderRadius(_avatarImageView, 55.0f, 0.0f, JL_color_clear);
+        ViewBorderRadius(_avatarImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
 }
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
         _nameLabel.numberOfLines = 1;
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
@@ -83,8 +103,8 @@
 
 - (UILabel *)descLabel {
     if (!_descLabel) {
-        _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
-        _descLabel.numberOfLines = 2;
+        _descLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCMedium(12.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
+        _descLabel.numberOfLines = 3;
         _descLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _descLabel;
@@ -94,24 +114,33 @@
     if (!_goToHomePageView) {
         _goToHomePageView = [[UIView alloc] init];
         
-        UILabel *titleLabel = [JLUIFactory labelInitText:@"进入创作者主页" font:kFontPingFangSCMedium(14.0f) textColor:JL_color_blue_337FFF textAlignment:NSTextAlignmentLeft];
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = JL_color_gray_EDEDEE;
+        [_goToHomePageView addSubview:lineView];
+        
+        UILabel *titleLabel = [JLUIFactory labelInitText:@"查看更多商品" font:kFontPingFangSCMedium(13.0f) textColor:JL_color_black_40414D textAlignment:NSTextAlignmentLeft];
+        titleLabel.tag = 100;
         [_goToHomePageView addSubview:titleLabel];
         
-        UIImageView *arrowImageView = [JLUIFactory imageViewInitImageName:@"icon_home_artdetail_arrow"];
+        UIImageView *arrowImageView = [JLUIFactory imageViewInitImageName:@"icon_launch_auction_arrow"];
+        arrowImageView.image = [UIImage jl_changeImage:arrowImageView.image color:JL_color_black_40414D];
         [_goToHomePageView addSubview:arrowImageView];
         
         UIButton *goToHomePageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [goToHomePageBtn addTarget:self action:@selector(goToHomePageBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_goToHomePageView addSubview:goToHomePageBtn];
         
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(_goToHomePageView);
+            make.height.mas_equalTo(@1);
+        }];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.bottom.equalTo(_goToHomePageView);
         }];
         [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(titleLabel.mas_right).offset(4.0f);
-            make.right.equalTo(_goToHomePageView);
-            make.width.mas_equalTo(19.0f);
-            make.height.mas_equalTo(8.0f);
+            make.left.equalTo(titleLabel.mas_right).offset(8.0f);
+            make.width.mas_equalTo(6.0f);
+            make.height.mas_equalTo(11.0f);
             make.centerY.equalTo(_goToHomePageView.mas_centerY);
         }];
         [goToHomePageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,6 +163,25 @@
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = artDetailData.author.display_name;
-    self.descLabel.text = artDetailData.author.desc;
+    
+    if (artDetailData.type == 2) {
+        self.titleLabel.text = @"卖家简介";
+        [self.goToHomePageView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.tag == 100) {
+                ((UILabel *)obj).text = @"个人主页";
+            }
+        }];
+    }
+    
+    if ([NSString stringIsEmpty:artDetailData.author.desc]) {
+        self.descLabel.text = artDetailData.author.desc;
+    }else {
+        NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
+        para.lineSpacing = 4;
+        para.lineBreakMode = NSLineBreakByTruncatingTail;
+        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:artDetailData.author.desc];
+        [attrs addAttribute:NSParagraphStyleAttributeName value:para range:NSMakeRange(0, attrs.length)];
+        self.descLabel.attributedText = attrs;
+    }
 }
 @end

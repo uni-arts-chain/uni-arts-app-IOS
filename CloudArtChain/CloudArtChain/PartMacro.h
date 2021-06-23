@@ -55,6 +55,7 @@
 
 //宽系数
 #define KwidthScale(length) ([UIScreen mainScreen].bounds.size.width / 375.0f * length)
+#define JLHeightScale(originalValue) originalValue * [UIScreen mainScreen].bounds.size.height / 667.0f
 
 //关键窗口
 #define KMainWindow [UIApplication sharedApplication].keyWindow

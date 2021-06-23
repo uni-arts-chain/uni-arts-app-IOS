@@ -367,4 +367,22 @@ static inline CGFloat DegreesToRadians(CGFloat degrees) {
     return thumbnailImage;
 }
 
+/// 修改指定图片颜色生成新的图片
+/// @param image 原图片
+/// @param color 图片颜色
++ (UIImage *)jl_changeImage:(UIImage *)image color:(UIColor *)color {
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, 0, image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGContextClipToMask(context, rect, image.CGImage);
+    [color setFill];
+    CGContextFillRect(context, rect);
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 @end

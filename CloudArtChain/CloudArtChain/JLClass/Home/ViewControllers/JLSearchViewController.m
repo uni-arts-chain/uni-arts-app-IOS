@@ -85,7 +85,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
     CGFloat spaceW = 23;
     CGFloat spaceH = 12;
     CGFloat tagHeight = 36;
-    CGFloat tagWidth = (self.view.frameWidth - 24 - spaceW * 2) / 3;;
+    CGFloat tagWidth = (self.view.frameWidth - 24 - spaceW * 2) / 3 > 102 ? 102 : (self.view.frameWidth - 24 - spaceW * 2) / 3;
     CGFloat currentAllW = 0;
     NSInteger line = 0;
 

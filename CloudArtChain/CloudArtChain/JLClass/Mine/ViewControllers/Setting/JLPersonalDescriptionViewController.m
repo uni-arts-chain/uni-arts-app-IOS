@@ -13,6 +13,7 @@
 
 @interface JLPersonalDescriptionViewController ()
 @property (nonatomic, strong) JLDescriptionContentView *descContentView;
+@property (nonatomic, strong) UIButton *doneBtn;
 @end
 
 @implementation JLPersonalDescriptionViewController
@@ -20,17 +21,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"描述";
     [self addBackItem];
-    [self addRightNavigationItem];
+    
     [self createView];
-}
-
-- (void)addRightNavigationItem {
-    NSString *title = @"保存";
-    UIBarButtonItem * rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title style:UIBarButtonItemStylePlain target:self action:@selector(saveBtnClick)];
-    NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_blue_337FFF, NSFontAttributeName: kFontPingFangSCRegular(15.0f)};
-    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateNormal];
-    [rightBarButtonItem setTitleTextAttributes:dic forState:UIControlStateHighlighted];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 }
 
 - (void)saveBtnClick {
@@ -44,16 +36,26 @@
 - (void)createView {
     [self.view addSubview:self.descContentView];
     [self.descContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(26.0f);
+        make.top.equalTo(self.view);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(138.0f);
+        make.height.mas_equalTo(249.0f);
     }];
+    
+    [self.view addSubview:self.doneBtn];
 }
 
 - (JLDescriptionContentView *)descContentView {
     if (!_descContentView) {
-        _descContentView = [[JLDescriptionContentView alloc] initWithMax:100 placeholder:@"描述一下自己在区块链行业的成就吧~" content:[AppSingleton sharedAppSingleton].userBody.desc];
+        _descContentView = [[JLDescriptionContentView alloc] initWithMax:100 placeholder:@"请简单介绍一下自己吧" content:[AppSingleton sharedAppSingleton].userBody.desc];
     }
     return _descContentView;
+}
+
+- (UIButton *)doneBtn {
+    if (!_doneBtn) {
+        _doneBtn = [JLUIFactory buttonInitTitle:@"保存" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCMedium(16.0f) addTarget:self action:@selector(saveBtnClick)];
+        _doneBtn.frame = CGRectMake(0.0f, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height - 44.0f, kScreenWidth, 44.0f + KTouch_Responder_Height);
+    }
+    return _doneBtn;
 }
 @end

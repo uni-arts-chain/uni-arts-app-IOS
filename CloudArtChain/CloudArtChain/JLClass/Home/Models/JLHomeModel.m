@@ -76,7 +76,7 @@
             CGSize imageSize = [UIImage getImageSizeWithURL:mainFileUrl];
             CGFloat imgH = 0;
             if (imageSize.height > 0) {
-                imgH = imageSize.height * (kScreenWidth - 15.0f * 2 - 26.0f) * 0.5f / imageSize.width;
+                imgH = imageSize.height * (kScreenWidth - 12.0f * 2 - 12.0f) * 0.5f / imageSize.width;
                 [[JLImageSizeCacheDefaults standardUserDefaults] setObject:@(imgH) forKey:mainFileUrlKey];
             }
             

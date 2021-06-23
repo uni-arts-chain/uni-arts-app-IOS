@@ -10,6 +10,8 @@
 #import "JLInputView.h"
 
 @interface JLBindPhoneWithoutPwdViewController ()
+@property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) JLInputView *phoneInputView;
 @property (nonatomic, strong) JLInputView *verifyCodeInputView;
 @property (nonatomic, strong) UIButton *bindButton;
@@ -18,34 +20,65 @@
 @implementation JLBindPhoneWithoutPwdViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"绑定手机号";
+    self.navigationItem.title = @"";
+    self.view.backgroundColor = JL_color_navBgColor;
     [self addBackItem];
     [self createView];
 }
 
 - (void)createView {
-    [self.view addSubview:self.phoneInputView];
-    [self.view addSubview:self.verifyCodeInputView];
-    [self.view addSubview:self.bindButton];
+    [self.view addSubview:self.bgView];
+    [self.bgView addSubview:self.titleLabel];
+    [self.bgView addSubview:self.phoneInputView];
+    [self.bgView addSubview:self.verifyCodeInputView];
+    [self.bgView addSubview:self.bindButton];
     
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(26.0f);
+        make.left.equalTo(self.view).offset(15.0f);
+        make.right.equalTo(self.view).offset(-15.0f);
+        make.height.mas_equalTo(@438.0f);
+    }];
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.bgView).offset(21.0f);
+        make.top.equalTo(self.bgView).offset(35.0f);
+    }];
     [self.phoneInputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.view);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(67.0f);
+        make.left.equalTo(self.bgView).offset(15.0f);
+        make.right.equalTo(self.bgView).offset(-12.0f);
+        make.top.equalTo(self.bgView).offset(122.0f);
+        make.height.mas_equalTo(60.0f);
     }];
     [self.verifyCodeInputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.phoneInputView.mas_bottom);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(67.0f);
+        make.top.equalTo(self.phoneInputView.mas_bottom).offset(15.0f);
+        make.right.left.equalTo(self.phoneInputView);
+        make.height.mas_equalTo(60.0f);
     }];
     [self.bindButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.verifyCodeInputView.mas_bottom).offset(30.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(46.0f);
+        make.left.equalTo(self.bgView).offset(34.0f);
+        make.top.equalTo(self.verifyCodeInputView.mas_bottom).offset(50.0f);
+        make.right.equalTo(self.bgView).offset(-34.0f);
+        make.height.mas_equalTo(44.0f);
     }];
+}
+
+- (UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = JL_color_white_ffffff;
+        _bgView.layer.cornerRadius = 10;
+    }
+    return _bgView;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.text = @"绑定手机号";
+        _titleLabel.textColor = JL_color_black_101220;
+        _titleLabel.font = kFontPingFangSCMedium(24);
+    }
+    return _titleLabel;
 }
 
 - (JLInputView *)phoneInputView {
@@ -95,8 +128,8 @@
         [_bindButton setTitle:@"确认绑定" forState:UIControlStateNormal];
         [_bindButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _bindButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _bindButton.backgroundColor = JL_color_gray_101010;
-        ViewBorderRadius(_bindButton, 23.0f, 0.0f, JL_color_clear);
+        _bindButton.backgroundColor = JL_color_mainColor;
+        ViewBorderRadius(_bindButton, 22.0f, 0.0f, JL_color_clear);
         [_bindButton addTarget:self action:@selector(bindButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bindButton;

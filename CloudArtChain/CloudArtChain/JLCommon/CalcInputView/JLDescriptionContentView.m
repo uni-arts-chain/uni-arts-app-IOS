@@ -33,30 +33,31 @@
     WS(weakSelf)
        
     [self addSubview:self.backView];
-    [self.backView addSubview:self.inputNoticeLabel];
-    [self.backView addSubview:self.textView];
-    [self.backView addSubview:self.maxInputLabel];
+    [self addSubview:self.inputNoticeLabel];
+    [self addSubview:self.textView];
+    [self addSubview:self.maxInputLabel];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(self);
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
+        make.top.equalTo(self).offset(12.0f);
+        make.bottom.equalTo(self).offset(-37.0f);
+        make.left.equalTo(self).offset(12.0f);
+        make.right.equalTo(self).offset(-12.0f);
     }];
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self);
-        make.right.mas_equalTo(-12.0f);
+        make.top.equalTo(self.backView.mas_bottom);
+        make.right.equalTo(self.backView);
         make.height.mas_equalTo(37.0f);
     }];
     [self.inputNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(12.0f);
-        make.top.mas_equalTo(12.0f);
-        make.right.mas_equalTo(-12.0f);
+        make.left.equalTo(self.backView).offset(12.0f);
+        make.top.equalTo(self.backView).offset(12.0f);
+        make.right.equalTo(self.backView).offset(-12.0f);
     }];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(4.0f);
-        make.top.mas_equalTo(4.0f);
-        make.right.mas_equalTo(-4.0f);
-        make.bottom.equalTo(self.maxInputLabel.mas_top);
+        make.left.equalTo(self.backView).offset(4.0f);
+        make.top.equalTo(self.backView).offset(4.0f);
+        make.right.equalTo(self.backView).offset(-4.0f);
+        make.bottom.equalTo(self.backView);
     }];
 
     [self.textView.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
@@ -79,7 +80,7 @@
     if (!_backView) {
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 1.0f, JL_color_gray_101010);
+        ViewBorderRadius(_backView, 8.0f, 0.0f, JL_color_clear);
     }
     return _backView;
 }
@@ -89,8 +90,8 @@
         _inputNoticeLabel = [[UILabel alloc] init];
         _inputNoticeLabel.numberOfLines = 0;
         _inputNoticeLabel.font = kFontPingFangSCRegular(13.0f);
-        _inputNoticeLabel.textColor = JL_color_gray_BBBBBB;
-        _inputNoticeLabel.textAlignment = NSTextAlignmentCenter;
+        _inputNoticeLabel.textColor = JL_color_gray_87888F;
+        _inputNoticeLabel.textAlignment = NSTextAlignmentLeft;
         _inputNoticeLabel.text = self.placeholder;
         _inputNoticeLabel.hidden = ![NSString stringIsEmpty:self.inputContent];
     }
@@ -104,8 +105,8 @@
         _textView.textContainer.lineFragmentPadding = 10.0f;
         _textView.backgroundColor = JL_color_clear;
         _textView.delegate = self;
-        _textView.textColor  = JL_color_gray_101010;
-        _textView.textAlignment = NSTextAlignmentCenter;
+        _textView.textColor  = JL_color_black_101220;
+        _textView.textAlignment = NSTextAlignmentLeft;
         _textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         if (![NSString stringIsEmpty:self.inputContent]) {
             _textView.text = self.inputContent;
@@ -153,7 +154,7 @@
     if (!_maxInputLabel) {
         _maxInputLabel = [[UILabel alloc] init];
         _maxInputLabel.font = kFontPingFangSCRegular(13.0f);
-        _maxInputLabel.textColor = JL_color_gray_BBBBBB;
+        _maxInputLabel.textColor = JL_color_gray_87888F;
         _maxInputLabel.text = [NSString stringWithFormat:@"0/%ld", self.maxInput];
     }
     return _maxInputLabel;

@@ -106,5 +106,17 @@ static NSString * const kOtc_timeStoppedCallback = @"otc_timeStoppedCallback";
     
 }
 
-
+/// 获取顶层的窗口
+- (UIWindow *)getTopLevelWindow {
+    UIWindow *topView = [UIApplication sharedApplication].keyWindow;
+    for (UIWindow *win in [[UIApplication sharedApplication].windows  reverseObjectEnumerator]) {
+        if ([win isEqual: topView]) {
+            continue;
+        }
+        if (win.windowLevel > topView.windowLevel && win.hidden != YES ) {
+            topView =win;
+        }
+    }
+    return topView;
+}
 @end

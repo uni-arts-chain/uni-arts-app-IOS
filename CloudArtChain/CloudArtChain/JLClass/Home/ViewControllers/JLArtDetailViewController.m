@@ -40,7 +40,6 @@
 
 @interface JLArtDetailViewController ()<NewPagedFlowViewDelegate, NewPagedFlowViewDataSource>
 @property (nonatomic, strong) UITabBar *bottomBar;
-@property (nonatomic, strong) UIView *certificateView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) NewPagedFlowView *pageFlowView;
@@ -49,7 +48,7 @@
 @property (nonatomic, strong) JLArtDetailVideoView *videoView;
 @property (nonatomic, strong) JLArtDetailNamePriceView *artDetailNamePriceView;
 @property (nonatomic, strong) JLArtChainTradeView *artChainTradeView;
-@property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
+//@property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
 @property (nonatomic, assign) BOOL artSellingViewOpen;
 @property (nonatomic, strong) JLArtAuthorDetailView *artAuthorDetailView;
 //@property (nonatomic, strong) JLArtInfoView *artInfoView;
@@ -77,7 +76,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"详情";
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
-    
+
+//    self.artDetailData.type = 2;
     [self addBackItem];
     if (self.artDetailData) {
         [self createSubView];
@@ -109,14 +109,8 @@
     _networkStatus = [dict[@"status"] integerValue];
 }
 
-//- (void)viewDidLayoutSubviews {
-//    [super viewDidLayoutSubviews];
-//    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.artEvaluateView.frameBottom);
-//}
-
 - (void)createSubView {
     [self initBottomUI];
-    [self.view addSubview:self.certificateView];
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bottomBar.mas_top);
@@ -169,33 +163,23 @@
             make.top.equalTo(self.pageFlowView.mas_bottom);
             make.left.right.equalTo(self.pageFlowView);
         }
-        make.height.mas_equalTo(@90.0f);
+        make.height.mas_equalTo(@94.0f);
     }];
-    if (self.artDetailData.collection_mode == 3) {
-        // 出售列表
-        [self.contentView addSubview:self.artSellingView];
-        [self.artSellingView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.artDetailNamePriceView.mas_bottom);
-            make.left.right.equalTo(self.artDetailNamePriceView);
-            self.artSellingViewHeightConstraint = make.height.mas_equalTo(@(55.0f + 35.0f));
-        }];
-    }
     // 区块链交易信息
     [self.contentView addSubview:self.artChainTradeView];
     [self.artChainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (self.artDetailData.collection_mode == 3) {
-            make.top.equalTo(self.artSellingView.mas_bottom).offset(10.0f);
-            make.left.right.equalTo(self.artSellingView);
+        make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);
+        make.left.right.equalTo(self.artDetailNamePriceView);
+        if (self.artDetailData.type == 2) {
+            make.height.mas_equalTo(@211.0f);
         }else {
-            make.top.equalTo(self.artDetailNamePriceView.mas_bottom);
-            make.left.right.equalTo(self.artDetailNamePriceView);
+            make.height.mas_equalTo(@163.0f);
         }
-        make.height.mas_equalTo(@210.0f);
     }];
     // 创作者简介
     [self.contentView addSubview:self.artAuthorDetailView];
     [self.artAuthorDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artChainTradeView.mas_bottom).offset(10.0f);
+        make.top.equalTo(self.artChainTradeView.mas_bottom);
         make.left.right.equalTo(self.artChainTradeView);
         make.height.mas_equalTo(@204.0f);
     }];
@@ -204,9 +188,9 @@
     // 艺术评析
     [self.contentView addSubview:self.artEvaluateView];
     [self.artEvaluateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artAuthorDetailView.mas_bottom).offset(10.0f);
+        make.top.equalTo(self.artAuthorDetailView.mas_bottom);
         make.left.right.equalTo(self.artAuthorDetailView);
-        make.bottom.equalTo(self.contentView);
+        make.bottom.equalTo(self.contentView).offset(-20.0f);
     }];
     // 艺术品细节
 //    [self.scrollView addSubview:self.artDetailDescView];
@@ -221,56 +205,36 @@
 
 - (void)initBottomUI {
     self.bottomBar = [UITabBar tabbarWithDefaultShadowImageColor];
-    [self.bottomBar addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
     [self.view addSubview:self.bottomBar];
     
     [self.bottomBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(54.0f);
+        make.height.mas_equalTo(50.0f);
         make.bottom.equalTo(self.view).offset(-KTouch_Responder_Height);
     }];
     
     // 喜欢
     UIButton *likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [likeButton setTitle:[NSString stringWithFormat:@"%ld喜欢", self.artDetailData.liked_count] forState:UIControlStateNormal];
-    [likeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-    likeButton.titleLabel.font = kFontPingFangSCRegular(10.0f);
+    [likeButton setTitleColor:JL_color_black_40414D forState:UIControlStateNormal];
+    likeButton.titleLabel.font = kFontPingFangSCMedium(11.0f);
     likeButton.backgroundColor = JL_color_white_ffffff;
     [likeButton setImage:[UIImage imageNamed:@"icon_product_like"] forState:UIControlStateNormal];
     [likeButton setImage:[UIImage imageNamed:@"icon_product_like_selected"] forState:UIControlStateSelected];
     [likeButton addTarget:self action:@selector(likeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    likeButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
-    likeButton.axcUI_padding = 10.0f;
     likeButton.selected = self.artDetailData.liked_by_me;
     [self.bottomBar addSubview:likeButton];
     self.likeButton = likeButton;
     
-    // 踩
-    UIButton *dislikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dislikeButton setTitle:[NSString stringWithFormat:@"%ld踩", self.artDetailData.dislike_count] forState:UIControlStateNormal];
-    [dislikeButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-    dislikeButton.titleLabel.font = kFontPingFangSCRegular(10.0f);
-    dislikeButton.backgroundColor = JL_color_white_ffffff;
-    [dislikeButton setImage:[UIImage imageNamed:@"icon_product_dislike"] forState:UIControlStateNormal];
-    [dislikeButton setImage:[UIImage imageNamed:@"icon_product_dislike_selected"] forState:UIControlStateSelected];
-    [dislikeButton addTarget:self action:@selector(dislikeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    dislikeButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
-    dislikeButton.axcUI_padding = 10.0f;
-    dislikeButton.selected = self.artDetailData.disliked_by_me;
-    [self.bottomBar addSubview:dislikeButton];
-    self.dislikeButton = dislikeButton;
-    
     // 收藏
     UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [collectButton setTitle:@"收藏" forState:UIControlStateNormal];
-    [collectButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-    collectButton.titleLabel.font = kFontPingFangSCRegular(10.0f);
+    [collectButton setTitleColor:JL_color_black_40414D forState:UIControlStateNormal];
+    collectButton.titleLabel.font = kFontPingFangSCMedium(11.0f);
     collectButton.backgroundColor = JL_color_white_ffffff;
     [collectButton setImage:[UIImage imageNamed:@"icon_product_collect"] forState:UIControlStateNormal];
     [collectButton setImage:[UIImage imageNamed:@"icon_product_collect_selected"] forState:UIControlStateSelected];
     [collectButton addTarget:self action:@selector(collectButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    collectButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
-    collectButton.axcUI_padding = 10.0f;
     collectButton.selected = self.artDetailData.favorite_by_me;
     [self.bottomBar addSubview:collectButton];
     
@@ -278,35 +242,38 @@
     UIButton *immediatelyBuyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
     [immediatelyBuyBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-    immediatelyBuyBtn.titleLabel.font = kFontPingFangSCRegular(15.0f);
-    immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
-    ViewBorderRadius(immediatelyBuyBtn, 17.0f, 0.0f, JL_color_clear);
+    immediatelyBuyBtn.titleLabel.font = kFontPingFangSCSCSemibold(18.0f);
+    immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+    ViewBorderRadius(immediatelyBuyBtn, 18.0f, 0.0f, JL_color_clear);
     [immediatelyBuyBtn addTarget:self action:@selector(immediatelyBuyBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomBar addSubview:immediatelyBuyBtn];
     self.immediatelyBuyBtn = immediatelyBuyBtn;
     [self refreshImmediatelyBuyBtnStatus];
     
     [immediatelyBuyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10.0f);
-        make.bottom.mas_equalTo(-10.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.width.mas_equalTo(137.0f);
+        make.top.mas_equalTo(7.0f);
+        make.bottom.mas_equalTo(-7.0f);
+        make.right.mas_equalTo(-12.0f);
+        make.width.mas_equalTo(150.0f);
     }];
     [likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(10.0f);
         make.top.bottom.equalTo(self.bottomBar);
         make.width.mas_equalTo(60.0f);
     }];
-    [dislikeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    [collectButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(likeButton.mas_right);
         make.top.bottom.equalTo(self.bottomBar);
         make.width.mas_equalTo(60.0f);
     }];
-    [collectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(dislikeButton.mas_right);
-        make.top.bottom.equalTo(self.bottomBar);
-        make.width.mas_equalTo(60.0f);
-    }];
+    
+    [likeButton layoutIfNeeded];
+    [collectButton layoutIfNeeded];
+    likeButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
+    likeButton.axcUI_padding = 2.0f;
+    
+    collectButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageTop;
+    collectButton.axcUI_padding = 2.0f;
 }
 
 - (void)refreshImmediatelyBuyBtnStatus {
@@ -330,11 +297,11 @@
             if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
                 [self.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = YES;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
             } else {
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = YES;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
             }
         }
     } else {
@@ -343,7 +310,7 @@
             // 可以拆分
             [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
             self.immediatelyBuyBtn.enabled = YES;
-            self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
+            self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
         }
     }
 }
@@ -625,119 +592,6 @@
     }];
 }
 
-- (UIView *)certificateView {
-    if (!_certificateView) {
-        _certificateView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenWidth / 375.0f * 296.0f)];
-        
-        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cer-bg"]];
-        [_certificateView addSubview:backImageView];
-        
-        UIView *centerView = [[UIView alloc] init];
-        centerView.backgroundColor = JL_color_white_ffffff;
-        [_certificateView addSubview:centerView];
-        
-        UILabel *nameLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Name: %@", self.artDetailData.name] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        [centerView addSubview:nameLabel];
-        
-        UILabel *painterLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Painter: %@", [NSString stringIsEmpty:self.artDetailData.author.display_name] ? @"" : self.artDetailData.author.display_name] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        [centerView addSubview:painterLabel];
-        
-//        UILabel *textureLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Texture: %@", [[AppSingleton sharedAppSingleton] getMaterialByID:@(self.artDetailData.material_id).stringValue]] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-//        [centerView addSubview:textureLabel];
-        
-        NSString *sizeDesc = [NSString stringWithFormat:@"Size: %@cmx%@cm", self.artDetailData.size_width, self.artDetailData.size_length];
-        UILabel *sizeLabel = [JLUIFactory labelInitText:sizeDesc font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        [centerView addSubview:sizeLabel];
-        
-        NSString *signTimeStr = @"";
-        if (![NSString stringIsEmpty:self.artDetailData.last_sign_at]) {
-            NSDate *signDate = [NSDate dateWithTimeIntervalSince1970:self.artDetailData.last_sign_at.doubleValue];
-            signTimeStr = [signDate dateWithCustomFormat:@"yyyy-MM-dd"];
-        }
-        
-        UILabel *signTimeLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"Signing time: %@", signTimeStr] font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentCenter];
-        [centerView addSubview:signTimeLabel];
-        
-        UIImageView *signTimeLeftImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_cert_left"]];
-        [centerView addSubview:signTimeLeftImageView];
-        
-        UIImageView *signTimeRightImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_cert_right"]];
-        [centerView addSubview:signTimeRightImageView];
-        
-        UILabel *certificateAddressTitleLabel = [JLUIFactory labelInitText:@"证书地址: " font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        [centerView addSubview:certificateAddressTitleLabel];
-        
-        UILabel *certificateAddressLabel = [JLUIFactory labelInitText:self.artDetailData.item_hash font:kFontPingFangSCRegular(10.0f) textColor:JL_color_black_010034 textAlignment:NSTextAlignmentLeft];
-        certificateAddressLabel.numberOfLines = 1;
-        certificateAddressLabel.adjustsFontSizeToFitWidth = YES;
-        [centerView addSubview:certificateAddressLabel];
-        
-        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_certificateView);
-        }];
-        [centerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(110.0f);
-            make.bottom.mas_equalTo(-70.0f);
-            make.left.mas_equalTo(65.0f);
-            make.right.mas_equalTo(-45.0f);
-        }];
-        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.equalTo(centerView);
-            make.height.mas_offset(26.0f);
-        }];
-        [painterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(nameLabel.mas_right);
-            make.top.equalTo(centerView);
-            make.right.equalTo(centerView);
-            make.height.equalTo(nameLabel.mas_height);
-            make.width.equalTo(nameLabel.mas_width);
-        }];
-//        [textureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(nameLabel.mas_bottom);
-//            make.left.equalTo(centerView);
-//            make.height.equalTo(nameLabel.mas_height);
-//        }];
-        [sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(textureLabel.mas_right);
-//            make.top.equalTo(painterLabel.mas_bottom);
-//            make.right.equalTo(centerView);
-//            make.height.equalTo(textureLabel.mas_height);
-//            make.width.equalTo(textureLabel.mas_width);
-            make.left.equalTo(centerView);
-            make.top.equalTo(painterLabel.mas_bottom);
-            make.right.equalTo(centerView);
-            make.height.equalTo(nameLabel.mas_height);
-        }];
-        [signTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(sizeLabel.mas_bottom);
-            make.height.mas_equalTo(26.0f);
-            make.centerX.equalTo(centerView.mas_centerX);
-        }];
-        [signTimeLeftImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(signTimeLabel.mas_left).offset(-8.0f);
-            make.width.mas_equalTo(42.0f);
-            make.height.mas_equalTo(1.0f);
-            make.centerY.equalTo(signTimeLabel.mas_centerY);
-        }];
-        [signTimeRightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(signTimeLabel.mas_right).offset(8.0f);
-            make.width.mas_equalTo(42.0f);
-            make.height.mas_equalTo(1.0f);
-            make.centerY.equalTo(signTimeLabel.mas_centerY);
-        }];
-        [certificateAddressTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(centerView).offset(-20.0f);
-            make.top.equalTo(signTimeLabel.mas_bottom);
-        }];
-        [certificateAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(certificateAddressTitleLabel.mas_right);
-            make.top.equalTo(signTimeLabel.mas_bottom);
-            make.right.mas_lessThanOrEqualTo(20.0f);
-        }];
-    }
-    return _certificateView;
-}
-
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
@@ -918,63 +772,15 @@
 
 - (JLArtDetailNamePriceView *)artDetailNamePriceView {
     if (!_artDetailNamePriceView) {
-        _artDetailNamePriceView = [[JLArtDetailNamePriceView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 90.0f)];
+        _artDetailNamePriceView = [[JLArtDetailNamePriceView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 94.0f)];
         _artDetailNamePriceView.artDetailData = self.artDetailData;
     }
     return _artDetailNamePriceView;
 }
 
-- (JLArtDetailSellingView *)artSellingView {
-    if (!_artSellingView) {
-        WS(weakSelf)
-        _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f)];
-        _artSellingView.offFromListBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
-            [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                if (success) {
-                    [weakSelf artOffFromSellingList:sellOrderData.sn];
-                }
-            }];
-        };
-        _artSellingView.buyBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
-            JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
-            orderSubmitVC.artDetailData = weakSelf.artDetailData;
-            orderSubmitVC.sellingOrderData = sellOrderData;
-            __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
-            orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
-                [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
-                if (payType == JLOrderPayTypeWeChat) {
-                    // 打开支付页面
-                    JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
-                    payWebVC.payUrl = payUrl;
-                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                } else {
-                    JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
-                    payWebVC.payUrl = payUrl;
-                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                }
-                [weakSelf requestSellingList];
-            };
-            [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
-        };
-        _artSellingView.openCloseListBlock = ^(BOOL isOpen) {
-            CGFloat height = 55.0f + 35.0f;
-            if (isOpen) {
-                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
-            } else {
-                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
-            }
-            [weakSelf.artSellingViewHeightConstraint uninstall];
-            [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
-                weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
-            }];
-        };
-    }
-    return _artSellingView;
-}
-
 - (JLArtChainTradeView *)artChainTradeView {
     if (!_artChainTradeView) {
-        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artSellingView.frameBottom + 10.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 210.0f)];
+        _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artDetailNamePriceView.frameBottom + 12.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 188.0f)];
         _artChainTradeView.artDetailData = self.artDetailData;
         WS(weakSelf)
         _artChainTradeView.showCertificateBlock = ^{
@@ -987,7 +793,7 @@
 - (JLArtAuthorDetailView *)artAuthorDetailView {
     if (!_artAuthorDetailView) {
         WS(weakSelf)
-        _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artChainTradeView.frameBottom + 10.0f, kScreenWidth, 204.0f)];
+        _artAuthorDetailView = [[JLArtAuthorDetailView alloc] initWithFrame:CGRectMake(0.0f, self.artChainTradeView.frameBottom, kScreenWidth, 204.0f)];
         _artAuthorDetailView.artDetailData = self.artDetailData;
         _artAuthorDetailView.introduceBlock = ^{
             // 判断是否是自己
@@ -1083,24 +889,7 @@
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
-            weakSelf.artSellingView.sellingArray = response.body;
             weakSelf.currentSellingList = response.body;
-            if (response.body.count == 4) {
-                weakSelf.artSellingViewOpen = NO;
-            }
-            // 更新视图
-            if (weakSelf.artDetailData.collection_mode == 3) {
-                CGFloat height = 55.0f + 35.0f;
-                if (weakSelf.artSellingViewOpen) {
-                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
-                } else {
-                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
-                }
-                [weakSelf.artSellingViewHeightConstraint uninstall];
-                [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
-                }];
-            }
         }
         [weakSelf updateArtDetailData];
     }];

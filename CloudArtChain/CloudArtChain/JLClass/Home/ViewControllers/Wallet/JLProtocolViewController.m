@@ -43,9 +43,9 @@
 - (void)createSubViews {
     [self.view addSubview:self.contentTextView];
     [self.contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.mas_equalTo(10.0f);
+        make.left.mas_equalTo(9.0f);
+        make.right.mas_equalTo(-16.0f);
+        make.top.mas_equalTo(12.0f);
         make.bottom.mas_equalTo(-KTouch_Responder_Height);
     }];
 }
@@ -53,6 +53,7 @@
 - (UITextView*)contentTextView {
     if (!_contentTextView) {
         _contentTextView = [[UITextView alloc]init];
+        _contentTextView.layer.cornerRadius = 8.0f;
         _contentTextView.editable = NO;
         _contentTextView.selectable = NO;
         _contentTextView.scrollEnabled = YES;
@@ -61,18 +62,18 @@
         //内容缩进为零（去除左右边距）
         _contentTextView.textContainer.lineFragmentPadding = 0.0f;
         //去除上下边距
-        _contentTextView.textContainerInset = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
+        _contentTextView.textContainerInset = UIEdgeInsetsMake(20.0f, 20.0f, 20.0f, 20.0f);
         NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
         paragraphStyle.lineSpacing = 3.0f;       //字体的行间距
         paragraphStyle.paragraphSpacing = 6.0f; //段落间距
         NSDictionary *attributes = @{
-            NSFontAttributeName: kFontPingFangSCRegular(15.0f),
+            NSFontAttributeName: kFontPingFangSCRegular(14.0f),
                                      NSParagraphStyleAttributeName: paragraphStyle,
-                                     NSForegroundColorAttributeName: JL_color_gray_101010,
+                                     NSForegroundColorAttributeName: JL_color_black_101220,
                                      };
         _contentTextView.typingAttributes = attributes;
-        _contentTextView.textColor = JL_color_gray_101010;
-        _contentTextView.font = kFontPingFangSCRegular(15.0f);
+        _contentTextView.textColor = JL_color_black_101220;
+        _contentTextView.font = kFontPingFangSCRegular(14.0f);
 //        NSData *data = [self.protocolData.user_agreement dataUsingEncoding:NSUnicodeStringEncoding];
 //        NSDictionary *options = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType};
 //        NSAttributedString *html = [[NSAttributedString alloc] initWithData:data
@@ -82,7 +83,7 @@
 //        _contentTextView.attributedText = html;
         
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:self.protocolData.user_agreement]];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [NSString strToAttriWithStr:self.protocolData.user_agreement].length)];
+        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(14.0f), NSForegroundColorAttributeName: JL_color_black_101220} range:NSMakeRange(0, [NSString strToAttriWithStr:self.protocolData.user_agreement].length)];
         [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, [NSString strToAttriWithStr:self.protocolData.user_agreement].length)];
         _contentTextView.attributedText = attr;
     }

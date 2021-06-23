@@ -108,7 +108,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 200.0f;
+    return 156.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -130,13 +130,14 @@
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        _tableView.backgroundColor = JL_color_white_ffffff;
+        _tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage getImageWithColor:JL_color_navBgColor width:1.0 height:1.0]];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 0.0f;
         _tableView.estimatedSectionHeaderHeight = 0.0f;
         _tableView.estimatedSectionFooterHeight = 0.0f;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.contentInset = UIEdgeInsetsMake(12.0f, 0.0f, 0.0f, 0.0f);
         [_tableView registerClass:[JLSinglePurchaseOrderListCell class] forCellReuseIdentifier:@"JLSinglePurchaseOrderListCell"];
         
         _tableView.mj_header = [JLRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(headRefresh)];

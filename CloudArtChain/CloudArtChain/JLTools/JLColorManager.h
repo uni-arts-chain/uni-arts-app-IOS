@@ -53,7 +53,10 @@
 #define JL_color_gray_E2E2E2 JL_COLOR_MAG.gray_E2E2E2
 #define JL_color_gray_E6E6E6 JL_COLOR_MAG.gray_E6E6E6
 #define JL_color_gray_EBEBEB JL_COLOR_MAG.gray_EBEBEB
+#define JL_color_gray_ECECEC JL_COLOR_MAG.gray_ECECEC
 #define JL_color_gray_EEEEEE JL_COLOR_MAG.gray_EEEEEE
+#define JL_color_gray_EDEDEC JL_COLOR_MAG.gray_EDEDEC
+#define JL_color_gray_EDEDEE JL_COLOR_MAG.gray_EDEDEE
 #define JL_color_gray_EFEFEF JL_COLOR_MAG.gray_EFEFEF
 #define JL_color_gray_F3F3F3 JL_COLOR_MAG.gray_F3F3F3
 #define JL_color_gray_F5F5F5 JL_COLOR_MAG.gray_F5F5F5
@@ -97,6 +100,7 @@
 
 #define JL_color_red_D70000 JL_COLOR_MAG.red_D70000
 #define JL_color_red_FF4832 JL_COLOR_MAG.red_FF4832
+#define JL_color_red_EF4136 JL_COLOR_MAG.red_EF4136
 
 #define JL_color_orange_FF8150     JL_COLOR_MAG.orange_FF8150
 #define JL_color_orange_FFEBD4     JL_COLOR_MAG.orange_FFEBD4
@@ -112,6 +116,7 @@
 #define JL_color_black_40414D     JL_COLOR_MAG.black_40414D
 #define JL_color_black_080C19     JL_COLOR_MAG.black_080C19
 #define JL_color_black_101220     JL_COLOR_MAG.black_101220
+#define JL_color_black_191919     JL_COLOR_MAG.black_191919
 
 #define JL_color_other_D2D4DC      JL_COLOR_MAG.other_D2D4DC
 #define JL_color_other_4C5B86      JL_COLOR_MAG.other_4C5B86
@@ -168,7 +173,10 @@
 @property (nonatomic, strong) UIColor *gray_E2E2E2;
 @property (nonatomic, strong) UIColor *gray_E6E6E6;
 @property (nonatomic, strong) UIColor *gray_EBEBEB;
+@property (nonatomic, strong) UIColor *gray_ECECEC;
 @property (nonatomic, strong) UIColor *gray_EEEEEE;
+@property (nonatomic, strong) UIColor *gray_EDEDEC;
+@property (nonatomic, strong) UIColor *gray_EDEDEE;
 @property (nonatomic, strong) UIColor *gray_EFEFEF;
 @property (nonatomic, strong) UIColor *gray_F5F5F5;
 @property (nonatomic, strong) UIColor *gray_F6F6F6;
@@ -213,6 +221,7 @@
 
 @property (nonatomic, strong) UIColor *red_D70000;
 @property (nonatomic, strong) UIColor *red_FF4832;
+@property (nonatomic, strong) UIColor *red_EF4136;
 
 @property (nonatomic, strong) UIColor *orange_FF8150;
 @property (nonatomic, strong) UIColor *orange_FFEBD4;
@@ -228,6 +237,7 @@
 @property (nonatomic, strong) UIColor *black_40414D;
 @property (nonatomic, strong) UIColor *black_080C19;
 @property (nonatomic, strong) UIColor *black_101220;
+@property (nonatomic, strong) UIColor *black_191919;
 
 @property (nonatomic, strong) UIColor *other_D2D4DC;
 @property (nonatomic, strong) UIColor *other_4C5B86;

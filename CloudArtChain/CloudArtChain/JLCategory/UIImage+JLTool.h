@@ -65,4 +65,10 @@
 
 /// 根据url获取视频第几帧
 + (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
+
+/// 修改指定图片颜色生成新的图片
+/// @param image 原图片
+/// @param color 图片颜色
++ (UIImage *)jl_changeImage:(UIImage *)image color:(UIColor *)color;
+
 @end

@@ -140,6 +140,7 @@
 @property (nonatomic, strong) NSArray *detail_imgs;
 @property (nonatomic, strong) NSString *video_url;
 @property (nonatomic, assign) NSInteger resource_type;
+@property (nonatomic, assign) NSInteger type; // 新品还是二手: 1新品 2二手
 @property (nonatomic, strong) NSDictionary *img_main_file1;
 @property (nonatomic, strong) NSDictionary *img_main_file2;
 @property (nonatomic, strong) NSDictionary *img_main_file3;

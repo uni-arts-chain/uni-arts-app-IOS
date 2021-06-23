@@ -9,6 +9,7 @@
 #import "JLSettingTableViewCell.h"
 
 @interface JLSettingTableViewCell ()
+@property (nonatomic, strong) UIView *flagView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) UIImageView *avatarImageView;
@@ -27,50 +28,67 @@
 }
 
 - (void)createSubViews {
+    [self.contentView addSubview:self.flagView];
     [self.contentView addSubview:self.titleLabel];
     [self.contentView addSubview:self.statusLabel];
     [self.contentView addSubview:self.avatarImageView];
     [self.contentView addSubview:self.lineView];
     [self.contentView addSubview:self.arrowImageView];
     
+    [self.flagView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView).offset(14.0f);
+        make.centerY.equalTo(self.contentView);
+        make.size.mas_equalTo(CGSizeMake(4.0f, 15.0f));
+    }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.equalTo(self.flagView.mas_right).offset(9.0f);
         make.top.bottom.equalTo(self.contentView);
     }];
     [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-22.0f);
-        make.width.mas_equalTo(8.0f);
-        make.height.mas_equalTo(15.0f);
+        make.right.mas_equalTo(-12.0f);
+        make.width.mas_equalTo(7.0f);
+        make.height.mas_equalTo(12.0f);
         make.centerY.equalTo(self.contentView);
     }];
     [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.arrowImageView.mas_left).offset(-8.0f);
         make.top.bottom.equalTo(self.contentView);
-        make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+        make.left.equalTo(self.contentView).offset(160.0f);
     }];
     [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.arrowImageView.mas_left).offset(-15.0f);
-        make.size.mas_equalTo(34.0f);
+        make.size.mas_equalTo(44.0f);
         make.centerY.equalTo(self.contentView);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.mas_equalTo(12.0f);
         make.bottom.equalTo(self.contentView);
-        make.right.mas_equalTo(-15.0f);
+        make.right.mas_equalTo(-12.0f);
         make.height.mas_equalTo(1.0f);
     }];
 }
 
+- (UIView *)flagView {
+    if (!_flagView) {
+        _flagView = [[UIView alloc] init];
+        _flagView.backgroundColor = JL_color_mainColor;
+        _flagView.layer.cornerRadius = 2;
+    }
+    return _flagView;
+}
+
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
 }
 
 - (UILabel *)statusLabel {
     if (!_statusLabel) {
-        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_BBBBBB textAlignment:NSTextAlignmentRight];
+        _statusLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_87888F textAlignment:NSTextAlignmentRight];
+        _statusLabel.numberOfLines = 1;
+        _statusLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _statusLabel;
 }
@@ -79,7 +97,7 @@
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init];
         _avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-        ViewBorderRadius(_avatarImageView, 17.0f, 0.0f, JL_color_clear);
+        ViewBorderRadius(_avatarImageView, 22.0f, 0.0f, JL_color_clear);
     }
     return _avatarImageView;
 }
@@ -87,7 +105,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = JL_color_gray_DDDDDD;
+        _lineView.backgroundColor = JL_color_gray_EDEDEE;
     }
     return _lineView;
 }
@@ -118,15 +136,15 @@
     self.lineView.hidden = !showLine;
     if (!showArrow) {
         [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-22.0f);
+            make.right.mas_equalTo(-12.0f);
             make.top.bottom.equalTo(self.contentView);
-            make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+            make.left.equalTo(self.contentView).offset(160.0f);
         }];
     } else {
         [self.statusLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.arrowImageView.mas_left).offset(-8.0f);
             make.top.bottom.equalTo(self.contentView);
-            make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+            make.left.equalTo(self.contentView).offset(160.0f);
         }];
     }
 }

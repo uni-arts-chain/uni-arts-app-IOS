@@ -26,19 +26,9 @@
 
 - (void)createSubViews {
     [self addSubview:self.infoView];
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = JL_color_gray_BEBEBE;
-    [self addSubview:lineView];
     
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self);
-        make.height.mas_equalTo(89.5f);
-    }];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.infoView.mas_bottom);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(0.5f);
+        make.left.top.right.bottom.equalTo(self);
     }];
     
     [self.infoView addSubview:self.nameLabel];
@@ -46,20 +36,13 @@
     [self.infoView addSubview:self.priceMaskView];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.mas_equalTo(10.0f);
-        make.height.mas_equalTo(39.0f);
-        make.right.mas_equalTo(-15.0f);
+        make.left.mas_equalTo(13.0f);
+        make.top.mas_equalTo(17.0f);
+        make.right.mas_equalTo(-24.0f);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nameLabel.mas_left);
-        make.top.equalTo(self.nameLabel.mas_bottom);
-        make.height.mas_equalTo(38.0f);
-    }];
-    [self.priceMaskView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.priceLabel.mas_right).offset(12.0f);
-        make.height.mas_equalTo(14.0f);
-        make.centerY.equalTo(self.priceLabel.mas_centerY);
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(13);
     }];
 }
 
@@ -72,30 +55,34 @@
 
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
-        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _nameLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_black_191919 textAlignment:NSTextAlignmentLeft];
+        _nameLabel.numberOfLines = 1;
+        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _nameLabel;
 }
 
 - (UILabel *)priceLabel {
     if (!_priceLabel) {
-        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(18.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        _priceLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_mainColor textAlignment:NSTextAlignmentLeft];
+        _priceLabel.numberOfLines = 1;
+        _priceLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _priceLabel;
-}
-
-- (UIView *)priceMaskView {
-    if (!_priceMaskView) {
-        _priceMaskView = [[UIView alloc] init];
-        ViewBorderRadius(_priceMaskView, 2.0f, 1.0f, JL_color_gray_1A1A1A);
-    }
-    return _priceMaskView;
 }
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     _artDetailData = artDetailData;
     self.nameLabel.text = artDetailData.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
+    
+    if ([NSString stringIsEmpty:artDetailData.price]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
+        return;
+    }
+    NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%@", artDetailData.price]];
+    [attrs addAttribute:NSFontAttributeName value:kFontPingFangSCSCSemibold(13) range:NSMakeRange(0, 1)];
+    [attrs addAttribute:NSKernAttributeName value:@(4) range:NSMakeRange(0, 1)];
+    self.priceLabel.attributedText = attrs;
 }
 
 @end

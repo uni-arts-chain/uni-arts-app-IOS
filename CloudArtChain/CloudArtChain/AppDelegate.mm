@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "JLGuidePageView.h"
+#import "JLGuidePageScrollView.h"
 #import <UMCommon/UMCommon.h>
 #import <UMCommonLog/UMCommonLogHeaders.h>
 #import "JLMessageViewController.h"
@@ -70,9 +71,16 @@
     [self createIQKeyboardManager];
     [self initUM];
     [self showMainViewController];
-    [JLGuidePageView showGuidePage];
+//    [JLGuidePageView showGuidePage];
+    [JLGuidePageScrollView showWithComplete:^{
+#if (WALLET_ENV == AUTOCREATEWALLET)
+        if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
+            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+            [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        }
+#endif
+    }];
     [self setupAppearance];
-    [self rpcTest];
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     [self registerRemoteNotification];
@@ -190,7 +198,7 @@
     [[UINavigationBar appearance] setTintColor:JL_color_white_ffffff];
     
     // 设置导航条title颜色及字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(18),NSForegroundColorAttributeName: JL_color_white_ffffff}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(18),NSForegroundColorAttributeName: JL_color_white_ffffff}];
     
     [[UITabBar appearance] setBackgroundImage:[UIImage getImageWithColor:JL_color_tabbarBgColor width:1.0f height:1.0f]];
     

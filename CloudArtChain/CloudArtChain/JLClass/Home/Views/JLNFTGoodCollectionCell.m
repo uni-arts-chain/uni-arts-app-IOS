@@ -43,6 +43,7 @@
     _bgView = [[UIView alloc] init];
     _bgView.backgroundColor = JL_color_white_ffffff;
     _bgView.layer.cornerRadius = 5;
+    _bgView.layer.masksToBounds = YES;
     [self.contentView addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(self.contentView);
@@ -109,12 +110,13 @@
     _artDetailData = artDetailData;
     
     if (![NSString stringIsEmpty:_artDetailData.img_main_file1[@"url"]]) {
-        [_imageView sd_setImageWithURL:[NSURL URLWithString:_artDetailData.img_main_file1[@"url"]]];
-        
+
         [_imageViewHeightConstraint uninstall];
         [_imageView mas_updateConstraints:^(MASConstraintMaker *make) {
             self.imageViewHeightConstraint = make.height.mas_equalTo(@(_artDetailData.imgHeight));
         }];
+        
+        [_imageView sd_setImageWithURL:[NSURL URLWithString:_artDetailData.img_main_file1[@"url"]]];
     }
     self.descLabel.text = _artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", _artDetailData.price];
@@ -124,9 +126,6 @@
         self.playImgView.hidden = YES;
     }
     self.live2DView.hidden = [NSString stringIsEmpty:_artDetailData.live2d_file];
-    
-    [_imageView layoutIfNeeded];
-    [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
 }
 
 @end

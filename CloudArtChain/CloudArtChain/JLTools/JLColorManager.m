@@ -66,7 +66,10 @@ static id inst = nil;
     _gray_E2E2E2 = [UIColor colorWithHexString:@"#E2E2E2"];
     _gray_E6E6E6 = [UIColor colorWithHexString:@"#E6E6E6"];
     _gray_EBEBEB = [UIColor colorWithHexString:@"#EBEBEB"];
+    _gray_ECECEC = [UIColor colorWithHexString:@"#ECECEC"];
     _gray_EEEEEE = [UIColor colorWithHexString:@"#EEEEEE"];
+    _gray_EDEDEC = [UIColor colorWithHexString:@"#EDEDEC"];
+    _gray_EDEDEE = [UIColor colorWithHexString:@"#EDEDEE"];
     _gray_EFEFEF = [UIColor colorWithHexString:@"#EFEFEF"];
     _gray_F5F5F5 = [UIColor colorWithHexString:@"#F5F5F5"];
     _gray_F3F3F3 = [UIColor colorWithHexString:@"#F3F3F3"];
@@ -111,6 +114,7 @@ static id inst = nil;
     
     _red_D70000 = [UIColor colorWithHexString:@"#D70000"];
     _red_FF4832 = [UIColor colorWithHexString:@"#FF4832"];
+    _red_EF4136 = [UIColor colorWithHexString:@"#EF4136"];
     
     _orange_FF8150 = [UIColor colorWithHexString:@"#FF8150"];
     _orange_FFEBD4 = [UIColor colorWithHexString:@"#FFEBD4"];
@@ -126,6 +130,7 @@ static id inst = nil;
     _black_40414D = [UIColor colorWithHexString:@"#40414D"];
     _black_080C19 = [UIColor colorWithHexString:@"#080C19"];
     _black_101220 = [UIColor colorWithHexString:@"#101220"];
+    _black_191919 = [UIColor colorWithHexString:@"#191919"];
     
     _other_D2D4DC = [UIColor colorWithHexString:@"#D2D4DC"];
     _other_4C5B86 = [UIColor colorWithHexString:@"#4C5B86"];

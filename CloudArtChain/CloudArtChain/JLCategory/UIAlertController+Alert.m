@@ -129,7 +129,7 @@
         UIAlertAction *action = [UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             handler(i);
         }];
-        [action setValue:JL_color_gray_101010 forKey:@"_titleTextColor"];
+        [action setValue:JL_color_mainColor forKey:@"_titleTextColor"];
         [alert addAction:action];
     }
     
@@ -138,7 +138,7 @@
             cancelHandler();
         }
     }];
-    [cancel setValue:JL_color_gray_101010 forKey:@"_titleTextColor"];
+    [cancel setValue:JL_color_mainColor forKey:@"_titleTextColor"];
     [alert addAction:cancel];
     
     //UILabel *appearanceLabel = [UILabel appearanceWhenContainedIn:UIAlertController.class, nil];

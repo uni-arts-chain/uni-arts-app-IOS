@@ -10,11 +10,11 @@
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
 
-#import "JLPopularOriginalCollectionViewCell.h"
+#import "JLNFTGoodCollectionCell.h"
 #import "JLNormalEmptyView.h"
-#import "JLFavorateCollectionWaterLayout.h"
+#import "XPCollectionViewWaterfallFlowLayout.h"
 
-@interface JLCollectViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface JLCollectViewController ()<XPCollectionViewWaterfallFlowLayoutDataSource,UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) JLNormalEmptyView *emptyView;
 
@@ -35,7 +35,7 @@
 
 - (void)createSubViews {
     [self.view addSubview:self.collectionView];
-    [self.collectionView  registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
+    [self.collectionView  registerClass:[JLNFTGoodCollectionCell class] forCellWithReuseIdentifier:@"JLNFTGoodCollectionCell"];
     
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
@@ -47,14 +47,16 @@
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        JLFavorateCollectionWaterLayout *layout = [JLFavorateCollectionWaterLayout layoutWithColoumn:2 data:self.collectionArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
+        layout.dataSource = self;
+        
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView.contentInset = UIEdgeInsetsMake(12, 0, 0, 0);
         _collectionView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
             [weakSelf headRefresh];
         }];
@@ -65,15 +67,51 @@
     return _collectionView;
 }
 
+#pragma mark - XPCollectionViewWaterfallFlowLayout
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout numberOfColumnInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout itemWidth:(CGFloat)width heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
+    Model_art_Detail_Data *artDetailData = facorateArtsData.favoritable;
+    
+    CGFloat textH = [JLTool getAdaptionSizeWithText:artDetailData.name labelWidth:width - 25 font:kFontPingFangSCMedium(13.0f)].height;
+    if (textH > 36.4) {
+        textH = 36.4;
+    }
+    return 45 + textH + artDetailData.imgHeight;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0, 12, 12, 12);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
 #pragma mark - UICollectionViewDelegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.collectionArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
+    JLNFTGoodCollectionCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
     Model_members_favorate_arts_Data *facorateArtsData = self.collectionArray[indexPath.row];
-    cell.collectionArtData = facorateArtsData.favoritable;
+    cell.artDetailData = facorateArtsData.favoritable;
     return cell;
 }
 

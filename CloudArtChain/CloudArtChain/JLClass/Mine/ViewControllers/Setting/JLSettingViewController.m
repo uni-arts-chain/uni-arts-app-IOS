@@ -18,7 +18,9 @@
 #import "HVideoViewController.h"
 #import "JLFeedBackViewController.h"
 #import "JLAboutUsViewController.h"
+#import "JLProtocolViewController.h"
 
+#import "JLSettingTableHeaderView.h"
 #import "JLSettingTableViewCell.h"
 
 #import "UIImage+JLTool.h"
@@ -26,15 +28,22 @@
 @interface JLSettingViewController ()<UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, JLImageRectClipViewControllerDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, copy) NSArray *sectionTitleArray;
 //@property (nonatomic, strong) UIView *footerView;
 @end
 
 @implementation JLSettingViewController
 
+- (NSArray *)sectionTitleArray {
+    if (!_sectionTitleArray) {
+        _sectionTitleArray = @[@"基本信息",@"账号信息",@"其他"];
+    }
+    return _sectionTitleArray;
+}
+
 - (NSArray *)titleArray {
     if (!_titleArray) {
-//        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号", @"微信", @"登录密码"], @[@"实人认证", @"支付宝实名认证"]];
-        _titleArray = @[@[@"头像", @"昵称", @"描述", @"手机号"], @[@"意见反馈", @"关于我们"]];
+        _titleArray = @[@[@"头像", @"昵称", @"描述"], @[@"手机号"], @[@"意见反馈", @"关于我们",@"服务及隐私条款"]];
     }
     return _titleArray;
 }
@@ -42,8 +51,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"设置";
-    self.view.backgroundColor = JL_color_gray_F6F6F6;
     [self addBackItem];
+    
     [self createSubViews];
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
@@ -66,7 +75,6 @@
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        _tableView.backgroundColor = JL_color_gray_F6F6F6;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.estimatedRowHeight = 60.0f;
@@ -119,14 +127,18 @@
         if (indexPath.row == 0) {
             status = [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
         } else if(indexPath.row == 1) {
-            status = [AppSingleton sharedAppSingleton].userBody.display_name;
-        } else if(indexPath.row == 3) {
+            status = [AppSingleton sharedAppSingleton].userBody.display_name ? [AppSingleton sharedAppSingleton].userBody.display_name : @"未填写";
+        }else {
+            status = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"未填写" : [AppSingleton sharedAppSingleton].userBody.desc;
+        }
+    }else if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
             status = [[AppSingleton sharedAppSingleton].userBody getPhoneNumberWithoutCountryCode];
             if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
                 showArrow = NO;
+            }else {
+                status = @"未填写";
             }
-        } else {
-            status = @"";
         }
     } else {
         status = @"";
@@ -136,25 +148,25 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.0f;
+    return 54.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return CGFLOAT_MIN;
+    return 48.0f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10.0f;
+    return CGFLOAT_MIN;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [UIView new];
+    JLSettingTableHeaderView *headerView = [[JLSettingTableHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frameWidth, 48.0f)];
+    headerView.title = self.sectionTitleArray[section];
+    return headerView;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *footerView = [[UIView alloc] init];
-    footerView.backgroundColor = JL_color_gray_F6F6F6;
-    return footerView;
+    return [[UIView alloc] init];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -223,23 +235,19 @@
                 [self.navigationController pushViewController:personalDescVC animated:YES];
             }
                 break;
-            case 3:
-            {
-                if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
-                    JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
-                    bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
-                        [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
-                        [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-                    };
-                    [self.navigationController pushViewController:bindPhoneVC animated:YES];
-                }
-            }
-                break;
-                
             default:
                 break;
         }
     } else if (indexPath.section == 1) {
+        if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+            JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
+            bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
+                [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            };
+            [self.navigationController pushViewController:bindPhoneVC animated:YES];
+        }
+    } else {
         switch (indexPath.row) {
             case 0:
             {
@@ -257,20 +265,9 @@
                 break;
             case 2:
             {
-                JLForgetPwdViewController *forgetPwdVC = [[JLForgetPwdViewController alloc] init];
-                forgetPwdVC.forgetPwdType = JLForgetPwdTypeModify;
-                [self.navigationController pushViewController:forgetPwdVC animated:YES];
-            }
-                break;
-            default:
-                break;
-        }
-    } else {
-        switch (indexPath.row) {
-            case 0:
-            {
-                JLRealNameAuthVC *realNameVC = [[JLRealNameAuthVC alloc] init];
-                [self.navigationController pushViewController:realNameVC animated:YES];
+                // 隐私协议
+                JLProtocolViewController *protocolVC = [[JLProtocolViewController alloc] init];
+                [self.navigationController pushViewController:protocolVC animated:YES];
             }
                 break;
             default:
