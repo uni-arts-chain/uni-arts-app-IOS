@@ -42,7 +42,7 @@
         [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.view);
             make.bottom.mas_equalTo(-KTouch_Responder_Height);
-            make.height.mas_equalTo(46.0f);
+            make.height.mas_equalTo(50.0f);
         }];
         
         [self.view addSubview:self.tableView];
@@ -74,11 +74,7 @@
         _bottomView = [[UIView alloc] init];
         _bottomView.backgroundColor = JL_color_white_ffffff;
         
-        UIView *lineView = [[UIView alloc] init];
-        lineView.backgroundColor = JL_color_gray_DDDDDD;
-        [_bottomView addSubview:lineView];
-        
-        UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+        UILabel *payTitleLabel = [JLUIFactory labelInitText:@"待支付 " font:kFontPingFangSCRegular(13.0f) textColor:JL_color_black_40414D textAlignment:NSTextAlignmentLeft];
         [_bottomView addSubview:payTitleLabel];
         
         NSDecimalNumber *totalPriceNumber = [NSDecimalNumber decimalNumberWithString:self.sellingOrderData.price];
@@ -92,19 +88,20 @@
         }
         
         NSString *priceString = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
-        UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCRegular(14.0f) textColor:JL_color_red_D70000 textAlignment:NSTextAlignmentLeft];
+        UILabel *priceLabel = [JLUIFactory labelInitText:priceString font:kFontPingFangSCSCSemibold(19.0f) textColor:JL_color_mainColor textAlignment:NSTextAlignmentLeft];
+        
+        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:priceString];
+        [attrs addAttribute:NSFontAttributeName value:kFontPingFangSCSCSemibold(13) range:NSMakeRange(0, 1)];
+        [attrs addAttribute:NSKernAttributeName value:@(5) range:NSMakeRange(0, 1)];
+        priceLabel.attributedText = attrs;
         self.priceLabel = priceLabel;
         [_bottomView addSubview:priceLabel];
         
-        UIButton *submitButton = [JLUIFactory buttonInitTitle:@"去支付" titleColor:JL_color_white_ffffff backgroundColor:JL_color_black font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(submitBtnClick)];
+        UIButton *submitButton = [JLUIFactory buttonInitTitle:@"去支付" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCSCSemibold(18.0f) addTarget:self action:@selector(submitBtnClick)];
         submitButton.contentEdgeInsets = UIEdgeInsetsZero;
-        ViewBorderRadius(submitButton, 15.0f, 0.0f, JL_color_clear);
+        ViewBorderRadius(submitButton, 18.0f, 0.0f, JL_color_clear);
         [_bottomView addSubview:submitButton];
-        
-        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.right.equalTo(_bottomView);
-            make.height.mas_equalTo(1.0f);
-        }];
+
         [payTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(20.0f);
             make.centerY.equalTo(_bottomView.mas_centerY);
@@ -114,9 +111,9 @@
             make.centerY.equalTo(_bottomView.mas_centerY);
         }];
         [submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-16.0f);
-            make.width.mas_equalTo(118.0f);
-            make.height.mas_equalTo(30.0f);
+            make.right.mas_equalTo(-12.0f);
+            make.width.mas_equalTo(150.0f);
+            make.height.mas_equalTo(36.0f);
             make.centerY.equalTo(_bottomView.mas_centerY);
         }];
     }

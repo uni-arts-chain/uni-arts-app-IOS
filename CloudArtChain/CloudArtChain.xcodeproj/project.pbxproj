@@ -34,6 +34,8 @@
 		5E300DFD267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DFB267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m */; };
 		5E300E00267C480000A81FA7 /* JLNFTGoodCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DFF267C480000A81FA7 /* JLNFTGoodCollectionCell.m */; };
 		5E300E03267C7FEB00A81FA7 /* JLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300E02267C7FEB00A81FA7 /* JLTextField.m */; };
+		5E69BD4C26841F72007ADB04 /* JLCreatorPageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E69BD4B26841F72007ADB04 /* JLCreatorPageHeaderView.m */; };
+		5E69BD4F26842A64007ADB04 /* JLCreatorPageNavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E69BD4E26842A64007ADB04 /* JLCreatorPageNavView.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1261,6 +1263,10 @@
 		5E300DFF267C480000A81FA7 /* JLNFTGoodCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNFTGoodCollectionCell.m; sourceTree = "<group>"; };
 		5E300E01267C7FEB00A81FA7 /* JLTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLTextField.h; sourceTree = "<group>"; };
 		5E300E02267C7FEB00A81FA7 /* JLTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLTextField.m; sourceTree = "<group>"; };
+		5E69BD4A26841F72007ADB04 /* JLCreatorPageHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorPageHeaderView.h; sourceTree = "<group>"; };
+		5E69BD4B26841F72007ADB04 /* JLCreatorPageHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorPageHeaderView.m; sourceTree = "<group>"; };
+		5E69BD4D26842A64007ADB04 /* JLCreatorPageNavView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorPageNavView.h; sourceTree = "<group>"; };
+		5E69BD4E26842A64007ADB04 /* JLCreatorPageNavView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorPageNavView.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -6408,6 +6414,10 @@
 				B39DA757266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m */,
 				B3266F5024FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.h */,
 				B3266F5124FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.m */,
+				5E69BD4A26841F72007ADB04 /* JLCreatorPageHeaderView.h */,
+				5E69BD4B26841F72007ADB04 /* JLCreatorPageHeaderView.m */,
+				5E69BD4D26842A64007ADB04 /* JLCreatorPageNavView.h */,
+				5E69BD4E26842A64007ADB04 /* JLCreatorPageNavView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7380,6 +7390,7 @@
 				B31224DE25B6B60900562ECA /* ExportOption+ViewModel.swift in Sources */,
 				B312260525B6B60A00562ECA /* OnboardingMainWireframe.swift in Sources */,
 				B312255825B6B60A00562ECA /* RampProvider.swift in Sources */,
+				5E69BD4C26841F72007ADB04 /* JLCreatorPageHeaderView.m in Sources */,
 				B38BCFE725B81D1F00FD37F7 /* JLEmptyDataView.m in Sources */,
 				B312264A25B6B60A00562ECA /* WalletCommonStyleConfigurator.swift in Sources */,
 				B31225CE25B6B60A00562ECA /* AddConnectionViewController.swift in Sources */,
@@ -7482,6 +7493,7 @@
 				B39BEACD2513589700DE69A6 /* JLWorkListSelfBuyCell.m in Sources */,
 				B3753DCE2554F5A2003A86CF /* SLBlurView.m in Sources */,
 				B394A0AE262985A400A8DAE4 /* JLHomePageCollectionWaterLayout.m in Sources */,
+				5E69BD4F26842A64007ADB04 /* JLCreatorPageNavView.m in Sources */,
 				B394A0A526297A1100A8DAE4 /* JLCollectionHoveringView.m in Sources */,
 				B391CC44262D545600FF48B0 /* LAppTextureManager.mm in Sources */,
 				5EC7DF0B2681835000F4BE8B /* JLCustomerServiceContentView.m in Sources */,

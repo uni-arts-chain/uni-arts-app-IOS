@@ -15,9 +15,9 @@
 #import "JLHomePageCollectionViewCell.h"
 #import "JLNormalEmptyView.h"
 
-#import "JLHomePageCollectionWaterLayout.h"
+#import "XPCollectionViewWaterfallFlowLayout.h"
 
-@interface JLWorksListViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, JLPagetableCollectionViewRequestDelegate>
+@interface JLWorksListViewController ()<XPCollectionViewWaterfallFlowLayoutDataSource,UICollectionViewDataSource, UICollectionViewDelegate, JLPagetableCollectionViewRequestDelegate>
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSMutableArray *artsArray;
 @property (nonatomic, strong) JLNormalEmptyView *emptyView;
@@ -57,6 +57,36 @@
 - (void)JLPagetableCollectionView:(JLPagetableCollectionView *)JLPagetableView isPullDown:(BOOL)PullDown SuccessData:(id)SuccessData {
     //处理返回的SuccessData 数据之后刷新table
     [self.collectionView reloadData];
+}
+
+#pragma mark - XPCollectionViewWaterfallFlowLayout
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout numberOfColumnInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout itemWidth:(CGFloat)width heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.artsArray[indexPath.item];
+    return 72 + artDetailData.imgHeight;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(28, 12, 12, 12);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForFooterInSection:(NSInteger)section {
+    return 0.01;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -170,10 +200,11 @@
 - (JLPagetableCollectionView *)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        JLHomePageCollectionWaterLayout *layout = [JLHomePageCollectionWaterLayout layoutWithColoumn:2 data:self.artsArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
+        layout.dataSource = self;
 
-        _collectionView = [[JLPagetableCollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KTouch_Responder_Height - KStatusBar_Navigation_Height - 47.0f - 40.0f) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        _collectionView = [[JLPagetableCollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight -  KStatusBar_Navigation_Height - KTouch_Responder_Height - 44.0f - 40.0f) collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
@@ -238,7 +269,7 @@
 
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, 28.0f, kScreenWidth - 24, kScreenHeight - KTouch_Responder_Height)];
     }
     return _emptyView;
 }

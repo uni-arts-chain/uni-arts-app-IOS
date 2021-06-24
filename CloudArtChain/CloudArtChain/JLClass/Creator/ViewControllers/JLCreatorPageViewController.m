@@ -10,18 +10,22 @@
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
 
-#import "JLHomePageHeaderView.h"
-#import "JLPopularOriginalCollectionViewCell.h"
-#import "JLNormalEmptyView.h"
-#import "JLCreatorCollectionWaterLayout.h"
+#import "JLCreatorPageNavView.h"
+#import "JLCreatorPageHeaderView.h"
+#import "JLNFTGoodCollectionCell.h"
+#import "XPCollectionViewWaterfallFlowLayout.h"
 
-@interface JLCreatorPageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+#import "JLNormalEmptyView.h"
+
+@interface JLCreatorPageViewController ()< XPCollectionViewWaterfallFlowLayoutDataSource,UICollectionViewDelegate,UICollectionViewDataSource, UIScrollViewDelegate>
+@property (nonatomic, strong) JLCreatorPageNavView *navView;
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) JLHomePageHeaderView *homePageHeaderView;
-@property (nonatomic, strong) UIView *worksTitleView;
-@property (nonatomic, strong) UILabel *worksTitleLabel;
+@property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) JLCreatorPageHeaderView *headerView;
+
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UIButton *focusButton;
+@property (nonatomic, strong) MASConstraint *collectionHeightConstraint;
 
 @property (nonatomic, strong) NSMutableArray *artArray;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -32,40 +36,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"主页";
-    [self addBackItem];
+    self.fd_prefersNavigationBarHidden = YES;
+    
     [self createSubviews];
+    
+    [self.view addSubview:self.navView];
+    
     [self headRefresh];
 }
 
-//- (void)backClick {
-//    if (!self.authorData.follow_by_me && self.followOrCancelBlock) {
-//        self.followOrCancelBlock(self.authorData);
-//    }
-//    if (self.backBlock) {
-//        self.backBlock(self.authorData);
-//    }
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
-
 - (void)createSubviews {
-    [self.view addSubview:self.focusButton];
-    [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-        make.height.mas_equalTo(46.0f + KTouch_Responder_Height);
-    }];
+//    [self.view addSubview:self.focusButton];
+//    [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.view);
+//        make.bottom.equalTo(self.view);
+//        make.height.mas_equalTo(46.0f + KTouch_Responder_Height);
+//    }];
     
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
-        make.bottom.equalTo(self.focusButton.mas_top);
+        make.left.right.top.bottom.equalTo(self.view);
     }];
-    [self.scrollView addSubview:self.homePageHeaderView];
-    [self.scrollView addSubview:self.worksTitleView];
-    [self.scrollView addSubview:self.collectionView];
-    [self.collectionView  registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
+    
+    [self.scrollView addSubview:self.bgView];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView);
+    }];
+    
+    [self.bgView addSubview:self.headerView];
+    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self.bgView);
+    }];
+    
+    [self.bgView addSubview:self.collectionView];
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.headerView.mas_bottom);
+        make.left.right.equalTo(self.bgView);
+        make.bottom.equalTo(self.bgView).offset(-(KTouch_Responder_Height + 15));
+        self.collectionHeightConstraint = make.height.mas_equalTo(@200);
+    }];
 }
 
 - (UIButton *)focusButton {
@@ -129,11 +139,24 @@
     }
 }
 
+- (JLCreatorPageNavView *)navView {
+    if (!_navView) {
+        _navView = [[JLCreatorPageNavView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, KStatusBar_Navigation_Height)];
+        _navView.bgView.alpha = 0;
+        _navView.titleLabel.text = [NSString stringIsEmpty:self.authorData.display_name] ? @"未设置昵称" : self.authorData.display_name;
+        WS(weakSelf)
+        _navView.backBlock = ^{
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        };
+    }
+    return _navView;
+}
+
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         WS(weakSelf)
         _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = JL_color_white_ffffff;
+        _scrollView.delegate = self;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
@@ -146,87 +169,94 @@
     return _scrollView;
 }
 
-- (JLHomePageHeaderView *)homePageHeaderView {
-    if (!_homePageHeaderView) {
-        NSString *descStr = [NSString stringIsEmpty:self.authorData.desc] ? @"未设置描述" : self.authorData.desc;
-        CGFloat descHeight = [self getDescLabelHeight:descStr];
-        
-        _homePageHeaderView = [[JLHomePageHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight)];
-        _homePageHeaderView.authorData = self.authorData;
-        _homePageHeaderView.backgroundColor = JL_color_white_ffffff;
+- (UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = JL_color_vcBgColor;
     }
-    return _homePageHeaderView;
+    return _bgView;
 }
 
-- (CGFloat)getDescLabelHeight:(NSString *)descStr {
-    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
-    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
-    return rect.size.height + 20.0f;
-}
-
-- (UIView *)worksTitleView {
-    if (!_worksTitleView) {
-        _worksTitleView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.homePageHeaderView.frameBottom, kScreenWidth, 27.0f)];
-        _worksTitleView.backgroundColor = JL_color_white_ffffff;
-        
-        [_worksTitleView addSubview:self.worksTitleLabel];
-        
-        UIView *leftLineView = [[UIView alloc] init];
-        leftLineView.backgroundColor = JL_color_black;
-        [_worksTitleView addSubview:leftLineView];
-        
-        UIView *rightLineView = [[UIView alloc] init];
-        rightLineView.backgroundColor = JL_color_black;
-        [_worksTitleView addSubview:rightLineView];
-        
-        [self.worksTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(_worksTitleView);
-            make.centerX.equalTo(_worksTitleView);
-        }];
-        [leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(20.0f);
-            make.height.mas_equalTo(2.0f);
-            make.centerY.equalTo(self.worksTitleLabel);
-            make.right.equalTo(self.worksTitleLabel.mas_left).offset(-8.0f);
-        }];
-        [rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(20.0f);
-            make.height.mas_equalTo(2.0f);
-            make.centerY.equalTo(self.worksTitleLabel);
-            make.left.equalTo(self.worksTitleLabel.mas_right).offset(8.0f);
-        }];
+- (JLCreatorPageHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[JLCreatorPageHeaderView alloc] init];
+        _headerView.authorData = self.authorData;
     }
-    return _worksTitleView;
-}
-
-- (UILabel *)worksTitleLabel {
-    if (!_worksTitleLabel) {
-        _worksTitleLabel = [[UILabel alloc] init];
-        _worksTitleLabel.font = kFontPingFangSCSCSemibold(17.0f);
-        _worksTitleLabel.textColor = JL_color_gray_101010;
-        _worksTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _worksTitleLabel.text = @"TA出售的NFT";
-    }
-    return _worksTitleLabel;
+    return _headerView;
 }
 
 -(UICollectionView*)collectionView {
     if (!_collectionView) {
-        JLCreatorCollectionWaterLayout *layout = [JLCreatorCollectionWaterLayout layoutWithColoumn:2 data:self.artArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
-        NSInteger row = self.artArray.count / 2;
-        if (self.artArray.count % 2 != 0) {
-            row += 1;
-        }
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
+        XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
+        layout.dataSource = self;
+        
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.scrollEnabled = NO;
+        _collectionView.contentInset = UIEdgeInsetsMake(12, 0, 0, 0);
+        
+        [_collectionView  registerClass:[JLNFTGoodCollectionCell class] forCellWithReuseIdentifier:@"JLNFTGoodCollectionCell"];
     }
     return _collectionView;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (scrollView.contentOffset.y > 0) {
+        self.navView.bgView.alpha = scrollView.contentOffset.y / (0.312 * kScreenWidth + KStatusBar_Navigation_Height);
+    }else {
+        self.navView.bgView.alpha = 0;
+    }
+}
+
+#pragma mark - XPCollectionViewWaterfallFlowLayout
+- (NSInteger)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout numberOfColumnInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout itemWidth:(CGFloat)width heightForItemAtIndexPath:(NSIndexPath *)indexPath {
+    Model_art_Detail_Data *artDetailData = self.artArray[indexPath.item];
+    
+    CGFloat textH = [JLTool getAdaptionSizeWithText:artDetailData.name labelWidth:width - 25 font:kFontPingFangSCMedium(13.0f)].height;
+    if (textH > 36.4) {
+        textH = 36.4;
+    }
+    return 45 + textH + artDetailData.imgHeight;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(0, 12, 12, 12);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout*)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 12;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(XPCollectionViewWaterfallFlowLayout *)layout referenceHeightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (void)collectionViewContentSizeChange:(CGFloat)height {
+    
+    if (self.artArray.count) {
+        [self.collectionHeightConstraint uninstall];
+        [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+            self.collectionHeightConstraint = make.height.mas_equalTo(@(height));
+        }];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -236,13 +266,9 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
-    cell.authorArtData = self.artArray[indexPath.row];
+    JLNFTGoodCollectionCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    cell.artDetailData = self.artArray[indexPath.row];
     return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    [cell layoutSubviews];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -272,7 +298,8 @@
 
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, -70.0f, kScreenWidth - 24, 270)];
+        _emptyView.layer.cornerRadius = 5;
     }
     return _emptyView;
 }
@@ -331,8 +358,6 @@
             if (row == 0) {
                 row = 1;
             }
-            weakSelf.collectionView.frame = CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]);
-            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
             
             [weakSelf endRefresh:response.body];
             [self setNoDataShow];
@@ -341,28 +366,6 @@
             [weakSelf.scrollView.mj_footer endRefreshing];
         }
     }];
-}
-
-- (CGFloat)getCollectionViewHeight:(NSInteger)row {
-    CGFloat columnFirstHeight = row * 14.0f;
-    CGFloat columnSecondHeight = row * 14.0f;
-    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    for (int i = 0; i < self.artArray.count; i++) {
-        Model_art_Detail_Data *iconModel = self.artArray[i];
-        //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
-        if (i % 2 == 0) {
-            columnFirstHeight += itemH;
-        } else {
-            columnSecondHeight += itemH;
-        }
-    }
-    return MAX(columnFirstHeight, columnSecondHeight);
-}
-
-//计算cell的高度
-- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
-    return itemW * originSize.height / originSize.width;
 }
 
 @end

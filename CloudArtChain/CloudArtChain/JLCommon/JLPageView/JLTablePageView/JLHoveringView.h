@@ -41,7 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @optional
-
+/// 滑动偏移量
+- (void)didScrollContentOffset:(CGPoint)offset;
 
 
 @end

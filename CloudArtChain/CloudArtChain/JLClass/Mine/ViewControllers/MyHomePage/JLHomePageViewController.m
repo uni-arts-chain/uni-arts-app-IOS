@@ -21,6 +21,7 @@
 #import "JLTransferViewController.h"
 #import "JLCustomerServiceViewController.h"
 
+#import "JLCreatorPageNavView.h"
 #import "JLHoveringView.h"
 #import "JLHomePageEditHeaderView.h"
 
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) UIButton *uploadWorkBtn;
 @property (nonatomic, strong) JLHomePageEditHeaderView *homePageHeaderView;
 @property (nonatomic, strong) JLHoveringView *hovering;
+@property (nonatomic, strong) JLCreatorPageNavView *navView;
 @end
 
 @implementation JLHomePageViewController
@@ -37,8 +39,8 @@
 - (void)viewDidLoad {
     WS(weakSelf)
     [super viewDidLoad];
-    self.navigationItem.title = @"我的主页";
-    [self addBackItem];
+    self.fd_prefersNavigationBarHidden = YES;
+    
     if ([AppSingleton sharedAppSingleton].userBody == nil) {
         [AppSingleton loginInfonWithBlock:^{
             [weakSelf setupSubViews];
@@ -46,25 +48,40 @@
     } else {
         [self setupSubViews];
     }
+    
+    [self.view addSubview:self.navView];
+}
+
+- (JLCreatorPageNavView *)navView {
+    if (!_navView) {
+        _navView = [[JLCreatorPageNavView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, KStatusBar_Navigation_Height)];
+        _navView.bgView.alpha = 0;
+        _navView.titleLabel.text = @"我的主页";
+        WS(weakSelf)
+        _navView.backBlock = ^{
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        };
+    }
+    return _navView;
 }
 
 - (void)setupSubViews {
     WS(weakSelf)
     [self.view addSubview:self.uploadWorkBtn];
     
-    CGFloat height = kScreenHeight - KTouch_Responder_Height - KStatusBar_Navigation_Height - 47.0f;
+    CGFloat height = kScreenHeight - KTouch_Responder_Height - 44.0f;
     
     JLHoveringView *hovering = [[JLHoveringView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, height) deleaget:self];
     hovering.isMidRefresh = NO;
     [self.view addSubview:hovering];
     self.hovering = hovering;
 
-    hovering.pageView.defaultTitleColor = JL_color_gray_999999;
-    hovering.pageView.selectTitleColor = JL_color_gray_101010;
-    hovering.pageView.lineColor = JL_color_gray_333333;
-    hovering.pageView.lineWitdhScale = 0.18f;
-    hovering.pageView.defaultTitleFont = kFontPingFangSCRegular(15.0f);
-    hovering.pageView.selectTitleFont = kFontPingFangSCSCSemibold(16.0f);
+    hovering.pageView.defaultTitleColor = JL_color_gray_87888F;
+    hovering.pageView.selectTitleColor = JL_color_mainColor;
+    hovering.pageView.lineColor = JL_color_mainColor;
+    hovering.pageView.lineWitdhScale = 0.6f;
+    hovering.pageView.defaultTitleFont = kFontPingFangSCMedium(14.0f);
+    hovering.pageView.selectTitleFont = kFontPingFangSCSCSemibold(14.0f);
         
     //设置头部刷新的方法。头部刷新的话isMidRefresh 必须为NO
     hovering.scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
@@ -77,6 +94,7 @@
     [workListVC headRefresh];
 }
 
+#pragma mark - JLHoveringListViewDelegate
 - (NSArray *)listView {
     NSMutableArray *tableViewArray = [NSMutableArray array];
     for (JLWorksListViewController *worksListVC in self.viewControllers) {
@@ -97,12 +115,23 @@
     return self.titles;
 }
 
+- (void)didScrollContentOffset:(CGPoint)offset {
+    
+    if (offset.y > 0) {
+        self.navView.bgView.alpha = offset.y / (0.15 * kScreenWidth + KStatusBar_Navigation_Height);
+    }else {
+        self.navView.bgView.alpha = 0;
+    }
+}
+
 - (JLHomePageEditHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
         WS(weakSelf)
-        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
-        CGFloat descHeight = [self getDescLabelHeight:descStr];
-        _homePageHeaderView = [[JLHomePageEditHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight)];
+        CGFloat descHeight = 242;
+        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
+            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+        }
+        _homePageHeaderView = [[JLHomePageEditHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight)];
         _homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
         
         _homePageHeaderView.nameEditBlock = ^{
@@ -116,9 +145,11 @@
                     [[JLLoading sharedLoading] hideLoading];
                     if (netIsWork) {
                         [AppSingleton sharedAppSingleton].userBody = response.body;
-                        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
-                        CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
-                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                        CGFloat descHeight = 242;
+                        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
+                            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                        }
+                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                         [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
                     } else {
@@ -140,9 +171,11 @@
                     [[JLLoading sharedLoading] hideLoading];
                     if (netIsWork) {
                         [AppSingleton sharedAppSingleton].userBody = response.body;
-                        NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
-                        CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
-                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                        CGFloat descHeight = 242;
+                        if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
+                            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                        }
+                        weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                         [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
                     } else {
@@ -155,9 +188,11 @@
         _homePageHeaderView.avatarEditBlock = ^{
             JLSettingViewController *settingVC = [[JLSettingViewController alloc] init];
             settingVC.backBlock = ^{
-                NSString *descStr = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"请输入描述内容" : [AppSingleton sharedAppSingleton].userBody.desc;
-                CGFloat descHeight = [weakSelf getDescLabelHeight:descStr];
-                weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, 206.0f + descHeight);
+                CGFloat descHeight = 242;
+                if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
+                    descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                }
+                weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                 [weakSelf.hovering reloadView];
                 weakSelf.homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
             };
@@ -169,8 +204,8 @@
 
 - (CGFloat)getDescLabelHeight:(NSString *)descStr {
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
-    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
-    return rect.size.height + 20.0f;
+    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(12) labelWidth:kScreenWidth - 24.0f * 2 lineSpace:2.0f];
+    return rect.size.height;
 }
 
 - (NSArray <UIViewController *> *)viewControllers {
@@ -306,7 +341,7 @@
             __weak JLTransferViewController *weakTransferVC = transferVC;
             transferVC.transferSuccessBlock = ^{
                 [weakTransferVC.navigationController popViewControllerAnimated:YES];
-                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交转让申请" hideTime:KToastDismissDelayTimeInterval];
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已提交赠送申请" hideTime:KToastDismissDelayTimeInterval];
                 for (JLWorksListViewController *workListVC in weakSelf.viewControllers) {
                     [workListVC headRefresh];
                 }
@@ -320,7 +355,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"持有的NFT", @"出售的NFT"];
+        _titles = @[@"持有的商品", @"出售的商品"];
     }
     return _titles;
 }
@@ -328,11 +363,11 @@
 - (UIButton *)uploadWorkBtn {
     if (!_uploadWorkBtn) {
         _uploadWorkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _uploadWorkBtn.frame = CGRectMake(0.0f, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height - 47.0f, kScreenWidth, 47.0f + KTouch_Responder_Height);
-        _uploadWorkBtn.backgroundColor = JL_color_gray_101010;
+        _uploadWorkBtn.frame = CGRectMake(0.0f, kScreenHeight - KTouch_Responder_Height - 44.0f, kScreenWidth, 44.0f + KTouch_Responder_Height);
+        _uploadWorkBtn.backgroundColor = JL_color_mainColor;
         [_uploadWorkBtn setTitle:@"上传作品" forState:UIControlStateNormal];
         [_uploadWorkBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-        _uploadWorkBtn.titleLabel.font = kFontPingFangSCRegular(17.0f);
+        _uploadWorkBtn.titleLabel.font = kFontPingFangSCMedium(16);
         [_uploadWorkBtn addTarget:self action:@selector(uploadWorkBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _uploadWorkBtn;

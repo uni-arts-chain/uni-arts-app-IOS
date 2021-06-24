@@ -44,8 +44,8 @@
         make.width.mas_equalTo(KNavigation_Height);
     }];
     [self.unreadMessageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.messageBtn).offset(8.0f);
-        make.right.equalTo(self.messageBtn).offset(-8.0f);
+        make.top.equalTo(self.messageBtn).offset(10.0f);
+        make.right.equalTo(self.messageBtn).offset(-10.0f);
         make.size.mas_equalTo(8.0f);
     }];
     [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -44,7 +44,8 @@
 - (void)reloadView {
     UIView *headView = [self.delegate headView];
     self.headHeight = headView.frame.size.height;
-    self.pageView.frame = CGRectMake(0, self.headHeight, self.frame.size.width, self.frame.size.height + self.headHeight);
+    self.pageView.frame = CGRectMake(12, self.headHeight, self.frame.size.width - 24, self.frame.size.height + self.headHeight);
+    [_pageView setCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight radius:CGSizeMake(5, 5)];
 }
 
 - (JLPageView *)pageView
@@ -70,14 +71,18 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.scrollView) {
+        if (_delegate && [_delegate respondsToSelector:@selector(didScrollContentOffset:)]) {
+            [_delegate didScrollContentOffset:scrollView.contentOffset];
+        }
         /**设置headView的位置*/
         //偏移量大于等于某个值悬停
-        if (self.scrollView.contentOffset.y >= self.headHeight) {
-            self.scrollView.contentOffset = CGPointMake(0, self.headHeight);
+        CGFloat oriOffsetY = self.headHeight - KStatusBar_Navigation_Height;
+        if (self.scrollView.contentOffset.y >= oriOffsetY) {
+            self.scrollView.contentOffset = CGPointMake(0, oriOffsetY);
             self.isHover = YES;
         } else {
             if (self.isHover) {
-                self.scrollView.contentOffset = CGPointMake(0, self.headHeight);
+                self.scrollView.contentOffset = CGPointMake(0, oriOffsetY);
             }
         }
 
@@ -85,7 +90,7 @@
             self.scrollView.contentOffset = CGPointZero;
         }else{
             /**设置下面列表的位置*/
-            if (self.scrollView.contentOffset.y < self.headHeight) {
+            if (self.scrollView.contentOffset.y < oriOffsetY) {
                 if (!self.isHover) {
                     //列表的便宜度都设置为零
                     NSArray<UIScrollView *> *tem  = [self.delegate listView];

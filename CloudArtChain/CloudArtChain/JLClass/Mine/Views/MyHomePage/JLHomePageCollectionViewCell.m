@@ -14,7 +14,6 @@
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UIImageView *lineImageView;
 @property (nonatomic, strong) UIButton *sellButton;
 @property (nonatomic, strong) UIButton *offShelfButton;
 @property (nonatomic, strong) UIButton *transferButton;
@@ -35,11 +34,6 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
-}
-
 - (void)createSubViews {
     [self.contentView addSubview:self.backView];
     [self.backView addSubview:self.imageView];
@@ -49,55 +43,41 @@
     [self.backView addSubview:self.bottomView];
     [self.bottomView addSubview:self.nameLabel];
     [self.bottomView addSubview:self.priceLabel];
-    [self.bottomView addSubview:self.lineImageView];
     [self.bottomView addSubview:self.sellButton];
     [self.bottomView addSubview:self.offShelfButton];
     [self.bottomView addSubview:self.transferButton];
     [self.bottomView addSubview:self.playImgView];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.contentView);
+        make.top.left.bottom.right.equalTo(self.contentView);
     }];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.backView);
-        make.height.mas_equalTo(85.0f);
+        make.height.mas_equalTo(72.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.bottomView).offset(10.0f);
-        make.right.equalTo(self.bottomView).offset(-10.0f);
-        make.top.equalTo(self.bottomView).offset(2.0f);
-        make.height.mas_equalTo(20.0f);
+        make.left.equalTo(self.bottomView).offset(13.0f);
+        make.right.equalTo(self.bottomView).offset(-83.0f);
+        make.top.equalTo(self.bottomView).offset(16.0f);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.bottomView).offset(10.0f);
-        make.right.equalTo(self.bottomView).offset(-10.0f);
-        make.top.equalTo(self.nameLabel.mas_bottom);
-        make.height.mas_equalTo(20.0f);
-    }];
-    
-    [self.lineImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.priceLabel.mas_bottom).offset(3.0f);
-        make.left.mas_equalTo(12.0f);
-        make.right.mas_equalTo(-12.0f);
-        make.height.mas_equalTo(0.5f);
+        make.right.equalTo(self.bottomView).offset(-12.0f);
+        make.centerY.equalTo(self.nameLabel);
     }];
     [self.transferButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineImageView.mas_bottom).offset(8.0f);
-        make.left.mas_equalTo(15.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(22.0f);
+        make.right.bottom.equalTo(self.bottomView);
+        make.width.mas_equalTo(49.0f);
+        make.height.mas_equalTo(37.0f);
     }];
     [self.sellButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(22.0f);
+        make.left.bottom.equalTo(self.bottomView);
+        make.width.mas_equalTo(49.0f);
+        make.height.mas_equalTo(37.0f);
     }];
     [self.offShelfButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.width.mas_equalTo(60.0f);
-        make.height.mas_equalTo(22.0f);
+        make.left.bottom.equalTo(self.bottomView);
+        make.width.mas_equalTo(49.0f);
+        make.height.mas_equalTo(37.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.backView);
@@ -119,7 +99,6 @@
         make.bottom.equalTo(self.imageView.mas_bottom).offset(-13.0f);
         make.width.height.mas_equalTo(@26.0f);
     }];
-    [self.contentView setNeedsLayout];
 }
 
 - (UIView *)backView {
@@ -127,15 +106,15 @@
         //WithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 250.0f)
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
+        _backView.layer.cornerRadius = 5;
+        _backView.layer.masksToBounds = YES;
     }
     return _backView;
 }
 
 - (UIImageView *)imageView {
     if (!_imageView) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 220.0f)];
-        [_imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 12.0f * 2 - 12.0f) * 0.5f, 220.0f)];
     }
     return _imageView;
 }
@@ -150,8 +129,10 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = kFontPingFangSCMedium(14.0f);
-        _nameLabel.textColor = JL_color_gray_101010;
+        _nameLabel.font = kFontPingFangSCMedium(13.0f);
+        _nameLabel.textColor = JL_color_black_40414D;
+        _nameLabel.numberOfLines = 1;
+        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _nameLabel;
 }
@@ -160,28 +141,20 @@
     if (!_priceLabel) {
         _priceLabel = [[UILabel alloc] init];
         _priceLabel.font = kFontPingFangSCRegular(13.0f);
-        _priceLabel.textColor = JL_color_gray_101010;
+        _priceLabel.textColor = JL_color_mainColor;
+        _priceLabel.textAlignment = NSTextAlignmentRight;
     }
     return _priceLabel;
-}
-
-- (UIImageView *)lineImageView {
-    if (!_lineImageView) {
-        _lineImageView = [[UIImageView alloc] init];
-        _lineImageView.image = [UIImage imageNamed:@"icon_homepage_line"];
-    }
-    return _lineImageView;
 }
 
 - (UIButton *)sellButton {
     if (!_sellButton) {
         _sellButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_sellButton setTitle:@"出售" forState:UIControlStateNormal];
-        [_sellButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        _sellButton.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_sellButton setTitleColor:JL_color_mainColor forState:UIControlStateNormal];
+        _sellButton.titleLabel.font = kFontPingFangSCMedium(13.0f);
         _sellButton.hidden = YES;
         [_sellButton addTarget:self action:@selector(sellButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_sellButton, 11.0f, 1.0f, JL_color_gray_101010);
     }
     return _sellButton;
 }
@@ -196,11 +169,10 @@
     if (!_offShelfButton) {
         _offShelfButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_offShelfButton setTitle:@"下架" forState:UIControlStateNormal];
-        [_offShelfButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        _offShelfButton.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_offShelfButton setTitleColor:JL_color_mainColor forState:UIControlStateNormal];
+        _offShelfButton.titleLabel.font = kFontPingFangSCMedium(13.0f);
         _offShelfButton.hidden = YES;
         [_offShelfButton addTarget:self action:@selector(offShelfButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_offShelfButton, 11.0f, 1.0f, JL_color_gray_101010);
     }
     return _offShelfButton;
 }
@@ -223,11 +195,10 @@
 - (UIButton *)transferButton {
     if (!_transferButton) {
         _transferButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_transferButton setTitle:@"转让" forState:UIControlStateNormal];
-        [_transferButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        _transferButton.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_transferButton setTitle:@"赠送" forState:UIControlStateNormal];
+        [_transferButton setTitleColor:JL_color_gray_87888F forState:UIControlStateNormal];
+        _transferButton.titleLabel.font = kFontPingFangSCMedium(13.0f);
         [_transferButton addTarget:self action:@selector(transferButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_transferButton, 11.0f, 1.0f, JL_color_gray_101010);
     }
     return _transferButton;
 }
@@ -266,7 +237,7 @@
 - (UIView *)live2DView {
     if (!_live2DView) {
         _live2DView = [[UIView alloc] init];
-        _live2DView.backgroundColor = JL_color_black;
+        _live2DView.backgroundColor = JL_color_mainColor;
         _live2DView.hidden = YES;
         
         UILabel *live2DLabel = [JLUIFactory labelInitText:@"Live 2D" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
@@ -283,8 +254,6 @@
     self.artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 85.0f);
-        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:artDetailData.price] ? @"0" : artDetailData.price];
@@ -320,17 +289,6 @@
             self.transferButton.hidden = YES;
         }
     }
-    
-    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 85.0f + artDetailData.imgHeight) itemW:itemW];
-    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
-    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
-
-//计算cell的高度
-- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
-    return itemW * originSize.height / originSize.width;
-}
-
 
 @end

@@ -94,7 +94,7 @@
         make.left.equalTo(self.shadowView).offset(12.0f);
         make.top.equalTo(self.productImageView.mas_bottom).offset(20.0f);
         make.width.mas_equalTo((kScreenWidth - 24.0f));
-        make.height.mas_equalTo(@1.0f);
+        make.height.mas_equalTo(@1);
     }];
     [self.numTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
@@ -113,7 +113,7 @@
         make.top.equalTo(self.numTitleLabel.mas_bottom);
         make.left.equalTo(self.numTitleLabel);
         make.right.equalTo(self.shadowView).offset(-12.0f);
-        make.height.mas_equalTo(@0.5);
+        make.height.mas_equalTo(@1);
     }];
     [self.totalPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
@@ -128,7 +128,7 @@
         make.top.equalTo(self.totalPriceTitleLabel.mas_bottom);
         make.left.equalTo(self.totalPriceTitleLabel);
         make.right.equalTo(self.shadowView).offset(-12.0f);
-        make.height.mas_equalTo(@0.5);
+        make.height.mas_equalTo(@1);
     }];
     [self.royaltyTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.productImageView.mas_left);
@@ -140,9 +140,6 @@
         make.right.equalTo(self.shadowView).offset(-12.0f);
         make.centerY.equalTo(self.royaltyTitleLabel.mas_centerY);
     }];
-    
-    [self.lineView layoutIfNeeded];
-    [UIView drawDashLine:self.lineView lineLength:3 lineSpacing:3 lineColor:JL_color_black_40414D orientation:1];
 }
 
 - (UIView *)shadowView {
@@ -198,6 +195,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
+        _lineView.backgroundColor = JL_color_gray_EDEDEE;
     }
     return _lineView;
 }

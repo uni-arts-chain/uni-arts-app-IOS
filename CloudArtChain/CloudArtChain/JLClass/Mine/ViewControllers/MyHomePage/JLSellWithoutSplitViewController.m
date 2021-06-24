@@ -10,9 +10,13 @@
 #import "JLBaseTextField.h"
 
 @interface JLSellWithoutSplitViewController ()
+@property (nonatomic, strong) UIView *bgView;
+
 @property (nonatomic, strong) UIView *artPriceView;
 @property (nonatomic, strong) UILabel *artPriceTitleLabel;
 @property (nonatomic, strong) UILabel *artPriceLabel;
+
+@property (nonatomic, strong) UIView *middleLineView;
 
 @property (nonatomic, strong) UIView *currentPriceView;
 @property (nonatomic, strong) UILabel *currentPriceTitleLabel;
@@ -37,61 +41,78 @@
 
 - (void)createSubViews {
     WS(weakSelf)
-    [self.view addSubview:self.artPriceView];
+    [self.view addSubview:self.bgView];
+    
+    [self.bgView addSubview:self.artPriceView];
     [self.artPriceView addSubview:self.artPriceTitleLabel];
     [self.artPriceView addSubview:self.artPriceLabel];
     
-    [self.view addSubview:self.currentPriceView];
+    [self.bgView addSubview:self.currentPriceView];
     [self.currentPriceView addSubview:self.currentPriceTitleLabel];
     [self.currentPriceView addSubview:self.unitLabel];
     [self.currentPriceView addSubview:self.currentPriceTF];
     [self.currentPriceView addSubview:self.lineView];
     
+    [self.bgView addSubview:self.middleLineView];
+    
     [self.view addSubview:self.sellButton];
     
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(18);
+        make.left.equalTo(self.view).offset(12);
+        make.right.equalTo(self.view).offset(-12);
+        make.height.mas_equalTo(@108);
+    }];
+    
     [self.artPriceView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.top.mas_equalTo(15.0f);
-        make.height.mas_equalTo(50.0f);
+        make.left.top.right.equalTo(self.bgView);
+        make.height.mas_equalTo(54.0f);
     }];
     [self.artPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.equalTo(self.artPriceView);
+        make.left.equalTo(self.artPriceView).offset(12.0f);
+        make.top.bottom.equalTo(self.artPriceView);
     }];
     [self.artPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.top.bottom.equalTo(self.artPriceView);
+        make.right.equalTo(self.artPriceView).offset(-12.0f);
+        make.centerY.equalTo(self.artPriceView.mas_centerY);
+    }];
+    
+    [self.middleLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.bgView).offset(12);
+        make.right.equalTo(self.bgView).offset(-12);
+        make.centerY.equalTo(self.bgView);
+        make.height.mas_equalTo(@1);
     }];
     
     [self.currentPriceView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
+        make.left.right.equalTo(self.bgView);
         make.top.equalTo(self.artPriceView.mas_bottom);
-        make.height.mas_equalTo(50.0f);
+        make.height.mas_equalTo(54.0f);
     }];
     [self.currentPriceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.currentPriceView);
-        make.centerY.equalTo(self.currentPriceView.mas_centerY);
+        make.left.equalTo(self.currentPriceView).offset(12.0f);
+        make.top.bottom.equalTo(self.currentPriceView);
     }];
     [self.currentPriceTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.currentPriceView);
-        make.bottom.equalTo(self.currentPriceTitleLabel.mas_bottom);
-        make.width.mas_equalTo(100.0f);
+        make.right.equalTo(self.currentPriceView).offset(-12);
+        make.top.bottom.equalTo(self.currentPriceView);
+        make.width.mas_equalTo(50.0f);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.currentPriceTF.mas_left);
         make.right.equalTo(self.currentPriceTF.mas_right);
-        make.height.mas_equalTo(0.5f);
-        make.top.equalTo(self.currentPriceTF.mas_bottom);
+        make.height.mas_equalTo(1.0f);
+        make.bottom.equalTo(self.currentPriceTF).offset(-15);
     }];
     [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.currentPriceTF.mas_left).offset(-12.0f);
         make.centerY.equalTo(self.currentPriceTF.mas_centerY);
     }];
     [self.sellButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.currentPriceView.mas_bottom).offset(28.0f);
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(46.0f);
+        make.top.equalTo(self.bgView.mas_bottom).offset(159.0f);
+        make.left.mas_equalTo(63.0f);
+        make.right.mas_equalTo(-63.0f);
+        make.height.mas_equalTo(44.0f);
     }];
     
     [self.currentPriceTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
@@ -157,6 +178,24 @@
     }];
 }
 
+- (UIView *)bgView {
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = JL_color_white_ffffff;
+        _bgView.layer.cornerRadius = 8;
+        _bgView.layer.masksToBounds = YES;
+    }
+    return _bgView;
+}
+
+- (UIView *)middleLineView {
+    if (!_middleLineView) {
+        _middleLineView = [[UIView alloc] init];
+        _middleLineView.backgroundColor = JL_color_gray_EDEDEE;
+    }
+    return _middleLineView;
+}
+
 - (UIView *)artPriceView {
     if (!_artPriceView) {
         _artPriceView = [[UIView alloc] init];
@@ -166,14 +205,14 @@
 
 - (UILabel *)artPriceTitleLabel {
     if (!_artPriceTitleLabel) {
-        _artPriceTitleLabel = [JLUIFactory labelInitText:@"当前价格" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _artPriceTitleLabel = [JLUIFactory labelInitText:@"当前价格" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _artPriceTitleLabel;
 }
 
 - (UILabel *)artPriceLabel {
     if (!_artPriceLabel) {
-        _artPriceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:self.artDetailData.price] ? @"0" : self.artDetailData.price] font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
+        _artPriceLabel = [JLUIFactory labelInitText:[NSString stringWithFormat:@"¥ %@", [NSString stringIsEmpty:self.artDetailData.price] ? @"0" : self.artDetailData.price] font:kFontPingFangSCMedium(14) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentRight];
     }
     return _artPriceLabel;
 }
@@ -187,14 +226,14 @@
 
 - (UILabel *)currentPriceTitleLabel {
     if (!_currentPriceTitleLabel) {
-        _currentPriceTitleLabel = [JLUIFactory labelInitText:@"本次出售价格" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _currentPriceTitleLabel = [JLUIFactory labelInitText:@"本次出售价格" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _currentPriceTitleLabel;
 }
 
 - (UILabel *)unitLabel {
     if (!_unitLabel) {
-        _unitLabel = [JLUIFactory labelInitText:@"¥" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _unitLabel = [JLUIFactory labelInitText:@"¥" font:kFontPingFangSCMedium(14) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _unitLabel;
 }
@@ -202,7 +241,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = JL_color_gray_BEBEBE;
+        _lineView.backgroundColor = JL_color_gray_87888F;
     }
     return _lineView;
 }
@@ -210,14 +249,16 @@
 - (JLBaseTextField *)currentPriceTF {
     if (!_currentPriceTF) {
         _currentPriceTF = [[JLBaseTextField alloc]init];
-        _currentPriceTF.font = kFontPingFangSCRegular(16.0f);
-        _currentPriceTF.textColor = JL_color_gray_101010;
+        _currentPriceTF.font = kFontPingFangSCMedium(14);
+        _currentPriceTF.textColor = JL_color_black_101220;
         _currentPriceTF.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _currentPriceTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _currentPriceTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _currentPriceTF.textFieldType = TextFieldType_withdrawAmout;
         _currentPriceTF.keyboardType = UIKeyboardTypeDecimalPad;
-        _currentPriceTF.text = @"0";
+        NSDictionary *dic = @{NSForegroundColorAttributeName: JL_color_gray_87888F, NSFontAttributeName: kFontPingFangSCRegular(14.0f)};
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:@"0" attributes:dic];
+        _currentPriceTF.attributedPlaceholder = attr;
         _currentPriceTF.textAlignment = NSTextAlignmentCenter;
     }
     return _currentPriceTF;
@@ -228,9 +269,9 @@
         _sellButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_sellButton setTitle:@"出售" forState:UIControlStateNormal];
         [_sellButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-        _sellButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _sellButton.backgroundColor = JL_color_gray_101010;
-        ViewBorderRadius(_sellButton, 23.0f, 0.0f, JL_color_clear);
+        _sellButton.titleLabel.font = kFontPingFangSCMedium(17.0f);
+        _sellButton.backgroundColor = JL_color_mainColor;
+        ViewBorderRadius(_sellButton, 22.0f, 0.0f, JL_color_clear);
         [_sellButton addTarget:self action:@selector(sellButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sellButton;

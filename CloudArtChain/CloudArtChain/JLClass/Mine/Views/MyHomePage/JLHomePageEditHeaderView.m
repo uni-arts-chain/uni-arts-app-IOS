@@ -9,13 +9,25 @@
 #import "JLHomePageEditHeaderView.h"
 
 @interface JLHomePageEditHeaderView ()
-@property (nonatomic, strong) UIView *avatarBackView;
-@property (nonatomic, strong) UIImageView *avatarImageView;
-@property (nonatomic, strong) UIButton *avatarEditButton;
+
+@property (nonatomic, strong) UIImageView *bgImgView;
+
+@property (nonatomic, strong) UIView *authorBgView;
+
+@property (nonatomic, strong) UIImageView *authorImgView;
+
 @property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIButton *nameEditButton;
-@property (nonatomic, strong) UILabel *infoLabel;
-@property (nonatomic, strong) UIButton *infoEditButton;
+
+@property (nonatomic, strong) UILabel *descLabel;
+
+@property (nonatomic, strong) UIView *lineView;
+
+@property (nonatomic, strong) UIView *editDescBgView;
+
+@property (nonatomic, strong) UILabel *editLabel;
+
+@property (nonatomic, strong) UIImageView *editImgView;
+
 @end
 
 @implementation JLHomePageEditHeaderView
@@ -27,153 +39,162 @@
 }
 
 - (void)setupSubViews {
-    [self addSubview:self.avatarBackView];
-    [self addSubview:self.nameLabel];
-    [self.nameLabel addSubview:self.nameEditButton];
-    [self addSubview:self.infoLabel];
-    [self.infoLabel addSubview:self.infoEditButton];
     
-    [self.avatarBackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(18.0f);
-        make.size.mas_equalTo(116.0f);
-        make.centerX.equalTo(self.mas_centerX);
+    _bgImgView = [[UIImageView alloc] init];
+    _bgImgView.image = [UIImage imageNamed:@"home_page_top_bg"];
+    [self addSubview:_bgImgView];
+    [_bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self);
+        make.height.mas_equalTo(@(KStatusBar_Navigation_Height + 96));
     }];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.top.equalTo(self.avatarBackView.mas_bottom).offset(20.0f);
-        make.height.mas_equalTo(15.0f);
+    
+    _authorBgView = [[UIView alloc] init];
+    _authorBgView.backgroundColor = JL_color_white_ffffff;
+    _authorBgView.layer.shadowColor = JL_color_gray_ECECEC.CGColor;
+    _authorBgView.layer.shadowOffset = CGSizeMake(0,3);
+    _authorBgView.layer.shadowRadius = 5;
+    _authorBgView.layer.shadowOpacity = 1;
+    [self addSubview:_authorBgView];
+    [_authorBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(KStatusBar_Navigation_Height + 22);
+        make.left.equalTo(self).offset(12);
+        make.right.equalTo(self).offset(-12);
+        make.bottom.equalTo(self);
     }];
-    [self.nameEditButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.nameLabel);
+    
+    _authorImgView = [[UIImageView alloc] init];
+    _authorImgView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+    _authorImgView.layer.cornerRadius = 33;
+    _authorImgView.layer.borderWidth = 2;
+    _authorImgView.layer.borderColor = JL_color_white_ffffff.CGColor;
+    _authorImgView.clipsToBounds = YES;
+    _authorImgView.userInteractionEnabled = YES;
+    [_authorImgView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(authorImgViewDidTap:)]];
+    [self addSubview:_authorImgView];
+    [_authorImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.authorBgView);
+        make.centerY.equalTo(self.authorBgView.mas_top);
+        make.width.height.mas_equalTo(@66);
     }];
-    [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.nameLabel.mas_bottom).offset(17.0f);
-        make.left.mas_equalTo(40.0f);
-        make.right.mas_equalTo(-40.0f);
-        make.bottom.equalTo(self).offset(-20.0f);
+    
+    _nameLabel = [[UILabel alloc] init];
+    _nameLabel.textColor = JL_color_black_101220;
+    _nameLabel.font = kFontPingFangSCSCSemibold(15);
+    _nameLabel.textAlignment = NSTextAlignmentCenter;
+    _nameLabel.numberOfLines = 0;
+    _nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    _nameLabel.userInteractionEnabled = YES;
+    [_nameLabel addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nameLabelDidTap:)]];
+    [_authorBgView addSubview:_nameLabel];
+    [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.authorBgView).offset(40);
+        make.left.equalTo(self.authorBgView).offset(12);
+        make.right.equalTo(self.authorBgView).offset(-12);
     }];
-    [self.infoEditButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.infoLabel);
+    
+    _descLabel = [[UILabel alloc] init];
+    _descLabel.textColor = JL_color_black_101220;
+    _descLabel.font = kFontPingFangSCRegular(12);
+    _descLabel.textAlignment = NSTextAlignmentCenter;
+    _descLabel.numberOfLines = 0;
+    _descLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    _descLabel.userInteractionEnabled = YES;
+    [_descLabel addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(desLabelDidTap:)]];
+    [_authorBgView addSubview:_descLabel];
+    [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(10);
+        make.left.right.equalTo(self.nameLabel);
+    }];
+    
+    _lineView = [[UIView alloc] init];
+    _lineView.backgroundColor = JL_color_gray_EDEDEE;
+    [_authorBgView addSubview:_lineView];
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.authorBgView);
+        make.left.right.equalTo(self.authorBgView);
+        make.height.mas_equalTo(@1);
+    }];
+    
+    _editDescBgView = [[UIView alloc] init];
+    _editDescBgView.hidden = YES;
+    _editDescBgView.userInteractionEnabled = YES;
+    [_editDescBgView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editDescBgViewDidTap:)]];
+    [_authorBgView addSubview:_editDescBgView];
+    [_editDescBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(35);
+        make.centerX.equalTo(self.authorBgView);
+    }];
+    
+    _editLabel = [[UILabel alloc] init];
+    _editLabel.text = @"请输入描述内容";
+    _editLabel.textColor = JL_color_gray_87888F;
+    _editLabel.textAlignment = NSTextAlignmentCenter;
+    _editLabel.font = kFontPingFangSCRegular(12);
+    [_editDescBgView addSubview:_editLabel];
+    [_editLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.editDescBgView);
+    }];
+    
+    _editImgView = [[UIImageView alloc] init];
+    _editImgView.image = [UIImage imageNamed:@"home_page_placeholder_edit"];
+    [_editDescBgView addSubview:_editImgView];
+    [_editImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.editLabel.mas_right).offset(21);
+        make.centerY.equalTo(self.editLabel);
+        make.right.equalTo(self.editDescBgView);
+        make.width.height.mas_equalTo(@12);
     }];
 }
 
-- (UIView *)avatarBackView {
-    if (!_avatarBackView) {
-        _avatarBackView = [[UIView alloc] init];
-        _avatarBackView.backgroundColor = JL_color_purple_F0F5FF;
-        ViewBorderRadius(_avatarBackView, 58.0f, 0.0f, JL_color_clear);
-        
-        UIView *innerView = [[UIView alloc] init];
-        innerView.backgroundColor = JL_color_purple_CADEFF;
-        ViewBorderRadius(innerView, 50.0f, 0.0f, JL_color_clear);
-        [_avatarBackView addSubview:innerView];
-        
-        [innerView addSubview:self.avatarImageView];
-        [innerView addSubview:self.avatarEditButton];
-        
-        [innerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_avatarBackView).insets(UIEdgeInsetsMake(8.0f, 8.0f, 8.0f, 8.0f));
-        }];
-        [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(innerView).insets(UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f));
-        }];
-        [self.avatarEditButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(innerView).insets(UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f));
-        }];
-    }
-    return _avatarBackView;
-}
-
-- (UIImageView *)avatarImageView {
-    if (!_avatarImageView) {
-        _avatarImageView = [[UIImageView alloc] init];
-        ViewBorderRadius(_avatarImageView, 45.0f, 0.0f, JL_color_clear);
-    }
-    return _avatarImageView;
-}
-
-- (UIButton *)avatarEditButton {
-    if (!_avatarEditButton) {
-        _avatarEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_avatarEditButton addTarget:self action:@selector(avatarEditButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _avatarEditButton;
-}
-
-- (void)avatarEditButtonClick {
+#pragma mark - event response
+- (void)authorImgViewDidTap: (UITapGestureRecognizer *)ges {
     if (self.avatarEditBlock) {
         self.avatarEditBlock();
     }
 }
 
-- (UILabel *)nameLabel {
-    if (!_nameLabel) {
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = kFontPingFangSCSCSemibold(15.0f);
-        _nameLabel.textColor = JL_color_gray_101010;
-        _nameLabel.textAlignment = NSTextAlignmentCenter;
-        _nameLabel.userInteractionEnabled = YES;
-    }
-    return _nameLabel;
-}
-
-- (UIButton *)nameEditButton {
-    if (!_nameEditButton) {
-        _nameEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_nameEditButton addTarget:self action:@selector(nameEditButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _nameEditButton;
-}
-
-- (void)nameEditButtonClick {
+- (void)nameLabelDidTap: (UITapGestureRecognizer *)ges {
     if (self.nameEditBlock) {
         self.nameEditBlock();
     }
 }
 
-- (UILabel *)infoLabel {
-    if (!_infoLabel) {
-        _infoLabel= [[UILabel alloc] init];
-        _infoLabel.font = kFontPingFangSCRegular(13.0f);
-        _infoLabel.textColor = JL_color_gray_101010;
-        _infoLabel.numberOfLines = 0;
-        _infoLabel.textAlignment = NSTextAlignmentCenter;
-        _infoLabel.userInteractionEnabled = YES;
-    }
-    return _infoLabel;
-}
-
-- (UIButton *)infoEditButton {
-    if (!_infoEditButton) {
-        _infoEditButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_infoEditButton addTarget:self action:@selector(infoEditButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _infoEditButton;
-}
-
-- (void)infoEditButtonClick {
+- (void)desLabelDidTap: (UITapGestureRecognizer *)ges {
     if (self.descEditBlock) {
         self.descEditBlock();
     }
 }
 
+- (void)editDescBgViewDidTap: (UITapGestureRecognizer *)ges {
+    if (self.descEditBlock) {
+        self.descEditBlock();
+    }
+}
+
+#pragma mark - setters and getters
 - (void)setUserData:(UserDataBody *)userData {
     if (![NSString stringIsEmpty:userData.avatar[@"url"]]) {
-        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+        [self.authorImgView sd_setImageWithURL:[NSURL URLWithString:userData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
     } else {
-        self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
+        self.authorImgView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = [NSString stringIsEmpty:userData.display_name] ? @"未设置昵称" : userData.display_name;
     
-    NSString *showDesc =  [NSString stringIsEmpty:userData.desc] ? @"请输入描述内容" : userData.desc;
-    if (![NSString stringIsEmpty:showDesc]) {
-        self.infoLabel.text = showDesc;
+    self.descLabel.hidden = [NSString stringIsEmpty:userData.desc];
+    
+    self.editDescBgView.hidden = ![NSString stringIsEmpty:userData.desc];
+    
+    if (![NSString stringIsEmpty:userData.desc]) {
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-        paraStyle.lineSpacing = 10.0f;
+        paraStyle.lineSpacing = 2.0f;
         paraStyle.alignment = NSTextAlignmentCenter;
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:self.infoLabel.text];
-        [attr addAttributes:@{NSParagraphStyleAttributeName: paraStyle} range:NSMakeRange(0, self.infoLabel.text.length)];
-        self.infoLabel.attributedText = attr;
+        paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:userData.desc];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paraStyle} range:NSMakeRange(0, attr.length)];
+        _descLabel.attributedText = attr;
     }
+    
+    [_authorBgView layoutIfNeeded];
+    [_authorBgView setCorners:UIRectCornerTopLeft|UIRectCornerTopRight radius: CGSizeMake(5, 5)];
 }
 @end
