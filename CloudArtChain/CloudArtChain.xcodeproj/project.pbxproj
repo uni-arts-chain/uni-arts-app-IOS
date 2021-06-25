@@ -36,6 +36,7 @@
 		5E300E03267C7FEB00A81FA7 /* JLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300E02267C7FEB00A81FA7 /* JLTextField.m */; };
 		5E69BD4C26841F72007ADB04 /* JLCreatorPageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E69BD4B26841F72007ADB04 /* JLCreatorPageHeaderView.m */; };
 		5E69BD4F26842A64007ADB04 /* JLCreatorPageNavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E69BD4E26842A64007ADB04 /* JLCreatorPageNavView.m */; };
+		5E69BD532685734C007ADB04 /* JLAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E69BD522685734C007ADB04 /* JLAlertTipView.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1267,6 +1268,8 @@
 		5E69BD4B26841F72007ADB04 /* JLCreatorPageHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorPageHeaderView.m; sourceTree = "<group>"; };
 		5E69BD4D26842A64007ADB04 /* JLCreatorPageNavView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorPageNavView.h; sourceTree = "<group>"; };
 		5E69BD4E26842A64007ADB04 /* JLCreatorPageNavView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorPageNavView.m; sourceTree = "<group>"; };
+		5E69BD512685734C007ADB04 /* JLAlertTipView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAlertTipView.h; sourceTree = "<group>"; };
+		5E69BD522685734C007ADB04 /* JLAlertTipView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAlertTipView.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -3049,6 +3052,15 @@
 				5E300DFB267C3A1900A81FA7 /* XPCollectionViewWaterfallFlowLayout.m */,
 			);
 			path = WaterfallFlowLayout;
+			sourceTree = "<group>";
+		};
+		5E69BD50268572E5007ADB04 /* JLAlertCustomView */ = {
+			isa = PBXGroup;
+			children = (
+				5E69BD512685734C007ADB04 /* JLAlertTipView.h */,
+				5E69BD522685734C007ADB04 /* JLAlertTipView.m */,
+			);
+			path = JLAlertCustomView;
 			sourceTree = "<group>";
 		};
 		5E76DFE426733C7100727C8C /* QGYAnimationEasingHelper */ = {
@@ -5923,6 +5935,7 @@
 		B396551724F37354007A8EC2 /* JLCommon */ = {
 			isa = PBXGroup;
 			children = (
+				5E69BD50268572E5007ADB04 /* JLAlertCustomView */,
 				5E300DF32679F36E00A81FA7 /* JLVersionManager */,
 				B38F2B40264A2B9100C827A7 /* JLDocumentPickerViewController */,
 				B391E2C826285DA5002CCC9D /* JLStepper */,
@@ -7690,6 +7703,7 @@
 				B312250725B6B60A00562ECA /* RuntimeDispatchInfo.swift in Sources */,
 				B312254825B6B60A00562ECA /* TriangularedButton.swift in Sources */,
 				B3648CDF2518B15C00BBDB57 /* JLRealNameAuthVC.m in Sources */,
+				5E69BD532685734C007ADB04 /* JLAlertTipView.m in Sources */,
 				B312260C25B6B60A00562ECA /* ConnectionAccountConfirmWireframe.swift in Sources */,
 				B312253825B6B60A00562ECA /* SocialMessage.swift in Sources */,
 				5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */,

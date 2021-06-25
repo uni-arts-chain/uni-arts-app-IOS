@@ -470,13 +470,10 @@
                         [weakSelf requestSellingList];
                         
                         // 用户提示
-                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
-                            
-                        } confirm:@"联系客服" confirmHandler:^{
+                        [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
                             JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
                             [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                        }];
-                        [weakSelf presentViewController:alertVC animated:YES completion:nil];
+                        } cancel:nil];
                     };
                     [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
                 }
@@ -484,12 +481,14 @@
                 if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
                     // 跳转到 下架
                     if (weakSelf.currentSellingList.count > 0) {
-                        Model_arts_id_orders_Data *orderData = [weakSelf.currentSellingList firstObject];
-                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                            if (success) {
-                                [weakSelf artOffFromSellingList:orderData.sn];
-                            }
-                        }];
+                        [JLAlertTipView alertWithTitle:@"提示" message:@"确认下架？" doneTitle:@"确定" cancelTitle:@"取消" done:^{
+                            Model_arts_id_orders_Data *orderData = [weakSelf.currentSellingList firstObject];
+                            [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                                if (success) {
+                                    [weakSelf artOffFromSellingList:orderData.sn];
+                                }
+                            }];
+                        } cancel:nil];
                     }
                 } else {
                     // 出售
@@ -509,13 +508,10 @@
                         }
                         
                         // 用户提示
-                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
-                            
-                        } confirm:@"联系客服" confirmHandler:^{
+                        [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
                             JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
                             [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                        }];
-                        [weakSelf presentViewController:alertVC animated:YES completion:nil];
+                        } cancel:nil];
                     };
                     [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
                 }

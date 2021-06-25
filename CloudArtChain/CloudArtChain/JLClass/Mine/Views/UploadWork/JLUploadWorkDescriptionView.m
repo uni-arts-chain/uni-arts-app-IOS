@@ -27,9 +27,9 @@
     if (self = [super init]) {
         self.maxInput = maxInput;
         self.placeholder = placeholder;
-        self.placeHolderColor = placeHolderColor ?: JL_color_gray_909090;
-        self.textFont = textFont ?: kFontPingFangSCRegular(16.0f);
-        self.textColor = textColor ?: JL_color_gray_101010;
+        self.placeHolderColor = placeHolderColor ?: JL_color_gray_87888F;
+        self.textFont = textFont ?: kFontPingFangSCRegular(12.0f);
+        self.textColor = textColor ?: JL_color_black_101220;
         self.borderColor = borderColor;
         [self createSubViews];
     }
@@ -38,6 +38,7 @@
 
 - (void)createSubViews {
     WS(weakSelf)
+    self.backgroundColor = JL_color_white_ffffff;
        
     [self addSubview:self.backView];
     [self.backView addSubview:self.inputNoticeLabel];
@@ -45,22 +46,23 @@
     [self.backView addSubview:self.maxInputLabel];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.left.equalTo(self).offset(12);
+        make.right.equalTo(self).offset(-12);
+        make.top.equalTo(self).offset(7);
+        make.height.mas_equalTo(131);
     }];
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self.backView);
         make.right.mas_equalTo(-10.0f);
-        make.height.mas_equalTo(32.0f);
+        make.height.mas_equalTo(34.0f);
     }];
     [self.inputNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(8.0f);
-        make.top.mas_equalTo(8.0f);
-        make.right.mas_equalTo(-8.0f);
+        make.left.equalTo(self.backView).offset(11);
+        make.top.equalTo(self.backView).offset(11);
+        make.right.equalTo(self.backView).offset(-11);
     }];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0.0f);
-        make.top.mas_equalTo(0.0f);
-        make.right.mas_equalTo(-0.0f);
+        make.left.top.right.equalTo(self.backView);
         make.bottom.equalTo(self.maxInputLabel.mas_top);
     }];
 
@@ -72,10 +74,10 @@
         weakSelf.maxInputLabel.text = [NSString stringWithFormat:@"%lu/%ld", (unsigned long)weakSelf.textView.text.length, (long)weakSelf.maxInput];
         if (weakSelf.textView.text.length > 0) {
             NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:weakSelf.maxInputLabel.text];
-            [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, [weakSelf.maxInputLabel.text rangeOfString:@"/"].location)];
+            [attr addAttributes:@{NSForegroundColorAttributeName: JL_color_black_101220} range:NSMakeRange(0, [weakSelf.maxInputLabel.text rangeOfString:@"/"].location)];
             weakSelf.maxInputLabel.attributedText = attr;
         } else {
-            weakSelf.maxInputLabel.textColor = JL_color_gray_909090;
+            weakSelf.maxInputLabel.textColor = JL_color_gray_87888F;
         }
         if (weakSelf.inputContentChangeBlock) {
             weakSelf.inputContentChangeBlock();
@@ -87,7 +89,7 @@
     if (!_backView) {
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 1.0f, self.borderColor == nil ? JL_color_gray_DDDDDD : self.borderColor);
+        ViewBorderRadius(_backView, 8.0f, 1.0f, self.borderColor == nil ? JL_color_gray_B9B9B9 : self.borderColor);
     }
     return _backView;
 }
@@ -160,8 +162,8 @@
 - (UILabel *)maxInputLabel {
     if (!_maxInputLabel) {
         _maxInputLabel = [[UILabel alloc] init];
-        _maxInputLabel.font = kFontPingFangSCRegular(14.0f);
-        _maxInputLabel.textColor = JL_color_gray_909090;
+        _maxInputLabel.font = kFontPingFangSCRegular(12.0f);
+        _maxInputLabel.textColor = JL_color_gray_87888F;
         _maxInputLabel.text = [NSString stringWithFormat:@"0/%ld", (long)self.maxInput];
     }
     return _maxInputLabel;

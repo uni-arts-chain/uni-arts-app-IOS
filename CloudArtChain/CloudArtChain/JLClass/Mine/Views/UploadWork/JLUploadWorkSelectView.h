@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkSelectView : JLBaseView
+@property (nonatomic, assign) BOOL isHiddenBottomLine;
+@property (nonatomic, assign) BOOL isSecondLevelView; // 是否是展开的二级视图
 - (instancetype)initWithPlaceHolder:(NSString *)placeHolder selectBlock:(void(^)(void))selectBlock;
 - (instancetype)initWithTitle:(NSString *)title selectBlock:(void(^)(void))selectBlock;
 - (void)setSelectContent:(NSString *)content;

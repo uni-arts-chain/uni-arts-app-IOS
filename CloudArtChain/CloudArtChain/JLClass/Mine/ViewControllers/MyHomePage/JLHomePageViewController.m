@@ -147,7 +147,7 @@
                         [AppSingleton sharedAppSingleton].userBody = response.body;
                         CGFloat descHeight = 242;
                         if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
                         }
                         weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                         [weakSelf.hovering reloadView];
@@ -173,7 +173,7 @@
                         [AppSingleton sharedAppSingleton].userBody = response.body;
                         CGFloat descHeight = 242;
                         if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
                         }
                         weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                         [weakSelf.hovering reloadView];
@@ -190,7 +190,7 @@
             settingVC.backBlock = ^{
                 CGFloat descHeight = 242;
                 if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                    descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                    descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
                 }
                 weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                 [weakSelf.hovering reloadView];
@@ -300,13 +300,10 @@
 //                    [biddingVC addToBiddingList:artDetailData];
                     
                     // 用户提示
-                    UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
-                        
-                    } confirm:@"联系客服" confirmHandler:^{
+                    [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
                         JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
                         [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                    }];
-                    [weakSelf presentViewController:alertVC animated:YES completion:nil];
+                    } cancel:nil];
                 };
                 [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
             } else {
@@ -321,13 +318,10 @@
 //                    [biddingVC addToBiddingList:artDetailData];
                     
                     // 用户提示
-                    UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
-                        
-                    } confirm:@"联系客服" confirmHandler:^{
+                    [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
                         JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
                         [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                    }];
-                    [weakSelf presentViewController:alertVC animated:YES completion:nil];
+                    } cancel:nil];
                 };
                 [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
             }

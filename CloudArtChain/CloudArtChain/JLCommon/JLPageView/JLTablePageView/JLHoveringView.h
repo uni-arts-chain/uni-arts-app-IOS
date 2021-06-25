@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface JLHoveringView : UIView
-@property (nonatomic , assign) id <JLHoveringListViewDelegate>  delegate;
+@property (nonatomic , weak) id <JLHoveringListViewDelegate>  delegate;
 - (instancetype)initWithFrame:(CGRect)frame deleaget:(id<JLHoveringListViewDelegate>)delegate;
 //**是否在视图中间刷新 默认NO*/
 @property (nonatomic , assign) BOOL  isMidRefresh;

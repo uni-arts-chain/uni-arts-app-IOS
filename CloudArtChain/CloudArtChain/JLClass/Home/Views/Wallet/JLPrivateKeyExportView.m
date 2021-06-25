@@ -114,7 +114,7 @@
 
 - (UIButton *)keyCopyBtn {
     if (!_keyCopyBtn) {
-        _keyCopyBtn = [JLUIFactory buttonInitTitle:@"复制" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(keyCopyBtnClick)];
+        _keyCopyBtn = [JLUIFactory buttonInitTitle:@"复制" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(keyCopyBtnClick)];
         ViewBorderRadius(_keyCopyBtn, 20.0f, 0.0f, JL_color_clear);
         [_keyCopyBtn addTarget:self action:@selector(keyCopyBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }

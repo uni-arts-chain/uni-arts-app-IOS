@@ -124,7 +124,7 @@
 
 - (UIButton *)nextButton {
     if (!_nextButton) {
-        _nextButton = [JLUIFactory buttonInitTitle:@"下一步" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(nextButtonClick)];
+        _nextButton = [JLUIFactory buttonInitTitle:@"下一步" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(nextButtonClick)];
         ViewBorderRadius(_nextButton, 23.0f, 0.0f, JL_color_clear);
     }
     return _nextButton;

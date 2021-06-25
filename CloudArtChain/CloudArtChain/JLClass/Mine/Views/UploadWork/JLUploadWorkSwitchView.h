@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkSwitchView : JLBaseView
+@property (nonatomic, assign) BOOL isHiddenBottomLine;
 - (instancetype)initWithTitle:(NSString *)title selectBlock:(void(^)(BOOL))selectBlock;
 @end
 

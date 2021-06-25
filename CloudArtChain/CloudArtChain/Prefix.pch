@@ -42,6 +42,7 @@
 #import "JLUIFactory.h"
 #import "JLAuthenticationView.h"
 #import "JLTextField.h"
+#import "JLAlertTipView.h"
 
 #import "NSObject+countDown.h"
 #import "NSString+JLTool.h"

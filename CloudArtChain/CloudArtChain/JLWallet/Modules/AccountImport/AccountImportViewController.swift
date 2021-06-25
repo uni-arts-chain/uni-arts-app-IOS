@@ -238,7 +238,7 @@ final class AccountImportViewController: JLBaseViewController {
         }
 
         nextButton?.isEnabled = isEnabled
-        nextButton.backgroundColor = isEnabled ? UIColor(hex: "50C3FF") : UIColor(hex: "50C3FF").withAlphaComponent(0.5)
+        nextButton.backgroundColor = isEnabled ? UIColor(hex: "EF4136") : UIColor(hex: "EF4136").withAlphaComponent(0.5)
     }
 
     private func updateTextViewPlaceholder() {

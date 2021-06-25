@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLUploadWorkMoneyInputView : JLBaseView
+@property (nonatomic, assign) BOOL isSecondLevelView; // 是否是展开的二级视图
 @property (nonatomic, strong) NSString *inputContent;
 @property (nonatomic, copy) void(^inputContentChangeBlock)(void);
 - (instancetype)initWithTitle:(NSString *)title;

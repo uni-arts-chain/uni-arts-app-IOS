@@ -102,12 +102,12 @@
     
     [self.noticeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
-        make.height.mas_equalTo(22.0f);
+        make.height.mas_equalTo(36.0f);
     }];
     [self.confirmUploadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
-        make.height.mas_equalTo(46.0f + KTouch_Responder_Height);
+        make.height.mas_equalTo(44.0f + KTouch_Responder_Height);
     }];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.noticeView.mas_bottom);
@@ -115,109 +115,100 @@
         make.bottom.equalTo(self.confirmUploadBtn.mas_top);
         make.width.mas_equalTo(kScreenWidth);
     }];
-    [self.scrollView addSubview:self.uploadImageTitleLabel];
-    [self.scrollView addSubview:self.uploadImageView];
+    // 示例作品
     [self.scrollView addSubview:self.uploadWorkSampleView];
+    // 作品标题
     [self.scrollView addSubview:self.workTitleLabel];
     [self.scrollView addSubview:self.workTitleView];
-    [self.scrollView addSubview:self.workDetailTitleLabel];
+    // 作品
+    [self.scrollView addSubview:self.uploadImageView];
+    // 详情
     [self.scrollView addSubview:self.workDetailView];
-    [self.scrollView addSubview:self.workDetailImageTitleLabel];
+    // 详情图片
     [self.scrollView addSubview:self.workDetailUploadImageView];
+    // 主题
     [self.scrollView addSubview:self.themeView];
+    // 是否拆分
     [self.scrollView addSubview:self.workSplitSwitchView];
+    // 拆分数量
     [self.scrollView addSubview:self.splitNumView];
+    // 每份价格
     [self.scrollView addSubview:self.priceView];
+    // 版税比例
     [self.scrollView addSubview:self.royaltyView];
+    // 版税有效期
     [self.scrollView addSubview:self.royaltyDateView];
     
-    [self.uploadImageTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.mas_equalTo(15.0f);
-        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
-        make.height.mas_equalTo(35.0f);
-    }];
-    [self.uploadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.scrollView);
-        make.top.equalTo(self.uploadImageTitleLabel.mas_bottom);
-        make.height.mas_equalTo(93.0f + 55.0f);
-        make.width.mas_equalTo(kScreenWidth);
-    }];
     [self.uploadWorkSampleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
-        make.top.equalTo(self.uploadImageView.mas_bottom);
+        make.top.equalTo(self.scrollView);
         make.width.mas_equalTo(kScreenWidth);
+        make.height.mas_equalTo(@180);
     }];
     [self.workTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.uploadImageTitleLabel.mas_left);
-        make.top.equalTo(self.uploadWorkSampleView.mas_bottom).offset(15.0f);
-        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
-        make.height.mas_equalTo(50.0f);
+        make.left.equalTo(self.scrollView);
+        make.top.equalTo(self.uploadWorkSampleView.mas_bottom);
+        make.height.mas_equalTo(38.0f);
+        make.width.mas_equalTo(kScreenWidth);
     }];
     [self.workTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
         make.top.equalTo(self.workTitleLabel.mas_bottom);
-        make.height.mas_equalTo(42.0f);
+        make.height.mas_equalTo(45.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
-    [self.workDetailTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.workTitleView.mas_bottom).offset(15.0f);
-        make.height.mas_equalTo(50.0f);
-        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
+    [self.uploadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView);
+        make.top.equalTo(self.workTitleView.mas_bottom);
+        make.height.mas_equalTo(145);
+        make.width.mas_equalTo(kScreenWidth);
     }];
     [self.workDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.workDetailTitleLabel.mas_bottom);
-        make.height.mas_equalTo(176.0f);
-        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
-    }];
-    [self.workDetailImageTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.workDetailView.mas_bottom).offset(15.0f);
-        make.height.mas_equalTo(50.0f);
-        make.width.mas_equalTo(kScreenWidth - 15.0f * 2);
+        make.left.equalTo(self.scrollView);
+        make.top.equalTo(self.uploadImageView.mas_bottom);
+        make.height.mas_equalTo(140.0f);
+        make.width.mas_equalTo(kScreenWidth);
     }];
     [self.workDetailUploadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
-        make.top.equalTo(self.workDetailImageTitleLabel.mas_bottom);
-        make.height.mas_equalTo(93.0f + 55.0f);
+        make.top.equalTo(self.workDetailView.mas_bottom);
+        make.height.mas_equalTo(145);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.themeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
-        make.top.equalTo(self.workDetailUploadImageView.mas_bottom).offset(15.0f);
-        make.height.mas_equalTo(55.0f);
+        make.top.equalTo(self.workDetailUploadImageView.mas_bottom).offset(12.0f);
+        make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.workSplitSwitchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.scrollView);
         make.top.equalTo(self.themeView.mas_bottom);
-        make.height.mas_equalTo(55.0f);
+        make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.splitNumView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.scrollView);
         make.top.equalTo(self.workSplitSwitchView.mas_bottom);
-        make.height.mas_equalTo(55.0f);
+        make.height.mas_equalTo(20.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.priceView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.scrollView);
         make.top.equalTo(self.workSplitSwitchView.mas_bottom);
-        make.height.mas_equalTo(55.0f);
+        make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.royaltyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.scrollView);
         make.top.equalTo(self.priceView.mas_bottom);
-        make.height.mas_equalTo(55.0f);
+        make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
     [self.royaltyDateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.scrollView);
         make.top.equalTo(self.royaltyView.mas_bottom);
-        make.height.mas_equalTo(55.0f);
+        make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
 }
@@ -230,9 +221,9 @@
 - (UIView *)noticeView {
     if (!_noticeView) {
         _noticeView = [[UIView alloc] init];
-        _noticeView.backgroundColor = JL_color_orange_FFEBD4;
+        _noticeView.backgroundColor = JL_color_white_ffffff;
         
-        UILabel *noticeLabel = [JLUIFactory labelInitText:@"注意：信息通过审核后无法修改，请谨慎操作" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentCenter];
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"注意：信息通过审核后无法修改，请谨慎操作" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_mainColor textAlignment:NSTextAlignmentCenter];
         [_noticeView addSubview:noticeLabel];
         [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_noticeView);
@@ -244,7 +235,6 @@
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = JL_color_white_ffffff;
         _scrollView.showsVerticalScrollIndicator = NO;
         _scrollView.showsHorizontalScrollIndicator = NO;
     }
@@ -276,7 +266,19 @@
 
 - (UILabel *)workTitleLabel {
     if (!_workTitleLabel) {
-        _workTitleLabel = [JLUIFactory labelInitText:@"作品标题" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _workTitleLabel = [JLUIFactory labelInitText:@"上传作品信息" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
+        _workTitleLabel.backgroundColor = JL_color_white_ffffff;
+        _workTitleLabel.jl_contentInsets = UIEdgeInsetsMake(0, 26, 0, 0);
+        
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = JL_color_mainColor;
+        lineView.layer.cornerRadius = 2;
+        [_workTitleLabel addSubview:lineView];
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_workTitleLabel).offset(14);
+            make.centerY.equalTo(_workTitleLabel);
+            make.size.mas_equalTo(CGSizeMake(4, 15));
+        }];
     }
     return _workTitleLabel;
 }
@@ -315,7 +317,7 @@
 - (JLUploadWorkSelectView *)splitNumView {
     if (!_splitNumView) {
         WS(weakSelf)
-        _splitNumView = [[JLUploadWorkSelectView alloc] initWithTitle:@"拆分数量：" selectBlock:^{
+        _splitNumView = [[JLUploadWorkSelectView alloc] initWithTitle:@"库存数量" selectBlock:^{
             [weakSelf.view endEditing:YES];
             JLPickerView *pickerView = [[JLPickerView alloc] init];
             pickerView.dataSource = weakSelf.tempSplitNumArray;
@@ -328,6 +330,7 @@
             [pickerView showWithAnimation:nil];
         }];
         [_splitNumView setSelectContent:self.tempSplitNumArray[self.currentSelectedSplitNumIndex]];
+        _splitNumView.isSecondLevelView = YES;
         _splitNumView.hidden = YES;
     }
     return _splitNumView;
@@ -336,23 +339,27 @@
 - (JLUploadWorkSwitchView *)workSplitSwitchView {
     if (!_workSplitSwitchView) {
         WS(weakSelf)
-        _workSplitSwitchView = [[JLUploadWorkSwitchView alloc] initWithTitle:@"作品是否拆分" selectBlock:^(BOOL workSplit) {
+        _workSplitSwitchView = [[JLUploadWorkSwitchView alloc] initWithTitle:@"设置库存" selectBlock:^(BOOL workSplit) {
             weakSelf.workSplit = workSplit;
-            [weakSelf.priceView refreshWithTitle:workSplit ? @"每份价格：" : @"设置作品价格" showUnit:workSplit];
+            [weakSelf.priceView refreshWithTitle:workSplit ? @"每份价格" : @"设置作品价格" showUnit:workSplit];
             if (workSplit) {
                 weakSelf.splitNumView.hidden = NO;
+                weakSelf.workSplitSwitchView.isHiddenBottomLine = YES;
+                weakSelf.priceView.isSecondLevelView = YES;
                 [weakSelf.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.left.mas_equalTo(weakSelf.scrollView);
                     make.top.equalTo(weakSelf.splitNumView.mas_bottom);
-                    make.height.mas_equalTo(55.0f);
+                    make.height.mas_equalTo(50.0f);
                     make.width.mas_equalTo(kScreenWidth);
                 }];
             } else {
                 weakSelf.splitNumView.hidden = YES;
+                weakSelf.workSplitSwitchView.isHiddenBottomLine = NO;
+                weakSelf.priceView.isSecondLevelView = NO;
                 [weakSelf.priceView mas_remakeConstraints:^(MASConstraintMaker *make) {
                     make.left.mas_equalTo(weakSelf.scrollView);
                     make.top.equalTo(weakSelf.workSplitSwitchView.mas_bottom);
-                    make.height.mas_equalTo(55.0f);
+                    make.height.mas_equalTo(54.0f);
                     make.width.mas_equalTo(kScreenWidth);
                 }];
             }
@@ -374,7 +381,7 @@
 - (JLUploadWorkDescriptionView *)workDetailView {
     if (!_workDetailView) {
         WS(weakSelf)
-        _workDetailView = [[JLUploadWorkDescriptionView alloc] initWithMax:200 placeholder:@"请输入你对作品的整体评析..." placeHolderColor:nil textFont:nil textColor:nil borderColor:JL_color_gray_101010];
+        _workDetailView = [[JLUploadWorkDescriptionView alloc] initWithMax:1000 placeholder:@"请对作品进行说明..." placeHolderColor:nil textFont:nil textColor:nil borderColor:JL_color_gray_B9B9B9];
         _workDetailView.inputContentChangeBlock = ^{
             [weakSelf checkUpload];
         };
@@ -430,6 +437,7 @@
             datePicker.minLimitDate = [NSDate date];
             [datePicker show];
         }];
+        _royaltyDateView.isHiddenBottomLine = YES;
     }
     return _royaltyDateView;
 }
@@ -439,7 +447,7 @@
         _confirmUploadBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_confirmUploadBtn setTitle:@"确认上传" forState:UIControlStateNormal];
         [_confirmUploadBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-        _confirmUploadBtn.titleLabel.font = kFontPingFangSCRegular(17.0f);
+        _confirmUploadBtn.titleLabel.font = kFontPingFangSCMedium(16.0f);
         _confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
         _confirmUploadBtn.enabled = NO;
         [_confirmUploadBtn addTarget:self action:@selector(confirmUploadBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -474,7 +482,7 @@
 //        return;
 //    }
     self.confirmUploadBtn.enabled = YES;
-    self.confirmUploadBtn.backgroundColor = JL_color_gray_101010;
+    self.confirmUploadBtn.backgroundColor = JL_color_mainColor;
 }
 
 - (void)confirmUploadBtnClick {
@@ -613,21 +621,13 @@
         [JLNetHelper netRequestUploadImagesParameters:request respondParameters:response paramsNames:[paramsArray copy] fileNames:[fileNameArray copy] fileData:[fileDataArray copy] fileType:[fileTypeArray copy] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
-                UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+                [JLAlertTipView alertWithTitle:@"提示" message:@"作品已上传，请耐心等待审核结果" doneTitle:@"确定" done:^{
                     if (weakSelf.uploadSuccessBackBlock) {
                         weakSelf.uploadSuccessBackBlock();
                     }
                     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                     [weakSelf.navigationController popViewControllerAnimated:YES];
-                } confirm:@"去查看" confirmHandler:^{
-                    if (weakSelf.checkProcessBlock) {
-                        weakSelf.checkProcessBlock();
-                    } else {
-                        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
-                        [weakSelf.navigationController popViewControllerAnimated:YES];
-                    }
                 }];
-                [weakSelf presentViewController:alert animated:YES completion:nil];
             } else {
                 [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
             }
@@ -715,21 +715,13 @@
     [JLNetHelper netRequestUploadVideoParameters:request respondParameters:response paramsNames:paramsArray fileNames:fileNameArray fileData:fileDataArray fileType:fileTypeArray callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
        [[JLLoading sharedLoading] hideLoading];
        if (netIsWork) {
-           UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+           [JLAlertTipView alertWithTitle:@"提示" message:@"作品已上传，请耐心等待审核结果" doneTitle:@"确定" done:^{
                if (weakSelf.uploadSuccessBackBlock) {
                    weakSelf.uploadSuccessBackBlock();
                }
                [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                [weakSelf.navigationController popViewControllerAnimated:YES];
-           } confirm:@"去查看" confirmHandler:^{
-               if (weakSelf.checkProcessBlock) {
-                   weakSelf.checkProcessBlock();
-               } else {
-                   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
-                   [weakSelf.navigationController popViewControllerAnimated:YES];
-               }
            }];
-           [weakSelf presentViewController:alert animated:YES completion:nil];
        } else {
            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
        }
@@ -837,21 +829,13 @@
     [JLNetHelper netRequestUploadImagesParameters:request respondParameters:response paramsNames:[paramsArray copy] fileNames:[fileNameArray copy] fileData:[fileDataArray copy] fileType:[fileTypeArray copy] callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"作品已上传，请等待审核\r\n可在“我的主页中”查看审核进度" cancel:@"取消" cancelHandler:^{
+            [JLAlertTipView alertWithTitle:@"提示" message:@"作品已上传，请耐心等待审核结果" doneTitle:@"确定" done:^{
                 if (weakSelf.uploadSuccessBackBlock) {
                     weakSelf.uploadSuccessBackBlock();
                 }
                 [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
                 [weakSelf.navigationController popViewControllerAnimated:YES];
-            } confirm:@"去查看" confirmHandler:^{
-                if (weakSelf.checkProcessBlock) {
-                    weakSelf.checkProcessBlock();
-                } else {
-                    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"JLLive2dSnapshotNotification" object:nil];
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                }
             }];
-            [weakSelf presentViewController:alert animated:YES completion:nil];
         } else {
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }

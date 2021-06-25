@@ -113,16 +113,16 @@
     if (!_bottomView) {
         _bottomView = [[UIView alloc] init];
         
-        UIButton *saveButton = [JLUIFactory buttonInitTitle:@"保存" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(saveBtnClick)];
+        UIButton *saveButton = [JLUIFactory buttonInitTitle:@"保存" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(saveBtnClick)];
         ViewBorderRadius(saveButton, 23.0f, 0.0f, JL_color_clear);
         [_bottomView addSubview:saveButton];
         
         UIButton *backupMnemonicButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backupMnemonicButton setTitle:@"备份助记词" forState:UIControlStateNormal];
-        [backupMnemonicButton setTitleColor:JL_color_blue_50C3FF forState:UIControlStateNormal];
+        [backupMnemonicButton setTitleColor:JL_color_mainColor forState:UIControlStateNormal];
         backupMnemonicButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        [backupMnemonicButton setImage:[UIImage imageNamed:@"icon_wallet_export"] forState:UIControlStateNormal];
-        [backupMnemonicButton setImage:[UIImage imageNamed:@"icon_wallet_export"] forState:UIControlStateHighlighted];
+        [backupMnemonicButton setImage:[UIImage jl_changeImage:[UIImage imageNamed:@"icon_wallet_export"] color:JL_color_mainColor] forState:UIControlStateNormal];
+        [backupMnemonicButton setImage:[UIImage jl_changeImage:[UIImage imageNamed:@"icon_wallet_export"] color:JL_color_mainColor] forState:UIControlStateHighlighted];
         backupMnemonicButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
         backupMnemonicButton.axcUI_padding = 28.0f;
         [backupMnemonicButton addTarget:self action:@selector(backupMnemonicButtonClick) forControlEvents:UIControlEventTouchUpInside];

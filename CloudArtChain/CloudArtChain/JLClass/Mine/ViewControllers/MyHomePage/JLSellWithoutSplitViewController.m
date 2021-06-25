@@ -26,6 +26,8 @@
 
 @property (nonatomic, strong) UIButton *sellButton;
 @property (nonatomic, strong) NSString *lockAccountId;
+
+@property (nonatomic, strong) MASConstraint *currentPriceTFWidthConstraint;
 @end
 
 @implementation JLSellWithoutSplitViewController
@@ -96,7 +98,7 @@
     [self.currentPriceTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.currentPriceView).offset(-12);
         make.top.bottom.equalTo(self.currentPriceView);
-        make.width.mas_equalTo(50.0f);
+        self.currentPriceTFWidthConstraint = make.width.mas_equalTo(35.0f);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.currentPriceTF.mas_left);
@@ -105,7 +107,7 @@
         make.bottom.equalTo(self.currentPriceTF).offset(-15);
     }];
     [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.currentPriceTF.mas_left).offset(-12.0f);
+        make.right.equalTo(self.currentPriceTF.mas_left).offset(-6.0f);
         make.centerY.equalTo(self.currentPriceTF.mas_centerY);
     }];
     [self.sellButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,6 +177,15 @@
                 }
             }
         }
+        
+        CGFloat textW = [JLTool getAdaptionSizeWithText:weakSelf.currentPriceTF.text labelHeight:54 font:kFontPingFangSCMedium(14)].width;
+        if (textW > kScreenWidth - 36 - 180) {
+            textW = kScreenWidth - 36 - 180;
+        }
+        [weakSelf.currentPriceTFWidthConstraint uninstall];
+        [weakSelf.currentPriceTF mas_updateConstraints:^(MASConstraintMaker *make) {
+            weakSelf.currentPriceTFWidthConstraint = make.width.mas_equalTo(@(textW + 28));
+        }];
     }];
 }
 

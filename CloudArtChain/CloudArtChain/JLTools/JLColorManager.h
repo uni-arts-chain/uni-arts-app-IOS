@@ -68,6 +68,7 @@
 #define JL_color_gray_DDDDDD JL_COLOR_MAG.gray_DDDDDD
 #define JL_color_gray_777575 JL_COLOR_MAG.gray_777575
 #define JL_color_gray_87888F JL_COLOR_MAG.gray_87888F
+#define JL_color_gray_B9B9B9 JL_COLOR_MAG.gray_B9B9B9
 
 #define JL_color_white_ffffff JL_COLOR_MAG.white_ffffff
 
@@ -188,6 +189,7 @@
 @property (nonatomic, strong) UIColor *gray_DDDDDD;
 @property (nonatomic, strong) UIColor *gray_777575;
 @property (nonatomic, strong) UIColor *gray_87888F;
+@property (nonatomic, strong) UIColor *gray_B9B9B9;
 
 @property (nonatomic, strong) UIColor *white_ffffff;
 

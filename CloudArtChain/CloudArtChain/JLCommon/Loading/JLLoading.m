@@ -133,14 +133,17 @@
     _HUD = [[MBProgressHUD alloc]initWithView:self.window];
     _HUD.removeFromSuperViewOnHide = YES;
     _HUD.detailsLabel.text = msg;
-    _HUD.detailsLabel.font = kFontPingFangSCMedium(12);
+    _HUD.detailsLabel.font = kFontPingFangSCMedium(14);
     _HUD.mode = MBProgressHUDModeText;
-    _HUD.contentColor = [UIColor whiteColor];
-    _HUD.bezelView.color = [UIColor colorWithRed:38.0 / 256 green:38.0 / 256 blue:38.0 / 256 alpha:1.0];
+    _HUD.contentColor = JL_color_mainColor;
+    _HUD.bezelView.color = JL_color_vcBgColor;
     _HUD.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+    _HUD.bezelView.layer.cornerRadius = 20;
+    _HUD.bezelView.layer.borderWidth = 1;
+    _HUD.bezelView.layer.borderColor = JL_color_mainColor.CGColor;
     _HUD.margin = 10;
-    _HUD.minSize = CGSizeMake(150, 30);
-    _HUD.offset = CGPointMake(0.f, -[UIScreen mainScreen].bounds.size.height * 0.5 + _HUD.frame.size.height - 84);
+    _HUD.minSize = CGSizeMake(160, 40);
+    _HUD.offset = CGPointMake(0.f, -[UIScreen mainScreen].bounds.size.height * 0.5 + _HUD.frame.size.height - 84 - KTouch_Responder_Height);
     _HUD.completionBlock = hidedblock;
     
     _HUD.userInteractionEnabled = NO;

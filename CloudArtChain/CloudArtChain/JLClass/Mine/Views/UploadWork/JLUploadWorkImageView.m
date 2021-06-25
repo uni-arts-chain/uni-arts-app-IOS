@@ -41,6 +41,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        self.backgroundColor = JL_color_white_ffffff;
         [self createView];
     }
     return self;
@@ -51,15 +52,15 @@
     [self addSubview:self.noticeView];
     
     [self.noticeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
+        make.left.mas_equalTo(12.0f);
+        make.right.mas_equalTo(-12.0f);
+        make.height.mas_equalTo(@36);
         make.bottom.equalTo(self);
-        make.height.mas_equalTo(55.0f);
     }];
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.mas_equalTo(15.0f);
-        make.right.mas_equalTo(-15.0f);
+        make.top.equalTo(self).offset(20);
+        make.left.mas_equalTo(12.0f);
+        make.right.mas_equalTo(-12.0f);
         make.bottom.equalTo(self.noticeView.mas_top);
     }];
     [self setupContentView];
@@ -69,20 +70,12 @@
     if (!_noticeView) {
         _noticeView = [[UIView alloc] init];
         
-        UIImageView *noticeImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_notice"];
-        [_noticeView addSubview:noticeImageView];
-        
-        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF、Live 2D、视频)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_other_B25F00 textAlignment:NSTextAlignmentLeft];
+        UILabel *noticeLabel = [JLUIFactory labelInitText:@"上传作品(支持静态图、GIF、Live 2D、视频)" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_87888F textAlignment:NSTextAlignmentLeft];
         [_noticeView addSubview:noticeLabel];
-        
-        [noticeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_noticeView);
-            make.size.mas_equalTo(13.0f);
-            make.centerY.equalTo(_noticeView.mas_centerY);
-        }];
+
         [noticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(noticeImageView.mas_right).offset(5.0f);
-            make.centerY.equalTo(noticeImageView.mas_centerY);
+            make.left.equalTo(_noticeView);
+            make.centerY.equalTo(_noticeView);
         }];
     }
     return _noticeView;
@@ -98,8 +91,8 @@
 - (void)setupContentView {
     [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    CGFloat itemWidth = (kScreenWidth - 15.0f * 2 - 11.0f * 2) / 3.0f;
-    CGFloat itemSep = 11.0f;
+    CGFloat itemWidth = 89;
+    CGFloat itemSep = 22.0f;
     for (int i = 0; i < self.imageArray.count; i++) {
         UIView *itemView = [self itemViewWithIndex:i];
         itemView.tag = 100 + i;
@@ -108,8 +101,9 @@
         [self.contentView addSubview:itemView];
         [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(i * (itemWidth + itemSep));
-            make.top.bottom.equalTo(self.contentView);
+            make.bottom.equalTo(self.contentView);
             make.width.mas_equalTo(itemWidth);
+            make.height.mas_equalTo(itemWidth);
         }];
     }
     
@@ -133,44 +127,22 @@
         [self.contentView addSubview:addView];
         [addView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.imageArray.count * (itemWidth + itemSep));
-            make.top.bottom.equalTo(self.contentView);
+            make.bottom.equalTo(self.contentView);
             make.width.mas_equalTo(itemWidth);
+            make.height.mas_equalTo(itemWidth);
         }];
     }
 }
 
 - (UIView *)uploadImageView:(BOOL)live2dPreview {
     UIView *view = [[UIView alloc] init];
-    view.backgroundColor = JL_color_gray_EBEBEB;
-    ViewBorderRadius(view, 5.0f, 0.0f, JL_color_clear);
-    
-    UIView *centerView = [[UIView alloc] init];
-    [view addSubview:centerView];
-    
-    UIImageView *addImageView = [JLUIFactory imageViewInitImageName:@"icon_mine_upload_add"];
-    [centerView addSubview:addImageView];
-    
-    UILabel *addLabel = [JLUIFactory labelInitText:live2dPreview ? @"上传预览图" : @"上传图片" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_909090 textAlignment:NSTextAlignmentCenter];
-    [centerView addSubview:addLabel];
-    
+    ViewBorderRadius(view, 5.0f, 1.0f, JL_color_gray_B9B9B9);
+
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [addButton setImage:[UIImage imageNamed:@"icon_mine_upload_add"] forState:UIControlStateNormal];
     [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:addButton];
-    
-    [centerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(view);
-        make.centerY.equalTo(view);
-    }];
-    [addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(centerView);
-        make.size.mas_equalTo(28.0f);
-        make.centerX.equalTo(centerView);
-    }];
-    [addLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(centerView);
-        make.height.mas_equalTo(13.0f);
-        make.top.equalTo(addImageView.mas_bottom).offset(12.0f);
-    }];
+
     [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(view);
     }];
@@ -198,6 +170,7 @@
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             picker.delegate = weakSelf;
+            picker.allowsEditing = YES;
             picker.modalPresentationStyle = UIModalPresentationFullScreen;
             if (@available(iOS 11.0, *)) {
                 UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;

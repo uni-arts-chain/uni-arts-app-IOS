@@ -60,7 +60,7 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         let tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: 220.0))
         
         let backImageView = UIImageView()
-        backImageView.image = UIImage(named: "icon_qianbao_bg")
+        backImageView.image = UIImage(named: "mine_top_bg")
         tableHeaderView.addSubview(backImageView)
         
         let avatarView = UIView()
@@ -175,7 +175,7 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         let titleLabel = UILabel()
         titleLabel.text = "导入钱包"
         titleLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
-        titleLabel.textColor = UIColor(hex: "50C3FF")
+        titleLabel.textColor = UIColor(hex: "EF4136")
         titleLabel.textAlignment = .center
         centerView.addSubview(titleLabel)
 
@@ -209,11 +209,11 @@ public final class JLAccountListViewController: UIViewController, AdaptiveDesign
         let importAction = UIAlertAction(title: "继续导入", style: .default) { [weak self] action in
             self?.delegate?.importWallet(from: self!)
         }
-        importAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
+        importAction.setValue(UIColor(hex: "EF4136"), forKey: "_titleTextColor")
         alertView.addAction(importAction)
         
         let closeAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        closeAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
+        closeAction.setValue(UIColor(hex: "EF4136"), forKey: "_titleTextColor")
         alertView.addAction(closeAction)
         
         self.present(alertView, animated: true, completion: nil)

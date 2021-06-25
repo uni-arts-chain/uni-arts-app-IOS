@@ -11,9 +11,11 @@
 
 @interface JLUploadWorkSampleView ()
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIView *imgBgView;
 @property (nonatomic, strong) UIImageView *firstImageView;
 @property (nonatomic, strong) UIImageView *secondImageView;
 @property (nonatomic, strong) UIImageView *thirdImageView;
+@property (nonatomic, strong) UILabel *flagLabel;
 
 @property (nonatomic, strong) UIButton *firstImageButton;
 @property (nonatomic, strong) UIButton *secondImageButton;
@@ -25,7 +27,6 @@
 @implementation JLUploadWorkSampleView
 - (instancetype)init {
     if (self = [super init]) {
-        self.backgroundColor = JL_color_gray_F6F6F6;
         [self createSubViews];
     }
     return self;
@@ -33,36 +34,47 @@
 
 - (void)createSubViews {
     [self addSubview:self.titleLabel];
-    [self addSubview:self.firstImageView];
-    [self addSubview:self.secondImageView];
-    [self addSubview:self.thirdImageView];
+    [self addSubview:self.imgBgView];
+    
+    [self.imgBgView addSubview:self.firstImageView];
+    [self.imgBgView addSubview:self.secondImageView];
+    [self.imgBgView addSubview:self.thirdImageView];
+    [self.imgBgView addSubview:self.flagLabel];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.mas_equalTo(13.0f);
         make.top.equalTo(self);
         make.right.mas_equalTo(-15.0f);
-        make.height.mas_equalTo(35.0f);
+        make.height.mas_equalTo(48.0f);
     }];
+    [self.imgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self);
+        make.top.equalTo(self.titleLabel.mas_bottom);
+    }];
+    
     [self.firstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(5.0f);
-        make.height.mas_equalTo(87.0f);
-        make.bottom.mas_equalTo(-20.0f);
+        make.left.mas_equalTo(12.0f);
+        make.height.mas_equalTo(89.0f);
+        make.top.equalTo(self.imgBgView).offset(20);
     }];
     [self.secondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.firstImageView.mas_right).offset(17.0f);
+        make.left.equalTo(self.firstImageView.mas_right).offset(15.0f);
         make.top.equalTo(self.firstImageView);
         make.height.equalTo(self.firstImageView);
         make.bottom.equalTo(self.firstImageView);
         make.width.equalTo(self.firstImageView);
     }];
     [self.thirdImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.secondImageView.mas_right).offset(17.0f);
+        make.left.equalTo(self.secondImageView.mas_right).offset(15.0f);
         make.top.equalTo(self.firstImageView);
         make.height.equalTo(self.firstImageView);
         make.bottom.equalTo(self.firstImageView);
         make.width.equalTo(self.firstImageView);
         make.right.mas_equalTo(-15.0f);
+    }];
+    [self.flagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15);
+        make.bottom.equalTo(self.imgBgView);
     }];
     
     [self.firstImageView addSubview:self.firstImageButton];
@@ -82,9 +94,17 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"示例图：" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_606060 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:@"基本信息" font:kFontPingFangSCSCSemibold(15.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
+}
+
+- (UIView *)imgBgView {
+    if (!_imgBgView) {
+        _imgBgView = [[UIView alloc] init];
+        _imgBgView.backgroundColor = JL_color_white_ffffff;
+    }
+    return _imgBgView;
 }
 
 - (UIImageView *)firstImageView {
@@ -115,6 +135,17 @@
         ViewBorderRadius(_thirdImageView, 5.0f, 0.0f, JL_color_clear);
     }
     return _thirdImageView;
+}
+
+- (UILabel *)flagLabel {
+    if (!_flagLabel) {
+        _flagLabel = [[UILabel alloc] init];
+        _flagLabel.text = @"(示例)";
+        _flagLabel.textColor = JL_color_gray_87888F;
+        _flagLabel.font = kFontPingFangSCMedium(12);
+        _flagLabel.textAlignment = NSTextAlignmentRight;
+    }
+    return _flagLabel;
 }
 
 - (UIButton *)firstImageButton {

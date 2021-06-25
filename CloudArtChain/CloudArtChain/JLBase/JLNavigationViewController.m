@@ -19,13 +19,13 @@
     // 设置导航条不透明
     self.navigationBar.translucent = NO;
     // 设置导航条背景色
-    self.navigationBar.barTintColor = JL_color_white_ffffff;
+    self.navigationBar.barTintColor = JL_color_navBgColor;
     // tintColor(这里主要调整返回箭头颜色)
-    self.navigationBar.tintColor = JL_color_fontdeep;
+    self.navigationBar.tintColor = JL_color_white_ffffff;
     // 设置导航条title颜色及字体
-    NSDictionary *attrDict = @{NSFontAttributeName: kFontPingFangSCRegular(18)};
+    NSDictionary *attrDict = @{NSFontAttributeName: kFontPingFangSCSCSemibold(18)};
     self.navigationBar.titleTextAttributes = attrDict;
-    self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: JL_color_gray_333333};
+    self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: JL_color_white_ffffff};
     // 去掉navigationBar底部灰线
     self.navigationBar.shadowImage = [UIImage new];
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
