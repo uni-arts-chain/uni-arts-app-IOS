@@ -38,7 +38,6 @@
 
 - (void)createSubViews {
     WS(weakSelf)
-    self.backgroundColor = JL_color_white_ffffff;
        
     [self addSubview:self.backView];
     [self.backView addSubview:self.inputNoticeLabel];
@@ -49,11 +48,11 @@
         make.left.equalTo(self).offset(12);
         make.right.equalTo(self).offset(-12);
         make.top.equalTo(self).offset(7);
-        make.height.mas_equalTo(131);
+        make.bottom.equalTo(self);
     }];
     [self.maxInputLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.backView);
-        make.right.mas_equalTo(-10.0f);
+        make.right.equalTo(self.backView).offset(-10);
         make.height.mas_equalTo(34.0f);
     }];
     [self.inputNoticeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -62,7 +61,8 @@
         make.right.equalTo(self.backView).offset(-11);
     }];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.backView);
+        make.top.equalTo(self.backView).offset(2);
+        make.left.right.equalTo(self.backView);
         make.bottom.equalTo(self.maxInputLabel.mas_top);
     }];
 

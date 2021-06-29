@@ -21,6 +21,7 @@
 
 @interface JLCategoryViewController ()<XPCollectionViewWaterfallFlowLayoutDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) JLCategoryNaviView *cateNaviView;
+@property (nonatomic, strong) UIView *topBgView;
 @property (nonatomic, strong) JLCateFilterView *transactionFilterView;
 @property (nonatomic, strong) JLCateFilterView *themeFilterView;
 @property (nonatomic, strong) JLCateFilterView *typeFilterView;
@@ -47,10 +48,11 @@
 
 - (void)createView {
     [self.view addSubview:self.cateNaviView];
-    [self.view addSubview:self.transactionFilterView];
-    [self.view addSubview:self.themeFilterView];
-    [self.view addSubview:self.typeFilterView];
-    [self.view addSubview:self.priceFilterView];
+    [self.view addSubview:self.topBgView];
+    [self.topBgView addSubview:self.transactionFilterView];
+    [self.topBgView addSubview:self.themeFilterView];
+    [self.topBgView addSubview:self.typeFilterView];
+    [self.topBgView addSubview:self.priceFilterView];
     [self.view addSubview:self.collectionView];
 }
 
@@ -66,6 +68,14 @@
     return _cateNaviView;
 }
 
+- (UIView *)topBgView {
+    if (!_topBgView) {
+        _topBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.cateNaviView.frameBottom, kScreenWidth, 164)];
+        _topBgView.backgroundColor = JL_color_white_ffffff;
+    }
+    return _topBgView;
+}
+
 - (JLCateFilterView *)transactionFilterView {
     if (!_transactionFilterView) {
         WS(weakSelf)
@@ -73,7 +83,7 @@
         for (Model_arts_transaction_Data *themeData in [AppSingleton sharedAppSingleton].artTransactionArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _transactionFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"交易" isNoSelectEffect:YES defaultSelectIndex: _type items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _transactionFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, 22, kScreenWidth, 34.0f) title:@"交易" isNoSelectEffect:YES defaultSelectIndex: _type items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -113,7 +123,7 @@
         for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.transactionFilterView.frameBottom, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.transactionFilterView.frameBottom, kScreenWidth,34.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -148,7 +158,7 @@
         for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
             [tempTypeArray addObject:typeData.title];
         }
-        _typeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"类型" items:[tempTypeArray copy] selectBlock:^(NSInteger index) {
+        _typeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 34.0f) title:@"类型" items:[tempTypeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentTypeID = nil;
             } else {
@@ -184,7 +194,7 @@
             [tempPriceArray addObject:priceData.title];
         }
         NSInteger defaultSelectIndex = 1; // 从1开始
-        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] defaultSelectIndex:defaultSelectIndex selectBlock:^(NSInteger index) {
+        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 34.0f) title:@"价格" items:[tempPriceArray copy] defaultSelectIndex:defaultSelectIndex selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentPriceID = nil;
             } else {
@@ -235,7 +245,7 @@
         XPCollectionViewWaterfallFlowLayout *layout = [[XPCollectionViewWaterfallFlowLayout alloc] init];
         layout.dataSource = self;
 
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.topBgView.frameBottom, kScreenWidth, kScreenHeight - self.topBgView.frameBottom - KTabBar_Height) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_clear;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

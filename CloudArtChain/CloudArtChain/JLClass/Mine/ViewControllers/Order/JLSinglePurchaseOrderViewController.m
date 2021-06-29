@@ -149,6 +149,8 @@
 - (JLNormalEmptyView *)noOrderView {
     if (!_noOrderView) {
         _noOrderView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+        _noOrderView.title = @"暂无订单";
+        _noOrderView.isOrderEmpty = YES;
     }
     return _noOrderView;
 }

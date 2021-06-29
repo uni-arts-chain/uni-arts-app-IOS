@@ -29,6 +29,7 @@
     WS(weakSelf)
     [super viewDidLoad];
     self.navigationItem.title = @"导出Keystore";
+    self.view.backgroundColor = JL_color_white_ffffff;
     [self addBackItem];
     [self createSubViews];
     

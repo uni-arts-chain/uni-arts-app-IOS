@@ -45,8 +45,8 @@
         NSString *title = self.menus[i];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:title forState:UIControlStateNormal];
-        [button setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        [button setTitleColor:JL_color_blue_38B2F1 forState:UIControlStateSelected];
+        [button setTitleColor:JL_color_black_101220 forState:UIControlStateNormal];
+        [button setTitleColor:JL_color_mainColor forState:UIControlStateSelected];
         button.titleLabel.font = kFontPingFangSCRegular(15.0f);
         button.tag = 2000 + i;
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -108,7 +108,7 @@
 - (UIView *)bottomLine {
     if (!_bottomLine) {
         _bottomLine = [[UIView alloc] init];
-        _bottomLine.backgroundColor = JL_color_blue_38B2F1;
+        _bottomLine.backgroundColor = JL_color_mainColor;
     }
     return _bottomLine;
 }

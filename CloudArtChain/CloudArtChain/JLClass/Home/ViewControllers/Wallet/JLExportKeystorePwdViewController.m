@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"设置Keystore密码";
+    self.view.backgroundColor = JL_color_white_ffffff;
     [self addBackItem];
     [self setupSubViews];
 }

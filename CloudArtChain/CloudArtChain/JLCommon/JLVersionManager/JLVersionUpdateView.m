@@ -189,7 +189,7 @@
         _updateNowButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_updateNowButton setTitle:@"立即更新" forState:UIControlStateNormal];
         _updateNowButton.titleLabel.font = kFontPingFangSCSCSemibold(17.0f);
-        _updateNowButton.backgroundColor = JL_color_blue_6077DF;
+        _updateNowButton.backgroundColor = JL_color_mainColor;
         [_updateNowButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         [_updateNowButton addTarget:self action:@selector(updateNow) forControlEvents:UIControlEventTouchUpInside];
         ViewBorderRadius(_updateNowButton, ButonHeight * 0.5f, 0, JL_color_clear);

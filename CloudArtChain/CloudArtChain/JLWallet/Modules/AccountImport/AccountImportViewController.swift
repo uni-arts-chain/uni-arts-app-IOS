@@ -66,6 +66,7 @@ final class AccountImportViewController: JLBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addBackItem()
+        view.backgroundColor = .white
         
         configure()
         setupLocalization()

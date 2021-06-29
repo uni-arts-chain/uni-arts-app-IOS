@@ -145,7 +145,7 @@
         UILabel *noticeLabel = [JLUIFactory labelInitText:@"已确认周围无人及摄像头" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
         [_qrCodeCoverView addSubview:noticeLabel];
         
-        UIButton *showQRCodeBtn = [JLUIFactory buttonInitTitle:@"显示二维码" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(showQRCodeBtnClick)];
+        UIButton *showQRCodeBtn = [JLUIFactory buttonInitTitle:@"显示二维码" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(15.0f) addTarget:self action:@selector(showQRCodeBtnClick)];
         ViewBorderRadius(showQRCodeBtn, 17.0f, 0.0f, JL_color_clear);
         [_qrCodeCoverView addSubview:showQRCodeBtn];
         

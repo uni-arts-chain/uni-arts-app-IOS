@@ -382,6 +382,7 @@
     if (!_workDetailView) {
         WS(weakSelf)
         _workDetailView = [[JLUploadWorkDescriptionView alloc] initWithMax:1000 placeholder:@"请对作品进行说明..." placeHolderColor:nil textFont:nil textColor:nil borderColor:JL_color_gray_B9B9B9];
+        _workDetailView.backgroundColor = JL_color_white_ffffff;
         _workDetailView.inputContentChangeBlock = ^{
             [weakSelf checkUpload];
         };

@@ -739,6 +739,10 @@
         WS(weakSelf)
         _videoView.playOrStopBlock = ^(NSInteger status) {
             
+            if ([NSString stringIsEmpty:urlStr]) {
+                [[JLLoading sharedLoading] showMBFailedTipMessage:@"播放失败，资源无效!" hideTime:1.5];
+                return;
+            }
             if (weakSelf.networkStatus == AFNetworkReachabilityStatusUnknown ||
                 weakSelf.networkStatus == AFNetworkReachabilityStatusNotReachable) {
                 [JLAlert jlalertDefaultView:@"当前无网络或网络不可用，请稍后再试!" cancel:@"好的"];

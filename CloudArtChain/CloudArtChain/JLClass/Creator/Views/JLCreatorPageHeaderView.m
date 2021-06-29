@@ -127,7 +127,9 @@
 - (void)setAuthorData:(Model_art_author_Data *)authorData {
     _authorData = authorData;
     
-    [_authorImgView sd_setImageWithURL:[NSURL URLWithString:_authorData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    if (![NSString stringIsEmpty:_authorData.avatar[@"url"]]) {
+        [_authorImgView sd_setImageWithURL:[NSURL URLWithString:_authorData.avatar[@"url"]] placeholderImage:[UIImage imageNamed:@"icon_mine_avatar_placeholder"]];
+    }
     _nameLabel.text = [NSString stringIsEmpty:_authorData.display_name] ? @"未设置昵称" : _authorData.display_name;
     NSString *showDesc = [NSString stringIsEmpty:_authorData.desc] ? @"未设置描述" : _authorData.desc;
     if (![NSString stringIsEmpty:showDesc]) {

@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"编辑钱包";
+    self.view.backgroundColor = JL_color_white_ffffff;
     [self addBackItem];
 //    [self addRightBarButton];
     

@@ -177,7 +177,7 @@
 
 - (UIButton *)keystoreCopyBtn {
     if (!_keystoreCopyBtn) {
-        _keystoreCopyBtn = [JLUIFactory buttonInitTitle:@"复制Keystore" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(keystoreCopyBtnClick)];
+        _keystoreCopyBtn = [JLUIFactory buttonInitTitle:@"复制Keystore" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(keystoreCopyBtnClick)];
         ViewBorderRadius(_keystoreCopyBtn, 23.0f, 0.0f, JL_color_clear);
     }
     return _keystoreCopyBtn;

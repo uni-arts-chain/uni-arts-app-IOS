@@ -57,23 +57,23 @@
     [self addSubview:self.titleLabel];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = JL_color_gray_8D8D8D;
+    lineView.backgroundColor = JL_color_gray_E1E1E1;
     [self addSubview:lineView];
     
     [self addSubview:self.scrollView];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.mas_equalTo(13.0f);
         make.top.bottom.equalTo(self);
     }];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleLabel.mas_right).offset(17.0f);
-        make.height.mas_equalTo(17.0f);
+        make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+        make.height.mas_equalTo(16.0f);
         make.width.mas_equalTo(1.0f);
         make.centerY.mas_equalTo(self.mas_centerY);
     }];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(lineView.mas_right).offset(11.0f);
+        make.left.equalTo(lineView.mas_right).offset(8.0f);
         make.top.right.bottom.equalTo(self);
     }];
     
@@ -83,8 +83,8 @@
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = kFontPingFangSCMedium(14.0f);
-        _titleLabel.textColor = JL_color_gray_101010;
+        _titleLabel.font = kFontPingFangSCRegular(15.0f);
+        _titleLabel.textColor = JL_color_black_101220;
         _titleLabel.text = self.title;
     }
     return _titleLabel;
@@ -102,21 +102,23 @@
 - (void)setupItems {
     CGFloat currentX = 0.0f;
     for (int i = 0; i < self.items.count; i++) {
-        UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, 10.0f, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2, self.frameHeight - 10.0f * 2) title:self.items[i] tag:2001 + i];
+        UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, (self.frameHeight - 22) / 2, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2, 22) title:self.items[i] tag:2001 + i];
         if (_isNoSelectEffect) {
             if (_defaultSelectIndex == i) {
                 button.selected = YES;
-                button.backgroundColor = JL_color_gray_101010;
+                button.backgroundColor = JL_color_mainColor;
+                ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
             }
         }else {
             if (self.currentIndex >= 0 && self.currentIndex == i + 1) {
                 button.selected = YES;
-                button.backgroundColor = JL_color_gray_101010;
+                button.backgroundColor = JL_color_mainColor;
+                ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
             }
         }
         [self.scrollView addSubview:button];
         [self.itemsArray addObject:button];
-        currentX += [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2 + 14.0f;
+        currentX += [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2 + 6.0f;
     }
     self.scrollView.contentSize = CGSizeMake(currentX, self.frameHeight);
 }
@@ -126,11 +128,11 @@
     button.frame = frame;
     button.tag = tag;
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+    [button setTitleColor:JL_color_black_101220 forState:UIControlStateNormal];
     [button setTitleColor:JL_color_white_ffffff forState:UIControlStateSelected];
-    button.titleLabel.font = kFontPingFangSCRegular(14.0f);
+    button.titleLabel.font = kFontPingFangSCRegular(13.0f);
     [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    ViewBorderRadius(button, 2.0f, 0.0f, JL_color_clear);
+    ViewBorderRadius(button, 3.0f, 1.0f, JL_color_gray_E1E1E1);
     return button;
 }
 
@@ -151,7 +153,7 @@
                 button.backgroundColor = JL_color_clear;
             }
             sender.selected = YES;
-            sender.backgroundColor = JL_color_gray_101010;
+            sender.backgroundColor = JL_color_mainColor;
         }
     }
     if (self.selectBlock) {

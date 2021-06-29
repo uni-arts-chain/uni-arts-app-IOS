@@ -120,7 +120,8 @@
 - (JLUploadWorkDescriptionView *)suggestionView {
     if (!_suggestionView) {
         _suggestionView = [[JLUploadWorkDescriptionView alloc] initWithMax:100 placeholder:@"留下您的宝贵意见，让我们做得更好" placeHolderColor:JL_color_gray_87888F textFont:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_212121 borderColor:JL_color_clear];
-        _suggestionView.frame = CGRectMake(12.0f, self.suggestionTitleLabel.frameBottom, kScreenWidth - 12.0f * 2, 200.0f);
+        _suggestionView.frame = CGRectMake(0, self.suggestionTitleLabel.frameBottom, kScreenWidth, 200.0f);
+        ViewBorderRadius(_suggestionView, 8.0f, 0.0f, JL_color_clear);
     }
     return _suggestionView;
 }

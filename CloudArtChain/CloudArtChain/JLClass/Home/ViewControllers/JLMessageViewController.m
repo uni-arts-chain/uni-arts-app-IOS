@@ -73,14 +73,14 @@
 - (UITableView *)tableView {
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        _tableView.backgroundColor = JL_color_white_ffffff;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = UITableViewAutomaticDimension;
-        _tableView.estimatedRowHeight = 78.0f;
+        _tableView.estimatedRowHeight = 101.0f;
         _tableView.estimatedSectionHeaderHeight = 0.0f;
         _tableView.estimatedSectionFooterHeight = 0.0f;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.contentInset = UIEdgeInsetsMake(12, 0, 0, 0);
         [_tableView registerClass:[JLMessageTableViewCell class] forCellReuseIdentifier:@"JLMessageTableViewCell"];
         
         _tableView.mj_header = [JLRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(headRefresh)];
@@ -105,6 +105,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLMessageTableViewCell" forIndexPath:indexPath];
+    cell.row = indexPath.row;
     cell.messageData = self.messageListArray[indexPath.row];
     return cell;
 }
@@ -159,6 +160,7 @@
 - (JLNormalEmptyView *)noOrderView {
     if (!_noOrderView) {
         _noOrderView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
+        _noOrderView.title = @"暂无消息";
     }
     return _noOrderView;
 }

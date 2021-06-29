@@ -55,13 +55,13 @@
     }];
     [self.inputTF mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.unitLabel.mas_left).offset(-6);
-        make.centerY.equalTo(self.titleLabel);
+        make.top.bottom.equalTo(self);
         self.inputTFWidthConstraint = make.width.mas_equalTo(25.0f);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.inputTF.mas_left);
         make.right.equalTo(self.inputTF.mas_right);
-        make.top.equalTo(self.inputTF.mas_bottom);
+        make.bottom.equalTo(self).offset(-17);
         make.height.mas_equalTo(1.0f);
     }];
     [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {

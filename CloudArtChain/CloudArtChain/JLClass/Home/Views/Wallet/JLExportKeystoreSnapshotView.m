@@ -64,14 +64,14 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"请勿截图" font:kFontPingFangSCMedium(17.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _titleLabel = [JLUIFactory labelInitText:@"请勿截图" font:kFontPingFangSCMedium(17.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentCenter];
     }
     return _titleLabel;
 }
 
 - (UILabel *)contentLabel {
     if (!_contentLabel) {
-        _contentLabel = [JLUIFactory labelInitText:@"如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并存放在安全的地方" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _contentLabel = [JLUIFactory labelInitText:@"如果有人获取你的助记词将直接获取你的资产！请抄写下助记词并存放在安全的地方" font:kFontPingFangSCRegular(15.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
         NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
         paragraph.lineSpacing = 2.0f;
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_contentLabel.text];
@@ -83,7 +83,7 @@
 
 - (UIButton *)understoodBtn {
     if (!_understoodBtn) {
-        _understoodBtn = [JLUIFactory buttonInitTitle:@"知道了" titleColor:JL_color_white_ffffff backgroundColor:JL_color_red_D70000 font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(understoodBtnClick)];
+        _understoodBtn = [JLUIFactory buttonInitTitle:@"知道了" titleColor:JL_color_white_ffffff backgroundColor:JL_color_mainColor font:kFontPingFangSCRegular(16.0f) addTarget:self action:@selector(understoodBtnClick)];
         ViewBorderRadius(_understoodBtn, 20.0f, 0.0f, JL_color_clear);
     }
     return _understoodBtn;

@@ -12,6 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLNormalEmptyView : UIView
 
+@property (nonatomic, copy) NSString *title;
+
+@property (nonatomic, assign) BOOL isMainColorBg;
+
+@property (nonatomic, assign) BOOL isOrderEmpty;
+
 @end
 
 NS_ASSUME_NONNULL_END

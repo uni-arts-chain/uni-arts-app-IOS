@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"导入钱包";
+    self.view.backgroundColor = JL_color_white_ffffff;
     [self addBackItem];
     [self addRightItemImage:@"icon_navi_scan"];
     [self createSubViews];

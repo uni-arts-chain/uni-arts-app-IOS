@@ -60,6 +60,7 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
 
 //        if skipButtonTitle != nil {
 //            createSkipButton()
@@ -76,7 +77,7 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
     private func configureLayout() {
         skipButton.layer.cornerRadius = 23.0
         skipButton.layer.masksToBounds = true
-        skipButton.layer.borderColor = UIColor(hex: "50C3FF").cgColor
+        skipButton.layer.borderColor = UIColor(hex: "EF4136").cgColor
         skipButton.layer.borderWidth = 1.0
         
         nextButton.layer.cornerRadius = 23.0
@@ -94,8 +95,8 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
         button.translatesAutoresizingMaskIntoConstraints = false
         button.roundedBackgroundView?.shadowOpacity = 0.0
         button.contentInsets = Constants.itemContentInsets
-        button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF")
-        button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
+        button.roundedBackgroundView?.fillColor = UIColor(hex: "EF4136")
+        button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "EF4136").withAlphaComponent(0.5)
         button.roundedBackgroundView?.cornerRadius = Constants.cornerRadius
         button.imageWithTitleView?.titleColor = UIColor.white
         button.imageWithTitleView?.titleFont = UIFont.p1Paragraph
@@ -148,7 +149,7 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
         
         let title = "稍后备份"
         let rightBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(actionSkip))
-        let dic = [NSAttributedString.Key.foregroundColor: UIColor(hex: "38B2F1"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)]
+        let dic = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)]
         rightBarButtonItem.setTitleTextAttributes(dic, for: .normal)
         rightBarButtonItem.setTitleTextAttributes(dic, for: .highlighted)
         self.navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -178,9 +179,9 @@ final class AccountConfirmViewController: JLBaseViewController, AdaptiveDesignab
     private func updateNextButton() {
         nextButton.isEnabled = pendingButtons.isEmpty && !submittedButtons.isEmpty
         if nextButton.isEnabled {
-            nextButton.backgroundColor = UIColor(hex: "50C3FF")
+            nextButton.backgroundColor = UIColor(hex: "EF4136")
         } else {
-            nextButton.backgroundColor = UIColor(hex: "50C3FF", alpha: 0.5)
+            nextButton.backgroundColor = UIColor(hex: "EF4136", alpha: 0.5)
         }
     }
 
@@ -329,8 +330,8 @@ extension AccountConfirmViewController {
             originalPositions[button] = positions[button]
 
             let animationBlock = {
-                button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
-                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF")
+                button.roundedBackgroundView?.fillColor = UIColor(hex: "EF4136").withAlphaComponent(0.5)
+                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "EF4136")
                 button.changesContentOpacityWhenHighlighted = true
                 self.layoutSubmittedButtons()
         
@@ -347,8 +348,8 @@ extension AccountConfirmViewController {
             positions[button] = originalPositions[button]
 
             let animationBlock = {
-                button.roundedBackgroundView?.fillColor = UIColor(hex: "50C3FF")
-                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "50C3FF").withAlphaComponent(0.5)
+                button.roundedBackgroundView?.fillColor = UIColor(hex: "EF4136")
+                button.roundedBackgroundView?.highlightedFillColor = UIColor(hex: "EF4136").withAlphaComponent(0.5)
                 button.changesContentOpacityWhenHighlighted = false
 
                 currentPosition?.leading.isActive = false

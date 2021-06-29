@@ -86,6 +86,7 @@ final class ExportGenericViewController: JLBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addBackItem()
+        view.backgroundColor = .white;
         
         setupLocalization()
 
@@ -200,7 +201,7 @@ extension ExportGenericViewController {
     private func setupAccessoryButton() {
         let button = UIButton(type: .custom)
         button.setTitle("下一步", for: .normal)
-        button.backgroundColor = UIColor(hex: "50C3FF")
+        button.backgroundColor = UIColor(hex: "EF4136")
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 23.0
         button.layer.masksToBounds = true

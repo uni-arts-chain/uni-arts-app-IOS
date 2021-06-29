@@ -95,18 +95,22 @@
 #define JL_color_blue_78A7FF JL_COLOR_MAG.blue_78A7FF
 #define JL_color_blue_B2CDFF JL_COLOR_MAG.blue_B2CDFF
 #define JL_color_blue_6077DF JL_COLOR_MAG.blue_6077DF
+#define JL_color_blue_00B7EE JL_COLOR_MAG.blue_00B7EE
 
 #define JL_color_purple_F0F5FF JL_COLOR_MAG.purple_F0F5FF
 #define JL_color_purple_CADEFF JL_COLOR_MAG.purple_CADEFF
+#define JL_color_purple_8170FF JL_COLOR_MAG.purple_8170FF
 
 #define JL_color_red_D70000 JL_COLOR_MAG.red_D70000
 #define JL_color_red_FF4832 JL_COLOR_MAG.red_FF4832
 #define JL_color_red_EF4136 JL_COLOR_MAG.red_EF4136
+#define JL_color_red_F99491 JL_COLOR_MAG.red_F99491
 
 #define JL_color_orange_FF8150     JL_COLOR_MAG.orange_FF8150
 #define JL_color_orange_FFEBD4     JL_COLOR_MAG.orange_FFEBD4
 #define JL_color_orange_FF8650     JL_COLOR_MAG.orange_FF8650
 #define JL_color_orange_FF7F1F     JL_COLOR_MAG.orange_FF7F1F
+#define JL_color_orange_F39800     JL_COLOR_MAG.orange_F39800
 
 #define JL_color_yellow_FFCA50     JL_COLOR_MAG.yellow_FFCA50
 #define JL_color_yellow_FFCC5E     JL_COLOR_MAG.yellow_FFCC5E
@@ -118,6 +122,7 @@
 #define JL_color_black_080C19     JL_COLOR_MAG.black_080C19
 #define JL_color_black_101220     JL_COLOR_MAG.black_101220
 #define JL_color_black_191919     JL_COLOR_MAG.black_191919
+#define JL_color_black_333333     JL_COLOR_MAG.black_333333
 
 #define JL_color_other_D2D4DC      JL_COLOR_MAG.other_D2D4DC
 #define JL_color_other_4C5B86      JL_COLOR_MAG.other_4C5B86
@@ -217,18 +222,22 @@
 @property (nonatomic, strong) UIColor *blue_78A7FF;
 @property (nonatomic, strong) UIColor *blue_B2CDFF;
 @property (nonatomic, strong) UIColor *blue_6077DF;
+@property (nonatomic, strong) UIColor *blue_00B7EE;
 
 @property (nonatomic, strong) UIColor *purple_F0F5FF;
 @property (nonatomic, strong) UIColor *purple_CADEFF;
+@property (nonatomic, strong) UIColor *purple_8170FF;
 
 @property (nonatomic, strong) UIColor *red_D70000;
 @property (nonatomic, strong) UIColor *red_FF4832;
 @property (nonatomic, strong) UIColor *red_EF4136;
+@property (nonatomic, strong) UIColor *red_F99491;
 
 @property (nonatomic, strong) UIColor *orange_FF8150;
 @property (nonatomic, strong) UIColor *orange_FFEBD4;
 @property (nonatomic, strong) UIColor *orange_FF8650;
 @property (nonatomic, strong) UIColor *orange_FF7F1F;
+@property (nonatomic, strong) UIColor *orange_F39800;
 
 @property (nonatomic, strong) UIColor *yellow_FFCA50;
 @property (nonatomic, strong) UIColor *yellow_FFCC5E;
@@ -240,6 +249,7 @@
 @property (nonatomic, strong) UIColor *black_080C19;
 @property (nonatomic, strong) UIColor *black_101220;
 @property (nonatomic, strong) UIColor *black_191919;
+@property (nonatomic, strong) UIColor *black_333333;
 
 @property (nonatomic, strong) UIColor *other_D2D4DC;
 @property (nonatomic, strong) UIColor *other_4C5B86;

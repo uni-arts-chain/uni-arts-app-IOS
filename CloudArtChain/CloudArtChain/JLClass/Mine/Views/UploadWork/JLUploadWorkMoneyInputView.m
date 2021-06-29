@@ -58,13 +58,13 @@
     [self.inputTF mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.right.equalTo(self.unitLabel.mas_left);
         make.right.mas_equalTo(-12.0f);
-        make.centerY.equalTo(self.titleLabel);
+        make.top.bottom.equalTo(self);
         self.inputTFWidthConstraint = make.width.mas_equalTo(25.0f);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.inputTF.mas_left);
         make.right.equalTo(self.inputTF.mas_right);
-        make.top.equalTo(self.inputTF.mas_bottom);
+        make.bottom.equalTo(self).offset(-17);
         make.height.mas_equalTo(1.0f);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -177,7 +177,7 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:self.title font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _titleLabel = [JLUIFactory labelInitText:self.title font:kFontPingFangSCRegular(16.0f) textColor:JL_color_black_101220 textAlignment:NSTextAlignmentLeft];
     }
     return _titleLabel;
 }

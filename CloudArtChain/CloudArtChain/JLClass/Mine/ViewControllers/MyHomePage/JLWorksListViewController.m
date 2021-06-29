@@ -269,7 +269,7 @@
 
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, 28.0f, kScreenWidth - 24, kScreenHeight - KTouch_Responder_Height)];
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, 28.0f, kScreenWidth - 24, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height - 50 * 2)];
     }
     return _emptyView;
 }
