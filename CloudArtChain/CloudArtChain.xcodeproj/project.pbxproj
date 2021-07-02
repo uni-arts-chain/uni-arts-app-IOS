@@ -2231,7 +2231,7 @@
 		B3890B3525DFB84B00028F78 /* JLInputLogisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLInputLogisticsViewController.m; sourceTree = "<group>"; };
 		B3890E50261978880060EECA /* AcceptSaleOrderCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptSaleOrderCall.swift; sourceTree = "<group>"; };
 		B3890E552619B4A10060EECA /* AuctionBidCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBidCall.swift; sourceTree = "<group>"; };
-		B38A5F6724F34F0A00FA3EF7 /* 云画链.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "云画链.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B38A5F6724F34F0A00FA3EF7 /* 萌易.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "萌易.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38A5F6A24F34F0A00FA3EF7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -5309,7 +5309,7 @@
 		B38A5F6824F34F0A00FA3EF7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B38A5F6724F34F0A00FA3EF7 /* 云画链.app */,
+				B38A5F6724F34F0A00FA3EF7 /* 萌易.app */,
 				B38A5F8224F34F0C00FA3EF7 /* CloudArtChainTests.xctest */,
 				B38A5F8D24F34F0C00FA3EF7 /* CloudArtChainUITests.xctest */,
 			);
@@ -6747,7 +6747,7 @@
 			);
 			name = CloudArtChain;
 			productName = CloudArtChain;
-			productReference = B38A5F6724F34F0A00FA3EF7 /* 云画链.app */;
+			productReference = B38A5F6724F34F0A00FA3EF7 /* 萌易.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B38A5F8124F34F0C00FA3EF7 /* CloudArtChainTests */ = {
@@ -8284,7 +8284,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8661,7 +8661,7 @@
 					"-lLive2DCubismCore",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.MengYi;
-				PRODUCT_NAME = "云画链";
+				PRODUCT_NAME = "萌易";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/CloudArtChain/CloudArtChain-Bridging-Header.h";
@@ -8682,7 +8682,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -9059,7 +9059,7 @@
 					"-lLive2DCubismCore",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.MengYi;
-				PRODUCT_NAME = "云画链";
+				PRODUCT_NAME = "萌易";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/CloudArtChain/CloudArtChain-Bridging-Header.h";
@@ -9091,7 +9091,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/云画链.app/云画链";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/萌易.app/萌易";
 			};
 			name = Debug;
 		};
@@ -9116,7 +9116,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "CloudArtChainTests/CloudArtChainTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/云画链.app/云画链";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/萌易.app/萌易";
 			};
 			name = Release;
 		};

@@ -170,7 +170,7 @@
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             picker.delegate = weakSelf;
-            picker.allowsEditing = YES;
+            picker.allowsEditing = NO;
             picker.modalPresentationStyle = UIModalPresentationFullScreen;
             if (@available(iOS 11.0, *)) {
                 UIScrollView.appearance.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;

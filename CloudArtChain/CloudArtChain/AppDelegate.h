@@ -13,7 +13,7 @@
 #import <SafariServices/SafariServices.h>
 #import <SoraUI/SoraUI-Swift.h>
 #import <CommonWallet/CommonWallet-Swift.h>
-#import <云画链-Swift.h>
+#import <萌易-Swift.h>
 
 @class LAppViewController;
 @class LAppView;

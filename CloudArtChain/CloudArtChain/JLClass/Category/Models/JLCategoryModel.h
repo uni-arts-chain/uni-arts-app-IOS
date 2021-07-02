@@ -32,6 +32,8 @@
 @property (nonatomic, strong) NSString *resource_type;
 /** 价格排序 */
 @property (nonatomic, strong) NSString *price_sort;
+///level: primary为新品或一级市场，secondary为二手交易或二级市场
+@property (nonatomic, copy) NSString *level;
 @end
 @interface Model_arts_selling_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;

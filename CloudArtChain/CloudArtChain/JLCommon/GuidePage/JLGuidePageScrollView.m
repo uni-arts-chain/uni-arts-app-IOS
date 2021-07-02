@@ -54,12 +54,7 @@ static JLGuidePageScrollView *guidePageScrollView;
     
     for (int i = 0; i < self.imageNameArray.count; i++) {
         
-        CGRect imgViewFrame = CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight);
-        if (i == self.imageNameArray.count - 1) {
-            imgViewFrame = CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight - (KTouch_Responder_Height + JLHeightScale(139)));
-        }
-        
-        UIImageView *imgView = [[UIImageView alloc] initWithFrame:imgViewFrame];
+        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight)];
         imgView.tag = 100 + i;
         imgView.image = [UIImage imageNamed:self.imageNameArray[i]];
         imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -108,6 +103,14 @@ static JLGuidePageScrollView *guidePageScrollView;
                 make.size.mas_equalTo(CGSizeMake(43, 14));
             }];
         }else {
+            UIView *bottomView = [[UIView alloc] init];
+            bottomView.backgroundColor = JL_color_white_ffffff;
+            [_scrollView addSubview:bottomView];
+            [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.bottom.right.equalTo(imgView);
+                make.height.mas_equalTo(@(KTouch_Responder_Height + JLHeightScale(139)));
+            }];
+            
             UIButton *enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [enterBtn setBackgroundImage:[UIImage imageNamed:self.indicatorImageNameArray[i]] forState:UIControlStateNormal];
             [enterBtn setTitle:@"进入" forState:UIControlStateNormal];
@@ -115,9 +118,9 @@ static JLGuidePageScrollView *guidePageScrollView;
             enterBtn.titleLabel.font = kFontPingFangSCMedium(17);
             enterBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 10, 0);
             [enterBtn addTarget:self action:@selector(enterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [_scrollView addSubview:enterBtn];
+            [bottomView addSubview:enterBtn];
             [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(imgView);
+                make.centerX.equalTo(bottomView);
                 make.bottom.equalTo(self).offset(-(KTouch_Responder_Height + JLHeightScale(26)));
                 make.size.mas_equalTo(CGSizeMake(284, 80));
             }];

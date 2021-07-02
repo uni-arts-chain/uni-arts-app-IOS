@@ -67,7 +67,7 @@
     [AppSingleton systemInfo];
     // 检测持久化登录token有效期
     [AppSingleton loginInfonWithBlock:nil];
-    [JLVersionManager checkVersion];
+//    [JLVersionManager checkVersion];
     [self createIQKeyboardManager];
     [self initUM];
     [self showMainViewController];
@@ -200,8 +200,7 @@
     // 设置导航条title颜色及字体
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(18),NSForegroundColorAttributeName: JL_color_white_ffffff}];
     
-    [[UITabBar appearance] setBackgroundImage:[UIImage getImageWithColor:JL_color_tabbarBgColor width:1.0f height:1.0f]];
-    
+    [[UITabBar appearance] setBarTintColor:JL_color_tabbarBgColor];    
     [[UITabBar appearance] setTranslucent:NO];
 }
 

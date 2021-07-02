@@ -154,7 +154,8 @@
 @property (nonatomic, strong) NSString *img_detail_file4_desc;
 @property (nonatomic, strong) NSDictionary *img_detail_file5;
 @property (nonatomic, strong) NSString *img_detail_file5_desc;
-@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSString *price; // 上次成交或当前价格
+@property (nonatomic, strong) NSString *ath_price; // 历史最高价格
 @property (nonatomic, strong) NSString *fee;
 @property (nonatomic, strong) NSString *position;
 /** 状态,多个逗号分割 prepare(上传未上链), online(已上链), bidding(已上架), auctioning(拍卖中) */

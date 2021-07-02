@@ -77,7 +77,6 @@
     self.navigationItem.title = @"详情";
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
 
-//    self.artDetailData.type = 2;
     [self addBackItem];
     if (self.artDetailData) {
         [self createSubView];
@@ -110,6 +109,8 @@
 }
 
 - (void)createSubView {
+    self.artDetailData.type = 2;
+    
     [self initBottomUI];
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -166,6 +167,7 @@
         make.height.mas_equalTo(@94.0f);
     }];
     // 区块链交易信息
+    NSLog(@"=======------%@", self.artDetailData.ath_price);
     [self.contentView addSubview:self.artChainTradeView];
     [self.artChainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);

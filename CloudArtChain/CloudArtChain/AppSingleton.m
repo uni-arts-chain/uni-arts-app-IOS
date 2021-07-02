@@ -87,19 +87,6 @@
         [arr addObject:data];
     }
     self.artTransactionArray = [arr copy];
-    
-//    WS(weakSelf)
-//    Model_arts_transaction_Req *request = [[Model_arts_transaction_Req alloc] init];
-//    Model_arts_transaction_Rsp *response = [[Model_arts_transaction_Rsp alloc] init];
-//
-//    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-//        if (netIsWork) {
-//            weakSelf.artTransactionArray = response.body;
-//            if (successBlock) {
-//                successBlock();
-//            }
-//        }
-//    }];
 }
 
 #pragma mark 请求作品主题

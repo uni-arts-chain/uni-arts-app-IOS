@@ -43,7 +43,7 @@
     self.tabBar.shadowImage = [UIImage new];
     self.tabBar.backgroundImage = [UIImage new];
     self.delegate = self;
-    self.tabBar.barTintColor = JL_color_white_ffffff;
+    self.tabBar.barTintColor = JL_color_mainColor;
     
     // 设置tabbarItem.title两种状态颜色
     NSDictionary *normalDic = @{NSForegroundColorAttributeName: JL_color_white_ffffff, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
@@ -71,7 +71,7 @@
         [tabBarItem setTitleTextAttributes:normalDic forState:UIControlStateNormal];
         [tabBarItem setTitleTextAttributes:selectedDic forState:UIControlStateSelected];
      }
-    [self.tabBar addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0.0f];
+//    [self.tabBar addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0.0f];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -99,7 +99,7 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
             if  pinView.creationState == .normal {
                 if self.title == "创建密码" {
                     topLabel.isHidden = false
-                    titleLabel.text = "请设置饭团密码，用于保护私钥"
+                    titleLabel.text = "请设置萌易密码，用于保护私钥"
                 } else {
                     topLabel.isHidden = true
                     titleLabel.text = "设置密码"
