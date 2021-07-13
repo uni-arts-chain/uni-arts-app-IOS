@@ -211,6 +211,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
         [self.navigationController pushViewController:auctionDetailVC animated:YES];
     } else {
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+        artDetailVC.marketLevel = self.marketLevel;
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = artDetailData;
         [self.navigationController pushViewController:artDetailVC animated:YES];

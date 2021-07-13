@@ -133,13 +133,16 @@
     [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            NSString *payUrl = response.body[@"url"];
-            if (![NSString stringIsEmpty:payUrl]) {
-                if (weakSelf.buySuccessBlock) {
-                    weakSelf.buySuccessBlock(weakSelf.currentPayType ,payUrl);
-                }
-//                [weakSelf.navigationController popViewControllerAnimated:NO];
+            if (weakSelf.buySuccessBlock) {
+                weakSelf.buySuccessBlock(weakSelf.currentPayType ,@"");
             }
+            
+//            NSString *payUrl = response.body[@"url"];
+//            if (![NSString stringIsEmpty:payUrl]) {
+//                if (weakSelf.buySuccessBlock) {
+//                    weakSelf.buySuccessBlock(weakSelf.currentPayType ,payUrl);
+//                }
+//            }
         }
     }];
     

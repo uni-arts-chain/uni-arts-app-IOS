@@ -124,6 +124,9 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /arts/topic 主题推荐
 @implementation Model_arts_topic_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
 @end
 @implementation Model_arts_topic_Req
 @end

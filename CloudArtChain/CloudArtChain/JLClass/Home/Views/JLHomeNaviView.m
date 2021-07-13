@@ -10,8 +10,9 @@
 
 @interface JLHomeNaviView ()
 @property (nonatomic, strong) UIButton *customerServiceBtn;
-@property (nonatomic, strong) UIView *searchView;
-@property (nonatomic, strong) UIButton *searchBtn;
+//@property (nonatomic, strong) UIView *searchView;
+//@property (nonatomic, strong) UIButton *searchBtn;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *messageBtn;
 @property (nonatomic, strong) UIView *unreadMessageView;
 @end
@@ -28,8 +29,9 @@
 
 - (void)createSubViews {
     [self addSubview:self.customerServiceBtn];
-    [self addSubview:self.searchView];
-    [self addSubview:self.searchBtn];
+//    [self addSubview:self.searchView];
+//    [self addSubview:self.searchBtn];
+    [self addSubview:self.titleLabel];
     [self addSubview:self.messageBtn];
     [self addSubview:self.unreadMessageView];
     
@@ -48,18 +50,22 @@
         make.right.equalTo(self.messageBtn).offset(-10.0f);
         make.size.mas_equalTo(8.0f);
     }];
-    [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.customerServiceBtn.mas_right);
-        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
-        make.right.equalTo(self.messageBtn.mas_left);
-        make.bottom.equalTo(self).offset(-7.0f);
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self.customerServiceBtn);
     }];
-    [self.searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.customerServiceBtn.mas_right);
-        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
-        make.right.equalTo(self.messageBtn.mas_left);
-        make.bottom.equalTo(self).offset(-7.0f);
-    }];
+//    [self.searchView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.customerServiceBtn.mas_right);
+//        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
+//        make.right.equalTo(self.messageBtn.mas_left);
+//        make.bottom.equalTo(self).offset(-7.0f);
+//    }];
+//    [self.searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.customerServiceBtn.mas_right);
+//        make.top.mas_equalTo(KStatus_Bar_Height + 3.0f);
+//        make.right.equalTo(self.messageBtn.mas_left);
+//        make.bottom.equalTo(self).offset(-7.0f);
+//    }];
 }
 
 - (UIButton *)customerServiceBtn {
@@ -90,42 +96,53 @@
     return _unreadMessageView;
 }
 
-- (UIButton *)searchBtn {
-    if (!_searchBtn) {
-        _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        ViewBorderRadius(_searchBtn, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
-        [_searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.text = @"首页";
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.textColor = JL_color_white_ffffff;
+        _titleLabel.font = kFontPingFangSCSCSemibold(18);
     }
-    return _searchBtn;
+    return _titleLabel;
 }
 
-- (UIView *)searchView {
-    if (!_searchView) {
-        _searchView = [[UIView alloc] init];
-        _searchView.backgroundColor = JL_color_gray_F5F5F5;
-        ViewBorderRadius(_searchView, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
-        
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_common_search"]];
-        [_searchView addSubview:imageView];
-        
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.font = kFontPingFangSCRegular(13.0f);
-        titleLabel.textColor = JL_color_gray_87888F;
-        titleLabel.text = @"请输入关键字搜索作品";
-        [_searchView addSubview:titleLabel];
-        
-        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(13.0f);
-            make.size.mas_equalTo(14.0f);
-            make.centerY.equalTo(_searchView.mas_centerY);
-        }];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(imageView.mas_right).offset(6.0f);
-            make.top.bottom.right.equalTo(_searchView);
-        }];
-    }
-    return _searchView;
-}
+//- (UIButton *)searchBtn {
+//    if (!_searchBtn) {
+//        _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        ViewBorderRadius(_searchBtn, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
+//        [_searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _searchBtn;
+//}
+//
+//- (UIView *)searchView {
+//    if (!_searchView) {
+//        _searchView = [[UIView alloc] init];
+//        _searchView.backgroundColor = JL_color_gray_F5F5F5;
+//        ViewBorderRadius(_searchView, (KNavigation_Height - 5.0f * 2) * 0.5f, 0.0f, JL_color_clear);
+//
+//        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_common_search"]];
+//        [_searchView addSubview:imageView];
+//
+//        UILabel *titleLabel = [[UILabel alloc] init];
+//        titleLabel.font = kFontPingFangSCRegular(13.0f);
+//        titleLabel.textColor = JL_color_gray_87888F;
+//        titleLabel.text = @"请输入关键字搜索作品";
+//        [_searchView addSubview:titleLabel];
+//
+//        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(13.0f);
+//            make.size.mas_equalTo(14.0f);
+//            make.centerY.equalTo(_searchView.mas_centerY);
+//        }];
+//        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(imageView.mas_right).offset(6.0f);
+//            make.top.bottom.right.equalTo(_searchView);
+//        }];
+//    }
+//    return _searchView;
+//}
 
 - (void)customerServiceBtnClick {
     if (self.customerServiceBlock) {

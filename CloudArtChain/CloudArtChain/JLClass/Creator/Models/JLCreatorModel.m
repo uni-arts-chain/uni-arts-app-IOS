@@ -12,6 +12,15 @@
 @end
 
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/:id/ 用户的信息
+@implementation Model_members_Req
+@end
+@implementation Model_members_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"members/%@", self.request.author_id];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
 #pragma mark /members/:id/arts 用户的作品
 @implementation Model_members_arts_Req
 @end

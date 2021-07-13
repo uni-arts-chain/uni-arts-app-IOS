@@ -110,7 +110,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == self.themeArray.count - 1) {
         if (self.seeMoreBlock) {
-            self.seeMoreBlock();
+            self.seeMoreBlock(self.topicData.ID);
         }
     } else {
         if (self.themeRecommendBlock) {
@@ -120,6 +120,8 @@
 }
 
 - (void)setTopicData:(Model_arts_topic_Data *)topicData {
+    _topicData = topicData;
+    
     if (![NSString stringIsEmpty:topicData.app_img_file[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:topicData.app_img_file[@"url"]]];
     }

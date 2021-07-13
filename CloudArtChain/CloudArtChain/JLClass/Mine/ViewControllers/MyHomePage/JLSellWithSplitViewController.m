@@ -406,7 +406,7 @@
         [_sellButton setTitle:@"出售" forState:UIControlStateNormal];
         [_sellButton setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
         _sellButton.titleLabel.font = kFontPingFangSCRegular(17.0f);
-        _sellButton.backgroundColor = JL_color_gray_101010;
+        _sellButton.backgroundColor = JL_color_mainColor;
         ViewBorderRadius(_sellButton, 23.0f, 0.0f, JL_color_clear);
         [_sellButton addTarget:self action:@selector(sellButtonClick) forControlEvents:UIControlEventTouchUpInside];
     }

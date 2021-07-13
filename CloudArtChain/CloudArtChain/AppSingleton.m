@@ -70,6 +70,7 @@
 + (void)systemInfo {
     [[AppSingleton sharedAppSingleton] requestArtTransactionWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtThemeWithSuccessBlock:nil];
+    [[AppSingleton sharedAppSingleton] requestArtsThemesWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:nil];
     [[AppSingleton sharedAppSingleton] requestArtPriceWithSuccessBlock:nil];
 }
@@ -98,6 +99,22 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.artThemeArray = response.body;
+            if (successBlock) {
+                successBlock();
+            }
+        }
+    }];
+}
+
+#pragma mark 请求商品类型
+- (void)requestArtsThemesWithSuccessBlock:(void(^)(void))successBlock {
+    WS(weakSelf)
+    Model_arts_themes_Req *request = [[Model_arts_themes_Req alloc] init];
+    Model_arts_themes_Rsp *response = [[Model_arts_themes_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.artsThemesArray = response.body;
             if (successBlock) {
                 successBlock();
             }

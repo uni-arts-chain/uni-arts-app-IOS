@@ -48,7 +48,7 @@
 @property (nonatomic, strong) JLArtDetailVideoView *videoView;
 @property (nonatomic, strong) JLArtDetailNamePriceView *artDetailNamePriceView;
 @property (nonatomic, strong) JLArtChainTradeView *artChainTradeView;
-//@property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
+@property (nonatomic, strong) JLArtDetailSellingView *artSellingView;
 @property (nonatomic, assign) BOOL artSellingViewOpen;
 @property (nonatomic, strong) JLArtAuthorDetailView *artAuthorDetailView;
 //@property (nonatomic, strong) JLArtInfoView *artInfoView;
@@ -68,6 +68,8 @@
 /** live2d下载 task */
 @property (nonatomic, strong) NSURLSessionTask *live2DDownloadTask;
 @property (nonatomic, assign) NSInteger networkStatus;
+/// 刷新数据（用户信息变更等）
+@property (nonatomic, assign) BOOL isUpdateDatas;
 @end
 
 @implementation JLArtDetailViewController
@@ -86,6 +88,7 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfoChanged:) name:LOCALNOTIFICATION_JL_USERINFO_CHANGED object:nil];
 }
 
 - (void)backClick {
@@ -108,8 +111,15 @@
     _networkStatus = [dict[@"status"] integerValue];
 }
 
+- (void)userInfoChanged: (NSNotification *)notification {
+    self.isUpdateDatas = YES;
+    
+    if (self.artDetailData) {
+        [self updateArtDetailData];
+    }
+}
+
 - (void)createSubView {
-    self.artDetailData.type = 2;
     
     [self initBottomUI];
     [self.view addSubview:self.scrollView];
@@ -166,15 +176,25 @@
         }
         make.height.mas_equalTo(@94.0f);
     }];
+    // 出售列表
+    if (_marketLevel == 2 || _marketLevel == 0) {
+        [self.contentView addSubview:self.artSellingView];
+        [self.artSellingView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.artDetailNamePriceView);
+            make.top.equalTo(self.artDetailNamePriceView.mas_bottom);
+            self.artSellingViewHeightConstraint = make.height.mas_equalTo(@90);
+        }];
+    }
     // 区块链交易信息
     NSLog(@"=======------%@", self.artDetailData.ath_price);
     [self.contentView addSubview:self.artChainTradeView];
     [self.artChainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);
         make.left.right.equalTo(self.artDetailNamePriceView);
-        if (self.artDetailData.type == 2) {
+        if (self.marketLevel == 2 || self.marketLevel == 0) {
+            make.top.equalTo(self.artSellingView.mas_bottom).offset(12.0f);
             make.height.mas_equalTo(@211.0f);
         }else {
+            make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);
             make.height.mas_equalTo(@163.0f);
         }
     }];
@@ -288,7 +308,7 @@
                 // 有可出售的作品
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = YES;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_red_D70000;
+                self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
             } else {
                 [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = NO;
@@ -551,16 +571,17 @@
                     __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
                     orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
-                        if (payType == JLOrderPayTypeWeChat) {
-                            // 打开支付页面
-                            JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
-                            payWebVC.payUrl = payUrl;
-                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                        } else {
-                            JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
-                            payWebVC.payUrl = payUrl;
-                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                        }
+//                        if (payType == JLOrderPayTypeWeChat) {
+//                            // 打开支付页面
+//                            JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+//                            payWebVC.payUrl = payUrl;
+//                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//                        } else {
+//                            JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+//                            payWebVC.payUrl = payUrl;
+//                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//                        }
+                        [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
                         [weakSelf requestSellingList];
                     };
                     [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
@@ -780,9 +801,73 @@
     return _artDetailNamePriceView;
 }
 
+- (JLArtDetailSellingView *)artSellingView {
+    if (!_artSellingView) {
+        WS(weakSelf)
+        _artSellingView = [[JLArtDetailSellingView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailNamePriceView.frameBottom, kScreenWidth, 55.0f + 35.0f)];
+        _artSellingView.lookUserInfoBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
+            // 判断是否是自己
+            if (sellOrderData.is_mine) {
+                JLHomePageViewController *homePageVC = [[JLHomePageViewController alloc] init];
+                [weakSelf.navigationController pushViewController:homePageVC animated:YES];
+            } else {
+                JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
+                creatorPageVC.authorId = sellOrderData.seller_id;
+                creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
+                    weakSelf.artDetailData.author = authorData;
+                };
+                [weakSelf.navigationController pushViewController:creatorPageVC animated:YES];
+            }
+        };
+        _artSellingView.offFromListBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
+            [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                if (success) {
+                    [weakSelf artOffFromSellingList:sellOrderData.sn];
+                }
+            }];
+        };
+        _artSellingView.buyBlock = ^(Model_arts_id_orders_Data * _Nonnull sellOrderData) {
+            JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+            orderSubmitVC.artDetailData = weakSelf.artDetailData;
+            orderSubmitVC.sellingOrderData = sellOrderData;
+            __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+            orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
+//                if (payType == JLOrderPayTypeWeChat) {
+//                    // 打开支付页面
+//                    JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+//                    payWebVC.payUrl = payUrl;
+//                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//                } else {
+//                    JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+//                    payWebVC.payUrl = payUrl;
+//                    [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//                }
+                [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
+                [weakSelf requestSellingList];
+            };
+            [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+        };
+        _artSellingView.openCloseListBlock = ^(BOOL isOpen) {
+            CGFloat height = 55.0f + 35.0f;
+            if (isOpen) {
+                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
+            } else {
+                height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
+            }
+            [weakSelf.artSellingViewHeightConstraint uninstall];
+            [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
+                weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
+            }];
+        };
+    }
+    return _artSellingView;
+}
+
 - (JLArtChainTradeView *)artChainTradeView {
     if (!_artChainTradeView) {
         _artChainTradeView = [[JLArtChainTradeView alloc] initWithFrame:CGRectMake(0.0f, self.artDetailData.collection_mode == 3 ? self.artDetailNamePriceView.frameBottom + 12.0f : self.artDetailNamePriceView.frameBottom, kScreenWidth, 188.0f)];
+        _artChainTradeView.marketLevel = self.marketLevel;
         _artChainTradeView.artDetailData = self.artDetailData;
         WS(weakSelf)
         _artChainTradeView.showCertificateBlock = ^{
@@ -885,6 +970,11 @@
     request.ID = self.artDetailData ? self.artDetailData.ID : self.artDetailId;
     request.page = 1;
     request.per_page = 9999;
+    if (self.marketLevel == 1) {
+        request.market_level = @"primary";
+    }else if (self.marketLevel == 2) {
+        request.market_level = @"secondary";
+    }
     Model_arts_id_orders_Rsp *response = [[Model_arts_id_orders_Rsp alloc] init];
     response.request = request;
     
@@ -892,8 +982,30 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
             weakSelf.currentSellingList = response.body;
+            
+            if (self.marketLevel == 0 || self.marketLevel == 2) {
+                if (response.body.count == 4) {
+                    weakSelf.artSellingViewOpen = NO;
+                }
+                
+                weakSelf.artSellingView.sellingArray = weakSelf.currentSellingList;
+                CGFloat height = 55.0f + 35.0f;
+                if (weakSelf.artSellingViewOpen) {
+                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count) + 48.0f;
+                } else {
+                    height = 55.0f + 35.0f + 38.0f * (weakSelf.currentSellingList.count > 4 ? 4 : weakSelf.currentSellingList.count) + (weakSelf.currentSellingList.count > 4 ? 48.0f : 0.0f);
+                }
+                [weakSelf.artSellingViewHeightConstraint uninstall];
+                [weakSelf.artSellingView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    weakSelf.artSellingViewHeightConstraint = make.height.mas_equalTo(@(height));
+                }];
+            }
         }
-        [weakSelf updateArtDetailData];
+        if (!weakSelf.artDetailData) {
+            [weakSelf updateArtDetailData];
+        }else {
+            [[JLLoading sharedLoading] hideLoading];
+        }
     }];
 }
 
@@ -913,12 +1025,20 @@
         if (netIsWork) {
             if (!weakSelf.artDetailData) {
                 weakSelf.artDetailData = response.body;
-                weakSelf.artDetailType = weakSelf.artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-                [weakSelf createSubView];
                 
-                [weakSelf requestSellingList];
+                if (weakSelf.isUpdateDatas) {
+                    weakSelf.artAuthorDetailView.artDetailData = weakSelf.artDetailData;
+                }else {
+                    weakSelf.artDetailType = weakSelf.artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                    [weakSelf createSubView];
+                    
+                    [weakSelf requestSellingList];
+                }
             }else {
                 weakSelf.artDetailData = response.body;
+                if (weakSelf.isUpdateDatas) {
+                    weakSelf.artAuthorDetailView.artDetailData = weakSelf.artDetailData;
+                }
             }
         }
     }];

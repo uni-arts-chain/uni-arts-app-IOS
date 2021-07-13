@@ -22,6 +22,8 @@
 @property (nonatomic, copy) NSArray<Model_arts_transaction_Data *> *artTransactionArray;
 //作品主题
 @property (nonatomic, strong) NSArray<Model_arts_theme_Data *> *artThemeArray;
+/// 商品类型
+@property (nonatomic, copy) NSArray<Model_arts_themes_Data *> *artsThemesArray;
 //作品类型
 @property (nonatomic, strong) NSArray<Model_arts_art_types_Data *> *artTypeArray;
 //作品价格
@@ -44,6 +46,9 @@
 
 // 请求作品主题
 - (void)requestArtThemeWithSuccessBlock:(void(^)(void))successBlock;
+
+/// 请求商品类型
+- (void)requestArtsThemesWithSuccessBlock:(void(^)(void))successBlock;
 
 // 请求作品类型
 - (void)requestArtTypeWithSuccessBlock:(void(^)(void))successBlock;

@@ -18,6 +18,10 @@ typedef NS_ENUM(NSUInteger, JLArtDetailType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtDetailViewController : JLBaseViewController
+
+/// 0:不分(所有) 1:新品 2:二手
+@property (nonatomic, assign) NSInteger marketLevel;
+
 @property (nonatomic, copy) NSString *artDetailId;
 @property (nonatomic, assign) JLArtDetailType artDetailType;
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;

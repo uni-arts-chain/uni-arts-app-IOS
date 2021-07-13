@@ -38,11 +38,12 @@
     [super viewDidLoad];
     self.fd_prefersNavigationBarHidden = YES;
     
-    [self createSubviews];
-    
-    [self.view addSubview:self.navView];
-    
-    [self headRefresh];
+    if (self.authorData) {
+        [self createSubviews];
+        [self headRefresh];
+    }else {
+        [self loadAuthorData];
+    }
 }
 
 - (void)createSubviews {
@@ -74,8 +75,10 @@
         make.top.equalTo(self.headerView.mas_bottom);
         make.left.right.equalTo(self.bgView);
         make.bottom.equalTo(self.bgView).offset(-(KTouch_Responder_Height + 15));
-        self.collectionHeightConstraint = make.height.mas_equalTo(@200);
+        self.collectionHeightConstraint = make.height.mas_equalTo(@400);
     }];
+    
+    [self.view addSubview:self.navView];
 }
 
 - (UIButton *)focusButton {
@@ -283,6 +286,11 @@
         [self.navigationController pushViewController:auctionDetailVC animated:YES];
     } else {
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+        if (self.authorData.is_official_account) {
+            artDetailVC.marketLevel = 1;
+        }else {
+            artDetailVC.marketLevel = 2;
+        }
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = artDetailData;
         [self.navigationController pushViewController:artDetailVC animated:YES];
@@ -298,7 +306,7 @@
 
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, -70.0f, kScreenWidth - 24, 270)];
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(12.0f, 0, kScreenWidth - 24, 400)];
         _emptyView.layer.cornerRadius = 5;
     }
     return _emptyView;
@@ -331,6 +339,25 @@
             self.emptyView = nil;
         }
     }
+}
+
+- (void)loadAuthorData {
+    WS(weakSelf)
+    Model_members_Req *request = [[Model_members_Req alloc] init];
+    request.author_id = self.authorId;
+    Model_members_Rsp *response = [[Model_members_Rsp alloc] init];
+    response.request = request;
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            
+            weakSelf.authorData = response.body;
+            
+            [weakSelf createSubviews];
+            
+            [weakSelf headRefresh];
+        }
+    }];
 }
 
 - (void)requestAuthorArtList {

@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^JLArtChainTradeViewShowCertificateBlock)(void);
 
 @interface JLArtChainTradeView : JLBaseView
+/// 0:不分(所有) 1:新品 2:二手
+@property (nonatomic, assign) NSInteger marketLevel;
+
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) JLArtChainTradeViewShowCertificateBlock showCertificateBlock;
 @end

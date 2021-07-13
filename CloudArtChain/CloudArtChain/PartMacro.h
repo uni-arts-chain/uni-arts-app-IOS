@@ -19,7 +19,8 @@
 // 定义环境地址
 #if (ENV == KF)//开发环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
+//#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://rentu.uniarts.vip/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.me"
 #define CHAIN_GenesisHash                    "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
 
@@ -64,5 +65,7 @@
 
 #pragma mark - Local NotificationCenter
 #define LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED @"LocalNotification_JLNetworkStatusChanged"
+/// 用户信息变更
+#define LOCALNOTIFICATION_JL_USERINFO_CHANGED @"LocalNotification_JLUserInfoChanged"
 
 #endif /* PartMacro_h */

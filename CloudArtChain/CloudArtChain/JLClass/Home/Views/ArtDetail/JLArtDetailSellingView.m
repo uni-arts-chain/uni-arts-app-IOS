@@ -175,6 +175,11 @@
     WS(weakSelf)
     JLArtDetailSellingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLArtDetailSellingTableViewCell" forIndexPath:indexPath];
     cell.sellingOrderData = self.sellingArray[indexPath.row];
+    cell.lookUserInfoBlock = ^(Model_arts_id_orders_Data * _Nonnull sellingOrderData) {
+        if (weakSelf.lookUserInfoBlock) {
+            weakSelf.lookUserInfoBlock(sellingOrderData);
+        }
+    };
     cell.operationBlock = ^(Model_arts_id_orders_Data * _Nonnull sellingOrderData) {
         if (sellingOrderData.is_mine) {
             // 下架

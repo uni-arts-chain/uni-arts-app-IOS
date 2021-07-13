@@ -12,6 +12,16 @@
 @end
 
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/:id/ 用户的信息
+@interface Model_members_Req : Model_Req
+/** 作者id */
+@property (nonatomic, strong) NSString *author_id;
+@end
+@interface Model_members_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_members_Req *request;
+@property (nonatomic, strong) Model_art_author_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
 #pragma mark /members/:id/arts 用户的作品
 @interface Model_members_arts_Req : Model_Req
 /** 页码 */

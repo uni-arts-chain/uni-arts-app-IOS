@@ -123,6 +123,8 @@
 @property (nonatomic, assign) NSInteger art_size;
 @property (nonatomic, strong) NSString *residential_address;
 @property (nonatomic, strong) NSString *college;
+/// 是否是官方账号
+@property (nonatomic, assign) BOOL is_official_account;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark 拍卖会通过审核的作品列表 /auction_meetings/:id/arts
@@ -140,7 +142,6 @@
 @property (nonatomic, strong) NSArray *detail_imgs;
 @property (nonatomic, strong) NSString *video_url;
 @property (nonatomic, assign) NSInteger resource_type;
-@property (nonatomic, assign) NSInteger type; // 新品还是二手: 1新品 2二手
 @property (nonatomic, strong) NSDictionary *img_main_file1;
 @property (nonatomic, strong) NSDictionary *img_main_file2;
 @property (nonatomic, strong) NSDictionary *img_main_file3;
@@ -235,6 +236,7 @@
 #pragma mark /arts/topic 主题推荐
 @protocol Model_arts_topic_Data @end
 @interface Model_arts_topic_Data : Model_Interface
+@property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSDictionary *img_file;
 @property (nonatomic, strong) NSDictionary *app_img_file;
@@ -432,6 +434,8 @@
 @property (nonatomic, assign) NSInteger page;
 /** 每页多少 */
 @property (nonatomic, assign) NSInteger per_page;
+/// 新品: primary 二手: secondary 不传：所有
+@property (nonatomic, copy) NSString *market_level;
 @end
 @interface Model_arts_id_orders_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) Model_arts_id_orders_Req *request;

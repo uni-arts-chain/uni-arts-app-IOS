@@ -73,6 +73,7 @@
 @property (nonatomic, assign) NSInteger art_size;
 @property (nonatomic, strong) NSString *residential_address;
 @property (nonatomic, strong) NSString *college;
+@property (nonatomic, assign) BOOL is_official_account;
 
 //Cha***@outlook.com
 - (NSString*)getUserDisplayName;

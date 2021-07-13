@@ -40,6 +40,21 @@
 @interface Model_arts_theme_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_arts_theme_Data> *body;
 @end
+
+// ==========================================================
+#pragma mark /arts/themes 商品类型
+@protocol Model_arts_themes_Data @end
+@interface Model_arts_themes_Data: Model_Interface
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *ID;
+@end
+@interface Model_arts_themes_Req : Model_Req
+
+@end
+@interface Model_arts_themes_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_arts_themes_Data> *body;
+@end
 // ==========================================================
 #pragma mark /arts/art_types 类型
 @protocol Model_arts_art_types_Data @end

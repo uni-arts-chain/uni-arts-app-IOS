@@ -38,6 +38,8 @@
 // 作品标题
 @property (nonatomic, strong) UILabel *workTitleLabel;
 @property (nonatomic, strong) JLUploadWorkInputWithBorderView *workTitleView;
+// 作品分类
+@property (nonatomic, strong) JLUploadWorkSelectView *workerCategoryView;
 // 作品主题
 @property (nonatomic, strong) JLUploadWorkSelectView *themeView;
 // 作品详情
@@ -61,6 +63,10 @@
 // 确认上传
 @property (nonatomic, strong) UIButton *confirmUploadBtn;
 
+// 作品类型
+@property (nonatomic, strong) NSArray *tempCategoryArray;
+@property (nonatomic, assign) NSInteger currentSelectedCategoryIndex;
+@property (nonatomic, strong) Model_arts_themes_Data *currentSelectedCategoryData;
 // 主题
 @property (nonatomic, strong) NSArray *tempThemeArray;
 @property (nonatomic, assign) NSInteger currentSelectedThemeIndex;
@@ -126,6 +132,8 @@
     [self.scrollView addSubview:self.workDetailView];
     // 详情图片
     [self.scrollView addSubview:self.workDetailUploadImageView];
+    // 作品分类
+    [self.scrollView addSubview:self.workerCategoryView];
     // 主题
     [self.scrollView addSubview:self.themeView];
     // 是否拆分
@@ -175,9 +183,15 @@
         make.height.mas_equalTo(145);
         make.width.mas_equalTo(kScreenWidth);
     }];
-    [self.themeView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.workerCategoryView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.scrollView);
         make.top.equalTo(self.workDetailUploadImageView.mas_bottom).offset(12.0f);
+        make.height.mas_equalTo(54.0f);
+        make.width.mas_equalTo(kScreenWidth);
+    }];
+    [self.themeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.scrollView);
+        make.top.equalTo(self.workerCategoryView.mas_bottom);
         make.height.mas_equalTo(54.0f);
         make.width.mas_equalTo(kScreenWidth);
     }];
@@ -292,6 +306,26 @@
         };
     }
     return _workTitleView;
+}
+
+- (JLUploadWorkSelectView *)workerCategoryView {
+    if (!_workerCategoryView) {
+        WS(weakSelf)
+        _workerCategoryView = [[JLUploadWorkSelectView alloc] initWithTitle:@"商品类型" selectBlock:^{
+            [weakSelf.view endEditing:YES];
+            JLPickerView *pickerView = [[JLPickerView alloc] init];
+            pickerView.dataSource = weakSelf.tempCategoryArray;
+            pickerView.selectIndex = weakSelf.currentSelectedCategoryData == nil ? 0 : weakSelf.currentSelectedCategoryIndex;
+            pickerView.selectBlock = ^(NSInteger index, NSString *result) {
+                [weakSelf.workerCategoryView setSelectContent:result];
+                weakSelf.currentSelectedCategoryIndex = index;
+                weakSelf.currentSelectedCategoryData = [AppSingleton sharedAppSingleton].artsThemesArray[index];
+                [weakSelf checkUpload];
+            };
+            [pickerView showWithAnimation:nil];
+        }];
+    }
+    return _workerCategoryView;
 }
 
 - (JLUploadWorkSelectView *)themeView {
@@ -477,6 +511,11 @@
         self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
         return;
     }
+    if (self.currentSelectedCategoryData == nil) {
+        self.confirmUploadBtn.enabled = NO;
+        self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
+        return;
+    }
 //    if ([NSString stringIsEmpty:self.priceView.inputContent]) {
 //        self.confirmUploadBtn.enabled = NO;
 //        self.confirmUploadBtn.backgroundColor = JL_color_gray_BEBEBE;
@@ -498,6 +537,10 @@
     }
     if ([NSString stringIsEmpty:self.workDetailView.inputContent]) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请填写作品评析" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    if (self.currentSelectedCategoryData == nil) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择商品类型" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     if (self.currentSelectedThemeData == nil) {
@@ -592,6 +635,7 @@
         }
         request.name = self.workTitleView.inputContent;
         request.category_id = self.currentSelectedThemeData.ID;
+        request.theme_id = self.currentSelectedCategoryData.ID;
         request.details = self.workDetailView.inputContent;
         request.is_refungible = self.workSplit ? @"true" : @"false";
         if (self.workSplit) {
@@ -678,6 +722,7 @@
     }
     request.name = self.workTitleView.inputContent;
     request.category_id = self.currentSelectedThemeData.ID;
+    request.theme_id = self.currentSelectedCategoryData.ID;
     request.details = self.workDetailView.inputContent;
     request.is_refungible = self.workSplit ? @"true" : @"false";
     if (self.workSplit) {
@@ -803,6 +848,7 @@
     }
     request.name = self.workTitleView.inputContent;
     request.category_id = self.currentSelectedThemeData.ID;
+    request.theme_id = self.currentSelectedCategoryData.ID;
     request.details = self.workDetailView.inputContent;
     request.is_refungible = self.workSplit ? @"true" : @"false";
     if (self.workSplit) {
@@ -841,6 +887,17 @@
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
+}
+
+- (NSArray *)tempCategoryArray {
+    if (!_tempCategoryArray) {
+        NSMutableArray *typeArray = [NSMutableArray array];
+        for (Model_arts_themes_Data *typeData in [AppSingleton sharedAppSingleton].artsThemesArray) {
+            [typeArray addObject:typeData.title];
+        }
+        _tempCategoryArray = [typeArray copy];
+    }
+    return _tempCategoryArray;
 }
 
 - (NSArray *)tempThemeArray {

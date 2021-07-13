@@ -68,7 +68,7 @@
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.text = @"卖家简介";
+        _titleLabel.text = @"品牌简介";
         _titleLabel.textColor = JL_color_black_101220;
         _titleLabel.font = kFontPingFangSCSCSemibold(15);
         _titleLabel.jl_contentInsets = UIEdgeInsetsMake(5, 13, 0, 0);
@@ -118,7 +118,7 @@
         lineView.backgroundColor = JL_color_gray_EDEDEE;
         [_goToHomePageView addSubview:lineView];
         
-        UILabel *titleLabel = [JLUIFactory labelInitText:@"个人主页" font:kFontPingFangSCMedium(13.0f) textColor:JL_color_black_40414D textAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [JLUIFactory labelInitText:@"查看更多商品" font:kFontPingFangSCMedium(13.0f) textColor:JL_color_black_40414D textAlignment:NSTextAlignmentLeft];
         titleLabel.tag = 100;
         [_goToHomePageView addSubview:titleLabel];
         
@@ -163,15 +163,6 @@
         self.avatarImageView.image = [UIImage imageNamed:@"icon_mine_avatar_placeholder"];
     }
     self.nameLabel.text = artDetailData.author.display_name;
-    
-    if (artDetailData.type == 1) {
-        self.titleLabel.text = @"品牌简介";
-        [self.goToHomePageView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.tag == 100) {
-                ((UILabel *)obj).text = @"查看更多商品";
-            }
-        }];
-    }
     
     if ([NSString stringIsEmpty:artDetailData.author.desc]) {
         self.descLabel.text = artDetailData.author.desc;

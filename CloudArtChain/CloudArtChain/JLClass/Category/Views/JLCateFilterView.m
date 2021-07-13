@@ -92,25 +92,36 @@
 }
 
 - (void)setupItems {
+    
+    [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
     CGFloat currentX = 0.0f;
     
     NSInteger offsetIndex = 0;
     if (_isShowAllItem) {
-        self.currentIndex = 0;
         
         UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, (self.frameHeight - 22) / 2, [JLTool getAdaptionSizeWithText:@"全部" labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2, 22) title:@"全部" tag:100];
-        button.selected = YES;
-        button.backgroundColor = JL_color_mainColor;
-        ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+        if (_currentIndex == 0) {
+            button.selected = YES;
+            button.backgroundColor = JL_color_mainColor;
+            ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+        }
         [self.scrollView addSubview:button];
         [self.itemsArray addObject:button];
         currentX += [JLTool getAdaptionSizeWithText:@"全部" labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2 + 6.0f;
         
         offsetIndex += 1;
     }
+
     for (int i = 0; i < self.items.count; i++) {
         UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, (self.frameHeight - 22) / 2, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2, 22) title:self.items[i] tag:100 + i + offsetIndex];
-        if (!_isShowAllItem && _currentIndex == i) {
+        if (_isNoDeSelect && _currentIndex == i) {
+            button.selected = YES;
+            button.backgroundColor = JL_color_mainColor;
+            ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+        }
+        if (_isShowAllItem && _currentIndex == i + 1) {
             button.selected = YES;
             button.backgroundColor = JL_color_mainColor;
             ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
@@ -136,7 +147,7 @@
 }
 
 - (void)buttonClick:(UIButton *)sender {
-    if (_isShowAllItem && sender.tag - 100 == 0) {
+    if (_isShowAllItem && sender.tag - 100 == 0 && sender.tag - 100 == self.currentIndex) {
         return;
     }
     
@@ -170,6 +181,12 @@
     if (self.selectBlock) {
         self.selectBlock(self.currentIndex);
     }
+}
+
+- (void)setDefaultIndex:(NSInteger)defaultIndex {
+    _defaultIndex = defaultIndex;
+    
+    self.currentIndex = _defaultIndex;
 }
 
 - (void)refreshItems:(NSArray *)items {

@@ -293,7 +293,7 @@
     self.addressLabel.text = [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash;
     self.publishNumLabel.text = [NSString stringWithFormat:@"%ld 份", artDetailData.total_amount];
     
-    if (artDetailData.type == 2) {
+    if (self.marketLevel == 0 || self.marketLevel == 2) {
         self.lastPriceTitleLabel.hidden = NO;
         self.lastPriceLabel.hidden = NO;
         self.historyPriceTitleLabel.hidden = NO;

@@ -41,6 +41,21 @@
 }
 @end
 // ==========================================================
+#pragma mark /arts/themes 商品类型
+@implementation Model_arts_themes_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_arts_themes_Req
+
+@end
+@implementation Model_arts_themes_Rsp
+- (NSString *)interfacePath {
+    return @"arts/themes";
+}
+@end
+// ==========================================================
 #pragma mark /arts/art_types 类型
 @implementation Model_arts_art_types_Data
 + (JSONKeyMapper *)keyMapper {

@@ -109,6 +109,8 @@
     if (!_addressLabel) {
         _addressLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
         _addressLabel.numberOfLines = 1;
+        _addressLabel.userInteractionEnabled = YES;
+        [_addressLabel addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addressLabelDidTap:)]];
     }
     return _addressLabel;
 }
@@ -130,10 +132,10 @@
 - (UIButton *)operationButton {
     if (!_operationButton) {
         _operationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_operationButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        [_operationButton setTitleColor:JL_color_mainColor forState:UIControlStateNormal];
         _operationButton.titleLabel.font = kFontPingFangSCRegular(12.0f);
         [_operationButton addTarget:self action:@selector(operationButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        ViewBorderRadius(_operationButton, 3.0f, 1.0f, JL_color_gray_101010);
+        ViewBorderRadius(_operationButton, 3.0f, 1.0f, JL_color_mainColor);
     }
     return _operationButton;
 }
@@ -141,6 +143,12 @@
 - (void)operationButtonClick {
     if (self.operationBlock) {
         self.operationBlock(self.sellingOrderData);
+    }
+}
+
+- (void)addressLabelDidTap: (UITapGestureRecognizer *)ges {
+    if (self.lookUserInfoBlock) {
+        self.lookUserInfoBlock(self.sellingOrderData);
     }
 }
 

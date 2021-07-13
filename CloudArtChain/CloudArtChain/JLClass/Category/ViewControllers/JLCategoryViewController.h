@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) JLCategoryViewControllerType type;
 
+@property (nonatomic, copy) NSString *themeId;
+
 @end
 
 NS_ASSUME_NONNULL_END

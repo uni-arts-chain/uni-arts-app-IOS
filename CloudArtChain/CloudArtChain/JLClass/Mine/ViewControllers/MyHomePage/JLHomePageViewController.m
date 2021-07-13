@@ -50,6 +50,12 @@
     }
     
     [self.view addSubview:self.navView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userInfoChanged:) name:LOCALNOTIFICATION_JL_USERINFO_CHANGED object:nil];
+}
+
+- (void)userInfoChanged: (NSNotification *)notification {
+    self.homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
 }
 
 - (JLCreatorPageNavView *)navView {
@@ -118,7 +124,7 @@
 - (void)didScrollContentOffset:(CGPoint)offset {
     
     if (offset.y > 0) {
-        self.navView.bgView.alpha = offset.y / (0.15 * kScreenWidth + KStatusBar_Navigation_Height);
+        self.navView.bgView.alpha = offset.y / (0.12 * kScreenWidth + KStatusBar_Navigation_Height);
     }else {
         self.navView.bgView.alpha = 0;
     }
@@ -129,7 +135,7 @@
         WS(weakSelf)
         CGFloat descHeight = 242;
         if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+            descHeight = [self getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 200.0f;
         }
         _homePageHeaderView = [[JLHomePageEditHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight)];
         _homePageHeaderView.userData = [AppSingleton sharedAppSingleton].userBody;
@@ -147,11 +153,13 @@
                         [AppSingleton sharedAppSingleton].userBody = response.body;
                         CGFloat descHeight = 242;
                         if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 200.0f;
                         }
                         weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
-                        [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
+                        [weakSelf.hovering reloadView];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_USERINFO_CHANGED object:nil];
                     } else {
                         [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                     }
@@ -173,11 +181,13 @@
                         [AppSingleton sharedAppSingleton].userBody = response.body;
                         CGFloat descHeight = 242;
                         if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                            descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] +200.0f;
                         }
                         weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
-                        [weakSelf.hovering reloadView];
                         weakSelf.homePageHeaderView.userData = response.body;
+                        [weakSelf.hovering reloadView];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_USERINFO_CHANGED object:nil];
                     } else {
                         [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                     }
@@ -190,7 +200,7 @@
             settingVC.backBlock = ^{
                 CGFloat descHeight = 242;
                 if (![NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc]) {
-                    descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 180.0f;
+                    descHeight = [weakSelf getDescLabelHeight:[AppSingleton sharedAppSingleton].userBody.desc] + 200.0f;
                 }
                 weakSelf.homePageHeaderView.frame = CGRectMake(0.0f, 0.0f, kScreenWidth, descHeight);
                 [weakSelf.hovering reloadView];
@@ -229,9 +239,6 @@
         };
         workListVC.offFromListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData, JLWorkListType workListType) {
             {
-    //            artDetailData.aasm_state = @"online";
-    //            JLWorksListViewController *prepareVC = (JLWorksListViewController *)weakSelf.viewControllers[0];
-    //            [prepareVC offFromBiddingList:artDetailData];
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
@@ -254,6 +261,11 @@
                 [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
             } else {
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                if ([AppSingleton sharedAppSingleton].userBody.is_official_account) {
+                    artDetailVC.marketLevel = 1;
+                }else {
+                    artDetailVC.marketLevel = 2;
+                }
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {

@@ -19,6 +19,7 @@
 #import "JLBaseWebViewController.h"
 #import "JLAuctionArtDetailViewController.h"
 #import "JLNewsDetailViewController.h"
+#import "JLCategoryViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLPopularOriginalView.h"
@@ -221,6 +222,7 @@
                 [weakSelf.navigationController pushViewController:auctionDetailVC animated:YES];
             } else {
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                artDetailVC.marketLevel = 2;
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 [weakSelf.navigationController pushViewController:artDetailVC animated:YES];
@@ -370,7 +372,9 @@
             [weakSelf.themeArray removeAllObjects];
             [weakSelf.themeArray addObjectsFromArray:response.body];
             
-            [weakSelf createThemeViews];
+            if (weakSelf.themeArray.count) {
+                [weakSelf createThemeViews];
+            }
         }else {
             if ([weakSelf.scrollView.mj_header isRefreshing]) {
                 [weakSelf.scrollView.mj_header endRefreshing];
@@ -381,6 +385,10 @@
 }
 
 - (void)createThemeViews {
+    
+    [self.themeRecommendView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
     
     CGFloat themeRecommendViewHeight = 401.0f;
     for (int i = 0; i < self.themeArray.count; i++) {
@@ -397,13 +405,18 @@
                 [self.navigationController pushViewController:auctionDetailVC animated:YES];
             } else {
                 JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+                artDetailVC.marketLevel = 1;
                 artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
                 artDetailVC.artDetailData = artDetailData;
                 [self.navigationController pushViewController:artDetailVC animated:YES];
             }
         };
-        themeView.seeMoreBlock = ^{
+        themeView.seeMoreBlock = ^(NSString * _Nonnull ID) {
             UITabBarController *tabBarController = [[AppSingleton sharedAppSingleton].globalNavController.viewControllers objectAtIndex:0];
+            JLNavigationViewController *nav = tabBarController.viewControllers[1];
+            if (nav.viewControllers.count && [nav.viewControllers.firstObject isMemberOfClass:JLCategoryViewController.class]) {
+                ((JLCategoryViewController *)nav.viewControllers.firstObject).themeId = ID;
+            }
             tabBarController.selectedIndex = 1;
         };
         [self.themeRecommendView addSubview:themeView];

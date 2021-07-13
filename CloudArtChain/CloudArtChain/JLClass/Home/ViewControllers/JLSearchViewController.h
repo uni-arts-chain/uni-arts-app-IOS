@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLSearchViewController : JLBaseViewController
 
+/// 0:不分(所有) 1:新品 2:二手
+@property (nonatomic, assign) NSInteger marketLevel;
+
 @end
 
 NS_ASSUME_NONNULL_END

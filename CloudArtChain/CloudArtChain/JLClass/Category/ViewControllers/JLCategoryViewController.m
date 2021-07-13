@@ -35,6 +35,8 @@
 @property (nonatomic, strong) NSString *currentThemeID;
 @property (nonatomic, strong) NSString *currentTypeID;
 @property (nonatomic, strong) NSString *currentPriceID;
+
+@property (nonatomic, assign) NSInteger currentSelectIndex;
 @end
 
 @implementation JLCategoryViewController
@@ -62,6 +64,7 @@
         _cateNaviView = [[JLCategoryNaviView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, KStatusBar_Navigation_Height)];
         _cateNaviView.searchBlock = ^{
             JLSearchViewController *searchVC = [[JLSearchViewController alloc] init];
+            searchVC.marketLevel = weakSelf.type + 1;
             [weakSelf.navigationController pushViewController:searchVC animated:YES];
         };
     }
@@ -84,12 +87,6 @@
             [temptransactionArray addObject:transactionData.title];
         }
         _transactionFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, 22, kScreenWidth, 34.0f) title:@"交易" items:[temptransactionArray copy] isNoDeSelect:YES defaultSelectIndex:_type isShowAllItem:NO selectBlock:^(NSInteger index) {
-            if (index == 0) {
-                weakSelf.currentThemeID = nil;
-            } else {
-                Model_arts_transaction_Data *selectedTransactionData = [AppSingleton sharedAppSingleton].artTransactionArray[index - 1];
-                weakSelf.currentThemeID = selectedTransactionData.ID;
-            }
             if (weakSelf.type == JLCategoryViewControllerTypeNew && index != 0) {
                 [weakSelf.tabBarController setSelectedIndex:2];
             }else if (weakSelf.type == JLCategoryViewControllerTypeOld && index != 1) {
@@ -123,7 +120,20 @@
         for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.transactionFilterView.frameBottom, kScreenWidth,34.0f) title:@"主题" items:[tempThemeArray copy] isNoDeSelect:NO defaultSelectIndex:0 isShowAllItem:YES selectBlock:^(NSInteger index) {
+        NSInteger defaultSelectIndex = 0;
+        if (![NSString stringIsEmpty:_themeId] && tempThemeArray.count) {
+            for (int i = 0; i < [AppSingleton sharedAppSingleton].artThemeArray.count; i++) {
+                if ([[AppSingleton sharedAppSingleton].artThemeArray[i].ID isEqualToString:_themeId]) {
+                    defaultSelectIndex = i + 1;
+                    self.currentThemeID = _themeId;
+                    break;
+                }
+            }
+        }
+        
+        self.currentSelectIndex = defaultSelectIndex;
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.transactionFilterView.frameBottom, kScreenWidth,34.0f) title:@"主题" items:[tempThemeArray copy] isNoDeSelect:NO defaultSelectIndex:self.currentSelectIndex isShowAllItem:YES selectBlock:^(NSInteger index) {
+            weakSelf.currentSelectIndex = index;
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -132,7 +142,9 @@
             }
             [weakSelf headRefresh];
         }];
-        [self refreshThemeFilterView];
+        if (!tempThemeArray.count) {
+            [self refreshThemeFilterView];
+        }
     }
     return _themeFilterView;
 }
@@ -146,6 +158,17 @@
             for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
                 [tempThemeArray addObject:themeData.title];
             }
+            NSInteger defaultSelectIndex = 0;
+            if (![NSString stringIsEmpty:weakSelf.themeId] && tempThemeArray.count) {
+                for (int i = 0; i < [AppSingleton sharedAppSingleton].artThemeArray.count; i++) {
+                    if ([[AppSingleton sharedAppSingleton].artThemeArray[i].ID isEqualToString:weakSelf.themeId]) {
+                        defaultSelectIndex = i + 1;
+                        break;
+                    }
+                }
+            }
+            weakSelf.currentSelectIndex = defaultSelectIndex;
+            weakSelf.themeFilterView.defaultIndex = weakSelf.currentSelectIndex;
             [weakSelf.themeFilterView refreshItems:[tempThemeArray copy]];
         }];
     }
@@ -155,7 +178,7 @@
     if (!_typeFilterView) {
         WS(weakSelf)
         NSMutableArray *tempTypeArray = [NSMutableArray array];
-        for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
+        for (Model_arts_themes_Data *typeData in [AppSingleton sharedAppSingleton].artsThemesArray) {
             [tempTypeArray addObject:typeData.title];
         }
 
@@ -163,7 +186,7 @@
             if (index == 0) {
                 weakSelf.currentTypeID = nil;
             } else {
-                Model_arts_art_types_Data *selectedTypeData = [AppSingleton sharedAppSingleton].artTypeArray[index - 1];
+                Model_arts_themes_Data *selectedTypeData = [AppSingleton sharedAppSingleton].artsThemesArray[index - 1];
                 weakSelf.currentTypeID = selectedTypeData.ID;
             }
             [weakSelf headRefresh];
@@ -175,11 +198,11 @@
 
 - (void)refreshTypeFilterView {
     WS(weakSelf)
-    if ([AppSingleton sharedAppSingleton].artTypeArray.count == 0) {
+    if ([AppSingleton sharedAppSingleton].artsThemesArray.count == 0) {
         // 重新请求列表
-        [[AppSingleton sharedAppSingleton] requestArtTypeWithSuccessBlock:^{
+        [[AppSingleton sharedAppSingleton] requestArtsThemesWithSuccessBlock:^{
             NSMutableArray *tempTypeArray = [NSMutableArray array];
-            for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
+            for (Model_arts_themes_Data *typeData in [AppSingleton sharedAppSingleton].artsThemesArray) {
                 [tempTypeArray addObject:typeData.title];
             }
             [weakSelf.typeFilterView refreshItems:[tempTypeArray copy]];
@@ -316,6 +339,7 @@
         [self.navigationController pushViewController:auctionDetailVC animated:YES];
     } else {
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
+        artDetailVC.marketLevel = self.type + 1;
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
         artDetailVC.backBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
@@ -331,16 +355,17 @@
             [weakArtDetailVC.navigationController popViewControllerAnimated:NO];
             [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
             [weakSelf.collectionView reloadData];
-            if (payType == JLOrderPayTypeWeChat) {
-                // 调用支付
-                JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
-                payWebVC.payUrl = payUrl;
-                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-            } else {
-                JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
-                payWebVC.payUrl = payUrl;
-                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-            }
+//            if (payType == JLOrderPayTypeWeChat) {
+//                // 调用支付
+//                JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+//                payWebVC.payUrl = payUrl;
+//                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//            } else {
+//                JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+//                payWebVC.payUrl = payUrl;
+//                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+//            }
+            [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
         };
         [self.navigationController pushViewController:artDetailVC animated:YES];
     }
@@ -422,5 +447,31 @@
             [weakSelf.collectionView.mj_footer endRefreshing];
         }
     }];
+}
+
+- (void)setThemeId:(NSString *)themeId {
+    _themeId = themeId;
+    
+    if (_themeFilterView) {
+        NSMutableArray *tempThemeArray = [NSMutableArray array];
+        for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
+            [tempThemeArray addObject:themeData.title];
+        }
+        if (![NSString stringIsEmpty:_themeId] && [AppSingleton sharedAppSingleton].artThemeArray.count) {
+            for (int i = 0; i < [AppSingleton sharedAppSingleton].artThemeArray.count; i++) {
+                if ([[AppSingleton sharedAppSingleton].artThemeArray[i].ID isEqualToString:_themeId] && i + 1 != self.currentSelectIndex) {
+                    
+                    self.currentThemeID = _themeId;
+                    self.currentSelectIndex = i + 1;
+                    
+                    self.themeFilterView.defaultIndex = self.currentSelectIndex;
+                    [self.themeFilterView refreshItems:[tempThemeArray copy]];
+                    
+                    [self headRefresh];
+                    break;
+                }
+            }
+        }
+    }
 }
 @end

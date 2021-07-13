@@ -129,7 +129,7 @@
         } else if(indexPath.row == 1) {
             status = [AppSingleton sharedAppSingleton].userBody.display_name ? [AppSingleton sharedAppSingleton].userBody.display_name : @"未填写";
         }else {
-            status = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"未填写" : [AppSingleton sharedAppSingleton].userBody.desc;
+            status = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.desc] ? @"未填写" : @"";
         }
     }else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -312,6 +312,8 @@
                 JLSettingTableViewCell *avatarCell = (JLSettingTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
                 [avatarCell setAvatarImage:editImage];
                 [AppSingleton sharedAppSingleton].userBody = response.body;
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_USERINFO_CHANGED object:nil];
             } else {
                 [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
             }
