@@ -194,6 +194,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLNFTGoodCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    cell.marketLevel = self.marketLevel;
     cell.artDetailData = self.searchResultArray[indexPath.row];
     return cell;
 }
@@ -272,6 +273,11 @@ NSString *const JLSearchHistory = @"SearchHistory";
     request.q = self.searchContent;
     request.page = self.currentPage;
     request.per_page = kPageSize;
+    if (self.marketLevel == 1) {
+        request.market_level = @"primary";
+    }else if (self.marketLevel == 2) {
+        request.market_level = @"secondary";
+    }
     Model_arts_search_Rsp *response = [[Model_arts_search_Rsp alloc] init];
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];

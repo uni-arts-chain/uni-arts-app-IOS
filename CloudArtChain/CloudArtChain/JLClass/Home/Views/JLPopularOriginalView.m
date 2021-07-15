@@ -129,6 +129,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLNFTGoodCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    cell.marketLevel = 2;
     cell.artDetailData = self.waterDataArray[indexPath.row];
     return cell;
 }

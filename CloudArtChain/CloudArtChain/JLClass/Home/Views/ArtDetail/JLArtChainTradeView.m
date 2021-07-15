@@ -298,8 +298,8 @@
         self.lastPriceLabel.hidden = NO;
         self.historyPriceTitleLabel.hidden = NO;
         self.historyPriceLabel.hidden = NO;
-        self.lastPriceLabel.text= [NSString stringWithFormat:@"￥ %@", artDetailData.price];
-        self.historyPriceLabel.text = [NSString stringWithFormat:@"￥ %@", artDetailData.ath_price];
+        self.lastPriceLabel.text= [NSString stringIsEmpty:artDetailData.last_trade_pirce] ? @"--" : [NSString stringWithFormat:@"￥ %@", artDetailData.last_trade_pirce];
+        self.historyPriceLabel.text = [NSString stringIsEmpty:artDetailData.ath_price] ? @"--" : [NSString stringWithFormat:@"￥ %@", artDetailData.ath_price];
     }
 }
 @end

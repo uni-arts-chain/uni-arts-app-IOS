@@ -120,6 +120,11 @@
     }
     self.descLabel.text = _artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", _artDetailData.price];
+    if (self.marketLevel == 1 && ![NSString stringIsEmpty:_artDetailData.primary_lowest_pirce]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", _artDetailData.primary_lowest_pirce];
+    }else if (self.marketLevel == 2 && ![NSString stringIsEmpty:_artDetailData.secondary_lowest_pirce]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", _artDetailData.secondary_lowest_pirce];
+    }
     if (_artDetailData.resource_type == 4) {
         self.playImgView.hidden = NO;
     }else {

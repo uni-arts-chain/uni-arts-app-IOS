@@ -155,7 +155,10 @@
 @property (nonatomic, strong) NSString *img_detail_file4_desc;
 @property (nonatomic, strong) NSDictionary *img_detail_file5;
 @property (nonatomic, strong) NSString *img_detail_file5_desc;
-@property (nonatomic, strong) NSString *price; // 上次成交或当前价格
+@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSString *primary_lowest_pirce; // 新品最低价
+@property (nonatomic, strong) NSString *secondary_lowest_pirce; // 二手最低价
+@property (nonatomic, strong) NSString *last_trade_pirce; // 上次成交价格
 @property (nonatomic, strong) NSString *ath_price; // 历史最高价格
 @property (nonatomic, strong) NSString *fee;
 @property (nonatomic, strong) NSString *position;

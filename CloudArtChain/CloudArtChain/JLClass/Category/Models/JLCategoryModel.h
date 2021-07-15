@@ -20,6 +20,8 @@
 @property (nonatomic, assign) NSInteger per_page;
 /** 主题id */
 @property (nonatomic, strong) NSString *category_id;
+/** 作品分类id */
+@property (nonatomic, strong) NSString *theme_id;
 ///** 主题id */
 //@property (nonatomic, strong) NSString *theme_id;
 ///** 材质id */
@@ -44,6 +46,7 @@
 @property (nonatomic, strong) NSString *q;
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, assign) NSInteger per_page;
+@property (nonatomic, strong) NSString *market_level;
 @end
 @interface Model_arts_search_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;

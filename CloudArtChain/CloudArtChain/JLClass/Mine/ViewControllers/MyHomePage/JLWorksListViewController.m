@@ -96,6 +96,11 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     WS(weakSelf)
     JLHomePageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLHomePageCollectionViewCell" forIndexPath:indexPath];
+    if ([AppSingleton sharedAppSingleton].userBody.is_official_account) {
+        cell.marketLevel = 1;
+    }else {
+        cell.marketLevel = 2;
+    }
     [cell setArtDetailData:self.artsArray[indexPath.row] type:self.workListType];
     
     cell.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {

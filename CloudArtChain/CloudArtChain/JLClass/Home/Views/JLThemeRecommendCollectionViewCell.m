@@ -221,7 +221,7 @@
             [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
         }
         self.nameLabel.text = themeArtData.name;
-        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", themeArtData.price];
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", themeArtData.primary_lowest_pirce];
         
         if ([themeArtData.aasm_state isEqualToString:@"auctioning"]) {
             // 拍卖中

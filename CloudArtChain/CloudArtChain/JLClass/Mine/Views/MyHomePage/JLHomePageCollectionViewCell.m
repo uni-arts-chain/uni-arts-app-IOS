@@ -257,6 +257,11 @@
     }
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:artDetailData.price] ? @"0" : artDetailData.price];
+    if (self.marketLevel == 1 && ![NSString stringIsEmpty:artDetailData.primary_lowest_pirce]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.primary_lowest_pirce];
+    }else if (self.marketLevel == 2 && ![NSString stringIsEmpty:artDetailData.secondary_lowest_pirce]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", artDetailData.secondary_lowest_pirce];
+    }
     
     if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
         // 拍卖中

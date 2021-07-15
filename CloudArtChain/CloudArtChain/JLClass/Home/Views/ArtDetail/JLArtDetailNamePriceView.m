@@ -75,11 +75,20 @@
     _artDetailData = artDetailData;
     self.nameLabel.text = artDetailData.name;
     
-    if ([NSString stringIsEmpty:artDetailData.price]) {
-        self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
+    
+    NSString *price = artDetailData.price;
+    if (self.marketLevel == 1 && ![NSString stringIsEmpty:artDetailData.primary_lowest_pirce]) {
+        price = artDetailData.primary_lowest_pirce;
+    }else if (self.marketLevel == 2 && ![NSString stringIsEmpty:artDetailData.secondary_lowest_pirce]) {
+        price = artDetailData.secondary_lowest_pirce;
+    }
+    
+    if ([NSString stringIsEmpty:price]) {
         return;
     }
-    NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%@", artDetailData.price]];
+    
+    NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"¥%@", price]];
     [attrs addAttribute:NSFontAttributeName value:kFontPingFangSCSCSemibold(13) range:NSMakeRange(0, 1)];
     [attrs addAttribute:NSKernAttributeName value:@(4) range:NSMakeRange(0, 1)];
     self.priceLabel.attributedText = attrs;

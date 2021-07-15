@@ -177,7 +177,7 @@
         make.height.mas_equalTo(@94.0f);
     }];
     // 出售列表
-    if (_marketLevel == 2 || _marketLevel == 0) {
+    if ((_marketLevel == 2 || _marketLevel == 0) && self.artDetailData.collection_mode == 3) {
         [self.contentView addSubview:self.artSellingView];
         [self.artSellingView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.artDetailNamePriceView);
@@ -186,13 +186,17 @@
         }];
     }
     // 区块链交易信息
-    NSLog(@"=======------%@", self.artDetailData.ath_price);
     [self.contentView addSubview:self.artChainTradeView];
     [self.artChainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.artDetailNamePriceView);
         if (self.marketLevel == 2 || self.marketLevel == 0) {
-            make.top.equalTo(self.artSellingView.mas_bottom).offset(12.0f);
-            make.height.mas_equalTo(@211.0f);
+            if (self.artDetailData.collection_mode == 3) {
+                make.top.equalTo(self.artSellingView.mas_bottom).offset(12.0f);
+                make.height.mas_equalTo(@211.0f);
+            }else {
+                make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);
+                make.height.mas_equalTo(@211.0f);
+            }
         }else {
             make.top.equalTo(self.artDetailNamePriceView.mas_bottom).offset(12.0f);
             make.height.mas_equalTo(@163.0f);
@@ -299,42 +303,49 @@
 }
 
 - (void)refreshImmediatelyBuyBtnStatus {
-    if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
-        // 判断是否可以拆分
-        if (self.artDetailData.collection_mode == 3) {
-            // 可以拆分
-            // 判断是否有可售作品
-            if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
-                // 有可出售的作品
-                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-                self.immediatelyBuyBtn.enabled = YES;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+    if (self.marketLevel == 1) { // 判断是否是新品
+        [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
+        self.immediatelyBuyBtn.enabled = YES;
+        self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+    }else {
+        if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
+            // 判断是否可以拆分
+            if (self.artDetailData.collection_mode == 3) {
+                // 可以拆分
+                // 判断是否有可售作品
+                if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
+                    // 有可出售的作品
+                    [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                    self.immediatelyBuyBtn.enabled = YES;
+                    self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+                } else {
+                    [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                    self.immediatelyBuyBtn.enabled = NO;
+                    self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+                }
             } else {
-                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-                self.immediatelyBuyBtn.enabled = NO;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+                // 不可拆分
+                if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                    [self.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+                    self.immediatelyBuyBtn.enabled = YES;
+                    self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+                } else {
+                    [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                    self.immediatelyBuyBtn.enabled = YES;
+                    self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
+                }
             }
         } else {
-            // 不可拆分
-            if ([self.artDetailData.aasm_state isEqualToString:@"bidding"]) {
-                [self.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
-                self.immediatelyBuyBtn.enabled = YES;
-                self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
-            } else {
-                [self.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+            // 判断是否可以拆分
+            if (self.artDetailData.collection_mode == 3) {
+                // 可以拆分
+                [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
                 self.immediatelyBuyBtn.enabled = YES;
                 self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
             }
         }
-    } else {
-        // 判断是否可以拆分
-        if (self.artDetailData.collection_mode == 3) {
-            // 可以拆分
-            [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
-            self.immediatelyBuyBtn.enabled = YES;
-            self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
-        }
     }
+    
 }
 
 - (void)likeButtonClick:(UIButton *)sender {
@@ -466,79 +477,7 @@
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
-            // 判断是否可以拆分
-            if (self.artDetailData.collection_mode == 3) {
-                // 可以拆分
-                // 判断是否有可售作品
-                if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
-                    // 有可出售的作品 跳转到出售
-                    JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
-                    sellWithSplitVC.artDetailData = self.artDetailData;
-                    sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                        // 刷新艺术品详情
-                        weakSelf.artDetailData = artDetailData;
-                        // 跟新作品价格
-                        weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
-                        // 判断是否有可售作品
-                        if (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue > 0) {
-                            // 有可出售的作品
-                            [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-                        } else {
-                            weakSelf.immediatelyBuyBtn.enabled = NO;
-                            weakSelf.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
-                        }
-                        // 请求出售列表
-                        [weakSelf requestSellingList];
-                        
-                        // 用户提示
-                        [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
-                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
-                            [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                        } cancel:nil];
-                    };
-                    [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
-                }
-            } else {
-                if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
-                    // 跳转到 下架
-                    if (weakSelf.currentSellingList.count > 0) {
-                        [JLAlertTipView alertWithTitle:@"提示" message:@"确认下架？" doneTitle:@"确定" cancelTitle:@"取消" done:^{
-                            Model_arts_id_orders_Data *orderData = [weakSelf.currentSellingList firstObject];
-                            [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-                                if (success) {
-                                    [weakSelf artOffFromSellingList:orderData.sn];
-                                }
-                            }];
-                        } cancel:nil];
-                    }
-                } else {
-                    // 出售
-                    // 不可拆分
-                    JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
-                    sellWithoutSplitVC.artDetailData = self.artDetailData;
-                    sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-                        // 刷新艺术品详情
-                        weakSelf.artDetailData = artDetailData;
-                        // 更新作品价格
-                        weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
-                        
-                        if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
-                            [weakSelf.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
-                        } else {
-                            [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
-                        }
-                        
-                        // 用户提示
-                        [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
-                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
-                            [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
-                        } cancel:nil];
-                    };
-                    [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
-                }
-            }
-        } else {
+        if (self.marketLevel == 1) {
             // 判断是否可以拆分 不可以拆分
             if (self.artDetailData.collection_mode != 3) {
                 if (self.currentSellingList.count > 0) {
@@ -583,8 +522,139 @@
 //                        }
                         [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
                         [weakSelf requestSellingList];
+                        
+                        /// 刷新数据 更新底部按钮状态
+                        weakSelf.isUpdateDatas = YES;
+                        [weakSelf updateArtDetailData];
                     };
                     [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+                }
+            }
+        }else {
+            if (self.artDetailType == JLArtDetailTypeSelfOrOffShelf) {
+                // 判断是否可以拆分
+                if (self.artDetailData.collection_mode == 3) {
+                    // 可以拆分
+                    // 判断是否有可售作品
+                    if (self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue > 0) {
+                        // 有可出售的作品 跳转到出售
+                        JLSellWithSplitViewController *sellWithSplitVC = [[JLSellWithSplitViewController alloc] init];
+                        sellWithSplitVC.artDetailData = self.artDetailData;
+                        sellWithSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                            // 刷新艺术品详情
+                            weakSelf.artDetailData = artDetailData;
+                            // 跟新作品价格
+                            weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
+                            // 判断是否有可售作品
+                            if (weakSelf.artDetailData.has_amount - weakSelf.artDetailData.selling_amount.intValue > 0) {
+                                // 有可出售的作品
+                                [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                            } else {
+                                weakSelf.immediatelyBuyBtn.enabled = NO;
+                                weakSelf.immediatelyBuyBtn.backgroundColor = JL_color_gray_BEBEBE;
+                            }
+                            // 请求出售列表
+                            [weakSelf requestSellingList];
+                            
+                            // 用户提示
+                            [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
+                                JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                                [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                            } cancel:nil];
+                        };
+                        [weakSelf.navigationController pushViewController:sellWithSplitVC animated:YES];
+                    }
+                } else {
+                    if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                        // 跳转到 下架
+                        if (weakSelf.currentSellingList.count > 0) {
+                            [JLAlertTipView alertWithTitle:@"提示" message:@"确认下架？" doneTitle:@"确定" cancelTitle:@"取消" done:^{
+                                Model_arts_id_orders_Data *orderData = [weakSelf.currentSellingList firstObject];
+                                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+                                    if (success) {
+                                        [weakSelf artOffFromSellingList:orderData.sn];
+                                    }
+                                }];
+                            } cancel:nil];
+                        }
+                    } else {
+                        // 出售
+                        // 不可拆分
+                        JLSellWithoutSplitViewController *sellWithoutSplitVC = [[JLSellWithoutSplitViewController alloc] init];
+                        sellWithoutSplitVC.artDetailData = self.artDetailData;
+                        sellWithoutSplitVC.sellBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+                            // 刷新艺术品详情
+                            weakSelf.artDetailData = artDetailData;
+                            // 更新作品价格
+                            weakSelf.artDetailNamePriceView.artDetailData = artDetailData;
+                            
+                            if ([weakSelf.artDetailData.aasm_state isEqualToString:@"bidding"]) {
+                                [weakSelf.immediatelyBuyBtn setTitle:@"下架" forState:UIControlStateNormal];
+                            } else {
+                                [weakSelf.immediatelyBuyBtn setTitle:@"出售" forState:UIControlStateNormal];
+                            }
+                            
+                            // 用户提示
+                            [JLAlertTipView alertWithTitle:@"提示" message:@"检测到您已提交挂单申请。萌易现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，萌易感谢您的支持。" doneTitle:@"联系客服" cancelTitle:@"取消" done:^{
+                                JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
+                                [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
+                            } cancel:nil];
+                        };
+                        [weakSelf.navigationController pushViewController:sellWithoutSplitVC animated:YES];
+                    }
+                }
+            } else {
+                // 判断是否可以拆分 不可以拆分
+                if (self.artDetailData.collection_mode != 3) {
+                    if (self.currentSellingList.count > 0) {
+                        JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                        orderSubmitVC.artDetailData = self.artDetailData;
+                        orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
+                        __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                        orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                            [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
+                            // 退出详情页面
+                            if (weakSelf.buySuccessDeleteBlock) {
+                                weakSelf.buySuccessDeleteBlock(payType, payUrl);
+                            }
+    //                        [weakSelf.navigationController popViewControllerAnimated:NO];
+                        };
+                        [self.navigationController pushViewController:orderSubmitVC animated:YES];
+                    }
+                } else {
+                    // 可以拆分作品，直接购买最低价作品
+                    if (self.currentSellingList.count > 0) {
+                        Model_arts_id_orders_Data *minPriceSellingOrderData = [self.currentSellingList firstObject];
+                        for (Model_arts_id_orders_Data *sellingOrderData in self.currentSellingList) {
+                            if ([[NSDecimalNumber decimalNumberWithString:sellingOrderData.price] isLessThan:[NSDecimalNumber decimalNumberWithString:minPriceSellingOrderData.price]]) {
+                                minPriceSellingOrderData = sellingOrderData;
+                            }
+                        }
+                        JLOrderSubmitViewController *orderSubmitVC = [[JLOrderSubmitViewController alloc] init];
+                        orderSubmitVC.artDetailData = weakSelf.artDetailData;
+                        orderSubmitVC.sellingOrderData = minPriceSellingOrderData;
+                        __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
+                        orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                            [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
+    //                        if (payType == JLOrderPayTypeWeChat) {
+    //                            // 打开支付页面
+    //                            JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+    //                            payWebVC.payUrl = payUrl;
+    //                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+    //                        } else {
+    //                            JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+    //                            payWebVC.payUrl = payUrl;
+    //                            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+    //                        }
+                            [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
+                            [weakSelf requestSellingList];
+                            
+                            /// 刷新数据 更新底部按钮状态
+                            weakSelf.isUpdateDatas = YES;
+                            [weakSelf updateArtDetailData];
+                        };
+                        [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
+                    }
                 }
             }
         }
@@ -796,6 +866,7 @@
 - (JLArtDetailNamePriceView *)artDetailNamePriceView {
     if (!_artDetailNamePriceView) {
         _artDetailNamePriceView = [[JLArtDetailNamePriceView alloc] initWithFrame:CGRectMake(0.0f, self.pageFlowView.frameBottom, kScreenWidth, 94.0f)];
+        _artDetailNamePriceView.marketLevel = self.marketLevel;
         _artDetailNamePriceView.artDetailData = self.artDetailData;
     }
     return _artDetailNamePriceView;
@@ -845,6 +916,10 @@
 //                }
                 [JLAlertTipView alertWithTitle:@"提示" message:@"购买成功!" doneTitle:@"好的" done:nil];
                 [weakSelf requestSellingList];
+                
+                /// 刷新数据 更新底部按钮状态
+                weakSelf.isUpdateDatas = YES;
+                [weakSelf updateArtDetailData];
             };
             [weakSelf.navigationController pushViewController:orderSubmitVC animated:YES];
         };
@@ -983,7 +1058,7 @@
         if (netIsWork) {
             weakSelf.currentSellingList = response.body;
             
-            if (self.marketLevel == 0 || self.marketLevel == 2) {
+            if ((self.marketLevel == 0 || self.marketLevel == 2) && self.artDetailData.collection_mode == 3) {
                 if (response.body.count == 4) {
                     weakSelf.artSellingViewOpen = NO;
                 }
@@ -1038,6 +1113,10 @@
                 weakSelf.artDetailData = response.body;
                 if (weakSelf.isUpdateDatas) {
                     weakSelf.artAuthorDetailView.artDetailData = weakSelf.artDetailData;
+                    
+                    weakSelf.artDetailType = weakSelf.artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+                    
+                    [self refreshImmediatelyBuyBtnStatus];
                 }
             }
         }

@@ -110,7 +110,7 @@
 - (UIImageView *)firstImageView {
     if (!_firstImageView) {
         _firstImageView = [[UIImageView alloc] init];
-        _firstImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg1"];
+        _firstImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg4"];
         _firstImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_firstImageView, 5.0f, 0.0f, JL_color_clear);
     }
@@ -120,7 +120,7 @@
 - (UIImageView *)secondImageView {
     if (!_secondImageView) {
         _secondImageView = [[UIImageView alloc] init];
-        _secondImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg2"];
+        _secondImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg4"];
         _secondImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_secondImageView, 5.0f, 0.0f, JL_color_clear);
     }
@@ -130,7 +130,7 @@
 - (UIImageView *)thirdImageView {
     if (!_thirdImageView) {
         _thirdImageView = [[UIImageView alloc] init];
-        _thirdImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg3"];
+        _thirdImageView.image = [UIImage imageNamed:@"icon_mine_upload_eg4"];
         _thirdImageView.userInteractionEnabled = YES;
         ViewBorderRadius(_thirdImageView, 5.0f, 0.0f, JL_color_clear);
     }

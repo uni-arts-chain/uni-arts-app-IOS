@@ -318,6 +318,7 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLNFTGoodCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    cell.marketLevel = self.type + 1;
     cell.artDetailData = self.dataArray[indexPath.row];
     return cell;
 }
@@ -418,7 +419,7 @@
         request.category_id = self.currentThemeID;
     }
     if (![NSString stringIsEmpty:self.currentTypeID]) {
-        request.resource_type = self.currentTypeID;
+        request.theme_id = self.currentTypeID;
     }
     if (![NSString stringIsEmpty:self.currentPriceID]) {
         request.price_sort = self.currentPriceID;

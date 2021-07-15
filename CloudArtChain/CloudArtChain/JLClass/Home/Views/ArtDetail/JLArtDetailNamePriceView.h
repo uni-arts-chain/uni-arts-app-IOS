@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtDetailNamePriceView : JLBaseView
+@property (nonatomic, assign) NSInteger marketLevel;
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
 

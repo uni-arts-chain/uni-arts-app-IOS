@@ -270,6 +270,11 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLNFTGoodCollectionCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLNFTGoodCollectionCell" forIndexPath:indexPath];
+    if (self.authorData.is_official_account) {
+        cell.marketLevel = 1;
+    }else {
+        cell.marketLevel = 2;
+    }
     cell.artDetailData = self.artArray[indexPath.row];
     return cell;
 }
