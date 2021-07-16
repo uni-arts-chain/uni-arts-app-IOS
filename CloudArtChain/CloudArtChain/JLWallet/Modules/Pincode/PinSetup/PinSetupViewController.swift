@@ -19,6 +19,12 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
     var backspaceAccessibilityId: String? = "BackspaceAccessibilityId"
 
     var localizableTopTitle: LocalizableResource<String> = LocalizableResource { _ in "" }
+    
+    var passwords: String = "" {
+        didSet {
+            presenter.submit(pin: passwords)
+        }
+    }
 
     weak var navigationControlling: NavigationControlling?
 
@@ -233,6 +239,10 @@ extension PinSetupViewController: PinSetupViewProtocol {
     func didReceiveWrongPincode() {
         if mode != .create {
             pinView?.reset(shouldAnimateError: true)
+        }
+        
+        if passwords != "" {
+            presenter.authorizationPasswordsFail()
         }
     }
 

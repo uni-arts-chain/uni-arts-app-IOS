@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void(^sellBlock)(Model_art_Detail_Data *artDetailData);
 @property (nonatomic, copy) void(^offFromListBlock)(Model_art_Detail_Data *artDetailData, JLWorkListType workListType);
 @property (nonatomic, copy) void(^transferBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^auctionBlock)(Model_art_Detail_Data *artDetailData);
+@property (nonatomic, copy) void(^cancelAuctionBlock)(Model_art_Detail_Data *artDetailData);
 - (void)addToBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)offFromBiddingList:(Model_art_Detail_Data *)artDetailData;
 - (void)launchAuctionFromNotList:(NSIndexPath *)indexPath;

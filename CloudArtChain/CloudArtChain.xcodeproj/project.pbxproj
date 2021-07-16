@@ -38,6 +38,20 @@
 		5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEC267342DE00727C8C /* JLViewAniamtionTool.m */; };
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
+		5EE52A82269E7AA100EFF8C9 /* JLSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */; };
+		5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */; };
+		5EE52A88269E7CDD00EFF8C9 /* JLMarketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A87269E7CDD00EFF8C9 /* JLMarketViewController.m */; };
+		5EE52A8B269E7E0800EFF8C9 /* JLScrollTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A8A269E7E0800EFF8C9 /* JLScrollTitleView.m */; };
+		5EE52A90269ECC5100EFF8C9 /* JLCashAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A8F269ECC5100EFF8C9 /* JLCashAccountViewController.m */; };
+		5EE52A93269ECC9200EFF8C9 /* JLCashAccountContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A92269ECC9200EFF8C9 /* JLCashAccountContentView.m */; };
+		5EE52A96269ECCE300EFF8C9 /* JLCashAccountHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A95269ECCE300EFF8C9 /* JLCashAccountHeaderView.m */; };
+		5EE52A99269ECCF700EFF8C9 /* JLCashAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A98269ECCF700EFF8C9 /* JLCashAccountCell.m */; };
+		5EE52A9C269EDC4A00EFF8C9 /* JLCashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A9B269EDC4A00EFF8C9 /* JLCashViewController.m */; };
+		5EE52A9F269EDCB800EFF8C9 /* JLCashContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A9E269EDCB800EFF8C9 /* JLCashContentView.m */; };
+		5EE52AA2269EE35400EFF8C9 /* UIButton+LXMImagePosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52AA1269EE35400EFF8C9 /* UIButton+LXMImagePosition.m */; };
+		5EE52AA5269EE88E00EFF8C9 /* NSObject+topViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52AA3269EE88D00EFF8C9 /* NSObject+topViewController.m */; };
+		5EE52AA826A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52AA726A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m */; };
+		5EE52AAE26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52AAD26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m */; };
 		B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */; };
 		B312249D25B6B60900562ECA /* OperationManagerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */; };
 		B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */; };
@@ -1262,6 +1276,34 @@
 		5E76DFEF26735AB600727C8C /* NSData+JLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+JLExtension.h"; sourceTree = "<group>"; };
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
+		5EE52A80269E7AA100EFF8C9 /* JLSegmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSegmentViewController.h; sourceTree = "<group>"; };
+		5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSegmentViewController.m; sourceTree = "<group>"; };
+		5EE52A83269E7B2700EFF8C9 /* JLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLScrollView.h; sourceTree = "<group>"; };
+		5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLScrollView.m; sourceTree = "<group>"; };
+		5EE52A86269E7CDD00EFF8C9 /* JLMarketViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMarketViewController.h; sourceTree = "<group>"; };
+		5EE52A87269E7CDD00EFF8C9 /* JLMarketViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMarketViewController.m; sourceTree = "<group>"; };
+		5EE52A89269E7E0800EFF8C9 /* JLScrollTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLScrollTitleView.h; sourceTree = "<group>"; };
+		5EE52A8A269E7E0800EFF8C9 /* JLScrollTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLScrollTitleView.m; sourceTree = "<group>"; };
+		5EE52A8E269ECC5100EFF8C9 /* JLCashAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashAccountViewController.h; sourceTree = "<group>"; };
+		5EE52A8F269ECC5100EFF8C9 /* JLCashAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashAccountViewController.m; sourceTree = "<group>"; };
+		5EE52A91269ECC9200EFF8C9 /* JLCashAccountContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashAccountContentView.h; sourceTree = "<group>"; };
+		5EE52A92269ECC9200EFF8C9 /* JLCashAccountContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashAccountContentView.m; sourceTree = "<group>"; };
+		5EE52A94269ECCE300EFF8C9 /* JLCashAccountHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashAccountHeaderView.h; sourceTree = "<group>"; };
+		5EE52A95269ECCE300EFF8C9 /* JLCashAccountHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashAccountHeaderView.m; sourceTree = "<group>"; };
+		5EE52A97269ECCF700EFF8C9 /* JLCashAccountCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashAccountCell.h; sourceTree = "<group>"; };
+		5EE52A98269ECCF700EFF8C9 /* JLCashAccountCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashAccountCell.m; sourceTree = "<group>"; };
+		5EE52A9A269EDC4A00EFF8C9 /* JLCashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashViewController.h; sourceTree = "<group>"; };
+		5EE52A9B269EDC4A00EFF8C9 /* JLCashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashViewController.m; sourceTree = "<group>"; };
+		5EE52A9D269EDCB800EFF8C9 /* JLCashContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashContentView.h; sourceTree = "<group>"; };
+		5EE52A9E269EDCB800EFF8C9 /* JLCashContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashContentView.m; sourceTree = "<group>"; };
+		5EE52AA0269EE35300EFF8C9 /* UIButton+LXMImagePosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+LXMImagePosition.h"; sourceTree = "<group>"; };
+		5EE52AA1269EE35400EFF8C9 /* UIButton+LXMImagePosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+LXMImagePosition.m"; sourceTree = "<group>"; };
+		5EE52AA3269EE88D00EFF8C9 /* NSObject+topViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+topViewController.m"; sourceTree = "<group>"; };
+		5EE52AA4269EE88E00EFF8C9 /* NSObject+topViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+topViewController.h"; sourceTree = "<group>"; };
+		5EE52AA626A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCashAccountPasswordAuthorizeView.h; sourceTree = "<group>"; };
+		5EE52AA726A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCashAccountPasswordAuthorizeView.m; sourceTree = "<group>"; };
+		5EE52AAC26A1767D00EFF8C9 /* JLLaunchAuctionNumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLLaunchAuctionNumView.h; sourceTree = "<group>"; };
+		5EE52AAD26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLLaunchAuctionNumView.m; sourceTree = "<group>"; };
 		70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
@@ -3024,6 +3066,43 @@
 				5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */,
 			);
 			path = QGYAnimationEasingHelper;
+			sourceTree = "<group>";
+		};
+		5EE52A7F269E7A6900EFF8C9 /* JLSegmentViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5EE52A80269E7AA100EFF8C9 /* JLSegmentViewController.h */,
+				5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */,
+			);
+			path = JLSegmentViewController;
+			sourceTree = "<group>";
+		};
+		5EE52A8C269ECC1300EFF8C9 /* CashAccount */ = {
+			isa = PBXGroup;
+			children = (
+				5EE52A8E269ECC5100EFF8C9 /* JLCashAccountViewController.h */,
+				5EE52A8F269ECC5100EFF8C9 /* JLCashAccountViewController.m */,
+				5EE52A9A269EDC4A00EFF8C9 /* JLCashViewController.h */,
+				5EE52A9B269EDC4A00EFF8C9 /* JLCashViewController.m */,
+			);
+			path = CashAccount;
+			sourceTree = "<group>";
+		};
+		5EE52A8D269ECC2B00EFF8C9 /* CashAccount */ = {
+			isa = PBXGroup;
+			children = (
+				5EE52A91269ECC9200EFF8C9 /* JLCashAccountContentView.h */,
+				5EE52A92269ECC9200EFF8C9 /* JLCashAccountContentView.m */,
+				5EE52A94269ECCE300EFF8C9 /* JLCashAccountHeaderView.h */,
+				5EE52A95269ECCE300EFF8C9 /* JLCashAccountHeaderView.m */,
+				5EE52A97269ECCF700EFF8C9 /* JLCashAccountCell.h */,
+				5EE52A98269ECCF700EFF8C9 /* JLCashAccountCell.m */,
+				5EE52A9D269EDCB800EFF8C9 /* JLCashContentView.h */,
+				5EE52A9E269EDCB800EFF8C9 /* JLCashContentView.m */,
+				5EE52AA626A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.h */,
+				5EE52AA726A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m */,
+			);
+			path = CashAccount;
 			sourceTree = "<group>";
 		};
 		7A8BEFDABCD0FB1B82B9A351 /* Frameworks */ = {
@@ -5409,6 +5488,8 @@
 				B38C831D261D4E39006B5324 /* JLLaunchAuctionPriceInputView.m */,
 				B38C8325261D56A4006B5324 /* JLLaunchAuctionTimeInputView.h */,
 				B38C8326261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m */,
+				5EE52AAC26A1767D00EFF8C9 /* JLLaunchAuctionNumView.h */,
+				5EE52AAD26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m */,
 			);
 			path = LaunchAuction;
 			sourceTree = "<group>";
@@ -5887,6 +5968,7 @@
 		B396551724F37354007A8EC2 /* JLCommon */ = {
 			isa = PBXGroup;
 			children = (
+				5EE52A7F269E7A6900EFF8C9 /* JLSegmentViewController */,
 				5E300DF32679F36E00A81FA7 /* JLVersionManager */,
 				B38F2B40264A2B9100C827A7 /* JLDocumentPickerViewController */,
 				B391E2C826285DA5002CCC9D /* JLStepper */,
@@ -5950,6 +6032,8 @@
 				B39F8CC526453B5B008AF37F /* JLWechatPayWebViewController.m */,
 				B3BE47B72652613E004184DF /* JLAlipayWebViewController.h */,
 				B3BE47B82652613E004184DF /* JLAlipayWebViewController.m */,
+				5EE52A83269E7B2700EFF8C9 /* JLScrollView.h */,
+				5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */,
 			);
 			path = JLBase;
 			sourceTree = "<group>";
@@ -6113,6 +6197,8 @@
 		B39655E724F38DF4007A8EC2 /* JLCategory */ = {
 			isa = PBXGroup;
 			children = (
+				5EE52AA4269EE88E00EFF8C9 /* NSObject+topViewController.h */,
+				5EE52AA3269EE88D00EFF8C9 /* NSObject+topViewController.m */,
 				B3266F5624FE3B2E000C6E95 /* UITabBar+JLTool.h */,
 				B3266F5724FE3B2E000C6E95 /* UITabBar+JLTool.m */,
 				B39655FA24F38DF4007A8EC2 /* JLRefreshFooter.h */,
@@ -6131,6 +6217,8 @@
 				B39655F824F38DF4007A8EC2 /* NSObject+countDown.m */,
 				B39655EF24F38DF4007A8EC2 /* NSString+JLTool.h */,
 				B396560224F38DF4007A8EC2 /* NSString+JLTool.m */,
+				5EE52AA0269EE35300EFF8C9 /* UIButton+LXMImagePosition.h */,
+				5EE52AA1269EE35400EFF8C9 /* UIButton+LXMImagePosition.m */,
 				B39655E824F38DF4007A8EC2 /* UIButton+AxcButtonContentLayout.h */,
 				B39655FF24F38DF4007A8EC2 /* UIButton+AxcButtonContentLayout.m */,
 				B39655F124F38DF4007A8EC2 /* UIButton+TouchArea.h */,
@@ -6332,6 +6420,8 @@
 				B37FFB6A24F507D4004B9CC8 /* JLCateFilterView.m */,
 				B36E836C24F8DB6C00A77588 /* JLCategoryWorkCollectionViewCell.h */,
 				B36E836D24F8DB6C00A77588 /* JLCategoryWorkCollectionViewCell.m */,
+				5EE52A89269E7E0800EFF8C9 /* JLScrollTitleView.h */,
+				5EE52A8A269E7E0800EFF8C9 /* JLScrollTitleView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -6339,6 +6429,8 @@
 		B396563E24F3915C007A8EC2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5EE52A86269E7CDD00EFF8C9 /* JLMarketViewController.h */,
+				5EE52A87269E7CDD00EFF8C9 /* JLMarketViewController.m */,
 				B396564B24F391DC007A8EC2 /* JLCategoryViewController.h */,
 				B396564C24F391DC007A8EC2 /* JLCategoryViewController.m */,
 			);
@@ -6418,6 +6510,7 @@
 		B396564624F39194007A8EC2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5EE52A8D269ECC2B00EFF8C9 /* CashAccount */,
 				B38C831B261D4E0D006B5324 /* LaunchAuction */,
 				B38FD54D25CBA2CB0028797E /* FocusFans */,
 				B38BCFFB25B8304C00FD37F7 /* ReceiveAddress */,
@@ -6442,6 +6535,7 @@
 		B396564724F39199007A8EC2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5EE52A8C269ECC1300EFF8C9 /* CashAccount */,
 				B3CB6DA726462B8E0068B27E /* ExchangeNFT */,
 				B3EA76D72643CBC9004030C1 /* AboutUs */,
 				B3B626E125E3643C009BE119 /* FeedBack */,
@@ -6995,6 +7089,7 @@
 				B31224C025B6B60900562ECA /* TriangularedButton+Style.swift in Sources */,
 				B394A0B42629878100A8DAE4 /* JLHomePageCollectionViewCell.m in Sources */,
 				B396561624F38DF4007A8EC2 /* UIButton+TouchArea.m in Sources */,
+				5EE52A96269ECCE300EFF8C9 /* JLCashAccountHeaderView.m in Sources */,
 				B3E98E2225020BD4004AABD2 /* JLImportWalletPrivateKeyView.m in Sources */,
 				B38E912825B95AB100174AAC /* JLBackupNoticeProtocols.swift in Sources */,
 				B312263125B6B60A00562ECA /* WalletStaticImageViewModel.swift in Sources */,
@@ -7067,6 +7162,7 @@
 				B3753D982554F524003A86CF /* SLEditMenuView.m in Sources */,
 				B31224D125B6B60900562ECA /* NSPredicate+Validation.swift in Sources */,
 				B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */,
+				5EE52A82269E7AA100EFF8C9 /* JLSegmentViewController.m in Sources */,
 				B38D7CC225E0F75F00E9978E /* JLSelectControl.swift in Sources */,
 				B391CC85262D75C000FF48B0 /* aeskey.m in Sources */,
 				B39655E324F38DBA007A8EC2 /* MBProgressHUD.m in Sources */,
@@ -7157,6 +7253,7 @@
 				B312251A25B6B60A00562ECA /* UserDataModel.xcdatamodeld in Sources */,
 				B31226A125B6B60B00562ECA /* PurchaseProtocols.swift in Sources */,
 				B31224EB25B6B60900562ECA /* AssetTransactionData+HistoryItemData.swift in Sources */,
+				5EE52A9F269EDCB800EFF8C9 /* JLCashContentView.m in Sources */,
 				B38E90F925B921AC00174AAC /* JLEditAddressViewController.m in Sources */,
 				B31224AF25B6B60900562ECA /* SigningWrapper.swift in Sources */,
 				B31225BC25B6B60A00562ECA /* ManagedConnectionViewModelFactory.swift in Sources */,
@@ -7242,6 +7339,7 @@
 				B31224EC25B6B60900562ECA /* Logger+Wallet.swift in Sources */,
 				B312252825B6B60A00562ECA /* CommonError.swift in Sources */,
 				B31224AB25B6B60900562ECA /* PurchaseCompleted.swift in Sources */,
+				5EE52A93269ECC9200EFF8C9 /* JLCashAccountContentView.m in Sources */,
 				B31225E625B6B60A00562ECA /* AccountImportRequest.swift in Sources */,
 				B31225E125B6B60A00562ECA /* AccountImportViewFactory.swift in Sources */,
 				B31225EA25B6B60A00562ECA /* AccountImportPresenter.swift in Sources */,
@@ -7400,6 +7498,7 @@
 				B31225C625B6B60A00562ECA /* NetworkManagementViewController.swift in Sources */,
 				B36361B62500DC250039DF48 /* JLMechanismDetailView.m in Sources */,
 				B37FFB6E24F519AB004B9CC8 /* JLCreatorTableViewCell.m in Sources */,
+				5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */,
 				B3648C5F251858D900BBDB57 /* JLAuctionView.m in Sources */,
 				B312257425B6B60A00562ECA /* SelectionTitleTableViewCell.swift in Sources */,
 				B3753D962554F524003A86CF /* SLEditTextView.m in Sources */,
@@ -7443,6 +7542,7 @@
 				B312257725B6B60A00562ECA /* SelectionSubtitleTableViewCell.swift in Sources */,
 				B31224B725B6B60900562ECA /* StakingLedger.swift in Sources */,
 				B35936022511B04000E2B2FD /* JLCustomDatePickerView.m in Sources */,
+				5EE52AAE26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m in Sources */,
 				B396564A24F391AE007A8EC2 /* JLHomeViewController.m in Sources */,
 				B38BCFF125B8275100FD37F7 /* JLSellOrderListViewController.m in Sources */,
 				B312263925B6B60A00562ECA /* ContactsListViewModelFactory.swift in Sources */,
@@ -7508,7 +7608,9 @@
 				B3AA6DA5263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m in Sources */,
 				B312267C25B6B60A00562ECA /* WalletInputAmountView.swift in Sources */,
 				B396554124F38D6D007A8EC2 /* JLNetHelper.m in Sources */,
+				5EE52A8B269E7E0800EFF8C9 /* JLScrollTitleView.m in Sources */,
 				B312255325B6B60A00562ECA /* TitledMnemonicView.swift in Sources */,
+				5EE52A99269ECCF700EFF8C9 /* JLCashAccountCell.m in Sources */,
 				B312252925B6B60A00562ECA /* Price.swift in Sources */,
 				B396552B24F38D07007A8EC2 /* JLBaseViewController.m in Sources */,
 				B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */,
@@ -7540,6 +7642,7 @@
 				B312249F25B6B60900562ECA /* ScaleDecoderOperation.swift in Sources */,
 				B312256F25B6B60A00562ECA /* SelectableTitleListViewModel.swift in Sources */,
 				B37FFB4924F4A965004B9CC8 /* JLHomeAppView.m in Sources */,
+				5EE52A90269ECC5100EFF8C9 /* JLCashAccountViewController.m in Sources */,
 				B35936002511B04000E2B2FD /* JLCustomPickerView.m in Sources */,
 				B3AA62C525E49B3E00D28627 /* STPickerView.m in Sources */,
 				B312251625B6B60A00562ECA /* SubstrateDataModel.xcdatamodeld in Sources */,
@@ -7636,6 +7739,7 @@
 				B312253825B6B60A00562ECA /* SocialMessage.swift in Sources */,
 				5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */,
 				B312258425B6B60A00562ECA /* EmailPresentable.swift in Sources */,
+				5EE52AA2269EE35400EFF8C9 /* UIButton+LXMImagePosition.m in Sources */,
 				B396562924F38EE3007A8EC2 /* JLViewControllerTool.m in Sources */,
 				B391CB8C262D2AD700FF48B0 /* CubismCdiJson.cpp in Sources */,
 				B38C8317261D4BED006B5324 /* JLLaunchAuctionViewController.m in Sources */,
@@ -7676,6 +7780,7 @@
 				B31224E825B6B60900562ECA /* Chain+ViewModel.swift in Sources */,
 				B31224ED25B6B60900562ECA /* TransactionHistoryItem+Extrinsic.swift in Sources */,
 				B37B860425149B9500E43B36 /* JLUploadWorkDescriptionView.m in Sources */,
+				5EE52AA826A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m in Sources */,
 				B3C05AED263180E1002741B1 /* ProductSellTransferCall.swift in Sources */,
 				B391B0B3262F011200127532 /* JLBoxCardCollectionViewCell.m in Sources */,
 				B31224F125B6B60900562ECA /* ErrorPresentable+AlertText.swift in Sources */,
@@ -7697,6 +7802,7 @@
 				B391B0AD262EF2E500127532 /* JLBoxDetailViewController.m in Sources */,
 				B312258325B6B60A00562ECA /* ControllerBackedProtocol.swift in Sources */,
 				B31224C725B6B60900562ECA /* UIAlertViewController+Account.swift in Sources */,
+				5EE52AA5269EE88E00EFF8C9 /* NSObject+topViewController.m in Sources */,
 				B312262925B6B60A00562ECA /* AccountInfoViewFactory.swift in Sources */,
 				B312266925B6B60A00562ECA /* WalletContextFactory.swift in Sources */,
 				B31224FE25B6B60A00562ECA /* SubstrateOperationFactory.swift in Sources */,
@@ -7726,6 +7832,8 @@
 				B37B85FB25148D2F00E43B36 /* JLUploadWorkInputView.m in Sources */,
 				B31225AC25B6B60A00562ECA /* PinSetupInteractor.swift in Sources */,
 				B31224FB25B6B60A00562ECA /* SubscanDefinitions.swift in Sources */,
+				5EE52A88269E7CDD00EFF8C9 /* JLMarketViewController.m in Sources */,
+				5EE52A9C269EDC4A00EFF8C9 /* JLCashViewController.m in Sources */,
 				B396565324F39227007A8EC2 /* JLShoppingCartViewController.m in Sources */,
 				5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */,
 				B312269325B6B60B00562ECA /* WalletSelectAccountCommand.swift in Sources */,

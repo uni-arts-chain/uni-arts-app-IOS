@@ -23,6 +23,10 @@ extension ScreenAuthorizationPresenter: PinSetupPresenterProtocol {
     func submit(pin: String) {
         interactor.process(pin: pin)
     }
+    
+    func authorizationPasswordsFail() {
+        wireframe.showAuthorizationCompletion(with: false)
+    }
 }
 
 extension ScreenAuthorizationPresenter: LocalAuthInteractorOutputProtocol {

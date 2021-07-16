@@ -313,6 +313,15 @@
             };
             [weakSelf.navigationController pushViewController:transferVC animated:YES];
         };
+        workListVC.auctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            NSLog(@"拍卖");
+            JLLaunchAuctionViewController *vc = [[JLLaunchAuctionViewController alloc] init];
+            vc.artDetailData = artDetailData;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        workListVC.cancelAuctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            NSLog(@"取消拍卖");
+        };
         [workListVCArray addObject:workListVC];
     }];
     return workListVCArray.copy;

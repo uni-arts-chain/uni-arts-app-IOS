@@ -94,6 +94,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
+        _lineView.hidden = YES;
         _lineView.backgroundColor = JL_color_gray_DDDDDD;
     }
     return _lineView;

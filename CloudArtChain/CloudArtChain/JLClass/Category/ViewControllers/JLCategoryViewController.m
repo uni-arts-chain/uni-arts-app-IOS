@@ -45,7 +45,7 @@
 }
 
 - (void)createView {
-    [self.view addSubview:self.cateNaviView];
+//    [self.view addSubview:self.cateNaviView];
     [self.view addSubview:self.themeFilterView];
     [self.view addSubview:self.typeFilterView];
     [self.view addSubview:self.priceFilterView];
@@ -71,7 +71,7 @@
         for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.cateNaviView.frameBottom, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, _topInset, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -192,7 +192,7 @@
         WS(weakSelf)
         UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
 
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height - KStatusBar_Navigation_Height) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

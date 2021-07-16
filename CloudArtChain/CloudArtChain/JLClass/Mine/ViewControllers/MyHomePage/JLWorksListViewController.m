@@ -154,6 +154,16 @@
             weakSelf.transferBlock(artDetailData);
         }
     };
+    cell.auctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+        if (weakSelf.auctionBlock) {
+            weakSelf.auctionBlock(artDetailData);
+        }
+    };
+    cell.cancelAuctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+        if (weakSelf.cancelAuctionBlock) {
+            weakSelf.cancelAuctionBlock(artDetailData);
+        }
+    };
     return cell;
 }
 

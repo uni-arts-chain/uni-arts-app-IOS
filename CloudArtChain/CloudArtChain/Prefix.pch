@@ -63,6 +63,8 @@
 #import "UIAlertController+Alert.h"
 #import "QGYAnimationEasingHelper.h"
 #import "JLViewAniamtionTool.h"
+#import "NSObject+topViewController.h"
+#import "UIButton+LXMImagePosition.h"
 
 // model
 #import "AppSingleton.h"

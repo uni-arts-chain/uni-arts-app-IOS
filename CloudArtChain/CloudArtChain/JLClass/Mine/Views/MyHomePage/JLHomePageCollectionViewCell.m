@@ -18,10 +18,16 @@
 @property (nonatomic, strong) UIButton *sellButton;
 @property (nonatomic, strong) UIButton *offShelfButton;
 @property (nonatomic, strong) UIButton *transferButton;
+/// 拍卖
+@property (nonatomic, strong) UIButton *auctionBtn;
+/// 取消拍卖
+@property (nonatomic, strong) UIButton *cancelAuctionBtn;
+/// 倒计时(未开始或者已经开始)
+@property (nonatomic, strong) UIView *countdownBgView;
+@property (nonatomic, strong) UILabel *countdownLabel;
 
-@property (nonatomic, strong) UIView *auctioningView;
 @property (nonatomic, strong) UIView *live2DView;
-@property (nonatomic, strong) UIImageView *playImgView;
+@property (nonatomic, strong) UIView *videoView;
 
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
@@ -43,8 +49,10 @@
 - (void)createSubViews {
     [self.contentView addSubview:self.backView];
     [self.backView addSubview:self.imageView];
-    [self.backView addSubview:self.auctioningView];
     [self.backView addSubview:self.live2DView];
+    [self.backView addSubview:self.videoView];
+    [self.backView addSubview:self.countdownBgView];
+    [self.countdownBgView addSubview:self.countdownLabel];
     
     [self.backView addSubview:self.bottomView];
     [self.bottomView addSubview:self.nameLabel];
@@ -53,71 +61,86 @@
     [self.bottomView addSubview:self.sellButton];
     [self.bottomView addSubview:self.offShelfButton];
     [self.bottomView addSubview:self.transferButton];
-    [self.bottomView addSubview:self.playImgView];
+    [self.bottomView addSubview:self.auctionBtn];
+    [self.bottomView addSubview:self.cancelAuctionBtn];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
     }];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.backView);
-        make.height.mas_equalTo(85.0f);
+        make.height.mas_equalTo(110.0f);
     }];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.bottomView).offset(10.0f);
         make.right.equalTo(self.bottomView).offset(-10.0f);
-        make.top.equalTo(self.bottomView).offset(2.0f);
+        make.top.equalTo(self.bottomView).offset(6.0f);
         make.height.mas_equalTo(20.0f);
     }];
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.bottomView).offset(10.0f);
         make.right.equalTo(self.bottomView).offset(-10.0f);
-        make.top.equalTo(self.nameLabel.mas_bottom);
+        make.top.equalTo(self.nameLabel.mas_bottom).offset(7);
         make.height.mas_equalTo(20.0f);
     }];
-    
     [self.lineImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.priceLabel.mas_bottom).offset(3.0f);
+        make.top.equalTo(self.priceLabel.mas_bottom).offset(10.0f);
         make.left.mas_equalTo(12.0f);
         make.right.mas_equalTo(-12.0f);
-        make.height.mas_equalTo(0.5f);
+        make.height.mas_equalTo(1.0f);
     }];
     [self.transferButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineImageView.mas_bottom).offset(8.0f);
-        make.left.mas_equalTo(15.0f);
-        make.width.mas_equalTo(60.0f);
+        make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
+        make.right.equalTo(self.bottomView).offset(-10);
+        make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(22.0f);
     }];
     [self.sellButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.width.mas_equalTo(60.0f);
+        make.left.equalTo(self.bottomView).offset(10);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(22.0f);
+    }];
+    [self.auctionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.bottomView);
+        make.centerY.equalTo(self.sellButton);
+        make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(22.0f);
     }];
     [self.offShelfButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
-        make.right.mas_equalTo(-15.0f);
-        make.width.mas_equalTo(60.0f);
+        make.right.equalTo(self.bottomView).offset(-10);
+        make.width.mas_equalTo(56.0f);
+        make.height.mas_equalTo(22.0f);
+    }];
+    [self.cancelAuctionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
+        make.right.equalTo(self.bottomView).offset(-10);
+        make.width.mas_equalTo(72.0f);
         make.height.mas_equalTo(22.0f);
     }];
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.backView);
         make.bottom.equalTo(self.bottomView.mas_top);
     }];
-    [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.backView);
-        make.width.mas_equalTo(45.0f);
-        make.height.mas_equalTo(20.0f);
+    [self.countdownBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.imageView);
+        make.height.mas_equalTo(@20);
+    }];
+    [self.countdownLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.equalTo(self.countdownBgView);
     }];
     [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView);
-        make.bottom.equalTo(self.bottomView.mas_top).offset(-15.0f);
+        make.top.equalTo(self.backView).offset(10.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
     }];
-    [self.playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.imageView).offset(14.0f);
-        make.bottom.equalTo(self.imageView.mas_bottom).offset(-13.0f);
-        make.width.height.mas_equalTo(@26.0f);
+    [self.videoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.backView);
+        make.top.equalTo(self.backView).offset(10.0f);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(15.0f);
     }];
     [self.contentView setNeedsLayout];
 }
@@ -130,6 +153,26 @@
         ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
     }
     return _backView;
+}
+
+- (UIView *)countdownBgView {
+    if (!_countdownBgView) {
+        _countdownBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth - 15.0f * 2 - 14.0f) / 2, 20)];
+        _countdownBgView.hidden = YES;
+        [_countdownBgView addGradientFromColor:JL_color_orange_FFC63D toColor:JL_color_orange_FF9E2C];
+    }
+    return _countdownBgView;
+}
+
+- (UILabel *)countdownLabel {
+    if (!_countdownLabel) {
+        _countdownLabel = [[UILabel alloc] init];
+        _countdownLabel.text = @"距开始 05:20:10";
+        _countdownLabel.textColor = JL_color_white_ffffff;
+        _countdownLabel.textAlignment = NSTextAlignmentCenter;
+        _countdownLabel.font = kFontPingFangSCMedium(12);
+    }
+    return _countdownLabel;
 }
 
 - (UIImageView *)imageView {
@@ -205,15 +248,6 @@
     return _offShelfButton;
 }
 
-- (UIImageView *)playImgView {
-    if (!_playImgView) {
-        _playImgView = [[UIImageView alloc] init];
-        _playImgView.hidden = YES;
-        _playImgView.image = [UIImage imageNamed:@"nft_video_play_icon2"];
-    }
-    return _playImgView;
-}
-
 - (void)offShelfButtonClick {
     if (self.offFromListBlock) {
         self.offFromListBlock(self.artDetailData);
@@ -238,29 +272,41 @@
     }
 }
 
-- (UIView *)auctioningView {
-    if (!_auctioningView) {
-        _auctioningView = [[UIView alloc] init];
-        
-        UIImageView *backImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_back_auctioning"]];
-        [_auctioningView addSubview:backImageView];
-        
-        UILabel *statusLabel = [[UILabel alloc] init];
-        statusLabel.font = kFontPingFangSCMedium(12.0f);
-        statusLabel.textColor = JL_color_white_ffffff;
-        statusLabel.textAlignment = NSTextAlignmentCenter;
-        statusLabel.text = @"拍卖中";
-        [_auctioningView addSubview:statusLabel];
-        
-        [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_auctioningView);
-        }];
-        [statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(_auctioningView);
-        }];
-        _auctioningView.hidden = YES;
+- (UIButton *)auctionBtn {
+    if (!_auctionBtn) {
+        _auctionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_auctionBtn setTitle:@"拍卖" forState:UIControlStateNormal];
+        [_auctionBtn setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        _auctionBtn.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_auctionBtn addTarget:self action:@selector(auctionBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        ViewBorderRadius(_auctionBtn, 11.0f, 1.0f, JL_color_gray_101010);
     }
-    return _auctioningView;
+    return _auctionBtn;
+}
+
+- (void)auctionBtnClick {
+    if (self.auctionBlock) {
+        self.auctionBlock(self.artDetailData);
+    }
+}
+
+- (UIButton *)cancelAuctionBtn {
+    if (!_cancelAuctionBtn) {
+        _cancelAuctionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _cancelAuctionBtn.hidden = YES;
+        [_cancelAuctionBtn setTitle:@"取消拍卖" forState:UIControlStateNormal];
+        [_cancelAuctionBtn setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        _cancelAuctionBtn.titleLabel.font = kFontPingFangSCRegular(13.0f);
+        [_cancelAuctionBtn addTarget:self action:@selector(cancelAuctionBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        ViewBorderRadius(_cancelAuctionBtn, 11.0f, 1.0f, JL_color_gray_101010);
+    }
+    return _cancelAuctionBtn;
+}
+
+- (void)cancelAuctionBtnClick {
+    if (self.cancelAuctionBlock) {
+        self.cancelAuctionBlock(self.artDetailData);
+    }
 }
 
 - (UIView *)live2DView {
@@ -279,26 +325,45 @@
     return _live2DView;
 }
 
+- (UIView *)videoView {
+    if (!_videoView) {
+        _videoView = [[UIView alloc] init];
+        _videoView.backgroundColor = JL_color_black;
+        _videoView.hidden = YES;
+        
+        UIImageView *playImgView = [[UIImageView alloc] init];
+        playImgView.image = [UIImage imageNamed:@"nft_video_play_icon3"];
+        [_videoView addSubview:playImgView];
+        [playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_videoView);
+            make.left.equalTo(_videoView).offset(4);
+            make.width.height.mas_equalTo(@10);
+        }];
+        
+        UILabel *label = [JLUIFactory labelInitText:@"视频" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        [_videoView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(playImgView.mas_right).offset(5);
+            make.centerY.equalTo(playImgView);
+        }];
+    }
+    return _videoView;
+}
+
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData type:(JLWorkListType)listType {
     self.artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
-        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 85.0f);
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 110.0f);
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:artDetailData.price] ? @"0" : artDetailData.price];
     
-    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
-        // 拍卖中
-        self.auctioningView.hidden = NO;
-    } else {
-        self.auctioningView.hidden = YES;
-    }
     if (artDetailData.resource_type == 4) {
-        self.playImgView.hidden = NO;
+        self.videoView.hidden = NO;
     }else {
-        self.playImgView.hidden = YES;
+        self.videoView.hidden = YES;
     }
 //    self.playImgView.hidden = [NSString stringIsEmpty:artDetailData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:artDetailData.live2d_file];
@@ -307,12 +372,25 @@
         self.sellButton.hidden = NO;
         self.offShelfButton.hidden = YES;
         self.transferButton.hidden = NO;
+        [self.transferButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
+            make.right.equalTo(self.bottomView).offset(-10);
+            make.width.mas_equalTo(43.0f);
+            make.height.mas_equalTo(22.0f);
+        }];
     } else {
         self.sellButton.hidden = YES;
+        self.auctionBtn.hidden = YES;
         self.offShelfButton.hidden = NO;
         if (artDetailData.collection_mode == 3) {
             if (artDetailData.has_amount - artDetailData.selling_amount.intValue > 0) {
                 self.transferButton.hidden = NO;
+                [self.transferButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.lineImageView.mas_bottom).offset(10.0f);
+                    make.left.equalTo(self.bottomView).offset(10);
+                    make.width.mas_equalTo(43.0f);
+                    make.height.mas_equalTo(22.0f);
+                }];
             } else {
                 self.transferButton.hidden = YES;
             }
@@ -322,7 +400,7 @@
     }
     
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 85.0f + artDetailData.imgHeight) itemW:itemW];
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + artDetailData.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }

@@ -18,6 +18,7 @@
 @property (nonatomic, strong) JLBaseTextField *startPriceTF;
 @property (nonatomic, strong) UILabel *unitLabel;
 @property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) MASConstraint *textFieldWidthConstraint;
 @end
 
 @implementation JLLaunchAuctionPriceInputView
@@ -41,27 +42,25 @@
     
     CGFloat bottomViewHeight = 40.0f;
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.mas_equalTo(17.0f);
         make.bottom.equalTo(self);
         make.width.mas_equalTo(70.0f);
         make.height.mas_equalTo(bottomViewHeight);
     }];
-    [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-15.0f);
-        make.bottom.equalTo(self);
-        make.height.mas_equalTo(bottomViewHeight);
-    }];
     [self.startPriceTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleLabel.mas_right);
+        make.right.mas_equalTo(-17.0f);
         make.bottom.equalTo(self);
         make.height.mas_equalTo(bottomViewHeight);
-        make.right.mas_equalTo(self.unitLabel.mas_left).offset(-12.0f);
-        make.width.mas_greaterThanOrEqualTo(kScreenWidth - 85.0f - 70.0f);
+        self.textFieldWidthConstraint = make.width.mas_equalTo(70.0f);
+    }];
+    [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.startPriceTF.mas_left).offset(-10.0f);
+        make.bottom.equalTo(self);
+        make.height.mas_equalTo(bottomViewHeight);
     }];
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
-        make.bottom.equalTo(self);
-        make.right.mas_equalTo(-15.0f);
+        make.left.right.equalTo(self.startPriceTF);
+        make.bottom.equalTo(self).offset(-7.0f);
         make.height.mas_equalTo(0.5f);
     }];
     
@@ -79,7 +78,32 @@
             weakSelf.startPriceTF.text = result;
             weakSelf.inputContent = result;
         }
+        
+        if ([NSString stringIsEmpty:weakSelf.startPriceTF.text]) {
+            CGFloat width = [JLTool getAdaptionSizeWithText:[NSString stringIsEmpty:weakSelf.placeholder] ? @"" : weakSelf.placeholder labelHeight:bottomViewHeight font:kFontPingFangSCRegular(16.0f)].width + 20;
+            [weakSelf updateTextFieldConstraint:width];
+        }else {
+            CGFloat width = [JLTool getAdaptionSizeWithText:weakSelf.startPriceTF.text labelHeight:bottomViewHeight font:kFontPingFangSCRegular(16.0f)].width + 30;
+            [weakSelf updateTextFieldConstraint:width];
+        }
     }];
+}
+
+- (void)updateTextFieldConstraint: (CGFloat)width {
+    if (width > 70) {
+        if (width > kScreenWidth - 150) {
+            width = kScreenWidth - 150;
+        }
+        [self.textFieldWidthConstraint uninstall];
+        [self.startPriceTF mas_updateConstraints:^(MASConstraintMaker *make) {
+            self.textFieldWidthConstraint = make.width.mas_equalTo(@(width));
+        }];
+    }else {
+        [self.textFieldWidthConstraint uninstall];
+        [self.startPriceTF mas_updateConstraints:^(MASConstraintMaker *make) {
+            self.textFieldWidthConstraint = make.width.mas_equalTo(70.0f);
+        }];
+    }
 }
 
 - (UILabel *)titleLabel {
@@ -99,7 +123,7 @@
         _startPriceTF.autocorrectionType = UITextAutocorrectionTypeNo;
         _startPriceTF.spellCheckingType = UITextSpellCheckingTypeNo;
         _startPriceTF.keyboardType = self.keyboardType;
-        _startPriceTF.textAlignment = NSTextAlignmentRight;
+        _startPriceTF.textAlignment = NSTextAlignmentCenter;
         if (![NSString stringIsEmpty:self.placeholder]) {
             NSDictionary *dic = @{NSForegroundColorAttributeName:JL_color_gray_BBBBBB, NSFontAttributeName:kFontPingFangSCRegular(16.0f)};
             NSAttributedString *attr = [[NSAttributedString alloc] initWithString:self.placeholder attributes:dic];
@@ -111,7 +135,7 @@
 
 - (UILabel *)unitLabel {
     if (!_unitLabel) {
-        _unitLabel = [JLUIFactory labelInitText:@"UART" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentRight];
+        _unitLabel = [JLUIFactory labelInitText:@"￥" font:kFontPingFangSCRegular(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _unitLabel;
 }
@@ -119,7 +143,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = JL_color_gray_DDDDDD;
+        _lineView.backgroundColor = JL_color_gray_BEBEBE;
     }
     return _lineView;
 }
@@ -128,6 +152,9 @@
     if (![NSString stringIsEmpty:content]) {
         self.startPriceTF.text = content;
         self.inputContent = content;
+        
+        CGFloat width = [JLTool getAdaptionSizeWithText:self.startPriceTF.text labelHeight:40 font:kFontPingFangSCRegular(16.0f)].width + 30;
+        [self updateTextFieldConstraint:width];
     }
 }
 @end

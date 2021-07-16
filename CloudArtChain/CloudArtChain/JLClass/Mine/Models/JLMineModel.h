@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, JLOrderPayType) {
+    JLOrderPayTypeCashAccount,
     JLOrderPayTypeWeChat,
     JLOrderPayTypeAlipay,
 };

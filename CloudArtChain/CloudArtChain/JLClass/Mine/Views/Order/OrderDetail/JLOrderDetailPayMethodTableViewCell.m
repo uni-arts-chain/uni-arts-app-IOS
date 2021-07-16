@@ -111,10 +111,11 @@ static const CGFloat KMethodViewHeight = 43.0f;
     [selectedButton setImage:[UIImage imageNamed:@"icon_pay_method_selected"] forState:UIControlStateSelected];
     [methodView addSubview:selectedButton];
     
-    if (index == 0) {
+    if (index == self.payType) {
         selectedButton.selected = YES;
+        self.payType = index;
         if (self.selectedMethodBlock) {
-            self.selectedMethodBlock(JLOrderPayTypeWeChat);
+            self.selectedMethodBlock(index);
         }
     }
     [self.selectedButtonArray addObject:selectedButton];
@@ -148,23 +149,68 @@ static const CGFloat KMethodViewHeight = 43.0f;
     for (UIButton *selectedButton in self.selectedButtonArray) {
         selectedButton.selected = NO;
     }
-    UIButton *currentSelectedBtn = self.selectedButtonArray[sender.tag];
+    
+    NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:_cashAccountBalance];
+    NSDecimalNumber *buyTotal = [NSDecimalNumber decimalNumberWithString:_buyTotalPrice];
+    if (sender.tag == JLOrderPayTypeCashAccount && [buyTotal isGreaterThan:balance]) {
+        // 余额不足支付
+        if (self.payType == JLOrderPayTypeCashAccount) {
+            self.payType = JLOrderPayTypeWeChat;
+        }
+        
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"当前现金账户余额不足，已切换为其他支付方式!" hideTime:KToastDismissDelayTimeInterval];
+    }else {
+        self.payType = sender.tag;
+    }
+    UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
     currentSelectedBtn.selected = YES;
     if (self.selectedMethodBlock) {
-        self.selectedMethodBlock(sender.tag);
+        self.selectedMethodBlock(self.payType);
+    }
+}
+
+- (void)setBuyTotalPrice:(NSString *)buyTotalPrice {
+    _buyTotalPrice = buyTotalPrice;
+    
+    NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:_cashAccountBalance];
+    NSDecimalNumber *buyTotal = [NSDecimalNumber decimalNumberWithString:_buyTotalPrice];
+    
+    if (self.payType == JLOrderPayTypeCashAccount) {
+        if ([buyTotal isGreaterThan:balance]) {
+            // 余额不足
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"当前现金账户余额不足，已切换为其他支付方式!" hideTime:KToastDismissDelayTimeInterval];
+            
+            self.payType = JLOrderPayTypeWeChat;
+            for (UIButton *selectedButton in self.selectedButtonArray) {
+                selectedButton.selected = NO;
+            }
+            UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
+            currentSelectedBtn.selected = YES;
+            if (self.selectedMethodBlock) {
+                self.selectedMethodBlock(self.payType);
+            }
+        }
+    }else {
+        for (UIButton *selectedButton in self.selectedButtonArray) {
+            selectedButton.selected = NO;
+        }
+        UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
+        currentSelectedBtn.selected = YES;
     }
 }
 
 - (NSArray *)payImageArray {
     if (!_payImageArray) {
-        _payImageArray = @[[UIImage imageNamed:@"icon_paymethod_wechat"], [UIImage imageNamed:@"icon_paymethod_alipay"]];
+        _payImageArray = @[[UIImage imageNamed:@"cash_account_icon"],
+                           [UIImage imageNamed:@"icon_paymethod_wechat"],
+                           [UIImage imageNamed:@"icon_paymethod_alipay"]];
     }
     return _payImageArray;
 }
 
 - (NSArray *)payTitleArray {
     if (!_payTitleArray) {
-        _payTitleArray = @[@"微信支付", @"支付宝支付"];
+        _payTitleArray = @[@"账户余额",@"微信支付", @"支付宝支付"];
     }
     return _payTitleArray;
 }

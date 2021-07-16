@@ -15,6 +15,7 @@ protocol PinSetupPresenterProtocol: class {
     func cancel()
     func activateBiometricAuth()
     func submit(pin: String)
+    func authorizationPasswordsFail()
 }
 
 protocol PinSetupInteractorInputProtocol: class {

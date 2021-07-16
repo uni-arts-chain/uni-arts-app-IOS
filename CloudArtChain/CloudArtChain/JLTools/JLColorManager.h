@@ -86,8 +86,11 @@
 
 #define JL_color_orange_FF8150     JL_COLOR_MAG.orange_FF8150
 #define JL_color_orange_FFEBD4     JL_COLOR_MAG.orange_FFEBD4
+#define JL_color_orange_FFB432     JL_COLOR_MAG.orange_FFB432
 #define JL_color_orange_FF8650     JL_COLOR_MAG.orange_FF8650
 #define JL_color_orange_FF7F1F     JL_COLOR_MAG.orange_FF7F1F
+#define JL_color_orange_FFC63D    JL_COLOR_MAG.orange_FFC63D
+#define JL_color_orange_FF9E2C     JL_COLOR_MAG.orange_FF9E2C
 
 #define JL_color_yellow_FFCA50     JL_COLOR_MAG.yellow_FFCA50
 #define JL_color_yellow_FFCC5E     JL_COLOR_MAG.yellow_FFCC5E
@@ -191,8 +194,11 @@
 
 @property (nonatomic, strong) UIColor *orange_FF8150;
 @property (nonatomic, strong) UIColor *orange_FFEBD4;
+@property (nonatomic, strong) UIColor *orange_FFB432;
 @property (nonatomic, strong) UIColor *orange_FF8650;
 @property (nonatomic, strong) UIColor *orange_FF7F1F;
+@property (nonatomic, strong) UIColor *orange_FFC63D;
+@property (nonatomic, strong) UIColor *orange_FF9E2C;
 
 @property (nonatomic, strong) UIColor *yellow_FFCA50;
 @property (nonatomic, strong) UIColor *yellow_FFCC5E;

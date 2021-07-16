@@ -11,6 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderDetailPayMethodTableViewCell : UITableViewCell
+/// 现金账户余额
+@property (nonatomic, copy) NSString *cashAccountBalance;
+/// 当前需要购买的总金额
+@property (nonatomic, copy) NSString *buyTotalPrice;
+/// 当前选择的支付方式
+@property (nonatomic, assign) JLOrderPayType payType;
 @property (nonatomic, copy) void(^selectedMethodBlock)(JLOrderPayType payType);
 @end
 

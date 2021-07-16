@@ -8,6 +8,7 @@
 
 #import "JLLaunchAuctionViewController.h"
 
+#import "JLLaunchAuctionNumView.h"
 #import "JLLaunchAuctionPriceInputView.h"
 #import "JLLaunchAuctionTimeInputView.h"
 #import "JLDatePicker.h"
@@ -15,6 +16,7 @@
 #import "NSDate+Extension.h"
 
 @interface JLLaunchAuctionViewController ()
+@property (nonatomic, strong) JLLaunchAuctionNumView *numView;
 @property (nonatomic, strong) JLLaunchAuctionPriceInputView *startPriceView;
 @property (nonatomic, strong) JLLaunchAuctionPriceInputView *incrementView;
 @property (nonatomic, strong) JLLaunchAuctionTimeInputView *startTimeView;
@@ -25,6 +27,7 @@
 
 @property (nonatomic, assign) UInt32 blockNumber;
 @property (nonatomic, assign) NSTimeInterval currentInterval;
+@property (nonatomic, assign) NSInteger auctionNum;
 @end
 
 @implementation JLLaunchAuctionViewController
@@ -33,6 +36,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"发起拍卖";
     [self addBackItem];
+    
+    self.auctionNum = 1;
     
     NSDate *currentDate = [NSDate date];
     NSString *currentMinuteString = [NSString stringWithFormat:@"%@:00", [currentDate dateWithCustomFormat:@"yyyy-MM-dd HH:mm"]];
@@ -55,15 +60,22 @@
 }
 
 - (void)createSubViews {
+    [self.view addSubview:self.numView];
     [self.view addSubview:self.startPriceView];
     [self.view addSubview:self.incrementView];
     [self.view addSubview:self.startTimeView];
     [self.view addSubview:self.finishTimeView];
     [self.view addSubview:self.launchBtn];
     
+    [self.numView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(15);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(50.0f);
+    }];
     [self.startPriceView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.equalTo(self.view);
-        make.height.mas_equalTo(55.0f);
+        make.top.equalTo(self.numView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(50.0f);
     }];
     [self.incrementView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -82,10 +94,26 @@
     }];
     [self.launchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
-        make.bottom.mas_equalTo(-KTouch_Responder_Height - 30.0f);
+        make.top.mas_equalTo(self.finishTimeView.mas_bottom).offset(40);
         make.right.mas_equalTo(-15.0f);
         make.height.mas_equalTo(46.0f);
     }];
+}
+
+- (JLLaunchAuctionNumView *)numView {
+    if (!_numView) {
+        WS(weakSelf)
+        _numView = [[JLLaunchAuctionNumView alloc] init];
+        if (self.artDetailData.collection_mode == 3) {
+            _numView.maxNum = self.artDetailData.total_amount;
+        }else {
+            _numView.isShowStepper = NO;
+        }
+        _numView.changeNumBlock = ^(NSInteger num) {
+            weakSelf.auctionNum = num;
+        };
+    }
+    return _numView;
 }
 
 - (JLLaunchAuctionPriceInputView *)startPriceView {
@@ -138,7 +166,7 @@
 
 - (UIButton *)launchBtn {
     if (!_launchBtn) {
-        _launchBtn = [JLUIFactory buttonInitTitle:@"立即发起" titleColor:JL_color_white_ffffff backgroundColor:JL_color_blue_50C3FF font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(launchBtnClick)];
+        _launchBtn = [JLUIFactory buttonInitTitle:@"立即发起" titleColor:JL_color_white_ffffff backgroundColor:JL_color_gray_101010 font:kFontPingFangSCRegular(17.0f) addTarget:self action:@selector(launchBtnClick)];
         _launchBtn.contentEdgeInsets = UIEdgeInsetsZero;
         ViewBorderRadius(_launchBtn, 23.0f, 0.0f, JL_color_clear);
     }
@@ -148,6 +176,17 @@
 - (void)launchBtnClick {
     if ([NSString stringIsEmpty:self.startTimeView.inputContent] || [NSString stringIsEmpty:self.incrementView.inputContent]) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请将数据填写完整" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *startTime = [formatter dateFromString:self.startTimeView.inputContent];
+    NSDate *finishTime = [formatter dateFromString:self.finishTimeView.inputContent];
+    NSTimeInterval auctionStartTimeInterval = [startTime timeIntervalSince1970];
+    NSTimeInterval auctionEndTimeInterval = [finishTime timeIntervalSince1970];
+    if ((auctionEndTimeInterval - auctionStartTimeInterval) / 3600 < 24) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"结束时间不能小于24小时" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     

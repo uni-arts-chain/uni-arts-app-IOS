@@ -8,7 +8,8 @@
 
 #import "JLTabbarController.h"
 #import "JLHomeViewController.h"
-#import "JLCategoryViewController.h"
+#import "JLMarketViewController.h"
+//#import "JLCategoryViewController.h"
 #import "JLCreatorViewController.h"
 #import "JLBoxViewController.h"
 #import "JLShoppingCartViewController.h"
@@ -23,7 +24,7 @@
     [super viewDidLoad];
     // 创建viewControllers
     JLNavigationViewController *navHomeVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLHomeViewController alloc] init]];
-    JLNavigationViewController *navCategoryVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCategoryViewController alloc] init]];
+    JLNavigationViewController *navCategoryVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLMarketViewController alloc] init]];
     JLNavigationViewController *navBoxVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLBoxViewController alloc] init]];
 //    JLNavigationViewController *navShoppingCartVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLShoppingCartViewController alloc] init]];
     JLNavigationViewController *naviCreatorVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLCreatorViewController alloc] init]];

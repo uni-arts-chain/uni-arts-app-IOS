@@ -11,9 +11,11 @@
 
 @interface JLMineOrderView()
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIView *cashAccountView;
+@property (nonatomic, strong) UIView *walletView;
+@property (nonatomic, strong) UIView *lineView;
+@property (nonatomic, strong) UILabel *cashAccountLabel;
 @property (nonatomic, strong) UILabel *pointLabel;
-@property (nonatomic, strong) UIButton *walletBtn;
-@property (nonatomic, strong) UIButton *pointRightsBtn;
 @end
 
 @implementation JLMineOrderView
@@ -27,27 +29,38 @@
 
 - (void)createSubViews {
     [self addSubview:self.imageView];
-    [self.imageView addSubview:self.pointLabel];
-    [self.imageView addSubview:self.walletBtn];
-//    [self.imageView addSubview:self.pointRightsBtn];
+    [self.imageView addSubview:self.cashAccountView];
+    [self.imageView addSubview:self.walletView];
+    [self.imageView addSubview:self.lineView];
+    [self.cashAccountView addSubview:self.cashAccountLabel];
+    [self.walletView addSubview:self.pointLabel];
     
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
         make.right.mas_equalTo(-15.0f);
         make.top.bottom.equalTo(self);
     }];
+    [self.cashAccountView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.imageView);
+        make.width.mas_equalTo((self.frameWidth - 30) / 2);
+    }];
+    [self.walletView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.bottom.equalTo(self.imageView);
+        make.left.equalTo(self.cashAccountView.mas_right);
+    }];
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.imageView);
+        make.bottom.equalTo(self.imageView).offset(-25);
+        make.size.mas_equalTo(CGSizeMake(1, 13));
+    }];
+    [self.cashAccountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.cashAccountView);
+        make.centerY.equalTo(self.lineView);
+    }];
     [self.pointLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(19.0f);
-        make.bottom.mas_equalTo(-29.0f);
-        make.height.mas_equalTo(15.0f);
+        make.left.right.equalTo(self.walletView);
+        make.centerY.equalTo(self.lineView);
     }];
-    [self.walletBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.imageView);
-    }];
-//    [self.pointRightsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(-29.0f - 15.0f);
-//        make.centerY.equalTo(self.pointLabel.mas_centerY);
-//    }];
 }
 
 - (UIImageView *)imageView {
@@ -58,46 +71,64 @@
     return _imageView;
 }
 
+- (UIView *)cashAccountView {
+    if (!_cashAccountView) {
+        _cashAccountView = [[UIView alloc] init];
+        _cashAccountView.userInteractionEnabled = YES;
+        [_cashAccountView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cashAccountViewDidTap:)]];
+    }
+    return _cashAccountView;
+}
+
+- (UIView *)walletView {
+    if (!_walletView) {
+        _walletView = [[UIView alloc] init];
+        _walletView.userInteractionEnabled = YES;
+        [_walletView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(walletViewDidTap:)]];
+    }
+    return _walletView;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc] init];
+        _lineView.backgroundColor = JL_color_white_ffffff;
+    }
+    return _lineView;
+}
+
 - (UILabel *)pointLabel {
     if (!_pointLabel) {
-        _pointLabel = [JLUIFactory labelInitText:@"区块链积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        _pointLabel = [JLUIFactory labelInitText:@"区块链积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _pointLabel;
 }
 
-- (UIButton *)walletBtn {
-    if (!_walletBtn) {
-        _walletBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_walletBtn addTarget:self action:@selector(walletBtnClick) forControlEvents:UIControlEventTouchUpInside];
+- (UILabel *)cashAccountLabel {
+    if (!_cashAccountLabel) {
+        _cashAccountLabel = [JLUIFactory labelInitText:@"现金账户：￥0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
-    return _walletBtn;
+    return _cashAccountLabel;
 }
 
-- (void)walletBtnClick {
+- (void)cashAccountViewDidTap: (UITapGestureRecognizer *)ges {
+    if (self.cashAccountBlock) {
+        self.cashAccountBlock();
+    }
+}
+
+- (void)walletViewDidTap: (UITapGestureRecognizer *)ges {
     if (self.walletBlock) {
         self.walletBlock();
     }
 }
 
-- (UIButton *)pointRightsBtn {
-    if (!_pointRightsBtn) {
-        _pointRightsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_pointRightsBtn setTitle:@"积分说明" forState:UIControlStateNormal];
-        [_pointRightsBtn setTitleColor:JL_color_white_ffffff forState:UIControlStateNormal];
-        _pointRightsBtn.titleLabel.font = kFontPingFangSCMedium(15.0f);
-        [_pointRightsBtn setImage:[UIImage imageNamed:@"icon_mine_point_desc"] forState:UIControlStateNormal];
-        _pointRightsBtn.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
-        _pointRightsBtn.axcUI_padding = 15.0f;
-    }
-    return _pointRightsBtn;
-}
-
-- (void)pointRightsBtnClick {
-    
-}
-
 - (void)setCurrentAccountBalance:(NSString *)amount {
     self.pointLabel.text = [NSString stringWithFormat:@"区块链积分：%@", amount];
+}
+
+- (void)setCashAccountBalance:(NSString *)amount {
+    self.cashAccountLabel.text = [NSString stringWithFormat:@"现金账户：￥%@", amount];
 }
 
 @end

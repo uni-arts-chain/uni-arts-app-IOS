@@ -18,6 +18,8 @@ class PinSetupPresenter: PinSetupPresenterProtocol {
     func submit(pin: String) {
         interactor.process(pin: pin)
     }
+    
+    func authorizationPasswordsFail() {}
 }
 
 extension PinSetupPresenter: PinSetupInteractorOutputProtocol {

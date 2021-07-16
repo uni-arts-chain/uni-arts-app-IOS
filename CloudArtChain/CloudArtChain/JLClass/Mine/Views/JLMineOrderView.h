@@ -11,8 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMineOrderView : JLBaseView
+@property (nonatomic, copy) void(^cashAccountBlock)(void);
 @property (nonatomic, copy) void(^walletBlock)(void);
+/// 设置区块链积分
 - (void)setCurrentAccountBalance:(NSString *)amount;
+/// 设置现金账户余额
+- (void)setCashAccountBalance: (NSString *)amount;
 @end
 
 NS_ASSUME_NONNULL_END

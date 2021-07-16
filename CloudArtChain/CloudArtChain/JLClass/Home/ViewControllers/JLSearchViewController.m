@@ -18,14 +18,17 @@
 #import "JLCategoryWorkCollectionViewCell.h"
 
 #import "UIButton+TouchArea.h"
+#import "JLScrollTitleView.h"
 
 NSString *const JLSearchHistoryName = @"SearchHistoryName";
 NSString *const JLSearchHistory = @"SearchHistory";
 
-@interface JLSearchViewController ()<UITableViewDelegate, UITableViewDataSource, JLSearchBarViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface JLSearchViewController ()<UITableViewDelegate, UITableViewDataSource, JLSearchBarViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, JLScrollTitleViewDelegate>
 @property (nonatomic, strong) JLSearchBarView *searchBarView;
 @property (nonatomic, strong) UIView *historyView;
 @property (nonatomic, strong) UITableView *historyTableView;
+
+@property (nonatomic, strong) JLScrollTitleView *resultHeaerView;
 @property (nonatomic, strong) UICollectionView *resultCollectionView;
 //搜索历史数组
 @property (nonatomic, strong) NSMutableArray *searchHistoryArray;
@@ -52,10 +55,11 @@ NSString *const JLSearchHistory = @"SearchHistory";
     [self.historyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    [self.view addSubview:self.resultHeaerView];
     [self.view addSubview:self.resultCollectionView];
-    [self.resultCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+//    [self.resultCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self.view);
+//    }];
 }
 
 - (JLSearchBarView *)searchBarView {
@@ -195,12 +199,23 @@ NSString *const JLSearchHistory = @"SearchHistory";
     return _historyTableView;
 }
 
+- (JLScrollTitleView *)resultHeaerView {
+    if (!_resultHeaerView) {
+        _resultHeaerView = [[JLScrollTitleView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 35)];
+        _resultHeaerView.backgroundColor = JL_color_white_ffffff;
+        _resultHeaerView.hidden = YES;
+        _resultHeaerView.delegate = self;
+        _resultHeaerView.titleArray = @[@"寄售",@"拍卖"];
+    }
+    return _resultHeaerView;
+}
+
 - (UICollectionView *)resultCollectionView {
     if (!_resultCollectionView) {
         WS(weakSelf)
         UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.searchResultArray verticleMin:0.0f horizonMin:26.0f leftMargin:15.0f rightMargin:15.0f];
         
-        _resultCollectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
+        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.resultHeaerView.frameBottom, kScreenWidth, kScreenHeight - self.resultHeaerView.frameBottom - KStatusBar_Navigation_Height) collectionViewLayout:layout];
         _resultCollectionView.backgroundColor = JL_color_white_ffffff;
         _resultCollectionView.delegate = self;
         _resultCollectionView.dataSource = self;
@@ -213,6 +228,10 @@ NSString *const JLSearchHistory = @"SearchHistory";
     return _resultCollectionView;
 }
 
+#pragma mark - JLScrollTitleViewDelegate
+- (void)didSelectIndex:(NSInteger)index {
+    NSLog(@"selectIndex: %ld", index);
+}
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -329,6 +348,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
             
             [weakSelf endRefresh:response.body];
             [self setNoDataShow];
+            self.resultHeaerView.hidden = NO;
             [self.resultCollectionView reloadData];
         } else {
             NSLog(@"%@", errorStr);

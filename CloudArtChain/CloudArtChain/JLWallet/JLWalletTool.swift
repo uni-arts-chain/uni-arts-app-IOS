@@ -34,6 +34,8 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     var confirmVC: WalletNewFormViewController?
     var metadata: RuntimeMetadata?
     
+    var authorizePasswordDismiss = true;
+    
     @objc init(window: UIWindow) {
         self.window = window
         super.init()
@@ -170,6 +172,25 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         authorizationView.controller.modalTransitionStyle = .crossDissolve
         authorizationView.controller.modalPresentationStyle = .fullScreen
         presentingController.present(authorizationView.controller, animated: animated, completion: nil)
+    }
+    /// 验证密码（不显示输入密码界面）
+    @objc func authorize(passwords: String, with completionBlock: @escaping AuthorizationCompletionBlock) {
+        guard !isAuthorizing else {
+            return
+        }
+        
+        authorizePasswordDismiss = false;
+
+        guard let authorizationView = PinViewFactory.createScreenAuthorizationView(with: self,
+                                                                                   cancellable: true) else {
+            completionBlock(false)
+            return
+        }
+
+        self.completionBlock = completionBlock
+        self.authorizationView = authorizationView
+        
+        (authorizationView as! PinSetupViewController).passwords = passwords
     }
     // 导出私钥
     @objc func fetchExportDataForAddress(address: String, seedBlock: @escaping (String) -> Void) {
@@ -565,7 +586,12 @@ extension JLWalletTool {
             return
         }
 
-        authorizationView.controller.presentingViewController?.dismiss(animated: true) {
+        if authorizePasswordDismiss {
+            authorizationView.controller.presentingViewController?.dismiss(animated: true) {
+                self.authorizationView = nil
+                completionBlock(result)
+            }
+        }else {
             self.authorizationView = nil
             completionBlock(result)
         }

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCategoryViewController : JLBaseViewController
 
+@property (nonatomic, assign) CGFloat topInset;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -23,6 +23,18 @@ NS_ASSUME_NONNULL_BEGIN
  @param radius 圆角大小
  */
 - (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius  offsetX:(CGFloat)x;
+
+/// 渐变色 (水平渐变)
+/// @param fromColor 开始颜色
+/// @param toColor 终止颜色
+- (void)addGradientFromColor: (UIColor *)fromColor toColor: (UIColor *)toColor;
+
+/// 渐变色
+/// @param fromColor 开始颜色
+/// @param toColor 终止颜色
+/// @param startPoint 开始点
+/// @param endPoint 结束点
+- (void)addGradientFromColor: (UIColor *)fromColor toColor: (UIColor *)toColor startPoint: (CGPoint)startPoint endPoint: (CGPoint)endPoint;
 @end
 
 NS_ASSUME_NONNULL_END

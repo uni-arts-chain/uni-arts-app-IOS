@@ -12,6 +12,7 @@
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
 #import "JLOrderDetailPayMethodTableViewCell.h"
+#import "JLCashAccountPasswordAuthorizeView.h"
 
 @interface JLOrderSubmitViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *bottomView;
@@ -20,12 +21,16 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) NSString *currentAmount;
 @property (nonatomic, assign) JLOrderPayType currentPayType;
+
+/// 当前账户余额（测试用，后期删除）
+@property (nonatomic, copy) NSString *cashAccountBalance;
 @end
 
 @implementation JLOrderSubmitViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.cashAccountBalance = @"430.0";
     self.navigationItem.title = @"提交订单";
     [self addBackItem];
     [self createSubViews];
@@ -34,7 +39,7 @@
     } else {
         self.currentAmount = self.sellingOrderData.amount;
     }
-    self.currentPayType = JLOrderPayTypeWeChat;
+    self.currentPayType = JLOrderPayTypeCashAccount;
 }
 
 - (void)createSubViews {
@@ -124,13 +129,53 @@
     return _bottomView;
 }
 
+/// 计算总价
+- (NSDecimalNumber *)calculateTotalPrice: (NSString *)amount {
+    
+    NSDecimalNumber *onePrice = [NSDecimalNumber decimalNumberWithString:self.sellingOrderData.price];
+    NSDecimalNumber *count = [NSDecimalNumber decimalNumberWithString:amount];
+    NSDecimalNumber *totalPriceNumber = [onePrice decimalNumberByMultiplyingBy:count];
+    if (![NSString stringIsEmpty:self.artDetailData.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:self.artDetailData.royalty];
+        if (self.sellingOrderData.need_royalty) {
+            NSDecimalNumber *currentRoyaltyNumber = [totalPriceNumber decimalNumberByMultiplyingBy:royaltyNumber];
+            totalPriceNumber = [totalPriceNumber decimalNumberByAdding:[NSDecimalNumber decimalNumberWithString:[currentRoyaltyNumber roundUpScale:2].stringValue]];
+        }
+    }
+    
+    return totalPriceNumber;
+}
+
 - (void)submitBtnClick {
+    if (self.currentPayType == JLOrderPayTypeCashAccount) {
+        [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入饭团密码完成支付" complete:^(NSString * _Nonnull passwords) {
+            [[JLViewControllerTool appDelegate].walletTool authorizeWithPasswords:passwords with:^(BOOL success) {
+                if (success) {
+                    NSLog(@"密码验证成功");
+                }else {
+                    NSLog(@"密码验证失败");
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"密码验证失败！" hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        } cancel:nil];
+    }else {
+        [self commitToService];
+    }
+}
+
+- (void)commitToService {
     WS(weakSelf)
     Model_art_trades_Req *request = [[Model_art_trades_Req alloc] init];
     request.art_order_sn = self.sellingOrderData.sn;
     request.amount = self.currentAmount;
     request.order_from = @"ios";
-    request.pay_type = self.currentPayType == JLOrderPayTypeWeChat ? @"wepay" : @"alipay";
+    if (self.currentPayType == JLOrderPayTypeCashAccount) {
+        request.pay_type = @"cashAccount";
+    }else if (self.currentPayType == JLOrderPayTypeWeChat) {
+        request.pay_type = @"wepay";
+    }else {
+        request.pay_type = @"alipay";
+    }
     Model_art_trades_Rsp *response = [[Model_art_trades_Rsp alloc] init];
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
@@ -173,13 +218,22 @@
         cell.totalPriceChangeBlock = ^(NSString * _Nonnull totalPrice, NSString * _Nonnull amount) {
             weakSelf.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPrice];
             weakSelf.currentAmount = amount;
+            
+            /// 刷新支付方式
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         };
         return cell;
     } else {
         JLOrderDetailPayMethodTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailPayMethodTableViewCell" forIndexPath:indexPath];
+        
         cell.selectedMethodBlock = ^(JLOrderPayType payType) {
+            NSLog(@"选择的支付方式: %lu", payType);
             weakSelf.currentPayType = payType;
         };
+        
+        cell.payType = self.currentPayType;
+        cell.cashAccountBalance = self.cashAccountBalance;
+        cell.buyTotalPrice = [self calculateTotalPrice:self.currentAmount].stringValue;
         return cell;
     }
 }

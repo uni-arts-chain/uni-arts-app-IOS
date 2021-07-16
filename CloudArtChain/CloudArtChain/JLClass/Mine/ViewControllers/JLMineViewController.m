@@ -22,6 +22,7 @@
 #import "UIAlertController+Alert.h"
 #import "JLBindPhoneWithoutPwdViewController.h"
 #import "JLExchangeNFTViewController.h"
+#import "JLCashAccountViewController.h"
 
 #import "JLMineNaviView.h"
 #import "JLMineOrderView.h"
@@ -117,9 +118,14 @@
 - (JLMineOrderView *)orderView {
     if (!_orderView) {
         _orderView = [[JLMineOrderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 131.0f)];
+        WS(weakSelf)
         _orderView.walletBlock = ^{
             NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
             [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        };
+        _orderView.cashAccountBlock = ^{
+            JLCashAccountViewController *vc = [[JLCashAccountViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         };
     }
     return _orderView;
