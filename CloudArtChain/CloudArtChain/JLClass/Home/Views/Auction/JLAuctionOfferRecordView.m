@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton *recordListButton;
+@property (nonatomic, strong) UIView *lineView;
 
 // 出价记录
 @property (nonatomic, strong) NSArray *bidList;
@@ -33,6 +34,7 @@
 - (void)createSubViews {
     [self addSubview:self.headerView];
     [self addSubview:self.tableView];
+    [self addSubview:self.lineView];
     
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
@@ -41,6 +43,12 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self);
         make.top.equalTo(self.headerView.mas_bottom);
+    }];
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self);
+        make.left.equalTo(self).offset(15.0f);
+        make.right.equalTo(self).offset(-15.0f);
+        make.height.mas_equalTo(@1);
     }];
 }
 
@@ -57,12 +65,12 @@
         }];
         
         self.recordListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.recordListButton setTitle:@"0条记录" forState:UIControlStateNormal];
+        [self.recordListButton setTitle:@"0次" forState:UIControlStateNormal];
         [self.recordListButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
         self.recordListButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
         [self.recordListButton setImage:[UIImage imageNamed:@"icon_auction_sanjiaoxing"] forState:UIControlStateNormal];
         self.recordListButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
-        self.recordListButton.axcUI_padding = 10.0f;
+        self.recordListButton.axcUI_padding = 8.0f;
         [self.recordListButton addTarget:self action:@selector(recordListButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [_headerView addSubview:self.recordListButton];
         [self.recordListButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,6 +102,14 @@
     return _tableView;
 }
 
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc] init];
+        _lineView.backgroundColor = JL_color_gray_BEBEBE;
+    }
+    return _lineView;
+}
+
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.bidList.count > 3) {
@@ -117,6 +133,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (self.bidList.count == 0) {
+        return 44.0f;
+    }
     return CGFLOAT_MIN;
 }
 
@@ -125,6 +144,14 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (self.bidList == 0) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
+        label.text = @"暂无出价记录~";
+        label.textColor = JL_color_gray_999999;
+        label.font = kFontPingFangSCRegular(13);
+        label.textAlignment = NSTextAlignmentCenter;
+        return label;
+    }
     return [UIView new];
 }
 
@@ -132,7 +159,7 @@
     WS(weakSelf)
     _bidList = bidList;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.recordListButton setTitle:[NSString stringWithFormat:@"%ld条记录", bidList.count] forState:UIControlStateNormal];
+        [weakSelf.recordListButton setTitle:[NSString stringWithFormat:@"%ld次", bidList.count] forState:UIControlStateNormal];
         weakSelf.blockDate = currentDate;
         weakSelf.blockNumber = blockNumber;
         [weakSelf.tableView reloadData];

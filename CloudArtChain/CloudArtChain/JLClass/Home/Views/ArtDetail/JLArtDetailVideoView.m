@@ -61,10 +61,11 @@
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
     _artDetailData = artDetailData;
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.coverImgView.image = [UIImage thumbnailImageForVideo:[NSURL URLWithString:self.artDetailData.img_main_file2[@"url"]] atTime:1.0];
-//        self.coverImgView.image = [UIImage thumbnailImageForVideo:[NSURL URLWithString:self.artDetailData.video_url] atTime:1.0];
-    });
+    if (![NSString stringIsEmpty:self.artDetailData.img_main_file2[@"url"]]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.coverImgView.image = [UIImage thumbnailImageForVideo:[NSURL URLWithString:self.artDetailData.img_main_file2[@"url"]] atTime:1.0];
+        });
+    }
 }
 
 @end

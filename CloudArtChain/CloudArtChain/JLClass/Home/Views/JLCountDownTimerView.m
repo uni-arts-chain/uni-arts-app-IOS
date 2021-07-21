@@ -73,9 +73,30 @@
     //时分秒
     [LSTTimer addMinuteTimerForTime:self.seconds handle:^(NSString * _Nonnull day, NSString * _Nonnull hour, NSString * _Nonnull minute, NSString * _Nonnull second, NSString * _Nonnull ms) {
         NSInteger realHour = day.integerValue * 24 + hour.integerValue;
-        weakSelf.hmsLab1.text = realHour == 0 ? @"00" : @(realHour).stringValue;
+        NSString *realHourStr = @(realHour).stringValue;
+        if (realHour < 10) {
+            realHourStr = [NSString stringWithFormat:@"0%ld", realHour];
+        }
+        weakSelf.hmsLab1.text = realHourStr;
         weakSelf.hmsLab2.text = minute;
         weakSelf.hmsLab3.text = second;
+        
+        NSInteger secondResult = 0;
+        if (![day isEqualToString:@"00"]) {
+            secondResult = day.integerValue * 24 * 60 * 60;
+        }
+        if (![hour isEqualToString:@"00"]) {
+            secondResult = secondResult + hour.integerValue * 60 * 60;
+        }
+        if (![minute isEqualToString:@"00"]) {
+            secondResult = secondResult + minute.integerValue * 60;
+        }
+        if (![second isEqualToString:@"00"]) {
+            secondResult = secondResult + second.integerValue;
+        }
+        if (weakSelf.countDownHandle) {
+            weakSelf.countDownHandle([NSString stringWithFormat:@"%ld", secondResult]);
+        }
     }];
 }
 

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCountDownTimerView : JLBaseView
 - (instancetype)initWithSeconds:(NSInteger)seconds seperateColor:(UIColor *)seperateColor backColor:(UIColor *)backColor timeColor:(UIColor *)timeColor;
+@property (nonatomic, copy) void(^countDownHandle)(NSString *second);
 @end
 
 NS_ASSUME_NONNULL_END

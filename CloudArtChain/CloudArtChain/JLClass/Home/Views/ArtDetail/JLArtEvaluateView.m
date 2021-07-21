@@ -9,7 +9,6 @@
 #import "JLArtEvaluateView.h"
 
 @interface JLArtEvaluateView ()
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, strong) UILabel *evaluateLabel;
 @property (nonatomic, strong) UIView *imageContentView;
 @property (nonatomic, strong) NSMutableArray<UIImageView *> *imageViewArray;
@@ -17,9 +16,15 @@
 
 @implementation JLArtEvaluateView
 - (instancetype)initWithFrame:(CGRect)frame artDetailData:(Model_art_Detail_Data *)artDetailData; {
-    if (self = [super initWithFrame:frame]) {
+    _artDetailData = artDetailData;
+    return [self initWithFrame:frame];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
         self.backgroundColor = JL_color_white_ffffff;
-        self.artDetailData = artDetailData;
         [self createSubViews];
     }
     return self;
@@ -37,15 +42,21 @@
 }
 
 - (void)createSubViews {
+    
+    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    
     UIView *titleView = [JLUIFactory titleViewWithTitle:@"作品信息"];
     [self addSubview:titleView];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self);
         make.height.mas_equalTo(65.0f);
     }];
+
     [self addSubview:self.evaluateLabel];
     
-    
+    [self.imageViewArray removeAllObjects];
     if (self.artDetailData.detail_imgs.count) {
         [self.evaluateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(15.0f);
@@ -143,6 +154,21 @@
         _imageViewArray = [NSMutableArray array];
     }
     return _imageViewArray;
+}
+
+- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
+    _artDetailData = artDetailData;
+    
+    [self createSubViews];
+    
+    _evaluateLabel.text = _artDetailData.details;
+    if (![NSString stringIsEmpty:_artDetailData.details]) {
+        NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
+        paragraph.lineSpacing = 12.0f;
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_evaluateLabel.text];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraph} range:NSMakeRange(0, _evaluateLabel.text.length)];
+        _evaluateLabel.attributedText = attr;
+    }
 }
 
 @end

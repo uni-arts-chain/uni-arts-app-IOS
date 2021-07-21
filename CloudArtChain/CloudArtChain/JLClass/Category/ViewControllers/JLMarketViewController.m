@@ -30,8 +30,10 @@
     [self addRightItemImage:@"navigation_item_search_icon"];
     
     JLCategoryViewController *sellingVC = [[JLCategoryViewController alloc] init];
+    sellingVC.type = JLCategoryViewControllerTypeSelling;
     sellingVC.topInset = 38;
     JLCategoryViewController *auctionVC = [[JLCategoryViewController alloc] init];
+    auctionVC.type = JLCategoryViewControllerTypeAuctioning;
     auctionVC.topInset = 38;
     
     _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];

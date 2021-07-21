@@ -8,6 +8,7 @@
 
 #import "JLSinglePurchaseOrderViewController.h"
 #import "JLOrderDetailViewController.h"
+#import "JLAuctionOrderDetailViewController.h"
 
 #import "JLNormalEmptyView.h"
 #import "JLSinglePurchaseOrderListCell.h"
@@ -121,10 +122,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    JLOrderDetailViewController *orderDetailVC = [[JLOrderDetailViewController alloc] init];
-    orderDetailVC.orderDetailType = JLOrderDetailTypeBuy;
-    orderDetailVC.orderData = self.dataArray[indexPath.row];
-    [self.navigationController pushViewController:orderDetailVC animated:YES];
+//    JLOrderDetailViewController *orderDetailVC = [[JLOrderDetailViewController alloc] init];
+//    orderDetailVC.orderDetailType = JLOrderDetailTypeBuy;
+//    orderDetailVC.orderData = self.dataArray[indexPath.row];
+//    [self.navigationController pushViewController:orderDetailVC animated:YES];
+    
+    JLAuctionOrderDetailViewController *vc = [[JLAuctionOrderDetailViewController alloc] init];
+    vc.type = JLAuctionOrderTypeBuy;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UITableView *)tableView {

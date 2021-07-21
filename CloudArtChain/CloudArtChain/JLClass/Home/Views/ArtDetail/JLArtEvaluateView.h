@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^JLArtEvaluateViewLookImageBlock)(NSInteger index, NSArray *imageArray);
 
 @interface JLArtEvaluateView : JLBaseView
+@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) JLArtEvaluateViewLookImageBlock lookImageBlock;
 - (instancetype)initWithFrame:(CGRect)frame artDetailData:(Model_art_Detail_Data *)artDetailData;
 - (CGFloat)getFrameBottom;

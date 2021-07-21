@@ -10,7 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, JLCategoryViewControllerType) {
+    JLCategoryViewControllerTypeSelling,
+    JLCategoryViewControllerTypeAuctioning
+};
+
 @interface JLCategoryViewController : JLBaseViewController
+
+@property (nonatomic, assign) JLCategoryViewControllerType type;
 
 @property (nonatomic, assign) CGFloat topInset;
 

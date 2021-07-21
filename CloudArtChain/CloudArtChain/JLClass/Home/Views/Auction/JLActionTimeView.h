@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, JLActionTimeType) {
 - (instancetype)initWithFrame:(CGRect)frame;
 - (void)setTimeType:(JLActionTimeType)timeType countDownInterval:(NSTimeInterval)countDownInterval;
 @property (nonatomic, copy) void(^actionDescBlock)(void);
+@property (nonatomic, copy) void(^countDownHandle)(NSString *second);
 @end
 
 NS_ASSUME_NONNULL_END

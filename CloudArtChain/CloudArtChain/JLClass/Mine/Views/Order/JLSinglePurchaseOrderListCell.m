@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UILabel *royaltyLabel;
+@property (nonatomic, strong) UIImageView *auctionFlagImgView;
 @end
 
 @implementation JLSinglePurchaseOrderListCell
@@ -55,6 +56,8 @@
     [self.shadowView addSubview:self.priceTitleLabel];
     [self.shadowView addSubview:self.priceLabel];
     [self.shadowView addSubview:self.royaltyLabel];
+    
+    [self.shadowView addSubview:self.auctionFlagImgView];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f));
@@ -113,6 +116,10 @@
     [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.priceLabel.mas_left);
         make.centerY.equalTo(self.priceLabel.mas_centerY);
+    }];
+    [self.auctionFlagImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.equalTo(self.shadowView);
+        make.size.mas_equalTo(CGSizeMake(31, 24));
     }];
 }
 
@@ -206,6 +213,14 @@
         _royaltyLabel = [JLUIFactory labelInitText:@"" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentRight];
     }
     return _royaltyLabel;
+}
+
+- (UIImageView *)auctionFlagImgView {
+    if (!_auctionFlagImgView) {
+        _auctionFlagImgView = [[UIImageView alloc] init];
+        _auctionFlagImgView.image = [UIImage imageNamed:@"icon_auction_order_flag"];
+    }
+    return _auctionFlagImgView;
 }
 
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
