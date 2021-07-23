@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"隐私协议";
+    self.navigationItem.title = @"《萌易》测试版服务及隐私条款";
     [self addBackItem];
     // 请求隐私协议
     [self requestProtocol];

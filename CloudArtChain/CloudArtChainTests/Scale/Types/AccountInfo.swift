@@ -74,12 +74,14 @@ struct AuctionInfo: ScaleDecodable {
 
 struct AccountInfo: ScaleDecodable {
     let nonce: UInt32
-    let refcount: UInt32
+    let consumers: UInt32
+    let providers: UInt32
     let data: AccountData
 
     init(scaleDecoder: ScaleDecoding) throws {
         nonce = try UInt32(scaleDecoder: scaleDecoder)
-        refcount = try UInt32(scaleDecoder: scaleDecoder)
+        consumers = try UInt32(scaleDecoder: scaleDecoder)
+        providers = try UInt32(scaleDecoder: scaleDecoder)
         data = try AccountData(scaleDecoder: scaleDecoder)
     }
 }

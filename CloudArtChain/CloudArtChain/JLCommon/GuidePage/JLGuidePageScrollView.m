@@ -50,9 +50,14 @@ static JLGuidePageScrollView *guidePageScrollView;
     _scrollView.contentSize = CGSizeMake(kScreenWidth * self.imageNameArray.count, kScreenHeight);
     [self addSubview:_scrollView];
     
-    CGFloat titleTop = JLHeightScale(215 - 64 + KTouch_Responder_Height) + KStatusBar_Navigation_Height;
-    
     for (int i = 0; i < self.imageNameArray.count; i++) {
+        
+        CGFloat titleTop = JLHeightScale(215 - 64 + KTouch_Responder_Height) + KStatusBar_Navigation_Height;
+        if (i == 0) {
+            titleTop = JLHeightScale(190 - 64 + KTouch_Responder_Height) + KStatusBar_Navigation_Height;
+        }else if (i == 1) {
+            titleTop = JLHeightScale(170 - 64 + KTouch_Responder_Height) + KStatusBar_Navigation_Height;
+        }
         
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight)];
         imgView.tag = 100 + i;
@@ -67,6 +72,8 @@ static JLGuidePageScrollView *guidePageScrollView;
         titleLabel.textColor = JL_color_white_ffffff;
         titleLabel.font = kFontPingFangSCSCSemibold(30);
         titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.numberOfLines = 0;
+        titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [_scrollView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(imgView).offset(titleTop);
@@ -182,8 +189,8 @@ static JLGuidePageScrollView *guidePageScrollView;
 
 - (NSArray *)titleArray {
     if (!_titleArray) {
-        _titleArray = @[@"海量原创NFT",
-                        @"艺术品+区块链",
+        _titleArray = @[@"知名动漫IP\r\nNFT商品",
+                        @"二次元衍生品\r\n+\r\n区块链",
                         @"欢迎来到“萌易”"];
     }
     return _titleArray;
@@ -191,9 +198,9 @@ static JLGuidePageScrollView *guidePageScrollView;
 
 - (NSArray *)descArray {
     if (!_descArray) {
-        _descArray = @[@"千名独具潜力的创作者\r\n万件可收藏的原创作品",
-                       @"保证艺术品权属\r\n增强可收藏价值",
-                       @"开启你的加密艺术之旅吧~"];
+        _descArray = @[@"海量知名动漫IP正品\r\n专业二次元NFT市场",
+                       @"保证商品所属权\r\n增强可收藏价值",
+                       @"寻找你喜爱的动漫产品吧"];
     }
     return _descArray;
 }
