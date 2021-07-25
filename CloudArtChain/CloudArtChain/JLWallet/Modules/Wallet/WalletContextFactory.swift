@@ -77,19 +77,22 @@ extension WalletContextFactory: WalletContextFactoryProtocol {
 
         let accountSigner = SigningWrapper(keystore: Keychain(), settings: SettingsManager.shared)
         let dummySigner = try DummySigner(cryptoType: selectedAccount.cryptoType)
+        
+        let substrateStorageFacade = SubstrateDataStorageFacade.shared
+        let chainStorage: CoreDataRepository<ChainStorageItem, CDChainStorageItem> =
+            substrateStorageFacade.createRepository()
+        let localStorageIdFactory = try ChainStorageIdFactory(chain: networkType.chain)
 
         let nodeOperationFactory = WalletNetworkOperationFactory(engine: connection,
                                                                  accountSettings: accountSettings,
                                                                  cryptoType: selectedAccount.cryptoType,
                                                                  accountSigner: accountSigner,
-                                                                 dummySigner: dummySigner)
+                                                                 dummySigner: dummySigner,
+                                                                 chainStorage:
+                                                                    AnyDataProviderRepository(chainStorage),
+                                                                 localStorageIdFactory: localStorageIdFactory)
 
         let subscanOperationFactory = SubscanOperationFactory()
-
-        let substrateStorageFacade = SubstrateDataStorageFacade.shared
-        let chainStorage: CoreDataRepository<ChainStorageItem, CDChainStorageItem> =
-            substrateStorageFacade.createRepository()
-        let localStorageIdFactory = try ChainStorageIdFactory(chain: networkType.chain)
 
         let txFilter = NSPredicate.filterTransactionsBy(address: selectedAccount.address)
         let txStorage: CoreDataRepository<TransactionHistoryItem, CDTransactionHistoryItem> =

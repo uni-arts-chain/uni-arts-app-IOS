@@ -2,21 +2,6 @@ import Foundation
 import FearlessUtils
 import BigInt
 
-struct ExtrinsicConstants {
-    static let signedExtrinsicInitialVersion: UInt8 = 128
-    static let accountIdLength: UInt8 = 32
-}
-
-struct Call {
-    let moduleIndex: UInt8
-    let callIndex: UInt8
-    let arguments: Data?
-}
-
-enum ExtrinsicCodingError: Error {
-    case unsupportedSignatureVersion
-}
-
 struct Extrinsic: ScaleCodable {
     let version: UInt8
     let transaction: Transaction?
@@ -79,20 +64,20 @@ struct Extrinsic: ScaleCodable {
 }
 
 struct Transaction: ScaleCodable {
-    let accountId: Data
+    let address: Multiaddress
     let signatureVersion: UInt8
     let signature: Data
     let era: Era
     let nonce: UInt32
     let tip: BigUInt
 
-    init(accountId: Data,
+    init(address: Multiaddress,
          signatureVersion: UInt8,
          signature: Data,
          era: Era,
          nonce: UInt32,
          tip: BigUInt) {
-        self.accountId = accountId
+        self.address = address
         self.signatureVersion = signatureVersion
         self.signature = signature
         self.era = era
@@ -101,7 +86,7 @@ struct Transaction: ScaleCodable {
     }
 
     init(scaleDecoder: ScaleDecoding) throws {
-        accountId = try scaleDecoder.readAndConfirm(count: Int(ExtrinsicConstants.accountIdLength))
+        address = try Multiaddress(scaleDecoder: scaleDecoder)
         signatureVersion = try UInt8(scaleDecoder: scaleDecoder)
 
         guard let cryptoType = CryptoType(version: signatureVersion) else {
@@ -119,39 +104,11 @@ struct Transaction: ScaleCodable {
     }
 
     func encode(scaleEncoder: ScaleEncoding) throws {
-        scaleEncoder.appendRaw(data: accountId)
+        try address.encode(scaleEncoder: scaleEncoder)
         try signatureVersion.encode(scaleEncoder: scaleEncoder)
         scaleEncoder.appendRaw(data: signature)
         try era.encode(scaleEncoder: scaleEncoder)
         try BigUInt(nonce).encode(scaleEncoder: scaleEncoder)
         try tip.encode(scaleEncoder: scaleEncoder)
-    }
-}
-
-struct ExtrinsicPayload: ScaleEncodable {
-    let call: Call
-    let era: Era
-    let nonce: UInt32
-    let tip: BigUInt
-    let specVersion: UInt32
-    let transactionVersion: UInt32
-    let genesisHash: Data
-    let blockHash: Data
-
-    func encode(scaleEncoder: ScaleEncoding) throws {
-        try call.moduleIndex.encode(scaleEncoder: scaleEncoder)
-        try call.callIndex.encode(scaleEncoder: scaleEncoder)
-
-        if let arguments = call.arguments {
-            scaleEncoder.appendRaw(data: arguments)
-        }
-
-        try era.encode(scaleEncoder: scaleEncoder)
-        try BigUInt(nonce).encode(scaleEncoder: scaleEncoder)
-        try tip.encode(scaleEncoder: scaleEncoder)
-        try specVersion.encode(scaleEncoder: scaleEncoder)
-        try transactionVersion.encode(scaleEncoder: scaleEncoder)
-        scaleEncoder.appendRaw(data: genesisHash)
-        scaleEncoder.appendRaw(data: blockHash)
     }
 }

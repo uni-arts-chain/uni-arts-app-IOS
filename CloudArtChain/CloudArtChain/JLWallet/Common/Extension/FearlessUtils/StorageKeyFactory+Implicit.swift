@@ -2,6 +2,10 @@ import Foundation
 import FearlessUtils
 
 extension StorageKeyFactoryProtocol {
+    func updatedTripleRefCount() throws -> Data {
+        try createStorageKey(moduleName: "System",
+                             storageName: "UpgradedToTripleRefCount")
+    }
     func nftCreateSaleOrder(_ identifier: Data) throws -> Data {
         try createStorageKey(moduleName: "Nft",
                              storageName: "CreateSaleOrder",

@@ -15,11 +15,14 @@ extension WalletNetworkFacade {
             let storageKeyFactory = StorageKeyFactory()
 
             let accountInfoKey = try storageKeyFactory.accountInfoKeyForId(accountId)
+            let upgradeKey = try storageKeyFactory.updatedTripleRefCount()
             let eraKey = try storageKeyFactory.activeEra()
             let stakingInfoKey = try storageKeyFactory.stakingInfoForControllerId(accountId)
 
+            let upgradeCheckOperation: CompoundOperationWrapper<Bool?> = queryStorageByKey(upgradeKey)
+
             let accountInfoOperation: CompoundOperationWrapper<AccountInfo?> =
-                queryStorageByKey(accountInfoKey)
+                queryAccountInfoByKey(accountInfoKey, dependingOn: upgradeCheckOperation)
 
             let stakingLedgerOperation: CompoundOperationWrapper<StakingLedger?> =
                 queryStorageByKey(stakingInfoKey)
@@ -42,6 +45,7 @@ extension WalletNetworkFacade {
                                     BaseOperationError.parentOperationCancelled),
                             let stakingLedger = try? stakingLedgerOperation.targetOperation
                                 .extractResultData(throwing: BaseOperationError.parentOperationCancelled) {
+
                             context = context.byChangingStakingInfo(stakingLedger,
                                                                     activeEra: activeEra,
                                                                     precision: asset.precision)
@@ -61,7 +65,7 @@ extension WalletNetworkFacade {
                 }
             }
 
-            let dependencies = accountInfoOperation.allOperations +
+            let dependencies = upgradeCheckOperation.allOperations + accountInfoOperation.allOperations +
                 activeEraOperation.allOperations + stakingLedgerOperation.allOperations
 
             dependencies.forEach { mappingOperation.addDependency($0) }
@@ -78,23 +82,46 @@ extension WalletNetworkFacade {
     func queryStorageByKey<T: ScaleDecodable>(_ storageKey: Data) -> CompoundOperationWrapper<T?> {
         do {
             let identifier = try localStorageIdFactory.createIdentifier(for: storageKey)
+            return chainStorage.queryStorageByKey(identifier)
+        } catch {
+            return CompoundOperationWrapper.createWithError(error)
+        }
+    }
+
+    func queryAccountInfoByKey(_ storageKey: Data,
+                               dependingOn upgradeOperation: CompoundOperationWrapper<Bool?>) ->
+    CompoundOperationWrapper<AccountInfo?> {
+        do {
+            let identifier = try localStorageIdFactory.createIdentifier(for: storageKey)
 
             let fetchOperation = chainStorage
                 .fetchOperation(by: identifier,
                                 options: RepositoryFetchOptions())
 
-            let decoderOperation = ScaleDecoderOperation<T>()
-            decoderOperation.configurationBlock = {
-                do {
-                    decoderOperation.data = try fetchOperation
-                        .extractResultData(throwing: BaseOperationError.parentOperationCancelled)?
-                        .data
-                } catch {
-                    decoderOperation.result = .failure(error)
+            let decoderOperation: ClosureOperation<AccountInfo?> = ClosureOperation {
+                let isUpgraded = (try upgradeOperation.targetOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)) ?? false
+
+                let item = try fetchOperation
+                    .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
+
+                guard let data = item?.data else {
+                    return nil
+                }
+
+                let decoder = try ScaleDecoder(data: data)
+
+                if isUpgraded {
+                    return try AccountInfo(scaleDecoder: decoder)
+                } else {
+                    let v28 = try AccountInfoV28(scaleDecoder: decoder)
+                    return AccountInfo(v28: v28)
                 }
             }
 
             decoderOperation.addDependency(fetchOperation)
+
+            upgradeOperation.allOperations.forEach { decoderOperation.addDependency($0) }
 
             return CompoundOperationWrapper(targetOperation: decoderOperation,
                                             dependencies: [fetchOperation])
