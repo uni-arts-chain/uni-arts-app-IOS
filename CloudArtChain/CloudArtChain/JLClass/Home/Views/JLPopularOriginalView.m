@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *waterDataArray;
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation JLPopularOriginalView
@@ -112,10 +113,43 @@
     }
 }
 
+#pragma mark - private methods
+- (void)handleTimer {
+        
+    for (int i = 0; i < self.waterDataArray.count; i++) {
+        Model_art_Detail_Data *model = self.waterDataArray[i];
+        model.server_time = model.server_time + 1;
+    }
+    [self.collectionView reloadData];
+}
+
 - (void)setPopularArray:(NSArray *)popularArray {
     [self.waterDataArray removeAllObjects];
     [self.waterDataArray addObjectsFromArray:popularArray];
     [self.collectionView reloadData];
+    
+    for (int i = 0; i < self.waterDataArray.count; i++) {
+        Model_art_Detail_Data *model = self.waterDataArray[i];
+        model.auction_start_time = @"2021-7-22 12:00:00";
+        model.auction_end_time = @"2021-7-29 12:00:00";
+        if (i == 0) {
+            model.server_time = 1626919200;// 2021-07-22 10:00:00
+        }else {
+            model.server_time = 1627351200;// 2021-7-27 10:00:00
+        }
+    }
+    
+    /// 是否有拍卖作品 有启动定时器
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    WS(weakSelf)
+    self.timer = [NSTimer jl_scheduledTimerWithTimeInterval:1.0 block:^{
+        [weakSelf handleTimer];
+    } repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [self.timer fire];
 }
 
 - (NSMutableArray *)waterDataArray {
@@ -127,5 +161,10 @@
 
 - (void)refreshFrame:(CGRect)frame {
     self.collectionView.frame = CGRectMake(0.0f, 80.0f, kScreenWidth, frame.size.height - 80.0f);
+}
+
+- (void)dealloc
+{
+    NSLog(@"释放了: %@", self.class);
 }
 @end

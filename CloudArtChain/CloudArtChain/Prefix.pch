@@ -67,6 +67,7 @@
 #import "NSObject+topViewController.h"
 #import "UIButton+LXMImagePosition.h"
 #import "JLAlertView.h"
+#import "NSTimer+JLExtension.h"
 
 // model
 #import "AppSingleton.h"

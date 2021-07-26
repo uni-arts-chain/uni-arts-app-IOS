@@ -167,6 +167,7 @@
 @property (nonatomic, strong) NSString *item_hash;
 @property (nonatomic, strong) NSString *auction_start_time;
 @property (nonatomic, strong) NSString *auction_end_time;
+@property (nonatomic, assign) NSTimeInterval server_time;
 @property (nonatomic, assign) BOOL liked_by_me;
 @property (nonatomic, assign) BOOL disliked_by_me;
 @property (nonatomic, assign) BOOL favorite_by_me;

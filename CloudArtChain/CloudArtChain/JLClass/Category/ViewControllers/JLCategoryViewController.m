@@ -34,6 +34,8 @@
 @property (nonatomic, strong) NSString *currentThemeID;
 @property (nonatomic, strong) NSString *currentTypeID;
 @property (nonatomic, strong) NSString *currentPriceID;
+
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation JLCategoryViewController
@@ -264,6 +266,40 @@
     }
 }
 
+- (void)createTimer {
+    for (int i = 0; i < self.dataArray.count; i++) {
+        Model_art_Detail_Data *model = self.dataArray[i];
+        model.auction_start_time = @"2021-7-22 12:00:00";
+        model.auction_end_time = @"2021-7-29 12:00:00";
+        if (i == 0) {
+            model.server_time = 1626919200;// 2021-07-22 10:00:00
+        }else {
+            model.server_time = 1627351200;// 2021-7-27 10:00:00
+        }
+    }
+    
+    /// 是否有拍卖作品 有启动定时器
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    WS(weakSelf)
+    self.timer = [NSTimer jl_scheduledTimerWithTimeInterval:1.0 block:^{
+        [weakSelf handleTimer];
+    } repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [self.timer fire];
+}
+
+- (void)handleTimer {
+        
+    for (int i = 0; i < self.dataArray.count; i++) {
+        Model_art_Detail_Data *model = self.dataArray[i];
+        model.server_time = model.server_time + 1;
+    }
+    [self.collectionView reloadData];
+}
+
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
         _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
@@ -328,8 +364,10 @@
             [weakSelf.dataArray addObjectsFromArray:response.body];
             
             [weakSelf endRefresh:response.body];
-            [self setNoDataShow];
-            [self.collectionView reloadData];
+            [weakSelf setNoDataShow];
+            [weakSelf.collectionView reloadData];
+            
+            [weakSelf createTimer];
         } else {
             [weakSelf.collectionView.mj_header endRefreshing];
             [weakSelf.collectionView.mj_footer endRefreshing];

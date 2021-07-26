@@ -7,6 +7,7 @@
 //
 
 #import "JLPopularOriginalCollectionViewCell.h"
+#import "JLArtAuctionTimeView.h"
 
 @interface JLPopularOriginalCollectionViewCell ()
 @property (nonatomic, strong) UIView *backView;
@@ -15,7 +16,8 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *auctioningView;
 @property (nonatomic, strong) UIView *live2DView;
-@property (nonatomic, strong) UIImageView *playImgView;
+@property (nonatomic, strong) UIView *videoView;
+@property (nonatomic, strong) JLArtAuctionTimeView *timeView;
 @end
 
 @implementation JLPopularOriginalCollectionViewCell
@@ -39,7 +41,8 @@
     [self.backView addSubview:self.priceLabel];
     [self.backView addSubview:self.auctioningView];
     [self.backView addSubview:self.live2DView];
-    [self.backView addSubview:self.playImgView];
+    [self.backView addSubview:self.videoView];
+    [self.backView addSubview:self.timeView];
     
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
@@ -60,21 +63,26 @@
         make.left.top.right.equalTo(self.backView);
         make.bottom.equalTo(self.nameLabel.mas_top).offset(-5.0f);
     }];
+    [self.timeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.imageView);
+        make.height.mas_equalTo(@18);
+    }];
     [self.auctioningView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(self.backView);
         make.width.mas_equalTo(45.0f);
         make.height.mas_equalTo(20.0f);
     }];
     [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.imageView);
-        make.bottom.equalTo(self.imageView).offset(-15.0f);
+        make.left.equalTo(self);
+        make.top.equalTo(self).offset(10.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
     }];
-    [self.playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.imageView).offset(9.0f);
-        make.bottom.equalTo(self.imageView.mas_bottom).offset(-12.0f);
-        make.width.height.mas_equalTo(@26.0f);
+    [self.videoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.top.equalTo(self).offset(10.0f);
+        make.width.mas_equalTo(43.0f);
+        make.height.mas_equalTo(15.0f);
     }];
 }
 
@@ -155,16 +163,40 @@
     return _live2DView;
 }
 
-- (UIImageView *)playImgView {
-    if (!_playImgView) {
-        _playImgView = [[UIImageView alloc] init];
-        _playImgView.hidden = YES;
-        _playImgView.image = [UIImage imageNamed:@"nft_video_play_icon2"];
+- (UIView *)videoView {
+    if (!_videoView) {
+        _videoView = [[UIView alloc] init];
+        _videoView.backgroundColor = JL_color_black;
+        _videoView.hidden = YES;
+        
+        UIImageView *playImgView = [[UIImageView alloc] init];
+        playImgView.image = [UIImage imageNamed:@"nft_video_play_icon3"];
+        [_videoView addSubview:playImgView];
+        [playImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_videoView);
+            make.left.equalTo(_videoView).offset(4);
+            make.width.height.mas_equalTo(@10);
+        }];
+        
+        UILabel *label = [JLUIFactory labelInitText:@"视频" font:kFontPingFangSCMedium(10.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentLeft];
+        [_videoView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(playImgView.mas_right).offset(5);
+            make.centerY.equalTo(playImgView);
+        }];
     }
-    return _playImgView;
+    return _videoView;
+}
+
+- (JLArtAuctionTimeView *)timeView {
+    if (!_timeView) {
+        _timeView = [[JLArtAuctionTimeView alloc] init];
+    }
+    return _timeView;
 }
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
+    self.timeView.artDetailData = artsData;
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -175,6 +207,7 @@
 }
 
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
+    self.timeView.artDetailData = popularArtData;
     if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -190,9 +223,9 @@
         self.auctioningView.hidden = YES;
     }
     if (popularArtData.resource_type == 4) {
-        self.playImgView.hidden = NO;
+        self.videoView.hidden = NO;
     }else {
-        self.playImgView.hidden = YES;
+        self.videoView.hidden = YES;
     }
 //    self.playImgView.hidden = [NSString stringIsEmpty:popularArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:popularArtData.live2d_file];
@@ -203,6 +236,7 @@
 }
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
+    self.timeView.artDetailData = themeArtData;
     if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -220,6 +254,7 @@
 }
 
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
+    self.timeView.artDetailData = collectionArtData;
     if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -235,9 +270,9 @@
         self.auctioningView.hidden = YES;
     }
     if (collectionArtData.resource_type == 4) {
-        self.playImgView.hidden = NO;
+        self.videoView.hidden = NO;
     }else {
-        self.playImgView.hidden = YES;
+        self.videoView.hidden = YES;
     }
 //    self.playImgView.hidden = [NSString stringIsEmpty:collectionArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:collectionArtData.live2d_file];
@@ -248,6 +283,7 @@
 }
 
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
+    self.timeView.artDetailData = authorArtData;
     if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -263,9 +299,9 @@
         self.auctioningView.hidden = YES;
     }
     if (authorArtData.resource_type == 4) {
-        self.playImgView.hidden = NO;
+        self.videoView.hidden = NO;
     }else {
-        self.playImgView.hidden = YES;
+        self.videoView.hidden = YES;
     }
 //    self.playImgView.hidden = [NSString stringIsEmpty:authorArtData.video_url];
     self.live2DView.hidden = [NSString stringIsEmpty:authorArtData.live2d_file];

@@ -158,6 +158,9 @@
             }];
             datePicker.newStyle = YES;
             datePicker.minLimitDate = weakSelf.currentDate;
+            if (![NSString stringIsEmpty:weakSelf.startTimeView.inputContent]) {
+                datePicker.maxLimitDate = [NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"];
+            }
             [datePicker show];
         };
     }

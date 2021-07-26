@@ -52,6 +52,8 @@
 		5E9B759326A7F496002A2364 /* JLAuctionRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759226A7F496002A2364 /* JLAuctionRuleViewController.m */; };
 		5E9B759626A7FCE0002A2364 /* JLAuctionOfferView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759526A7FCE0002A2364 /* JLAuctionOfferView.m */; };
 		5E9B759926A814A1002A2364 /* JLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759826A814A1002A2364 /* JLAlertView.m */; };
+		5E9B759C26A90289002A2364 /* JLArtAuctionTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759B26A90289002A2364 /* JLArtAuctionTimeView.m */; };
+		5E9B759F26A91308002A2364 /* NSTimer+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759E26A91308002A2364 /* NSTimer+JLExtension.m */; };
 		5EE52A82269E7AA100EFF8C9 /* JLSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */; };
 		5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */; };
 		5EE52A88269E7CDD00EFF8C9 /* JLMarketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A87269E7CDD00EFF8C9 /* JLMarketViewController.m */; };
@@ -1319,6 +1321,10 @@
 		5E9B759526A7FCE0002A2364 /* JLAuctionOfferView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOfferView.m; sourceTree = "<group>"; };
 		5E9B759726A814A1002A2364 /* JLAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAlertView.h; sourceTree = "<group>"; };
 		5E9B759826A814A1002A2364 /* JLAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAlertView.m; sourceTree = "<group>"; };
+		5E9B759A26A90289002A2364 /* JLArtAuctionTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtAuctionTimeView.h; sourceTree = "<group>"; };
+		5E9B759B26A90289002A2364 /* JLArtAuctionTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtAuctionTimeView.m; sourceTree = "<group>"; };
+		5E9B759D26A91308002A2364 /* NSTimer+JLExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSTimer+JLExtension.h"; sourceTree = "<group>"; };
+		5E9B759E26A91308002A2364 /* NSTimer+JLExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+JLExtension.m"; sourceTree = "<group>"; };
 		5EE52A80269E7AA100EFF8C9 /* JLSegmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSegmentViewController.h; sourceTree = "<group>"; };
 		5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSegmentViewController.m; sourceTree = "<group>"; };
 		5EE52A83269E7B2700EFF8C9 /* JLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLScrollView.h; sourceTree = "<group>"; };
@@ -6325,6 +6331,8 @@
 				B35935F72511AFC500E2B2FD /* UIAlertController+Alert.m */,
 				5E76DFEF26735AB600727C8C /* NSData+JLExtension.h */,
 				5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */,
+				5E9B759D26A91308002A2364 /* NSTimer+JLExtension.h */,
+				5E9B759E26A91308002A2364 /* NSTimer+JLExtension.m */,
 			);
 			path = JLCategory;
 			sourceTree = "<group>";
@@ -6464,6 +6472,8 @@
 				B3648C5E251858D900BBDB57 /* JLAuctionView.m */,
 				B329C8CA25B597BE00AE3938 /* JLChainQRCodeView.h */,
 				B329C8C925B597BE00AE3938 /* JLChainQRCodeView.m */,
+				5E9B759A26A90289002A2364 /* JLArtAuctionTimeView.h */,
+				5E9B759B26A90289002A2364 /* JLArtAuctionTimeView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7708,6 +7718,7 @@
 				5EE52A99269ECCF700EFF8C9 /* JLCashAccountCell.m in Sources */,
 				B312252925B6B60A00562ECA /* Price.swift in Sources */,
 				B396552B24F38D07007A8EC2 /* JLBaseViewController.m in Sources */,
+				5E9B759F26A91308002A2364 /* NSTimer+JLExtension.m in Sources */,
 				B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */,
 				B391CC59262D73DA00FF48B0 /* PAirSandbox.m in Sources */,
 				B31225A725B6B60A00562ECA /* FearlessLoadingViewFactory.swift in Sources */,
@@ -7820,6 +7831,7 @@
 				B31225BA25B6B60A00562ECA /* LanguageSelectionViewFactory.swift in Sources */,
 				5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */,
 				B312255E25B6B60A00562ECA /* ModalPickerConfiguration.swift in Sources */,
+				5E9B759C26A90289002A2364 /* JLArtAuctionTimeView.m in Sources */,
 				B312264D25B6B60A00562ECA /* ReceiveViewFactory.swift in Sources */,
 				B38BCFBA25B80F9B00FD37F7 /* R.generated.swift in Sources */,
 				B38E912125B92E6700174AAC /* Decimal.swift in Sources */,
