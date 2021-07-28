@@ -12,11 +12,15 @@ final class WebSocketSubscriptionFactory: WebSocketSubscriptionFactoryProtocol {
 
         let keyFactory = StorageKeyFactory()
         let localStorageIdFactory = try ChainStorageIdFactory(chain: type.chain)
+        
+        let upgradeV30Subscription = try createV30Subscription(storageKeyFactory: keyFactory,
+                                                               localStorageIdFactory: localStorageIdFactory)
 
         let transferSubscription = createTransferSubscription(address: address,
                                                               engine: engine,
                                                               networkType: type,
-                                                              addressFactory: addressFactory)
+                                                              addressFactory: addressFactory,
+                                                              localStorageIdFactory: localStorageIdFactory)
 
         let accountSubscription = try createAccountInfoSubscription(transferSubscription: transferSubscription,
                                                                     accountId: accountId,
@@ -38,6 +42,7 @@ final class WebSocketSubscriptionFactory: WebSocketSubscriptionFactoryProtocol {
                                                               storageKeyFactory: keyFactory)
 
         let children: [StorageChildSubscribing] = [
+            upgradeV30Subscription,
             accountSubscription,
             bondedSubscription,
             activeEraSubscription
@@ -115,17 +120,39 @@ final class WebSocketSubscriptionFactory: WebSocketSubscriptionFactoryProtocol {
                                   stakingSubscription: stakingSubscription,
                                   logger: Logger.shared)
     }
+    
+    private func createV30Subscription(storageKeyFactory: StorageKeyFactoryProtocol,
+                                           localStorageIdFactory: ChainStorageIdFactoryProtocol)
+            throws -> UpgradeSubscription {
+            let remoteStorageKey = try storageKeyFactory.updatedTripleRefCount()
+            let localStorageKey = try localStorageIdFactory.createIdentifier(for: remoteStorageKey)
+
+            let storage: CoreDataRepository<ChainStorageItem, CDChainStorageItem> =
+                SubstrateDataStorageFacade.shared.createRepository()
+
+            return UpgradeSubscription(remoteStorageKey: remoteStorageKey,
+                                          localStorageKey: localStorageKey,
+                                          storage: AnyDataProviderRepository(storage),
+                                          operationManager: OperationManagerFacade.sharedManager,
+                                          logger: Logger.shared,
+                                          eventCenter: EventCenter.shared)
+        }
+
 
     private func createTransferSubscription(address: String,
                                             engine: JSONRPCEngine,
                                             networkType: SNAddressType,
-                                            addressFactory: SS58AddressFactoryProtocol)
+                                            addressFactory: SS58AddressFactoryProtocol,
+                                            localStorageIdFactory: ChainStorageIdFactoryProtocol)
         -> TransferSubscription {
         let storageFacade = SubstrateDataStorageFacade.shared
 
         let filter = NSPredicate.filterTransactionsBy(address: address)
-        let storage: CoreDataRepository<TransactionHistoryItem, CDTransactionHistoryItem> =
+        let txStorage: CoreDataRepository<TransactionHistoryItem, CDTransactionHistoryItem> =
                 storageFacade.createRepository(filter: filter)
+
+        let chainStorage: CoreDataRepository<ChainStorageItem, CDChainStorageItem> =
+            SubstrateDataStorageFacade.shared.createRepository()
 
         let contactOperationFactory = WalletContactOperationFactory(storageFacade: storageFacade,
                                                                     targetAddress: address)
@@ -134,7 +161,9 @@ final class WebSocketSubscriptionFactory: WebSocketSubscriptionFactoryProtocol {
                                     address: address,
                                     chain: networkType.chain,
                                     addressFactory: addressFactory,
-                                    storage: AnyDataProviderRepository(storage),
+                                    txStorage: AnyDataProviderRepository(txStorage),
+                                    chainStorage: AnyDataProviderRepository(chainStorage),
+                                    localIdFactory: localStorageIdFactory,
                                     contactOperationFactory: contactOperationFactory,
                                     operationManager: OperationManagerFacade.sharedManager,
                                     eventCenter: EventCenter.shared,

@@ -21,7 +21,9 @@ final class TransferSubscription {
     let address: String
     let chain: Chain
     let addressFactory: SS58AddressFactoryProtocol
-    let storage: AnyDataProviderRepository<TransactionHistoryItem>
+    let txStorage: AnyDataProviderRepository<TransactionHistoryItem>
+    let chainStorage: AnyDataProviderRepository<ChainStorageItem>
+    let localIdFactory: ChainStorageIdFactoryProtocol
     let contactOperationFactory: WalletContactOperationFactoryProtocol
     let operationManager: OperationManagerProtocol
     let eventCenter: EventCenterProtocol
@@ -31,7 +33,9 @@ final class TransferSubscription {
          address: String,
          chain: Chain,
          addressFactory: SS58AddressFactoryProtocol,
-         storage: AnyDataProviderRepository<TransactionHistoryItem>,
+         txStorage: AnyDataProviderRepository<TransactionHistoryItem>,
+         chainStorage: AnyDataProviderRepository<ChainStorageItem>,
+         localIdFactory: ChainStorageIdFactoryProtocol,
          contactOperationFactory: WalletContactOperationFactoryProtocol,
          operationManager: OperationManagerProtocol,
          eventCenter: EventCenterProtocol,
@@ -41,7 +45,9 @@ final class TransferSubscription {
         self.chain = chain
         self.addressFactory = addressFactory
         self.contactOperationFactory = contactOperationFactory
-        self.storage = storage
+        self.txStorage = txStorage
+        self.chainStorage = chainStorage
+        self.localIdFactory = localIdFactory
         self.operationManager = operationManager
         self.eventCenter = eventCenter
         self.logger = logger
@@ -71,7 +77,8 @@ final class TransferSubscription {
             }
         }
 
-        operationManager.enqueue(operations: [fetchBlockOperation, parseOperation],
+        let operations = [fetchBlockOperation, parseOperation]
+        operationManager.enqueue(operations: operations,
                                  in: .sync)
     }
 
@@ -154,7 +161,7 @@ extension TransferSubscription {
 
     private func createTxSaveDependingOnFee(wrappers: [ResultAndFeeOperationWrapper])
         -> BaseOperation<Void> {
-        storage.saveOperation({
+        txStorage.saveOperation({
             wrappers.compactMap { wrapper in
                 do {
                     let feeResult = try wrapper.targetOperation
@@ -181,10 +188,14 @@ extension TransferSubscription {
 
             let contacts: Set<Data> = Set(
                 results.compactMap { result in
-                    if let origin = result.extrinsic.transaction?.accountId, origin != accountId {
+                    guard let origin = result.extrinsic.transaction?.address.accountId else {
+                        return nil
+                    }
+
+                    if origin != accountId {
                         return origin
                     } else {
-                        return result.call.receiver
+                        return result.call.receiver.accountId
                     }
                 }
             )
@@ -211,9 +222,11 @@ extension TransferSubscription {
                 .extractResultData(throwing: BaseOperationError.parentOperationCancelled)
                 .block
 
-            let blockNumberData = try Data(hexString: block.header.number)
+            guard let blockNumberData = BigUInt.fromHexString(block.header.number) else {
+                            throw BaseOperationError.unexpectedDependentResult
+                        }
 
-            let blockNumber = UInt32(BigUInt(blockNumberData))
+            let blockNumber = UInt32(blockNumberData)
 
             return block.extrinsics.enumerated().compactMap { (index, hexExtrinsic) in
                 do {

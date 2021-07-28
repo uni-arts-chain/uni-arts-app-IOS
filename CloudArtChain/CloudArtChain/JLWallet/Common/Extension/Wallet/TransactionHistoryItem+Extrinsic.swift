@@ -15,16 +15,19 @@ extension TransactionHistoryItem {
                 return nil
             }
 
-            guard let txOrigin = result.extrinsic.transaction?.accountId else {
+            guard let txOrigin = result.extrinsic.transaction?.address.accountId else {
+                return nil
+            }
+            
+            guard let txReceiver = result.call.receiver.accountId else {
                 return nil
             }
 
             let sender = try addressFactory.address(fromPublicKey: AccountIdWrapper(rawData: txOrigin),
                                                     type: addressType)
             let receiver = try addressFactory
-                .address(fromPublicKey: AccountIdWrapper(rawData: result.call.receiver),
-                         type: addressType)
-
+                .address(fromPublicKey: AccountIdWrapper(rawData: txReceiver),
+                                         type: addressType)
             let timestamp = Int64(Date().timeIntervalSince1970)
             let amount = Decimal.fromSubstrateAmount(result.call.amount,
                                                      precision: addressType.precision) ?? .zero
