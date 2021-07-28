@@ -243,6 +243,7 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSDictionary *img_file;
 @property (nonatomic, strong) NSDictionary *app_img_file;
+@property (nonatomic, assign) NSInteger category_id;
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *arts;
 @end
 @interface Model_arts_topic_Req : Model_Req

@@ -155,7 +155,7 @@ static JLArtDetailShowCertificateView *showCertificateView;
     }];
     
     _addressDescLabel = [[UILabel alloc] init];
-    _addressDescLabel.text = _artDetailData.item_hash;
+    _addressDescLabel.text = [NSString stringIsEmpty:_artDetailData.item_hash] ? @"" : _artDetailData.item_hash;
     _addressDescLabel.textColor = JL_color_black_40414D;
     _addressDescLabel.font = kFontPingFangSCRegular(13);
     _addressDescLabel.numberOfLines = 0;
@@ -165,7 +165,7 @@ static JLArtDetailShowCertificateView *showCertificateView;
         make.top.equalTo(self.addressNameLabel.mas_bottom).offset(6);
         make.right.equalTo(self.certificateBgImgView).offset(-55);
         make.left.equalTo(self.addressNameLabel);
-        make.bottom.equalTo(self.certificateBgImgView).offset(-132);
+        make.bottom.equalTo(self.certificateBgImgView).offset(-142);
     }];
     
 

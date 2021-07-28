@@ -110,7 +110,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == self.themeArray.count - 1) {
         if (self.seeMoreBlock) {
-            self.seeMoreBlock(self.topicData.ID);
+            self.seeMoreBlock(@(self.topicData.category_id).stringValue);
         }
     } else {
         if (self.themeRecommendBlock) {

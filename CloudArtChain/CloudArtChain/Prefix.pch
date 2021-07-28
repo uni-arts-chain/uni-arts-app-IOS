@@ -87,6 +87,13 @@
 // define
 #import "JLPurchaseOrderDefines.h"
 
+/// 自定义LOG功能
+#ifdef DEBUG
+#define JLLog(FORMAT, ...) fprintf(stderr,"文件名:%s 方法名:%s 行号:%d 时间:%s\n%s\n", [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __func__, __LINE__, __TIME__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+#else
+#define JLLog(...)
+#endif
+
 #if (PRINT_LOG)
 #define NSLog(fmt, ...) NSLog((@"\n%s" "->%s\n" "->%d \n" fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
 #define debugMethod() NSLog(@"%s", __func__)

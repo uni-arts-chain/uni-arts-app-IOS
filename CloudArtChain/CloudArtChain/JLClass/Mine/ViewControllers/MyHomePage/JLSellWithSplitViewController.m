@@ -425,6 +425,8 @@
         return;
     }
     
+    NSString *sellAmount = [JLUtils trimSpace:weakSelf.currentNumTF.text];
+    NSString *sellPrice = [JLUtils trimSpace:weakSelf.priceTF.text];
     if (![NSString stringIsEmpty:self.lockAccountId]) {
         [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
             NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
@@ -442,8 +444,8 @@
                                         // 发送网络请求
                                         Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
                                         request.art_id = weakSelf.artDetailData.ID;
-                                        request.amount = [JLUtils trimSpace:weakSelf.currentNumTF.text];
-                                        request.price = [JLUtils trimSpace:weakSelf.priceTF.text];
+                                        request.amount = sellAmount;
+                                        request.price = sellPrice;
                                         request.currency = @"rmb";
                                         request.encrpt_extrinsic_message = transferSignedMessage;
                                         Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
