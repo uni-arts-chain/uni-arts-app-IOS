@@ -431,7 +431,9 @@
         [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
             NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
             if ([amountNumber isGreaterThanZero]) {
+                [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
                 [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:weakSelf.lockAccountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:weakSelf.currentNumTF.text block:^(BOOL success, NSString * _Nonnull message) {
+                    [[JLLoading sharedLoading] hideLoading];
                     if (success) {
                         [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
                             if (success) {

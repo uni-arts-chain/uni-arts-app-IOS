@@ -303,7 +303,7 @@
 }
 
 - (void)refreshImmediatelyBuyBtnStatus {
-    if (self.marketLevel == 1) { // 判断是否是新品
+    if (self.marketLevel == 1 && self.artDetailType != JLArtDetailTypeSelfOrOffShelf) { // 判断是否是新品
         [self.immediatelyBuyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
         self.immediatelyBuyBtn.enabled = YES;
         self.immediatelyBuyBtn.backgroundColor = JL_color_mainColor;
@@ -477,7 +477,7 @@
     if (![JLLoginUtil haveSelectedAccount]) {
         [JLLoginUtil presentCreateWallet];
     } else {
-        if (self.marketLevel == 1) {
+        if (self.marketLevel == 1 && self.artDetailType != JLArtDetailTypeSelfOrOffShelf) {
             // 判断是否可以拆分 不可以拆分
             if (self.artDetailData.collection_mode != 3) {
                 if (self.currentSellingList.count > 0) {
