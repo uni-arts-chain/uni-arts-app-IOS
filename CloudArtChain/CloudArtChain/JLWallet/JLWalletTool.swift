@@ -17,6 +17,8 @@ import BigInt
 import FearlessUtils
 
 private let authorization = UUID().uuidString
+private let JLMetadata = "JLMetadata"
+private let retryGetMetadataMaxCount = 3
 
 private struct AuthorizationConstants {
     static var completionBlockKey: String = "co.jp.fearless.auth.delegate"
@@ -33,6 +35,7 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
     var transferVC: TransferViewController?
     var confirmVC: WalletNewFormViewController?
     var metadata: RuntimeMetadata?
+    var retryGetMetadataCount = 0
     
     var authorizePasswordDismiss = true;
     
@@ -47,7 +50,9 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
                 UserDefaults.standard.synchronize()
             }
         }
-        self.getMetadata()
+        self.getMetadata { [weak self] runtimeMetadata in
+            self?.metadata = runtimeMetadata
+        }
         self.getContacts()
     }
     
@@ -430,25 +435,30 @@ extension JLWalletTool {
         }
     }
     
-    @objc func productSellCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block:(Bool, String) -> Void) {
+    @objc func productSellCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block: @escaping (Bool, String) -> Void) {
         guard let unitValue = Decimal(string: value)?.toSubstrateAmountUInt64(precision: 0) else { return }
         let transferAccountId = AccountId(accountId: accountId)
         productSellCallSwift(accountId: transferAccountId, collectionId: collectionId, itemId: itemId, value: unitValue, block: block)
     }
     
-    func productSellCallSwift(accountId: AccountId, collectionId: UInt64, itemId: UInt64, value: UInt64, block:(Bool, String) -> Void) {
+    func productSellCallSwift(accountId: AccountId, collectionId: UInt64, itemId: UInt64, value: UInt64, block: @escaping (Bool, String) -> Void) {
         let productSellTransferCall = ProductSellTransferCall(recipient: accountId, collectionId: collectionId, itemId: itemId, value: value)
-//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
-        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "transfer") {
-            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: productSellTransferCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
-            if (self.transferVC != nil) {
-                block(true, "")
-                productSellSubmit()
-            } else {
-                block(false, "")
+        // module、call名称
+        let moduleName = "Nft"
+        let callName = "transfer"
+        // 验证metadata的有效性
+        verificationRuntimeMetadata(moduleName: moduleName, callName: callName) { [weak self] isSuccess, moduleIndex, callIndex, errorMessage in
+            if isSuccess {
+                self?.transferVC = self?.contactsPresenter?.didSelect(contact: (self?.contactViewModel)!, call: productSellTransferCall, moduleIndex: moduleIndex!, callIndex: callIndex!) ?? nil
+                if (self?.transferVC != nil) {
+                    block(true, "")
+                    self?.productSellSubmit()
+                } else {
+                    block(false, "")
+                }
+            }else {
+                block(isSuccess, errorMessage)
             }
-        } else {
-            block(false, "不存在Metadata")
         }
     }
     
@@ -475,16 +485,21 @@ extension JLWalletTool {
     
     func productSellCallSwiftTransfer(accountId: AccountId, collectionId: UInt64, itemId: UInt64, value: UInt64, block: @escaping (Bool, String?) -> Void) {
         let productSellTransferCall = ProductSellTransferCall(recipient: accountId, collectionId: collectionId, itemId: itemId, value: value)
-//        self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: saleOrderCall, callIndex: Chain.uniarts.createSaleOrderCallIndex) ?? nil
-        if let tempMetadata = self.metadata, let moduleIndex = tempMetadata.getModuleIndex("Nft"), let callIndex = tempMetadata.getCallIndex(in: "Nft", callName: "transfer") {
-            self.transferVC = self.contactsPresenter?.didSelect(contact: self.contactViewModel!, call: productSellTransferCall, moduleIndex: moduleIndex, callIndex: callIndex) ?? nil
-            if (self.transferVC != nil) {
-                productSellSubmit(block: block)
-            } else {
-                block(false, "")
+        // module、call名称
+        let moduleName = "Nft"
+        let callName = "transfer"
+        // 验证metadata的有效性
+        verificationRuntimeMetadata(moduleName: moduleName, callName: callName) { [weak self] isSuccess, moduleIndex, callIndex, errorMessage in
+            if isSuccess {
+                self?.transferVC = self?.contactsPresenter?.didSelect(contact: (self?.contactViewModel)!, call: productSellTransferCall, moduleIndex: moduleIndex!, callIndex: callIndex!) ?? nil
+                if (self?.transferVC != nil) {
+                    self?.productSellSubmit(block: block)
+                } else {
+                    block(false, "")
+                }
+            }else {
+                block(isSuccess, errorMessage)
             }
-        } else {
-            block(false, "不存在Metadata")
         }
     }
     
@@ -731,7 +746,7 @@ extension JLWalletTool {
     }
     
     /** 获取metadata数据 */
-    func getMetadata() {
+    func getMetadata(completion: @escaping (RuntimeMetadata?) -> Void) {
         let logger = Logger.shared
         let operationQueue = OperationQueue()
 
@@ -739,14 +754,17 @@ extension JLWalletTool {
         
         let operation = JSONRPCOperation<[String], String>(engine: engine, method: RPCMethod.getMetaData)
         let operationsWrapper = CompoundOperationWrapper(targetOperation: operation)
-        operationsWrapper.targetOperation.completionBlock = { [weak self] in
+        operationsWrapper.targetOperation.completionBlock = {
             do {
                 let result = try operation.extractResultData(throwing: BaseOperationError.parentOperationCancelled)
                 let rawMetadata = try Data(hexString: result)
                 let decoder = try ScaleDecoder(data: rawMetadata)
                 let tempMetaData = try RuntimeMetadata(scaleDecoder: decoder)
-                self?.metadata = tempMetaData
+                
+                UserDefaults.standard.setValue(rawMetadata, forKey: JLMetadata)
+                completion(tempMetaData)
             } catch {
+                completion(nil)
                 print("Unexpected error: \(error)")
             }
         }
@@ -775,5 +793,68 @@ extension JLWalletTool {
             }
         }
         operationQueue.addOperations(operationsWrapper.allOperations, waitUntilFinished: false)
+    }
+}
+
+// MARK: 验证 metadata 的有效性
+extension JLWalletTool {
+    /// 验证metadata 的有效性
+    private func verificationRuntimeMetadata(moduleName: String, callName: String, complete: @escaping (_ isSuccess: Bool,_ moduleIndex: UInt8?, _ callIndex: UInt8?, _ errorMessage: String) -> Void) {
+        if let tempMetadata = metadata {
+            guard let moduleIndex = tempMetadata.getModuleIndex(moduleName) else {
+                complete(false, nil, nil, "不存在moduleIndex")
+                return
+            }
+            guard let callIndex = tempMetadata.getCallIndex(in: moduleName, callName: callName) else {
+                complete(false, nil, nil, "不存在callIndex")
+                return
+            }
+            complete(true, moduleIndex, callIndex, "")
+        }else {
+            print("*****不存在metadata 当前重新获取medata次数: \(retryGetMetadataCount)*****")
+            if retryGetMetadataCount >= retryGetMetadataMaxCount {
+                guard let diskMedata = UserDefaults.standard.value(forKey: JLMetadata) as? Data else {
+                    complete(false, nil, nil, "metadata获取失败 请检查网络稍后再试")
+                    return
+                }
+                do {
+                    let decoder = try ScaleDecoder(data: diskMedata)
+                    let runtimeMetadata = try RuntimeMetadata(scaleDecoder: decoder)
+                    metadata = runtimeMetadata
+                    guard let moduleIndex = runtimeMetadata.getModuleIndex(moduleName) else {
+                        complete(false, nil, nil, "不存在moduleIndex")
+                        return
+                    }
+                    guard let callIndex = runtimeMetadata.getCallIndex(in: moduleName, callName: callName) else {
+                        complete(false, nil, nil, "不存在callIndex")
+                        return
+                    }
+                    complete(true, moduleIndex, callIndex, "")
+                } catch {
+                    complete(false, nil, nil, "metadata解析失败 请检查网络稍后再试")
+                }
+            }else {
+                retryGetMetadataCount += 1
+                getMetadata { [weak self] metadata in
+                    DispatchQueue.main.async {
+                        if let runtimeMetadata = metadata  {
+                            self?.metadata = runtimeMetadata
+                            self?.retryGetMetadataCount = 0
+                            guard let moduleIndex = runtimeMetadata.getModuleIndex(moduleName) else {
+                                complete(false, nil, nil, "不存在moduleIndex")
+                                return
+                            }
+                            guard let callIndex = runtimeMetadata.getCallIndex(in: moduleName, callName: callName) else {
+                                complete(false, nil, nil, "不存在callIndex")
+                                return
+                            }
+                            complete(true, moduleIndex, callIndex, "")
+                        }else {
+                            self?.verificationRuntimeMetadata(moduleName: moduleName, callName: callName, complete: complete)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

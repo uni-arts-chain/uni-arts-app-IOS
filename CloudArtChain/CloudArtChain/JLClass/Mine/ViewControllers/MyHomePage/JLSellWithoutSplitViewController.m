@@ -244,11 +244,14 @@
         return;
     }
     
+    NSString *sellPrice = [JLUtils trimSpace:self.currentPriceTF.text];
     if (![NSString stringIsEmpty:self.lockAccountId]) {
         [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
             NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
             if ([amountNumber isGreaterThanZero]) {
-                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:self.lockAccountId collectionId:self.artDetailData.collection_id.intValue itemId:self.artDetailData.item_id.intValue value:@"1" block:^(BOOL success, NSString * _Nonnull message) {
+                [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:weakSelf.lockAccountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:@"1" block:^(BOOL success, NSString * _Nonnull message) {
+                    [[JLLoading sharedLoading] hideLoading];
                     if (success) {
                         [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
                             if (success) {
@@ -262,7 +265,7 @@
                                         Model_art_orders_Req *request = [[Model_art_orders_Req alloc] init];
                                         request.art_id = weakSelf.artDetailData.ID;
                                         request.amount = @"1";
-                                        request.price = [JLUtils trimSpace:self.currentPriceTF.text];
+                                        request.price = sellPrice;
                                         request.currency = @"rmb";
                                         request.encrpt_extrinsic_message = transferSignedMessage;
                                         Model_art_orders_Rsp *response = [[Model_art_orders_Rsp alloc] init];
