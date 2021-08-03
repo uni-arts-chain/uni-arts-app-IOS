@@ -30,6 +30,7 @@
 		5CFF026E2503F96900A81E32 /* UIView+JLPageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF026C2503F96900A81E32 /* UIView+JLPageFrame.m */; };
 		5CFF02712503FDE000A81E32 /* JLWorksListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF02702503FDE000A81E32 /* JLWorksListViewController.m */; };
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
+		5E10590826B9816E008AEC54 /* JLWalletTool+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */; };
 		5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF42679F36E00A81FA7 /* JLVersionManager.m */; };
 		5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
@@ -1284,6 +1285,7 @@
 		5CFF02B32504084400A81E32 /* crypto_sign_edwards25519sha512batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_edwards25519sha512batch.h; sourceTree = "<group>"; };
 		5CFF02B42504084400A81E32 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
 		5CFF02B62504084400A81E32 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsodium.a; sourceTree = "<group>"; };
+		5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JLWalletTool+Transfer.swift"; sourceTree = "<group>"; };
 		5E300DF42679F36E00A81FA7 /* JLVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionManager.m; sourceTree = "<group>"; };
 		5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionUpdateView.h; sourceTree = "<group>"; };
 		5E300DF62679F36E00A81FA7 /* JLVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionManager.h; sourceTree = "<group>"; };
@@ -3218,6 +3220,7 @@
 				B38E911D25B92DA300174AAC /* Extensions */,
 				B38BCFB925B80F9B00FD37F7 /* R.generated.swift */,
 				B38C842725BFC56B0011BC8C /* JLWalletTool.swift */,
+				5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */,
 				B31221D925B6B60700562ECA /* Common */,
 				B312231125B6B60800562ECA /* Modules */,
 			);
@@ -7353,6 +7356,7 @@
 				B3753DC62554F598003A86CF /* SLAvCaptureTool.m in Sources */,
 				B3946DEC2632C88F00D97430 /* JLArtDetailNamePriceView.m in Sources */,
 				B38A5F6C24F34F0A00FA3EF7 /* AppDelegate.mm in Sources */,
+				5E10590826B9816E008AEC54 /* JLWalletTool+Transfer.swift in Sources */,
 				B3983F8A25DE3F200068084D /* JLAuctionArtDetailViewController.m in Sources */,
 				B39DA758266F1F3E001A273F /* JLCreatorTableHeaderViewCell.m in Sources */,
 				B31225FC25B6B60A00562ECA /* AddUsernameWireframe.swift in Sources */,
@@ -8462,7 +8466,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;
@@ -8860,7 +8864,7 @@
 				CODE_SIGN_ENTITLEMENTS = "CloudArtChain/云画链.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYQRXT3638;
 				ENABLE_BITCODE = NO;

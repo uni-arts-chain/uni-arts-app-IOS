@@ -480,6 +480,9 @@ extension JLWalletTool {
     @objc func productSellTransferCall(accountId: String ,collectionId: UInt64, itemId: UInt64, value: String, block:@escaping (Bool, String?) -> Void) {
         guard let unitValue = Decimal(string: value)?.toSubstrateAmountUInt64(precision: 0) else { return }
         let transferAccountId = AccountId(accountId: accountId)
+
+//        transfer(accountId: transferAccountId, collectionId: collectionId, itemId: itemId, value: unitValue, block: block)
+        
         productSellCallSwiftTransfer(accountId: transferAccountId, collectionId: collectionId, itemId: itemId, value: unitValue, block: block)
     }
     
@@ -799,7 +802,7 @@ extension JLWalletTool {
 // MARK: 验证 metadata 的有效性
 extension JLWalletTool {
     /// 验证metadata 的有效性
-    private func verificationRuntimeMetadata(moduleName: String, callName: String, complete: @escaping (_ isSuccess: Bool,_ moduleIndex: UInt8?, _ callIndex: UInt8?, _ errorMessage: String) -> Void) {
+    func verificationRuntimeMetadata(moduleName: String, callName: String, complete: @escaping (_ isSuccess: Bool,_ moduleIndex: UInt8?, _ callIndex: UInt8?, _ errorMessage: String) -> Void) {
         if let tempMetadata = metadata {
             guard let moduleIndex = tempMetadata.getModuleIndex(moduleName) else {
                 complete(false, nil, nil, "不存在moduleIndex")

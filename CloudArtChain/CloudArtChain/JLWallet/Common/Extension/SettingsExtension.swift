@@ -45,6 +45,9 @@ extension SettingsManagerProtocol {
     var selectedConnection: ConnectionItem {
         get {
             if let nodeItem = value(of: ConnectionItem.self, for: SettingsKey.selectedConnection.rawValue) {
+                if nodeItem.url != URL(string: NETINTERFACE_URL_RPCSERVICE) {
+                    return .defaultConnection
+                }
                 return nodeItem
             } else {
                 return .defaultConnection
