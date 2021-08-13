@@ -106,7 +106,7 @@
 
 - (UILabel *)cashAccountLabel {
     if (!_cashAccountLabel) {
-        _cashAccountLabel = [JLUIFactory labelInitText:@"现金账户：￥0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        _cashAccountLabel = [JLUIFactory labelInitText:@"现金账户：--" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _cashAccountLabel;
 }

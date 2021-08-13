@@ -29,6 +29,25 @@
         make.top.mas_equalTo(10.0f);
         make.bottom.mas_equalTo(-KTouch_Responder_Height);
     }];
+    
+    if ([NSString stringIsEmpty:_contentText]) {
+        [self loadDatas];
+    }
+}
+
+#pragma mark - loadDatas
+- (void)loadDatas {
+    WS(weakSelf)
+    Model_auctions_notice_Req *reqeust = [[Model_auctions_notice_Req alloc] init];
+    Model_auctions_notice_Rsp *response = [[Model_auctions_notice_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:reqeust respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            weakSelf.contentText = response.body[@"auction_notice"];
+        }
+    }];
 }
 
 #pragma mark - setters and getters

@@ -15,6 +15,8 @@
 
 #import "NSDate+Extension.h"
 
+#import "JLNewAuctionArtDetailViewController.h"
+
 @interface JLLaunchAuctionViewController ()
 @property (nonatomic, strong) JLLaunchAuctionNumView *numView;
 @property (nonatomic, strong) JLLaunchAuctionPriceInputView *startPriceView;
@@ -28,9 +30,18 @@
 @property (nonatomic, assign) UInt32 blockNumber;
 @property (nonatomic, assign) NSTimeInterval currentInterval;
 @property (nonatomic, assign) NSInteger auctionNum;
+
+// 拍卖地址
+@property (nonatomic, strong) NSString *lockAccountId;
 @end
 
 @implementation JLLaunchAuctionViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self requestTransferAddress];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -119,7 +130,11 @@
 - (JLLaunchAuctionPriceInputView *)startPriceView {
     if (!_startPriceView) {
         _startPriceView = [[JLLaunchAuctionPriceInputView alloc] initWithTitle:@"起拍价" placeholder:@"请输入起拍价" keyboardType:UIKeyboardTypeDecimalPad];
-        [_startPriceView setDefaultContent:self.artDetailData.price];
+        NSDecimalNumber *price = [NSDecimalNumber decimalNumberWithString:self.artDetailData.price];
+        if ([price isLessThan:[NSDecimalNumber decimalNumberWithString:@"0.2"]]) {
+            price = [NSDecimalNumber decimalNumberWithString:@"0.2"];
+        }
+        [_startPriceView setDefaultContent:price.stringValue];
     }
     return _startPriceView;
 }
@@ -159,7 +174,8 @@
             datePicker.newStyle = YES;
             datePicker.minLimitDate = weakSelf.currentDate;
             if (![NSString stringIsEmpty:weakSelf.startTimeView.inputContent]) {
-                datePicker.maxLimitDate = [NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"];
+                datePicker.minLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:1];
+                datePicker.maxLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:7];
             }
             [datePicker show];
         };
@@ -177,8 +193,16 @@
 }
 
 - (void)launchBtnClick {
-    if ([NSString stringIsEmpty:self.startTimeView.inputContent] || [NSString stringIsEmpty:self.incrementView.inputContent]) {
+    if ([NSString stringIsEmpty:self.startTimeView.inputContent] ||
+        [NSString stringIsEmpty:self.finishTimeView.inputContent] ||
+        [NSString stringIsEmpty:self.incrementView.inputContent]) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请将数据填写完整" hideTime:KToastDismissDelayTimeInterval];
+        return;
+    }
+    
+    NSDecimalNumber *price = [NSDecimalNumber decimalNumberWithString:self.startPriceView.inputContent];
+    if ([price isLessThan:[NSDecimalNumber decimalNumberWithString:@"0.2"]]) {
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"起拍价格不能低于￥0.2" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     
@@ -193,47 +217,94 @@
         return;
     }
     
-    [self launchAuction];
+    [self launchingAuction];
 }
 
-- (void)launchAuction {
+#pragma mark - 发起拍卖
+- (void)launchingAuction {
     WS(weakSelf)
     [self.view endEditing:YES];
-    if (self.blockNumber > 0) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-        NSDate *startTime = [formatter dateFromString:weakSelf.startTimeView.inputContent];
-        NSDate *finishTime = [formatter dateFromString:weakSelf.finishTimeView.inputContent];
-        NSTimeInterval auctionStartTimeInterval = [startTime timeIntervalSince1970];
-        NSTimeInterval auctionEndTimeInterval = [finishTime timeIntervalSince1970];
-        UInt32 auctionStartTimeBlockNumber = (auctionStartTimeInterval - self.currentInterval) / 6 + self.blockNumber;
-        UInt32 auctionEndTimeBlockNumber = (auctionEndTimeInterval - self.currentInterval) / 6 + self.blockNumber;
-        
-        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-        // 发起拍卖
-        [[JLViewControllerTool appDelegate].walletTool createAuctionCallWithCollectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue price:weakSelf.startPriceView.inputContent increment:weakSelf.incrementView.inputContent startTime:auctionStartTimeBlockNumber endTime:auctionEndTimeBlockNumber block:^(BOOL success, NSString * _Nullable message) {
-            if (success) {
-                [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
+
+    if (![NSString stringIsEmpty:self.lockAccountId]) {
+        [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString * _Nonnull amount) {
+            NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:amount];
+            if ([amountNumber isGreaterThanZero]) {
+                [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                [[JLViewControllerTool appDelegate].walletTool productSellCallWithAccountId:weakSelf.lockAccountId collectionId:weakSelf.artDetailData.collection_id.intValue itemId:weakSelf.artDetailData.item_id.intValue value:@(weakSelf.auctionNum).stringValue block:^(BOOL success, NSString * _Nonnull message) {
+                    [[JLLoading sharedLoading] hideLoading];
                     if (success) {
-                        [[JLViewControllerTool appDelegate].walletTool createAuctionConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-                            [[JLLoading sharedLoading] hideLoading];
+                        [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
                             if (success) {
-                                if (weakSelf.createAuctionBlock) {
-                                    weakSelf.createAuctionBlock(@(auctionStartTimeBlockNumber).stringValue, @(auctionEndTimeBlockNumber).stringValue);
-                                }
-                            } else {
-                                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                                [weakSelf postLaunchingAuctionToService];
                             }
                         }];
                     } else {
-                        [[JLLoading sharedLoading] hideLoading];
+                        [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
                     }
                 }];
             } else {
-                [[JLLoading sharedLoading] hideLoading];
-                [[JLLoading sharedLoading] showMBFailedTipMessage:message hideTime:KToastDismissDelayTimeInterval];
+                UIAlertController *alertController = [UIAlertController alertShowWithTitle:@"提示" message:@"当前积分为0，无法进行操作\r\n（购买NFT卡片可获得积分）" confirm:@"确定"];
+                [weakSelf presentViewController:alertController animated:YES completion:nil];
             }
         }];
     }
+    
 }
+
+- (void)requestTransferAddress {
+    WS(weakSelf)
+    Model_auctions_lock_account_id_Req *request = [[Model_auctions_lock_account_id_Req alloc] init];
+    Model_auctions_lock_account_id_Rsp *resonse = [[Model_auctions_lock_account_id_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:resonse callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.lockAccountId = resonse.body[@"lock_account_id"];
+            if ([weakSelf.lockAccountId hasPrefix:@"0x"]) {
+                weakSelf.lockAccountId = [weakSelf.lockAccountId substringFromIndex:2];
+            }
+        }
+    }];
+}
+
+- (void)postLaunchingAuctionToService {
+    WS(weakSelf)
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *startTime = [formatter dateFromString:weakSelf.startTimeView.inputContent];
+    NSDate *finishTime = [formatter dateFromString:weakSelf.finishTimeView.inputContent];
+    NSTimeInterval auctionStartTimeInterval = [startTime timeIntervalSince1970];
+    NSTimeInterval auctionEndTimeInterval = [finishTime timeIntervalSince1970];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [[JLViewControllerTool appDelegate].walletTool productSellConfirmWithBlock:^(NSString * _Nullable transferSignedMessage) {
+        if ([NSString stringIsEmpty:transferSignedMessage]) {
+            [[JLLoading sharedLoading] hideLoading];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"签名错误" hideTime:KToastDismissDelayTimeInterval];
+        } else {
+            // 发送网络请求
+            Model_auctions_Req *request = [[Model_auctions_Req alloc] init];
+            request.art_id = weakSelf.artDetailData.ID;
+            request.amount = @(weakSelf.auctionNum).stringValue;
+            request.price = weakSelf.startPriceView.inputContent;
+            request.price_increment = weakSelf.incrementView.inputContent;
+            request.start_time = @(auctionStartTimeInterval).stringValue;
+            request.end_time = @(auctionEndTimeInterval).stringValue;
+            request.encrpt_extrinsic_message = transferSignedMessage;
+            Model_auctions_Rsp *response = [[Model_auctions_Rsp alloc] init];
+            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+                [[JLLoading sharedLoading] hideLoading];
+                if (netIsWork) {
+                    NSLog(@"发起拍卖成功");
+                    JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
+                    vc.auctionsId = response.body.ID;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                } else {
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+                }
+            }];
+        }
+    }];
+}
+
 @end

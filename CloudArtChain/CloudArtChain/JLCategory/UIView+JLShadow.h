@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius  offsetX:(CGFloat)x;
 
+- (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius offset: (CGSize)offset;
+
 /// 渐变色 (水平渐变)
 /// @param fromColor 开始颜色
 /// @param toColor 终止颜色

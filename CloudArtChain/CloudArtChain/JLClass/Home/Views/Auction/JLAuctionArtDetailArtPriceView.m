@@ -50,7 +50,7 @@
     }];
     
     _currentPriceLabel = [[UILabel alloc] init];
-    _currentPriceLabel.text = @"当前价：";
+    _currentPriceLabel.text = @"当前价：--";
     _currentPriceLabel.textColor = JL_color_gray_101010;
     _currentPriceLabel.font = kFontPingFangSCRegular(14);
     [self addSubview:_currentPriceLabel];
@@ -60,7 +60,7 @@
     }];
     
     _startPriceLabel = [[UILabel alloc] init];
-    _startPriceLabel.text = @"起拍价：";
+    _startPriceLabel.text = @"起拍价：--";
     _startPriceLabel.textColor = JL_color_gray_999999;
     _startPriceLabel.font = kFontPingFangSCRegular(14);
     [self addSubview:_startPriceLabel];
@@ -70,7 +70,7 @@
     }];
     
     _numLabel = [[UILabel alloc] init];
-    _numLabel.text = @"拍卖份数：1";
+    _numLabel.text = @"拍卖份数：--";
     _numLabel.textColor = JL_color_gray_101010;
     _numLabel.font = kFontPingFangSCRegular(14);
     _numLabel.textAlignment = NSTextAlignmentRight;
@@ -94,19 +94,23 @@
 }
 
 #pragma mark - setters and getters
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
     
-    _nameLabel.text = _artDetailData.name;
-    _currentPriceLabel.text = [NSString stringWithFormat:@"当前价：￥%@", _artDetailData.price];
-    if (![NSString stringIsEmpty:_artDetailData.price]) {
-        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前价：￥%@", _artDetailData.price]];
-        [attrs addAttribute:NSFontAttributeName value:kFontPingFangSCSCSemibold(18) range:NSMakeRange(attrs.length - _artDetailData.price.length - 1, _artDetailData.price.length + 1)];
-        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(attrs.length - _artDetailData.price.length - 1, _artDetailData.price.length + 1)];
+    _nameLabel.text = _auctionsData.art.name;
+    
+    NSString *price = self.auctionsData.current_price;
+    if ([NSString stringIsEmpty:self.auctionsData.current_price]) {
+        price = @"0.0";
+    }
+    if (![NSString stringIsEmpty:price]) {
+        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前价：￥%@", price]];
+        [attrs addAttribute:NSFontAttributeName value:kFontPingFangSCSCSemibold(18) range:NSMakeRange(attrs.length - price.length - 1, price.length + 1)];
+        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(attrs.length - price.length - 1, price.length + 1)];
         _currentPriceLabel.attributedText = attrs;
     }
-    _startPriceLabel.text = [NSString stringWithFormat:@"起拍价：￥%@", _artDetailData.price];
-    _numLabel.text = [NSString stringWithFormat:@"拍卖份数：%ld", 2];
+    _startPriceLabel.text = [NSString stringWithFormat:@"起拍价：￥%@", _auctionsData.start_price];
+    _numLabel.text = [NSString stringWithFormat:@"拍卖份数：%@", _auctionsData.amount];
 }
 
 @end

@@ -82,9 +82,12 @@
 }
 
 - (void)recordListButtonClick {
-    if (self.recordListBlock) {
-        self.recordListBlock(self.bidList, self.blockDate, self.blockNumber);
+    if (self.bidHistoryBlock) {
+        self.bidHistoryBlock(self.bidHistoryArray);
     }
+//    if (self.recordListBlock) {
+//        self.recordListBlock(self.bidList, self.blockDate, self.blockNumber);
+//    }
 }
 
 - (UITableView *)tableView {
@@ -112,15 +115,15 @@
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.bidList.count > 3) {
+    if (self.bidHistoryArray.count > 3) {
         return 3;
     }
-    return self.bidList.count;
+    return self.bidHistoryArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     JLAuctionOfferRecordCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLAuctionOfferRecordCell" forIndexPath:indexPath];
-    [cell setBidHistory:self.bidList[indexPath.row] indexPath:indexPath blockDate:self.blockDate blockNumber:self.blockNumber];
+    [cell setBidHistory:self.bidHistoryArray[indexPath.row] indexPath:indexPath];
     return cell;
 }
 
@@ -133,7 +136,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.bidList.count == 0) {
+    if (self.bidHistoryArray.count == 0) {
         return 44.0f;
     }
     return CGFLOAT_MIN;
@@ -144,7 +147,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (self.bidList == 0) {
+    if (self.bidHistoryArray.count == 0) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
         label.text = @"暂无出价记录~";
         label.textColor = JL_color_gray_999999;
@@ -153,6 +156,14 @@
         return label;
     }
     return [UIView new];
+}
+
+- (void)setBidHistoryArray:(NSArray *)bidHistoryArray {
+    _bidHistoryArray = bidHistoryArray;
+    
+    [self.recordListButton setTitle:[NSString stringWithFormat:@"%ld次", _bidHistoryArray.count] forState:UIControlStateNormal];
+    
+    [self.tableView reloadData];
 }
 
 - (void)setBidList:(NSArray *)bidList currentDate:(NSDate *)currentDate currentBlockNumber:(UInt32)blockNumber {

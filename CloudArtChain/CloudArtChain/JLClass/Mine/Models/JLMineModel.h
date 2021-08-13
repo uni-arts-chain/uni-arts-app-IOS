@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, JLOrderPayType) {
-    JLOrderPayTypeCashAccount,
-    JLOrderPayTypeWeChat,
-    JLOrderPayTypeAlipay,
-};
+//typedef NS_ENUM(NSUInteger, JLOrderPayType) {
+//    JLOrderPayTypeCashAccount,
+//    JLOrderPayTypeWeChat,
+//    JLOrderPayTypeAlipay,
+//};
 
 @interface JLMineModel : NSObject
 @end
@@ -67,6 +67,26 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @end
 @interface Model_arts_mine_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /auctions/mine 个人拍卖艺术作品
+@interface Model_auctions_mine_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_auctions_mine_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/cancel 取消艺术品拍卖
+@interface Model_auctions_id_cancel_Req : Model_Req
+@property (nonatomic, copy) NSString *ID;
+@end
+@interface Model_auctions_id_cancel_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_id_cancel_Req *request;
+@property (nonatomic, copy) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
 #pragma mark /arts 上传艺术品
@@ -202,6 +222,7 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 #pragma mark 提交订单 art_trades
 @interface Model_art_trades_Req : Model_Req
 @property (nonatomic, strong) NSString *art_order_sn;
+@property (nonatomic, strong) NSString *auction_id;
 @property (nonatomic, strong) NSString *amount;
 /** 值: web/ios/android */
 @property (nonatomic, strong) NSString *order_from;
@@ -238,3 +259,81 @@ typedef NS_ENUM(NSUInteger, JLOrderPayType) {
 @interface Model_lotteries_get_reward_Rsp : Model_Rsp_V2
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /v1/accounts 账户
+@protocol Model_account_Data @end
+@interface Model_account_Data : Model_Interface
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *currency_code;
+@property (nonatomic, copy) NSString *balance;
+@property (nonatomic, copy) NSString *locked;
+@property (nonatomic, copy) NSString *awards;
+@property (nonatomic, copy) NSString *total_price;
+@property (nonatomic, copy) NSString *currency_awards_fee;
+@property (nonatomic, copy) NSString *default_withdraw_fund_source_id;
+@property (nonatomic, copy) NSString *default_withdraw_bank_source_id;
+@property (nonatomic, copy) NSString *logo;
+@property (nonatomic, copy) NSDictionary *withdraw_channel;
+@end
+@interface Model_accounts_Req : Model_Req
+@end
+@interface Model_accounts_Rsp : Model_Rsp_V1
+@property (nonatomic, copy) NSArray<Model_account_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 拍卖
+@interface Model_auctions_Req : Model_Req
+@property (nonatomic, copy) NSString *art_id;
+@property (nonatomic, copy) NSString *amount;
+@property (nonatomic, copy) NSString *price;
+@property (nonatomic, copy) NSString *price_increment;
+@property (nonatomic, copy) NSString *start_time;
+@property (nonatomic, copy) NSString *end_time;
+@property (nonatomic, copy) NSString *encrpt_extrinsic_message;
+@end
+@interface Model_auctions_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 请求出售转账地址 /v2/auctions/lock_account_id
+@interface Model_auctions_lock_account_id_Req : Model_Req
+@end
+@interface Model_auctions_lock_account_id_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSDictionary *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 现金账户明细 /v2/account_histories
+@protocol Model_account_history_Data @end
+@interface Model_account_history_Data : Model_Interface
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *currency_code;
+@property (nonatomic, copy) NSString *amount;
+@property (nonatomic, copy) NSString *created_at;
+@property (nonatomic, copy) NSString *aasm_state;
+@property (nonatomic, copy) NSString *message;
+@end
+@interface Model_account_histories_Req : Model_Req
+@end
+@interface Model_account_histories_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_account_history_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 创建支付方式 /v2/payment_methods/update_img
+@interface Model_payment_methods_Req : Model_Req
+@property (nonatomic, copy) NSString *weixin_img;
+@property (nonatomic, copy) NSString *alipay_img;
+/// 是否是创建还是更新
+@property (nonatomic, assign) BOOL isCreate;
+@end
+@interface Model_payment_methods_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_payment_methods_Req *request;
+@property (nonatomic, strong) NSDictionary *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 提现 /v2/withdraws
+@interface Model_withdraws_Req : Model_Req
+@property (nonatomic, copy) NSString *amount;
+@property (nonatomic, copy) NSString *pay_type;
+@end
+@interface Model_withdraws_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSDictionary *body;
+@end

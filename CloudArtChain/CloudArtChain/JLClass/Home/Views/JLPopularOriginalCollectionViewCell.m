@@ -196,7 +196,6 @@
 }
 
 - (void)setArtsData:(Model_auction_meetings_arts_Data *)artsData {
-    self.timeView.artDetailData = artsData;
     if (![NSString stringIsEmpty:artsData.art.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artsData.art.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -207,7 +206,6 @@
 }
 
 - (void)setPopularArtData:(Model_art_Detail_Data *)popularArtData {
-    self.timeView.artDetailData = popularArtData;
     if (![NSString stringIsEmpty:popularArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:popularArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -236,7 +234,6 @@
 }
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData {
-    self.timeView.artDetailData = themeArtData;
     if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -254,7 +251,6 @@
 }
 
 - (void)setCollectionArtData:(Model_art_Detail_Data *)collectionArtData {
-    self.timeView.artDetailData = collectionArtData;
     if (![NSString stringIsEmpty:collectionArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:collectionArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -283,7 +279,6 @@
 }
 
 - (void)setAuthorArtData:(Model_art_Detail_Data *)authorArtData {
-    self.timeView.artDetailData = authorArtData;
     if (![NSString stringIsEmpty:authorArtData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:authorArtData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);

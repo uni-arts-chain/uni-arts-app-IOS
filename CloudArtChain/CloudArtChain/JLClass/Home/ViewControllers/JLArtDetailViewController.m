@@ -561,7 +561,7 @@
                     orderSubmitVC.artDetailData = self.artDetailData;
                     orderSubmitVC.sellingOrderData = [self.currentSellingList firstObject];
                     __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
-                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayTypeName payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
                         // 退出详情页面
                         if (weakSelf.buySuccessDeleteBlock) {
@@ -584,14 +584,14 @@
                     orderSubmitVC.artDetailData = weakSelf.artDetailData;
                     orderSubmitVC.sellingOrderData = minPriceSellingOrderData;
                     __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
-                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                    orderSubmitVC.buySuccessBlock = ^(JLOrderPayTypeName payType, NSString * _Nonnull payUrl) {
                         [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
-                        if (payType == JLOrderPayTypeWeChat) {
+                        if (payType == JLOrderPayTypeNameWepay) {
                             // 打开支付页面
                             JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                             payWebVC.payUrl = payUrl;
                             [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                        } else {
+                        } else if (payType == JLOrderPayTypeNameAlipay) {
                             JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
                             payWebVC.payUrl = payUrl;
                             [weakSelf.navigationController pushViewController:payWebVC animated:YES];
@@ -940,14 +940,14 @@
             orderSubmitVC.artDetailData = weakSelf.artDetailData;
             orderSubmitVC.sellingOrderData = sellOrderData;
             __weak JLOrderSubmitViewController *weakOrderSubmitVC = orderSubmitVC;
-            orderSubmitVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+            orderSubmitVC.buySuccessBlock = ^(JLOrderPayTypeName payType, NSString * _Nonnull payUrl) {
                 [weakOrderSubmitVC.navigationController popViewControllerAnimated:NO];
-                if (payType == JLOrderPayTypeWeChat) {
+                if (payType == JLOrderPayTypeNameWepay) {
                     // 打开支付页面
                     JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                     payWebVC.payUrl = payUrl;
                     [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                } else {
+                } else if (payType == JLOrderPayTypeNameAlipay) {
                     JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
                     payWebVC.payUrl = payUrl;
                     [weakSelf.navigationController pushViewController:payWebVC animated:YES];

@@ -192,12 +192,12 @@
 - (JLArtAuctionTimeView *)timeView {
     if (!_timeView) {
         _timeView = [[JLArtAuctionTimeView alloc] init];
+        _timeView.hidden = YES;
     }
     return _timeView;
 }
 
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    self.timeView.artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:artDetailData.img_main_file1[@"url"]]];
         self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
@@ -221,6 +221,39 @@
     self.live2DView.hidden = [NSString stringIsEmpty:artDetailData.live2d_file];
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + artDetailData.imgHeight) itemW:itemW];
+    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+}
+
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
+    
+    self.timeView.hidden = NO;
+    self.timeView.auctionsData = _auctionsData;
+    
+    if (![NSString stringIsEmpty:_auctionsData.art.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:_auctionsData.art.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 49.0f);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
+    }
+    self.nameLabel.text = _auctionsData.art.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", _auctionsData.art.price];
+    
+    if ([_auctionsData.art.aasm_state isEqualToString:@"auctioning"]) {
+        // 拍卖中
+        self.auctioningView.hidden = NO;
+    } else {
+        self.auctioningView.hidden = YES;
+    }
+    if (_auctionsData.art.resource_type == 4) {
+        self.videoView.hidden = NO;
+    }else {
+        self.videoView.hidden = YES;
+    }
+//    self.playImgView.hidden = [NSString stringIsEmpty:artDetailData.video_url];
+    self.live2DView.hidden = [NSString stringIsEmpty:_auctionsData.art.live2d_file];
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 49.0f + _auctionsData.art.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }

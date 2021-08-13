@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLNewAuctionArtDetailViewController : JLBaseViewController
 
-@property (nonatomic, copy) NSString *artDetailId;
+@property (nonatomic, copy) NSString *auctionsId;
 
 @end
 

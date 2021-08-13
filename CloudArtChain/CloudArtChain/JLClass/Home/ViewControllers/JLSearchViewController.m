@@ -213,7 +213,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
 - (UICollectionView *)resultCollectionView {
     if (!_resultCollectionView) {
         WS(weakSelf)
-        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.searchResultArray verticleMin:0.0f horizonMin:26.0f leftMargin:15.0f rightMargin:15.0f];
+        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.searchResultArray verticleMin:0.0f horizonMin:26.0f leftMargin:15.0f rightMargin:15.0f isAuction:NO];
         
         _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.resultHeaerView.frameBottom, kScreenWidth, kScreenHeight - self.resultHeaerView.frameBottom - KStatusBar_Navigation_Height) collectionViewLayout:layout];
         _resultCollectionView.backgroundColor = JL_color_white_ffffff;

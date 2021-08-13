@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionOfferRecordViewController : JLBaseViewController
+@property (nonatomic, copy) NSArray *bidHistoryArray;
+
 @property (nonatomic, strong) NSArray *bidList;
 @property (nonatomic, strong) NSDate *blockDate;
 @property (nonatomic, assign) UInt32 blockNumber;

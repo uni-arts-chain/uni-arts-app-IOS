@@ -7,6 +7,7 @@
 //
 
 #import "JLHomePageCollectionViewCell.h"
+#import "JLArtAuctionTimeView.h"
 
 @interface JLHomePageCollectionViewCell ()
 @property (nonatomic, strong) UIView *backView;
@@ -22,12 +23,11 @@
 @property (nonatomic, strong) UIButton *auctionBtn;
 /// 取消拍卖
 @property (nonatomic, strong) UIButton *cancelAuctionBtn;
-/// 倒计时(未开始或者已经开始)
-@property (nonatomic, strong) UIView *countdownBgView;
-@property (nonatomic, strong) UILabel *countdownLabel;
 
 @property (nonatomic, strong) UIView *live2DView;
 @property (nonatomic, strong) UIView *videoView;
+
+@property (nonatomic, strong) JLArtAuctionTimeView *timeView;
 
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @end
@@ -51,8 +51,7 @@
     [self.backView addSubview:self.imageView];
     [self.backView addSubview:self.live2DView];
     [self.backView addSubview:self.videoView];
-    [self.backView addSubview:self.countdownBgView];
-    [self.countdownBgView addSubview:self.countdownLabel];
+    [self.backView addSubview:self.timeView];
     
     [self.backView addSubview:self.bottomView];
     [self.bottomView addSubview:self.nameLabel];
@@ -123,12 +122,9 @@
         make.left.top.right.equalTo(self.backView);
         make.bottom.equalTo(self.bottomView.mas_top);
     }];
-    [self.countdownBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.timeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.imageView);
-        make.height.mas_equalTo(@20);
-    }];
-    [self.countdownLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.equalTo(self.countdownBgView);
+        make.height.mas_equalTo(@18);
     }];
     [self.live2DView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.backView);
@@ -153,26 +149,6 @@
         ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
     }
     return _backView;
-}
-
-- (UIView *)countdownBgView {
-    if (!_countdownBgView) {
-        _countdownBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth - 15.0f * 2 - 14.0f) / 2, 20)];
-        _countdownBgView.hidden = YES;
-        [_countdownBgView addGradientFromColor:JL_color_orange_FFC63D toColor:JL_color_orange_FF9E2C];
-    }
-    return _countdownBgView;
-}
-
-- (UILabel *)countdownLabel {
-    if (!_countdownLabel) {
-        _countdownLabel = [[UILabel alloc] init];
-        _countdownLabel.text = @"距开始 05:20:10";
-        _countdownLabel.textColor = JL_color_white_ffffff;
-        _countdownLabel.textAlignment = NSTextAlignmentCenter;
-        _countdownLabel.font = kFontPingFangSCMedium(12);
-    }
-    return _countdownLabel;
 }
 
 - (UIImageView *)imageView {
@@ -305,7 +281,7 @@
 
 - (void)cancelAuctionBtnClick {
     if (self.cancelAuctionBlock) {
-        self.cancelAuctionBlock(self.artDetailData);
+        self.cancelAuctionBlock(self.auctionsData);
     }
 }
 
@@ -350,6 +326,14 @@
     return _videoView;
 }
 
+- (JLArtAuctionTimeView *)timeView {
+    if (!_timeView) {
+        _timeView = [[JLArtAuctionTimeView alloc] init];
+        _timeView.hidden = YES;
+    }
+    return _timeView;
+}
+
 - (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData type:(JLWorkListType)listType {
     self.artDetailData = artDetailData;
     if (![NSString stringIsEmpty:artDetailData.img_main_file1[@"url"]]) {
@@ -378,7 +362,7 @@
             make.width.mas_equalTo(43.0f);
             make.height.mas_equalTo(22.0f);
         }];
-    } else {
+    } else if (listType == JLWorkListTypeListed) {
         self.sellButton.hidden = YES;
         self.auctionBtn.hidden = YES;
         self.offShelfButton.hidden = NO;
@@ -401,6 +385,50 @@
     
     CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
     CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + artDetailData.imgHeight) itemW:itemW];
+    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+}
+
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
+    if (![NSString stringIsEmpty:auctionsData.art.img_main_file1[@"url"]]) {
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:auctionsData.art.img_main_file1[@"url"]]];
+        self.imageView.frame = CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, self.frameHeight - 110.0f);
+        [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
+    }
+    self.nameLabel.text = auctionsData.art.name;
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:auctionsData.art.price] ? @"0" : auctionsData.art.price];
+    
+    if (auctionsData.art.resource_type == 4) {
+        self.videoView.hidden = NO;
+    }else {
+        self.videoView.hidden = YES;
+    }
+//    self.playImgView.hidden = [NSString stringIsEmpty:artDetailData.video_url];
+    self.live2DView.hidden = [NSString stringIsEmpty:auctionsData.art.live2d_file];
+    
+    self.cancelAuctionBtn.hidden = NO;
+    self.sellButton.hidden = YES;
+    self.auctionBtn.hidden = YES;
+    self.offShelfButton.hidden = YES;
+    self.transferButton.hidden = YES;
+    
+    if (auctionsData.can_cancel) {
+        self.cancelAuctionBtn.userInteractionEnabled = YES;
+        [self.cancelAuctionBtn setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
+        ViewBorderRadius(self.cancelAuctionBtn, 11.0f, 1.0f, JL_color_gray_101010);
+    }else {
+        self.cancelAuctionBtn.userInteractionEnabled = NO;
+        [self.cancelAuctionBtn setTitleColor:[UIColor colorWithHexString:@"#D2D2D2"] forState:UIControlStateNormal];
+        ViewBorderRadius(self.cancelAuctionBtn, 11.0f, 1.0f, [UIColor colorWithHexString:@"#D2D2D2"]);
+    }
+    
+    self.timeView.hidden = NO;
+    self.timeView.isShowStatus = YES;
+    self.timeView.auctionsData = auctionsData;
+    
+    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + auctionsData.art.imgHeight) itemW:itemW];
     self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
     [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }

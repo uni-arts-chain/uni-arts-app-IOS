@@ -18,7 +18,9 @@ typedef NS_ENUM(NSUInteger, JLNewAuctionArtDetailBottomViewStatus) {
     /// 出价
     JLNewAuctionArtDetailBottomViewStatusOffer,
     /// 中标支付
-    JLNewAuctionArtDetailBottomViewStatusWinBidding
+    JLNewAuctionArtDetailBottomViewStatusWinBidding,
+    /// 已结束
+    JLNewAuctionArtDetailBottomViewStatusFinished
 };
 
 @protocol JLNewAuctionArtDetailBottomViewDelegate <NSObject>
@@ -48,7 +50,7 @@ typedef NS_ENUM(NSUInteger, JLNewAuctionArtDetailBottomViewStatus) {
 
 @property (nonatomic, weak) id<JLNewAuctionArtDetailBottomViewDelegate> delegate;
 
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
 
 @end
 

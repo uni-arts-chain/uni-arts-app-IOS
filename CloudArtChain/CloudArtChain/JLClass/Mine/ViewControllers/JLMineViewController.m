@@ -34,6 +34,7 @@
 @property (nonatomic, strong) JLMineOrderView *orderView;
 @property (nonatomic, strong) JLMineAppView *mineAppView;
 @property (nonatomic, assign) NSInteger messageUnreadNumber;
+@property (nonatomic, copy) NSArray<Model_account_Data *> *cashAccountArray;
 @end
 
 @implementation JLMineViewController
@@ -54,6 +55,7 @@
         [weakSelf.orderView setCurrentAccountBalance:amount];
     }];
     [self requestHasUnreadMessages];
+    [self loadCashAccount];
 }
 
 - (void)viewDidLoad {
@@ -233,6 +235,24 @@
             weakSelf.messageUnreadNumber = response.body.has_unread;
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:weakSelf.messageUnreadNumber];
             [GeTuiSdk setBadge:weakSelf.messageUnreadNumber];
+        }
+    }];
+}
+
+#pragma mark - 获取现金账户余额
+- (void)loadCashAccount {
+    WS(weakSelf)
+    Model_accounts_Req *request = [[Model_accounts_Req alloc] init];
+    Model_accounts_Rsp *response = [[Model_accounts_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.cashAccountArray = response.body;
+            for (Model_account_Data *model in weakSelf.cashAccountArray) {
+                if ([model.currency_code isEqualToString:@"rmb"]) {
+                    [weakSelf.orderView setCashAccountBalance:model.balance];
+                }
+            }
         }
     }];
 }

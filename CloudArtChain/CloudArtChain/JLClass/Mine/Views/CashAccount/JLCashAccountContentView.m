@@ -45,7 +45,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _dataArray.count;
+    return _historiesArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,14 +53,17 @@
     if (!cell) {
         cell = [[JLCashAccountCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    
+    cell.accountHistoryData = _historiesArray[indexPath.row];
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    JLCashAccountHeaderView *headerView = [[JLCashAccountHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 117)];
     WS(weakSelf)
+    JLCashAccountHeaderView *headerView = [[JLCashAccountHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 117)];
+    if (_accountData) {
+        headerView.accountData = _accountData;
+    }
     headerView.withdrawBlock = ^{
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(withdraw)]) {
             [weakSelf.delegate withdraw];
@@ -86,8 +89,14 @@
 }
 
 #pragma mark - setters and getters
-- (void)setDataArray:(NSArray *)dataArray {
-    _dataArray = dataArray;
+- (void)setAccountData:(Model_account_Data *)accountData {
+    _accountData = accountData;
+    
+    [_tableView reloadData];
+}
+
+- (void)setHistoriesArray:(NSArray *)historiesArray {
+    _historiesArray = historiesArray;
     
     [_tableView reloadData];
 }

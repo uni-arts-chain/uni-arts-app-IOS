@@ -25,6 +25,7 @@ static const CGFloat KMethodViewHeight = 43.0f;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        _payType = JLOrderPayTypeNameAccount;
         [self createSubViews];
     }
     return self;
@@ -111,11 +112,11 @@ static const CGFloat KMethodViewHeight = 43.0f;
     [selectedButton setImage:[UIImage imageNamed:@"icon_pay_method_selected"] forState:UIControlStateSelected];
     [methodView addSubview:selectedButton];
     
-    if (index == self.payType) {
+    if (index == [self payTypeIndex]) {
         selectedButton.selected = YES;
-        self.payType = index;
+        self.payType = [self payTypeFromIndex:index];
         if (self.selectedMethodBlock) {
-            self.selectedMethodBlock(index);
+            self.selectedMethodBlock(self.payType);
         }
     }
     [self.selectedButtonArray addObject:selectedButton];
@@ -152,17 +153,17 @@ static const CGFloat KMethodViewHeight = 43.0f;
     
     NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:_cashAccountBalance];
     NSDecimalNumber *buyTotal = [NSDecimalNumber decimalNumberWithString:_buyTotalPrice];
-    if (sender.tag == JLOrderPayTypeCashAccount && [buyTotal isGreaterThan:balance]) {
+    if (sender.tag == 0 && [buyTotal isGreaterThan:balance]) {
         // 余额不足支付
-        if (self.payType == JLOrderPayTypeCashAccount) {
-            self.payType = JLOrderPayTypeWeChat;
+        if (self.payType == JLOrderPayTypeNameAccount) {
+            self.payType = JLOrderPayTypeNameWepay;
         }
         
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"当前现金账户余额不足，已切换为其他支付方式!" hideTime:KToastDismissDelayTimeInterval];
     }else {
-        self.payType = sender.tag;
+        self.payType = [self payTypeFromIndex:sender.tag];
     }
-    UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
+    UIButton *currentSelectedBtn = self.selectedButtonArray[[self payTypeIndex]];
     currentSelectedBtn.selected = YES;
     if (self.selectedMethodBlock) {
         self.selectedMethodBlock(self.payType);
@@ -175,16 +176,16 @@ static const CGFloat KMethodViewHeight = 43.0f;
     NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:_cashAccountBalance];
     NSDecimalNumber *buyTotal = [NSDecimalNumber decimalNumberWithString:_buyTotalPrice];
     
-    if (self.payType == JLOrderPayTypeCashAccount) {
+    if (self.payType == JLOrderPayTypeNameAccount) {
         if ([buyTotal isGreaterThan:balance]) {
             // 余额不足
             [[JLLoading sharedLoading] showMBFailedTipMessage:@"当前现金账户余额不足，已切换为其他支付方式!" hideTime:KToastDismissDelayTimeInterval];
             
-            self.payType = JLOrderPayTypeWeChat;
+            self.payType = JLOrderPayTypeNameWepay;
             for (UIButton *selectedButton in self.selectedButtonArray) {
                 selectedButton.selected = NO;
             }
-            UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
+            UIButton *currentSelectedBtn = self.selectedButtonArray[[self payTypeIndex]];
             currentSelectedBtn.selected = YES;
             if (self.selectedMethodBlock) {
                 self.selectedMethodBlock(self.payType);
@@ -194,9 +195,33 @@ static const CGFloat KMethodViewHeight = 43.0f;
         for (UIButton *selectedButton in self.selectedButtonArray) {
             selectedButton.selected = NO;
         }
-        UIButton *currentSelectedBtn = self.selectedButtonArray[self.payType];
+        UIButton *currentSelectedBtn = self.selectedButtonArray[[self payTypeIndex]];
         currentSelectedBtn.selected = YES;
     }
+}
+
+- (NSInteger)payTypeIndex {
+    NSInteger index = 0;
+    if (self.payType == JLOrderPayTypeNameAccount) {
+        index = 0;
+    }else if (self.payType == JLOrderPayTypeNameWepay) {
+        index = 1;
+    }else if (self.payType == JLOrderPayTypeNameAlipay) {
+        index = 2;
+    }
+    return index;
+}
+
+- (JLOrderPayTypeName)payTypeFromIndex: (NSInteger)index {
+    JLOrderPayTypeName payType = JLOrderPayTypeNameAccount;
+    if (index == 0) {
+        payType = JLOrderPayTypeNameAccount;
+    }else if (index == 1) {
+        payType = JLOrderPayTypeNameWepay;
+    }else if (index == 2) {
+        payType = JLOrderPayTypeNameAlipay;
+    }
+    return payType;
 }
 
 - (NSArray *)payImageArray {

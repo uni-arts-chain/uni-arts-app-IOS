@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)auctionRule;
 
 /// 查看更多出价列表
-- (void)offerRecordList;
+- (void)offerRecordList: (NSArray *)bidHistoryArray;
 
 /// 查看作者信息
 /// @param authorData 作者信息
@@ -66,7 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<JLNewAuctionArtDetailContentViewDelegate> delegate;
 
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
+
+@property (nonatomic, copy) NSArray *bidHistoryArray;
 
 @end
 

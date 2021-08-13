@@ -44,7 +44,28 @@
     self.fd_prefersNavigationBarHidden = YES;
     [self createView];
     self.currentPage = 1;
-    [self requestSellingList];
+    if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        [self loadAuctionListData];
+    }else {
+        [self requestSellingList];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAuctionNotification) name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    NSLog(@"释放了: %@", self.class);
+}
+
+
+- (void)cancelAuctionNotification {
+    if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        [self loadAuctionListData];
+    }else {
+        [self requestSellingList];
+    }
 }
 
 - (void)createView {
@@ -171,7 +192,11 @@
             if (defaultSelectIndex >= 1 && defaultSelectIndex <= [AppSingleton sharedAppSingleton].artPriceArray.count) {
                 weakSelf.currentPriceID = [AppSingleton sharedAppSingleton].artPriceArray[defaultSelectIndex - 1].ID;
                 
-                [self requestSellingList];
+                if (weakSelf.type == JLCategoryViewControllerTypeAuctioning) {
+                    [weakSelf loadAuctionListData];
+                }else {
+                    [weakSelf requestSellingList];
+                }
             }
             
             [weakSelf.priceFilterView refreshItems:[tempPriceArray copy]];
@@ -193,7 +218,11 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
+        BOOL isAuction = NO;
+        if (self.type == JLCategoryViewControllerTypeAuctioning) {
+            isAuction = YES;
+        }
+        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f isAuction:isAuction];
 
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.priceFilterView.frameBottom, kScreenWidth, kScreenHeight - self.priceFilterView.frameBottom - KTabBar_Height - KStatusBar_Navigation_Height) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
@@ -218,7 +247,11 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLCategoryWorkCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell" forIndexPath:indexPath];
-    cell.artDetailData = self.dataArray[indexPath.row];
+    if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        cell.auctionsData = self.dataArray[indexPath.row];
+    }else {
+        cell.artDetailData = self.dataArray[indexPath.row];
+    }
     return cell;
 }
 
@@ -228,13 +261,14 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WS(weakSelf)
-    Model_art_Detail_Data *artDetailData = self.dataArray[indexPath.row];
     if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        Model_auctions_Data *auctionData = self.dataArray[indexPath.row];
         // 拍卖中
         JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
-        vc.artDetailId = artDetailData.ID;
+        vc.auctionsId = auctionData.ID;
         [self.navigationController pushViewController:vc animated:YES];
     } else {
+        Model_art_Detail_Data *artDetailData = self.dataArray[indexPath.row];
         JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
         artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
         artDetailVC.artDetailData = self.dataArray[indexPath.row];
@@ -247,16 +281,16 @@
             }
         };
         __weak JLArtDetailViewController *weakArtDetailVC = artDetailVC;
-        artDetailVC.buySuccessDeleteBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+        artDetailVC.buySuccessDeleteBlock = ^(JLOrderPayTypeName payType, NSString * _Nonnull payUrl) {
             [weakArtDetailVC.navigationController popViewControllerAnimated:NO];
             [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
             [weakSelf.collectionView reloadData];
-            if (payType == JLOrderPayTypeWeChat) {
+            if (payType == JLOrderPayTypeNameWepay) {
                 // 调用支付
                 JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                 payWebVC.payUrl = payUrl;
                 [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-            } else {
+            } else if (payType == JLOrderPayTypeNameAlipay) {
                 JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
                 payWebVC.payUrl = payUrl;
                 [weakSelf.navigationController pushViewController:payWebVC animated:YES];
@@ -267,17 +301,6 @@
 }
 
 - (void)createTimer {
-    for (int i = 0; i < self.dataArray.count; i++) {
-        Model_art_Detail_Data *model = self.dataArray[i];
-        model.auction_start_time = @"2021-7-22 12:00:00";
-        model.auction_end_time = @"2021-7-29 12:00:00";
-        if (i == 0) {
-            model.server_time = 1626919200;// 2021-07-22 10:00:00
-        }else {
-            model.server_time = 1627351200;// 2021-7-27 10:00:00
-        }
-    }
-    
     /// 是否有拍卖作品 有启动定时器
     if (self.timer) {
         [self.timer invalidate];
@@ -292,10 +315,9 @@
 }
 
 - (void)handleTimer {
-        
     for (int i = 0; i < self.dataArray.count; i++) {
-        Model_art_Detail_Data *model = self.dataArray[i];
-        model.server_time = model.server_time + 1;
+        Model_auctions_Data *model = self.dataArray[i];
+        model.server_timestamp = @(model.server_timestamp.integerValue + 1).stringValue;
     }
     [self.collectionView reloadData];
 }
@@ -309,12 +331,20 @@
 
 - (void)headRefresh {
     self.currentPage = 1;
-    [self requestSellingList];
+    if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        [self loadAuctionListData];
+    }else {
+        [self requestSellingList];
+    }
 }
 
 - (void)footRefresh {
     self.currentPage++;
-    [self requestSellingList];
+    if (self.type == JLCategoryViewControllerTypeAuctioning) {
+        [self loadAuctionListData];
+    }else {
+        [self requestSellingList];
+    }
 }
 
 - (void)endRefresh:(NSArray*)collectionArray {
@@ -353,6 +383,43 @@
         request.price_sort = self.currentPriceID;
     }
     Model_arts_selling_Rsp *response = [[Model_arts_selling_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.dataArray removeAllObjects];
+            }
+            [weakSelf.dataArray addObjectsFromArray:response.body];
+            
+            [weakSelf endRefresh:response.body];
+            [weakSelf setNoDataShow];
+            [weakSelf.collectionView reloadData];
+        } else {
+            [weakSelf.collectionView.mj_header endRefreshing];
+            [weakSelf.collectionView.mj_footer endRefreshing];
+        }
+    }];
+}
+
+/// 拍卖列表
+- (void)loadAuctionListData {
+    WS(weakSelf)
+    Model_auctions_list_Req *request = [[Model_auctions_list_Req alloc] init];
+    request.page = self.currentPage;
+    request.per_page = kPageSize;
+    request.code = @"rmb";
+    if (![NSString stringIsEmpty:self.currentThemeID]) {
+        request.category_id = self.currentThemeID;
+    }
+    if (![NSString stringIsEmpty:self.currentTypeID]) {
+        request.resource_type = self.currentTypeID;
+    }
+    if (![NSString stringIsEmpty:self.currentPriceID]) {
+        request.price_sort = self.currentPriceID;
+    }
+    Model_auctions_list_Rsp *response = [[Model_auctions_list_Rsp alloc] init];
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {

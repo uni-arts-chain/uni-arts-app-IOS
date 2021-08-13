@@ -17,7 +17,7 @@
 @end
 
 @implementation JLHomePageCollectionWaterLayout
-+ (instancetype)layoutWithColoumn:(int)coloumn data:(NSMutableArray *)dataA verticleMin:(float)minv horizonMin:(float)minh leftMargin:(float)leftMargin rightMargin:(float)rightMargin {
++ (instancetype)layoutWithColoumn:(int)coloumn data:(NSMutableArray *)dataA verticleMin:(float)minv horizonMin:(float)minh leftMargin:(float)leftMargin rightMargin:(float)rightMargin isAuction: (BOOL)isAuction {
     JLHomePageCollectionWaterLayout *layout = [[JLHomePageCollectionWaterLayout alloc] init];
     layout.iconArray = dataA;
     layout.minimumLineSpacing = minv;
@@ -25,6 +25,7 @@
     layout.leftMargin = leftMargin;
     layout.rightMargin = rightMargin;
     layout.colunms = coloumn;
+    layout.isAuction = isAuction;
     return layout;
 }
 
@@ -43,7 +44,12 @@
  
     //遍历数组m，创建数组那么多的UICollectionViewLayoutAttributes
     for(int i = 0; i < self.iconArray.count; i++) {
-        Model_art_Detail_Data *iconModel = self.iconArray[i];
+        Model_art_Detail_Data *iconModel = nil;
+        if (self.isAuction) {
+            iconModel = ((Model_auctions_Data *)self.iconArray[i]).art;
+        }else {
+            iconModel = self.iconArray[i];
+        }
         NSIndexPath *index = [NSIndexPath indexPathForItem:i inSection:0];
         UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:index];
         [self.attrArray addObject:attributes];

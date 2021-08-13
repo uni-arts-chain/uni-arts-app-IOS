@@ -11,9 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLOrderSubmitViewController : JLBaseViewController
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, strong) Model_arts_id_orders_Data *sellingOrderData;
-@property (nonatomic, copy) void(^buySuccessBlock)(JLOrderPayType payType, NSString *payUrl);
+@property (nonatomic, copy) void(^buySuccessBlock)(JLOrderPayTypeName payType, NSString *payUrl);
 @end
 
 NS_ASSUME_NONNULL_END

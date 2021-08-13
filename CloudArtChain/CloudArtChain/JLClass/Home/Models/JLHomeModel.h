@@ -456,3 +456,95 @@
 @property (nonatomic, strong) Model_members_user_agreement_Data *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions 拍卖列表
+@protocol Model_auctions_Data @end
+@interface Model_auctions_Data : Model_Interface
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *amount;
+@property (nonatomic, copy) NSString *created_at;
+@property (nonatomic, copy) NSString *start_time;
+@property (nonatomic, copy) NSString *end_time;
+@property (nonatomic, copy) NSString *server_timestamp;
+@property (nonatomic, copy) NSString *deposit_amount;
+@property (nonatomic, copy) NSString *currency_code;
+@property (nonatomic, copy) NSString *start_price;
+@property (nonatomic, copy) NSString *current_price;
+@property (nonatomic, copy) NSString *price_increment;
+@property (nonatomic, copy) NSString *win_price;
+@property (nonatomic, strong) UserDataBody *buyer;
+@property (nonatomic, assign) BOOL buyer_paid;
+@property (nonatomic, assign) BOOL can_cancel;
+@property (nonatomic, assign) BOOL deposit_paid;
+@property (nonatomic, strong) Model_art_Detail_Data *art;
+@end
+@interface Model_auctions_list_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+/** 主题id */
+@property (nonatomic, strong) NSString *category_id;
+/** 分类 */
+@property (nonatomic, strong) NSString *resource_type;
+/** 价格排序 */
+@property (nonatomic, strong) NSString *price_sort;
+/** 币种 */
+@property (nonatomic, strong) NSString *code;
+@end
+@interface Model_auctions_list_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id} 拍卖详情
+@interface Model_auctions_id_Req : Model_Req
+@property (nonatomic, copy) NSString *ID;
+@end
+@interface Model_auctions_id_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_id_Req *request;
+@property (nonatomic, strong) Model_auctions_Data *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/bid_histories 拍卖出价列表
+@protocol Model_auctions_bid_Data @end
+@interface Model_auctions_bid_Data : Model_Interface
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *currency_code;
+@property (nonatomic, copy) NSString *price;
+@property (nonatomic, copy) NSString *created_at;
+@property (nonatomic, strong) UserDataBody *member;
+@end
+@interface Model_auctions_id_bid_histories_Req : Model_Req
+@property (nonatomic, copy) NSString *ID;
+@end
+@interface Model_auctions_id_bid_histories_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_id_bid_histories_Req *request;
+@property (nonatomic, copy) NSArray<Model_auctions_bid_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/bid 出价艺术品
+@interface Model_auctions_id_bid_Req : Model_Req
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *price;
+@end
+@interface Model_auctions_id_bid_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_id_bid_Req *request;
+@property (nonatomic, strong) NSDictionary *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auction_deposits 缴纳保证金
+@interface Model_auction_deposits_Req : Model_Req
+@property (nonatomic, copy) NSString *auction_id;
+@property (nonatomic, copy) NSString *pay_type;
+@property (nonatomic, copy) NSString *order_from;
+@end
+@interface Model_auction_deposits_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSDictionary *body;
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/notice 拍卖须知
+@interface Model_auctions_notice_Req : Model_Req
+@end
+@interface Model_auctions_notice_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSDictionary *body;
+@end
+//////////////////////////////////////////////////////////////////////////

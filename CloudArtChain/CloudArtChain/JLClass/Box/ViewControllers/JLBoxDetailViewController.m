@@ -386,13 +386,13 @@
                 boxOpenPayVC.boxOpenPayType = boxPayType;
                 boxOpenPayVC.boxData = self.boxData;
                 __weak JLBoxOpenPayViewController *weakBoxOpenPayVC = boxOpenPayVC;
-                boxOpenPayVC.buySuccessBlock = ^(JLOrderPayType payType, NSString * _Nonnull payUrl) {
+                boxOpenPayVC.buySuccessBlock = ^(JLOrderPayTypeName payType, NSString * _Nonnull payUrl) {
                     [weakBoxOpenPayVC.navigationController popViewControllerAnimated:NO];
-                    if (payType == JLOrderPayTypeWeChat) {
+                    if (payType == JLOrderPayTypeNameWepay) {
                         JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
                         payWebVC.payUrl = payUrl;
                         [weakSelf.navigationController pushViewController:payWebVC animated:YES];
-                    } else {
+                    } else if (payType == JLOrderPayTypeNameAlipay) {
                         JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
                         payWebVC.payUrl = payUrl;
                         [weakSelf.navigationController pushViewController:payWebVC animated:YES];

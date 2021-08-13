@@ -204,7 +204,6 @@
 
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData totalCount:(NSInteger)totalCount index:(NSInteger)index {
     WS(weakSelf)
-    self.timeView.artDetailData = themeArtData;
     if (index == totalCount - 1) {
         [self.imageView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [obj removeFromSuperview];

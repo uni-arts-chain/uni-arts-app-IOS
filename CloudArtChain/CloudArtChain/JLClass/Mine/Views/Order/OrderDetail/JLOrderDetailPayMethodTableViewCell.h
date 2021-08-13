@@ -16,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前需要购买的总金额
 @property (nonatomic, copy) NSString *buyTotalPrice;
 /// 当前选择的支付方式
-@property (nonatomic, assign) JLOrderPayType payType;
-@property (nonatomic, copy) void(^selectedMethodBlock)(JLOrderPayType payType);
+@property (nonatomic, assign) JLOrderPayTypeName payType;
+@property (nonatomic, copy) void(^selectedMethodBlock)(JLOrderPayTypeName payType);
 @end
 
 NS_ASSUME_NONNULL_END

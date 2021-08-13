@@ -16,6 +16,8 @@ typedef void(^WithdrawBlock)(void);
 
 @property (nonatomic, copy) WithdrawBlock withdrawBlock;
 
+@property (nonatomic, strong) Model_account_Data *accountData;
+
 @end
 
 NS_ASSUME_NONNULL_END

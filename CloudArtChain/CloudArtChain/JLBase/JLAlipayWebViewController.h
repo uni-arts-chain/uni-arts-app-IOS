@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAlipayWebViewController : JLBaseViewController
 @property (nonatomic, strong) NSString *payUrl;
-@property (nonatomic, copy) void(^paySuccessBlock)();
+@property (nonatomic, copy) void(^paySuccessBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

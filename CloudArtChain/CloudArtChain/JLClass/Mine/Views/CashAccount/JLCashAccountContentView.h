@@ -21,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<JLCashAccountContentViewDelegate> delegate;
 
-@property (nonatomic, copy) NSArray *dataArray;
+@property (nonatomic, strong) Model_account_Data *accountData;
+
+@property (nonatomic, copy) NSArray *historiesArray;
 
 @end
 

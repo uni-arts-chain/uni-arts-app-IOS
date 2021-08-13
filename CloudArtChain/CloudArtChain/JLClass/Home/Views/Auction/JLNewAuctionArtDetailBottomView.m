@@ -110,19 +110,19 @@
 #pragma mark - event response
 - (void)likeBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(like:artId:)]) {
-        [_delegate like:!_artDetailData.liked_by_me artId:_artDetailData.ID];
+        [_delegate like:!_auctionsData.art.liked_by_me artId:_auctionsData.art.ID];
     }
 }
 
 - (void)treadBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(tread:artId:)]) {
-        [_delegate tread:!_artDetailData.disliked_by_me artId:_artDetailData.ID];
+        [_delegate tread:!_auctionsData.art.disliked_by_me artId:_auctionsData.art.ID];
     }
 }
 
 - (void)collectBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(collected:artId:)]) {
-        [_delegate collected:!_artDetailData.favorite_by_me artId:_artDetailData.ID];
+        [_delegate collected:!_auctionsData.art.favorite_by_me artId:_auctionsData.art.ID];
     }
 }
 
@@ -133,11 +133,11 @@
 }
 
 #pragma mark - setters and getters
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
     
-    [_likeBtn setTitle:[NSString stringWithFormat:@"%ld喜欢", _artDetailData.liked_count] forState:UIControlStateNormal];
-    if (_artDetailData.liked_by_me) {
+    [_likeBtn setTitle:[NSString stringWithFormat:@"%ld喜欢", _auctionsData.art.liked_count] forState:UIControlStateNormal];
+    if (_auctionsData.art.liked_by_me) {
         [_likeBtn setImage:[UIImage imageNamed:@"icon_product_like_selected"] forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"icon_product_like_selected"] forState:UIControlStateHighlighted];
     }else {
@@ -145,8 +145,8 @@
         [_likeBtn setImage:[UIImage imageNamed:@"icon_product_like"] forState:UIControlStateHighlighted];
     }
     
-    [_treadBtn setTitle:[NSString stringWithFormat:@"%ld踩", _artDetailData.dislike_count] forState:UIControlStateNormal];
-    if (_artDetailData.disliked_by_me) {
+    [_treadBtn setTitle:[NSString stringWithFormat:@"%ld踩", _auctionsData.art.dislike_count] forState:UIControlStateNormal];
+    if (_auctionsData.art.disliked_by_me) {
         [_treadBtn setImage:[UIImage imageNamed:@"icon_product_dislike_selected"] forState:UIControlStateNormal];
         [_treadBtn setImage:[UIImage imageNamed:@"icon_product_dislike_selected"] forState:UIControlStateHighlighted];
     }else {
@@ -154,7 +154,7 @@
         [_treadBtn setImage:[UIImage imageNamed:@"icon_product_dislike"] forState:UIControlStateHighlighted];
     }
 
-    if (_artDetailData.favorite_by_me) {
+    if (_auctionsData.art.favorite_by_me) {
         [_collectBtn setImage:[UIImage imageNamed:@"icon_product_collect_selected"] forState:UIControlStateNormal];
         [_collectBtn setImage:[UIImage imageNamed:@"icon_product_collect_selected"] forState:UIControlStateHighlighted];
     }else {
@@ -162,12 +162,51 @@
         [_collectBtn setImage:[UIImage imageNamed:@"icon_product_collect"] forState:UIControlStateHighlighted];
     }
     
-    // 右侧按钮状态
-    _status = JLNewAuctionArtDetailBottomViewStatusCancelAuction;
-    
-    [_rightBtn setTitle:@"取消拍卖" forState:UIControlStateNormal];
-    
-    CGFloat statusWidth = [JLTool getAdaptionSizeWithText:@"取消拍卖" labelHeight:20 font:kFontPingFangSCRegular(15)].width + 30;
+    NSString *statusTitle = @"";
+    if (_auctionsData.art.is_owner) {
+        _status = JLNewAuctionArtDetailBottomViewStatusCancelAuction;
+        statusTitle = @"取消拍卖";
+        
+        if (_auctionsData.can_cancel) {
+            _rightBtn.userInteractionEnabled = YES;
+            _rightBtn.backgroundColor = JL_color_red_D70000;
+        }else {
+            _rightBtn.userInteractionEnabled = NO;
+            _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+        }
+    }else {
+        // 是否已缴纳保证金
+        if (!_auctionsData.deposit_paid) {
+            _status = JLNewAuctionArtDetailBottomViewStatusPayEarnestMoney;
+            statusTitle = [NSString stringWithFormat:@"缴纳保证金 ￥%@", _auctionsData.deposit_amount];
+        }else {
+            _status = JLNewAuctionArtDetailBottomViewStatusOffer;
+            statusTitle = @"出价";
+        }
+        // 是否中标
+        if (_auctionsData.buyer && [auctionsData.buyer.uid isEqualToString:[AppSingleton sharedAppSingleton].userBody.uid]) {
+            _status = JLNewAuctionArtDetailBottomViewStatusWinBidding;
+            statusTitle = @"中标去支付";
+            // 是否超时未支付
+            if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue && !_auctionsData.buyer_paid) {
+                _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                statusTitle = @"已结束";
+                _rightBtn.userInteractionEnabled = NO;
+                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            }
+        }else {
+            // 是否已结束
+            if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
+                _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                statusTitle = @"已结束";
+                _rightBtn.userInteractionEnabled = NO;
+                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            }
+        }
+    }
+        
+    [_rightBtn setTitle:statusTitle forState:UIControlStateNormal];
+    CGFloat statusWidth = [JLTool getAdaptionSizeWithText:statusTitle labelHeight:20 font:kFontPingFangSCRegular(15)].width + 30;
     if (statusWidth < 137) {
         statusWidth = 137;
     }

@@ -20,6 +20,8 @@
 #import "JLSettingViewController.h"
 #import "JLTransferViewController.h"
 #import "JLCustomerServiceViewController.h"
+#import "JLOrderSubmitViewController.h"
+#import "JLNewAuctionArtDetailViewController.h"
 
 #import "JLHoveringView.h"
 #import "JLHomePageEditHeaderView.h"
@@ -45,6 +47,32 @@
         }];
     } else {
         [self setupSubViews];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAuctionNotification) name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    NSLog(@"释放了: %@", self.class);
+}
+
+- (void)backClick {
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isMemberOfClass:JLNewAuctionArtDetailViewController.class] ||
+            [vc isMemberOfClass:JLOrderSubmitViewController.class]) {
+            [arr removeObject:vc];
+        }
+    }
+    self.navigationController.viewControllers = [arr copy];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cancelAuctionNotification {
+    for (JLWorksListViewController *workListVC in self.viewControllers) {
+        [workListVC headRefresh];
     }
 }
 
@@ -313,14 +341,18 @@
             };
             [weakSelf.navigationController pushViewController:transferVC animated:YES];
         };
+        // 发起拍卖
         workListVC.auctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            NSLog(@"拍卖");
+            NSLog(@"发起拍卖");
             JLLaunchAuctionViewController *vc = [[JLLaunchAuctionViewController alloc] init];
             vc.artDetailData = artDetailData;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
-        workListVC.cancelAuctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-            NSLog(@"取消拍卖");
+        // 查看详情
+        workListVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
+            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
+            vc.auctionsId = auctionsData.ID;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         };
         [workListVCArray addObject:workListVC];
     }];
@@ -329,7 +361,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"持有的NFT", @"出售的NFT"];
+        _titles = @[@"持有的NFT", @"出售的NFT", @"拍卖的NFT"];
     }
     return _titles;
 }

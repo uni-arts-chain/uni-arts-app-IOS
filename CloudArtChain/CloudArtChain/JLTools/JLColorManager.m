@@ -105,11 +105,12 @@ static id inst = nil;
     
     _orange_FF8150 = [UIColor colorWithHexString:@"#FF8150"];
     _orange_FFEBD4 = [UIColor colorWithHexString:@"#FFEBD4"];
-    _orange_FFEBD4 = [UIColor colorWithHexString:@"#FFB432"];
+    _orange_FFB432 = [UIColor colorWithHexString:@"#FFB432"];
     _orange_FF8650 = [UIColor colorWithHexString:@"#FF8650"];
     _orange_FF7F1F = [UIColor colorWithHexString:@"#FF7F1F"];
     _orange_FFC63D = [UIColor colorWithHexString:@"#FFC63D"];
     _orange_FF9E2C = [UIColor colorWithHexString:@"#FF9E2C"];
+    _orange_F59C01 = [UIColor colorWithHexString:@"#F59C01"];
     
     _yellow_FFCA50 = [UIColor colorWithHexString:@"#FFCA50"];
     _yellow_FFCC5E = [UIColor colorWithHexString:@"#FFCC5E"];

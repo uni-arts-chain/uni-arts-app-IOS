@@ -70,6 +70,20 @@
     return _statusLabel;
 }
 
+- (void)setBidHistory:(Model_auctions_bid_Data *)bidData indexPath:(NSIndexPath *)indexPath {
+    self.userNameLabel.text = [NSString stringWithFormat:@"0x%@",bidData.member.address];
+    NSDate *bidDate = [NSDate dateWithTimeIntervalSince1970:bidData.created_at.integerValue];
+    self.timeLabel.text = [bidDate dateWithCustomFormat:@"yyyy.MM.dd HH:mm:ss"];
+    
+    if (indexPath.row == 0) {
+        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"领先￥%@", bidData.price]];
+        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(0, 2)];
+        self.statusLabel.attributedText = attrs;
+    }else {
+        self.statusLabel.text = [NSString stringWithFormat:@"出局￥%@", bidData.price];
+    }
+}
+
 - (void)setBidHistory:(BidHistory *)bidHistory indexPath:(NSIndexPath *)indexPath blockDate:(NSDate *)blockDate blockNumber:(UInt32)blockNumber {
     self.userNameLabel.text = [bidHistory.bidder address];
     NSTimeInterval currentInterval = [blockDate timeIntervalSince1970];

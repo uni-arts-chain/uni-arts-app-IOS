@@ -20,6 +20,7 @@
 #import "JLBaseWebViewController.h"
 #import "JLAuctionArtDetailViewController.h"
 #import "JLNewsDetailViewController.h"
+#import "JLNewHomeViewController.h"
 
 #import "NewPagedFlowView.h"
 #import "JLHomeAppView.h"
@@ -163,9 +164,12 @@
             [weakSelf.navigationController pushViewController:searchVC animated:YES];
         };
         _homeNaviView.messageBlock = ^{
-            JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
-            messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
-            [weakSelf.navigationController pushViewController:messageVC animated:YES];
+//            JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
+//            messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
+//            [weakSelf.navigationController pushViewController:messageVC animated:YES];
+            
+            JLNewHomeViewController *vc = [[JLNewHomeViewController alloc] init];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         };
     }
     return _homeNaviView;

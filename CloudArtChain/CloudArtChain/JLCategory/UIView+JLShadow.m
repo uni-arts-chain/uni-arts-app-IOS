@@ -20,6 +20,10 @@
 }
 
 - (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius  offsetX:(CGFloat)x {
+    [self addShadow:shaowColor cornerRadius:radius offset:CGSizeMake(x, 2)];
+}
+
+- (void)addShadow:(UIColor*)shaowColor cornerRadius:(CGFloat)radius offset: (CGSize)offset {
     if (radius>0) {
         self.layer.cornerRadius = radius;
         self.layer.masksToBounds = NO;
@@ -30,12 +34,11 @@
         self.layer.shadowColor = [UIColor blackColor].CGColor;
     }
     self.layer.shadowOpacity = 0.3f;
-    self.layer.shadowOffset = CGSizeMake(x, 2);
-    self.layer.shadowRadius = 5.f;
+    self.layer.shadowOffset = CGSizeMake(offset.width, offset.height);
+    self.layer.shadowRadius = radius;
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.bounds];
     self.layer.shadowPath = path.CGPath;
 }
-
 
 /// 渐变色
 /// @param fromColor 开始颜色

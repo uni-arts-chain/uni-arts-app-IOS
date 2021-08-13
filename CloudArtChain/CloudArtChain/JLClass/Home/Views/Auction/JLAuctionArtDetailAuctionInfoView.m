@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionArtDetailAuctionInfoView.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionArtDetailAuctionInfoView ()
 
@@ -66,7 +67,7 @@
     }];
     
     _startPriceLabel = [[UILabel alloc] init];
-    _startPriceLabel.text = @"起拍价：";
+    _startPriceLabel.text = @"起拍价：--";
     _startPriceLabel.textColor = JL_color_gray_101010;
     _startPriceLabel.font = kFontPingFangSCRegular(15);
     [self addSubview:_startPriceLabel];
@@ -86,7 +87,7 @@
     }];
     
     _addPriceLabel = [[UILabel alloc] init];
-    _addPriceLabel.text = @"加价幅度：";
+    _addPriceLabel.text = @"加价幅度：--";
     _addPriceLabel.textColor = JL_color_gray_101010;
     _addPriceLabel.font = kFontPingFangSCRegular(15);
     [self addSubview:_addPriceLabel];
@@ -106,7 +107,7 @@
     }];
     
     _startTimeLabel = [[UILabel alloc] init];
-    _startTimeLabel.text = @"开始时间：";
+    _startTimeLabel.text = @"开始时间：--";
     _startTimeLabel.textColor = JL_color_gray_101010;
     _startTimeLabel.font = kFontPingFangSCRegular(15);
     [self addSubview:_startTimeLabel];
@@ -126,7 +127,7 @@
     }];
     
     _endTimeLabel = [[UILabel alloc] init];
-    _endTimeLabel.text = @"结束时间：";
+    _endTimeLabel.text = @"结束时间：--";
     _endTimeLabel.textColor = JL_color_gray_101010;
     _endTimeLabel.font = kFontPingFangSCRegular(15);
     [self addSubview:_endTimeLabel];
@@ -138,10 +139,17 @@
 }
 
 #pragma mark - setters and getters
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
     
-    
+    if (![NSString stringIsEmpty:_auctionsData.start_price]) {
+        _startPriceLabel.text = [NSString stringWithFormat:@"起拍价：￥%@", _auctionsData.start_price];
+    }
+    if (![NSString stringIsEmpty:_auctionsData.price_increment]) {
+        _addPriceLabel.text = [NSString stringWithFormat:@"加价幅度：￥%@", _auctionsData.price_increment];
+    }
+    _startTimeLabel.text = [NSString stringWithFormat:@"开始时间：%@", [[NSDate dateWithTimeIntervalSince1970:_auctionsData.start_time.integerValue] stringWithFormat: @"yyyy-MM-dd HH:mm:ss"]];
+    _endTimeLabel.text = [NSString stringWithFormat:@"结束时间：%@", [[NSDate dateWithTimeIntervalSince1970:_auctionsData.end_time.integerValue] stringWithFormat: @"yyyy-MM-dd HH:mm:ss"]];
 }
 
 @end

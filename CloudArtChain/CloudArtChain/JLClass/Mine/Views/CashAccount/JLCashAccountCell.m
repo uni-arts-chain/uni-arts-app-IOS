@@ -7,6 +7,7 @@
 //
 
 #import "JLCashAccountCell.h"
+#import "NSDate+Extension.h"
 
 @interface JLCashAccountCell ()
 
@@ -34,7 +35,6 @@
 - (void)setupUI {
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.text = @"《NFT名称》拍卖保证金退回";
     _titleLabel.textColor = JL_color_gray_333333;
     _titleLabel.font = kFontPingFangSCRegular(15);
     _titleLabel.numberOfLines = 0;
@@ -47,7 +47,6 @@
     }];
     
     _dateLabel = [[UILabel alloc] init];
-    _dateLabel.text = @"2021-07-06 12:32:35";
     _dateLabel.textColor = JL_color_gray_999999;
     _dateLabel.font = kFontPingFangSCRegular(12);
     [self.contentView addSubview:_dateLabel];
@@ -58,7 +57,6 @@
     }];
     
     _priceLabel = [[UILabel alloc] init];
-    _priceLabel.text = @"- ￥38.00";
     _priceLabel.textColor = JL_color_gray_101010;
     _priceLabel.textAlignment = NSTextAlignmentRight;
     _priceLabel.font = kFontPingFangSCRegular(15);
@@ -78,6 +76,15 @@
         make.height.mas_equalTo(@1);
     }];
     
+}
+
+#pragma mark - setters and getters
+- (void)setAccountHistoryData:(Model_account_history_Data *)accountHistoryData {
+    _accountHistoryData = accountHistoryData;
+    
+    _titleLabel.text = _accountHistoryData.message;
+    _dateLabel.text = [[NSDate dateWithTimeIntervalSince1970:_accountHistoryData.created_at.integerValue] dateWithCustomFormat:@"yyyy-MM-dd HH:mm:ss"];
+    _priceLabel.text = _accountHistoryData.amount;
 }
 
 - (void)awakeFromNib {

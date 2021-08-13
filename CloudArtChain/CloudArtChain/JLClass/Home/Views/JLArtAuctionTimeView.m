@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) UILabel *timeLabel;
 
+@property (nonatomic, strong) MASConstraint *timeLabelLeftConstraint;
+
 /// 剩余结束秒数
 @property (nonatomic, assign) NSInteger endTime;
 
@@ -60,7 +62,7 @@
     _timeLabel.font = kFontPingFangSCMedium(11);
     [_bgView addSubview:_timeLabel];
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.imgView.mas_right).offset(5);
+        self.timeLabelLeftConstraint = make.left.equalTo(self.imgView.mas_right).offset(5);
         make.right.equalTo(self.bgView);
         make.top.bottom.equalTo(self.bgView);
     }];
@@ -74,33 +76,41 @@
 
 #pragma mark - private methods
 - (void)countDownValue {
-        
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    // 上线时间
-    NSDate *startSaleDate = [dateFormatter dateFromString:_artDetailData.auction_start_time];
-    NSTimeInterval startTimeOffset = [startSaleDate timeIntervalSince1970];
-    // 下线时间
-    NSDate *endSaleDate = [dateFormatter dateFromString:_artDetailData.auction_end_time];
-    NSTimeInterval endTimeOffset = [endSaleDate timeIntervalSince1970];
-    
-    self.startTime = _artDetailData.server_time - startTimeOffset;
-    self.endTime = endTimeOffset - _artDetailData.server_time;
-    
+    self.startTime = _auctionsData.server_timestamp.integerValue - _auctionsData.start_time.integerValue;
+    self.endTime = _auctionsData.end_time.integerValue - _auctionsData.server_timestamp.integerValue;
+
+    NSString *statusStr = @"";
     if (self.endTime <= 0) { // 表示活动已经结束 失效
-        _timeLabel.text = @"00:00:00";
+        if (_isShowStatus) {
+            statusStr = @"已结束 ";
+        }
+        _timeLabel.text = [NSString stringWithFormat:@"%@00:00:00", statusStr];
     }else { // 表示活动有效 未开始或者进行中
         if (self.startTime < 0) { // 未开始
-            _timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",labs(self.startTime) / (24 * 3600) * 24 + (labs(self.startTime) / 3600) % 24, (labs(self.startTime) / 60) % 60, (labs(self.startTime) % 60)];
+            if (_isShowStatus) {
+                statusStr = @"距开始 ";
+            }
+            _timeLabel.text = [NSString stringWithFormat:@"%@%02ld:%02ld:%02ld",statusStr,labs(self.startTime) / (24 * 3600) * 24 + (labs(self.startTime) / 3600) % 24, (labs(self.startTime) / 60) % 60, (labs(self.startTime) % 60)];
         }else { // 已开始
-            _timeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld",labs(self.endTime) / (24 * 3600) * 24 + (labs(self.endTime) / 3600) % 24, (labs(self.endTime) / 60) % 60, (labs(self.endTime) % 60)];
+            if (_isShowStatus) {
+                statusStr = @"距结束 ";
+            }
+            _timeLabel.text = [NSString stringWithFormat:@"%@%02ld:%02ld:%02ld",statusStr,labs(self.endTime) / (24 * 3600) * 24 + (labs(self.endTime) / 3600) % 24, (labs(self.endTime) / 60) % 60, (labs(self.endTime) % 60)];
         }
     }
 }
 
 #pragma mark - setters and getters
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
+    
+    if (_isShowStatus) {
+        _imgView.hidden = YES;
+        [_timeLabelLeftConstraint uninstall];
+        [_timeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            self.timeLabelLeftConstraint = make.left.equalTo(self.bgView);
+        }];
+    }
     
     [self countDownValue];
 }

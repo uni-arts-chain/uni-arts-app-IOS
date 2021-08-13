@@ -21,6 +21,8 @@
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSMutableArray *artsArray;
 @property (nonatomic, strong) JLNormalEmptyView *emptyView;
+
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation JLWorksListViewController
@@ -66,7 +68,11 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     WS(weakSelf)
     JLHomePageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLHomePageCollectionViewCell" forIndexPath:indexPath];
-    [cell setArtDetailData:self.artsArray[indexPath.row] type:self.workListType];
+    if (self.workListType == JLWorkListTypeAuction) {
+        [cell setAuctionsData:self.artsArray[indexPath.row]];
+    }else {
+        [cell setArtDetailData:self.artsArray[indexPath.row] type:self.workListType];
+    }
     
     cell.addToListBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
         if (weakSelf.sellBlock) {
@@ -159,10 +165,10 @@
             weakSelf.auctionBlock(artDetailData);
         }
     };
-    cell.cancelAuctionBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
-        if (weakSelf.cancelAuctionBlock) {
-            weakSelf.cancelAuctionBlock(artDetailData);
-        }
+    cell.cancelAuctionBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
+        [JLAlertView alertWithTitle:@"提示" message:@"是否确认取消拍卖？" doneTitle:@"确认" cancelTitle:@"取消" done:^{
+            [weakSelf cancelAuction:auctionsData];
+        } cancel:nil];
     };
     return cell;
 }
@@ -172,16 +178,25 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.artDetailBlock) {
-        self.artDetailBlock(self.artsArray[indexPath.row], self.workListType);
+    if (self.workListType == JLWorkListTypeAuction) {
+        if (self.lookAuctionDetailBlock) {
+            self.lookAuctionDetailBlock(self.artsArray[indexPath.row]);
+        }
+    }else {
+        if (self.artDetailBlock) {
+            self.artDetailBlock(self.artsArray[indexPath.row], self.workListType);
+        }
     }
 }
 
 - (JLPagetableCollectionView *)collectionView {
     if (!_collectionView) {
         WS(weakSelf)
-        JLHomePageCollectionWaterLayout *layout = [JLHomePageCollectionWaterLayout layoutWithColoumn:2 data:self.artsArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
-
+        BOOL isAuction = NO;
+        if (self.workListType == JLWorkListTypeAuction) {
+            isAuction = YES;
+        }
+        JLHomePageCollectionWaterLayout *layout = [JLHomePageCollectionWaterLayout layoutWithColoumn:2 data:self.artsArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f isAuction:isAuction];
         _collectionView = [[JLPagetableCollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KTouch_Responder_Height - KStatusBar_Navigation_Height - 47.0f - 40.0f) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
@@ -198,6 +213,27 @@
         };
     }
     return _collectionView;
+}
+
+- (void)createTimer {
+    if (self.timer) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    WS(weakSelf)
+    self.timer = [NSTimer jl_scheduledTimerWithTimeInterval:1.0 block:^{
+        [weakSelf handleTimer];
+    } repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [self.timer fire];
+}
+
+- (void)handleTimer {
+    for (int i = 0; i < self.artsArray.count; i++) {
+        Model_auctions_Data *model = self.artsArray[i];
+        model.server_timestamp = @(model.server_timestamp.integerValue + 1).stringValue;
+    }
+    [self.collectionView reloadData];
 }
 
 - (void)requestMineArtList {
@@ -225,14 +261,67 @@
     }];
 }
 
+- (void)requestAuctionMineArtList {
+    WS(weakSelf)
+    Model_auctions_mine_Req *request = [[Model_auctions_mine_Req alloc] init];
+    request.page = self.currentPage;
+    request.per_page = kPageSize;
+    Model_auctions_mine_Rsp *response = [[Model_auctions_mine_Rsp alloc] init];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.artsArray removeAllObjects];
+            }
+            [weakSelf.artsArray addObjectsFromArray:response.body];
+            [weakSelf endRefresh:response.body];
+            [weakSelf.collectionView reloadData];
+            [weakSelf setNoDataShow];
+            
+            [weakSelf createTimer];
+        } else {
+            if (weakSelf.endRefreshBlock) {
+                weakSelf.endRefreshBlock();
+            }
+            [weakSelf.collectionView.mj_footer endRefreshing];
+        }
+    }];
+}
+
+// 取消拍卖
+- (void)cancelAuction: (Model_auctions_Data *)auctionsData {
+    Model_auctions_id_cancel_Req *request = [[Model_auctions_id_cancel_Req alloc] init];
+    request.ID = auctionsData.ID;
+    Model_auctions_id_cancel_Rsp *response = [[Model_auctions_id_cancel_Rsp alloc] init];
+    response.request = request;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消" hideTime:KToastDismissDelayTimeInterval];
+            [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
 - (void)headRefresh {
     self.currentPage = 1;
-    [self requestMineArtList];
+    if (self.workListType == JLWorkListTypeAuction) {
+        [self requestAuctionMineArtList];
+    }else {
+        [self requestMineArtList];
+    }
 }
 
 - (void)footRefresh {
     self.currentPage++;
-    [self requestMineArtList];
+    if (self.workListType == JLWorkListTypeAuction) {
+        [self requestAuctionMineArtList];
+    }else {
+        [self requestMineArtList];
+    }
 }
 
 - (void)endRefresh:(NSArray*)artsArray {
@@ -284,5 +373,10 @@
 - (void)launchAuctionFromNotList:(NSIndexPath *)indexPath {
     [self.artsArray removeObjectAtIndex:indexPath.row];
     [self.collectionView reloadData];
+}
+
+- (void)dealloc
+{
+    NSLog(@"释放了: %@", self.class);
 }
 @end

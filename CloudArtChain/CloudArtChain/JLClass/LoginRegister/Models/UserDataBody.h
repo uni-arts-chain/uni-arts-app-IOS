@@ -74,6 +74,10 @@
 @property (nonatomic, strong) NSString *residential_address;
 @property (nonatomic, strong) NSString *college;
 
+/// 收款码
+@property (nonatomic, copy) NSDictionary *weixin_img;
+@property (nonatomic, copy) NSDictionary *alipay_img;
+
 //Cha***@outlook.com
 - (NSString*)getUserDisplayName;
 

@@ -44,6 +44,24 @@
 @implementation Model_arts_mine_Rsp
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /auctions/mine 个人拍卖艺术作品
+@implementation Model_auctions_mine_Req
+@end
+@implementation Model_auctions_mine_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/cancel 取消艺术品拍卖
+@implementation Model_auctions_id_cancel_Req
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_id_cancel_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"auctions/%@/cancel", self.request.ID];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
 #pragma mark /arts 上传艺术品
 @implementation Model_arts_Req
 
@@ -131,3 +149,60 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /v1/accounts 账户
+@implementation Model_account_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_accounts_Req
+@end
+@implementation Model_accounts_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 拍卖
+@implementation Model_auctions_Req
+@end
+@implementation Model_auctions_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 请求出售转账地址 /v2/auctions/lock_account_id
+@implementation Model_auctions_lock_account_id_Req
+@end
+@implementation Model_auctions_lock_account_id_Rsp
+- (NSString *)interfacePath {
+    return @"auctions/lock_account_id";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 现金账户明细 /v2/account_histories
+@implementation Model_account_history_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_account_histories_Req
+@end
+@implementation Model_account_histories_Rsp
+- (NSString *)interfacePath {
+    return @"account_histories";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 创建支付方式 /v2/payment_methods
+@implementation Model_payment_methods_Req
+@end
+@implementation Model_payment_methods_Rsp
+- (NSString *)interfacePath {
+    if (self.request.isCreate) {
+        return @"payment_methods";
+    }
+    return @"payment_methods/update_img";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 提现 /v2/withdraws
+@implementation Model_withdraws_Req
+@end
+@implementation Model_withdraws_Rsp
+@end

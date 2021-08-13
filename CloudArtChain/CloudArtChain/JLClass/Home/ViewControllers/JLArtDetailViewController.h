@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
 @property (nonatomic, copy) void(^cancelFavorateBlock)(void);
 @property (nonatomic, copy) void(^backBlock)(Model_art_Detail_Data *artDetailData);
-@property (nonatomic, copy) void(^buySuccessDeleteBlock)(JLOrderPayType payType, NSString *payUrl);
+@property (nonatomic, copy) void(^buySuccessDeleteBlock)(JLOrderPayTypeName payType, NSString *payUrl);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -299,3 +299,73 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions 拍卖列表
+@implementation Model_auctions_bid_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_list_Req
+@end
+@implementation Model_auctions_list_Rsp
+- (NSString *)interfacePath {
+    return @"auctions";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id} 拍卖详情
+@implementation Model_auctions_id_Req
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_id_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"auctions/%@", self.request.ID];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/bid_histories 拍卖出价列表
+@implementation Model_auctions_id_bid_histories_Req
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_id_bid_histories_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"auctions/%@/bid_histories", self.request.ID];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/{:id}/bid 出价艺术品
+@implementation Model_auctions_id_bid_Req
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_auctions_id_bid_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"auctions/%@/bid", self.request.ID];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auction_deposits 缴纳保证金
+@implementation Model_auction_deposits_Req
+@end
+@implementation Model_auction_deposits_Rsp
+- (NSString *)interfacePath {
+    return @"auction_deposits";
+}
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auction_deposits 缴纳保证金
+@implementation Model_auctions_notice_Req
+@end
+@implementation Model_auctions_notice_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////

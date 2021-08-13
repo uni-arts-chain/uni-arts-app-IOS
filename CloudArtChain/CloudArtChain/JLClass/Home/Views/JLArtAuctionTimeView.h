@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLArtAuctionTimeView : UIView
 
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, assign) BOOL isShowStatus;
+
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
 
 @end
 

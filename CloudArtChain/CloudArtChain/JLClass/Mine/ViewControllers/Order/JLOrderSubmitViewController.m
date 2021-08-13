@@ -8,7 +8,7 @@
 
 #import "JLOrderSubmitViewController.h"
 #import "JLEditAddressViewController.h"
-#import "JLWechatPayWebViewController.h"
+#import "JLHomePageViewController.h"
 
 #import "JLOrderDetailProductBottomPriceTableViewCell.h"
 #import "JLOrderDetailPayMethodTableViewCell.h"
@@ -20,26 +20,35 @@
 
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) NSString *currentAmount;
-@property (nonatomic, assign) JLOrderPayType currentPayType;
+@property (nonatomic, assign) JLOrderPayTypeName currentPayType;
 
-/// 当前账户余额（测试用，后期删除）
 @property (nonatomic, copy) NSString *cashAccountBalance;
 @end
 
 @implementation JLOrderSubmitViewController
 
+#pragma mark - life cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self loadCashAccount];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.cashAccountBalance = @"430.0";
     self.navigationItem.title = @"提交订单";
     [self addBackItem];
-    [self createSubViews];
-    if (self.artDetailData.collection_mode == 3) {
-        self.currentAmount = @"1";
-    } else {
-        self.currentAmount = self.sellingOrderData.amount;
+    
+    if (self.auctionsData) {
+        self.currentAmount = self.auctionsData.amount;
+    }else {
+        if (self.artDetailData.collection_mode == 3) {
+            self.currentAmount = @"1";
+        } else {
+            self.currentAmount = self.sellingOrderData.amount;
+        }
     }
-    self.currentPayType = JLOrderPayTypeCashAccount;
+    self.currentPayType = JLOrderPayTypeNameAccount;
 }
 
 - (void)createSubViews {
@@ -147,11 +156,13 @@
 }
 
 - (void)submitBtnClick {
-    if (self.currentPayType == JLOrderPayTypeCashAccount) {
+    WS(weakSelf)
+    if (self.currentPayType == JLOrderPayTypeNameAccount) {
         [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入饭团密码完成支付" complete:^(NSString * _Nonnull passwords) {
             [[JLViewControllerTool appDelegate].walletTool authorizeWithPasswords:passwords with:^(BOOL success) {
                 if (success) {
                     NSLog(@"密码验证成功");
+                    [weakSelf commitToService];
                 }else {
                     NSLog(@"密码验证失败");
                     [[JLLoading sharedLoading] showMBFailedTipMessage:@"密码验证失败！" hideTime:KToastDismissDelayTimeInterval];
@@ -166,43 +177,60 @@
 - (void)commitToService {
     WS(weakSelf)
     Model_art_trades_Req *request = [[Model_art_trades_Req alloc] init];
-    request.art_order_sn = self.sellingOrderData.sn;
-    request.amount = self.currentAmount;
-    request.order_from = @"ios";
-    if (self.currentPayType == JLOrderPayTypeCashAccount) {
-        request.pay_type = @"cashAccount";
-    }else if (self.currentPayType == JLOrderPayTypeWeChat) {
-        request.pay_type = @"wepay";
+    if (self.auctionsData) {
+        request.auction_id = self.auctionsData.ID;
     }else {
-        request.pay_type = @"alipay";
+        request.art_order_sn = self.sellingOrderData.sn;
+        request.amount = self.currentAmount;
     }
+    request.order_from = @"ios";
+    request.pay_type = self.currentPayType;
     Model_art_trades_Rsp *response = [[Model_art_trades_Rsp alloc] init];
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            NSString *payUrl = response.body[@"url"];
-            if (![NSString stringIsEmpty:payUrl]) {
+            if (weakSelf.currentPayType == JLOrderPayTypeNameAccount) {
                 if (weakSelf.buySuccessBlock) {
-                    weakSelf.buySuccessBlock(weakSelf.currentPayType ,payUrl);
+                    weakSelf.buySuccessBlock(weakSelf.currentPayType,@"");
                 }
-//                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }else {
+                NSString *payUrl = response.body[@"url"];
+                if (![NSString stringIsEmpty:payUrl]) {
+                    if (weakSelf.buySuccessBlock) {
+                        weakSelf.buySuccessBlock(weakSelf.currentPayType ,payUrl);
+                    }
+                }
+            }
+            if (self.auctionsData) {
+                JLHomePageViewController *vc = [[JLHomePageViewController alloc] init];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else {
+                [weakSelf.navigationController popViewControllerAnimated:NO];
             }
         }
     }];
+}
+
+/// 获取现金账户
+- (void)loadCashAccount {
+    WS(weakSelf)
+    Model_accounts_Req *request = [[Model_accounts_Req alloc] init];
+    Model_accounts_Rsp *response = [[Model_accounts_Rsp alloc] init];
     
-//    WS(weakSelf)
-//    [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
-//        if (success) {
-//            [[JLViewControllerTool appDelegate].walletTool acceptSaleOrderConfirmWithCallbackBlock:^(BOOL success, NSString * _Nullable message) {
-//                if (success) {
-//                    [weakSelf.navigationController popToRootViewControllerAnimated:true];
-//                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"购买成功" hideTime:KToastDismissDelayTimeInterval];
-//                }
-//            }];
-//        }
-//    }];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            for (Model_account_Data *model in response.body) {
+                if ([model.currency_code isEqualToString:@"rmb"]) {
+                    weakSelf.cashAccountBalance = model.balance;
+                    break;
+                }
+            }
+        }
+        
+        [self createSubViews];
+    }];
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -226,8 +254,8 @@
     } else {
         JLOrderDetailPayMethodTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLOrderDetailPayMethodTableViewCell" forIndexPath:indexPath];
         
-        cell.selectedMethodBlock = ^(JLOrderPayType payType) {
-            NSLog(@"选择的支付方式: %lu", payType);
+        cell.selectedMethodBlock = ^(JLOrderPayTypeName payType) {
+            NSLog(@"选择的支付方式: %@", payType);
             weakSelf.currentPayType = payType;
         };
         

@@ -14,7 +14,11 @@
 
 @property (nonatomic, strong) UIView *bgView;
 
+@property (nonatomic, strong) UIView *alipayQRCodeBgView;
+
 @property (nonatomic, strong) UIImageView *alipayQRCodeImgView;
+
+@property (nonatomic, strong) UIView *wechatQRCodBgView;
 
 @property (nonatomic, strong) UIImageView *wechatQRCodeImgView;
 
@@ -31,6 +35,8 @@
 @property (nonatomic, strong) UIButton *wechatUpBtn;
 
 @property (nonatomic, strong) UIButton *withdrawBtn;
+
+@property (nonatomic, strong) UIButton *withdrawTipBtn;
 
 @property (nonatomic, strong) UIView *alipayBgView;
 
@@ -58,6 +64,8 @@
 @property (nonatomic, assign) NSInteger currentSelectQRCodeType;
 
 @property (nonatomic, strong) UIImage *currentSelectQRCodeImage;
+
+@property (nonatomic, assign) BOOL isNeedUploadQRImage;
 
 @end
 
@@ -120,6 +128,13 @@
         self.alipayQRCodeImgViewHeightConstraint = make.height.mas_equalTo(@((self.frameWidth - 130) / 2));
     }];
     
+    _alipayQRCodeBgView = [[UIView alloc] init];
+    _alipayQRCodeBgView.hidden = YES;
+    [_bgView insertSubview:_alipayQRCodeBgView belowSubview:_alipayQRCodeImgView];
+    [_alipayQRCodeBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.equalTo(self.alipayQRCodeImgView);
+    }];
+    
     _alipaySelectImgView = [[UIImageView alloc] init];
     _alipaySelectImgView.hidden = YES;
     _alipaySelectImgView.image = [UIImage imageNamed:@"cash_qr_code_selected_icon"];
@@ -169,6 +184,13 @@
         make.right.equalTo(self.bgView).offset(-40);
         make.width.mas_equalTo(@((self.frameWidth - 130) / 2));
         self.wechatQRCodeImgViewHeightConstraint = make.height.mas_equalTo(@((self.frameWidth - 130) / 2));
+    }];
+    
+    _wechatQRCodBgView = [[UIView alloc] init];
+    _wechatQRCodBgView.hidden = YES;
+    [_bgView insertSubview:_wechatQRCodBgView belowSubview:_wechatQRCodeImgView];
+    [_wechatQRCodBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.equalTo(self.wechatQRCodeImgView);
     }];
     
     _wechatSelectImgView = [[UIImageView alloc] init];
@@ -257,79 +279,64 @@
         make.left.equalTo(self.bgView).offset(15);
         make.right.equalTo(self.bgView).offset(-15);
         make.height.mas_equalTo(@44);
-        make.bottom.equalTo(self.bgView).offset(-20);
     }];
     
+    _withdrawTipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _withdrawTipBtn.hidden = YES;
+    _withdrawTipBtn.userInteractionEnabled = NO;
+    [_withdrawTipBtn setTitle:@"申请提现后，资金将会在3个工作日内到账，请注意查收！" forState:UIControlStateNormal];
+    [_withdrawTipBtn setTitleColor:JL_color_orange_F59C01 forState:UIControlStateNormal];
+    _withdrawTipBtn.titleLabel.font = kFontPingFangSCRegular(12);
+    [_withdrawTipBtn setImage:[UIImage imageNamed:@"cash_withdraw_tip_icon"] forState:UIControlStateNormal];
+    [_withdrawTipBtn setImagePosition:LXMImagePositionLeft spacing:5];
+    [_bgView addSubview:_withdrawTipBtn];
+    [_withdrawTipBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.withdrawBtn.mas_bottom);
+        make.left.equalTo(self.bgView);
+        make.right.equalTo(self.bgView);
+        make.height.mas_equalTo(@52);
+        make.bottom.equalTo(self.bgView).offset(-20);
+    }];
 }
 
-- (void)updateUI: (NSInteger)type {
+- (void)updateUI {
+    // 默认样式 没有收款码
+    _alipayUpBtn.hidden = NO;
+    _alipayQRCodeBgView.hidden = YES;
+    _alipayQRCodeImgView.hidden = YES;
+    _alipayDeleteBtn.hidden = YES;
     
-    if (type == 0) {
-        if (self.alipayQRCodeImage) {
-            _alipayUpBtn.hidden = YES;
-            _alipayQRCodeImgView.hidden = NO;
-            _alipayDeleteBtn.hidden = NO;
-            _alipayQRCodeImgView.image = self.alipayQRCodeImage;
-            
-            [_alipayQRCodeImgViewHeightConstraint uninstall];
-            [_alipayQRCodeImgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                self.alipayQRCodeImgViewHeightConstraint =  make.height.mas_equalTo(@(self.alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.alipayQRCodeImage.size.width));
-            }];
-            
-            [_alipayBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.alipayQRCodeImgView.mas_bottom).offset(23);
-                make.centerX.equalTo(self.alipayQRCodeImgView);
-            }];
-        }else {
-            _alipayUpBtn.hidden = NO;
-            _alipayQRCodeImgView.hidden = YES;
-            _alipayDeleteBtn.hidden = YES;
-            _alipaySelectImgView.hidden = YES;
-            
-            [_alipayBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.alipayUpBtn.mas_bottom).offset(23);
-                make.centerX.equalTo(self.alipayUpBtn);
-            }];
-        }
-    }else {
-        if (self.wechatQRCodeImage) {
-            _wechatUpBtn.hidden = YES;
-            _wechatQRCodeImgView.hidden = NO;
-            _wechatDeleteBtn.hidden = NO;
-            _wechatQRCodeImgView.image = self.wechatQRCodeImage;
-            
-            [_wechatQRCodeImgViewHeightConstraint uninstall];
-            [_wechatQRCodeImgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                self.wechatQRCodeImgViewHeightConstraint =  make.height.mas_equalTo(@(self.wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.wechatQRCodeImage.size.width));
-            }];
-            
-            [_wechatBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.wechatQRCodeImgView.mas_bottom).offset(23);
-                make.centerX.equalTo(self.wechatQRCodeImgView);
-            }];
-        }else {
-            _wechatUpBtn.hidden = NO;
-            _wechatQRCodeImgView.hidden = YES;
-            _wechatDeleteBtn.hidden = YES;
-            _wechatSelectImgView.hidden = YES;
-            
-            [_wechatBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.wechatUpBtn.mas_bottom).offset(23);
-                make.centerX.equalTo(self.wechatUpBtn);
-            }];
-        }
-    }
+    _wechatUpBtn.hidden = NO;
+    _wechatQRCodBgView.hidden = YES;
+    _wechatQRCodeImgView.hidden = YES;
+    _wechatDeleteBtn.hidden = YES;
     
-    _withdrawBtn.hidden = NO;
-    if (self.wechatQRCodeImage == nil && self.alipayQRCodeImage == nil) {
-        _withdrawBtn.hidden = YES;
+    _withdrawBtn.hidden = YES;
+    _withdrawTipBtn.hidden = YES;
+    
+    // 默认布局
+    [_alipayBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.alipayUpBtn.mas_bottom).offset(23);
+        make.centerX.equalTo(self.alipayUpBtn);
+    }];
+    [_wechatBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.wechatUpBtn.mas_bottom).offset(23);
+        make.centerX.equalTo(self.wechatUpBtn);
+    }];
+    [_withdrawBtnTopConstraint uninstall];
+    [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.withdrawBtnTopConstraint = make.top.equalTo(self.alipayBgView.mas_bottom).offset(40);
+    }];
+    
+    if (_alipayQRCodeImage != nil && _wechatQRCodeImage == nil) {
+        [self showAlipayQRCodeUI];
         
-        [_withdrawBtnTopConstraint uninstall];
-        [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            self.withdrawBtnTopConstraint = make.top.equalTo(self.alipayBgView.mas_bottom).offset(40);
-        }];
-    }else if (self.alipayQRCodeImage != nil && self.wechatQRCodeImage == nil) {
-        if ((self.alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.alipayQRCodeImage.size.width) > ((self.frameWidth - 130) / 2)) {
+        _withdrawBtn.hidden = NO;
+        _withdrawTipBtn.hidden = NO;
+        
+        CGFloat upBtnHeight = (self.frameWidth - 130) / 2;
+        CGFloat updateImageHeight = _alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _alipayQRCodeImage.size.width;
+        if (updateImageHeight > upBtnHeight) {
             [_withdrawBtnTopConstraint uninstall];
             [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.alipayBgView.mas_bottom).offset(40);
@@ -340,8 +347,19 @@
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.wechatBgView.mas_bottom).offset(40);
             }];
         }
-    }else if (self.alipayQRCodeImage == nil && self.wechatQRCodeImage != nil) {
-        if ((self.wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.wechatQRCodeImage.size.width) > ((self.frameWidth - 130) / 2)) {
+        // 支付方式
+        self.currentSelectQRCodeType = 1;
+        self.currentSelectQRCodeImage = _alipayQRCodeImage;
+        [self updateSelectUI];
+    }else if (_alipayQRCodeImage == nil && _wechatQRCodeImage != nil) {
+        [self showWechatQRCodeUI];
+        
+        _withdrawBtn.hidden = NO;
+        _withdrawTipBtn.hidden = NO;
+        
+        CGFloat upBtnHeight = (self.frameWidth - 130) / 2;
+        CGFloat updateImageHeight = _wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _wechatQRCodeImage.size.width;
+        if (updateImageHeight > upBtnHeight) {
             [_withdrawBtnTopConstraint uninstall];
             [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.wechatBgView.mas_bottom).offset(40);
@@ -352,8 +370,20 @@
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.alipayBgView.mas_bottom).offset(40);
             }];
         }
-    }else {
-        if ((self.alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.alipayQRCodeImage.size.width) > (self.wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / self.wechatQRCodeImage.size.width)) {
+        // 支付方式
+        self.currentSelectQRCodeType = 2;
+        self.currentSelectQRCodeImage = _wechatQRCodeImage;
+        [self updateSelectUI];
+    }else if (_alipayQRCodeImage != nil && _wechatQRCodeImage != nil) {
+        [self showAlipayQRCodeUI];
+        [self showWechatQRCodeUI];
+        
+        _withdrawBtn.hidden = NO;
+        _withdrawTipBtn.hidden = NO;
+        
+        CGFloat updateAlipayImageHeight = _alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _alipayQRCodeImage.size.width;
+        CGFloat updateWechatImageHeight = _wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _wechatQRCodeImage.size.width;
+        if (updateAlipayImageHeight > updateWechatImageHeight) {
             [_withdrawBtnTopConstraint uninstall];
             [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.alipayBgView.mas_bottom).offset(40);
@@ -363,140 +393,164 @@
             [_withdrawBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 self.withdrawBtnTopConstraint = make.top.equalTo(self.wechatBgView.mas_bottom).offset(40);
             }];
+        }
+        // 支付方式
+        if (self.currentSelectQRCodeType == 0 ||
+            self.currentSelectQRCodeType == 2) {
+            self.currentSelectQRCodeType = 1;
+            self.currentSelectQRCodeImage = _alipayQRCodeImage;
+            [self updateSelectUI];
         }
     }
 }
 
-- (void)updateSelectUI: (NSInteger)type {
+/// 显示支付宝二维码
+- (void)showAlipayQRCodeUI {
+    _alipayUpBtn.hidden = YES;
+    _alipayQRCodeBgView.hidden = NO;
+    _alipayQRCodeImgView.hidden = NO;
+    _alipayDeleteBtn.hidden = NO;
     
-    if (type == 0) {
+    _alipayQRCodeImgView.image = _alipayQRCodeImage;
+    
+    CGFloat updateImageHeight = _alipayQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _alipayQRCodeImage.size.width;
+    [_alipayQRCodeImgViewHeightConstraint uninstall];
+    [_alipayQRCodeImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.alipayQRCodeImgViewHeightConstraint =  make.height.mas_equalTo(@(updateImageHeight));
+    }];
+    [_alipayBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.alipayQRCodeImgView.mas_bottom).offset(23);
+        make.centerX.equalTo(self.alipayQRCodeImgView);
+    }];
+}
+/// 显示微信二维码
+- (void)showWechatQRCodeUI {
+    _wechatUpBtn.hidden = YES;
+    _wechatQRCodBgView.hidden = NO;
+    _wechatQRCodeImgView.hidden = NO;
+    _wechatDeleteBtn.hidden = NO;
+    
+    _wechatQRCodeImgView.image = _wechatQRCodeImage;
+    
+    CGFloat updateImageHeight = _wechatQRCodeImage.size.height * ((self.frameWidth - 130) / 2) / _wechatQRCodeImage.size.width;
+    [_wechatQRCodeImgViewHeightConstraint uninstall];
+    [_wechatQRCodeImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.wechatQRCodeImgViewHeightConstraint =  make.height.mas_equalTo(@(updateImageHeight));
+    }];
+    [_wechatBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.wechatQRCodeImgView.mas_bottom).offset(23);
+        make.centerX.equalTo(self.wechatQRCodeImgView);
+    }];
+}
+/// 选择选中状态
+- (void)updateSelectUI {
+    [_bgView layoutIfNeeded];
+    if (self.currentSelectQRCodeType == 1) {
         _alipaySelectImgView.hidden = NO;
         _alipayQRCodeImgView.layer.borderColor = JL_color_orange_FFB432.CGColor;
         _alipayQRCodeImgView.layer.borderWidth = 1;
-        [_alipayQRCodeImgView addShadow:JL_color_orange_FFB432 cornerRadius:5.0f offsetX:0];
-        _alipayQRCodeImgView.layer.cornerRadius = 5;
-        _alipayQRCodeImgView.clipsToBounds = YES;
+        [_alipayQRCodeBgView addShadow:JL_color_orange_FFB432 cornerRadius:5.0f offset:CGSizeMake(0, 0)];
 
-        if (self.wechatQRCodeImage) {
-            _wechatSelectImgView.hidden = YES;
-            _wechatQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
-            _wechatQRCodeImgView.layer.borderWidth = 1;
-            [_wechatQRCodeImgView addShadow:JL_color_clear cornerRadius:5.0f offsetX:0];
-            _wechatQRCodeImgView.layer.cornerRadius = 5;
-            _wechatQRCodeImgView.clipsToBounds = YES;
-        }
+        _wechatSelectImgView.hidden = YES;
+        _wechatQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
+        _wechatQRCodeImgView.layer.borderWidth = 1;
+        [_wechatQRCodBgView addShadow:JL_color_clear cornerRadius:5.0f offset:CGSizeMake(0, 0)];
     }else {
         _wechatSelectImgView.hidden = NO;
         _wechatQRCodeImgView.layer.borderColor = JL_color_orange_FFB432.CGColor;
         _wechatQRCodeImgView.layer.borderWidth = 1;
-        [_wechatQRCodeImgView addShadow:JL_color_orange_FFB432 cornerRadius:5.0f offsetX:0];
-        _wechatQRCodeImgView.layer.cornerRadius = 5;
-        _wechatQRCodeImgView.clipsToBounds = YES;
+        [_wechatQRCodBgView addShadow:JL_color_orange_FFB432 cornerRadius:5.0f offset:CGSizeMake(0, 0)];
         
-        if (self.alipayQRCodeImage) {
-            _alipaySelectImgView.hidden = YES;
-            _alipayQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
-            _alipayQRCodeImgView.layer.borderWidth = 1;
-            [_alipayQRCodeImgView addShadow:JL_color_clear cornerRadius:5.0f offsetX:0];
-            _alipayQRCodeImgView.layer.cornerRadius = 5;
-            _alipayQRCodeImgView.clipsToBounds = YES;
-        }
+        _alipaySelectImgView.hidden = YES;
+        _alipayQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
+        _alipayQRCodeImgView.layer.borderWidth = 1;
+        [_alipayQRCodeBgView addShadow:JL_color_clear cornerRadius:5.0f offset:CGSizeMake(0, 0)];
     }
 }
 
 #pragma mark - event response
 - (void)alipayUpBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(addImage:)]) {
-        [_delegate addImage:0];
+        [_delegate addImage:1];
     }
 }
 
 - (void)wechatUpBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(addImage:)]) {
-        [_delegate addImage:1];
+        [_delegate addImage:2];
     }
 }
 
 - (void)alipayQRCodeImgViewDidTap: (UITapGestureRecognizer *)ges {
     self.currentSelectQRCodeType = 1;
-    self.currentSelectQRCodeImage = self.alipayQRCodeImage;
+    self.currentSelectQRCodeImage = _alipayQRCodeImage;
     
-    [self updateSelectUI:0];
+    [self updateSelectUI];
 }
 
 - (void)wechatQRCodeImgViewDidTap: (UITapGestureRecognizer *)ges {
     self.currentSelectQRCodeType = 2;
-    self.currentSelectQRCodeImage = self.wechatQRCodeImage;
+    self.currentSelectQRCodeImage = _wechatQRCodeImage;
     
-    [self updateSelectUI:1];
+    [self updateSelectUI];
 }
 
 - (void)alipayDeleteBtnClick: (UIButton *)sender {
     self.alipayQRCodeImage = nil;
-    if (self.currentSelectQRCodeType == 1) {
-        self.currentSelectQRCodeImage = nil;
-        self.currentSelectQRCodeType = 0;
-    }
-    
-    _alipayQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
-    _alipayQRCodeImgView.layer.borderWidth = 1;
-    [_alipayQRCodeImgView addShadow:JL_color_clear cornerRadius:5.0f offsetX:0];
-    _alipayQRCodeImgView.layer.cornerRadius = 5;
-    _alipayQRCodeImgView.clipsToBounds = YES;
-    
-    [self updateUI:0];
+    _addAlipayQRCodeImage = nil;
+
+    [self updateUI];
 }
 
 - (void)wechatDeleteBtnClick: (UIButton *)sender {
     self.wechatQRCodeImage = nil;
-    if (self.currentSelectQRCodeType == 2) {
-        self.currentSelectQRCodeImage = nil;
-        self.currentSelectQRCodeType = 0;
-    }
-    
-    _wechatQRCodeImgView.layer.borderColor = JL_color_clear.CGColor;
-    _wechatQRCodeImgView.layer.borderWidth = 1;
-    [_wechatQRCodeImgView addShadow:JL_color_clear cornerRadius:5.0f offsetX:0];
-    _wechatQRCodeImgView.layer.cornerRadius = 5;
-    _wechatQRCodeImgView.clipsToBounds = YES;
-    
-    [self updateUI:1];
+    _addWechatQRCodeImage = nil;
+
+    [self updateUI];
 }
 
 - (void)withdrawBtnClick: (UIButton *)sender {
-    if (!self.currentSelectQRCodeImage) {
+    if (!_currentSelectQRCodeImage) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请选择提现的收款码!" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
     
-    if (_delegate && [_delegate respondsToSelector:@selector(withdraw:)]) {
-        [_delegate withdraw:self.currentSelectQRCodeImage];
+    self.isNeedUploadQRImage = NO;
+    
+    if (_currentSelectQRCodeType == 1 && _addAlipayQRCodeImage) {
+        self.isNeedUploadQRImage = YES;
+    }
+    
+    if (_currentSelectQRCodeType == 2 && _addWechatQRCodeImage) {
+        self.isNeedUploadQRImage = YES;
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(withdraw:payType:isNeedUploadQRImage:)]) {
+        [_delegate withdraw:_currentSelectQRCodeImage payType:_currentSelectQRCodeType isNeedUploadQRImage:_isNeedUploadQRImage];
     }
 }
 
 #pragma mark - setters and getters
-- (void)setAlipayQRCodeImageUrl:(NSString *)alipayQRCodeImageUrl {
-    _alipayQRCodeImageUrl = alipayQRCodeImageUrl;
+- (void)setAlipayImgUrl:(NSString *)alipayImgUrl {
+    _alipayImgUrl = alipayImgUrl;
     
     WS(weakSelf)
-    [_alipayQRCodeImgView sd_setImageWithURL:[NSURL URLWithString:_alipayQRCodeImageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [_alipayQRCodeImgView sd_setImageWithURL:[NSURL URLWithString:_alipayImgUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         if (image) {
             weakSelf.alipayQRCodeImage = image;
-                        
-            [weakSelf updateUI:0];
+            [weakSelf updateUI];
         }
     }];
 }
 
-- (void)setWechatQRCodeImageUrl:(NSString *)wechatQRCodeImageUrl {
-    _wechatQRCodeImageUrl = wechatQRCodeImageUrl;
+- (void)setWechatImgUrl:(NSString *)wechatImgUrl {
+    _wechatImgUrl = wechatImgUrl;
     
     WS(weakSelf)
-    [_wechatIconImgView sd_setImageWithURL:[NSURL URLWithString:_wechatQRCodeImageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [_wechatQRCodeImgView sd_setImageWithURL:[NSURL URLWithString:_wechatImgUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         if (image) {
             weakSelf.wechatQRCodeImage = image;
-                        
-            [weakSelf updateUI:1];
+            [weakSelf updateUI];
         }
     }];
 }
@@ -506,7 +560,7 @@
     
     self.alipayQRCodeImage = _addAlipayQRCodeImage;
     
-    [self updateUI:0];
+    [self updateUI];
 }
 
 - (void)setAddWechatQRCodeImage:(UIImage *)addWechatQRCodeImage {
@@ -514,7 +568,7 @@
     
     self.wechatQRCodeImage = _addWechatQRCodeImage;
     
-    [self updateUI:1];
+    [self updateUI];
 }
 
 @end

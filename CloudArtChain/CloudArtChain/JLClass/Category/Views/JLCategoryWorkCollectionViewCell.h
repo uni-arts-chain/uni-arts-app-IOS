@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCategoryWorkCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
 @end
 
 NS_ASSUME_NONNULL_END

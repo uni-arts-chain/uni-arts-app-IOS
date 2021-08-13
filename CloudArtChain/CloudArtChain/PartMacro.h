@@ -62,6 +62,12 @@
 #define KToastDismissDelayTimeInterval 1.5f
 
 #pragma mark - Local NotificationCenter
+/// 网络状态变更
 #define LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED @"LocalNotification_JLNetworkStatusChanged"
+/// 取消拍卖
+#define LOCALNOTIFICATION_JL_CANCEL_AUCTION @"LocalNotification_JLCancelAuction"
+
+#pragma mark - userDefaults
+#define USERDEFAULTS_JL_WITHDRAW_PAY_TYPE @"UserDefaultJLWithdrawPayType"
 
 #endif /* PartMacro_h */

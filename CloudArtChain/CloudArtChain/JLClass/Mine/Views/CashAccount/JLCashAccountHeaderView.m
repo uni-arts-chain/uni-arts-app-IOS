@@ -46,7 +46,7 @@
     }];
     
     _accountLabel = [[UILabel alloc] init];
-    _accountLabel.text = @"账户总额：¥188.88";
+    _accountLabel.text = @"账户总额：--";
     _accountLabel.textColor = JL_color_gray_101010;
     _accountLabel.font = kFontPingFangSCMedium(17);
     [self addSubview:_accountLabel];
@@ -97,6 +97,13 @@
     if (_withdrawBlock) {
         _withdrawBlock();
     }
+}
+
+#pragma mark - setters and getters
+- (void)setAccountData:(Model_account_Data *)accountData {
+    _accountData = accountData;
+    
+    _accountLabel.text = [NSString stringWithFormat:@"账户总额：￥%@", _accountData.balance];
 }
 
 @end

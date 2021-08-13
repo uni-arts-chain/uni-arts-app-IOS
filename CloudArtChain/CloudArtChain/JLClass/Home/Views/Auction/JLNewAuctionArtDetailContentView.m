@@ -107,7 +107,7 @@
     _videoView.hidden = YES;
     _videoView.playOrStopBlock = ^(NSInteger status) {
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(playVideo:)]) {
-            [weakSelf.delegate playVideo:weakSelf.artDetailData.img_main_file2[@"url"]];;
+            [weakSelf.delegate playVideo:weakSelf.auctionsData.art.img_main_file2[@"url"]];;
         }
     };
     [_bgView addSubview:_videoView];
@@ -185,9 +185,9 @@
     
     // 出价列表
     _offerRecordView = [[JLAuctionOfferRecordView alloc] init];
-    _offerRecordView.recordListBlock = ^(NSArray * _Nonnull bidList, NSDate * _Nonnull blockDate, UInt32 blockNumber) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(offerRecordList)]) {
-            [weakSelf.delegate offerRecordList];
+    _offerRecordView.bidHistoryBlock = ^(NSArray * _Nonnull bidHistoryArray) {
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(offerRecordList:)]) {
+            [weakSelf.delegate offerRecordList:bidHistoryArray];
         }
     };
     [_bgView addSubview:_offerRecordView];
@@ -209,7 +209,7 @@
     // 区块链信息
     _chainTradeView = [[JLArtChainTradeView alloc] init];
     _chainTradeView.showCertificateBlock = ^{
-        [JLArtDetailShowCertificateView showWithArtDetailData:weakSelf.artDetailData];
+        [JLArtDetailShowCertificateView showWithArtDetailData:weakSelf.auctionsData.art];
     };
     [_bgView addSubview:_chainTradeView];
     [_chainTradeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -223,11 +223,11 @@
     _authorDetailView.introduceBlock = ^{
         // 判断是否是自己
         BOOL isSelf = NO;
-        if ([weakSelf.artDetailData.author.ID isEqualToString: [AppSingleton sharedAppSingleton].userBody.ID]) {
+        if ([weakSelf.auctionsData.art.author.ID isEqualToString: [AppSingleton sharedAppSingleton].userBody.ID]) {
             isSelf = YES;
         }
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookCreaterHomePage:isSelf:)]) {
-            [weakSelf.delegate lookCreaterHomePage:weakSelf.artDetailData.author isSelf:isSelf];
+            [weakSelf.delegate lookCreaterHomePage:weakSelf.auctionsData.art.author isSelf:isSelf];
         }
     };
     [_bgView addSubview:_authorDetailView];
@@ -248,7 +248,7 @@
     [_evaluateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.authorDetailView.mas_bottom);
         make.left.right.equalTo(self.bgView);
-        make.bottom.equalTo(self.bgView);
+        make.bottom.equalTo(self.bgView).offset(-10);
     }];
 }
 
@@ -322,37 +322,39 @@
 #pragma mark - event response
 - (void)photoBrowserBtnClick: (UIButton *)sender {
     if (_delegate && [_delegate respondsToSelector:@selector(lookPageFlow:currentIndex:)]) {
-        [_delegate lookPageFlow:_artDetailData currentIndex:_pageFlowView.currentPageIndex];
+        [_delegate lookPageFlow:_auctionsData.art currentIndex:_pageFlowView.currentPageIndex];
     }
 }
 
 #pragma mark - setters and getters
-- (void)setArtDetailData:(Model_art_Detail_Data *)artDetailData {
-    _artDetailData = artDetailData;
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
+    
+    Model_art_Detail_Data *artDetailData = _auctionsData.art;
     
     if (_scrollView.mj_header.isRefreshing) {
         [_scrollView.mj_header endRefreshing];
     }
     
     NSMutableArray *arr = [NSMutableArray array];
-    if (![NSString stringIsEmpty:_artDetailData.img_detail_file1[@"url"]]) {
-        [arr addObject:_artDetailData.img_detail_file1[@"url"]];
+    if (![NSString stringIsEmpty:artDetailData.img_detail_file1[@"url"]]) {
+        [arr addObject:artDetailData.img_detail_file1[@"url"]];
     }
-    if (![NSString stringIsEmpty:_artDetailData.img_detail_file2[@"url"]]) {
-        [arr addObject:_artDetailData.img_detail_file2[@"url"]];
+    if (![NSString stringIsEmpty:artDetailData.img_detail_file2[@"url"]]) {
+        [arr addObject:artDetailData.img_detail_file2[@"url"]];
     }
-    if (![NSString stringIsEmpty:_artDetailData.img_detail_file3[@"url"]]) {
-        [arr addObject:_artDetailData.img_detail_file3[@"url"]];
+    if (![NSString stringIsEmpty:artDetailData.img_detail_file3[@"url"]]) {
+        [arr addObject:artDetailData.img_detail_file3[@"url"]];
     }
-    _artDetailData.detail_imgs = [arr copy];
+    artDetailData.detail_imgs = [arr copy];
     
     // 视频
-    if (_artDetailData.resource_type == 4) {
+    if (artDetailData.resource_type == 4) {
         _videoView.hidden = NO;
         _pageFlowView.hidden = YES;
         _pageLabel.hidden = YES;
         _photoBrowserBtn.hidden = YES;
-        _videoView.artDetailData = _artDetailData;
+        _videoView.artDetailData = artDetailData;
         [_bgView bringSubviewToFront:_videoView];
         
         [_timeViewTopConstraint uninstall];
@@ -366,9 +368,9 @@
         _photoBrowserBtn.hidden = NO;
         
         [self.bannerImageArray removeAllObjects];
-        NSString *fileImage1 = _artDetailData.img_main_file1[@"url"];
-        NSString *fileImage2 = _artDetailData.img_main_file2[@"url"];
-        NSString *fileImage3 = _artDetailData.img_main_file3[@"url"];
+        NSString *fileImage1 = artDetailData.img_main_file1[@"url"];
+        NSString *fileImage2 = artDetailData.img_main_file2[@"url"];
+        NSString *fileImage3 = artDetailData.img_main_file3[@"url"];
         if (![NSString stringIsEmpty:fileImage1]) {
             [self.bannerImageArray addObject:fileImage1];
         }
@@ -388,19 +390,37 @@
         }];
     }
     
-    [_timeView setTimeType:JLActionTimeTypeRuning countDownInterval:20000];
+    if (_auctionsData.server_timestamp.integerValue < _auctionsData.start_time.integerValue) {
+        [_timeView setTimeType:JLActionTimeTypeWaiting countDownInterval:_auctionsData.start_time.integerValue - _auctionsData.server_timestamp.integerValue];
+    }else if (_auctionsData.server_timestamp.integerValue < _auctionsData.end_time.integerValue) {
+        [_timeView setTimeType:JLActionTimeTypeRuning countDownInterval:_auctionsData.end_time.integerValue - _auctionsData.server_timestamp.integerValue];
+    }else if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
+        [_timeView setTimeType:JLActionTimeTypeFinished countDownInterval:0];
+    }
     
-    _artPriceView.artDetailData = _artDetailData;
+    _artPriceView.auctionsData = _auctionsData;
     
-    _auctionInfoView.artDetailData = _artDetailData;
+    _auctionInfoView.auctionsData = _auctionsData;
     
-    _chainTradeView.artDetailData = _artDetailData;
+    _chainTradeView.artDetailData = artDetailData;
     
-    _authorDetailView.artDetailData = _artDetailData;
+    _authorDetailView.artDetailData = artDetailData;
     
-    _evaluateView.artDetailData = _artDetailData;
+    _evaluateView.artDetailData = artDetailData;
     
-    _bottomView.artDetailData = _artDetailData;
+    _bottomView.auctionsData = _auctionsData;
+}
+
+- (void)setBidHistoryArray:(NSArray *)bidHistoryArray {
+    _bidHistoryArray = bidHistoryArray;
+    
+    CGFloat offerRecordViewHeight = 60.0f + 44.0f * (_bidHistoryArray.count > 3 ? 3 : (_bidHistoryArray.count == 0 ? 1: _bidHistoryArray.count));
+    [_offerRecordViewHeightConstraint uninstall];
+    [_offerRecordView mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.offerRecordViewHeightConstraint = make.height.mas_equalTo(@(offerRecordViewHeight));
+    }];
+    
+    _offerRecordView.bidHistoryArray = _bidHistoryArray;
 }
 
 - (NSMutableArray *)bannerImageArray {

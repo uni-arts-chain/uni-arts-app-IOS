@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCashAccountCell : UITableViewCell
 
+@property (nonatomic, strong) Model_account_history_Data *accountHistoryData;
+
 @end
 
 NS_ASSUME_NONNULL_END

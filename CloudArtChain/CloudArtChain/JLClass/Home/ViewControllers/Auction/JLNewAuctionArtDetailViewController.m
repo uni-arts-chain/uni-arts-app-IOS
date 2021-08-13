@@ -21,6 +21,10 @@
 #import "JLWechatPayWebViewController.h"
 #import "JLAlipayWebViewController.h"
 #import "JLAuctionRuleViewController.h"
+#import "JLLaunchAuctionViewController.h"
+#import "JLAuctionOrderDetailViewController.h"
+#import "JLAuctionOfferRecordViewController.h"
+#import "JLOrderSubmitViewController.h"
 
 @interface JLNewAuctionArtDetailViewController ()<JLNewAuctionArtDetailContentViewDelegate>
 
@@ -28,7 +32,11 @@
 
 @property (nonatomic, assign) NSInteger networkStatus;
 
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
+
+@property (nonatomic, strong) Model_account_Data *accountData;
+
+@property (nonatomic, copy) NSArray *bidHistoryArray;
 
 /// live2d下载 task
 @property (nonatomic, strong) NSURLSessionTask *live2DDownloadTask;
@@ -38,6 +46,11 @@
 @implementation JLNewAuctionArtDetailViewController
 
 #pragma mark - life cycle
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self loadCashAccount];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"详情";
@@ -47,14 +60,35 @@
     
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(h5PayFinishedGoback:)
+        name:@"H5PayFinishedGoback" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResultNotification:) name:@"JLAliPayResultNotification" object:nil];
     
-    [self loadArtDatas];
+    [self loadAuctionsData:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"释放了: %@", self.class);
+}
+
+- (void)backClick {
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isMemberOfClass:JLLaunchAuctionViewController.class]) {
+            [arr removeObject:vc];
+        }
+    }
+    self.navigationController.viewControllers = [arr copy];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - JLNewAuctionArtDetailContentViewDelegate
 /// 刷新数据
 - (void)refreshData {
-    [self loadArtDatas];
+    [self loadAuctionsData:nil];
 }
 
 /// 喜欢
@@ -81,10 +115,22 @@
 /// 右侧按钮点击事件
 /// @param status 取消拍卖/缴纳保证金/出价/中标支付
 - (void)doneStatus: (JLNewAuctionArtDetailBottomViewStatus)status {
-    
-//    [self offer];
-    [self cancelAuction];
-//    [self payDeposit];
+    if (status == JLNewAuctionArtDetailBottomViewStatusCancelAuction) {
+        [self cancelAuction];
+    }else if (status == JLNewAuctionArtDetailBottomViewStatusPayEarnestMoney) {
+        [self payDeposit];
+    }else if (status == JLNewAuctionArtDetailBottomViewStatusOffer) {
+        [self offer];
+    }else if (status == JLNewAuctionArtDetailBottomViewStatusWinBidding) {
+        JLOrderSubmitViewController *vc = [[JLOrderSubmitViewController alloc] init];
+        vc.auctionsData = self.auctionsData;
+        vc.buySuccessBlock = ^(JLOrderPayTypeName  _Nonnull payType, NSString * _Nonnull payUrl) {
+            if (payType == JLOrderPayTypeNameAccount) {
+                
+            }
+        };
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 /// 播放视频
@@ -102,16 +148,15 @@
 
 /// 竞拍须知
 - (void)auctionRule {
-    NSString *contentText = @"一、本《拍卖须知》根据《中华人民共和国民事诉讼法》等相关法律规定所制订，竞买人应认真仔细阅读，了解本须知的全部内容。\r\n二、本次拍卖活动遵循“公开、公平、公正、诚实守信”的原则，拍卖活动具备法律效力。参加本次拍卖活动的当事人和竞买人必须遵守本须知的各项条款，并对自己的行为承担法律责任。\r\n三、优先购买权人参加竞买的，应于2018年7月28日前向本院提交合法有效的证明，资格经法院确认后才能参与竞买，逾期不提交的，视为放弃对本标的物享有优先购买权。\r\n四、拍卖成交后，买受人应在拍卖结束后7日内缴纳拍卖余款，可通过银行付款或者支付宝网上支付，详细请咨询法院，并在2018年8月15日前（遇节假日顺延）（凭付款凭证及相关身份材料）到江西省乐平市人民法院签署《拍卖成交确认书》，办理拍卖标的物交付手续。";
     JLAuctionRuleViewController *vc = [[JLAuctionRuleViewController alloc] init];
-    vc.contentText = contentText;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 查看更多出价列表
-- (void)offerRecordList {
-    NSLog(@"查看更多出价列表");
-    
+- (void)offerRecordList: (NSArray *)bidHistoryArray {
+    JLAuctionOfferRecordViewController *vc = [[JLAuctionOfferRecordViewController alloc] init];
+    vc.bidHistoryArray = bidHistoryArray;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /// 查看作者信息
@@ -126,9 +171,9 @@
         JLCreatorPageViewController *creatorPageVC = [[JLCreatorPageViewController alloc] init];
         creatorPageVC.authorData = authorData;
         creatorPageVC.followOrCancelBlock = ^(Model_art_author_Data * _Nonnull authorData) {
-            weakSelf.artDetailData.author = authorData;
+            weakSelf.auctionsData.art.author = authorData;
             
-            weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+            weakSelf.contentView.auctionsData = weakSelf.auctionsData;
         };
         [self.navigationController pushViewController:creatorPageVC animated:YES];
     }
@@ -152,23 +197,141 @@
     self.networkStatus = [dict[@"status"] integerValue];
 }
 
+- (void)alipayResultNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSDictionary *result = userInfo[@"result"];
+    NSString *resultStatus = result[@"ResultStatus"];
+    if (resultStatus.intValue == 9000) {
+        [self loadAuctionsData:nil];
+    }
+}
+
+- (void)h5PayFinishedGoback:(NSNotification *)notification {
+    [self loadAuctionsData:nil];
+}
+
 #pragma mark - loadDatas
-- (void)loadArtDatas {
+- (void)loadAuctionsData: (void(^)(BOOL isSuccess))complete {
     WS(weakSelf)
-    Model_arts_detail_Req *reqeust = [[Model_arts_detail_Req alloc] init];
-    reqeust.art_id = self.artDetailId;
-    Model_arts_detail_Rsp *response = [[Model_arts_detail_Rsp alloc] init];
+    Model_auctions_id_Req *reqeust = [[Model_auctions_id_Req alloc] init];
+    reqeust.ID = self.auctionsId;
+    Model_auctions_id_Rsp *response = [[Model_auctions_id_Rsp alloc] init];
     response.request = reqeust;
     
-    if (!self.artDetailData) {
+    if (!self.auctionsData) {
         [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     }
     [JLNetHelper netRequestGetParameters:reqeust respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.auctionsData = response.body;
+            
+            weakSelf.contentView.auctionsData = weakSelf.auctionsData;
+            
+            [weakSelf loadAuctionBidHistoriesData:complete];
+        }
+    }];
+}
+
+/// 出价列表
+- (void)loadAuctionBidHistoriesData: (void(^)(BOOL isSuccess))complete {
+    WS(weakSelf)
+    Model_auctions_id_bid_histories_Req *reqeust = [[Model_auctions_id_bid_histories_Req alloc] init];
+    reqeust.ID = self.auctionsId;
+    Model_auctions_id_bid_histories_Rsp *response = [[Model_auctions_id_bid_histories_Rsp alloc] init];
+    response.request = reqeust;
+    
+    [JLNetHelper netRequestGetParameters:reqeust respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            weakSelf.artDetailData = response.body;
-            
-            weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+            weakSelf.bidHistoryArray = response.body;
+            weakSelf.contentView.bidHistoryArray = weakSelf.bidHistoryArray;
+            if (complete) {
+                complete(YES);
+            }
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            if (complete) {
+                complete(NO);
+            }
+        }
+    }];
+}
+
+/// 支付保证金
+- (void)payDepositToService: (JLAuctionDepositPayViewPayType)payType {
+    WS(weakSelf)
+    Model_auction_deposits_Req *reqeust = [[Model_auction_deposits_Req alloc] init];
+    reqeust.auction_id = self.auctionsId;
+    reqeust.order_from = @"ios";
+    if (payType == JLAuctionDepositPayViewPayTypeCashAccount) {
+        reqeust.pay_type = @"account";
+    }else if (payType == JLAuctionDepositPayViewPayTypeAlipay) {
+        reqeust.pay_type = @"alipay";
+    }else if (payType == JLAuctionDepositPayViewPayTypeWechat) {
+        reqeust.pay_type = @"wepay";
+    }
+    Model_auction_deposits_Rsp *response = [[Model_auction_deposits_Rsp alloc] init];
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:reqeust responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (payType == JLAuctionDepositPayViewPayTypeAlipay) {
+                JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
+                payWebVC.payUrl = response.body[@"url"];
+                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+            }else if (payType == JLAuctionDepositPayViewPayTypeWechat) {
+                JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
+                payWebVC.payUrl = response.body[@"url"];
+                [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+            }else {
+                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"保证金缴纳成功" hideTime:KToastDismissDelayTimeInterval];
+                [self loadAuctionsData:nil];
+            }
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
+/// 举牌出价
+- (void)offerToService: (NSString *)price {
+    WS(weakSelf)
+    Model_auctions_id_bid_Req *reqeust = [[Model_auctions_id_bid_Req alloc] init];
+    reqeust.ID = self.auctionsId;
+    reqeust.price = price;
+    Model_auctions_id_bid_Rsp *response = [[Model_auctions_id_bid_Rsp alloc] init];
+    response.request = reqeust;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:reqeust responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"出价成功" hideTime:KToastDismissDelayTimeInterval];
+            [weakSelf loadAuctionsData:nil];
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
+// 取消拍卖
+- (void)cancelAuctionToService {
+    WS(weakSelf)
+    Model_auctions_id_cancel_Req *request = [[Model_auctions_id_cancel_Req alloc] init];
+    request.ID = self.auctionsId;
+    Model_auctions_id_cancel_Rsp *response = [[Model_auctions_id_cancel_Rsp alloc] init];
+    response.request = request;
+    
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消" hideTime:KToastDismissDelayTimeInterval];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -186,8 +349,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -200,8 +363,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -223,8 +386,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -237,8 +400,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -260,8 +423,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -274,8 +437,8 @@
             response.request = request;
             [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
                 if (netIsWork) {
-                    weakSelf.artDetailData = response.body;
-                    weakSelf.contentView.artDetailData = weakSelf.artDetailData;
+                    weakSelf.auctionsData.art = response.body;
+                    weakSelf.contentView.auctionsData = weakSelf.auctionsData;
                 } else {
                     [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
                 }
@@ -284,46 +447,81 @@
     }
 }
 
+#pragma mark - 获取现金账户余额
+- (void)loadCashAccount {
+    WS(weakSelf)
+    Model_accounts_Req *request = [[Model_accounts_Req alloc] init];
+    Model_accounts_Rsp *response = [[Model_accounts_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            for (Model_account_Data *model in response.body) {
+                if ([model.currency_code isEqualToString:@"rmb"]) {
+                    weakSelf.accountData = model;
+                }
+            }
+        }
+    }];
+}
+
 #pragma mark - private methods
 /// 支付保证金
 - (void)payDeposit {
-    [JLAuctionDepositPayView showWithTitle:@"买家保证金" tipTitle:@"竞拍不成功，保证金将在拍卖结束3-7个工作日内退回" payMoney:@"150.0" cashAccountBalance:@"160.0" complete:^(JLAuctionDepositPayViewPayType payType) {
+    WS(weakSelf)
+    [JLAuctionDepositPayView showWithTitle:@"买家保证金" tipTitle:@"竞拍不成功，保证金将在拍卖结束3-7个工作日内退回" payMoney:self.auctionsData.deposit_amount cashAccountBalance:self.accountData.balance complete:^(JLAuctionDepositPayViewPayType payType) {
         if (payType == JLAuctionDepositPayViewPayTypeCashAccount) {
             // 账户支付 验证密码
             [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入饭团密码完成支付" complete:^(NSString * _Nonnull passwords) {
                 [[JLViewControllerTool appDelegate].walletTool authorizeWithPasswords:passwords with:^(BOOL success) {
                     if (success) {
                         NSLog(@"密码验证成功");
+                        [weakSelf payDepositToService:payType];
                     }else {
                         NSLog(@"密码验证失败");
                         [[JLLoading sharedLoading] showMBFailedTipMessage:@"密码验证失败！" hideTime:KToastDismissDelayTimeInterval];
                     }
                 }];
             } cancel:nil];
-        }else if (payType == JLAuctionDepositPayViewPayTypeWechat) {
-            // 打开支付页面
-//            JLWechatPayWebViewController *payWebVC = [[JLWechatPayWebViewController alloc] init];
-//            payWebVC.payUrl = payUrl;
-//            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
         }else {
-//            JLAlipayWebViewController *payWebVC = [[JLAlipayWebViewController alloc] init];
-//            payWebVC.payUrl = payUrl;
-//            [weakSelf.navigationController pushViewController:payWebVC animated:YES];
+            [self payDepositToService:payType];
         }
     }];
 }
 
 /// 出价
 - (void)offer {
-    [JLAuctionOfferView showWithCurrentPrice:@"1000.0" offerPrice:@"800.0" addPrice:@"200.0" done:^(NSString * _Nonnull offer) {
-        NSLog(@"出价: %@", offer);
+    WS(weakSelf)
+    // 获取最新数据
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    [self loadAuctionsData:^(BOOL isSuccess) {
+        if (isSuccess) {
+            NSString *currentPrice = weakSelf.auctionsData.current_price;
+            NSString *addPrice = weakSelf.auctionsData.price_increment;
+            NSString *offerPrice = @"0.0";
+            if ([NSString stringIsEmpty:weakSelf.auctionsData.current_price]) {
+                currentPrice = @"0.0";
+                addPrice = weakSelf.auctionsData.start_price;
+            }else {
+                for (Model_auctions_bid_Data *data in self.bidHistoryArray) {
+                    if ([data.member.uid isEqualToString:[AppSingleton sharedAppSingleton].userBody.uid]) {
+                        offerPrice = data.price;
+                        break;
+                    }
+                }
+            }
+            
+            [JLAuctionOfferView showWithCurrentPrice:currentPrice offerPrice:offerPrice addPrice:addPrice done:^(NSString * _Nonnull offer) {
+                NSLog(@"出价: ￥%@", offer);
+                [weakSelf offerToService:offer];
+            }];
+        }
     }];
 }
 
 /// 取消拍卖
 - (void)cancelAuction {
     [JLAlertView alertWithTitle:@"提示" message:@"是否确认取消拍卖？" doneTitle:@"确认" cancelTitle:@"取消" done:^{
-        NSLog(@"取消拍卖");
+        [self cancelAuctionToService];
     } cancel:nil];
 }
 

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLCashViewController : JLBaseViewController
 
+@property (nonatomic, copy) NSString *amount;
+
 @end
 
 NS_ASSUME_NONNULL_END
