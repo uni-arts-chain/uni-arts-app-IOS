@@ -548,3 +548,14 @@
 @property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/popular 热门拍卖
+@interface Model_auctions_popular_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_auctions_popular_Rsp : Model_Rsp_V2
+@property (nonatomic, copy) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

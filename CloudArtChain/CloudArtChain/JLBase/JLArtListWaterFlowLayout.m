@@ -20,7 +20,7 @@
 
 @implementation JLArtListWaterFlowLayout
 
-+ (instancetype)layoutWithColoumn:(int)coloumn data:(NSMutableArray *)dataA verticleMin:(float)minv horizonMin:(float)minh leftMargin:(float)leftMargin rightMargin:(float)rightMargin isAuction: (BOOL)isAuction {
++ (instancetype)layoutWithColoumn:(int)coloumn data:(NSArray *)dataA verticleMin:(float)minv horizonMin:(float)minh leftMargin:(float)leftMargin rightMargin:(float)rightMargin isAuction: (BOOL)isAuction {
     JLArtListWaterFlowLayout *layout = [[JLArtListWaterFlowLayout alloc] init];
     layout.iconArray = dataA;
     layout.minimumLineSpacing = minv;

@@ -363,9 +363,15 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
-#pragma mark - /v2/auction_deposits 缴纳保证金
+#pragma mark - /v2/auctions/notice 拍卖须知
 @implementation Model_auctions_notice_Req
 @end
 @implementation Model_auctions_notice_Rsp
+@end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - /v2/auctions/popular 热门拍卖
+@implementation Model_auctions_popular_Req
+@end
+@implementation Model_auctions_popular_Rsp
 @end
 //////////////////////////////////////////////////////////////////////////

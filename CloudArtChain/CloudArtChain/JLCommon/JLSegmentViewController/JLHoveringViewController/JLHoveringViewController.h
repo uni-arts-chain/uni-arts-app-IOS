@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIView *)middleHoverView;
 /// 底部视图
 - (NSArray<UIViewController *> *)viewControllers;
+/// 手动滑动 偏移
+- (void)scrollSegmentVCOffset:(CGPoint)offset;
 @end
 
 @interface JLHoveringViewController : UIViewController
@@ -29,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 整体的scrollView  用于添加刷新控件
 @property (nonatomic, strong, readonly) UIScrollView *contentScrollView;
+
+- (void)scrollViewControllerToIndex: (NSInteger)index;
 
 @end
 

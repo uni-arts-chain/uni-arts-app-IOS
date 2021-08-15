@@ -19,8 +19,6 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 
-@property (nonatomic, strong) NSMutableArray *dataArray;
-
 @end
 
 @implementation JLArtListContentView
@@ -57,6 +55,12 @@
         cell.artDetailData = self.dataArray[indexPath.row];
     }
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scrollViewDidScrollContentOffset:)]) {
+        [self.delegate scrollViewDidScrollContentOffset:scrollView.contentOffset];
+    }
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -131,15 +135,14 @@
 }
 
 #pragma mark - setters and getters
-- (void)setDatas: (NSMutableArray *)datas {
-    
-    self.dataArray = datas;
+- (void)setDataArray:(NSArray *)dataArray {
+    _dataArray = dataArray;
     
     [self endRefresh];
     
     [self setNoDataShow];
     
-    if (self.dataArray.count &&
+    if (_dataArray.count &&
         (self.type == JLArtListTypeMineAuctioning ||
          self.type == JLArtListTypeMarketAuctioning ||
          self.type == JLArtListTypeSearchAuctioning ||
@@ -149,7 +152,23 @@
         [self createTimer];
     }
     
+    BOOL isAuction = NO;
+    if (self.type == JLArtListTypeMineAuctioning ||
+        self.type == JLArtListTypeMarketAuctioning ||
+        self.type == JLArtListTypeSearchAuctioning ||
+        self.type == JLArtListTypeCollectAuctioning ||
+        self.type == JLArtListTypePopularAuctioning ||
+        self.type == JLArtListTypeOtherUserAuctioning) {
+        isAuction = YES;
+    }
+    JLArtListWaterFlowLayout *layout = [JLArtListWaterFlowLayout layoutWithColoumn:2 data:_dataArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f isAuction:isAuction];
+    self.collectionView.collectionViewLayout = layout;
+    
     [self.collectionView reloadData];
+}
+
+- (void)setContentOffsetY:(CGFloat)contentOffsetY {
+    self.collectionView.contentOffset = CGPointMake(self.collectionView.contentOffset.x, contentOffsetY);
 }
 
 - (UICollectionView *)collectionView {
@@ -172,6 +191,7 @@
         _collectionView.dataSource = self;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.alwaysBounceVertical = YES;
 //        _collectionView.contentInset = UIEdgeInsetsMake(self.topInset, 0, 0, 0);
         [_collectionView registerClass:[JLArtListContentCell class] forCellWithReuseIdentifier:@"cell"];
         if (self.isNeedRefresh) {
@@ -195,13 +215,6 @@
         _emptyView = [[JLNormalEmptyView alloc]initWithFrame:self.bounds];
     }
     return _emptyView;
-}
-
-- (NSMutableArray *)dataArray {
-    if (!_dataArray) {
-        _dataArray = [NSMutableArray array];
-    }
-    return _dataArray;
 }
 
 @end

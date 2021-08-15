@@ -32,8 +32,6 @@
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
 		5E0B49BB26C50E6D0005718D /* UILabel+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */; };
 		5E0B49BF26C60F4D0005718D /* JLHoveringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */; };
-		5E0B49C226C64D7E0005718D /* JLNewHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49C126C64D7E0005718D /* JLNewHomeViewController.m */; };
-		5E0B49C526C65CC10005718D /* JLArtListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49C426C65CC10005718D /* JLArtListViewController.m */; };
 		5E0B49C926C65D930005718D /* JLArtListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49C826C65D930005718D /* JLArtListContentView.m */; };
 		5E0B49CD26C66ADD0005718D /* JLArtListWaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49CC26C66ADD0005718D /* JLArtListWaterFlowLayout.m */; };
 		5E0B49D026C66BE90005718D /* JLArtListContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49CF26C66BE90005718D /* JLArtListContentCell.m */; };
@@ -84,6 +82,8 @@
 		5EEB047D26AE48BC00D033F6 /* ExtrinsicPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB047C26AE48BC00D033F6 /* ExtrinsicPayload.swift */; };
 		5EEB047F26AE48C500D033F6 /* Multiaddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB047E26AE48C500D033F6 /* Multiaddress.swift */; };
 		5EEB048126AE496C00D033F6 /* UpgradeV28Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB048026AE496C00D033F6 /* UpgradeV28Subscription.swift */; };
+		89A4FE2B26C78CAE0018BA30 /* JLMultiResponseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A4FE2A26C78CAE0018BA30 /* JLMultiResponseScrollView.m */; };
+		89A4FE2E26C7CE8F0018BA30 /* JLHomeHotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A4FE2D26C7CE8F0018BA30 /* JLHomeHotViewController.m */; };
 		B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */; };
 		B312249D25B6B60900562ECA /* OperationManagerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DB25B6B60700562ECA /* OperationManagerFacade.swift */; };
 		B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31221DC25B6B60700562ECA /* AccountOperationFactory.swift */; };
@@ -1296,10 +1296,6 @@
 		5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+JLExtension.m"; sourceTree = "<group>"; };
 		5E0B49BD26C60F4D0005718D /* JLHoveringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHoveringViewController.h; sourceTree = "<group>"; };
 		5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHoveringViewController.m; sourceTree = "<group>"; };
-		5E0B49C026C64D7E0005718D /* JLNewHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewHomeViewController.h; sourceTree = "<group>"; };
-		5E0B49C126C64D7E0005718D /* JLNewHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewHomeViewController.m; sourceTree = "<group>"; };
-		5E0B49C326C65CC10005718D /* JLArtListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListViewController.h; sourceTree = "<group>"; };
-		5E0B49C426C65CC10005718D /* JLArtListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListViewController.m; sourceTree = "<group>"; };
 		5E0B49C726C65D930005718D /* JLArtListContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListContentView.h; sourceTree = "<group>"; };
 		5E0B49C826C65D930005718D /* JLArtListContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListContentView.m; sourceTree = "<group>"; };
 		5E0B49CB26C66ADD0005718D /* JLArtListWaterFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListWaterFlowLayout.h; sourceTree = "<group>"; };
@@ -1395,6 +1391,10 @@
 		70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
+		89A4FE2926C78CAE0018BA30 /* JLMultiResponseScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiResponseScrollView.h; sourceTree = "<group>"; };
+		89A4FE2A26C78CAE0018BA30 /* JLMultiResponseScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiResponseScrollView.m; sourceTree = "<group>"; };
+		89A4FE2C26C7CE8F0018BA30 /* JLHomeHotViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHomeHotViewController.h; sourceTree = "<group>"; };
+		89A4FE2D26C7CE8F0018BA30 /* JLHomeHotViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHomeHotViewController.m; sourceTree = "<group>"; };
 		95A409497EE6491ECBFD6F2A /* Pods-CloudArtChainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.release.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.release.xcconfig"; sourceTree = "<group>"; };
 		B309B1D32655095600CE9FDF /* JLUploadPersentInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLUploadPersentInputView.h; sourceTree = "<group>"; };
 		B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLUploadPersentInputView.m; sourceTree = "<group>"; };
@@ -3159,6 +3159,8 @@
 			children = (
 				5EE52A83269E7B2700EFF8C9 /* JLScrollView.h */,
 				5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */,
+				89A4FE2926C78CAE0018BA30 /* JLMultiResponseScrollView.h */,
+				89A4FE2A26C78CAE0018BA30 /* JLMultiResponseScrollView.m */,
 			);
 			path = JLScrollView;
 			sourceTree = "<group>";
@@ -6496,10 +6498,8 @@
 				B363619725007E710039DF48 /* ApplyCert */,
 				B396564824F391AE007A8EC2 /* JLHomeViewController.h */,
 				B396564924F391AE007A8EC2 /* JLHomeViewController.m */,
-				5E0B49C026C64D7E0005718D /* JLNewHomeViewController.h */,
-				5E0B49C126C64D7E0005718D /* JLNewHomeViewController.m */,
-				5E0B49C326C65CC10005718D /* JLArtListViewController.h */,
-				5E0B49C426C65CC10005718D /* JLArtListViewController.m */,
+				89A4FE2C26C7CE8F0018BA30 /* JLHomeHotViewController.h */,
+				89A4FE2D26C7CE8F0018BA30 /* JLHomeHotViewController.m */,
 				B37FFB5924F4DD76004B9CC8 /* JLSearchViewController.h */,
 				B37FFB5A24F4DD76004B9CC8 /* JLSearchViewController.m */,
 				B3266F5324FE393C000C6E95 /* JLArtDetailViewController.h */,
@@ -7339,7 +7339,6 @@
 				B3753DC42554F598003A86CF /* SLAvWriterInput.m in Sources */,
 				B38FD54925CBA22D0028797E /* JLFocusViewController.m in Sources */,
 				B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */,
-				5E0B49C526C65CC10005718D /* JLArtListViewController.m in Sources */,
 				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
 				B31225B525B6B60A00562ECA /* LocalAuthInteractor.swift in Sources */,
@@ -7553,6 +7552,7 @@
 				B31224E625B6B60900562ECA /* SNAddressType+Chain.swift in Sources */,
 				B312259425B6B60A00562ECA /* WebSocketService.swift in Sources */,
 				B391CC93262D75C000FF48B0 /* mztools.m in Sources */,
+				89A4FE2B26C78CAE0018BA30 /* JLMultiResponseScrollView.m in Sources */,
 				B37FFB4624F4A56D004B9CC8 /* NewPagedFlowView.m in Sources */,
 				B35EBA0624FF2F4500F5BF84 /* JLArtEvaluateView.m in Sources */,
 				B31225DD25B6B60A00562ECA /* AccountCreationError.swift in Sources */,
@@ -7615,7 +7615,6 @@
 				B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */,
 				B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */,
 				B31225CA25B6B60A00562ECA /* ModifyConnectionViewFactory.swift in Sources */,
-				5E0B49C226C64D7E0005718D /* JLNewHomeViewController.m in Sources */,
 				B312253925B6B60A00562ECA /* AccountCreateError.swift in Sources */,
 				B3AA62B225E49B3300D28627 /* STPickerArea.m in Sources */,
 				B31225A025B6B60A00562ECA /* NetworkInfoViewFactory.swift in Sources */,
@@ -7764,6 +7763,7 @@
 				B3890B2D25DFA37A00028F78 /* JLBindPhoneWithoutPwdViewController.m in Sources */,
 				B312263225B6B60A00562ECA /* WalletEmptyStateDataSource+Module.swift in Sources */,
 				B312256925B6B60A00562ECA /* DetailsDisplayTableViewCell.swift in Sources */,
+				89A4FE2E26C7CE8F0018BA30 /* JLHomeHotViewController.m in Sources */,
 				B31226B325B6B60B00562ECA /* AccountExportPasswordWireframe.swift in Sources */,
 				B312258125B6B60A00562ECA /* SharingPresentable.swift in Sources */,
 				B312266725B6B60A00562ECA /* BalanceContext.swift in Sources */,

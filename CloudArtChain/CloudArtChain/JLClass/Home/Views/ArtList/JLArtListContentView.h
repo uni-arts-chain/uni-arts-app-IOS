@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param auctionId 拍卖id
 - (void)lookAuctionDetail: (NSString *)auctionId;
 
+- (void)scrollViewDidScrollContentOffset: (CGPoint)contentOffset;
+
 @end
 
 @interface JLArtListContentView : UIView
@@ -41,7 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) NSInteger pageSize;
 
-- (void)setDatas: (NSMutableArray *)datas;
+@property (nonatomic, copy) NSArray *dataArray;
+
+@property (nonatomic, assign) CGFloat contentOffsetY;
 
 @end
 

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Model_art_Detail_Data *themeArtData;
 @property (nonatomic, strong) Model_art_Detail_Data *collectionArtData;
 @property (nonatomic, strong) Model_art_Detail_Data *authorArtData;
+
+@property (nonatomic, strong) Model_auctions_Data *auctionsData;
 @end
 
 NS_ASSUME_NONNULL_END
