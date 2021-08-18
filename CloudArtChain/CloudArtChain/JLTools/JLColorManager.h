@@ -83,6 +83,7 @@
 #define JL_color_purple_CADEFF JL_COLOR_MAG.purple_CADEFF
 
 #define JL_color_red_D70000 JL_COLOR_MAG.red_D70000
+#define JL_color_red_D32828 JL_COLOR_MAG.red_D32828
 
 #define JL_color_orange_FF8150     JL_COLOR_MAG.orange_FF8150
 #define JL_color_orange_FFEBD4     JL_COLOR_MAG.orange_FFEBD4
@@ -192,6 +193,7 @@
 @property (nonatomic, strong) UIColor *purple_CADEFF;
 
 @property (nonatomic, strong) UIColor *red_D70000;
+@property (nonatomic, strong) UIColor *red_D32828;
 
 @property (nonatomic, strong) UIColor *orange_FF8150;
 @property (nonatomic, strong) UIColor *orange_FFEBD4;

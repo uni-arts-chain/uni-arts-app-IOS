@@ -24,7 +24,7 @@
 #import "JLLaunchAuctionViewController.h"
 #import "JLAuctionOrderDetailViewController.h"
 #import "JLAuctionOfferRecordViewController.h"
-#import "JLOrderSubmitViewController.h"
+#import "JLAuctionSubmitOrderViewController.h"
 
 @interface JLNewAuctionArtDetailViewController ()<JLNewAuctionArtDetailContentViewDelegate>
 
@@ -56,14 +56,16 @@
     self.navigationItem.title = @"详情";
     [self addBackItem];
     
+    [self fihishViewControllers];
+    
     [self.view addSubview:self.contentView];
     
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(h5PayFinishedGoback:)
-        name:@"H5PayFinishedGoback" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResultNotification:) name:@"JLAliPayResultNotification" object:nil];
+        name:LOCALNOTIFICATION_H5PAYFIHISHEDGOBACK object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResultNotification:) name:LOCALNOTIFICATION_JL_ALIPAYRESULTNOTIFICATION object:nil];
     
     [self loadAuctionsData:nil];
 }
@@ -74,7 +76,8 @@
     NSLog(@"释放了: %@", self.class);
 }
 
-- (void)backClick {
+/// 将视图控制器移除栈
+- (void)fihishViewControllers {
     NSMutableArray *arr = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
     for (UIViewController *vc in self.navigationController.viewControllers) {
         if ([vc isMemberOfClass:JLLaunchAuctionViewController.class]) {
@@ -82,7 +85,6 @@
         }
     }
     self.navigationController.viewControllers = [arr copy];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - JLNewAuctionArtDetailContentViewDelegate
@@ -122,13 +124,8 @@
     }else if (status == JLNewAuctionArtDetailBottomViewStatusOffer) {
         [self offer];
     }else if (status == JLNewAuctionArtDetailBottomViewStatusWinBidding) {
-        JLOrderSubmitViewController *vc = [[JLOrderSubmitViewController alloc] init];
-        vc.auctionsData = self.auctionsData;
-        vc.buySuccessBlock = ^(JLOrderPayTypeName  _Nonnull payType, NSString * _Nonnull payUrl) {
-            if (payType == JLOrderPayTypeNameAccount) {
-                
-            }
-        };
+        JLAuctionSubmitOrderViewController *vc = [[JLAuctionSubmitOrderViewController alloc] init];
+        vc.auctionsId = self.auctionsId;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
@@ -226,6 +223,11 @@
             weakSelf.auctionsData = response.body;
             
             weakSelf.contentView.auctionsData = weakSelf.auctionsData;
+            
+            if (weakSelf.auctionsData.server_timestamp.integerValue >= weakSelf.auctionsData.end_time.integerValue) {
+                // 拍卖时间结束
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_END_AUCTION object:nil];
+            }
             
             [weakSelf loadAuctionBidHistoriesData:complete];
         }
@@ -503,7 +505,7 @@
                 addPrice = weakSelf.auctionsData.start_price;
             }else {
                 for (Model_auctions_bid_Data *data in self.bidHistoryArray) {
-                    if ([data.member.uid isEqualToString:[AppSingleton sharedAppSingleton].userBody.uid]) {
+                    if ([data.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
                         offerPrice = data.price;
                         break;
                     }

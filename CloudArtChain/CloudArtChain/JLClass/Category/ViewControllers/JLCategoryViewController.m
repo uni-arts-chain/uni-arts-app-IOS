@@ -50,17 +50,22 @@
         [self requestSellingList];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelAuctionNotification) name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    // 发起拍卖
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllDatas) name:LOCALNOTIFICATION_JL_LAUNCH_AUCTION object:nil];
+    // 取消拍卖
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllDatas) name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    // 拍卖结束
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllDatas) name:LOCALNOTIFICATION_JL_END_AUCTION object:nil];
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"释放了: %@", self.class);
 }
 
 
-- (void)cancelAuctionNotification {
+- (void)refreshAllDatas {
     if (self.type == JLCategoryViewControllerTypeAuctioning) {
         [self loadAuctionListData];
     }else {

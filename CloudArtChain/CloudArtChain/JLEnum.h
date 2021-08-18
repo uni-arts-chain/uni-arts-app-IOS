@@ -14,7 +14,7 @@ typedef NSString *WKScriptMessageHandlerName NS_STRING_ENUM;
 static WKScriptMessageHandlerName const WKScriptMessageHandlerNameNftDetail = @"NftDetail";
 static WKScriptMessageHandlerName const WKScriptMessageHandlerNameMysteryBoxDetail = @"MysteryBoxDetail";
 
-#pragma mark - 拍卖订单类型
+#pragma mark - 艺术品列表
 typedef NS_ENUM(NSUInteger, JLArtListType) {
     /// 首页推荐 寄售
     JLArtListTypePopularSelling,
@@ -51,6 +51,18 @@ typedef NS_ENUM(NSUInteger, JLAuctionOrderType) {
     JLAuctionOrderTypeBuy,
     /// 卖出订单
     JLAuctionOrderTypeSell
+};
+
+#pragma mark - 拍卖历史类型
+typedef NS_ENUM(NSUInteger, JLAuctionHistoryType) {
+    /// 已参与
+    JLAuctionHistoryTypeAttend,
+    /// 已出价
+    JLAuctionHistoryTypeBid,
+    /// 已中标
+    JLAuctionHistoryTypeWins,
+    /// 已结束
+    JLAuctionHistoryTypeFinish
 };
 
 #pragma mark - 创建艺术品订单 支付方式

@@ -38,6 +38,7 @@
     _tableView.estimatedRowHeight = 66;
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     [self addSubview:_tableView];
     
     [_tableView registerClass:JLCashAccountCell.class forCellReuseIdentifier:@"cell"];

@@ -206,3 +206,22 @@
 @end
 @implementation Model_withdraws_Rsp
 @end
+#pragma mark - 拍卖纪录
+// (已参与) /v2/auctions/attend
+// (已出价) /v2/auctions/bid_auctions
+// (已中标) /v2/auctions/wins
+// (已结束) v2/auctions/finish
+@implementation Model_auctions_history_Req
+@end
+@implementation Model_auctions_history_Rsp
+- (NSString *)interfacePath {
+    if (self.request.historyType == JLAuctionHistoryTypeAttend) {
+        return @"auctions/attend";
+    }else if (self.request.historyType == JLAuctionHistoryTypeBid) {
+        return @"auctions/bid_auctions";
+    }else if (self.request.historyType == JLAuctionHistoryTypeWins) {
+        return @"auctions/wins";
+    }
+    return @"auctions/finish";
+}
+@end

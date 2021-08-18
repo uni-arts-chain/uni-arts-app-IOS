@@ -8,6 +8,7 @@
 
 #import "JLSingleSellOrderViewController.h"
 #import "JLOrderDetailViewController.h"
+#import "JLAuctionOrderDetailViewController.h"
 
 #import "JLNormalEmptyView.h"
 #import "JLSingleSellOrderListCell.h"
@@ -120,10 +121,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    JLOrderDetailViewController *orderDetailVC = [[JLOrderDetailViewController alloc] init];
-    orderDetailVC.orderDetailType = JLOrderDetailTypeSell;
-    orderDetailVC.orderData = self.dataArray[indexPath.row];
-    [self.navigationController pushViewController:orderDetailVC animated:YES];
+    Model_arts_sold_Data *soldData = self.dataArray[indexPath.row];
+    if ([soldData.trade_refer isEqualToString:@"Auction"]) {
+        JLAuctionOrderDetailViewController *vc = [[JLAuctionOrderDetailViewController alloc] init];
+        vc.type = JLOrderDetailTypeSell;
+        vc.orderData = soldData;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else {
+        JLOrderDetailViewController *orderDetailVC = [[JLOrderDetailViewController alloc] init];
+        orderDetailVC.orderDetailType = JLOrderDetailTypeSell;
+        orderDetailVC.orderData = soldData;
+        [self.navigationController pushViewController:orderDetailVC animated:YES];
+    }
 }
 
 - (UITableView *)tableView {
@@ -136,6 +145,7 @@
         _tableView.estimatedSectionHeaderHeight = 0.0f;
         _tableView.estimatedSectionFooterHeight = 0.0f;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
         [_tableView registerClass:[JLSingleSellOrderListCell class] forCellReuseIdentifier:@"JLSingleSellOrderListCell"];
         
         _tableView.mj_header = [JLRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(headRefresh)];

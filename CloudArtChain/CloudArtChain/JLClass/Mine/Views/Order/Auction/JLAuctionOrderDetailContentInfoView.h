@@ -1,8 +1,8 @@
 //
-//  JLArtListContentCell.h
+//  JLAuctionOrderDetailContentInfoView.h
 //  CloudArtChain
 //
-//  Created by jielian on 2021/8/13.
+//  Created by jielian on 2021/8/18.
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
@@ -10,9 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JLArtListContentCell : UICollectionViewCell
+@interface JLAuctionOrderDetailContentInfoView : UIView
 
-@property (nonatomic, strong) Model_art_Detail_Data *artDetailData;
+/// 订单类型
+@property (nonatomic, assign) JLAuctionOrderType type;
 
 @property (nonatomic, strong) Model_auctions_Data *auctionsData;
 

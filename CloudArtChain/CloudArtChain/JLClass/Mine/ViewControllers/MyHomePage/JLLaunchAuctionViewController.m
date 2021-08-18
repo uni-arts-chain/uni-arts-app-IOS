@@ -173,10 +173,10 @@
             }];
             datePicker.newStyle = YES;
             datePicker.minLimitDate = weakSelf.currentDate;
-            if (![NSString stringIsEmpty:weakSelf.startTimeView.inputContent]) {
-                datePicker.minLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:1];
-                datePicker.maxLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:7];
-            }
+//            if (![NSString stringIsEmpty:weakSelf.startTimeView.inputContent]) {
+//                datePicker.minLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:1];
+//                datePicker.maxLimitDate = [[NSDate date:weakSelf.startTimeView.inputContent format:@"yyyy-MM-dd HH:mm:ss"] dateByAddingDays:7];
+//            }
             [datePicker show];
         };
     }
@@ -212,10 +212,10 @@
     NSDate *finishTime = [formatter dateFromString:self.finishTimeView.inputContent];
     NSTimeInterval auctionStartTimeInterval = [startTime timeIntervalSince1970];
     NSTimeInterval auctionEndTimeInterval = [finishTime timeIntervalSince1970];
-    if ((auctionEndTimeInterval - auctionStartTimeInterval) / 3600 < 24) {
-        [[JLLoading sharedLoading] showMBFailedTipMessage:@"结束时间不能小于24小时" hideTime:KToastDismissDelayTimeInterval];
-        return;
-    }
+//    if ((auctionEndTimeInterval - auctionStartTimeInterval) / 3600 < 24) {
+//        [[JLLoading sharedLoading] showMBFailedTipMessage:@"结束时间不能小于24小时" hideTime:KToastDismissDelayTimeInterval];
+//        return;
+//    }
     
     [self launchingAuction];
 }

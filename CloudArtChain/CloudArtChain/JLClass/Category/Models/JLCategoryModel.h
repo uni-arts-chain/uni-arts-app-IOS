@@ -47,3 +47,13 @@
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /auctions/search 拍卖搜索
+@interface Model_auctions_search_Req : Model_Req
+@property (nonatomic, strong) NSString *q;
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger per_page;
+@end
+@interface Model_auctions_search_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

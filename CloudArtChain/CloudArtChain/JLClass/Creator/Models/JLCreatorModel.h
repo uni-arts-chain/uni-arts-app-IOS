@@ -26,6 +26,20 @@
 @property (nonatomic, strong) NSArray<Model_art_Detail_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/:id/auctions 用户的拍卖
+@interface Model_members_auctions_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+/** 作者id */
+@property (nonatomic, strong) NSString *author_id;
+@end
+@interface Model_members_auctions_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_members_auctions_Req *request;
+@property (nonatomic, strong) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////
 #pragma mark /members/:id/follow 关注
 @interface Model_members_follow_Req : Model_Req
 @property (nonatomic, strong) NSString *author_id;

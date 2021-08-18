@@ -8,6 +8,8 @@
 
 #import "JLWechatPayWebViewController.h"
 #import <WebKit/WebKit.h>
+#import "JLAuctionSubmitOrderViewController.h"
+#import "JLNewAuctionArtDetailViewController.h"
 
 static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
 
@@ -28,7 +30,24 @@ static const NSString *CompanyFirstDomainByWeChatRegister = @"mall.senmeo.tech";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(h5PayFinishedGoback:) name:@"H5PayFinishedGoback" object:nil];
 }
 
+/// 将视图控制器移除栈
+- (void)fihishViewControllers {
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if (_payGoodType == JLWechatPayWebViewControllerPayGoodTypeAuctionArt) {
+            if ([vc isMemberOfClass:JLNewAuctionArtDetailViewController.class] ||
+                [vc isMemberOfClass:JLAuctionSubmitOrderViewController.class]) {
+                [arr removeObject:vc];
+            }
+        }
+    }
+    self.navigationController.viewControllers = [arr copy];
+}
+
 - (void)h5PayFinishedGoback:(NSNotification *)noti {
+    // 支付完成 fihish上级页面
+    [self fihishViewControllers];
+    
     WS(weakSelf)
     NSString *redirectUrl = [[NSUserDefaults standardUserDefaults] objectForKey:@"H5PayFinishedRedirectUrl"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

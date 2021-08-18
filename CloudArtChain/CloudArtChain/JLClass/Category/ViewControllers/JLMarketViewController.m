@@ -38,14 +38,15 @@
     
     _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];
     _segmentVC.delegate = self;
-    [self.view addSubview:_segmentVC.view];
     [self addChildViewController:_segmentVC];
+    [self.view addSubview:_segmentVC.view];
     
     [self.view addSubview:self.headerView];
 }
 
 - (void)rightItemClick {
     JLSearchViewController *searchVC = [[JLSearchViewController alloc] init];
+    searchVC.type = _segmentVC.index;
     [self.navigationController pushViewController:searchVC animated:YES];
 }
 

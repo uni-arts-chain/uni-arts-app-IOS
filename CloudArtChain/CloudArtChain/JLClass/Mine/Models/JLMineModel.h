@@ -174,6 +174,9 @@
 @property (nonatomic, strong) NSString *finished_at;
 @property (nonatomic, strong) NSString *pay_type;
 @property (nonatomic, strong) NSString *royalty;
+/// Auction: 拍卖 Bid: 寄售
+@property (nonatomic, strong) NSString *trade_refer;
+@property (nonatomic, strong) Model_auctions_Data *auction;
 @property (nonatomic, strong) Model_art_Detail_Data *art;
 @property (nonatomic, strong) Model_art_author_Data *buyer;
 @property (nonatomic, strong) Model_art_author_Data *seller;
@@ -226,7 +229,7 @@
 @property (nonatomic, strong) NSString *amount;
 /** 值: web/ios/android */
 @property (nonatomic, strong) NSString *order_from;
-/** (值：wepay/alipay) */
+/** (值：wepay/alipay/account) */
 @property (nonatomic, strong) NSString *pay_type;
 @end
 @interface Model_art_trades_Rsp : Model_Rsp_V2
@@ -337,3 +340,22 @@
 @interface Model_withdraws_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSDictionary *body;
 @end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 拍卖纪录
+// (已参与) /v2/auctions/attend
+// (已出价) /v2/auctions/bid_auctions
+// (已中标) /v2/auctions/wins
+// (已结束) v2/auctions/finish
+@interface Model_auctions_history_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
+/// 类型
+@property (nonatomic, assign) JLAuctionHistoryType historyType;
+@end
+@interface Model_auctions_history_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_auctions_history_Req *request;
+@property (nonatomic, copy) NSArray<Model_auctions_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

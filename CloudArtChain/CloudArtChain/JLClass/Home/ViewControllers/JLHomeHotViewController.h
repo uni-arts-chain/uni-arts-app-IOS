@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, JLHomeHotViewControllerType) {
 
 @property (nonatomic, assign) JLHomeHotViewControllerType type;
 
-@property (nonatomic, strong) JLPagetableCollectionView *collectionView;
+@property (nonatomic, strong, readonly) JLPagetableCollectionView *collectionView;
 
 - (void)headRefresh;
 

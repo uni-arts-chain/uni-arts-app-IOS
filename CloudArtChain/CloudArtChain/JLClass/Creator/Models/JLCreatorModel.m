@@ -21,6 +21,15 @@
 }
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark /members/:id/auctions 用户的拍卖
+@implementation Model_members_auctions_Req
+@end
+@implementation Model_members_auctions_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"members/%@/auctions", self.request.author_id];
+}
+@end
+//////////////////////////////////////////////////////////////////////////
 #pragma mark /members/:id/follow 关注
 @implementation Model_members_follow_Req
 @end

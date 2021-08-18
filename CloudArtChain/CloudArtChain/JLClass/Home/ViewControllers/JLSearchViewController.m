@@ -8,14 +8,13 @@
 
 #import "JLSearchViewController.h"
 #import <YYCache/YYCache.h>
-#import "UICollectionWaterLayout.h"
+#import "JLSegmentViewController.h"
+#import "JLSearchResultViewController.h"
 #import "JLArtDetailViewController.h"
-#import "JLAuctionArtDetailViewController.h"
+#import "JLNewAuctionArtDetailViewController.h"
 
 #import "JLSearchBarView.h"
 #import "JLSearchHIstoryTableViewCell.h"
-#import "JLNormalEmptyView.h"
-#import "JLCategoryWorkCollectionViewCell.h"
 
 #import "UIButton+TouchArea.h"
 #import "JLScrollTitleView.h"
@@ -23,20 +22,17 @@
 NSString *const JLSearchHistoryName = @"SearchHistoryName";
 NSString *const JLSearchHistory = @"SearchHistory";
 
-@interface JLSearchViewController ()<UITableViewDelegate, UITableViewDataSource, JLSearchBarViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, JLScrollTitleViewDelegate>
+@interface JLSearchViewController ()<UITableViewDelegate, UITableViewDataSource, JLSearchBarViewDelegate, JLScrollTitleViewDelegate, JLSegmentViewControllerDelegate>
 @property (nonatomic, strong) JLSearchBarView *searchBarView;
 @property (nonatomic, strong) UIView *historyView;
 @property (nonatomic, strong) UITableView *historyTableView;
 
+@property (nonatomic, strong) JLSegmentViewController *segmentVC;
+
 @property (nonatomic, strong) JLScrollTitleView *resultHeaerView;
-@property (nonatomic, strong) UICollectionView *resultCollectionView;
 //搜索历史数组
 @property (nonatomic, strong) NSMutableArray *searchHistoryArray;
-// 搜索结果数组
-@property (nonatomic, strong) NSMutableArray *searchResultArray;
 
-@property (nonatomic, strong) JLNormalEmptyView *emptyView;
-@property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSString *searchContent;
 @end
 
@@ -55,21 +51,24 @@ NSString *const JLSearchHistory = @"SearchHistory";
     [self.historyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    [self.view addSubview:self.resultHeaerView];
-    [self.view addSubview:self.resultCollectionView];
-//    [self.resultCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(self.view);
-//    }];
 }
 
-- (JLSearchBarView *)searchBarView {
-    if (!_searchBarView) {
-        _searchBarView = [[JLSearchBarView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 30.0f, 30.0f)];
-        _searchBarView.delegate = self;
-        [_searchBarView setSearchPlaceholder:@""];
-        [_searchBarView becomeResponder];
+- (void)addSearchResultVCs {
+    JLSearchResultViewController *sellingVC = [[JLSearchResultViewController alloc] init];
+    sellingVC.type = JLSearchResultViewControllerTypeSelling;
+    sellingVC.topInset = 35;
+    JLSearchResultViewController *auctionVC = [[JLSearchResultViewController alloc] init];
+    auctionVC.type = JLSearchResultViewControllerTypeAuctioning;
+    auctionVC.topInset = 35;
+    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];
+    _segmentVC.delegate = self;
+    if (self.type == JLSearchViewControllerTypeAuctioning) {
+        [_segmentVC moveToViewControllerAtIndex:self.type];
     }
-    return _searchBarView;
+    [self addChildViewController:_segmentVC];
+    [self.view addSubview:_segmentVC.view];
+    
+    [self.view addSubview:self.resultHeaerView];
 }
 
 - (void)cacheSearchContent:(NSString *)content {
@@ -96,13 +95,6 @@ NSString *const JLSearchHistory = @"SearchHistory";
     return _searchHistoryArray;
 }
 
-- (NSMutableArray *)searchResultArray {
-    if (!_searchResultArray) {
-        _searchResultArray = [NSMutableArray array];
-    }
-    return _searchResultArray;
-}
-
 - (void)deleteHistory:(NSIndexPath *)indexPath {
     [self.searchHistoryArray removeObjectAtIndex:indexPath.row];
     [self.historyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -118,14 +110,79 @@ NSString *const JLSearchHistory = @"SearchHistory";
         [self cacheSearchContent:text];
 
         self.historyTableView.hidden = YES;
-        self.resultCollectionView.hidden = NO;
         self.searchContent = text;
+        
+        if (!_segmentVC) {
+            [self addSearchResultVCs];
+        }
         [self headRefresh];
     }
 }
 
 - (void)didRightItemJumpPage {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - JLScrollTitleViewDelegate
+- (void)didSelectIndex:(NSInteger)index {
+    self.type = index;
+
+    [_segmentVC moveToViewControllerAtIndex:index];
+}
+
+#pragma mark - JLSegmentViewControllerDelegate
+- (void)scrollOffset:(CGPoint)offset {
+    [self.resultHeaerView scrollOffset:offset.x];
+}
+
+#pragma mark - UITableViewDataSource, UITableViewDelegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.searchHistoryArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
+    JLSearchHIstoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLSearchHIstoryTableViewCell" forIndexPath:indexPath];
+    cell.historyContent = self.searchHistoryArray[indexPath.row];
+    cell.deleteBlock = ^{
+        [weakSelf deleteHistory:indexPath];
+    };
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 45.0f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *content = self.searchHistoryArray[indexPath.row];
+    [self.searchHistoryArray removeObjectAtIndex:indexPath.row];
+    [self cacheSearchContent:content];
+    [self.searchBarView setSearchText:content];
+
+    self.historyTableView.hidden = YES;
+    self.searchContent = content;
+    if (!_segmentVC) {
+        [self addSearchResultVCs];
+    }
+    [self headRefresh];
+}
+
+- (void)headRefresh {
+    for (JLSearchResultViewController *vc in self.segmentVC.viewControllers) {
+        vc.searchText = self.searchContent;
+    }
+}
+
+#pragma mark - setters and getters
+- (JLSearchBarView *)searchBarView {
+    if (!_searchBarView) {
+        _searchBarView = [[JLSearchBarView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth - 30.0f, 30.0f)];
+        _searchBarView.delegate = self;
+        [_searchBarView setSearchPlaceholder:@""];
+        [_searchBarView becomeResponder];
+    }
+    return _searchBarView;
 }
 
 - (UIView *)historyView {
@@ -203,156 +260,11 @@ NSString *const JLSearchHistory = @"SearchHistory";
     if (!_resultHeaerView) {
         _resultHeaerView = [[JLScrollTitleView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 35)];
         _resultHeaerView.backgroundColor = JL_color_white_ffffff;
-        _resultHeaerView.hidden = YES;
         _resultHeaerView.delegate = self;
+        _resultHeaerView.defaultIndex = self.type;
         _resultHeaerView.titleArray = @[@"寄售",@"拍卖"];
     }
     return _resultHeaerView;
 }
 
-- (UICollectionView *)resultCollectionView {
-    if (!_resultCollectionView) {
-        WS(weakSelf)
-        UICollectionWaterLayout *layout = [UICollectionWaterLayout layoutWithColoumn:2 data:self.searchResultArray verticleMin:0.0f horizonMin:26.0f leftMargin:15.0f rightMargin:15.0f isAuction:NO];
-        
-        _resultCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.resultHeaerView.frameBottom, kScreenWidth, kScreenHeight - self.resultHeaerView.frameBottom - KStatusBar_Navigation_Height) collectionViewLayout:layout];
-        _resultCollectionView.backgroundColor = JL_color_white_ffffff;
-        _resultCollectionView.delegate = self;
-        _resultCollectionView.dataSource = self;
-        [_resultCollectionView registerClass:[JLCategoryWorkCollectionViewCell class] forCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell"];
-        _resultCollectionView.hidden = YES;
-        _resultCollectionView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
-            [weakSelf footRefresh];
-        }];
-    }
-    return _resultCollectionView;
-}
-
-#pragma mark - JLScrollTitleViewDelegate
-- (void)didSelectIndex:(NSInteger)index {
-    NSLog(@"selectIndex: %ld", index);
-}
-
-#pragma mark - UITableViewDataSource, UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.searchHistoryArray.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WS(weakSelf)
-    JLSearchHIstoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"JLSearchHIstoryTableViewCell" forIndexPath:indexPath];
-    cell.historyContent = self.searchHistoryArray[indexPath.row];
-    cell.deleteBlock = ^{
-        [weakSelf deleteHistory:indexPath];
-    };
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 45.0f;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *content = self.searchHistoryArray[indexPath.row];
-    [self.searchHistoryArray removeObjectAtIndex:indexPath.row];
-    [self cacheSearchContent:content];
-    [self.searchBarView setSearchText:content];
-
-    self.historyTableView.hidden = YES;
-    self.resultCollectionView.hidden = NO;
-    self.searchContent = content;
-    [self headRefresh];
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.searchResultArray.count;
-}
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLCategoryWorkCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JLCategoryWorkCollectionViewCell" forIndexPath:indexPath];
-    cell.artDetailData = self.searchResultArray[indexPath.row];
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Model_art_Detail_Data *artDetailData = self.searchResultArray[indexPath.row];
-    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
-        // 拍卖中
-        JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-        auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
-        Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
-        meetingsArtsData.art = artDetailData;
-        auctionDetailVC.artsData = meetingsArtsData;
-        [self.navigationController pushViewController:auctionDetailVC animated:YES];
-    } else {
-        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-        artDetailVC.artDetailData = artDetailData;
-        [self.navigationController pushViewController:artDetailVC animated:YES];
-    }
-}
-
-- (JLNormalEmptyView *)emptyView {
-    if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
-    }
-    return _emptyView;
-}
-
-- (void)headRefresh {
-    self.currentPage = 1;
-    [self requestSearchList];
-}
-
-- (void)footRefresh {
-    self.currentPage++;
-    [self requestSearchList];
-}
-
-- (void)endRefresh:(NSArray*)collectionArray {
-    if (collectionArray.count < kPageSize) {
-        [(JLRefreshFooter *)self.resultCollectionView.mj_footer endWithNoMoreDataNotice];
-    } else {
-        [self.resultCollectionView.mj_footer endRefreshing];
-    }
-}
-
-- (void)setNoDataShow {
-    if (self.searchResultArray.count == 0) {
-        [self.resultCollectionView addSubview:self.emptyView];
-    } else {
-        if (_emptyView) {
-            [self.emptyView removeFromSuperview];
-            self.emptyView = nil;
-        }
-    }
-}
-
-#pragma mark 请求搜索数据
-- (void)requestSearchList {
-    WS(weakSelf)
-    Model_arts_search_Req *request = [[Model_arts_search_Req alloc] init];
-    request.q = self.searchContent;
-    request.page = self.currentPage;
-    request.per_page = kPageSize;
-    Model_arts_search_Rsp *response = [[Model_arts_search_Rsp alloc] init];
-    
-    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
-        if (netIsWork) {
-            if (weakSelf.currentPage == 1) {
-                [weakSelf.searchResultArray removeAllObjects];
-            }
-            [weakSelf.searchResultArray addObjectsFromArray:response.body];
-            
-            [weakSelf endRefresh:response.body];
-            [self setNoDataShow];
-            self.resultHeaerView.hidden = NO;
-            [self.resultCollectionView reloadData];
-        } else {
-            NSLog(@"%@", errorStr);
-        }
-    }];
-}
 @end

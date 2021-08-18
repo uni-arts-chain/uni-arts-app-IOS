@@ -23,6 +23,7 @@
 #import "JLBindPhoneWithoutPwdViewController.h"
 #import "JLExchangeNFTViewController.h"
 #import "JLCashAccountViewController.h"
+#import "JLAuctionHistoryViewController.h"
 
 #import "JLMineNaviView.h"
 #import "JLMineOrderView.h"
@@ -35,6 +36,7 @@
 @property (nonatomic, strong) JLMineAppView *mineAppView;
 @property (nonatomic, assign) NSInteger messageUnreadNumber;
 @property (nonatomic, copy) NSArray<Model_account_Data *> *cashAccountArray;
+@property (nonatomic, assign) BOOL isWinAuctions;
 @end
 
 @implementation JLMineViewController
@@ -56,6 +58,7 @@
     }];
     [self requestHasUnreadMessages];
     [self loadCashAccount];
+    [self loadAuctionsWinsDatas];
 }
 
 - (void)viewDidLoad {
@@ -175,12 +178,22 @@
                     break;
                 case 4:
                 {
+                    // 拍卖纪录
+                    JLAuctionHistoryViewController *vc = [[JLAuctionHistoryViewController alloc] init];
+                    if (weakSelf.isWinAuctions) {
+                        vc.defaultType = JLAuctionHistoryTypeWins;
+                    }
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+                    break;
+                case 5:
+                {
                     // 作品收藏
                     JLCollectViewController *collectVC = [[JLCollectViewController alloc] init];
                     [weakSelf.navigationController pushViewController:collectVC animated:YES];
                 }
                     break;
-                case 5:
+                case 6:
                 {
                     // 兑换NFT 判断用户是否绑定手机号码
                     if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
@@ -201,19 +214,12 @@
                     }
                 }
                     break;
-                case 6:
+                case 7:
                 {
                     // 消息
                     JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
                     messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
                     [weakSelf.navigationController pushViewController:messageVC animated:YES];
-                }
-                    break;
-                case 7:
-                {
-                    // 客服
-                    JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
-                    [weakSelf.navigationController pushViewController:customerServiceVC animated:YES];
                 }
                     break;
                 default:
@@ -252,6 +258,27 @@
                 if ([model.currency_code isEqualToString:@"rmb"]) {
                     [weakSelf.orderView setCashAccountBalance:model.balance];
                 }
+            }
+        }
+    }];
+}
+
+#pragma mark - 获取拍卖中标数
+- (void)loadAuctionsWinsDatas {
+    Model_auctions_history_Req *request = [[Model_auctions_history_Req alloc] init];
+    request.page = 1;
+    request.per_page = kPageSize;
+    request.historyType = JLAuctionHistoryTypeWins;
+    Model_auctions_history_Rsp *response = [[Model_auctions_history_Rsp alloc] init];
+    response.request = request;
+    
+    WS(weakSelf)
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        [[JLLoading sharedLoading] hideLoading];
+        if (netIsWork) {
+            if (response.body.count) {
+                weakSelf.isWinAuctions = YES;
+                weakSelf.mineAppView.isWinAuction = YES;
             }
         }
     }];

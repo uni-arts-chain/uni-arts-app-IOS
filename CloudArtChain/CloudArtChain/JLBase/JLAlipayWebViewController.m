@@ -8,6 +8,8 @@
 
 #import "JLAlipayWebViewController.h"
 #import "UIAlertController+Alert.h"
+#import "JLAuctionSubmitOrderViewController.h"
+#import "JLNewAuctionArtDetailViewController.h"
 
 @interface JLAlipayWebViewController ()<WKNavigationDelegate>
 @property (nonatomic, strong) WKWebView *wkWebView;
@@ -26,6 +28,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alipayResultNotification:) name:@"JLAliPayResultNotification" object:nil];
 }
 
+/// 将视图控制器移除栈
+- (void)fihishViewControllers {
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if (_payGoodType == JLAlipayWebViewControllerPayGoodTypeAuctionArt) {
+            if ([vc isMemberOfClass:JLNewAuctionArtDetailViewController.class] ||
+                [vc isMemberOfClass:JLAuctionSubmitOrderViewController.class]) {
+                [arr removeObject:vc];
+            }
+        }
+    }
+    self.navigationController.viewControllers = [arr copy];
+}
+
 - (void)alipayResultNotification:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
     NSDictionary *result = userInfo[@"result"];
@@ -33,6 +49,7 @@
     NSString *memoStr = result[@"memo"];
     if (resultStatus.intValue == 9000) {
         [[JLLoading sharedLoading] showMBSuccessTipMessage:@"支付成功" hideTime:KToastDismissDelayTimeInterval];
+        [self fihishViewControllers];
         [self.navigationController popViewControllerAnimated:YES];
     } else {
         [[JLLoading sharedLoading] showMBFailedTipMessage:memoStr hideTime:KToastDismissDelayTimeInterval];

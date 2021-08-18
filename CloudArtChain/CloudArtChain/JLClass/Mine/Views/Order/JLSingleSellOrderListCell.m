@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *priceTitleLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UIImageView *auctionFlagImgView;
 @end
 
 @implementation JLSingleSellOrderListCell
@@ -53,6 +54,8 @@
     [self.shadowView addSubview:self.timeLabel];
     [self.shadowView addSubview:self.priceTitleLabel];
     [self.shadowView addSubview:self.priceLabel];
+    
+    [self.shadowView addSubview:self.auctionFlagImgView];
     
     [self.shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f));
@@ -107,6 +110,10 @@
     [self.priceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.priceLabel.mas_left).offset(-6.0f);
         make.centerY.equalTo(self.priceLabel.mas_centerY);
+    }];
+    [self.auctionFlagImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.equalTo(self.shadowView);
+        make.size.mas_equalTo(CGSizeMake(31, 24));
     }];
 }
 
@@ -197,8 +204,27 @@
     return _priceLabel;
 }
 
+- (UIImageView *)auctionFlagImgView {
+    if (!_auctionFlagImgView) {
+        _auctionFlagImgView = [[UIImageView alloc] init];
+        _auctionFlagImgView.image = [UIImage imageNamed:@"icon_auction_order_flag"];
+    }
+    return _auctionFlagImgView;
+}
+
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
     self.orderNoLabel.text = soldData.sn;
+    if ([soldData.trade_refer isEqualToString:@"Auction"]) {
+        self.auctionFlagImgView.hidden = NO;
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [self getResultPayMoney:soldData.auction].stringValue];
+    }else {
+        self.auctionFlagImgView.hidden = YES;
+        NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:soldData.price];
+        NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:soldData.amount];
+        NSDecimalNumber *totalPriceNumber = [priceNumber decimalNumberByMultiplyingBy:amountNumber];
+        
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
+    }
     if (![NSString stringIsEmpty:soldData.art.img_main_file1[@"url"]]) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:soldData.art.img_main_file1[@"url"]]];
     } else {
@@ -213,13 +239,7 @@
     self.productNameLabel.text = soldData.art.name;
     
     self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
-    
-    NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:soldData.price];
-    NSDecimalNumber *amountNumber = [NSDecimalNumber decimalNumberWithString:soldData.amount];
-    NSDecimalNumber *totalPriceNumber = [priceNumber decimalNumberByMultiplyingBy:amountNumber];
-    
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
-    
+
     if (soldData.art.collection_mode == 3) {
         // 可拆分作品，显示购买数量
         self.numLabel.text = [NSString stringWithFormat:@"X%@", [NSDecimalNumber decimalNumberWithString:soldData.amount].stringValue];
@@ -228,4 +248,31 @@
     }
     [self.shadowView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
+
+/// 最终实付款
+- (NSDecimalNumber *)getResultPayMoney: (Model_auctions_Data *)auctionsData {
+    // 拍中价格
+    NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.win_price]) {
+        winPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.win_price];
+    }
+    // 版税价格
+    NSDecimalNumber *royaltyPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.art.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:auctionsData.art.royalty];
+        if ([royaltyNumber isGreaterThanZero]) {
+            royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
+        }
+    }
+    // 保证金
+    NSDecimalNumber *depositPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.deposit_amount]) {
+        depositPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.deposit_amount];
+    }
+    // 最终实付价格
+    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
+    
+    return resultPrice;
+}
+
 @end

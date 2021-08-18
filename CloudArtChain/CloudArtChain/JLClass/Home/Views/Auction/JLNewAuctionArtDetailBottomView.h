@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, JLNewAuctionArtDetailBottomViewStatus) {
+    /// 未开始
+    JLNewAuctionArtDetailBottomViewStatusNotStarted,
     /// 取消拍卖
     JLNewAuctionArtDetailBottomViewStatusCancelAuction,
     /// 缴纳保证金

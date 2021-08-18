@@ -459,22 +459,45 @@
 #pragma mark - /v2/auctions 拍卖列表
 @protocol Model_auctions_Data @end
 @interface Model_auctions_Data : Model_Interface
+/// 拍卖id
 @property (nonatomic, copy) NSString *ID;
+/// 拍卖数量
 @property (nonatomic, copy) NSString *amount;
+/// 创建时间
 @property (nonatomic, copy) NSString *created_at;
+/// 开始时间
 @property (nonatomic, copy) NSString *start_time;
+/// 结束时间
 @property (nonatomic, copy) NSString *end_time;
+/// 服务器当前时间
 @property (nonatomic, copy) NSString *server_timestamp;
+/// 保证金
 @property (nonatomic, copy) NSString *deposit_amount;
-@property (nonatomic, copy) NSString *currency_code;
-@property (nonatomic, copy) NSString *start_price;
+/// 已出价
 @property (nonatomic, copy) NSString *current_price;
+/// 支付币种
+@property (nonatomic, copy) NSString *currency_code;
+/// 开始价格
+@property (nonatomic, copy) NSString *start_price;
+/// 当前价格
+@property (nonatomic, copy) NSString *current_user_highest_price;
+/// 加价幅度
 @property (nonatomic, copy) NSString *price_increment;
+/// 赢得拍卖价格
 @property (nonatomic, copy) NSString *win_price;
+/// 中标者
 @property (nonatomic, strong) UserDataBody *buyer;
+/// 中标者是否支付
 @property (nonatomic, assign) BOOL buyer_paid;
+/// 是否可以取消
 @property (nonatomic, assign) BOOL can_cancel;
+/// 保证金是否支付
 @property (nonatomic, assign) BOOL deposit_paid;
+/// 是否是拍卖者
+@property (nonatomic, assign) BOOL is_owner;
+/// 限时支付时间
+@property (nonatomic, copy) NSString *pay_timeout;
+/// 艺术品
 @property (nonatomic, strong) Model_art_Detail_Data *art;
 @end
 @interface Model_auctions_list_Req : Model_Req

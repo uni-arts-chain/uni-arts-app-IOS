@@ -29,6 +29,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// 默认index
 @property (nonatomic, assign) NSInteger defaultIndex;
 
+/// 标题默认颜色
+@property (nonatomic, strong) UIColor *defaultTitleColor;
+/// 标题选中颜色
+@property (nonatomic, strong) UIColor *selectedTitleColor;
+/// 标题默认字体
+@property (nonatomic, strong) UIFont *defaultTitleFont;
+/// 标题选中字体
+@property (nonatomic, strong) UIFont *selectedTitlFont;
+/// 底部滑动条大小
+@property (nonatomic, assign) CGSize bottomLineSize;
+
 /// 滑动偏移量
 - (void)scrollOffset: (CGFloat)offset;
 

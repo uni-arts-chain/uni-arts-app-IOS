@@ -17,6 +17,7 @@
 @interface JLSegmentViewController : UIViewController
 
 - (__nullable instancetype)initWithFrame:(CGRect)frame viewControllers:( NSArray<UIViewController *> * _Nullable)viewControllers;
+- (__nullable instancetype)initWithFrame:(CGRect)frame viewControllers:( NSArray<UIViewController *> * _Nullable)viewControllers defaultIndex: (NSInteger)defaultIndex;
 
 @property (nonatomic, weak, nullable) id<JLSegmentViewControllerDelegate> delegate;
 

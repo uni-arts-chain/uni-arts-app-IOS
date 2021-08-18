@@ -32,12 +32,25 @@
 		5CFF02B72504084500A81E32 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CFF02B62504084400A81E32 /* libsodium.a */; };
 		5E0B49BB26C50E6D0005718D /* UILabel+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */; };
 		5E0B49BF26C60F4D0005718D /* JLHoveringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */; };
-		5E0B49C926C65D930005718D /* JLArtListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49C826C65D930005718D /* JLArtListContentView.m */; };
 		5E0B49CD26C66ADD0005718D /* JLArtListWaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49CC26C66ADD0005718D /* JLArtListWaterFlowLayout.m */; };
-		5E0B49D026C66BE90005718D /* JLArtListContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49CF26C66BE90005718D /* JLArtListContentCell.m */; };
 		5E10590826B9816E008AEC54 /* JLWalletTool+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */; };
 		5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF42679F36E00A81FA7 /* JLVersionManager.m */; };
 		5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */; };
+		5E70E21026CA0742003ACC8B /* JLAuctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */; };
+		5E70E21426CA16DD003ACC8B /* JLAuctionListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21326CA16DD003ACC8B /* JLAuctionListContentView.m */; };
+		5E70E21726CA1709003ACC8B /* JLAuctionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21626CA1709003ACC8B /* JLAuctionListCell.m */; };
+		5E70E21A26CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21926CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.m */; };
+		5E70E21D26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21C26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m */; };
+		5E70E22026CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21F26CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m */; };
+		5E70E22326CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E22226CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.m */; };
+		5E70E22626CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E22526CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m */; };
+		5E70E22926CBA013003ACC8B /* JLCreatorPageArtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E22826CBA013003ACC8B /* JLCreatorPageArtViewController.m */; };
+		5E70E22C26CBB78C003ACC8B /* JLSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E22B26CBB78C003ACC8B /* JLSearchResultViewController.m */; };
+		5E70E22F26CC9418003ACC8B /* JLAuctionOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E22E26CC9418003ACC8B /* JLAuctionOrderDetailViewController.m */; };
+		5E70E23826CC9432003ACC8B /* JLAuctionOrderDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E23326CC9431003ACC8B /* JLAuctionOrderDetailContentView.m */; };
+		5E70E23A26CC9432003ACC8B /* JLAuctionOrderDetailOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E23626CC9432003ACC8B /* JLAuctionOrderDetailOrderInfoView.m */; };
+		5E70E23D26CC94CE003ACC8B /* JLAuctionHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E23C26CC94CE003ACC8B /* JLAuctionHistoryViewController.m */; };
+		5E70E24026CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E23F26CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -50,11 +63,6 @@
 		5E9B756F26A580A6002A2364 /* JLAuctionArtDetailArtPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756E26A580A6002A2364 /* JLAuctionArtDetailArtPriceView.m */; };
 		5E9B757526A65FFE002A2364 /* JLAuctionArtDetailAuctionInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B757426A65FFE002A2364 /* JLAuctionArtDetailAuctionInfoView.m */; };
 		5E9B757B26A69E46002A2364 /* JLAuctionDepositPayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B757A26A69E46002A2364 /* JLAuctionDepositPayView.m */; };
-		5E9B758026A6C49F002A2364 /* JLAuctionOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B757F26A6C49F002A2364 /* JLAuctionOrderDetailViewController.m */; };
-		5E9B758326A6C776002A2364 /* JLAuctionOrderDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B758226A6C776002A2364 /* JLAuctionOrderDetailContentView.m */; };
-		5E9B758726A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B758626A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.m */; };
-		5E9B758A26A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B758926A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.m */; };
-		5E9B758D26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B758C26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.m */; };
 		5E9B759326A7F496002A2364 /* JLAuctionRuleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759226A7F496002A2364 /* JLAuctionRuleViewController.m */; };
 		5E9B759626A7FCE0002A2364 /* JLAuctionOfferView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759526A7FCE0002A2364 /* JLAuctionOfferView.m */; };
 		5E9B759926A814A1002A2364 /* JLAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B759826A814A1002A2364 /* JLAlertView.m */; };
@@ -1296,17 +1304,43 @@
 		5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+JLExtension.m"; sourceTree = "<group>"; };
 		5E0B49BD26C60F4D0005718D /* JLHoveringViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLHoveringViewController.h; sourceTree = "<group>"; };
 		5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHoveringViewController.m; sourceTree = "<group>"; };
-		5E0B49C726C65D930005718D /* JLArtListContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListContentView.h; sourceTree = "<group>"; };
-		5E0B49C826C65D930005718D /* JLArtListContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListContentView.m; sourceTree = "<group>"; };
 		5E0B49CB26C66ADD0005718D /* JLArtListWaterFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListWaterFlowLayout.h; sourceTree = "<group>"; };
 		5E0B49CC26C66ADD0005718D /* JLArtListWaterFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListWaterFlowLayout.m; sourceTree = "<group>"; };
-		5E0B49CE26C66BE90005718D /* JLArtListContentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListContentCell.h; sourceTree = "<group>"; };
-		5E0B49CF26C66BE90005718D /* JLArtListContentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListContentCell.m; sourceTree = "<group>"; };
 		5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JLWalletTool+Transfer.swift"; sourceTree = "<group>"; };
 		5E300DF42679F36E00A81FA7 /* JLVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionManager.m; sourceTree = "<group>"; };
 		5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionUpdateView.h; sourceTree = "<group>"; };
 		5E300DF62679F36E00A81FA7 /* JLVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionManager.h; sourceTree = "<group>"; };
 		5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionUpdateView.m; sourceTree = "<group>"; };
+		5E70E20B26CA071C003ACC8B /* JLAuctionHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionHistoryViewController.h; sourceTree = "<group>"; };
+		5E70E20E26CA0742003ACC8B /* JLAuctionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionListViewController.h; sourceTree = "<group>"; };
+		5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionListViewController.m; sourceTree = "<group>"; };
+		5E70E21226CA16DD003ACC8B /* JLAuctionListContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionListContentView.h; sourceTree = "<group>"; };
+		5E70E21326CA16DD003ACC8B /* JLAuctionListContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionListContentView.m; sourceTree = "<group>"; };
+		5E70E21526CA1709003ACC8B /* JLAuctionListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionListCell.h; sourceTree = "<group>"; };
+		5E70E21626CA1709003ACC8B /* JLAuctionListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionListCell.m; sourceTree = "<group>"; };
+		5E70E21826CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionSubmitOrderViewController.h; sourceTree = "<group>"; };
+		5E70E21926CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionSubmitOrderViewController.m; sourceTree = "<group>"; };
+		5E70E21B26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionSubmitOrderContentView.h; sourceTree = "<group>"; };
+		5E70E21C26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionSubmitOrderContentView.m; sourceTree = "<group>"; };
+		5E70E21E26CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionSubmitOrderContentInfoView.h; sourceTree = "<group>"; };
+		5E70E21F26CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionSubmitOrderContentInfoView.m; sourceTree = "<group>"; };
+		5E70E22126CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionSubmitOrderContentPayTypeView.h; sourceTree = "<group>"; };
+		5E70E22226CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionSubmitOrderContentPayTypeView.m; sourceTree = "<group>"; };
+		5E70E22426CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionSubmitOrderContentBottomView.h; sourceTree = "<group>"; };
+		5E70E22526CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionSubmitOrderContentBottomView.m; sourceTree = "<group>"; };
+		5E70E22726CBA013003ACC8B /* JLCreatorPageArtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLCreatorPageArtViewController.h; sourceTree = "<group>"; };
+		5E70E22826CBA013003ACC8B /* JLCreatorPageArtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLCreatorPageArtViewController.m; sourceTree = "<group>"; };
+		5E70E22A26CBB78C003ACC8B /* JLSearchResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSearchResultViewController.h; sourceTree = "<group>"; };
+		5E70E22B26CBB78C003ACC8B /* JLSearchResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSearchResultViewController.m; sourceTree = "<group>"; };
+		5E70E22D26CC9418003ACC8B /* JLAuctionOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailViewController.h; sourceTree = "<group>"; };
+		5E70E22E26CC9418003ACC8B /* JLAuctionOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailViewController.m; sourceTree = "<group>"; };
+		5E70E23126CC9431003ACC8B /* JLAuctionOrderDetailOrderInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailOrderInfoView.h; sourceTree = "<group>"; };
+		5E70E23226CC9431003ACC8B /* JLAuctionOrderDetailContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailContentView.h; sourceTree = "<group>"; };
+		5E70E23326CC9431003ACC8B /* JLAuctionOrderDetailContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailContentView.m; sourceTree = "<group>"; };
+		5E70E23626CC9432003ACC8B /* JLAuctionOrderDetailOrderInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailOrderInfoView.m; sourceTree = "<group>"; };
+		5E70E23C26CC94CE003ACC8B /* JLAuctionHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLAuctionHistoryViewController.m; sourceTree = "<group>"; };
+		5E70E23E26CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailContentInfoView.h; sourceTree = "<group>"; };
+		5E70E23F26CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailContentInfoView.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -1331,17 +1365,7 @@
 		5E9B757426A65FFE002A2364 /* JLAuctionArtDetailAuctionInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionArtDetailAuctionInfoView.m; sourceTree = "<group>"; };
 		5E9B757926A69E46002A2364 /* JLAuctionDepositPayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionDepositPayView.h; sourceTree = "<group>"; };
 		5E9B757A26A69E46002A2364 /* JLAuctionDepositPayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionDepositPayView.m; sourceTree = "<group>"; };
-		5E9B757E26A6C49F002A2364 /* JLAuctionOrderDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailViewController.h; sourceTree = "<group>"; };
-		5E9B757F26A6C49F002A2364 /* JLAuctionOrderDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailViewController.m; sourceTree = "<group>"; };
-		5E9B758126A6C776002A2364 /* JLAuctionOrderDetailContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailContentView.h; sourceTree = "<group>"; };
-		5E9B758226A6C776002A2364 /* JLAuctionOrderDetailContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailContentView.m; sourceTree = "<group>"; };
 		5E9B758426A6C966002A2364 /* JLEnum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLEnum.h; sourceTree = "<group>"; };
-		5E9B758526A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailArtInfoView.h; sourceTree = "<group>"; };
-		5E9B758626A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailArtInfoView.m; sourceTree = "<group>"; };
-		5E9B758826A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailOrderInfoView.h; sourceTree = "<group>"; };
-		5E9B758926A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailOrderInfoView.m; sourceTree = "<group>"; };
-		5E9B758B26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOrderDetailBottomView.h; sourceTree = "<group>"; };
-		5E9B758C26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionOrderDetailBottomView.m; sourceTree = "<group>"; };
 		5E9B759126A7F496002A2364 /* JLAuctionRuleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionRuleViewController.h; sourceTree = "<group>"; };
 		5E9B759226A7F496002A2364 /* JLAuctionRuleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionRuleViewController.m; sourceTree = "<group>"; };
 		5E9B759426A7FCE0002A2364 /* JLAuctionOfferView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionOfferView.h; sourceTree = "<group>"; };
@@ -3143,17 +3167,6 @@
 			path = JLHoveringViewController;
 			sourceTree = "<group>";
 		};
-		5E0B49C626C65D790005718D /* ArtList */ = {
-			isa = PBXGroup;
-			children = (
-				5E0B49C726C65D930005718D /* JLArtListContentView.h */,
-				5E0B49C826C65D930005718D /* JLArtListContentView.m */,
-				5E0B49CE26C66BE90005718D /* JLArtListContentCell.h */,
-				5E0B49CF26C66BE90005718D /* JLArtListContentCell.m */,
-			);
-			path = ArtList;
-			sourceTree = "<group>";
-		};
 		5E0B49CA26C65F9C0005718D /* JLScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3176,6 +3189,28 @@
 			path = JLVersionManager;
 			sourceTree = "<group>";
 		};
+		5E70E20A26CA06BB003ACC8B /* AuctionHistory */ = {
+			isa = PBXGroup;
+			children = (
+				5E70E20B26CA071C003ACC8B /* JLAuctionHistoryViewController.h */,
+				5E70E23C26CC94CE003ACC8B /* JLAuctionHistoryViewController.m */,
+				5E70E20E26CA0742003ACC8B /* JLAuctionListViewController.h */,
+				5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */,
+			);
+			path = AuctionHistory;
+			sourceTree = "<group>";
+		};
+		5E70E21126CA16C3003ACC8B /* AuctionHistory */ = {
+			isa = PBXGroup;
+			children = (
+				5E70E21226CA16DD003ACC8B /* JLAuctionListContentView.h */,
+				5E70E21326CA16DD003ACC8B /* JLAuctionListContentView.m */,
+				5E70E21526CA1709003ACC8B /* JLAuctionListCell.h */,
+				5E70E21626CA1709003ACC8B /* JLAuctionListCell.m */,
+			);
+			path = AuctionHistory;
+			sourceTree = "<group>";
+		};
 		5E76DFE426733C7100727C8C /* QGYAnimationEasingHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -3190,14 +3225,20 @@
 		5E9B757C26A6C458002A2364 /* Auction */ = {
 			isa = PBXGroup;
 			children = (
-				5E9B758126A6C776002A2364 /* JLAuctionOrderDetailContentView.h */,
-				5E9B758226A6C776002A2364 /* JLAuctionOrderDetailContentView.m */,
-				5E9B758526A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.h */,
-				5E9B758626A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.m */,
-				5E9B758826A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.h */,
-				5E9B758926A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.m */,
-				5E9B758B26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.h */,
-				5E9B758C26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.m */,
+				5E70E21B26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.h */,
+				5E70E21C26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m */,
+				5E70E21E26CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.h */,
+				5E70E21F26CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m */,
+				5E70E22126CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.h */,
+				5E70E22226CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.m */,
+				5E70E22426CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.h */,
+				5E70E22526CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m */,
+				5E70E23226CC9431003ACC8B /* JLAuctionOrderDetailContentView.h */,
+				5E70E23326CC9431003ACC8B /* JLAuctionOrderDetailContentView.m */,
+				5E70E23E26CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.h */,
+				5E70E23F26CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.m */,
+				5E70E23126CC9431003ACC8B /* JLAuctionOrderDetailOrderInfoView.h */,
+				5E70E23626CC9432003ACC8B /* JLAuctionOrderDetailOrderInfoView.m */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -3205,8 +3246,10 @@
 		5E9B757D26A6C471002A2364 /* Auction */ = {
 			isa = PBXGroup;
 			children = (
-				5E9B757E26A6C49F002A2364 /* JLAuctionOrderDetailViewController.h */,
-				5E9B757F26A6C49F002A2364 /* JLAuctionOrderDetailViewController.m */,
+				5E70E21826CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.h */,
+				5E70E21926CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.m */,
+				5E70E22D26CC9418003ACC8B /* JLAuctionOrderDetailViewController.h */,
+				5E70E22E26CC9418003ACC8B /* JLAuctionOrderDetailViewController.m */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -6502,6 +6545,8 @@
 				89A4FE2D26C7CE8F0018BA30 /* JLHomeHotViewController.m */,
 				B37FFB5924F4DD76004B9CC8 /* JLSearchViewController.h */,
 				B37FFB5A24F4DD76004B9CC8 /* JLSearchViewController.m */,
+				5E70E22A26CBB78C003ACC8B /* JLSearchResultViewController.h */,
+				5E70E22B26CBB78C003ACC8B /* JLSearchResultViewController.m */,
 				B3266F5324FE393C000C6E95 /* JLArtDetailViewController.h */,
 				B3266F5424FE393C000C6E95 /* JLArtDetailViewController.m */,
 				5C2429652504A77300C74B6A /* JLMessageViewController.h */,
@@ -6518,7 +6563,6 @@
 		B396563A24F39136007A8EC2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5E0B49C626C65D790005718D /* ArtList */,
 				B3983F7E25DE166E0068084D /* Auction */,
 				5CD773DE2501488100F0F49A /* Wallet */,
 				B363619B2500828B0039DF48 /* ApplyCert */,
@@ -6640,6 +6684,8 @@
 				B396564F24F39201007A8EC2 /* JLCreatorViewController.m */,
 				B370C82124F64F7E00A2D699 /* JLCreatorPageViewController.h */,
 				B370C82224F64F7E00A2D699 /* JLCreatorPageViewController.m */,
+				5E70E22726CBA013003ACC8B /* JLCreatorPageArtViewController.h */,
+				5E70E22826CBA013003ACC8B /* JLCreatorPageArtViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -6682,6 +6728,7 @@
 		B396564624F39194007A8EC2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5E70E21126CA16C3003ACC8B /* AuctionHistory */,
 				5EE52A8D269ECC2B00EFF8C9 /* CashAccount */,
 				B38C831B261D4E0D006B5324 /* LaunchAuction */,
 				B38FD54D25CBA2CB0028797E /* FocusFans */,
@@ -6707,6 +6754,7 @@
 		B396564724F39199007A8EC2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5E70E20A26CA06BB003ACC8B /* AuctionHistory */,
 				5EE52A8C269ECC1300EFF8C9 /* CashAccount */,
 				B3CB6DA726462B8E0068B27E /* ExchangeNFT */,
 				B3EA76D72643CBC9004030C1 /* AboutUs */,
@@ -7262,7 +7310,6 @@
 			files = (
 				B391CC45262D545600FF48B0 /* LAppModel.mm in Sources */,
 				B312252D25B6B60A00562ECA /* ExportOption.swift in Sources */,
-				5E9B758326A6C776002A2364 /* JLAuctionOrderDetailContentView.m in Sources */,
 				5C57312E265819AB008D341A /* UIApplication+MemoryLeak.m in Sources */,
 				B31225C525B6B60A00562ECA /* NetworkManagementWireframe.swift in Sources */,
 				B312252525B6B60A00562ECA /* ChainStorageItem.swift in Sources */,
@@ -7288,6 +7335,7 @@
 				B31225FA25B6B60A00562ECA /* AddMainWireframe.swift in Sources */,
 				B312251225B6B60A00562ECA /* RootControllerAnimationCoordinator.swift in Sources */,
 				B37B860125148D5600E43B36 /* JLUploadWorkMultiInputView.m in Sources */,
+				5E70E23826CC9432003ACC8B /* JLAuctionOrderDetailContentView.m in Sources */,
 				B312264825B6B60A00562ECA /* TransactionDetailsConfigurator.swift in Sources */,
 				B312255425B6B60A00562ECA /* AlignableContentControl.swift in Sources */,
 				B312258825B6B60A00562ECA /* AmountFormatterFactory.swift in Sources */,
@@ -7393,6 +7441,8 @@
 				B31225B025B6B60A00562ECA /* PinChangeWireframe.swift in Sources */,
 				B3B968B226155E0100347B27 /* JLSinglePurchaseOrderViewController.m in Sources */,
 				B3C0ED2B25C2AD6C001B8BCA /* JLReceiveAddressSelectTableViewCell.m in Sources */,
+				5E70E23D26CC94CE003ACC8B /* JLAuctionHistoryViewController.m in Sources */,
+				5E70E21A26CA5D75003ACC8B /* JLAuctionSubmitOrderViewController.m in Sources */,
 				B312254625B6B60A00562ECA /* TriangularedView.swift in Sources */,
 				B312254125B6B60A00562ECA /* FearlessWindow.swift in Sources */,
 				B3266F5524FE393C000C6E95 /* JLArtDetailViewController.m in Sources */,
@@ -7400,6 +7450,7 @@
 				B312255B25B6B60A00562ECA /* TitleWithSubtitleViewModel.swift in Sources */,
 				B3753D992554F524003A86CF /* SLShotFocusView.m in Sources */,
 				B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */,
+				5E70E21D26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m in Sources */,
 				B312258025B6B60A00562ECA /* ScrollsToTop.swift in Sources */,
 				B312258D25B6B60A00562ECA /* ShakeAnimator.swift in Sources */,
 				B394E40025ECF39C00685F8D /* JLImageSizeCacheDefaults.m in Sources */,
@@ -7407,6 +7458,7 @@
 				B3753DB72554F573003A86CF /* UIView+SLImage.m in Sources */,
 				B391CB95262D2AD700FF48B0 /* csmString.cpp in Sources */,
 				B312255A25B6B60A00562ECA /* PurchaseAggregator+Default.swift in Sources */,
+				5E70E21726CA1709003ACC8B /* JLAuctionListCell.m in Sources */,
 				B396561024F38DF4007A8EC2 /* UIViewController+JLVCPath.m in Sources */,
 				B3890B2A25DF996700028F78 /* JLDotView.m in Sources */,
 				B38FD55725CBECD10028797E /* JLAuctionDetailViewController.m in Sources */,
@@ -7590,6 +7642,7 @@
 				5EEB047326AE46D800D033F6 /* ExtrinsicFactoryProtocol.swift in Sources */,
 				B312252F25B6B60A00562ECA /* ManagedAccountItem.swift in Sources */,
 				B391CB90262D2AD700FF48B0 /* CubismMotionQueueManager.cpp in Sources */,
+				5E70E22C26CBB78C003ACC8B /* JLSearchResultViewController.m in Sources */,
 				B312268A25B6B60A00562ECA /* AssetDetailsView.swift in Sources */,
 				B31226BB25B6B60B00562ECA /* ExportMnemonicConfirmInteractor.swift in Sources */,
 				B391CC87262D75C000FF48B0 /* aescrypt.m in Sources */,
@@ -7621,6 +7674,7 @@
 				B312258525B6B60A00562ECA /* AlertPresentable.swift in Sources */,
 				5C573128265819AB008D341A /* UITouch+MemoryLeak.m in Sources */,
 				B31225BE25B6B60A00562ECA /* NetworkManagementProtocols.swift in Sources */,
+				5E70E24026CD0C61003ACC8B /* JLAuctionOrderDetailContentInfoView.m in Sources */,
 				B3C9C60B2635967800186796 /* JLBoxModel.m in Sources */,
 				B31224DE25B6B60900562ECA /* ExportOption+ViewModel.swift in Sources */,
 				B312260525B6B60A00562ECA /* OnboardingMainWireframe.swift in Sources */,
@@ -7635,7 +7689,6 @@
 				B396561B24F38DF4007A8EC2 /* UIColor+JLColor.m in Sources */,
 				B31225F225B6B60A00562ECA /* AboutDetailsCell.swift in Sources */,
 				B31225A225B6B60A00562ECA /* NetworkInfoViewController.swift in Sources */,
-				5E0B49C926C65D930005718D /* JLArtListContentView.m in Sources */,
 				B31225B125B6B60A00562ECA /* ScreenAuthorizationProtocol.swift in Sources */,
 				B31224A025B6B60900562ECA /* AccountOperationFactoryError.swift in Sources */,
 				B39655BF24F38DBA007A8EC2 /* LZPickViewManager.m in Sources */,
@@ -7645,6 +7698,7 @@
 				B312266C25B6B60A00562ECA /* HistoryConstants.swift in Sources */,
 				B31226CA25B6B60B00562ECA /* ExportRestoreJsonWireframe.swift in Sources */,
 				B3753DA12554F524003A86CF /* SLShotViewController.m in Sources */,
+				5E70E21026CA0742003ACC8B /* JLAuctionListViewController.m in Sources */,
 				B31225E525B6B60A00562ECA /* AccountImportProtocols.swift in Sources */,
 				B342979625DE5D5D0006BD6E /* JLArtDetailPriceView.m in Sources */,
 				B31226D425B6B60B00562ECA /* AccountTableViewCell.swift in Sources */,
@@ -7675,6 +7729,7 @@
 				B31224E125B6B60900562ECA /* SNAddressType+ViewModel.swift in Sources */,
 				B312252C25B6B60A00562ECA /* TransactionType.swift in Sources */,
 				B391E2B826281A74002CCC9D /* JLPopularCollectionWaterLayout.m in Sources */,
+				5E70E21426CA16DD003ACC8B /* JLAuctionListContentView.m in Sources */,
 				B312266325B6B60A00562ECA /* WalletAssetCell.swift in Sources */,
 				B312252025B6B60A00562ECA /* Language.swift in Sources */,
 				B3E98E2B25022C49004AABD2 /* JLExportKeystoreViewController.m in Sources */,
@@ -7722,6 +7777,7 @@
 				5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */,
 				B312269525B6B60B00562ECA /* WalletBuyCommand.swift in Sources */,
 				B366C7EE25524D29007F9583 /* UIAlertViewBlock.m in Sources */,
+				5E70E23A26CC9432003ACC8B /* JLAuctionOrderDetailOrderInfoView.m in Sources */,
 				B312251C25B6B60A00562ECA /* ApplicationConfigs.swift in Sources */,
 				B39655E524F38DBA007A8EC2 /* UICKeyChainStore.m in Sources */,
 				B396562D24F38F5F007A8EC2 /* JLAlert.m in Sources */,
@@ -7805,7 +7861,6 @@
 				B3AA6DA5263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m in Sources */,
 				B312267C25B6B60A00562ECA /* WalletInputAmountView.swift in Sources */,
 				B396554124F38D6D007A8EC2 /* JLNetHelper.m in Sources */,
-				5E9B758A26A6CB10002A2364 /* JLAuctionOrderDetailOrderInfoView.m in Sources */,
 				5EE52A8B269E7E0800EFF8C9 /* JLScrollTitleView.m in Sources */,
 				B312255325B6B60A00562ECA /* TitledMnemonicView.swift in Sources */,
 				5EE52A99269ECCF700EFF8C9 /* JLCashAccountCell.m in Sources */,
@@ -7916,7 +7971,7 @@
 				5E9B759926A814A1002A2364 /* JLAlertView.m in Sources */,
 				B3C05AE2263163F9002741B1 /* JLBoxTenCardView.m in Sources */,
 				B37FFB4C24F4AF2F004B9CC8 /* JLPopularOriginalView.m in Sources */,
-				5E9B758726A6CAF9002A2364 /* JLAuctionOrderDetailArtInfoView.m in Sources */,
+				5E70E22626CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m in Sources */,
 				B312268525B6B60A00562ECA /* WalletCompoundDetailsView.swift in Sources */,
 				B312264525B6B60A00562ECA /* TransactionDetailsAccessoryView.swift in Sources */,
 				B391CB8B262D2AD700FF48B0 /* CubismDebug.cpp in Sources */,
@@ -8021,6 +8076,7 @@
 				B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */,
 				B3753DC52554F598003A86CF /* SLAvEditExport.m in Sources */,
 				B394A08D2629627400A8DAE4 /* JLHomePageEditHeaderView.m in Sources */,
+				5E70E22326CB4F23003ACC8B /* JLAuctionSubmitOrderContentPayTypeView.m in Sources */,
 				5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */,
 				B35935F82511AFC500E2B2FD /* UIAlertController+Alert.m in Sources */,
 				B312261525B6B60A00562ECA /* ProfileTableViewCell.swift in Sources */,
@@ -8132,6 +8188,7 @@
 				B359360F2511B0B000E2B2FD /* IQActionSheetViewController.m in Sources */,
 				B391E2D42628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.m in Sources */,
 				B312264225B6B60A00562ECA /* TransferSeparatorDistribution.swift in Sources */,
+				5E70E22026CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m in Sources */,
 				B342979325DE523B0006BD6E /* JLActionTimeView.m in Sources */,
 				B312250B25B6B60A00562ECA /* RuntimeVersion.swift in Sources */,
 				B312263625B6B60A00562ECA /* ContactContext.swift in Sources */,
@@ -8178,7 +8235,6 @@
 				B312266825B6B60A00562ECA /* WalletSingleProviderIdFactory.swift in Sources */,
 				B312258625B6B60A00562ECA /* MainTransitionHelper.swift in Sources */,
 				B312268E25B6B60B00562ECA /* WalletSelectAccountCommandFactory.swift in Sources */,
-				5E9B758D26A6CB39002A2364 /* JLAuctionOrderDetailBottomView.m in Sources */,
 				B31224D325B6B60900562ECA /* NSPredicate+Filter.swift in Sources */,
 				B312265D25B6B60A00562ECA /* WalletAccountListConstants.swift in Sources */,
 				B312269225B6B60B00562ECA /* TransferConfirmCommand.swift in Sources */,
@@ -8196,6 +8252,7 @@
 				B36FDBFD25023BEC00EF859B /* JLExportKeystoreQRCodeView.m in Sources */,
 				B312269925B6B60B00562ECA /* RootWireframe.swift in Sources */,
 				B31226A325B6B60B00562ECA /* AccountConfirmViewController.swift in Sources */,
+				5E70E22F26CC9418003ACC8B /* JLAuctionOrderDetailViewController.m in Sources */,
 				B31224DA25B6B60900562ECA /* Storage+Identifiable.swift in Sources */,
 				B312258225B6B60A00562ECA /* LoadableViewProtocol.swift in Sources */,
 				B312262725B6B60A00562ECA /* AccountInfoViewController.swift in Sources */,
@@ -8224,7 +8281,7 @@
 				B38BCFE025B81B5D00FD37F7 /* JLPurchaseOrderListViewController.m in Sources */,
 				B391CB82262D2AD700FF48B0 /* CubismUserModel.cpp in Sources */,
 				B312263C25B6B60A00562ECA /* TransferViewModelFactory.swift in Sources */,
-				5E9B758026A6C49F002A2364 /* JLAuctionOrderDetailViewController.m in Sources */,
+				5E70E22926CBA013003ACC8B /* JLCreatorPageArtViewController.m in Sources */,
 				B312268325B6B60A00562ECA /* WalletBaseTokenView.swift in Sources */,
 				B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */,
 				B359361A2511BD3700E2B2FD /* JLCalcInputView.m in Sources */,
@@ -8241,7 +8298,6 @@
 				B342979925DE5F6B0006BD6E /* JLAuctionPriceView.m in Sources */,
 				B31224D425B6B60900562ECA /* String+Helpers.swift in Sources */,
 				B312260F25B6B60A00562ECA /* ConnectionAccountImportInteractor.swift in Sources */,
-				5E0B49D026C66BE90005718D /* JLArtListContentCell.m in Sources */,
 				B38D506325EF9CD800056EED /* JLDatePicker.m in Sources */,
 				B312253D25B6B60A00562ECA /* MultilineTriangularedView.swift in Sources */,
 				B312269B25B6B60B00562ECA /* RootPresenter.swift in Sources */,

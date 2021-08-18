@@ -1,14 +1,14 @@
 //
-//  JLAuctionOrderDetailBottomView.m
+//  JLAuctionSubmitOrderContentBottomView.m
 //  CloudArtChain
 //
-//  Created by jielian on 2021/7/20.
+//  Created by jielian on 2021/8/17.
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
-#import "JLAuctionOrderDetailBottomView.h"
+#import "JLAuctionSubmitOrderContentBottomView.h"
 
-@interface JLAuctionOrderDetailBottomView ()
+@interface JLAuctionSubmitOrderContentBottomView ()
 
 @property (nonatomic, strong) UILabel *payMoneyLabel;
 
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation JLAuctionOrderDetailBottomView
+@implementation JLAuctionSubmitOrderContentBottomView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

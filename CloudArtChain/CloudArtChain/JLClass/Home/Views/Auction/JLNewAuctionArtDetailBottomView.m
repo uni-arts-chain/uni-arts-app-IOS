@@ -163,11 +163,12 @@
     }
     
     NSString *statusTitle = @"";
-    if (_auctionsData.art.is_owner) {
+    if (_auctionsData.is_owner) {
         _status = JLNewAuctionArtDetailBottomViewStatusCancelAuction;
         statusTitle = @"取消拍卖";
         
-        if (_auctionsData.can_cancel) {
+        if (_auctionsData.can_cancel &&
+            _auctionsData.server_timestamp.integerValue < _auctionsData.end_time.integerValue) {
             _rightBtn.userInteractionEnabled = YES;
             _rightBtn.backgroundColor = JL_color_red_D70000;
         }else {
@@ -175,32 +176,49 @@
             _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
         }
     }else {
-        // 是否已缴纳保证金
-        if (!_auctionsData.deposit_paid) {
-            _status = JLNewAuctionArtDetailBottomViewStatusPayEarnestMoney;
-            statusTitle = [NSString stringWithFormat:@"缴纳保证金 ￥%@", _auctionsData.deposit_amount];
+        if (_auctionsData.server_timestamp.integerValue < _auctionsData.start_time.integerValue) {
+            _status = JLNewAuctionArtDetailBottomViewStatusNotStarted;
+            // 未开始
+            statusTitle = @"未开始";
+            _rightBtn.userInteractionEnabled = NO;
+            _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
         }else {
-            _status = JLNewAuctionArtDetailBottomViewStatusOffer;
-            statusTitle = @"出价";
-        }
-        // 是否中标
-        if (_auctionsData.buyer && [auctionsData.buyer.uid isEqualToString:[AppSingleton sharedAppSingleton].userBody.uid]) {
-            _status = JLNewAuctionArtDetailBottomViewStatusWinBidding;
-            statusTitle = @"中标去支付";
-            // 是否超时未支付
-            if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue && !_auctionsData.buyer_paid) {
-                _status = JLNewAuctionArtDetailBottomViewStatusFinished;
-                statusTitle = @"已结束";
-                _rightBtn.userInteractionEnabled = NO;
-                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            // 是否已缴纳保证金
+            if (!_auctionsData.deposit_paid) {
+                _status = JLNewAuctionArtDetailBottomViewStatusPayEarnestMoney;
+                statusTitle = [NSString stringWithFormat:@"缴纳保证金 ￥%@", _auctionsData.deposit_amount];
+            }else {
+                _status = JLNewAuctionArtDetailBottomViewStatusOffer;
+                statusTitle = @"出价";
             }
-        }else {
-            // 是否已结束
-            if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
-                _status = JLNewAuctionArtDetailBottomViewStatusFinished;
-                statusTitle = @"已结束";
-                _rightBtn.userInteractionEnabled = NO;
-                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            // 是否中标
+            if (_auctionsData.buyer && [auctionsData.buyer.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
+                _status = JLNewAuctionArtDetailBottomViewStatusWinBidding;
+                statusTitle = @"中标去支付";
+                if (_auctionsData.buyer_paid) {
+                    // 已支付
+                    _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                    statusTitle = @"中标已支付";
+                    _rightBtn.userInteractionEnabled = NO;
+                    _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                }else {
+                    // 未支付
+                    if (_auctionsData.server_timestamp.integerValue >= (_auctionsData.end_time.integerValue + _auctionsData.pay_timeout.integerValue)) {
+                        // 已超时
+                        _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                        statusTitle = @"超时未支付";
+                        _rightBtn.userInteractionEnabled = NO;
+                        _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                    }
+                }
+            }else {
+                // 是否已结束
+                if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
+                    _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                    statusTitle = @"已结束";
+                    _rightBtn.userInteractionEnabled = NO;
+                    _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                }
             }
         }
     }

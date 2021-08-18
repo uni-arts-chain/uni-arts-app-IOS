@@ -25,6 +25,10 @@
 
 #pragma mark - initialize
 - (instancetype)initWithFrame:(CGRect)frame viewControllers:(NSArray<UIViewController *> *)viewControllers {
+    return [self initWithFrame:frame viewControllers:viewControllers defaultIndex:0];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame viewControllers:(NSArray<UIViewController *> *)viewControllers defaultIndex: (NSInteger)defaultIndex {
     self = [super init];
     if (!self || viewControllers.count == 0) {
         return nil;
@@ -37,9 +41,11 @@
     
     self.viewControllers = viewControllers;
     
-    self.index = 0;
+    self.index = defaultIndex;
     
     [self updateFrameChildViewController:viewControllers[self.index] atIndex:self.index];
+        
+    [_containerView setContentOffset:CGPointMake(defaultIndex * self.view.frame.size.width, 0) animated:NO];
     
     return self;
 }

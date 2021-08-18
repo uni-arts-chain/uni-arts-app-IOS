@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMineAppView : JLBaseView
 @property (nonatomic, copy) void(^appClickBlock)(NSInteger index);
+@property (nonatomic, assign) BOOL isWinAuction;
 @end
 
 NS_ASSUME_NONNULL_END

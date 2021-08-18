@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLAuctionOrderDetailOrderInfoView : UIView
 
+@property (nonatomic, strong) Model_arts_sold_Data *orderData;
+
 @end
 
 NS_ASSUME_NONNULL_END

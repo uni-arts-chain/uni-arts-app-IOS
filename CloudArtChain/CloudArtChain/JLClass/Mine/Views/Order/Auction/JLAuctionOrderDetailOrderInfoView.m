@@ -7,6 +7,7 @@
 //
 
 #import "JLAuctionOrderDetailOrderInfoView.h"
+#import "NSDate+Extension.h"
 
 @interface JLAuctionOrderDetailOrderInfoView ()
 
@@ -30,6 +31,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = JL_color_white_ffffff;
         
         [self setupUI];
     }
@@ -39,18 +41,9 @@
 - (void)setupUI {
     
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = JL_color_white_ffffff;
-    _bgView.layer.cornerRadius = 5;
-    _bgView.layer.shadowColor = [UIColor colorWithHexString:@"#404040" alpha:0.16].CGColor;
-    _bgView.layer.shadowOpacity = 1.0f;
-    _bgView.layer.shadowOffset = CGSizeMake(0, 0);
-    _bgView.layer.shadowRadius = 5.0f;
     [self addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(5);
-        make.left.equalTo(self).offset(15);
-        make.bottom.equalTo(self).offset(-5);
-        make.right.equalTo(self).offset(-15);
+        make.top.left.bottom.right.equalTo(self);
     }];
     
     _titleLabel = [[UILabel alloc] init];
@@ -74,7 +67,6 @@
     }];
     
     _orderNoLabel = [[UILabel alloc] init];
-    _orderNoLabel.text = @"fdafkjifsajofsosjiofjsaio";
     _orderNoLabel.textColor = JL_color_gray_212121;
     _orderNoLabel.font = kFontPingFangSCRegular(14);
     _orderNoLabel.numberOfLines = 0;
@@ -99,7 +91,6 @@
     }];
     
     _timeLabel = [[UILabel alloc] init];
-    _timeLabel.text = @"创建时间：2020/08/16 12:36:28";
     _timeLabel.textColor = JL_color_gray_212121;
     _timeLabel.font = kFontPingFangSCRegular(14);
     [_bgView addSubview:_timeLabel];
@@ -108,13 +99,25 @@
         make.top.equalTo(self.orderNoLabel.mas_bottom).offset(16);
         make.bottom.equalTo(self.bgView).offset(-30);
     }];
-    
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self addShadow:JL_color_gray_999999 cornerRadius:5 offset:CGSizeMake(0, 0)];
 }
 
 #pragma mark - event response
 - (void)pasetBtnClick: (UIButton *)sender {
     [UIPasteboard generalPasteboard].string = _orderNoLabel.text;
     [[JLLoading sharedLoading] showMBSuccessTipMessage:@"复制成功" hideTime:KToastDismissDelayTimeInterval];
+}
+
+- (void)setOrderData:(Model_arts_sold_Data *)orderData {
+    _orderData = orderData;
+    
+    _orderNoLabel.text = _orderData.sn;
+    NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:_orderData.finished_at.doubleValue];
+    _timeLabel.text = [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
 }
 
 @end

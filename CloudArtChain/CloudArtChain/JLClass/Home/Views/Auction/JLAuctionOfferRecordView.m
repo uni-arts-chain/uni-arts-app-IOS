@@ -13,7 +13,10 @@
 @interface JLAuctionOfferRecordView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIButton *recordListButton;
+//@property (nonatomic, strong) UIButton *recordListButton;
+@property (nonatomic, strong) UIView *recordListBgView;
+@property (nonatomic, strong) UIImageView *recordListImgView;
+@property (nonatomic, strong) UILabel *recordListLabel;
 @property (nonatomic, strong) UIView *lineView;
 
 // 出价记录
@@ -64,30 +67,44 @@
             make.bottom.equalTo(_headerView);
         }];
         
-        self.recordListButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.recordListButton setTitle:@"0次" forState:UIControlStateNormal];
-        [self.recordListButton setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        self.recordListButton.titleLabel.font = kFontPingFangSCRegular(14.0f);
-        [self.recordListButton setImage:[UIImage imageNamed:@"icon_auction_sanjiaoxing"] forState:UIControlStateNormal];
-        self.recordListButton.axcUI_buttonContentLayoutType = AxcButtonContentLayoutStyleCenterImageRight;
-        self.recordListButton.axcUI_padding = 8.0f;
-        [self.recordListButton addTarget:self action:@selector(recordListButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [_headerView addSubview:self.recordListButton];
-        [self.recordListButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-16.0f - 10.0f);
-            make.centerY.equalTo(titleLabel.mas_centerY);
+        self.recordListBgView = [[UIView alloc] init];
+        self.recordListBgView.userInteractionEnabled = YES;
+        [self.recordListBgView addGestureRecognizer: [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recordListBgViewDidTap:)]];
+        [_headerView addSubview:self.recordListBgView];
+        [self.recordListBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(_headerView);
+            make.centerY.equalTo(titleLabel);
+            make.height.mas_equalTo(@40);
+        }];
+        
+        self.recordListImgView = [[UIImageView alloc] init];
+        self.recordListImgView.image = [UIImage imageNamed:@"icon_auction_sanjiaoxing"];
+        [self.recordListBgView addSubview:self.recordListImgView];
+        [self.recordListImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.recordListBgView).offset(-17);
+            make.centerY.equalTo(self.recordListBgView);
+            make.size.mas_equalTo(CGSizeMake(8, 12));
+        }];
+        
+        self.recordListLabel = [[UILabel alloc] init];
+        self.recordListLabel.text = @"0次";
+        self.recordListLabel.textColor = JL_color_gray_101010;
+        self.recordListLabel.font = kFontPingFangSCRegular(14.0f);;
+        self.recordListLabel.textAlignment = NSTextAlignmentRight;
+        [self.recordListBgView addSubview:self.recordListLabel];
+        [self.recordListLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.recordListBgView).offset(17);
+            make.centerY.equalTo(self.recordListBgView);
+            make.right.equalTo(self.recordListImgView.mas_left).offset(-8);
         }];
     }
     return _headerView;
 }
 
-- (void)recordListButtonClick {
+- (void)recordListBgViewDidTap: (UITapGestureRecognizer *)ges {
     if (self.bidHistoryBlock) {
         self.bidHistoryBlock(self.bidHistoryArray);
     }
-//    if (self.recordListBlock) {
-//        self.recordListBlock(self.bidList, self.blockDate, self.blockNumber);
-//    }
 }
 
 - (UITableView *)tableView {
@@ -161,7 +178,7 @@
 - (void)setBidHistoryArray:(NSArray *)bidHistoryArray {
     _bidHistoryArray = bidHistoryArray;
     
-    [self.recordListButton setTitle:[NSString stringWithFormat:@"%ld次", _bidHistoryArray.count] forState:UIControlStateNormal];
+    self.recordListLabel.text = [NSString stringWithFormat:@"%ld次", _bidHistoryArray.count];
     
     [self.tableView reloadData];
 }
@@ -170,7 +187,7 @@
     WS(weakSelf)
     _bidList = bidList;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.recordListButton setTitle:[NSString stringWithFormat:@"%ld次", bidList.count] forState:UIControlStateNormal];
+        weakSelf.recordListLabel.text = [NSString stringWithFormat:@"%ld次", _bidHistoryArray.count];
         weakSelf.blockDate = currentDate;
         weakSelf.blockNumber = blockNumber;
         [weakSelf.tableView reloadData];

@@ -10,8 +10,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, JLAlipayWebViewControllerPayGoodType) {
+    /// 艺术品
+    JLAlipayWebViewControllerPayGoodTypeArt,
+    /// 盲盒
+    JLAlipayWebViewControllerPayGoodTypeBox,
+    /// 拍卖保证金
+    JLAlipayWebViewControllerPayGoodTypeAuctionDeposit,
+    /// 拍卖艺术品
+    JLAlipayWebViewControllerPayGoodTypeAuctionArt
+};
+
 @interface JLAlipayWebViewController : JLBaseViewController
 @property (nonatomic, strong) NSString *payUrl;
+@property (nonatomic, assign) JLAlipayWebViewControllerPayGoodType payGoodType;
 @property (nonatomic, copy) void(^paySuccessBlock)(void);
 @end
 

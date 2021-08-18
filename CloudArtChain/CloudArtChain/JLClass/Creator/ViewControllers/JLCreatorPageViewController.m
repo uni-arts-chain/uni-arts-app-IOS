@@ -9,23 +9,20 @@
 #import "JLCreatorPageViewController.h"
 #import "JLArtDetailViewController.h"
 #import "JLAuctionArtDetailViewController.h"
+#import "JLNewAuctionArtDetailViewController.h"
+#import "JLCreatorPageArtViewController.h"
 
+#import "JLHoveringView.h"
 #import "JLHomePageHeaderView.h"
-#import "JLPopularOriginalCollectionViewCell.h"
-#import "JLNormalEmptyView.h"
-#import "JLCreatorCollectionWaterLayout.h"
 
-@interface JLCreatorPageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
-@property (nonatomic, strong) UIScrollView *scrollView;
+@interface JLCreatorPageViewController ()<JLHoveringListViewDelegate>
+@property (nonatomic, strong) JLHoveringView *hoveringView;
+
 @property (nonatomic, strong) JLHomePageHeaderView *homePageHeaderView;
-@property (nonatomic, strong) UIView *worksTitleView;
-@property (nonatomic, strong) UILabel *worksTitleLabel;
-@property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UIButton *focusButton;
 
-@property (nonatomic, strong) NSMutableArray *artArray;
-@property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, strong) JLNormalEmptyView *emptyView;
+@property (nonatomic,   copy) NSArray <UIViewController *> *viewControllers;
+@property (nonatomic,   copy) NSArray <NSString *> *titles;
 @end
 
 @implementation JLCreatorPageViewController
@@ -34,40 +31,126 @@
     [super viewDidLoad];
     self.navigationItem.title = @"主页";
     [self addBackItem];
+    
     [self createSubviews];
-    [self headRefresh];
+    
+    // 发起拍卖
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllVCDatas) name:LOCALNOTIFICATION_JL_LAUNCH_AUCTION object:nil];
+    // 取消拍卖
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllVCDatas) name:LOCALNOTIFICATION_JL_CANCEL_AUCTION object:nil];
+    // 拍卖结束
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllVCDatas) name:LOCALNOTIFICATION_JL_END_AUCTION object:nil];
+    
+    [self artHeadRefresh];
 }
-
-//- (void)backClick {
-//    if (!self.authorData.follow_by_me && self.followOrCancelBlock) {
-//        self.followOrCancelBlock(self.authorData);
-//    }
-//    if (self.backBlock) {
-//        self.backBlock(self.authorData);
-//    }
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
 
 - (void)createSubviews {
     [self.view addSubview:self.focusButton];
     [self.focusButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.left.right.bottom.equalTo(self.view);
         make.height.mas_equalTo(46.0f + KTouch_Responder_Height);
     }];
     
-    [self.view addSubview:self.scrollView];
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
-        make.bottom.equalTo(self.focusButton.mas_top);
-    }];
-    [self.scrollView addSubview:self.homePageHeaderView];
-    [self.scrollView addSubview:self.worksTitleView];
-    [self.scrollView addSubview:self.collectionView];
-    [self.collectionView  registerClass:[JLPopularOriginalCollectionViewCell class] forCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell"];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
+    [self.view addSubview:self.hoveringView];
 }
 
+#pragma mark - JLHoveringListViewDelegate
+- (NSArray *)listView {
+    NSMutableArray *tableViewArray = [NSMutableArray array];
+    for (JLCreatorPageArtViewController *artVC in self.viewControllers) {
+        [tableViewArray addObject:artVC.collectionView];
+    }
+    return [tableViewArray copy];
+}
+
+- (UIView *)headView {
+    return self.homePageHeaderView;
+}
+
+- (NSArray<UIViewController *> *)listCtroller {
+    return self.viewControllers;
+}
+
+- (NSArray<NSString *> *)listTitle {
+    return self.titles;
+}
+
+#pragma mark - event response
+- (void)focusButtonClick:(UIButton *)sender {
+    if (![JLLoginUtil haveSelectedAccount]) {
+        [JLLoginUtil presentCreateWallet];
+    } else {
+        if (!sender.selected) {
+            [self follow];
+        } else {
+            [self unFollow];
+        }
+    }
+}
+
+#pragma mark - loadDatas
+/// 关注
+- (void)follow {
+    WS(weakSelf)
+    Model_members_follow_Req *request = [[Model_members_follow_Req alloc] init];
+    request.author_id = self.authorData.ID;
+    Model_members_follow_Rsp *response = [[Model_members_follow_Rsp alloc] init];
+    response.request = request;
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.authorData = response.body;
+            weakSelf.focusButton.backgroundColor = JL_color_gray_C5C5C5;
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
+            weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+            if (weakSelf.followOrCancelBlock) {
+                weakSelf.followOrCancelBlock(response.body);
+            }
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+/// 取消关注
+- (void)unFollow {
+    WS(weakSelf)
+    Model_members_unfollow_Req *request = [[Model_members_unfollow_Req alloc] init];
+    request.author_id = self.authorData.ID;
+    Model_members_unfollow_Rsp *response = [[Model_members_unfollow_Rsp alloc] init];
+    response.request = request;
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            weakSelf.authorData = response.body;
+            weakSelf.focusButton.backgroundColor = JL_color_gray_101010;
+            [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
+            weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
+            if (weakSelf.followOrCancelBlock) {
+                weakSelf.followOrCancelBlock(response.body);
+            }
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
+#pragma mark - private methods
+- (void)refreshAllVCDatas {
+    for (JLCreatorPageArtViewController *artVC in self.viewControllers) {
+        [artVC headRefresh];
+    }
+}
+
+- (void)artHeadRefresh {
+    JLCreatorPageArtViewController *artVC = (JLCreatorPageArtViewController *)self.viewControllers[self.hoveringView.pageView.currentSelectedIndex];
+    [artVC headRefresh];
+}
+
+- (CGFloat)getDescLabelHeight:(NSString *)descStr {
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
+    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
+    return rect.size.height + 20.0f;
+}
+
+#pragma mark - setters and getters
 - (UIButton *)focusButton {
     if (!_focusButton) {
         _focusButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -82,70 +165,6 @@
     return _focusButton;
 }
 
-- (void)focusButtonClick:(UIButton *)sender {
-    WS(weakSelf)
-    if (![JLLoginUtil haveSelectedAccount]) {
-        [JLLoginUtil presentCreateWallet];
-    } else {
-        if (!sender.selected) {
-            // 关注
-            Model_members_follow_Req *request = [[Model_members_follow_Req alloc] init];
-            request.author_id = self.authorData.ID;
-            Model_members_follow_Rsp *response = [[Model_members_follow_Rsp alloc] init];
-            response.request = request;
-            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-                if (netIsWork) {
-                    weakSelf.authorData = response.body;
-                    sender.backgroundColor = JL_color_gray_C5C5C5;
-                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"关注成功" hideTime:KToastDismissDelayTimeInterval];
-                    weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
-                    if (weakSelf.followOrCancelBlock) {
-                        weakSelf.followOrCancelBlock(response.body);
-                    }
-                } else {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
-        } else {
-            // 取消关注
-            Model_members_unfollow_Req *request = [[Model_members_unfollow_Req alloc] init];
-            request.author_id = self.authorData.ID;
-            Model_members_unfollow_Rsp *response = [[Model_members_unfollow_Rsp alloc] init];
-            response.request = request;
-            [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-                if (netIsWork) {
-                    weakSelf.authorData = response.body;
-                    sender.backgroundColor = JL_color_gray_101010;
-                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"已取消关注" hideTime:KToastDismissDelayTimeInterval];
-                    weakSelf.focusButton.selected = weakSelf.authorData.follow_by_me;
-                    if (weakSelf.followOrCancelBlock) {
-                        weakSelf.followOrCancelBlock(response.body);
-                    }
-                } else {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
-                }
-            }];
-        }
-    }
-}
-
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        WS(weakSelf)
-        _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = JL_color_white_ffffff;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
-            [weakSelf.scrollView.mj_header endRefreshing];
-        }];
-        _scrollView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
-            [weakSelf footRefresh];
-        }];
-    }
-    return _scrollView;
-}
-
 - (JLHomePageHeaderView *)homePageHeaderView {
     if (!_homePageHeaderView) {
         NSString *descStr = [NSString stringIsEmpty:self.authorData.desc] ? @"未设置描述" : self.authorData.desc;
@@ -158,211 +177,67 @@
     return _homePageHeaderView;
 }
 
-- (CGFloat)getDescLabelHeight:(NSString *)descStr {
-    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:descStr];
-    CGRect rect = [JLTool getAdaptionSizeWithAttributedText:attr font:kFontPingFangSCRegular(13.0f) labelWidth:kScreenWidth - 40.0f * 2 lineSpace:10.0f];
-    return rect.size.height + 20.0f;
-}
+- (JLHoveringView *)hoveringView {
+    if (!_hoveringView) {
+        _hoveringView = [[JLHoveringView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - (46.0f + KTouch_Responder_Height) - KStatusBar_Navigation_Height) deleaget:self];
+        _hoveringView.isMidRefresh = NO;
 
-- (UIView *)worksTitleView {
-    if (!_worksTitleView) {
-        _worksTitleView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.homePageHeaderView.frameBottom, kScreenWidth, 27.0f)];
-        _worksTitleView.backgroundColor = JL_color_white_ffffff;
-        
-        [_worksTitleView addSubview:self.worksTitleLabel];
-        
-        UIView *leftLineView = [[UIView alloc] init];
-        leftLineView.backgroundColor = JL_color_black;
-        [_worksTitleView addSubview:leftLineView];
-        
-        UIView *rightLineView = [[UIView alloc] init];
-        rightLineView.backgroundColor = JL_color_black;
-        [_worksTitleView addSubview:rightLineView];
-        
-        [self.worksTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(_worksTitleView);
-            make.centerX.equalTo(_worksTitleView);
-        }];
-        [leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(20.0f);
-            make.height.mas_equalTo(2.0f);
-            make.centerY.equalTo(self.worksTitleLabel);
-            make.right.equalTo(self.worksTitleLabel.mas_left).offset(-8.0f);
-        }];
-        [rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(20.0f);
-            make.height.mas_equalTo(2.0f);
-            make.centerY.equalTo(self.worksTitleLabel);
-            make.left.equalTo(self.worksTitleLabel.mas_right).offset(8.0f);
+        _hoveringView.pageView.defaultTitleColor = JL_color_gray_999999;
+        _hoveringView.pageView.selectTitleColor = JL_color_gray_101010;
+        _hoveringView.pageView.lineColor = JL_color_gray_333333;
+        _hoveringView.pageView.lineWitdhScale = 0.18f;
+        _hoveringView.pageView.defaultTitleFont = kFontPingFangSCRegular(15.0f);
+        _hoveringView.pageView.selectTitleFont = kFontPingFangSCSCSemibold(16.0f);
+            
+        WS(weakSelf)
+        //设置头部刷新的方法。头部刷新的话isMidRefresh 必须为NO
+        _hoveringView.scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+            [weakSelf artHeadRefresh];
         }];
     }
-    return _worksTitleView;
+    return _hoveringView;
 }
 
-- (UILabel *)worksTitleLabel {
-    if (!_worksTitleLabel) {
-        _worksTitleLabel = [[UILabel alloc] init];
-        _worksTitleLabel.font = kFontPingFangSCSCSemibold(17.0f);
-        _worksTitleLabel.textColor = JL_color_gray_101010;
-        _worksTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _worksTitleLabel.text = @"TA出售的NFT";
+- (NSArray <NSString *> *)titles {
+    if (!_titles) {
+        _titles = @[@"寄售的NFT", @"拍卖的NFT"];
     }
-    return _worksTitleLabel;
+    return _titles;
 }
 
--(UICollectionView*)collectionView {
-    if (!_collectionView) {
-        JLCreatorCollectionWaterLayout *layout = [JLCreatorCollectionWaterLayout layoutWithColoumn:2 data:self.artArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f];
-        NSInteger row = self.artArray.count / 2;
-        if (self.artArray.count % 2 != 0) {
-            row += 1;
-        }
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]) collectionViewLayout:layout];
-        _collectionView.backgroundColor = JL_color_white_ffffff;
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = JL_color_white_ffffff;
-        _collectionView.scrollEnabled = NO;
+- (NSArray <UIViewController *> *)viewControllers {
+    if (!_viewControllers) {
+        _viewControllers = [self setupViewControllers];
     }
-    return _collectionView;
+    return _viewControllers;
 }
 
-#pragma mark - UICollectionViewDelegate
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.artArray.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    JLPopularOriginalCollectionViewCell *cell = [collectionView  dequeueReusableCellWithReuseIdentifier:@"JLPopularOriginalCollectionViewCell" forIndexPath:indexPath];
-    cell.authorArtData = self.artArray[indexPath.row];
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    [cell layoutSubviews];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Model_art_Detail_Data *artDetailData = self.artArray[indexPath.row];
-    if ([artDetailData.aasm_state isEqualToString:@"auctioning"]) {
-        // 拍卖中
-        JLAuctionArtDetailViewController *auctionDetailVC = [[JLAuctionArtDetailViewController alloc] init];
-        auctionDetailVC.artDetailType = artDetailData.is_owner ? JLAuctionArtDetailTypeSelf : JLAuctionArtDetailTypeDetail;
-        Model_auction_meetings_arts_Data *meetingsArtsData = [[Model_auction_meetings_arts_Data alloc] init];
-        meetingsArtsData.art = artDetailData;
-        auctionDetailVC.artsData = meetingsArtsData;
-        [self.navigationController pushViewController:auctionDetailVC animated:YES];
-    } else {
-        JLArtDetailViewController *artDetailVC = [[JLArtDetailViewController alloc] init];
-        artDetailVC.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
-        artDetailVC.artDetailData = artDetailData;
-        [self.navigationController pushViewController:artDetailVC animated:YES];
-    }
-}
-
-- (NSMutableArray *)artArray {
-    if (!_artArray) {
-        _artArray = [NSMutableArray array];
-    }
-    return _artArray;
-}
-
-- (JLNormalEmptyView *)emptyView {
-    if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height - KTouch_Responder_Height)];
-    }
-    return _emptyView;
-}
-
-- (void)headRefresh {
-    self.currentPage = 1;
-    [self requestAuthorArtList];
-}
-
-- (void)footRefresh {
-    self.currentPage++;
-    [self requestAuthorArtList];
-}
-
-- (void)endRefresh:(NSArray*)collectionArray {
-    if (collectionArray.count < kPageSize) {
-        [(JLRefreshFooter *)self.scrollView.mj_footer endWithNoMoreDataNotice];
-    } else {
-        [self.scrollView.mj_footer endRefreshing];
-    }
-}
-
-- (void)setNoDataShow {
-    if (self.artArray.count == 0) {
-        [self.collectionView addSubview:self.emptyView];
-    } else {
-        if (_emptyView) {
-            [self.emptyView removeFromSuperview];
-            self.emptyView = nil;
-        }
-    }
-}
-
-- (void)requestAuthorArtList {
+- (NSArray <UIViewController *> *)setupViewControllers {
     WS(weakSelf)
-    Model_members_arts_Req *request = [[Model_members_arts_Req alloc] init];
-    request.page = self.currentPage;
-    request.per_page = kPageSize;
-    request.author_id = self.authorData.ID;
-    Model_members_arts_Rsp *response = [[Model_members_arts_Rsp alloc] init];
-    response.request = request;
-    
-    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
-    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
-        if (netIsWork) {
-            if (weakSelf.currentPage == 1) {
-                [weakSelf.artArray removeAllObjects];
+    NSMutableArray <UIViewController *> *artVCArray = [NSMutableArray array];
+    [self.titles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        JLCreatorPageArtViewController *artVC = [[JLCreatorPageArtViewController alloc] init];
+        artVC.type = idx;
+        artVC.authorId = weakSelf.authorData.ID;
+        artVC.lookArtDetailBlock = ^(Model_art_Detail_Data * _Nonnull artDetailData) {
+            JLArtDetailViewController *vc = [[JLArtDetailViewController alloc] init];
+            vc.artDetailType = artDetailData.is_owner ? JLArtDetailTypeSelfOrOffShelf : JLArtDetailTypeDetail;
+            vc.artDetailData = artDetailData;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        artVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
+            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
+            vc.auctionsId = auctionsData.ID;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
+        artVC.endRefreshBlock = ^(NSInteger page) {
+            if (page == 1 && [weakSelf.hoveringView.scrollView.mj_header isRefreshing]) {
+                [weakSelf.hoveringView.scrollView.mj_header endRefreshing];
             }
-            [weakSelf.artArray addObjectsFromArray:response.body];
-            
-            NSInteger row = weakSelf.artArray.count / 2;
-            if (self.artArray.count % 2 != 0) {
-                row += 1;
-            }
-            if (row == 0) {
-                row = 1;
-            }
-            weakSelf.collectionView.frame = CGRectMake(0.0f, self.worksTitleView.frameBottom + 25.0f, kScreenWidth, [self getCollectionViewHeight:row]);
-            weakSelf.scrollView.contentSize = CGSizeMake(kScreenWidth, self.collectionView.frameBottom);
-            
-            [weakSelf endRefresh:response.body];
-            [self setNoDataShow];
-            [self.collectionView reloadData];
-        } else {
-            [weakSelf.scrollView.mj_footer endRefreshing];
-        }
+        };
+        [artVCArray addObject:artVC];
     }];
-}
-
-- (CGFloat)getCollectionViewHeight:(NSInteger)row {
-    CGFloat columnFirstHeight = row * 14.0f;
-    CGFloat columnSecondHeight = row * 14.0f;
-    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    for (int i = 0; i < self.artArray.count; i++) {
-        Model_art_Detail_Data *iconModel = self.artArray[i];
-        //计算每个cell的高度
-        float itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 30.0f + iconModel.imgHeight) itemW:itemW];
-        if (i % 2 == 0) {
-            columnFirstHeight += itemH;
-        } else {
-            columnSecondHeight += itemH;
-        }
-    }
-    return MAX(columnFirstHeight, columnSecondHeight);
-}
-
-//计算cell的高度
-- (float)getcellHWithOriginSize:(CGSize)originSize itemW:(float)itemW {
-    return itemW * originSize.height / originSize.width;
+    return artVCArray.copy;
 }
 
 @end

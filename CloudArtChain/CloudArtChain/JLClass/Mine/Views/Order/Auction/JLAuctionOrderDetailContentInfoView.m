@@ -1,14 +1,14 @@
 //
-//  JLAuctionOrderDetailArtInfoView.m
+//  JLAuctionOrderDetailContentInfoView.m
 //  CloudArtChain
 //
-//  Created by jielian on 2021/7/20.
+//  Created by jielian on 2021/8/18.
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
-#import "JLAuctionOrderDetailArtInfoView.h"
+#import "JLAuctionOrderDetailContentInfoView.h"
 
-@interface JLAuctionOrderDetailArtInfoView ()
+@interface JLAuctionOrderDetailContentInfoView ()
 
 @property (nonatomic, strong) UIView *bgView;
 
@@ -36,14 +36,21 @@
 
 @property (nonatomic, strong) UILabel *depositLabel;
 
+@property (nonatomic, strong) UILabel *realPayTitleLabel;
+
+@property (nonatomic, strong) UILabel *realPayLabel;
+
+@property (nonatomic, strong) MASConstraint *realPayTitleLabelTopConstraint;
+
 @end
 
-@implementation JLAuctionOrderDetailArtInfoView
+@implementation JLAuctionOrderDetailContentInfoView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = JL_color_white_ffffff;
         
         [self setupUI];
     }
@@ -53,22 +60,12 @@
 - (void)setupUI {
     
     _bgView = [[UIView alloc] init];
-    _bgView.backgroundColor = JL_color_white_ffffff;
-    _bgView.layer.cornerRadius = 5;
-    _bgView.layer.shadowColor = [UIColor colorWithHexString:@"#404040" alpha:0.16].CGColor;
-    _bgView.layer.shadowOpacity = 1.0f;
-    _bgView.layer.shadowOffset = CGSizeMake(0, 0);
-    _bgView.layer.shadowRadius = 5.0f;
     [self addSubview:_bgView];
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(5);
-        make.left.equalTo(self).offset(15);
-        make.bottom.equalTo(self).offset(-5);
-        make.right.equalTo(self).offset(-15);
+        make.edges.equalTo(self);
     }];
     
     _imgView = [[UIImageView alloc] init];
-    _imgView.backgroundColor = [UIColor orangeColor];
     _imgView.contentMode = UIViewContentModeScaleAspectFit;
     _imgView.layer.cornerRadius = 5;
     _imgView.clipsToBounds = YES;
@@ -80,7 +77,6 @@
     }];
     
     _nameLabel = [[UILabel alloc] init];
-    _nameLabel.text = @"哈利·波特与凤凰社哈利·波特与凤凰社";
     _nameLabel.textColor = JL_color_gray_212121;
     _nameLabel.font = kFontPingFangSCMedium(15);
     [_bgView addSubview:_nameLabel];
@@ -91,7 +87,6 @@
     }];
     
     _authorLabel = [[UILabel alloc] init];
-    _authorLabel.text = @"荒野猎人";
     _authorLabel.textColor = JL_color_gray_212121;
     _authorLabel.font = kFontPingFangSCRegular(15);
     [_bgView addSubview:_authorLabel];
@@ -101,7 +96,6 @@
     }];
     
     _nftAddressLabel = [[UILabel alloc] init];
-    _nftAddressLabel.text = @"NFT地址：0xjfisoajfiwjfojsoijfojfowjojfaosjfo";
     _nftAddressLabel.textColor = JL_color_gray_101010;
     _nftAddressLabel.font = kFontPingFangSCRegular(13);
     [_bgView addSubview:_nftAddressLabel];
@@ -121,7 +115,6 @@
     }];
     
     _numLabel = [[UILabel alloc] init];
-    _numLabel.text = @"2";
     _numLabel.textColor = JL_color_gray_212121;
     _numLabel.font = kFontPingFangSCRegular(14);
     _numLabel.textAlignment = NSTextAlignmentRight;
@@ -142,7 +135,6 @@
     }];
     
     _priceLabel = [[UILabel alloc] init];
-    _priceLabel.text = @"￥950";
     _priceLabel.textColor = JL_color_red_D70000;
     _priceLabel.font = kFontPingFangSCRegular(14);
     _priceLabel.textAlignment = NSTextAlignmentRight;
@@ -153,7 +145,7 @@
     }];
     
     _royaltyTitleLabel = [[UILabel alloc] init];
-    _royaltyTitleLabel.text = @"版税（5%）";
+    _royaltyTitleLabel.text = @"版税（0%）";
     _royaltyTitleLabel.textColor = JL_color_gray_212121;
     _royaltyTitleLabel.font = kFontPingFangSCRegular(14);
     [_bgView addSubview:_royaltyTitleLabel];
@@ -163,7 +155,7 @@
     }];
     
     _royaltyLabel = [[UILabel alloc] init];
-    _royaltyLabel.text = @"￥5";
+    _royaltyLabel.text = @"￥0";
     _royaltyLabel.textColor = JL_color_gray_212121;
     _royaltyLabel.font = kFontPingFangSCRegular(14);
     _royaltyLabel.textAlignment = NSTextAlignmentRight;
@@ -181,11 +173,9 @@
     [_depositTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.royaltyTitleLabel);
         make.top.equalTo(self.royaltyTitleLabel.mas_bottom).offset(17);
-        make.bottom.equalTo(self.bgView).offset(-18);
     }];
     
     _depositLabel = [[UILabel alloc] init];
-    _depositLabel.text = @"￥200";
     _depositLabel.textColor = JL_color_gray_212121;
     _depositLabel.font = kFontPingFangSCRegular(14);
     _depositLabel.textAlignment = NSTextAlignmentRight;
@@ -194,6 +184,104 @@
         make.right.equalTo(self.bgView).offset(-23);
         make.centerY.equalTo(self.depositTitleLabel);
     }];
+    
+    _realPayTitleLabel = [[UILabel alloc] init];
+    _realPayTitleLabel.text = @"实付款";
+    _realPayTitleLabel.textColor = JL_color_gray_212121;
+    _realPayTitleLabel.font = kFontPingFangSCRegular(14);
+    [_bgView addSubview:_realPayTitleLabel];
+    [_realPayTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.depositTitleLabel);
+        self.realPayTitleLabelTopConstraint =  make.top.equalTo(self.depositTitleLabel.mas_bottom).offset(17);
+        make.bottom.equalTo(self.bgView).offset(-18);
+    }];
+    
+    _realPayLabel = [[UILabel alloc] init];
+    _realPayLabel.textColor = JL_color_red_D70000;
+    _realPayLabel.font = kFontPingFangSCRegular(14);
+    _realPayLabel.textAlignment = NSTextAlignmentRight;
+    [_bgView addSubview:_realPayLabel];
+    [_realPayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.bgView).offset(-23);
+        make.centerY.equalTo(self.realPayTitleLabel);
+    }];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self addShadow:JL_color_gray_999999 cornerRadius:5 offset:CGSizeMake(0, 0)];
+}
+
+#pragma mark - setters and getters
+- (void)setType:(JLAuctionOrderType)type {
+    _type = type;
+    
+    if (_type == JLAuctionOrderTypeSell) {
+        _priceTitleLabel.text = @"成交价";
+        _realPayTitleLabel.text = @"实收款";
+        
+        _royaltyTitleLabel.hidden = YES;
+        _royaltyLabel.hidden = YES;
+        _depositTitleLabel.hidden = YES;
+        _depositLabel.hidden = YES;
+        
+        [_realPayTitleLabelTopConstraint uninstall];
+        [_realPayTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.depositTitleLabel);
+            self.realPayTitleLabelTopConstraint =  make.top.equalTo(self.priceTitleLabel.mas_bottom).offset(17);
+            make.bottom.equalTo(self.bgView).offset(-18);
+        }];
+    }
+}
+- (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
+    _auctionsData = auctionsData;
+    
+    if (![NSString stringIsEmpty:_auctionsData.art.img_main_file1[@"url"]]) {
+        [_imgView sd_setImageWithURL:[NSURL URLWithString:_auctionsData.art.img_main_file1[@"url"]]];
+    }
+    _authorLabel.text = [NSString stringIsEmpty:_auctionsData.art.author.display_name] ? @"" : _auctionsData.art.author.display_name;
+    _nameLabel.text = _auctionsData.art.name;
+    _nftAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
+    _numLabel.text = _auctionsData.amount;
+    _priceLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.win_price];
+    _depositLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.deposit_amount];
+    _realPayLabel.text = [NSString stringWithFormat:@"￥%@", [self getResultPayMoney:_auctionsData]];
+    
+    if (![NSString stringIsEmpty:_auctionsData.art.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty];
+        NSDecimalNumber *persentRoyaltyNumber = [royaltyNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        _royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", persentRoyaltyNumber.stringValue];
+        
+        NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.win_price];
+        NSDecimalNumber *royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
+        _royaltyLabel.text = [NSString stringWithFormat:@"￥%@", royaltyPrice.stringValue];
+    }
+}
+
+/// 最终实付款
+- (NSDecimalNumber *)getResultPayMoney: (Model_auctions_Data *)auctionsData {
+    // 拍中价格
+    NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.win_price]) {
+        winPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.win_price];
+    }
+    // 版税价格
+    NSDecimalNumber *royaltyPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.art.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:auctionsData.art.royalty];
+        if ([royaltyNumber isGreaterThanZero]) {
+            royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
+        }
+    }
+    // 保证金
+    NSDecimalNumber *depositPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    if (![NSString stringIsEmpty:auctionsData.deposit_amount]) {
+        depositPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.deposit_amount];
+    }
+    // 最终实付价格
+    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
+    
+    return resultPrice;
 }
 
 @end

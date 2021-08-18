@@ -14,6 +14,8 @@
 
 @interface JLHomeHotViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, JLPagetableCollectionViewRequestDelegate>
 
+@property (nonatomic, strong) JLPagetableCollectionView *collectionView;
+
 @property (nonatomic, assign) NSInteger currentPage;
 @property (nonatomic, strong) NSMutableArray *artsArray;
 @property (nonatomic, strong) JLNormalEmptyView *emptyView;
@@ -149,7 +151,7 @@
     }];
 }
 
-// 热门拍卖
+// 精品拍卖
 - (void)requestPopularAuctioningList {
     WS(weakSelf)
     Model_auctions_popular_Req *request = [[Model_auctions_popular_Req alloc] init];
@@ -167,7 +169,9 @@
             [weakSelf.collectionView reloadData];
             [weakSelf setNoDataShow];
             
-            [weakSelf createTimer];
+            if (weakSelf.artsArray.count) {
+                [weakSelf createTimer];
+            }
         }
     }];
 }

@@ -102,6 +102,7 @@ static id inst = nil;
     _purple_CADEFF = [UIColor colorWithHexString:@"#CADEFF"];
     
     _red_D70000 = [UIColor colorWithHexString:@"#D70000"];
+    _red_D32828 = [UIColor colorWithHexString:@"#D32828"];
     
     _orange_FF8150 = [UIColor colorWithHexString:@"#FF8150"];
     _orange_FFEBD4 = [UIColor colorWithHexString:@"#FFEBD4"];

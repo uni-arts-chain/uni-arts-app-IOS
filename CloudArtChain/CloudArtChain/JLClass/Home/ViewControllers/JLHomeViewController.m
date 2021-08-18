@@ -579,7 +579,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"热门原创", @"热门拍卖"];
+        _titles = @[@"热门原创", @"精品拍卖"];
     }
     return _titles;
 }

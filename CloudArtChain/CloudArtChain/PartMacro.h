@@ -64,8 +64,24 @@
 #pragma mark - Local NotificationCenter
 /// 网络状态变更
 #define LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED @"LocalNotification_JLNetworkStatusChanged"
+#pragma mark 拍卖相关
+/// 发起拍卖
+#define LOCALNOTIFICATION_JL_LAUNCH_AUCTION @"LocalNotification_JLLaunchAuction"
 /// 取消拍卖
 #define LOCALNOTIFICATION_JL_CANCEL_AUCTION @"LocalNotification_JLCancelAuction"
+/// 拍卖结束
+#define LOCALNOTIFICATION_JL_END_AUCTION @"LocalNotification_JLEndAuction"
+/// 超时未支付拍卖
+#define LOCALNOTIFICATION_JL_OVERDUE_PAYMENT_AUCTION @"LocalNotification_JLOverduePaymentAuction"
+///出价成功拍卖
+#define LOCALNOTIFICATION_JL_OFFER_SUCCESS_AUCTION @"LocalNotification_JLOfferSuccessAuction"
+#pragma mark 支付方式
+/// 现金账户支付成功拍卖
+#define LOCALNOTIFICATION_JL_CASHACCOUNT_PAY_SUCCESS_AUCTION @"LocalNotification_JLCashAccountPaySuccessAuction"
+/// 微信支付成功拍卖
+#define LOCALNOTIFICATION_H5PAYFIHISHEDGOBACK @"H5PayFinishedGoback"
+/// 支付宝支付成功拍卖
+#define LOCALNOTIFICATION_JL_ALIPAYRESULTNOTIFICATION @"JLAliPayResultNotification"
 
 #pragma mark - userDefaults
 #define USERDEFAULTS_JL_WITHDRAW_PAY_TYPE @"UserDefaultJLWithdrawPayType"

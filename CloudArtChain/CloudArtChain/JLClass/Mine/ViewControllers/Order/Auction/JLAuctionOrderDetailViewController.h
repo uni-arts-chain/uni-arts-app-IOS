@@ -15,8 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 订单类型
 @property (nonatomic, assign) JLAuctionOrderType type;
 
-/// 订单编号
-@property (nonatomic, copy) NSString *orderNo;
+@property (nonatomic, strong) Model_arts_sold_Data *orderData;
 
 @end
 

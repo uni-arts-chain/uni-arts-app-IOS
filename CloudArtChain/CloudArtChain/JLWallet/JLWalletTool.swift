@@ -164,6 +164,8 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
             .rootViewController?.topModalViewController else {
             return
         }
+        
+        authorizePasswordDismiss = true
 
         guard let authorizationView = PinViewFactory.createScreenAuthorizationView(with: self,
                                                                                    cancellable: cancellable) else {

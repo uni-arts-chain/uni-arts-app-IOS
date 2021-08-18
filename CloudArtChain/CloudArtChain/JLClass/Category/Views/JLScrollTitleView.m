@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) MASConstraint *lineCenterXConstraint;
 
+@property (nonatomic, strong) MASConstraint *lineSizeConstraint;
+
 @end
 
 @implementation JLScrollTitleView
@@ -35,6 +37,11 @@
         self.backgroundColor = JL_color_gray_F6F6F6;
         _screenMax = 4;
         _defaultIndex = 0;
+        _defaultTitleColor = JL_color_gray_101010;
+        _selectedTitleColor = JL_color_gray_101010;
+        _defaultTitleFont = kFontPingFangSCRegular(15);
+        _selectedTitlFont = kFontPingFangSCSCSemibold(15);
+        _bottomLineSize = CGSizeMake(30, 2);
         _itemSize = CGSizeMake(self.frameWidth / 4, self.frameHeight);
         
         [self setupUI];
@@ -57,11 +64,11 @@
     }];
     
     _lineView = [[UIView alloc] init];
-    _lineView.backgroundColor = JL_color_gray_101010;
+    _lineView.backgroundColor = _selectedTitleColor;
     [_scrollView addSubview:_lineView];
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bgView);
-        make.size.mas_equalTo(@(CGSizeMake(30, 2)));
+        self.lineSizeConstraint = make.size.mas_equalTo(@(self.bottomLineSize));
         self.lineCenterXConstraint = make.centerX.equalTo(self.bgView);
     }];
 }
@@ -75,8 +82,8 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.tag = 100 + i;
         [btn setTitle:_titleArray[i] forState:UIControlStateNormal];
-        [btn setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
-        btn.titleLabel.font = kFontPingFangSCRegular(15);
+        [btn setTitleColor:_defaultTitleColor forState:UIControlStateNormal];
+        btn.titleLabel.font = _defaultTitleFont;
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [_bgView addSubview:btn];
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,7 +98,10 @@
         if (_defaultIndex == i) {
             _currentSelectBtn = btn;
             _currentIndex = i;
-            btn.titleLabel.font = kFontPingFangSCSCSemibold(15);
+            [btn setTitleColor:_selectedTitleColor forState:UIControlStateNormal];
+            btn.titleLabel.font = _selectedTitlFont;
+            
+            _lineView.backgroundColor = _selectedTitleColor;
             
             [_lineCenterXConstraint uninstall];
             [_lineView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -107,8 +117,10 @@
         return;
     }
     
-    _currentSelectBtn.titleLabel.font = kFontPingFangSCRegular(15);
-    sender.titleLabel.font = kFontPingFangSCSCSemibold(15);
+    [_currentSelectBtn setTitleColor:_defaultTitleColor forState:UIControlStateNormal];
+    _currentSelectBtn.titleLabel.font = _defaultTitleFont;
+    [sender setTitleColor:_selectedTitleColor forState:UIControlStateNormal];
+    sender.titleLabel.font = _selectedTitlFont;
     
     _currentIndex = sender.tag - 100;
     _currentSelectBtn = sender;
@@ -181,9 +193,11 @@
             if (obj.tag >= 100) {
                 if (obj.tag - 100 == _currentIndex) {
                     self.currentSelectBtn = obj;
-                    ((UIButton *)obj).titleLabel.font = kFontPingFangSCSCSemibold(15);
+                    [((UIButton *)obj) setTitleColor:self.selectedTitleColor forState:UIControlStateNormal];
+                    ((UIButton *)obj).titleLabel.font = self.selectedTitlFont;
                 }else {
-                    ((UIButton *)obj).titleLabel.font = kFontPingFangSCRegular(15);
+                    [((UIButton *)obj) setTitleColor:self.defaultTitleColor forState:UIControlStateNormal];
+                    ((UIButton *)obj).titleLabel.font = self.defaultTitleFont;
                 }
             }
         }];
@@ -212,6 +226,39 @@
 
 - (void)setDefaultIndex:(NSInteger)defaultIndex {
     _defaultIndex = defaultIndex;
+    
+    [self updateUI];
+}
+
+- (void)setDefaultTitleColor:(UIColor *)defaultTitleColor {
+    _defaultTitleColor = defaultTitleColor;
+    
+    [self updateUI];
+}
+
+- (void)setSelectedTitleColor:(UIColor *)selectedTitleColor {
+    _selectedTitleColor = selectedTitleColor;
+    
+    [self updateUI];
+}
+
+- (void)setDefaultTitleFont:(UIFont *)defaultTitleFont {
+    _defaultTitleFont = defaultTitleFont;
+    
+    [self updateUI];
+}
+
+- (void)setBottomLineSize:(CGSize )bottomLineSize {
+    _bottomLineSize = bottomLineSize;
+    
+    [_lineSizeConstraint uninstall];
+    [_lineView mas_updateConstraints:^(MASConstraintMaker *make) {
+        self.lineSizeConstraint = make.size.mas_equalTo(@(self.bottomLineSize));
+    }];
+}
+
+- (void)setSelectedTitlFont:(UIFont *)selectedTitlFont {
+    _selectedTitlFont = selectedTitlFont;
     
     [self updateUI];
 }

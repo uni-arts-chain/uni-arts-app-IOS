@@ -101,7 +101,7 @@
     
     NSString *price = self.auctionsData.current_price;
     if ([NSString stringIsEmpty:self.auctionsData.current_price]) {
-        price = @"0.0";
+        price = _auctionsData.start_price;
     }
     if (![NSString stringIsEmpty:price]) {
         NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前价：￥%@", price]];
