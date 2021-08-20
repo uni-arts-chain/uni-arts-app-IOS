@@ -21,6 +21,10 @@ typedef NS_ENUM(NSUInteger, JLNewAuctionArtDetailBottomViewStatus) {
     JLNewAuctionArtDetailBottomViewStatusOffer,
     /// 中标支付
     JLNewAuctionArtDetailBottomViewStatusWinBidding,
+    /// 结算中
+    JLNewAuctionArtDetailBottomViewStatusSettlement,
+    /// 支付中
+    JLNewAuctionArtDetailBottomViewStatusPaying,
     /// 已结束
     JLNewAuctionArtDetailBottomViewStatusFinished
 };

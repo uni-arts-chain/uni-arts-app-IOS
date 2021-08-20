@@ -14,6 +14,7 @@
 #import "JLHomePageViewController.h"
 #import "JLSingleSellOrderViewController.h"
 #import "JLBoxDetailViewController.h"
+#import "JLAuctionHistoryViewController.h"
 
 #import "LAppViewController.h"
 #import "LAppAllocator.h"
@@ -306,6 +307,11 @@
             JLBoxDetailViewController *boxDetailVC = [[JLBoxDetailViewController alloc] init];
             boxDetailVC.boxId = resourceId;
             [selectedNavi pushViewController:boxDetailVC animated:YES];
+        } else if ([resourceType.lowercaseString isEqualToString:@"auction"]) {
+            // 拍卖纪录
+            JLAuctionHistoryViewController *vc = [[JLAuctionHistoryViewController alloc] init];
+            vc.defaultType = JLAuctionHistoryTypeWins;
+            [selectedNavi pushViewController:vc animated:YES];
         }
     }
 }

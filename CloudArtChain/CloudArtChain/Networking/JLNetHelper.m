@@ -73,7 +73,7 @@ static AFHTTPSessionManager *sessionManager = nil;
         if (error) {
             NSLog(@"jsonError : %@",error);
         }
-        NSLog(@"当前的请求接口====%@,当前请求参数为===%@，当前接口的响应数据======%@",baseUrl,[reqPar toJSONString],jsonStr);
+        JLLog(@"当前的请求接口====%@,当前请求参数为===%@，当前接口的响应数据======%@",baseUrl,[reqPar toJSONString],jsonStr);
         Model_Rsp *rspBase = (Model_Rsp*)rsp;
         
         if (rspBase.head.code.integerValue == 1000) {
@@ -128,7 +128,7 @@ static AFHTTPSessionManager *sessionManager = nil;
         if (error) {
             NSLog(@"jsonError : %@",error);
         }
-        NSLog(@"当前的请求接口====%@, 当前请求参数为===%@, 当前接口的响应数据======%@",baseUrl,  [reqPar toJSONString], jsonStr);
+        JLLog(@"当前的请求接口====%@, 当前请求参数为===%@, 当前接口的响应数据======%@",baseUrl,  [reqPar toJSONString], jsonStr);
         Model_Rsp *rspBase = (Model_Rsp *)rsp;
         if (rspBase.head.code.integerValue == 1000) {
             if (callBackBlock) {

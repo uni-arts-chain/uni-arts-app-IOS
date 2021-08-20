@@ -214,6 +214,9 @@
         _timeLabel.hidden = NO;
         _rightLabel.hidden = YES;
         
+        _rightBtn.userInteractionEnabled = YES;
+        _rightBtn.backgroundColor = JL_color_red_D32828;
+        
         // 最终实付价格
         NSDecimalNumber *resultPrice = [self getResultPayMoney];
         
@@ -229,22 +232,47 @@
         
         if (hasPayTime <= 0) {
             _rightBtn.userInteractionEnabled = NO;
-            _rightLabel.backgroundColor = JL_color_gray_DDDDDD;
+            _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
             _timeLabel.text = @"超时未支付，已扣除保证金";
         }else {
-            _timeLabel.text = [NSString stringWithFormat:@"请在%02ld:%02ld:%02ld内完成支付，否则将扣除保证金",labs(hasPayTime) / (24 * 3600) * 24 + (labs(hasPayTime) / 3600) % 24, (labs(hasPayTime) / 60) % 60, (labs(hasPayTime) % 60)];
+            if (_auctionsData.is_paying) {
+                // 支付处理中
+                _rightBtn.userInteractionEnabled = NO;
+                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                [_rightBtn setTitle:@"支付处理中" forState:UIControlStateNormal];
+            }else {
+                if ([_auctionsData.aasm_state isEqualToString:@"paid"]) {
+                    // 已支付
+                    _rightBtn.userInteractionEnabled = NO;
+                    _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                    [_rightBtn setTitle:@"已支付" forState:UIControlStateNormal];
+                }else {
+                    _timeLabel.text = [NSString stringWithFormat:@"请在%02ld:%02ld:%02ld内完成支付，否则将扣除保证金",labs(hasPayTime) / (24 * 3600) * 24 + (labs(hasPayTime) / 3600) % 24, (labs(hasPayTime) / 60) % 60, (labs(hasPayTime) % 60)];
+                }
+            }
         }
     }else if (type == JLAuctionHistoryTypeFinish) {
-        // 已结束 是否中标
-        if (_auctionsData.buyer && [auctionsData.buyer.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
-            if (_auctionsData.buyer_paid) {
-                // 已支付
-                _rightLabel.text = @"中标已支付";
-            }else {
-                _rightLabel.text = [NSString stringWithFormat:@"中标未支付，已扣除保证金￥%@", _auctionsData.deposit_amount];
-            }
+        if (_auctionsData.is_settlement) {
+            // 正在结算
+            _rightLabel.text = @"正在结算中";
         }else {
-            _rightLabel.text = @"未中标";
+            // 已结束 是否中标
+            if (_auctionsData.buyer && [auctionsData.buyer.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
+                if (_auctionsData.is_paying) {
+                    // 支付处理中
+                    _rightLabel.text = @"支付处理中";
+                }else {
+                    if ([_auctionsData.aasm_state isEqualToString:@"paid"]) {
+                        // 已支付
+                        _rightLabel.text = @"中标已支付";
+                    }else {
+                        _rightLabel.text = [NSString stringWithFormat:@"中标未支付，已扣除保证金￥%@", _auctionsData.deposit_amount];
+                        
+                    }
+                }
+            }else {
+                _rightLabel.text = @"未中标";
+            }
         }
     }
 }

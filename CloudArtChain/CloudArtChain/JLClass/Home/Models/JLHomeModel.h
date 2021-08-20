@@ -487,8 +487,10 @@
 @property (nonatomic, copy) NSString *win_price;
 /// 中标者
 @property (nonatomic, strong) UserDataBody *buyer;
-/// 中标者是否支付
-@property (nonatomic, assign) BOOL buyer_paid;
+/// 中标者 支付状态
+@property (nonatomic, copy) NSString *aasm_state;
+/// 是否正在支付中（等待微信回调等延迟处理）
+@property (nonatomic, assign) BOOL is_paying;
 /// 是否可以取消
 @property (nonatomic, assign) BOOL can_cancel;
 /// 保证金是否支付
@@ -497,6 +499,8 @@
 @property (nonatomic, assign) BOOL is_owner;
 /// 限时支付时间
 @property (nonatomic, copy) NSString *pay_timeout;
+/// 是否正在结算中
+@property (nonatomic, assign) BOOL is_settlement;
 /// 艺术品
 @property (nonatomic, strong) Model_art_Detail_Data *art;
 @end
@@ -571,7 +575,7 @@
 @property (nonatomic, strong) NSDictionary *body;
 @end
 //////////////////////////////////////////////////////////////////////////
-#pragma mark - /v2/auctions/popular 热门拍卖
+#pragma mark - /v2/auctions/popular 精品拍卖
 @interface Model_auctions_popular_Req : Model_Req
 /** 页码 */
 @property (nonatomic, assign) NSInteger page;

@@ -62,6 +62,7 @@
     
     self.networkStatus = [[NSUserDefaults standardUserDefaults] integerForKey:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:LOCALNOTIFICATION_JL_NETWORK_STATUS_CHANGED object:nil];
+    // 支付回调
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(h5PayFinishedGoback:)
         name:LOCALNOTIFICATION_H5PAYFIHISHEDGOBACK object:nil];

@@ -42,9 +42,16 @@
 
 #pragma mark - JLCashAccountContentViewDelegate
 - (void)withdraw {
-    JLCashViewController *vc = [[JLCashViewController alloc] init];
-    vc.amount = @"10";
-    [self.navigationController pushViewController:vc animated:YES];
+    if (![NSString stringIsEmpty:_accountData.balance]) {
+        NSDecimalNumber *balanceNumber = [NSDecimalNumber decimalNumberWithString:_accountData.balance];
+        if ([balanceNumber isGreaterThanZero]) {
+            JLCashViewController *vc = [[JLCashViewController alloc] init];
+            vc.amount = balanceNumber.stringValue;
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
+        }
+    }
+    [[JLLoading sharedLoading] showMBFailedTipMessage:@"没有可用的余额" hideTime:KToastDismissDelayTimeInterval];
 }
 
 #pragma mark - loadDatas

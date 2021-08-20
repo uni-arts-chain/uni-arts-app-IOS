@@ -117,12 +117,6 @@
         make.top.equalTo(self.infoView.mas_bottom).offset(20);
         make.bottom.equalTo(self.bgView).offset(-10);
     }];
-
-//    [_infoView layoutIfNeeded];
-//    [_payTypeView layoutIfNeeded];
-//    
-//    [_infoView addShadow:JL_color_gray_999999 cornerRadius:5 offset:CGSizeMake(0, 0)];
-//    [_payTypeView addShadow:JL_color_gray_999999 cornerRadius:5 offset:CGSizeMake(0, 0)];
 }
 
 - (void)createTimer {

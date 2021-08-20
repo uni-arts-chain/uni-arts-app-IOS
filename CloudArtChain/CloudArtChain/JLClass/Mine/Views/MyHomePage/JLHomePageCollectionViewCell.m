@@ -397,7 +397,7 @@
         [self.imageView setCorners:UIRectCornerTopLeft | UIRectCornerTopRight radius:CGSizeMake(5.0f, 5.0f)];
     }
     self.nameLabel.text = auctionsData.art.name;
-    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:auctionsData.art.price] ? @"0" : auctionsData.art.price];
+    self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [NSString stringIsEmpty:auctionsData.start_price] ? @"0" : auctionsData.start_price];
     
     if (auctionsData.art.resource_type == 4) {
         self.videoView.hidden = NO;

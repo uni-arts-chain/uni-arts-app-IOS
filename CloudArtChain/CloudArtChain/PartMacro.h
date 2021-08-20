@@ -19,8 +19,8 @@
 // 定义环境地址
 #if (ENV == KF)//开发环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.me/"
-#define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.me"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.network/"
+#define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.network"
 #define CHAIN_GenesisHash                    "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
 
 #elif (ENV == OL)//正式环境

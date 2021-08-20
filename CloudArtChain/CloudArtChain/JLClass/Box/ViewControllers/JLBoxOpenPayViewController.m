@@ -153,10 +153,16 @@
             if (weakSelf.currentPayType == JLOrderPayTypeNameAccount) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }else {
-                NSString *payUrl = response.body[@"url"];
-                if (![NSString stringIsEmpty:payUrl]) {
+                if (weakSelf.currentPayType == JLOrderPayTypeNameAccount) {
                     if (weakSelf.buySuccessBlock) {
-                        weakSelf.buySuccessBlock(weakSelf.currentPayType, payUrl);
+                        weakSelf.buySuccessBlock(weakSelf.currentPayType, @"");
+                    }
+                }else {
+                    NSString *payUrl = response.body[@"url"];
+                    if (![NSString stringIsEmpty:payUrl]) {
+                        if (weakSelf.buySuccessBlock) {
+                            weakSelf.buySuccessBlock(weakSelf.currentPayType, payUrl);
+                        }
                     }
                 }
             }

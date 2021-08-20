@@ -164,6 +164,7 @@
     
     NSString *statusTitle = @"";
     if (_auctionsData.is_owner) {
+        // 是拍卖者自己
         _status = JLNewAuctionArtDetailBottomViewStatusCancelAuction;
         statusTitle = @"取消拍卖";
         
@@ -191,33 +192,49 @@
                 _status = JLNewAuctionArtDetailBottomViewStatusOffer;
                 statusTitle = @"出价";
             }
-            // 是否中标
-            if (_auctionsData.buyer && [auctionsData.buyer.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
-                _status = JLNewAuctionArtDetailBottomViewStatusWinBidding;
-                statusTitle = @"中标去支付";
-                if (_auctionsData.buyer_paid) {
-                    // 已支付
-                    _status = JLNewAuctionArtDetailBottomViewStatusFinished;
-                    statusTitle = @"中标已支付";
-                    _rightBtn.userInteractionEnabled = NO;
-                    _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            if (_auctionsData.is_settlement) {
+                // 正在结算
+                _status = JLNewAuctionArtDetailBottomViewStatusSettlement;
+                statusTitle = @"正在结算中";
+                _rightBtn.userInteractionEnabled = NO;
+                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+            }else {
+                // 是否中标
+                if (_auctionsData.buyer && [auctionsData.buyer.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {
+                    _status = JLNewAuctionArtDetailBottomViewStatusWinBidding;
+                    statusTitle = @"中标去支付";
+                    if (_auctionsData.is_paying) {
+                        // 支付处理中
+                        _status = JLNewAuctionArtDetailBottomViewStatusPaying;
+                        statusTitle = @"支付处理中";
+                        _rightBtn.userInteractionEnabled = NO;
+                        _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                    }else {
+                        if ([_auctionsData.aasm_state isEqualToString:@"paid"]) {
+                            // 已支付
+                            _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                            statusTitle = @"中标已支付";
+                            _rightBtn.userInteractionEnabled = NO;
+                            _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                        }else {
+                            // 未支付
+                            if (_auctionsData.server_timestamp.integerValue >= (_auctionsData.end_time.integerValue + _auctionsData.pay_timeout.integerValue)) {
+                                // 已超时
+                                _status = JLNewAuctionArtDetailBottomViewStatusFinished;
+                                statusTitle = @"超时未支付";
+                                _rightBtn.userInteractionEnabled = NO;
+                                _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
+                            }
+                        }
+                    }
                 }else {
-                    // 未支付
-                    if (_auctionsData.server_timestamp.integerValue >= (_auctionsData.end_time.integerValue + _auctionsData.pay_timeout.integerValue)) {
-                        // 已超时
+                    // 是否已结束
+                    if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
                         _status = JLNewAuctionArtDetailBottomViewStatusFinished;
-                        statusTitle = @"超时未支付";
+                        statusTitle = @"已结束";
                         _rightBtn.userInteractionEnabled = NO;
                         _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
                     }
-                }
-            }else {
-                // 是否已结束
-                if (_auctionsData.server_timestamp.integerValue >= _auctionsData.end_time.integerValue) {
-                    _status = JLNewAuctionArtDetailBottomViewStatusFinished;
-                    statusTitle = @"已结束";
-                    _rightBtn.userInteractionEnabled = NO;
-                    _rightBtn.backgroundColor = JL_color_gray_DDDDDD;
                 }
             }
         }

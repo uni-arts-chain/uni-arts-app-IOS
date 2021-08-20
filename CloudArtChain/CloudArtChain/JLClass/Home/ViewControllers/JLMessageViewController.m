@@ -10,6 +10,7 @@
 #import "JLHomePageViewController.h"
 #import "JLSingleSellOrderViewController.h"
 #import "JLBoxDetailViewController.h"
+#import "JLAuctionHistoryViewController.h"
 
 #import "JLMessageTableViewCell.h"
 #import "JLNormalEmptyView.h"
@@ -144,6 +145,11 @@
             boxDetailVC.boxId = params[1];
             [self.navigationController pushViewController:boxDetailVC animated:YES];
         }
+    }else if ([messageData.resource_type.lowercaseString isEqualToString:@"auction"]) {
+        // 拍卖纪录
+        JLAuctionHistoryViewController *vc = [[JLAuctionHistoryViewController alloc] init];
+        vc.defaultType = JLAuctionHistoryTypeWins;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     // 标记消息已读
     [self maskMessageReaded:indexPath];

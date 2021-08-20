@@ -76,8 +76,8 @@
 }
 
 - (void)refreshAllDatas {
-    for (JLWorksListViewController *workListVC in self.viewControllers) {
-        [workListVC headRefresh];
+    for (UIViewController *workListVC in self.viewControllers) {
+        [((JLWorksListViewController *)workListVC) headRefresh];
     }
 }
 

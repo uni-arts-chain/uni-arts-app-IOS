@@ -369,7 +369,7 @@
 @implementation Model_auctions_notice_Rsp
 @end
 //////////////////////////////////////////////////////////////////////////
-#pragma mark - /v2/auctions/popular 热门拍卖
+#pragma mark - /v2/auctions/popular 精品拍卖
 @implementation Model_auctions_popular_Req
 @end
 @implementation Model_auctions_popular_Rsp
