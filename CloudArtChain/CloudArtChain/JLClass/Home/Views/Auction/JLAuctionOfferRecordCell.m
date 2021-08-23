@@ -77,7 +77,7 @@
     
     if (indexPath.row == 0) {
         NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"领先￥%@", bidData.price]];
-        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(0, 2)];
+        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(0, attrs.length)];
         self.statusLabel.attributedText = attrs;
     }else {
         self.statusLabel.text = [NSString stringWithFormat:@"出局￥%@", bidData.price];

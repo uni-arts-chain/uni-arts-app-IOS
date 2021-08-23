@@ -31,10 +31,10 @@
     
     JLCategoryViewController *sellingVC = [[JLCategoryViewController alloc] init];
     sellingVC.type = JLCategoryViewControllerTypeSelling;
-    sellingVC.topInset = 38;
+    sellingVC.topInset = 48;
     JLCategoryViewController *auctionVC = [[JLCategoryViewController alloc] init];
     auctionVC.type = JLCategoryViewControllerTypeAuctioning;
-    auctionVC.topInset = 38;
+    auctionVC.topInset = 48;
     
     _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];
     _segmentVC.delegate = self;

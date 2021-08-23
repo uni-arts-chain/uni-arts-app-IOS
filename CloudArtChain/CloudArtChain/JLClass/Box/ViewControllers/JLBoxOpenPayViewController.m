@@ -188,6 +188,15 @@
     }];
 }
 
+/// 计算总价
+- (NSDecimalNumber *)calculateTotalPrice {
+    
+    NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:self.boxData.price];
+    NSDecimalNumber *tenPriceNumber = [priceNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"10"]];
+        
+    return self.boxOpenPayType == JLBoxOpenPayTypeTen ? tenPriceNumber : priceNumber;
+}
+
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 2;
@@ -206,6 +215,7 @@
         };
         cell.payType = self.currentPayType;
         cell.cashAccountBalance = self.cashAccountBalance;
+        cell.buyTotalPrice = [self calculateTotalPrice].stringValue;
         return cell;
     }
 }

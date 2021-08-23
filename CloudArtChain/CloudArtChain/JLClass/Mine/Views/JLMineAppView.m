@@ -24,7 +24,7 @@
                            @"icon_mine_app_work_upload",
                            @"icon_mine_app_order_buy",
                            @"icon_mine_app_order_sell",
-                           @"icon_mine_app_customer_service",
+                           @"icon_mine_app_auction",
                            @"icon_mine_app_collect",
                            @"icon_mine_app_exchange",
                            @"icon_mine_app_message"];

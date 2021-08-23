@@ -13,8 +13,10 @@
 @interface JLCashViewController ()<JLCashContentViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) JLCashContentView *contentView;
-
-@property (nonatomic, assign) NSInteger currentAddImageType; // 1: 支付宝 2: 微信
+/// 1: 支付宝 2: 微信
+@property (nonatomic, assign) NSInteger currentAddImageType;
+/// 需要上传的图片数量
+@property (nonatomic, assign) NSInteger needUploadImageCount;
 
 @end
 
@@ -37,12 +39,24 @@
     [self chooseImage];
 }
 
-- (void)withdraw: (UIImage *)qrcode payType: (NSInteger)payType isNeedUploadQRImage: (BOOL)isNeedUploadQRImage {
-    NSLog(@"提现 收款码图片: %@ --- 支付方式： %@ --- 是否需要创建或者更新收款码：%@", qrcode, payType == 1 ? @"alipay" : @"weixin", isNeedUploadQRImage == 0 ? @"不需要" : @"需要");
-    if (isNeedUploadQRImage) {
-        [self createPayQRCode:qrcode payType:payType == 1 ? @"alipay" : @"weixin"];
+/// 提现
+/// @param qrInfoArray 提现收款码相关信息(二维码、支付方式、创建or更新)
+/// @param needUploadCount 需要上传的数量
+/// @param withdrawType 选择提现方式 1: 支付宝 2: 微信
+- (void)withdraw: (NSArray<NSDictionary *> *)qrInfoArray needUploadCount: (NSInteger)needUploadCount withdrawType: (NSInteger)withdrawType {
+    self.needUploadImageCount = needUploadCount;
+    
+    if (needUploadCount == 0) {
+        [self launchingWithdraw:_amount withdrawType:withdrawType == 1 ? @"alipay" : @"weixin"];
     }else {
-        [self launchingWithdraw:_amount payType:payType == 1 ? @"alipay" : @"weixin"];
+        for (NSDictionary *dic in qrInfoArray) {
+            UIImage *qrCodeImage = dic[QRCodeImage];
+            NSInteger payType = [dic[PayType] integerValue];
+            BOOL isNeedUploadQRImage = [dic[NeedUploadQRImage] boolValue];
+            if (isNeedUploadQRImage) {
+                [self createPayQRCode:qrCodeImage payType:payType == 1 ? @"alipay" : @"weixin" withdrawType:withdrawType];
+            }
+        }
     }
 }
 
@@ -77,8 +91,8 @@
 }
 
 #pragma mark - loadDatas
-/// 创建支付方式
-- (void)createPayQRCode: (UIImage *)qrcode payType: (NSString *)payType {
+/// 创建收款方式
+- (void)createPayQRCode: (UIImage *)qrcode payType: (NSString *)payType withdrawType: (NSInteger)withdrawType {
     WS(weakSelf)
     Model_payment_methods_Req *request = [[Model_payment_methods_Req alloc] init];
     Model_payment_methods_Rsp *response = [[Model_payment_methods_Rsp alloc] init];
@@ -103,9 +117,12 @@
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestPostUploadParameters:request respondParameters:response paramsName:paramName fileName:fileName fileData:imageData callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
+        if (weakSelf.needUploadImageCount == 0) {
+            [[JLLoading sharedLoading] hideLoading];
+        }
         if (netIsWork) {
-            NSLog(@"支付方式二维码已上传");
+            NSLog(@"支付方式二维码已上传:%@",payType);
+            weakSelf.needUploadImageCount -= 1;
             NSString *payUrl = response.body[@"img"][@"url"];
             if (![NSString stringIsEmpty:payUrl]) {
                 if ([payType isEqualToString:@"alipay"]) {
@@ -114,7 +131,9 @@
                     [AppSingleton sharedAppSingleton].userBody.weixin_img = @{ @"url": payUrl };
                 }
             }
-            [weakSelf launchingWithdraw:weakSelf.amount payType:payType];
+            if (weakSelf.needUploadImageCount <= 0) {
+                [weakSelf launchingWithdraw:weakSelf.amount withdrawType:withdrawType == 1 ? @"alipay" : @"weixin"];
+            }
         } else {
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
@@ -122,11 +141,11 @@
 }
 
 /// 发起提现
-- (void)launchingWithdraw: (NSString *)amount payType: (NSString *)payType {
+- (void)launchingWithdraw: (NSString *)amount withdrawType: (NSString *)withdrawType {
     WS(weakSelf)
     Model_withdraws_Req *request = [[Model_withdraws_Req alloc] init];
     request.amount = amount;
-    request.pay_type = payType;
+    request.pay_type = withdrawType;
     Model_withdraws_Rsp *response = [[Model_withdraws_Rsp alloc] init];
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];

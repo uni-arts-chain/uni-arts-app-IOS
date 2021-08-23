@@ -100,7 +100,7 @@
         for (Model_arts_theme_Data *themeData in [AppSingleton sharedAppSingleton].artThemeArray) {
             [tempThemeArray addObject:themeData.title];
         }
-        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, _topInset, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] selectBlock:^(NSInteger index) {
+        _themeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, _topInset, kScreenWidth, 40.0f) title:@"主题" items:[tempThemeArray copy] isNoDeSelect:NO defaultSelectIndex:0 isShowAllItem:YES selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentThemeID = nil;
             } else {
@@ -135,7 +135,7 @@
         for (Model_arts_art_types_Data *typeData in [AppSingleton sharedAppSingleton].artTypeArray) {
             [tempTypeArray addObject:typeData.title];
         }
-        _typeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"类型" items:[tempTypeArray copy] selectBlock:^(NSInteger index) {
+        _typeFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.themeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"类型" items:[tempTypeArray copy] isNoDeSelect:NO defaultSelectIndex:0 isShowAllItem:YES selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentTypeID = nil;
             } else {
@@ -171,7 +171,7 @@
             [tempPriceArray addObject:priceData.title];
         }
         NSInteger defaultSelectIndex = 1; // 从1开始
-        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] defaultSelectIndex:defaultSelectIndex selectBlock:^(NSInteger index) {
+        _priceFilterView = [[JLCateFilterView alloc] initWithFrame:CGRectMake(0.0f, self.typeFilterView.frameBottom, kScreenWidth, 40.0f) title:@"价格" items:[tempPriceArray copy] isNoDeSelect:NO defaultSelectIndex:defaultSelectIndex isShowAllItem:YES selectBlock:^(NSInteger index) {
             if (index == 0) {
                 weakSelf.currentPriceID = nil;
             } else {

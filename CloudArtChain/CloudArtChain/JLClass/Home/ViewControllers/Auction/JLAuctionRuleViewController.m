@@ -68,7 +68,7 @@
         NSDictionary *attributes = @{
             NSFontAttributeName: kFontPingFangSCRegular(15.0f),
                                      NSParagraphStyleAttributeName: paragraphStyle,
-                                     NSForegroundColorAttributeName: JL_color_gray_101010,
+//                                     NSForegroundColorAttributeName: JL_color_gray_101010,
                                      };
         _contentTextView.typingAttributes = attributes;
         _contentTextView.textColor = JL_color_gray_101010;
@@ -76,7 +76,7 @@
         
         if (![NSString stringIsEmpty:_contentText]) {
             NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_contentText];
-            [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, _contentText.length)];
+//            [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, _contentText.length)];
             [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, _contentText.length)];
             _contentTextView.attributedText = attr;
         }
@@ -93,9 +93,9 @@
         paragraphStyle.lineSpacing = 6.0f;       //字体的行间距
         paragraphStyle.paragraphSpacing = 6.0f; //段落间距
         
-        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_contentText];
-        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, _contentText.length)];
-        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, _contentText.length)];
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:[NSString strToAttriWithStr:_contentText]];
+//        [attr addAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(15.0f), NSForegroundColorAttributeName: JL_color_gray_101010} range:NSMakeRange(0, attr.length)];
+        [attr addAttributes:@{NSParagraphStyleAttributeName: paragraphStyle} range:NSMakeRange(0, attr.length)];
         _contentTextView.attributedText = attr;
     }
 }

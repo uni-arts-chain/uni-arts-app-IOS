@@ -502,8 +502,8 @@
             NSString *addPrice = weakSelf.auctionsData.price_increment;
             NSString *offerPrice = @"0.0";
             if ([NSString stringIsEmpty:weakSelf.auctionsData.current_price]) {
-                currentPrice = @"0.0";
-                addPrice = weakSelf.auctionsData.start_price;
+                currentPrice = weakSelf.auctionsData.start_price;
+                addPrice = @"0.0";
             }else {
                 for (Model_auctions_bid_Data *data in self.bidHistoryArray) {
                     if ([data.member.ID isEqualToString:[AppSingleton sharedAppSingleton].userBody.ID]) {

@@ -32,6 +32,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _isShowStatus = YES;
         
         [self setupUI];
     }

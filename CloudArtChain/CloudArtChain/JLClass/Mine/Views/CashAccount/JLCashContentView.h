@@ -10,6 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const QRCodeImage;
+extern NSString * const PayType;
+extern NSString * const NeedUploadQRImage;
+
 @protocol JLCashContentViewDelegate <NSObject>
 
 /// 添加收款码图片
@@ -17,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addImage:(NSInteger)type;
 
 /// 提现
-/// @param qrcode 提现收款码
-/// @param payType 支付方式 1: 支付宝 2: 微信
-/// @param isNeedUploadQRImage 是否需要创建或者更新收款码
-- (void)withdraw: (UIImage *)qrcode payType: (NSInteger)payType isNeedUploadQRImage: (BOOL)isNeedUploadQRImage;
+/// @param qrInfoArray 提现收款码相关信息(二维码、支付方式、创建or更新)
+/// @param needUploadCount 需要上传的数量 
+/// @param withdrawType 选择提现方式 1: 支付宝 2: 微信
+- (void)withdraw: (NSArray<NSDictionary *> *)qrInfoArray needUploadCount: (NSInteger)needUploadCount withdrawType: (NSInteger)withdrawType;
 
 @end
 

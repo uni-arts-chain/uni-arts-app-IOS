@@ -8,6 +8,10 @@
 
 #import "JLCashContentView.h"
 
+NSString * const QRCodeImage = @"QRCodeImage";
+NSString * const PayType = @"PayType";
+NSString * const NeedUploadQRImage = @"NeedUploadQRImage";
+
 @interface JLCashContentView ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -65,7 +69,8 @@
 
 @property (nonatomic, strong) UIImage *currentSelectQRCodeImage;
 
-@property (nonatomic, assign) BOOL isNeedUploadQRImage;
+@property (nonatomic, assign) BOOL isNeedUploadAlipayQRImage;
+@property (nonatomic, assign) BOOL isNeedUploadWechatQRImage;
 
 @end
 
@@ -314,6 +319,9 @@
     _withdrawBtn.hidden = YES;
     _withdrawTipBtn.hidden = YES;
     
+    _currentSelectQRCodeType = 0;
+    _currentSelectQRCodeImage = nil;
+    
     // 默认布局
     [_alipayBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.alipayUpBtn.mas_bottom).offset(23);
@@ -515,18 +523,30 @@
         return;
     }
     
-    self.isNeedUploadQRImage = NO;
-    
-    if (_currentSelectQRCodeType == 1 && _addAlipayQRCodeImage) {
-        self.isNeedUploadQRImage = YES;
+    self.isNeedUploadAlipayQRImage = NO;
+    self.isNeedUploadWechatQRImage = NO;
+    NSInteger needUploadCount = 0;
+    if (_addAlipayQRCodeImage) {
+        self.isNeedUploadAlipayQRImage = YES;
+        needUploadCount += 1;
+    }
+    if (_addWechatQRCodeImage) {
+        self.isNeedUploadWechatQRImage = YES;
+        needUploadCount += 1;
     }
     
-    if (_currentSelectQRCodeType == 2 && _addWechatQRCodeImage) {
-        self.isNeedUploadQRImage = YES;
+    NSMutableArray *arr = [NSMutableArray array];
+    if (_alipayQRCodeImage) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_alipayQRCodeImage, @(1), @(self.isNeedUploadAlipayQRImage)] forKeys:@[QRCodeImage, PayType, NeedUploadQRImage]];
+        [arr addObject:dic];
+    }
+    if (_wechatQRCodeImage) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[_wechatQRCodeImage, @(2), @(self.isNeedUploadWechatQRImage)] forKeys:@[QRCodeImage, PayType, NeedUploadQRImage]];
+        [arr addObject:dic];
     }
     
-    if (_delegate && [_delegate respondsToSelector:@selector(withdraw:payType:isNeedUploadQRImage:)]) {
-        [_delegate withdraw:_currentSelectQRCodeImage payType:_currentSelectQRCodeType isNeedUploadQRImage:_isNeedUploadQRImage];
+    if (_delegate && [_delegate respondsToSelector:@selector(withdraw:needUploadCount:withdrawType:)]) {
+        [_delegate withdraw:[arr copy] needUploadCount:needUploadCount withdrawType:_currentSelectQRCodeType];
     }
 }
 

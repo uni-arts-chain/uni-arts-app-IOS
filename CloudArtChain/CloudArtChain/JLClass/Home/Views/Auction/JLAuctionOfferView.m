@@ -184,7 +184,7 @@ static JLAuctionOfferView *offerView;
 }
 
 - (void)updateData {
-    NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前价：￥%@", _currentPrice]];
+    NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前最高价：￥%@", _currentPrice]];
     [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_red_D70000 range:NSMakeRange(attrs.length - _currentPrice.length - 1, _currentPrice.length + 1)];
     _currentPriceLabel.attributedText = attrs;
     
@@ -192,10 +192,19 @@ static JLAuctionOfferView *offerView;
     NSDecimalNumber *offer = [NSDecimalNumber decimalNumberWithString:_offerPrice];
     NSDecimalNumber *add = [NSDecimalNumber decimalNumberWithString:_addPrice];
     NSDecimalNumber *lessThanAdd = [[current decimalNumberBySubtracting:offer] decimalNumberByAdding:add];
-    _addPriceLabel.text = [NSString stringWithFormat:@"至少还需加价 ￥%@", lessThanAdd.stringValue];
+    if ([add isEqualToZero]) {
+        _addPriceLabel.text = [NSString stringWithFormat:@"至少还需加价 ￥%@", add.stringValue];
+    }else {
+        _addPriceLabel.text = [NSString stringWithFormat:@"至少还需加价 ￥%@", lessThanAdd.stringValue];
+    }
 
     NSDecimalNumber *result = [current decimalNumberByAdding:add];
     [_doneBtn setTitle:[NSString stringWithFormat:@"立即出价￥%@", result.stringValue] forState:UIControlStateNormal];
+    
+    if ([current isEqualTo:offer]) {
+        _doneBtn.enabled = NO;
+        _doneBtn.backgroundColor = JL_color_gray_DDDDDD;
+    }
 }
 
 - (void)dealloc

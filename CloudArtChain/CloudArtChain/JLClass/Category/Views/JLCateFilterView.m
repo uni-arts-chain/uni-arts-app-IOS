@@ -17,6 +17,10 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *itemsArray;
 @property (nonatomic, assign) NSInteger currentIndex;
+/// 是否不可以反选
+@property (nonatomic, assign) BOOL isNoDeSelect;
+/// 是否有全部选项
+@property (nonatomic, assign) BOOL isShowAllItem;
 @end
 
 @implementation JLCateFilterView
@@ -27,42 +31,41 @@
     return _itemsArray;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items defaultSelectIndex: (NSInteger)defaultSelectIndex selectBlock:(void(^)(NSInteger index))selectBlock {
+- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items isNoDeSelect: (BOOL)isNoDeSelect defaultSelectIndex: (NSInteger)defaultSelectIndex isShowAllItem:(BOOL)isShowAllItem selectBlock:(void(^)(NSInteger index))selectBlock {
     if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = JL_color_white_ffffff;
         self.title = title;
         self.items = items;
         self.currentIndex = defaultSelectIndex;
+        self.isNoDeSelect = isNoDeSelect;
+        self.isShowAllItem = isShowAllItem;
         self.selectBlock = selectBlock;
         [self createSubViews];
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title items:(NSArray *)items selectBlock:(void(^)(NSInteger index))selectBlock {
-    return [self initWithFrame:frame title:title items:items defaultSelectIndex:-1 selectBlock:selectBlock];
-}
-
 - (void)createSubViews {
     [self addSubview:self.titleLabel];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = JL_color_gray_8D8D8D;
+    lineView.backgroundColor = JL_color_gray_E2E2E2;
     [self addSubview:lineView];
     
     [self addSubview:self.scrollView];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15.0f);
+        make.left.mas_equalTo(13.0f);
         make.top.bottom.equalTo(self);
     }];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.titleLabel.mas_right).offset(17.0f);
-        make.height.mas_equalTo(17.0f);
+        make.left.equalTo(self.titleLabel.mas_right).offset(8.0f);
+        make.height.mas_equalTo(16.0f);
         make.width.mas_equalTo(1.0f);
         make.centerY.mas_equalTo(self.mas_centerY);
     }];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(lineView.mas_right).offset(11.0f);
+        make.left.equalTo(lineView.mas_right).offset(8.0f);
         make.top.right.bottom.equalTo(self);
     }];
     
@@ -72,7 +75,7 @@
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = kFontPingFangSCMedium(14.0f);
+        _titleLabel.font = kFontPingFangSCRegular(15.0f);
         _titleLabel.textColor = JL_color_gray_101010;
         _titleLabel.text = self.title;
     }
@@ -89,16 +92,43 @@
 }
 
 - (void)setupItems {
+    
+    [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
     CGFloat currentX = 0.0f;
-    for (int i = 0; i < self.items.count; i++) {
-        UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, 10.0f, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2, self.frameHeight - 10.0f * 2) title:self.items[i] tag:2001 + i];
-        if (self.currentIndex >= 0 && self.currentIndex == i + 1) {
+    
+    NSInteger offsetIndex = 0;
+    if (_isShowAllItem) {
+        
+        UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, (self.frameHeight - 22) / 2, [JLTool getAdaptionSizeWithText:@"全部" labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2, 22) title:@"全部" tag:100];
+        if (_currentIndex == 0) {
             button.selected = YES;
             button.backgroundColor = JL_color_gray_101010;
+            ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
         }
         [self.scrollView addSubview:button];
         [self.itemsArray addObject:button];
-        currentX += [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:self.frameHeight - 8.0f * 2 font:kFontPingFangSCRegular(14.0f)].width + 6.0f * 2 + 14.0f;
+        currentX += [JLTool getAdaptionSizeWithText:@"全部" labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2 + 6.0f;
+        
+        offsetIndex += 1;
+    }
+
+    for (int i = 0; i < self.items.count; i++) {
+        UIButton *button = [self getButtonWithFrame:CGRectMake(currentX, (self.frameHeight - 22) / 2, [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2, 22) title:self.items[i] tag:100 + i + offsetIndex];
+        if (_isNoDeSelect && _currentIndex == i) {
+            button.selected = YES;
+            button.backgroundColor = JL_color_gray_101010;
+            ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+        }
+        if (_isShowAllItem && _currentIndex == i + 1) {
+            button.selected = YES;
+            button.backgroundColor = JL_color_gray_101010;
+            ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+        }
+        [self.scrollView addSubview:button];
+        [self.itemsArray addObject:button];
+        currentX += [JLTool getAdaptionSizeWithText:self.items[i] labelHeight:22 font:kFontPingFangSCRegular(14.0f)].width + 8.0f * 2 + 6.0f;
     }
     self.scrollView.contentSize = CGSizeMake(currentX, self.frameHeight);
 }
@@ -110,30 +140,53 @@
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:JL_color_gray_101010 forState:UIControlStateNormal];
     [button setTitleColor:JL_color_white_ffffff forState:UIControlStateSelected];
-    button.titleLabel.font = kFontPingFangSCRegular(14.0f);
+    button.titleLabel.font = kFontPingFangSCRegular(13.0f);
     [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    ViewBorderRadius(button, 2.0f, 0.0f, JL_color_clear);
+    ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
     return button;
 }
 
 - (void)buttonClick:(UIButton *)sender {
-    NSInteger selectIndex = sender.tag - 2000;
-    if (self.currentIndex == selectIndex) {
-        sender.selected = NO;
-        sender.backgroundColor = JL_color_clear;
-        self.currentIndex = 0;
-    } else {
-        self.currentIndex = selectIndex;
-        for (UIButton *button in self.itemsArray) {
-            button.selected = NO;
-            button.backgroundColor = JL_color_clear;
+    if (_isShowAllItem && sender.tag - 100 == 0 && sender.tag - 100 == self.currentIndex) {
+        return;
+    }
+    
+    if (_isNoDeSelect) {
+        self.currentIndex = sender.tag - 100;
+    }else {
+        if (self.currentIndex == sender.tag - 100) {
+            sender.selected = NO;
+            sender.backgroundColor = JL_color_clear;
+            ViewBorderRadius(sender, 3.0f, 0.0f, JL_color_clear);
+            self.currentIndex = 0;
+            
+            if (_isShowAllItem) {
+                UIButton *button = self.itemsArray[0];
+                button.selected = YES;
+                button.backgroundColor = JL_color_gray_101010;
+                ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+            }
+        } else {
+            self.currentIndex = sender.tag - 100;
+            for (UIButton *button in self.itemsArray) {
+                button.selected = NO;
+                button.backgroundColor = JL_color_clear;
+                ViewBorderRadius(button, 3.0f, 0.0f, JL_color_clear);
+            }
+            sender.selected = YES;
+            sender.backgroundColor = JL_color_gray_101010;
+            ViewBorderRadius(sender, 3.0f, 0.0f, JL_color_clear);
         }
-        sender.selected = YES;
-        sender.backgroundColor = JL_color_gray_101010;
     }
     if (self.selectBlock) {
         self.selectBlock(self.currentIndex);
     }
+}
+
+- (void)setDefaultIndex:(NSInteger)defaultIndex {
+    _defaultIndex = defaultIndex;
+    
+    self.currentIndex = _defaultIndex;
 }
 
 - (void)refreshItems:(NSArray *)items {

@@ -116,8 +116,10 @@
         WS(weakSelf)
         _numView = [[JLLaunchAuctionNumView alloc] init];
         if (self.artDetailData.collection_mode == 3) {
-            _numView.maxNum = self.artDetailData.total_amount;
+            // 可拆分
+            _numView.maxNum = self.artDetailData.has_amount - self.artDetailData.selling_amount.intValue;
         }else {
+            _numView.maxNum = 1;
             _numView.isShowStepper = NO;
         }
         _numView.changeNumBlock = ^(NSInteger num) {
