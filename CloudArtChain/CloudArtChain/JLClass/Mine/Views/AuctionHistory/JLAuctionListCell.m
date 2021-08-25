@@ -184,7 +184,7 @@
     _authorNameLabel.text = [NSString stringIsEmpty:_auctionsData.art.author.display_name] ? @"" : _auctionsData.art.author.display_name;
     _artNameLabel.text = _auctionsData.art.name;
     _nftAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
-    _dateLabel.text = [[NSDate dateWithTimeIntervalSince1970:_auctionsData.created_at.integerValue] stringWithFormat: @"yyyy/MM/dd HH:mm:ss"];
+    _dateLabel.text = [[NSDate dateWithTimeIntervalSince1970:_auctionsData.created_at.integerValue] stringWithFormat: @"MM/dd HH:mm:ss"];
     _numLabel.text = [NSString stringWithFormat:@"X%@",_auctionsData.amount];
     
     _rightBtn.hidden = YES;
@@ -299,7 +299,7 @@
         depositPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.deposit_amount];
     }
     // 最终实付价格
-    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
+    NSDecimalNumber *resultPrice = [[[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice] roundDownScale:2];
     
     return resultPrice;
 }

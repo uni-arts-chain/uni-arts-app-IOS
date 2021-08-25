@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol JLCashAccountContentViewDelegate <NSObject>
 
+- (void)refreshDatas;
+
+- (void)loadMoreDatas;
+
 /// 提现
 - (void)withdraw;
 
@@ -23,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) Model_account_Data *accountData;
 
-@property (nonatomic, copy) NSArray *historiesArray;
+- (void)setHistoriesArray:(NSArray *)historiesArray page: (NSInteger)page pageSize: (NSInteger)pageSize;
 
 @end
 

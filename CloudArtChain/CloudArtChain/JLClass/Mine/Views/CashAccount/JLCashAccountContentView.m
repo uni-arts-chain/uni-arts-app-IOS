@@ -9,10 +9,15 @@
 #import "JLCashAccountContentView.h"
 #import "JLCashAccountHeaderView.h"
 #import "JLCashAccountCell.h"
+#import "JLNormalEmptyView.h"
 
 @interface JLCashAccountContentView ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) JLNormalEmptyView *emptyView;
+
+@property (nonatomic, copy) NSArray *historiesArray;
 
 @end
 
@@ -32,14 +37,24 @@
     
     _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
     _tableView.backgroundColor = JL_color_white_ffffff;
-    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.estimatedRowHeight = 66;
     _tableView.rowHeight = UITableViewAutomaticDimension;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     [self addSubview:_tableView];
+    
+    WS(weakSelf)
+    _tableView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshDatas)]) {
+            [weakSelf.delegate refreshDatas];
+        }
+    }];
+    _tableView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(loadMoreDatas)]) {
+            [weakSelf.delegate loadMoreDatas];
+        }
+    }];
     
     [_tableView registerClass:JLCashAccountCell.class forCellReuseIdentifier:@"cell"];
 }
@@ -74,7 +89,11 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [[UIView alloc] init];
+    if (self.historiesArray && self.historiesArray.count == 0) {
+        return self.emptyView;
+    }else {
+        return [[UIView alloc] init];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -82,7 +101,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return CGFLOAT_MIN;
+    if (self.historiesArray && self.historiesArray.count == 0) {
+        return self.frameHeight - 117;
+    }else {
+        return KTouch_Responder_Height;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,10 +119,36 @@
     [_tableView reloadData];
 }
 
-- (void)setHistoriesArray:(NSArray *)historiesArray {
+- (void)setHistoriesArray:(NSArray *)historiesArray page: (NSInteger)page pageSize: (NSInteger)pageSize {
     _historiesArray = historiesArray;
     
+    if (page <= 1) {
+        if ([_tableView.mj_header isRefreshing]) {
+            [_tableView.mj_header endRefreshing];
+        }
+        if (_historiesArray.count < page * pageSize) {
+            [(JLRefreshFooter *)_tableView.mj_footer endWithNoMoreDataNotice];
+        }else {
+            [_tableView.mj_footer endRefreshing];
+        }
+    }else {
+        if (_historiesArray.count < page * pageSize) {
+            [(JLRefreshFooter *)_tableView.mj_footer endWithNoMoreDataNotice];
+        }else {
+            if ([_tableView.mj_footer isRefreshing]) {
+                [_tableView.mj_footer endRefreshing];
+            }
+        }
+    }
+    
     [_tableView reloadData];
+}
+
+- (JLNormalEmptyView *)emptyView {
+    if (!_emptyView) {
+        _emptyView = [[JLNormalEmptyView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, self.frameHeight - 117)];
+    }
+    return _emptyView;
 }
 
 @end

@@ -113,7 +113,7 @@
     [self.topBgView addSubview:self.pageFlowView];
     [self.topBgView addSubview:self.announceView];
     [self.topBgView addSubview:self.themeRecommendView];
-    self.topBgView.frame = CGRectMake(0, 0, kScreenWidth, self.themeRecommendView.frameBottom);
+    self.topBgView.frame = CGRectMake(0, 0, kScreenWidth, self.themeRecommendView.frameBottom + 22);
     
     [self.view addSubview:self.hoveringView];
 }
@@ -150,7 +150,7 @@
         [self.themeRecommendView addSubview:themeView];
     }
     
-    self.topBgView.frame = CGRectMake(0, 0, kScreenWidth, self.themeRecommendView.frameBottom);
+    self.topBgView.frame = CGRectMake(0, 0, kScreenWidth, self.themeRecommendView.frameBottom + 22);
     [self.hoveringView reloadView];
 }
 
@@ -397,12 +397,12 @@
         _hoveringView = [[JLHoveringView alloc] initWithFrame:CGRectMake(0.0f, self.homeNaviView.frameBottom, kScreenWidth, kScreenHeight - self.homeNaviView.frameHeight - KTabBar_Height) deleaget:self];
         _hoveringView.isMidRefresh = NO;
 
-        _hoveringView.pageView.defaultTitleColor = JL_color_gray_999999;
+        _hoveringView.pageView.defaultTitleColor = JL_color_gray_101010;
         _hoveringView.pageView.selectTitleColor = JL_color_gray_101010;
         _hoveringView.pageView.lineColor = JL_color_gray_333333;
-        _hoveringView.pageView.lineWitdhScale = 0.18f;
-        _hoveringView.pageView.defaultTitleFont = kFontPingFangSCRegular(15.0f);
-        _hoveringView.pageView.selectTitleFont = kFontPingFangSCSCSemibold(16.0f);
+        _hoveringView.pageView.lineWitdhScale = 0.26f;
+        _hoveringView.pageView.defaultTitleFont = kFontPingFangSCRegular(18.0f);
+        _hoveringView.pageView.selectTitleFont = kFontPingFangSCSCSemibold(19.0f);
             
         WS(weakSelf)
         //设置头部刷新的方法。头部刷新的话isMidRefresh 必须为NO

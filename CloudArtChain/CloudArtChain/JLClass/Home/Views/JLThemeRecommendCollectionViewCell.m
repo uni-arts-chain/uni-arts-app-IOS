@@ -198,6 +198,7 @@
 - (JLArtAuctionTimeView *)timeView {
     if (!_timeView) {
         _timeView = [[JLArtAuctionTimeView alloc] init];
+        _timeView.hidden = YES;
     }
     return _timeView;
 }

@@ -315,6 +315,10 @@
 @property (nonatomic, copy) NSString *message;
 @end
 @interface Model_account_histories_Req : Model_Req
+/** 页码 */
+@property (nonatomic, assign) NSInteger page;
+/** 每页多少 */
+@property (nonatomic, assign) NSInteger per_page;
 @end
 @interface Model_account_histories_Rsp : Model_Rsp_V2
 @property (nonatomic, strong) NSArray<Model_account_history_Data> *body;

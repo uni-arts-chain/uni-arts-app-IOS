@@ -170,6 +170,14 @@ static JLAuctionDepositPayView *payView;
             make.centerY.equalTo(imgView);
         }];
         
+        if (i == 0) {
+            // 账户余额
+            titleLabel.text = [NSString stringWithFormat:@"%@（￥%@）", self.payTypeTitleArray[i], _cashAccountBalance];
+            NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:titleLabel.text];
+            [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_gray_999999 range:NSMakeRange(((NSString *)self.payTypeTitleArray[i]).length, attrs.length - ((NSString *)self.payTypeTitleArray[i]).length)];
+            titleLabel.attributedText = attrs;
+        }
+        
         UIImageView *statusImgView = [[UIImageView alloc] init];
         statusImgView.tag = 400 + i;
         if (i == _payType) {

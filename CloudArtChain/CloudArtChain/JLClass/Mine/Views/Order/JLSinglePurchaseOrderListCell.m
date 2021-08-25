@@ -225,7 +225,7 @@
 
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
     self.orderNoLabel.text = soldData.sn;
-    if ([soldData.trade_refer isEqualToString:@"Auction"]) {
+    if ([[soldData.trade_refer lowercaseString] isEqualToString:@"auction"]) {
         self.auctionFlagImgView.hidden = NO;
         self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [self getResultPayMoney:soldData.auction].stringValue];
     }else {
@@ -239,7 +239,7 @@
     }
     
     NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.finished_at.doubleValue];
-    self.timeLabel.text = [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
+    self.timeLabel.text = [buy_time dateWithCustomFormat:@"MM/dd HH:mm:ss"];
     
     self.authorLabel.text = [NSString stringIsEmpty:soldData.art.author.display_name] ? @"" : soldData.art.author.display_name;
     
@@ -247,7 +247,16 @@
     
     self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
     
-    self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", soldData.royalty];
+    if (![NSString stringIsEmpty:soldData.art.royalty]) {
+        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:soldData.art.royalty];
+        
+        NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:soldData.total_price];
+        if ([soldData.trade_refer isEqualToString:@"Auction"]) {
+            winPrice = [NSDecimalNumber decimalNumberWithString:soldData.auction.win_price];
+        }
+        NSDecimalNumber *royaltyPrice = [[royaltyNumber decimalNumberByMultiplyingBy:winPrice] roundDownScale:2];
+        self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", royaltyPrice];
+    }
     
     if (soldData.art.collection_mode == 3) {
         // 可拆分作品，显示购买数量
@@ -278,8 +287,8 @@
     if (![NSString stringIsEmpty:auctionsData.deposit_amount]) {
         depositPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.deposit_amount];
     }
-    // 最终实付价格
-    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
+    // 最终实付价格(拍中价(包含保证金)+版税价)
+    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] roundDownScale:2];
     
     return resultPrice;
 }

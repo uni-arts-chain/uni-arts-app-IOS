@@ -7,6 +7,7 @@
 //
 
 #import "JLCashAccountPasswordAuthorizeView.h"
+#import "JLBaseTextField.h"
 
 static JLCashAccountPasswordAuthorizeView *authorizeView;
 
@@ -20,7 +21,7 @@ static JLCashAccountPasswordAuthorizeView *authorizeView;
 
 @property (nonatomic, strong) UIButton *closeBtn;
 
-@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) JLBaseTextField *textField;
 
 @property (nonatomic, strong) UILabel *numLabel;
 
@@ -100,7 +101,7 @@ static JLCashAccountPasswordAuthorizeView *authorizeView;
         make.width.height.mas_equalTo(@45);
     }];
     
-    _textField = [[UITextField alloc] init];
+    _textField = [[JLBaseTextField alloc] init];
     _textField.secureTextEntry = YES;
     _textField.returnKeyType = UIReturnKeyDone;
     _textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -108,6 +109,7 @@ static JLCashAccountPasswordAuthorizeView *authorizeView;
     _textField.textColor = JL_color_gray_101010;
     _textField.font = kFontPingFangSCRegular(17);
     _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{ NSForegroundColorAttributeName: JL_color_gray_BEBEBE }];
+    _textField.textFieldType = TextFieldType_withdrawAmout;
     [_textField addTarget:self action:@selector(textFieldValueChanged:) forControlEvents:UIControlEventEditingChanged];
     [_bgView addSubview:_textField];
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {

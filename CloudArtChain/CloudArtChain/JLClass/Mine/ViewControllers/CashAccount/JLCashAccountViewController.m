@@ -41,6 +41,16 @@
 }
 
 #pragma mark - JLCashAccountContentViewDelegate
+- (void)refreshDatas {
+    self.page = 1;
+    [self loadCashAccount];
+}
+
+- (void)loadMoreDatas {
+    self.page += 1;
+    [self loadCashAccountHistories];
+}
+
 - (void)withdraw {
     if (![NSString stringIsEmpty:_accountData.balance]) {
         NSDecimalNumber *balanceNumber = [NSDecimalNumber decimalNumberWithString:_accountData.balance];
@@ -79,6 +89,8 @@
 - (void)loadCashAccountHistories {
     WS(weakSelf)
     Model_account_histories_Req *request = [[Model_account_histories_Req alloc] init];
+    request.page = _page;
+    request.per_page = kPageSize;
     Model_account_histories_Rsp *response = [[Model_account_histories_Rsp alloc] init];
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
@@ -88,7 +100,7 @@
             }
             [weakSelf.historiesArray addObjectsFromArray:response.body];
 
-            weakSelf.contentView.historiesArray = [weakSelf.historiesArray copy];
+            [weakSelf.contentView setHistoriesArray:[weakSelf.historiesArray copy] page:weakSelf.page pageSize:kPageSize];
         }
     }];
 }

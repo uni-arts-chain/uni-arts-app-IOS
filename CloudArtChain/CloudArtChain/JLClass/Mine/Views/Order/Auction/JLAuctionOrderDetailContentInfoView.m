@@ -244,16 +244,20 @@
     _nftAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
     _numLabel.text = _auctionsData.amount;
     _priceLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.win_price];
+    if (_type == JLAuctionOrderTypeSell) {
+        _realPayLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.win_price];
+        return;
+    }
+    // 买入订单
     _depositLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.deposit_amount];
     _realPayLabel.text = [NSString stringWithFormat:@"￥%@", [self getResultPayMoney:_auctionsData]];
-    
     if (![NSString stringIsEmpty:_auctionsData.art.royalty]) {
         NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty];
         NSDecimalNumber *persentRoyaltyNumber = [royaltyNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
         _royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", persentRoyaltyNumber.stringValue];
         
         NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.win_price];
-        NSDecimalNumber *royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
+        NSDecimalNumber *royaltyPrice = [[royaltyNumber decimalNumberByMultiplyingBy:winPrice] roundDownScale:2];
         _royaltyLabel.text = [NSString stringWithFormat:@"￥%@", royaltyPrice.stringValue];
     }
 }
@@ -278,8 +282,8 @@
     if (![NSString stringIsEmpty:auctionsData.deposit_amount]) {
         depositPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.deposit_amount];
     }
-    // 最终实付价格
-    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
+    // 最终实付价格(拍中价(包含保证金)+版税价)
+    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] roundDownScale:2];
     
     return resultPrice;
 }

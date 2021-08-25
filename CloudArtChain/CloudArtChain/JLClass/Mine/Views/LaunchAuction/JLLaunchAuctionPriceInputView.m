@@ -65,20 +65,43 @@
     }];
     
     [self.startPriceTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
-        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
-            UITextRange *selectedRange = [weakSelf.startPriceTF markedTextRange];
-            UITextPosition *position = [weakSelf.startPriceTF positionFromPosition:selectedRange.start offset:0];
-            if (!position) {
-                NSString *result = [JLUtils trimSpace:x];
+        NSString *result = [JLUtils trimSpace:x];
+        if ([NSString stringIsEmpty:result]) {
+            return;
+        }
+        if ([result containsString:@"."]) {
+            NSArray *roundArray = [result componentsSeparatedByString:@"."];
+            JLLog(@"%@", roundArray);
+            if (roundArray.count >= 2) {
+                NSString *decimalPart = roundArray[1];
+                if (decimalPart.length >= 2) {
+                    if ([[decimalPart substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"0"] &&
+                        [[decimalPart substringWithRange:NSMakeRange(1, 1)] isEqualToString:@"0"]) {
+                        NSString *str = [result substringWithRange:NSMakeRange(0, result.length - 1)];
+                        weakSelf.startPriceTF.text = str;
+                        weakSelf.inputContent = str;
+                    }else {
+                        NSDecimalNumber *resultNumber = [[NSDecimalNumber decimalNumberWithString:result] roundDownScale:2];
+                        weakSelf.startPriceTF.text = resultNumber.stringValue;
+                        weakSelf.inputContent = resultNumber.stringValue;
+                    }
+                }else {
+                    weakSelf.startPriceTF.text = result;
+                    weakSelf.inputContent = result;
+                }
+            }
+        }else {
+            if (result.length >= 2 &&
+                [[result substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"0"] &&
+                ![[result substringWithRange:NSMakeRange(1, 1)] isEqualToString:@"."]) {
+                NSString *str = [result substringWithRange:NSMakeRange(0, 1)];
+                weakSelf.startPriceTF.text = str;
+                weakSelf.inputContent = str;
+            }else {
                 weakSelf.startPriceTF.text = result;
                 weakSelf.inputContent = result;
             }
-        } else {
-            NSString *result = [JLUtils trimSpace:x];
-            weakSelf.startPriceTF.text = result;
-            weakSelf.inputContent = result;
         }
-        
         if ([NSString stringIsEmpty:weakSelf.startPriceTF.text]) {
             CGFloat width = [JLTool getAdaptionSizeWithText:[NSString stringIsEmpty:weakSelf.placeholder] ? @"" : weakSelf.placeholder labelHeight:bottomViewHeight font:kFontPingFangSCRegular(16.0f)].width + 20;
             [weakSelf updateTextFieldConstraint:width];

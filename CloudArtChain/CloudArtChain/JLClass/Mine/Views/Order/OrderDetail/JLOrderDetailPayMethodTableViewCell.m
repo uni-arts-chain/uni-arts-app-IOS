@@ -19,6 +19,8 @@ static const CGFloat KMethodViewHeight = 43.0f;
 @property (nonatomic, strong) NSArray *payImageArray;
 @property (nonatomic, strong) NSArray *payTitleArray;
 @property (nonatomic, strong) NSMutableArray *selectedButtonArray;
+// 账户余额
+@property (nonatomic, strong) UILabel *cashAccountLabel;
 @end
 
 @implementation JLOrderDetailPayMethodTableViewCell
@@ -105,6 +107,9 @@ static const CGFloat KMethodViewHeight = 43.0f;
     [methodView addSubview:maskImageView];
     
     UILabel *titleLabel = [JLUIFactory labelInitText:self.payTitleArray[index] font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_212121 textAlignment:NSTextAlignmentLeft];
+    if (index == 0) {
+        self.cashAccountLabel = titleLabel;
+    }
     [methodView addSubview:titleLabel];
     
     UIButton *selectedButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -172,6 +177,14 @@ static const CGFloat KMethodViewHeight = 43.0f;
 
 - (void)setBuyTotalPrice:(NSString *)buyTotalPrice {
     _buyTotalPrice = buyTotalPrice;
+    
+    if (self.cashAccountLabel) {
+        // 账户余额
+        self.cashAccountLabel.text = [NSString stringWithFormat:@"%@（￥%@）", self.payTitleArray[0], _cashAccountBalance];
+        NSMutableAttributedString *attrs = [[NSMutableAttributedString alloc] initWithString:self.cashAccountLabel.text];
+        [attrs addAttribute:NSForegroundColorAttributeName value:JL_color_gray_999999 range:NSMakeRange(((NSString *)self.payTitleArray[0]).length, attrs.length - ((NSString *)self.payTitleArray[0]).length)];
+        self.cashAccountLabel.attributedText = attrs;
+    }
     
     NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:_cashAccountBalance];
     NSDecimalNumber *buyTotal = [NSDecimalNumber decimalNumberWithString:_buyTotalPrice];

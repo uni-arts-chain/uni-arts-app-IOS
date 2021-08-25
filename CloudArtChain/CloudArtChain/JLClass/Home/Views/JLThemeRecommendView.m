@@ -142,48 +142,16 @@
     }
 }
 
-#pragma mark - private methods
-- (void)handleTimer {
-        
-    for (int i = 0; i < self.themeArray.count; i++) {
-        Model_art_Detail_Data *model = self.themeArray[i];
-        model.server_time = model.server_time + 1;
-    }
-    [self.collectionView reloadData];
-}
-
 - (void)setTopicData:(Model_arts_topic_Data *)topicData {
     
-    WS(weakSelf)
     if (![NSString stringIsEmpty:topicData.app_img_file[@"url"]]) {
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:topicData.app_img_file[@"url"]]];
     }
     if (![NSString stringIsEmpty:topicData.title]) {
         self.titleLabel.text = topicData.title;
     }
-    for (int i = 0; i < topicData.arts.count; i++) {
-        Model_art_Detail_Data *model = topicData.arts[i];
-        model.auction_start_time = @"2021-7-22 12:00:00";
-        model.auction_end_time = @"2021-7-29 12:00:00";
-        if (i == 0) {
-            model.server_time = 1626919200;// 2021-07-22 10:00:00
-        }else {
-            model.server_time = 1627351200;// 2021-7-27 10:00:00
-        }
-    }
     self.themeArray = topicData.arts;
     [self.collectionView reloadData];
-    
-    /// 是否有拍卖作品 有启动定时器
-    if (self.timer) {
-        [self.timer invalidate];
-        self.timer = nil;
-    }
-    self.timer = [NSTimer jl_scheduledTimerWithTimeInterval:1.0 block:^{
-        [weakSelf handleTimer];
-    } repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-    [self.timer fire];
 }
 
 - (void)dealloc

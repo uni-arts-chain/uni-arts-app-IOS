@@ -214,9 +214,9 @@
 
 - (void)setSoldData:(Model_arts_sold_Data *)soldData {
     self.orderNoLabel.text = soldData.sn;
-    if ([soldData.trade_refer isEqualToString:@"Auction"]) {
+    if ([[soldData.trade_refer lowercaseString] isEqualToString:@"auction"]) {
         self.auctionFlagImgView.hidden = NO;
-        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", [self getResultPayMoney:soldData.auction].stringValue];
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%@", soldData.auction.win_price];
     }else {
         self.auctionFlagImgView.hidden = YES;
         NSDecimalNumber *priceNumber = [NSDecimalNumber decimalNumberWithString:soldData.price];
@@ -232,7 +232,7 @@
     }
     
     NSDate *buy_time = [NSDate dateWithTimeIntervalSince1970:soldData.finished_at.doubleValue];
-    self.timeLabel.text = [buy_time dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];
+    self.timeLabel.text = [buy_time dateWithCustomFormat:@"MM/dd HH:mm:ss"];
     
     self.authorLabel.text = [NSString stringIsEmpty:soldData.art.author.display_name] ? @"" : soldData.art.author.display_name;
     
@@ -247,32 +247,6 @@
         self.numLabel.text = @"";
     }
     [self.shadowView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
-}
-
-/// 最终实付款
-- (NSDecimalNumber *)getResultPayMoney: (Model_auctions_Data *)auctionsData {
-    // 拍中价格
-    NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
-    if (![NSString stringIsEmpty:auctionsData.win_price]) {
-        winPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.win_price];
-    }
-    // 版税价格
-    NSDecimalNumber *royaltyPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
-    if (![NSString stringIsEmpty:auctionsData.art.royalty]) {
-        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:auctionsData.art.royalty];
-        if ([royaltyNumber isGreaterThanZero]) {
-            royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
-        }
-    }
-    // 保证金
-    NSDecimalNumber *depositPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
-    if (![NSString stringIsEmpty:auctionsData.deposit_amount]) {
-        depositPrice = [NSDecimalNumber decimalNumberWithString:auctionsData.deposit_amount];
-    }
-    // 最终实付价格
-    NSDecimalNumber *resultPrice = [[winPrice decimalNumberByAdding:royaltyPrice] decimalNumberBySubtracting: depositPrice];
-    
-    return resultPrice;
 }
 
 @end

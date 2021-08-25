@@ -206,7 +206,7 @@
         _royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", persentRoyaltyNumber.stringValue];
         
         NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.win_price];
-        NSDecimalNumber *royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
+        NSDecimalNumber *royaltyPrice = [[royaltyNumber decimalNumberByMultiplyingBy:winPrice] roundDownScale:2];
         _royaltyLabel.text = [NSString stringWithFormat:@"￥%@", royaltyPrice.stringValue];
     }
 }

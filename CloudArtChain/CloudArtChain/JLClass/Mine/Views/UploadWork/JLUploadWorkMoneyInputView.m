@@ -63,75 +63,40 @@
     }];
     
     [self.inputTF.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
-        if ([[UIApplication sharedApplication].textInputMode.primaryLanguage isEqualToString:@"zh-Hans"]) {
-            UITextRange *selectedRange = [weakSelf.inputTF markedTextRange];
-            UITextPosition *position = [weakSelf.inputTF positionFromPosition:selectedRange.start offset:0];
-            if (!position) {
-                NSString *result = [JLUtils trimSpace:x];
-                NSRange range = [result rangeOfString:@"."];
-                if (range.location == NSNotFound) {
-                    if ([NSString stringIsEmpty:result]) {
-                        weakSelf.inputTF.text = result;
-                        weakSelf.inputContent = result;
-                    } else {
+        NSString *result = [JLUtils trimSpace:x];
+        if ([NSString stringIsEmpty:result]) {
+            return;
+        }
+        if ([result containsString:@"."]) {
+            NSArray *roundArray = [result componentsSeparatedByString:@"."];
+            if (roundArray.count >= 2) {
+                NSString *decimalPart = roundArray[1];
+                if (decimalPart.length >= 2) {
+                    if ([[decimalPart substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"0"] &&
+                        [[decimalPart substringWithRange:NSMakeRange(1, 1)] isEqualToString:@"0"]) {
+                        NSString *str = [result substringWithRange:NSMakeRange(0, result.length - 1)];
+                        weakSelf.inputTF.text = str;
+                        weakSelf.inputContent = str;
+                    }else {
                         NSDecimalNumber *resultNumber = [[NSDecimalNumber decimalNumberWithString:result] roundDownScale:2];
                         weakSelf.inputTF.text = resultNumber.stringValue;
                         weakSelf.inputContent = resultNumber.stringValue;
                     }
-                } else {
-                    if (range.location == result.length - 1) {
-                        weakSelf.inputTF.text = result;
-                        weakSelf.inputContent = result;
-                    } else {
-                        if ([NSString stringIsEmpty:result]) {
-                            weakSelf.inputTF.text = result;
-                            weakSelf.inputContent = result;
-                        } else {
-                            NSString *last = [result substringFromIndex:result.length - 1];
-                            if ([last isEqualToString:@"0"]) {
-                                weakSelf.inputTF.text = result;
-                                weakSelf.inputContent = result;
-                            } else {
-                                NSDecimalNumber *resultNumber = [[NSDecimalNumber decimalNumberWithString:result] roundDownScale:2];
-                                weakSelf.inputTF.text = resultNumber.stringValue;
-                                weakSelf.inputContent = resultNumber.stringValue;
-                            }
-                        }
-                    }
+                }else {
+                    weakSelf.inputTF.text = result;
+                    weakSelf.inputContent = result;
                 }
             }
-        } else {
-            NSString *result = [JLUtils trimSpace:x];
-            NSRange range = [result rangeOfString:@"."];
-            if (range.location == NSNotFound) {
-                if ([NSString stringIsEmpty:result]) {
-                    weakSelf.inputTF.text = result;
-                    weakSelf.inputContent = result;
-                } else {
-                    NSDecimalNumber *resultNumber = [[NSDecimalNumber decimalNumberWithString:result] roundDownScale:2];
-                    weakSelf.inputTF.text = resultNumber.stringValue;
-                    weakSelf.inputContent = resultNumber.stringValue;
-                }
-            } else {
-                if (range.location == result.length - 1) {
-                    weakSelf.inputTF.text = result;
-                    weakSelf.inputContent = result;
-                } else {
-                    if ([NSString stringIsEmpty:result]) {
-                        weakSelf.inputTF.text = result;
-                        weakSelf.inputContent = result;
-                    } else {
-                        NSString *last = [result substringFromIndex:result.length - 1];
-                        if ([last isEqualToString:@"0"]) {
-                            weakSelf.inputTF.text = result;
-                            weakSelf.inputContent = result;
-                        } else {
-                            NSDecimalNumber *resultNumber = [[NSDecimalNumber decimalNumberWithString:result] roundDownScale:2];
-                            weakSelf.inputTF.text = resultNumber.stringValue;
-                            weakSelf.inputContent = resultNumber.stringValue;
-                        }
-                    }
-                }
+        }else {
+            if (result.length >= 2 &&
+                [[result substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"0"] &&
+                ![[result substringWithRange:NSMakeRange(1, 1)] isEqualToString:@"."]) {
+                NSString *str = [result substringWithRange:NSMakeRange(0, 1)];
+                weakSelf.inputTF.text = str;
+                weakSelf.inputContent = str;
+            }else {
+                weakSelf.inputTF.text = result;
+                weakSelf.inputContent = result;
             }
         }
         if (weakSelf.inputContentChangeBlock) {

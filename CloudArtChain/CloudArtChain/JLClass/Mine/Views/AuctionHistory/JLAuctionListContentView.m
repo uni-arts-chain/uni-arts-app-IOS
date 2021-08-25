@@ -81,7 +81,7 @@
 
 #pragma mark - UITableViewDelegate
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (self.dataArray.count == 0) {
+    if (self.dataArray && self.dataArray.count == 0) {
         return self.emptyView;
     }else {
         return [[UIView alloc] init];
@@ -89,7 +89,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.dataArray.count == 0) {
+    if (self.dataArray && self.dataArray.count == 0) {
         return self.frameHeight;
     }else {
         return KTouch_Responder_Height;
@@ -142,6 +142,8 @@
         }
         if (_dataArray.count < page * pageSize) {
             [(JLRefreshFooter *)_tableView.mj_footer endWithNoMoreDataNotice];
+        }else {
+            [_tableView.mj_footer endRefreshing];
         }
     }else {
         if (_dataArray.count < page * pageSize) {

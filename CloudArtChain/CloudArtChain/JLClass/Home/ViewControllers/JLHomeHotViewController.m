@@ -90,7 +90,7 @@
             isAuction = YES;
         }
         JLPopularCollectionWaterLayout *layout = [JLPopularCollectionWaterLayout layoutWithColoumn:2 data:self.artsArray verticleMin:14.0f horizonMin:14.0f leftMargin:15.0f rightMargin:15.0f isAuction:isAuction];
-        _collectionView = [[JLPagetableCollectionView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KTabBar_Height - KStatusBar_Navigation_Height - 40) collectionViewLayout:layout];
+        _collectionView = [[JLPagetableCollectionView alloc] initWithFrame:CGRectMake(0.0f, 10.0f, kScreenWidth, kScreenHeight - KTabBar_Height - KStatusBar_Navigation_Height - 40 - 15) collectionViewLayout:layout];
         _collectionView.backgroundColor = JL_color_white_ffffff;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -204,7 +204,7 @@
 
 - (JLNormalEmptyView *)emptyView {
     if (!_emptyView) {
-        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KTabBar_Height - KStatusBar_Navigation_Height - 40)];
+        _emptyView = [[JLNormalEmptyView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, kScreenHeight - KTabBar_Height - KStatusBar_Navigation_Height - 40 - 10)];
     }
     return _emptyView;
 }
