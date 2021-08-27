@@ -158,14 +158,17 @@
     
     [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
     [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
-        [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
             if (payType == JLOrderPayTypeNameAccount) {
-                [[JLLoading sharedLoading] showMBSuccessTipMessage:@"支付成功" hideTime:KToastDismissDelayTimeInterval];
-                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_CASHACCOUNT_PAY_SUCCESS_AUCTION object:nil];
-                [self fihishViewControllers];
-                [weakSelf.navigationController popViewControllerAnimated:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [[JLLoading sharedLoading] hideLoading];
+                    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"支付成功" hideTime:KToastDismissDelayTimeInterval];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_CASHACCOUNT_PAY_SUCCESS_AUCTION object:nil];
+                    [self fihishViewControllers];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                });
             }else {
+                [[JLLoading sharedLoading] hideLoading];
                 NSString *payUrl = response.body[@"url"];
                 if (![NSString stringIsEmpty:payUrl]) {
                     if (payType == JLOrderPayTypeNameWepay) {
@@ -184,6 +187,7 @@
                 }
             }
         }else {
+            [[JLLoading sharedLoading] hideLoading];
             [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];

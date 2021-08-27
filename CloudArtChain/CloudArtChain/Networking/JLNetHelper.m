@@ -117,7 +117,6 @@ static AFHTTPSessionManager *sessionManager = nil;
     
     NSString *baseUrl = [NSString stringWithFormat:@"%@%@%@",modelRsp.baseUrl, [NSString stringIsEmpty:modelRsp.serverVersionSubpath] ? @"" :  modelRsp.serverVersionSubpath,  [NSString stringIsEmpty:modelRsp.interfacePath] ? [[NSStringFromClass([reqPar class]) substringWithRange:NSMakeRange(6, NSStringFromClass([reqPar class]).length-10)] stringByReplacingOccurrencesOfString:@"_" withString:@"/"] : modelRsp.interfacePath];
     __block id rsp = rspPar;
-    JLLog(@"当前的请求接口====: %@\n当前请求参数为====: %@", baseUrl,[reqPar toJSONString]);
     [manager GET:baseUrl parameters:[reqPar toDictionary] headers:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -148,6 +147,7 @@ static AFHTTPSessionManager *sessionManager = nil;
         if (callBackBlock) {
             ErrorRoot * rootError = [self serializationError:error];
             ErrorHead * errorHead = rootError.head;
+            JLLog(@"当前的请求接口====:%@\n当前请求参数为====:%@\n当前请求errorMsg====:%@ 当前请求errorCode====:%@",baseUrl,[reqPar toJSONString],errorHead.msg, @(errorHead.code));
             callBackBlock(NO,errorHead.msg, errorHead.code);
         }
         if (!isTimeout) {

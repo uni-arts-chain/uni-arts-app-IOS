@@ -497,6 +497,8 @@
 @property (nonatomic, assign) BOOL deposit_paid;
 /// 是否是拍卖者
 @property (nonatomic, assign) BOOL is_owner;
+/// 版税金额(规则：创作者发起拍卖没有版税 其他人发起拍卖计算的版税金额)
+@property (nonatomic, copy) NSString *royalty;
 /// 限时支付时间
 @property (nonatomic, copy) NSString *pay_timeout;
 /// 是否正在结算中

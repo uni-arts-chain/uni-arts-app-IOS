@@ -287,11 +287,9 @@
     }
     // 版税价格
     NSDecimalNumber *royaltyPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
-    if (![NSString stringIsEmpty:_auctionsData.art.royalty]) {
-        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty];
-        if ([royaltyNumber isGreaterThanZero]) {
-            royaltyPrice = [royaltyNumber decimalNumberByMultiplyingBy:winPrice];
-        }
+    if (![NSString stringIsEmpty:_auctionsData.royalty] &&
+        [[NSDecimalNumber decimalNumberWithString:_auctionsData.royalty] isGreaterThanZero]) {
+        royaltyPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.royalty];
     }
     // 保证金
     NSDecimalNumber *depositPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];

@@ -276,9 +276,12 @@
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            if (response.body.count) {
+            if (response.body.count > 0) {
                 weakSelf.isWinAuctions = YES;
                 weakSelf.mineAppView.isWinAuction = YES;
+            }else {
+                weakSelf.isWinAuctions = NO;
+                weakSelf.mineAppView.isWinAuction = NO;
             }
         }
     }];

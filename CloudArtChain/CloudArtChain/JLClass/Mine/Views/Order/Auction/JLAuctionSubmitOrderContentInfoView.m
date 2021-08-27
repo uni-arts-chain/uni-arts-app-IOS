@@ -200,14 +200,20 @@
     _priceLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.win_price];
     _depositLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.deposit_amount];
     
-    if (![NSString stringIsEmpty:_auctionsData.art.royalty]) {
-        NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty];
-        NSDecimalNumber *persentRoyaltyNumber = [royaltyNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
-        _royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", persentRoyaltyNumber.stringValue];
-        
-        NSDecimalNumber *winPrice = [NSDecimalNumber decimalNumberWithString:_auctionsData.win_price];
-        NSDecimalNumber *royaltyPrice = [[royaltyNumber decimalNumberByMultiplyingBy:winPrice] roundDownScale:2];
-        _royaltyLabel.text = [NSString stringWithFormat:@"￥%@", royaltyPrice.stringValue];
+    if (![NSString stringIsEmpty:_auctionsData.royalty] &&
+        [[NSDecimalNumber decimalNumberWithString:_auctionsData.royalty] isGreaterThanZero]) {
+        if (![NSString stringIsEmpty:_auctionsData.art.royalty] &&
+            [[NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty] isGreaterThanZero]) {
+            NSDecimalNumber *royaltyNumber = [NSDecimalNumber decimalNumberWithString:_auctionsData.art.royalty];
+            NSDecimalNumber *persentRoyaltyNumber = [royaltyNumber decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+            _royaltyTitleLabel.text = [NSString stringWithFormat:@"版税（%@%%）", persentRoyaltyNumber.stringValue];
+        }else {
+            _royaltyTitleLabel.text = @"版税（0%）";
+        }
+        _royaltyLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.royalty];
+    }else {
+        _royaltyTitleLabel.text = @"版税（0%）";
+        _royaltyLabel.text = @"￥0";
     }
 }
 

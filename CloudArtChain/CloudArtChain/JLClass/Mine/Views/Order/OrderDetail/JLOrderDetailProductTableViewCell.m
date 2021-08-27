@@ -211,7 +211,12 @@
         self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", totalPriceNumber.stringValue];
     } else {
         self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%@", orderData.total_price];
-        self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", orderData.royalty];
+        if (![NSString stringIsEmpty:orderData.royalty] &&
+            [[NSDecimalNumber decimalNumberWithString:orderData.royalty] isGreaterThanZero]) {
+            self.royaltyLabel.text = [NSString stringWithFormat:@"(含版税¥%@)", orderData.royalty];
+        }else {
+            self.royaltyLabel.text = @"";
+        }
     }
 }
 @end

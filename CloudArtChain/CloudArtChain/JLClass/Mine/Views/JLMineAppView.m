@@ -101,14 +101,17 @@
 
 - (void)setIsWinAuction:(BOOL)isWinAuction {
     _isWinAuction = isWinAuction;
-    
-    if (_isWinAuction) {
-        [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.tag >= 3000 && obj.tag - 3000 == 4) {
+
+    [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.tag >= 3000 && obj.tag - 3000 == 4) {
+            if (_isWinAuction) {
                 obj.hidden = NO;
                 ((UILabel *)obj).text = @"已中标";
+            }else {
+                ((UILabel *)obj).text = @"";
+                obj.hidden = YES;
             }
-        }];
-    }
+        }
+    }];
 }
 @end
