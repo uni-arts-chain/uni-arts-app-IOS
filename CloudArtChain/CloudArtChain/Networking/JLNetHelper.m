@@ -93,7 +93,7 @@ static AFHTTPSessionManager *sessionManager = nil;
         if (callBack) {
             ErrorRoot * rootError = [self serializationError:error];
             ErrorHead * errorHead = rootError.head;
-            JLLog(@"当前的请求接口====:%@\n当前请求参数为====:%@\n当前请求errorMsg====:%@ 当前请求errorCode====:%@",baseUrl,[reqPar toJSONString],errorHead.msg, @(errorHead.code));
+            JLLog(@"当前的请求接口====:%@\n当前请求参数为====:%@\n当前请求errorMsg====:%@ errorCode====:%@",baseUrl,[reqPar toJSONString],errorHead.msg, @(errorHead.code));
             callBack(NO,errorHead.msg, errorHead.code);
         }
         if (!isTimeout) {
@@ -147,7 +147,7 @@ static AFHTTPSessionManager *sessionManager = nil;
         if (callBackBlock) {
             ErrorRoot * rootError = [self serializationError:error];
             ErrorHead * errorHead = rootError.head;
-            JLLog(@"当前的请求接口====:%@\n当前请求参数为====:%@\n当前请求errorMsg====:%@ 当前请求errorCode====:%@",baseUrl,[reqPar toJSONString],errorHead.msg, @(errorHead.code));
+            JLLog(@"当前的请求接口====:%@\n当前请求参数为====:%@\n当前请求errorMsg====:%@ errorCode====:%@",baseUrl,[reqPar toJSONString],errorHead.msg, @(errorHead.code));
             callBackBlock(NO,errorHead.msg, errorHead.code);
         }
         if (!isTimeout) {

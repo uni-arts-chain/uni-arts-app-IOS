@@ -46,6 +46,8 @@
     WS(weakSelf)
     // 请求用户信息
     [AppSingleton loginInfonWithBlock:^{
+        [weakSelf loadCashAccount];
+        [weakSelf loadAuctionsWinsDatas];
         [weakSelf.mineNaviView refreshInfo];
     }];
 }
@@ -57,8 +59,6 @@
         [weakSelf.orderView setCurrentAccountBalance:amount];
     }];
     [self requestHasUnreadMessages];
-    [self loadCashAccount];
-    [self loadAuctionsWinsDatas];
 }
 
 - (void)viewDidLoad {
