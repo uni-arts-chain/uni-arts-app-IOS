@@ -71,11 +71,9 @@
     [self createIQKeyboardManager];
     [self initUM];
     [self showMainViewController];
-    [JLGuidePageView showGuidePage];
     [self setupAppearance];
     // 个推
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
-    [self registerRemoteNotification];
     
     [self startNetworkMonitor];
 //    #ifdef DEBUG
@@ -165,18 +163,53 @@
     //开发者需要显式的调用此函数，日志系统才能工作
     [UMCommonLogManager setUpUMCommonLogManager];
 //    [UMConfigure setLogEnabled:YES];//设置打开日志
-    [UMConfigure initWithAppkey:@"5f6959dea4ae0a7f7d09cd7d" channel:@"myex.io"];
+    [UMConfigure initWithAppkey:kYMAppkey channel:@"myex.io"];
 }
 
 - (void)showMainViewController{
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor blackColor];
     JLNavigationViewController * navigationController = [[JLNavigationViewController alloc] initWithRootViewController:[JLTabbarController new]];
     [AppSingleton sharedAppSingleton].globalNavController = navigationController;
     [AppSingleton sharedAppSingleton].loginUtil = [[JLLoginUtil alloc] init];
     self.window.rootViewController = navigationController;
     self.walletTool = [[JLWalletTool alloc] initWithWindow:self.window];
     [self.window makeKeyAndVisible];
+    
+    UIImageView *placeholderImageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    placeholderImageView.image = [JLTool imageFromMachine];
+    [self.window.rootViewController.view addSubview:placeholderImageView];
+
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    NSURL *imageUrl = [[NSBundle mainBundle] URLForResource:@"LaunchScreen" withExtension:@"gif"];
+    [self.window.rootViewController.view addSubview:imgView];
+    [self.window.rootViewController.view bringSubviewToFront:imgView];
+    [imgView sd_setImageWithURL:imageUrl];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [JLGuidePageView showGuidePage:^{
+            [self autoCreateWallet];
+        }];
+        [self registerRemoteNotification];
+        
+        [placeholderImageView removeFromSuperview];
+        
+        [UIView animateWithDuration:0.8 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            imgView.alpha = 0;
+            imgView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+        } completion:^(BOOL finished) {
+            [imgView removeFromSuperview];
+        }];
+    });
+}
+
+- (void)autoCreateWallet {
+//#if (WALLET_ENV == AUTOCREATEWALLET)
+        if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
+            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+            [self.walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        }
+//#endif
 }
 
 - (void)setupAppearance {

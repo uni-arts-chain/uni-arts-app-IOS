@@ -474,7 +474,7 @@
     [JLAuctionDepositPayView showWithTitle:@"买家保证金" tipTitle:@"竞拍不成功，保证金将在拍卖结束3-7个工作日内退回" payMoney:self.auctionsData.deposit_amount cashAccountBalance:self.accountData.balance complete:^(JLAuctionDepositPayViewPayType payType) {
         if (payType == JLAuctionDepositPayViewPayTypeCashAccount) {
             // 账户支付 验证密码
-            [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入饭团密码完成支付" complete:^(NSString * _Nonnull passwords) {
+            [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入加码射线密码完成支付" complete:^(NSString * _Nonnull passwords) {
                 [[JLViewControllerTool appDelegate].walletTool authorizeWithPasswords:passwords with:^(BOOL success) {
                     if (success) {
                         NSLog(@"密码验证成功");

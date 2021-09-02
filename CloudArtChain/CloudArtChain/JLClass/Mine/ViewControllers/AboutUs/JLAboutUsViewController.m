@@ -78,7 +78,7 @@
 
 - (UILabel *)registerLabel {
     if (!_registerLabel) {
-        _registerLabel = [JLUIFactory labelInitText:@"Copyright©2020-2021\r\n饭团密画APP版权所有\r\nUniArts提供技术支持" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentCenter];
+        _registerLabel = [JLUIFactory labelInitText:@"Copyright©2020-2021\r\n加码射线APP版权所有\r\nUniArts提供技术支持" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentCenter];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_registerLabel.text];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = 8.0f;

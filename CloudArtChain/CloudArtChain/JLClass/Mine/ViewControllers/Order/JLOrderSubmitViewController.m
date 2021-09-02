@@ -158,7 +158,7 @@
 - (void)submitBtnClick {
     WS(weakSelf)
     if (self.currentPayType == JLOrderPayTypeNameAccount) {
-        [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入饭团密码完成支付" complete:^(NSString * _Nonnull passwords) {
+        [JLCashAccountPasswordAuthorizeView showWithTitle:@"输入加码射线密码完成支付" complete:^(NSString * _Nonnull passwords) {
             [[JLViewControllerTool appDelegate].walletTool authorizeWithPasswords:passwords with:^(BOOL success) {
                 if (success) {
                     NSLog(@"密码验证成功");

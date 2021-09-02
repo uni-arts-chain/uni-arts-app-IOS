@@ -74,7 +74,7 @@
 
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
-        _titleLabel = [JLUIFactory labelInitText:@"钱包是登录饭团密画唯一方式" font:kFontPingFangSCSCSemibold(18.0f) textColor:JL_color_black_34394C textAlignment:NSTextAlignmentCenter];
+        _titleLabel = [JLUIFactory labelInitText:@"钱包是登录加码射线唯一方式" font:kFontPingFangSCSCSemibold(18.0f) textColor:JL_color_black_34394C textAlignment:NSTextAlignmentCenter];
     }
     return _titleLabel;
 }

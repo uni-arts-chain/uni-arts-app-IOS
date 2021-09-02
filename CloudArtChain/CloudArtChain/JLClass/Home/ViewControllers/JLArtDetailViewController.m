@@ -504,7 +504,7 @@
                         
                         [[JLLoading sharedLoading] showMBSuccessTipMessage:@"挂单已申请" hideTime:KToastDismissDelayTimeInterval];
 //                        // 用户提示
-//                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+//                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。加码射线现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，加码射线感谢您的支持。" cancel:@"取消" cancelHandler:^{
 //
 //                        } confirm:@"联系客服" confirmHandler:^{
 //                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];
@@ -545,7 +545,7 @@
                         [[JLLoading sharedLoading] showMBSuccessTipMessage:@"挂单已申请" hideTime:KToastDismissDelayTimeInterval];
                         
 //                        // 用户提示
-//                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。饭团密画现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，饭团密画感谢您的支持。" cancel:@"取消" cancelHandler:^{
+//                        UIAlertController *alertVC = [UIAlertController alertShowWithTitle:@"提示" message:@"检测到您已提交挂单申请。加码射线现处于公测阶段，订单成交后，请联系客服，提交自己的手机号码、钱包地址、和订单号申请提现。公测结束后会上线自动提现功能，加码射线感谢您的支持。" cancel:@"取消" cancelHandler:^{
 //
 //                        } confirm:@"联系客服" confirmHandler:^{
 //                            JLCustomerServiceViewController *customerServiceVC = [[JLCustomerServiceViewController alloc] init];

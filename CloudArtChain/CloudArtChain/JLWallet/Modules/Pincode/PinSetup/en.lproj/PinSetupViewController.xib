@@ -41,7 +41,7 @@
                 </navigationBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-Mn-FG7">
                     <rect key="frame" x="20" y="73.5" width="335" height="57.5"/>
-                    <string key="text">友情提醒：饭团密画所有收藏品权益均绑定用户区块链地址和私钥，饭团密画官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
+                    <string key="text">友情提醒：加码射线所有收藏品权益均绑定用户区块链地址和私钥，加码射线官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
 </string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.69803921568627447" green="0.37254901960784315" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

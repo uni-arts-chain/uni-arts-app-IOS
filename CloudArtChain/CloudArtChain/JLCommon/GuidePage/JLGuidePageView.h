@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JLGuideManager.h"
 
-NS_ASSUME_NONNULL_BEGIN
+typedef void(^JLGuidePageViewCompleteBlock)(void);
 
 @interface JLGuidePageView : UIView
 /**
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)showGuidePage;
 
++ (void)showGuidePage: (JLGuidePageViewCompleteBlock)complete;
+
 + (BOOL)isGuideViewShow;
 @end
-
-NS_ASSUME_NONNULL_END

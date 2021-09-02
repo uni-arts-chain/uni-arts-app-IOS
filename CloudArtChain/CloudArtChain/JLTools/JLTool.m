@@ -11,6 +11,34 @@
 #import <Photos/PHPhotoLibrary.h>
 
 @implementation JLTool
+/// 根据机型选择图片
++ (UIImage *)imageFromMachine {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGFloat screenX = kScreenWidth * scale;
+    CGFloat screenY = kScreenHeight * scale;
+    UIImage *image = [UIImage imageNamed:@"828x1792"];
+    if (screenX == 640 && screenY == 960) {
+        image = [UIImage imageNamed:@"640x960"];
+    }else if (screenX == 640 && screenY == 1136) {
+        image = [UIImage imageNamed:@"640x1136"];
+    }else if (screenX == 750 && screenY == 1334) {
+        image = [UIImage imageNamed:@"750x1334"];
+    }else if (screenX == 1242 && screenY == 2208) {
+        image = [UIImage imageNamed:@"1242x2208"];
+    }else if (screenX == 1125 && screenY == 2436) {
+        image = [UIImage imageNamed:@"1125x2436"];
+    }else if (screenX == 828 && screenY == 1792) {
+        image = [UIImage imageNamed:@"828x1792"];
+    }else if (screenX == 1242 && screenY == 2688) {
+        image = [UIImage imageNamed:@"1242x2688"];
+    }else if (screenX == 1170 && screenY == 2532) {
+        image = [UIImage imageNamed:@"1170x2532"];
+    }else if (screenX == 1284 && screenY == 2778) {
+        image = [UIImage imageNamed:@"1284x2778"];
+    }
+    return image;
+}
+
 /// 获取账户信息 如果是手机号码，去除国家编码
 /// @param account 账号
 + (NSString *)getAccountWithNoCountryCode:(NSString *)account {

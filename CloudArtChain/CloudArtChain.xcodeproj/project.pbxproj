@@ -57,6 +57,7 @@
 		5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEC267342DE00727C8C /* JLViewAniamtionTool.m */; };
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
+		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
 		5E9B756326A51755002A2364 /* JLNewAuctionArtDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */; };
 		5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756526A517A4002A2364 /* JLNewAuctionArtDetailContentView.m */; };
 		5E9B756926A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756826A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m */; };
@@ -1353,6 +1354,7 @@
 		5E76DFEF26735AB600727C8C /* NSData+JLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+JLExtension.h"; sourceTree = "<group>"; };
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
+		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
 		5E9B756126A51755002A2364 /* JLNewAuctionArtDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailViewController.h; sourceTree = "<group>"; };
 		5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewAuctionArtDetailViewController.m; sourceTree = "<group>"; };
 		5E9B756426A517A4002A2364 /* JLNewAuctionArtDetailContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailContentView.h; sourceTree = "<group>"; };
@@ -6157,6 +6159,7 @@
 				B38A5F6A24F34F0A00FA3EF7 /* AppDelegate.h */,
 				B38A5F6B24F34F0A00FA3EF7 /* AppDelegate.mm */,
 				B38A5F7624F34F0B00FA3EF7 /* Assets.xcassets */,
+				5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */,
 				B38A5F7824F34F0B00FA3EF7 /* LaunchScreen.storyboard */,
 				B38A5F7B24F34F0C00FA3EF7 /* Info.plist */,
 				B38A5F7C24F34F0C00FA3EF7 /* main.m */,
@@ -7110,6 +7113,7 @@
 				B31225D825B6B60A00562ECA /* AccountCreateViewController.xib in Resources */,
 				B312267E25B6B60A00562ECA /* WalletAmountView.xib in Resources */,
 				B312264E25B6B60A00562ECA /* ReceiveHeaderView.xib in Resources */,
+				5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */,
 				B312257325B6B60A00562ECA /* SelectionSubtitleTableViewCell.xib in Resources */,
 				B312262025B6B60A00562ECA /* CommingSoonViewController.xib in Resources */,
 				B35EBA1A24FF67F100F5BF84 /* QRCodeScanLine@2x.png in Resources */,
@@ -8964,7 +8968,7 @@
 					"\"xxHash_Swift\"",
 					"-lLive2DCubismCore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.GammaRay;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
@@ -9362,7 +9366,7 @@
 					"\"xxHash_Swift\"",
 					"-lLive2DCubismCore",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.CloudArtChain;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.GammaRay;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;

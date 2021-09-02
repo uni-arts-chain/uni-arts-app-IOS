@@ -25,7 +25,7 @@
 
 #elif (ENV == OL)//正式环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://uniarts.senmeo.tech/"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://fantuan.uniarts.vip/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://mainnet.uniarts.vip:9443"
 #define CHAIN_GenesisHash                    "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077"
 #endif

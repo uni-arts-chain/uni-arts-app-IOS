@@ -24,6 +24,7 @@ CGRect enterBtnFrame;
 NSString *enterBtnImage;
 static JLGuidePageView *launchView = nil;
 BOOL isCurrentShow;
+JLGuidePageViewCompleteBlock completeBlock;
 
 #pragma mark - Init methods
 //不带按钮的引导页
@@ -37,10 +38,15 @@ BOOL isCurrentShow;
 
 //带按钮的引导页
 + (instancetype)sharedWithImages:(NSArray *)imageNames buttonImage:(NSString *)buttonImageName buttonFrame:(CGRect)frame {
+    return [JLGuidePageView sharedWithImages:imageNames buttonImage:buttonImageName buttonFrame:frame complete:nil];
+}
+
++ (instancetype)sharedWithImages:(NSArray *)imageNames buttonImage:(NSString *)buttonImageName buttonFrame:(CGRect)frame complete: (JLGuidePageViewCompleteBlock)complete {
     images = imageNames;
     isScrollOut = NO;
     enterBtnFrame = frame;
     enterBtnImage = buttonImageName;
+    completeBlock = complete;
     launchView = [[JLGuidePageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     launchView.backgroundColor = [UIColor whiteColor];
     return launchView;
@@ -116,12 +122,9 @@ BOOL isCurrentShow;
         [self removeFromSuperview];
         isCurrentShow = NO;
         [JLGuideManager setFirstLaunch];
-#if (WALLET_ENV == AUTOCREATEWALLET)
-        if (![JLLoginUtil haveSelectedAccount] || ![[JLViewControllerTool appDelegate].walletTool pincodeExists]) {
-            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
-            [[JLViewControllerTool appDelegate].walletTool defaultCreateWalletWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+        if (completeBlock) {
+            completeBlock();
         }
-#endif
     }];
 }
 
@@ -177,6 +180,10 @@ BOOL isCurrentShow;
 }
 
 + (void)showGuidePage {
+    [JLGuidePageView showGuidePage:nil];
+}
+
++ (void)showGuidePage: (JLGuidePageViewCompleteBlock)complete {
     if ([JLGuideManager isFirstLaunch]) {
         isCurrentShow = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -188,8 +195,12 @@ BOOL isCurrentShow;
             }
             [JLGuidePageView sharedWithImages:@[@"icon_guidance_1",@"icon_guidance_2",@"icon_guidance_3"]
                                   buttonImage:@"post_normal"
-                                  buttonFrame:CGRectMake(40.0f, enterButtonY, kScreenWidth - 40.0f * 2, 40.0f)];
+                                  buttonFrame:CGRectMake(40.0f, enterButtonY, kScreenWidth - 40.0f * 2, 40.0f) complete:complete];
         });
+    }else {
+        if (complete) {
+            complete();
+        }
     }
 }
 

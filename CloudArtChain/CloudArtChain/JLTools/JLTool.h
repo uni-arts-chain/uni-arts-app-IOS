@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLTool : NSObject
 
+/// 根据机型选择图片
++ (UIImage *)imageFromMachine;
+
 /// 获取账户信息 如果是手机号码，去除国家编码
 /// @param account 账号
 + (NSString *)getAccountWithNoCountryCode:(NSString *)account;

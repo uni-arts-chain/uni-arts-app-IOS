@@ -11,28 +11,10 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "2688x1242.png",
-      "idiom" : "iphone",
-      "minimum-system-version" : "12.0",
-      "orientation" : "landscape",
-      "scale" : "3x",
-      "subtype" : "2688h"
-    },
-    {
-      "extent" : "full-screen",
       "filename" : "828x1792.png",
       "idiom" : "iphone",
       "minimum-system-version" : "12.0",
       "orientation" : "portrait",
-      "scale" : "2x",
-      "subtype" : "1792h"
-    },
-    {
-      "extent" : "full-screen",
-      "filename" : "1792x828.png",
-      "idiom" : "iphone",
-      "minimum-system-version" : "12.0",
-      "orientation" : "landscape",
       "scale" : "2x",
       "subtype" : "1792h"
     },
@@ -47,28 +29,10 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "2436x1125.png",
-      "idiom" : "iphone",
-      "minimum-system-version" : "11.0",
-      "orientation" : "landscape",
-      "scale" : "3x",
-      "subtype" : "2436h"
-    },
-    {
-      "extent" : "full-screen",
       "filename" : "1242x2208.png",
       "idiom" : "iphone",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
-      "scale" : "3x",
-      "subtype" : "736h"
-    },
-    {
-      "extent" : "full-screen",
-      "filename" : "2208x1242.png",
-      "idiom" : "iphone",
-      "minimum-system-version" : "8.0",
-      "orientation" : "landscape",
       "scale" : "3x",
       "subtype" : "736h"
     },
@@ -100,25 +64,21 @@
     },
     {
       "extent" : "full-screen",
-      "filename" : "320x480.png",
+      "filename" : "1170x2532.png",
       "idiom" : "iphone",
+      "minimum-system-version" : "13.0",
       "orientation" : "portrait",
-      "scale" : "1x"
+      "scale" : "3x",
+      "subtype" : "2532h"
     },
     {
       "extent" : "full-screen",
-      "filename" : "640x960-1.png",
+      "filename" : "1284x2778.png",
       "idiom" : "iphone",
+      "minimum-system-version" : "13.0",
       "orientation" : "portrait",
-      "scale" : "2x"
-    },
-    {
-      "extent" : "full-screen",
-      "filename" : "640x1136-1.png",
-      "idiom" : "iphone",
-      "orientation" : "portrait",
-      "scale" : "2x",
-      "subtype" : "retina4"
+      "scale" : "3x",
+      "subtype" : "2778h"
     }
   ],
   "info" : {

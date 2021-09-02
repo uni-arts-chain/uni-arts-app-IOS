@@ -144,9 +144,11 @@
 // 个推
 #define GTSdkStateNotification @"GtSdkStateChange"
 // GTSDK 配置信息
-#define kGtAppId @"1vgAkon7Yu78ofjf5Ng5r9"
-#define kGtAppKey @"wsbCt4mpXa56dAKUxueNs7"
-#define kGtAppSecret @"YffOF4Agzt90M95RytW0j4"
+#define kGtAppId @"avcqWpRAeq8e61CldgEd05"
+#define kGtAppKey @"7HR6zCPZET82DLQA9Elw44"
+#define kGtAppSecret @"Td2XUoHz3IAPA4oISz7tRA"
+// 友盟
+#define kYMAppkey @"612d8a5b4bede245d9f0bbf0"
 
 #endif /* Prefix_pch */
 #endif
