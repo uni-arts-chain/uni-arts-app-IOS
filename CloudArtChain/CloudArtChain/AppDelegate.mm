@@ -174,6 +174,7 @@
     [AppSingleton sharedAppSingleton].loginUtil = [[JLLoginUtil alloc] init];
     self.window.rootViewController = navigationController;
     self.walletTool = [[JLWalletTool alloc] initWithWindow:self.window];
+    self.ethereumTool = [[JLEthereumTool alloc] init];
     [self.window makeKeyAndVisible];
     
     UIImageView *placeholderImageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

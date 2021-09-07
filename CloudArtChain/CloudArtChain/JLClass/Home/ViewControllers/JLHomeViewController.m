@@ -387,11 +387,54 @@
             JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
             messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
             [weakSelf.navigationController pushViewController:messageVC animated:YES];
+//            [weakSelf create];
         };
     }
     return _homeNaviView;
 }
-
+- (void)create {
+    WS(weakSelf)
+//    [[JLViewControllerTool appDelegate].ethereumTool allWalletInfos];
+    
+    [[JLViewControllerTool appDelegate].ethereumTool createInstantWalletWithCompletion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
+        JLLog(@"ethereum address: %@, errorMsg: %@", address, errorMsg);
+        [weakSelf export];
+    }];
+    
+//    NSArray *arr = [@"cross machine occur title cradle total affair web liar blur piano case" componentsSeparatedByString:@" "];
+//    [[JLViewControllerTool appDelegate].ethereumTool importWalletWithMnemonics:arr completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
+//        JLLog(@"ethereum importWalletWithMnemonics address: %@, errorMsg: %@", address, errorMsg);
+//        [weakSelf export];
+//    }];
+            
+//    // 164e9500eaca3f697e933c5bcc8167f420f861edb580438205a6a53cd5ab2924
+//    [[JLViewControllerTool appDelegate].ethereumTool importWalletWithPrivateKey:@"9bdc843de616081a77351b2e2ab4fcdc6c8b431f775f185acb1455882ef102d1" completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
+//        JLLog(@"ethereum importWalletWithPrivateKey address: %@, errorMsg: %@", address, errorMsg);
+//        [weakSelf export];
+//    }];
+            
+//    NSString *str = @"{\"id\":\"e3032f3b-18f7-4c52-9a2a-ec58a39bb1de\",\"crypto\":{\"ciphertext\":\"acfed4d023371fec052260382a95fa8b949c48c2cf5dcf20a808be099973de9e\",\"cipherparams\":{\"iv\":\"0a4f33b1da0eafbd1587a6a5b8e659d0\"},\"kdf\":\"scrypt\",\"kdfparams\":{\"r\":8,\"p\":6,\"n\":4096,\"dklen\":32,\"salt\":\"80b1ece6d2daa092674887c96f8f29e0c6709d12de58e3ec6a15d61e195fa7e6\"},\"mac\":\"b1a5a0c929ae5349e4e56212c3de9cfaeb5638ac728baf4588a84dfbac51d80e\",\"cipher\":\"aes-128-ctr\"},\"type\":\"private-key\",\"activeAccounts\":[],\"version\":3}";
+//    [[JLViewControllerTool appDelegate].ethereumTool importWalletWithKeystoreJson:str password:@"hahaha" completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
+//            JLLog(@"ethereum importWalletWithKeystoreJson address: %@, errorMsg: %@", address, errorMsg);
+//            [weakSelf export];
+//    }];
+    
+//    [[JLViewControllerTool appDelegate].ethereumTool importWalletWithAddress:@"0x028A7F4cCe06F8c2C342e2712edb72726020b602" completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
+//        JLLog(@"ethereum importWalletWithAddress address: %@, errorMsg: %@", address, errorMsg);
+//        [weakSelf export];
+//    }];
+}
+- (void)export {
+    [[JLViewControllerTool appDelegate].ethereumTool exportMnemonicWithCompletion:^(NSArray<NSString *> *  _Nonnull mnemonics, NSString * _Nullable errorMsg) {
+        JLLog(@"ethereum mnemonics: %@, errorMsg: %@", [mnemonics componentsJoinedByString:@" "], errorMsg);
+    }];
+    [[JLViewControllerTool appDelegate].ethereumTool exportPrivateKeyWithCompletion:^(NSString * _Nullable privateKey, NSString * _Nullable errorMsg) {
+        JLLog(@"ethereum privateKey: %@, errorMsg: %@",privateKey, errorMsg);
+    }];
+    [[JLViewControllerTool appDelegate].ethereumTool exportKeystoreJsonWithExportedKey:@"hahaha" completion:^(NSString * _Nullable keystoreJson, NSString * _Nullable errorMsg) {
+        JLLog(@"ethereum keystoreJson: %@, errorMsg: %@",keystoreJson, errorMsg);
+    }];
+}
 - (JLHoveringView *)hoveringView {
     if (!_hoveringView) {
         _hoveringView = [[JLHoveringView alloc] initWithFrame:CGRectMake(0.0f, self.homeNaviView.frameBottom, kScreenWidth, kScreenHeight - self.homeNaviView.frameHeight - KTabBar_Height) deleaget:self];

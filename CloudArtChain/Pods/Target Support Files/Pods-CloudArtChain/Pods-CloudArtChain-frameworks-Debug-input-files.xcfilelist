@@ -3,6 +3,7 @@ ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
 ${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework
 ${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework
 ${BUILT_PRODUCTS_DIR}/CommonWallet/CommonWallet.framework
+${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework
 ${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework
 ${BUILT_PRODUCTS_DIR}/EBBannerView/EBBannerView.framework
 ${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework
@@ -13,6 +14,7 @@ ${BUILT_PRODUCTS_DIR}/IrohaCrypto/IrohaCrypto.framework
 ${BUILT_PRODUCTS_DIR}/JSONModel/JSONModel.framework
 ${BUILT_PRODUCTS_DIR}/JXCategoryView/JXCategoryView.framework
 ${BUILT_PRODUCTS_DIR}/JXPagingView/JXPagingView.framework
+${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework
 ${BUILT_PRODUCTS_DIR}/LEEAlert/LEEAlert.framework
 ${BUILT_PRODUCTS_DIR}/LMJDropdownMenu/LMJDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/LSTTimer/LSTTimer.framework
@@ -34,6 +36,9 @@ ${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework
 ${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework
 ${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework
 ${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework
+${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework
+${BUILT_PRODUCTS_DIR}/TrustCore/TrustCore.framework
+${BUILT_PRODUCTS_DIR}/TrustKeystore/TrustKeystore.framework
 ${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework
 ${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework
 ${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework

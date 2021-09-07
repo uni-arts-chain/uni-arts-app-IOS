@@ -22,6 +22,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate, GeTuiSdkDelegate>
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, strong) JLWalletTool *walletTool;
+@property (nonatomic, strong) JLEthereumTool *ethereumTool;
 - (void)setDeviceOrientationIsLandscapeRight:(BOOL)isLandscapeRight;
 
 @property (strong, nonatomic) LAppViewController *lAppViewController;

@@ -40,7 +40,14 @@ pod 'LSTTimer'
 pod 'UMCCommon'
 pod 'UMCCommonLog'
 
-pod 'MLeaksFinder'
+#pod 'MLeaksFinder'
+
+# ethereum
+pod 'KeychainSwift'
+pod 'CryptoSwift'
+pod 'TrustCore'
+pod 'TrustKeystore'
+pod 'TrezorCrypto'
 
   pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7'
   pod 'SwiftLint'

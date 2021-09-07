@@ -22,6 +22,7 @@ PODS:
     - SoraFoundation/Localization (~> 0.8.0)
     - SoraFoundation/NotificationHandlers (~> 0.8.0)
     - SoraUI (~> 1.9.3)
+  - CryptoSwift (1.4.1)
   - Cuckoo (1.4.1):
     - Cuckoo/Swift (= 1.4.1)
   - Cuckoo/Swift (1.4.1)
@@ -57,6 +58,7 @@ PODS:
   - JSONModel (1.8.0)
   - JXCategoryView (1.5.8)
   - JXPagingView/Pager (2.0.13)
+  - KeychainSwift (19.0.0)
   - LEEAlert (1.4.3)
   - LMJDropdownMenu (3.0.4)
   - LSTTimer (0.1.08251125)
@@ -130,6 +132,15 @@ PODS:
   - SwiftLint (0.41.0)
   - SwiftyBeaver (1.9.3)
   - TOCropViewController (2.6.0)
+  - TrezorCrypto (0.0.9)
+  - TrustCore (0.2.2):
+    - BigInt
+    - TrezorCrypto (~> 0.0.8)
+  - TrustKeystore (0.5.2):
+    - BigInt
+    - CryptoSwift
+    - TrezorCrypto
+    - TrustCore (~> 0.2.2)
   - TweetNacl (1.0.2)
   - UMAPM (1.1.0)
   - UMCCommon (7.2.5):
@@ -146,6 +157,7 @@ DEPENDENCIES:
   - AFNetworking (~> 4.0)
   - BEMCheckBox
   - CommonWallet/Core (from `https://github.com/soramitsu/Capital-iOS.git`, commit `725cefe1d0fa1ea8456580289b326558b13225c2`)
+  - CryptoSwift
   - Cuckoo
   - DateTools
   - EBBannerView
@@ -156,6 +168,7 @@ DEPENDENCIES:
   - JSONModel
   - JXCategoryView
   - JXPagingView/Pager
+  - KeychainSwift
   - LEEAlert
   - LMJDropdownMenu
   - LSTTimer
@@ -178,6 +191,9 @@ DEPENDENCIES:
   - SwiftLint
   - SwiftyBeaver
   - TOCropViewController
+  - TrezorCrypto
+  - TrustCore
+  - TrustKeystore
   - UMCCommon
   - UMCCommonLog
   - YYCache
@@ -189,6 +205,7 @@ SPEC REPOS:
     - AFNetworking
     - BEMCheckBox
     - BigInt
+    - CryptoSwift
     - Cuckoo
     - DateTools
     - EBBannerView
@@ -199,6 +216,7 @@ SPEC REPOS:
     - JSONModel
     - JXCategoryView
     - JXPagingView
+    - KeychainSwift
     - LEEAlert
     - LMJDropdownMenu
     - LSTTimer
@@ -223,6 +241,9 @@ SPEC REPOS:
     - SwiftLint
     - SwiftyBeaver
     - TOCropViewController
+    - TrezorCrypto
+    - TrustCore
+    - TrustKeystore
     - TweetNacl
     - UMAPM
     - UMCCommon
@@ -260,6 +281,7 @@ SPEC CHECKSUMS:
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   BigInt: f668a80089607f521586bbe29513d708491ef2f7
   CommonWallet: aff931b1371471e6bd06e5c43028b67d5ab60d5a
+  CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   Cuckoo: 4625f7f54d9bb880123270e8969898d6c1d036b5
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   EBBannerView: 268002f8d9d3e979cb8649cbfefd0da5ddef72b3
@@ -271,6 +293,7 @@ SPEC CHECKSUMS:
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   JXCategoryView: 778a620f76070d6598fd8d7239991b8da8326170
   JXPagingView: 821ed274f09eaf2843a96c3a74e9d138e27d9730
+  KeychainSwift: a06190cf933ad46b1e0abc3d77d29c06331715c7
   LEEAlert: 396bddbd3e8c5c735774c374d0c22b4fe3c48882
   LMJDropdownMenu: 50c74e9d50a480c290fec47eb575826861d0823b
   LSTTimer: 6c4b5d75a71ce9b09961cfcc5e957d224383f92b
@@ -296,6 +319,9 @@ SPEC CHECKSUMS:
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
   SwiftyBeaver: 2e8acd6fc90c6d0a27055867a290794926d57c02
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
+  TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
+  TrustCore: fe2a3b842c50fd73af69f1ec4c040b7eefced188
+  TrustKeystore: 5945ed4e43cc424e305cbb672800ee2532ee7e70
   TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
   UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
   UMCCommon: f7480d316381612f90cdde3a3c0f39a7e2c0a788
@@ -306,6 +332,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   ZWPlaceHolder: d55cce10c9930b48c31bf48e7f4748974a31f7e0
 
-PODFILE CHECKSUM: a495f709401801c7a542966a71a01d99da69f58d
+PODFILE CHECKSUM: 6c890f9676cdc0428e85617799a5c57282afbff7
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1
