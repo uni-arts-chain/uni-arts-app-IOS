@@ -25,6 +25,8 @@ enum EthKeystoreError: LocalizedError {
     case invalidMnemonicPhrase
     case failedToAddAccounts
     case notHDAccount
+    
+    case chooseWalletNotFind
 
     var errorDescription: String? {
         switch self {
@@ -60,6 +62,8 @@ enum EthKeystoreError: LocalizedError {
             return "Faield to add accounts"
         case .notHDAccount:
             return "Not HD account"
+        case .chooseWalletNotFind:
+            return "choose wallet not find"
         }
     }
 }

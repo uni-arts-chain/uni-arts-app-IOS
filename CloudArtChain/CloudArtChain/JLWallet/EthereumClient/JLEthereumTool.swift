@@ -12,29 +12,98 @@ import TrezorCrypto
 import TrustCore
 import TrustKeystore
 
-@objcMembers class JLEthereumTool: NSObject {
-    let keystore = EthKeystore()
+@objcMembers class JLEthereumWalletInfo: NSObject {
+    var address: String?
+    var type: JLEthereumType?
+    var storeKey: String?
+    
+    override var description: String {
+        return "address: \(address ?? ""), type: \(type?.rawValue ?? ""), storeKey: \(storeKey ?? "")"
+    }
+}
 
-    func allWalletInfos() {
-        for walletInfo in keystore.walletInfos {
-            print("ethereum ", walletInfo.address, walletInfo.storeKey)
+@objcMembers class JLEthereumTool: NSObject {
+    static let shared = JLEthereumTool()
+    private let keystore = EthKeystore()
+
+    override private init() { }
+
+    /// 获取所有导入或创建的钱包
+    /// - Returns: 账户数组信息
+    func allWalletInfos() -> [JLEthereumWalletInfo] {
+        return keystore.walletInfos.map { walletInfo -> JLEthereumWalletInfo in
+            let resultInfo = JLEthereumWalletInfo()
+            resultInfo.address = String(describing: walletInfo.address)
+            resultInfo.storeKey = walletInfo.storeKey
+            switch walletInfo.type {
+            case .privateKey:
+                resultInfo.type = .privateKey
+            case .hd:
+                resultInfo.type = .hd
+            default:
+                resultInfo.type = .address
+            }
+            return resultInfo
+        }
+    }
+    
+    /// 获取当前的账户
+    /// - Returns: 账户字典信息
+    func currentWalletInfo() -> JLEthereumWalletInfo? {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return .none }
+        let resultInfo = JLEthereumWalletInfo()
+        resultInfo.address = String(describing: walletInfo.address)
+        resultInfo.storeKey = walletInfo.storeKey
+        switch walletInfo.type {
+        case .privateKey:
+            resultInfo.type = .privateKey
+        case .hd:
+            resultInfo.type = .hd
+        default:
+            resultInfo.type = .address
+        }
+        return resultInfo
+    }
+
+    /// 获取当前账户密码
+    func getCurrentPassword() -> String? {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return .none }
+        guard let wallet = walletInfo.currentWallet else { return .none }
+        return keystore.getPassword(for: wallet)
+    }
+    
+    /// 选择账户
+    /// - Parameters:
+    ///   - walletInfoDict: 账户信息字典
+    ///   - completion: 完成后回调
+    func chooseAccount(walletInfo: JLEthereumWalletInfo, completion: @escaping (_ isSuccess: Bool, _ errorMsg: String?) -> Void) {
+        guard let storeKey = walletInfo.storeKey else { return
+            completion(false,"storeKey 不可用")
+        }
+        keystore.chooseWallet(with: storeKey) { result in
+            switch result {
+            case .success(_):
+                completion(true, .none)
+            case .failure(let error):
+                completion(false, error.errorDescription)
+            }
         }
     }
 
     /// 创建账户
     func createInstantWallet(completion: @escaping (_ address: String?, _ errorMsg: String?) -> Void) {
-        if let wallet = keystore.recentlyUsedWalletInfo {
-            print("ethereum 已经存在账户")
-            completion(String(describing: wallet.address), nil)
+        if let walletInfo = keystore.recentlyUsedWalletInfo {
+            print("ethereum 已经存在账户 address: \(String(describing: walletInfo.address)), type: \(walletInfo.type) storeKey: \(walletInfo.storeKey)")
+            completion(String(describing: walletInfo.address), .none)
             return
         }
         print("ethereum 新建账户")
         keystore.createAccount { result in
             switch result {
             case .success(let wallet):
-                completion(String(describing: wallet.accounts[0].address), nil)
+                completion(String(describing: wallet.accounts[0].address), .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -45,9 +114,9 @@ import TrustKeystore
         keystore.importWallet(type: .mnemonic(words: mnemonics, password: "", derivationPath: Coin.ethereum.derivationPath(at: 0)), coin: .ethereum) { result in
             switch result {
             case .success(let walletInfo):
-                completion(String(describing: walletInfo.address), nil)
+                completion(String(describing: walletInfo.address), .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -58,9 +127,9 @@ import TrustKeystore
         keystore.importWallet(type: .privateKey(privateKey: privateKey), coin: .ethereum) { result in
             switch result {
             case .success(let walletInfo):
-                completion(String(describing: walletInfo.address), nil)
+                completion(String(describing: walletInfo.address), .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -71,9 +140,9 @@ import TrustKeystore
         keystore.importWallet(type: .keystore(string: keystoreJson, password: password), coin: .ethereum) { result in
             switch result {
             case .success(let walletInfo):
-                completion(String(describing: walletInfo.address), nil)
+                completion(String(describing: walletInfo.address), .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -84,9 +153,9 @@ import TrustKeystore
         keystore.importWallet(type: .address(address: EthereumAddress(data: Data(hex: address))!), coin: .ethereum) { result in
             switch result {
             case .success(let wallet):
-                completion(String(describing: wallet.accounts[0].address), nil)
+                completion(String(describing: wallet.accounts[0].address), .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -100,7 +169,7 @@ import TrustKeystore
         keystore.exportMnemonic(wallet: wallet) { mnemonicResult in
             switch mnemonicResult {
             case .success(let mnemonics):
-                completion(mnemonics, nil)
+                completion(mnemonics, .none)
             case .failure(let error):
                 completion([], error.errorDescription)
             }
@@ -109,16 +178,16 @@ import TrustKeystore
     
     /// 导出私钥
     func exportPrivateKey(completion: @escaping (_ privateKey: String?, _ errorMsg: String?) -> Void) {
-        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return completion(nil, "没有以太坊账户") }
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return completion(.none, "没有以太坊账户") }
         guard !walletInfo.isWatch else { return
-            completion(nil, "地址导入 不允许导出私钥")
+            completion(.none, "地址导入 不允许导出私钥")
         }
         keystore.exportPrivateKey(account: walletInfo.accounts[0]) { privateKeyResult in
             switch privateKeyResult {
             case .success(let privateKey):
-                completion(privateKey, nil)
+                completion(privateKey, .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }
@@ -128,19 +197,19 @@ import TrustKeystore
     ///   - exportedKey: keystore json 的密码
     ///   - completion: 完成回调
     func exportKeystoreJson(exportedKey: String, completion: @escaping (_ keystore: String?, _ errorMsg: String?) -> Void) {
-        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return completion(nil, "没有以太坊账户") }
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return completion(.none, "没有以太坊账户") }
         guard !walletInfo.isWatch else { return
-            completion(nil, "地址导入 不允许导出keystore")
+            completion(.none, "地址导入 不允许导出keystore")
         }
         guard let wallet = walletInfo.currentWallet, let password = keystore.getPassword(for: wallet) else { return
-            completion(nil, "不存在的password")
+            completion(.none, "不存在的password")
         }
         keystore.export(account: wallet.accounts[0], password: password, newPassword: exportedKey) { keystoreResult in
             switch keystoreResult {
             case .success(let keystore):
-                completion(keystore, nil)
+                completion(keystore, .none)
             case .failure(let error):
-                completion(nil, error.errorDescription)
+                completion(.none, error.errorDescription)
             }
         }
     }

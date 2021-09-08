@@ -72,4 +72,10 @@ static JLOrderPayTypeName const JLOrderPayTypeNameWepay = @"wepay";
 static JLOrderPayTypeName const JLOrderPayTypeNameAlipay = @"alipay";
 static JLOrderPayTypeName const JLOrderPayTypeNameUart = @"uart";
 
+#pragma mark - 以太坊账户类型
+typedef NSString *JLEthereumType NS_STRING_ENUM;
+static JLEthereumType const JLEthereumTypePrivateKey = @"privateKey";
+static JLEthereumType const JLEthereumTypeHd = @"hd";
+static JLEthereumType const JLEthereumTypeAddress = @"address";
+
 #endif /* JLEnum_h */

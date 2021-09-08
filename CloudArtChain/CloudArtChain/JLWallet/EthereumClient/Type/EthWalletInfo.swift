@@ -11,7 +11,7 @@ import TrustKeystore
 import TrustCore
 import BigInt
 
-class EthWalletInfo {
+struct EthWalletInfo {
     let type: EthWalletType
     let storeKey: String
 

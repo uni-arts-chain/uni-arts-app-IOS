@@ -99,7 +99,7 @@
 
 /// 自定义LOG功能
 #ifdef DEBUG
-#define JLLog(FORMAT, ...) fprintf(stderr,"文件名:%s 方法名:%s 行号:%d 时间:%s\n%s\n", [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __func__, __LINE__, __TIME__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+#define JLLog(FORMAT, ...) fprintf(stderr,"时间:%s 文件名:%s 方法名:%s 行号:%d:\n%s\n", __TIME__,[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __func__, __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
 #else
 #define JLLog(...)
 #endif

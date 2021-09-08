@@ -19,3 +19,4 @@
 #import "JLLoading.h"
 #import "LewPopupViewController.h"
 #import "JLChainQRCodeView.h"
+#import "JLEnum.h"

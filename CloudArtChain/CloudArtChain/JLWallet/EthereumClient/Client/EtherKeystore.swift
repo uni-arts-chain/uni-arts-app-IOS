@@ -35,11 +35,11 @@ class EthKeystore {
         }
         get {
             guard let walletKey = userDefaults.value(forKey: JLEthereumSelectWallet) as? String else {
-                return nil
+                return .none
             }
             let foundWallet = walletInfos.filter { $0.storeKey == walletKey }.first
             guard let wallet = foundWallet else {
-                return nil
+                return .none
             }
             return wallet
         }
@@ -68,19 +68,84 @@ class EthKeystore {
         ].flatMap { $0 }.sorted(by: { $0.storeKey < $1.storeKey })
     }
 
-    public init(
+    init(
         keychain: KeychainSwift = KeychainSwift(keyPrefix: EthConstants.keychainKeyPrefix),
-        keysSubfolder: String = "/keystore"
+        keysSubfolder: String = "/EthKeystore"
     ) {
         self.keysDirectory = URL(fileURLWithPath: datadir + keysSubfolder)
         self.keychain = keychain
         self.keyStore = try! KeyStore(keyDirectory: keysDirectory)
         print("ethereum dir: ", keysDirectory)
     }
-
+    
+    /// 创建账户
+    /// - Parameter completion: 完成后回调
     func createAccount(completion: @escaping (Result<Wallet, EthKeystoreError>) -> Void) {
         let password = EthPasswordGenerator.generateRandom()
         self.createAccount(with: password, completion: completion)
+    }
+    
+    /// 选择账户
+    /// - Parameters:
+    ///   - storeKey: 保存到本地的账户key
+    ///   - completion: 完成后回调
+    func chooseWallet(with storeKey: String, completion: @escaping (Result<Bool, EthKeystoreError>) -> Void) {
+        for walletInfo in walletInfos {
+            if storeKey == walletInfo.storeKey {
+                switch walletInfo.type {
+                case .address:
+                    chooseAddressWallet(with: storeKey, completion: completion)
+                case .privateKey, .hd:
+                    choosePrivateKeyOrHDWallet(with: storeKey, completion: completion)
+                }
+                return
+            }
+        }
+        completion(.failure(.chooseWalletNotFind))
+    }
+    
+    /// 选择地址导入的账户
+    /// - Parameters:
+    ///   - storeKey: 保存到本地的账户key
+    ///   - completion: 完成后回调
+    private func chooseAddressWallet(with storeKey: String, completion: @escaping (Result<Bool, EthKeystoreError>) -> Void) {
+        if let addresses = userDefaults.array(forKey: JLEthereumImportAddress) {
+            for address in addresses {
+                let dict = address as! [String: String]
+                for (key, value) in dict {
+                    if key == storeKey, let etherumAddress = EthereumAddress(string: value) {
+                        let walletInfo = EthWalletInfo(type: .address(Coin.ethereum, etherumAddress), storeKey: key)
+                        recentlyUsedWalletInfo = walletInfo
+
+                        completion(.success(true))
+                        return
+                    }
+                }
+            }
+        }
+        completion(.failure(.chooseWalletNotFind))
+    }
+    
+    /// 选择非地址导入的账户
+    /// - Parameters:
+    ///   - storeKey: 保存到本地的账户key
+    ///   - completion: 完成后回调
+    private func choosePrivateKeyOrHDWallet(with storeKey: String, completion: @escaping (Result<Bool, EthKeystoreError>) -> Void) {
+        for wallet in keyStore.wallets {
+            if wallet.keyURL.lastPathComponent == storeKey {
+                switch wallet.type {
+                case .encryptedKey:
+                    let walletInfo = EthWalletInfo(type: .privateKey(wallet), storeKey: storeKey)
+                    recentlyUsedWalletInfo = walletInfo
+                case .hierarchicalDeterministicWallet:
+                    let walletInfo = EthWalletInfo(type: .hd(wallet), storeKey: storeKey)
+                    recentlyUsedWalletInfo = walletInfo
+                }
+                completion(.success(true))
+                return
+            }
+        }
+        completion(.failure(.chooseWalletNotFind))
     }
 
     private func saveImportAddress(for storeKey: String, address: String) {
@@ -100,7 +165,7 @@ class EthKeystore {
         return keysDirectory.appendingPathComponent(generateFileName(identifier: address))
     }
 
-    func generateFileName(identifier: String, date: Date = Date(), timeZone: TimeZone = .current) -> String {
+    private func generateFileName(identifier: String, date: Date = Date(), timeZone: TimeZone = .current) -> String {
         return "UTC--\(filenameTimestamp(for: date, in: timeZone))--\(identifier)"
     }
 
@@ -112,7 +177,7 @@ class EthKeystore {
         } else {
             tz = String(format: "%03d00", offset/60)
         }
-        
+
         let components = Calendar(identifier: .iso8601).dateComponents(in: timeZone, from: date)
         return String(format: "%04d-%02d-%02dT%02d-%02d-%02d.%09d%@", components.year!, components.month!, components.day!, components.hour!, components.minute!, components.second!, components.nanosecond!, tz)
     }
