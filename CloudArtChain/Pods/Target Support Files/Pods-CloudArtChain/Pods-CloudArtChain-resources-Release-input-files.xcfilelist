@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/TrustWeb3Provider/TrustWeb3Provider.bundle
 ${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle

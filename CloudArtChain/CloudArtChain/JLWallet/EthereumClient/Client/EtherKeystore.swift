@@ -12,11 +12,12 @@ import KeychainSwift
 import CryptoSwift
 import TrustCore
 import TrustKeystore
+import Result
 
 let JLEthereumSelectWallet = "JLEthereumSelectWallet"
 let JLEthereumImportAddress = "JLEthereumImportAddress"
 
-class EthKeystore {
+class EthKeystore:EthKeystoreProtocol {
     struct Keys {
         static let recentlyUsedAddress: String = "recentlyUsedAddress"
         static let recentlyUsedWallet: String = "recentlyUsedWallet"
@@ -48,10 +49,11 @@ class EthKeystore {
         var addressWalletInfo = [EthWalletInfo]()
         if let addresses = userDefaults.array(forKey: JLEthereumImportAddress) {
             for address in addresses {
-                let dict = address as! [String: String]
-                for (key, value) in dict {
-                    if let etherumAddress = EthereumAddress(string: value) {
-                        addressWalletInfo.append(EthWalletInfo(type: .address(Coin.ethereum, etherumAddress), storeKey: key))
+                if let dict = address as? [String: String] {
+                    for (key, value) in dict {
+                        if let etherumAddress = EthereumAddress(string: value) {
+                            addressWalletInfo.append(EthWalletInfo(type: .address(Coin.ethereum, etherumAddress), storeKey: key))
+                        }
                     }
                 }
             }
@@ -64,7 +66,7 @@ class EthKeystore {
                 case .hierarchicalDeterministicWallet:
                     return EthWalletInfo(type: .hd($0), storeKey: $0.keyURL.lastPathComponent)
                 }
-            }, addressWalletInfo
+            }.filter { !$0.accounts.isEmpty }, addressWalletInfo
         ].flatMap { $0 }.sorted(by: { $0.storeKey < $1.storeKey })
     }
 
@@ -183,7 +185,8 @@ class EthKeystore {
     }
 }
 
-extension EthKeystore: EthKeystoreProtocol {
+// MARK: 创建钱包或导入钱包
+extension EthKeystore {
     /// 创建以太坊钱包
     @available(iOS 10.0, *)
     func createAccount(with password: String, completion: @escaping (Result<Wallet, EthKeystoreError>) -> Void) {
@@ -227,7 +230,7 @@ extension EthKeystore: EthKeystoreProtocol {
                 }
             }
         case .privateKey(let privateKey):
-            if let data = Data(hex: privateKey),
+            if let data = Data(hexStr: privateKey),
                let privateKeyData = PrivateKey(data: data) {
                 DispatchQueue.global(qos: .userInitiated).async {
                     do {
@@ -301,6 +304,23 @@ extension EthKeystore: EthKeystoreProtocol {
             }
         }
     }
+
+    func getPassword(for account: Wallet) -> String? {
+        let key = keychainKey(for: account)
+        return keychain.get(key)
+    }
+    @discardableResult
+    func setPassword(_ password: String, for account: Wallet) -> Bool {
+        let key = keychainKey(for: account)
+        return keychain.set(password, forKey: key, withAccess: defaultKeychainAccess)
+    }
+    internal func keychainKey(for account: Wallet) -> String {
+        return account.identifier
+    }
+}
+
+// MARK: 导出钱包相关信息
+extension EthKeystore {
     /// 导出钱包(根据账户和密码 返回结果)
     func export(account: Account, password: String, newPassword: String) -> Result<String, EthKeystoreError> {
         let result = self.exportData(account: account, password: password, newPassword: newPassword)
@@ -367,16 +387,75 @@ extension EthKeystore: EthKeystoreProtocol {
             }
         }
     }
-    func getPassword(for account: Wallet) -> String? {
-        let key = keychainKey(for: account)
-        return keychain.get(key)
+}
+
+// MARK: 签名消息
+extension EthKeystore {
+    func signPersonalMessage(_ data: Data, for account: Account) -> Result<Data, EthKeystoreError> {
+        let prefix = "\u{19}Ethereum Signed Message:\n\(data.count)".data(using: .utf8)!
+        return signMessage(prefix + data, for: account)
     }
-    @discardableResult
-    func setPassword(_ password: String, for account: Wallet) -> Bool {
-        let key = keychainKey(for: account)
-        return keychain.set(password, forKey: key, withAccess: defaultKeychainAccess)
+
+    func signMessage(_ message: Data, for account: Account) -> Result<Data, EthKeystoreError> {
+        return signHash(message.sha3(.keccak256), for: account)
     }
-    internal func keychainKey(for account: Wallet) -> String {
-        return account.identifier
+
+    func signTypedMessage(_ datas: [EthTypedData], for account: Account) -> Result<Data, EthKeystoreError> {
+        let schemas = datas.map { $0.schemaData }.reduce(Data(), { $0 + $1 }).sha3(.keccak256)
+        let values = datas.map { $0.typedData }.reduce(Data(), { $0 + $1 }).sha3(.keccak256)
+        let combined = (schemas + values).sha3(.keccak256)
+        return signHash(combined, for: account)
+    }
+
+    func signHash(_ hash: Data, for account: Account) -> Result<Data, EthKeystoreError> {
+        guard
+            let password = getPassword(for: account.wallet!) else {
+                return .failure(EthKeystoreError.failedToSignMessage)
+        }
+        do {
+            var data = try account.sign(hash: hash, password: password)
+            // TODO: Make it configurable, instead of overriding last byte.
+            data[64] += 27
+            return .success(data)
+        } catch {
+            return .failure(EthKeystoreError.failedToSignMessage)
+        }
+    }
+
+    func signTransaction(_ transaction: EthSignTransaction) -> Result<Data, EthKeystoreError> {
+        let account = transaction.account
+        guard let wallet  = account.wallet, let password = getPassword(for: wallet) else {
+            return .failure(.failedToSignTransaction)
+        }
+        let signer: EthSigner
+//        signer = HomesteadSigner()
+//        if transaction.chainID == 0 {
+//            signer = HomesteadSigner()
+//        } else {
+//            signer = EIP155Signer(chainId: BigInt(transaction.chainID))
+//        }
+        if transaction.chainID == 0 {
+            signer = EIP155Signer(chainId: BigInt(transaction.chainID))
+        } else {
+            signer = HomesteadSigner()
+        }
+
+        do {
+            let hash = signer.hash(transaction: transaction)
+            let signature = try account.sign(hash: hash, password: password)
+            let (r, s, v) = signer.values(transaction: transaction, signature: signature)
+            let data = RLP.encode([
+                transaction.nonce,
+                transaction.gasPrice,
+                transaction.gasLimit,
+                transaction.to?.data ?? Data(),
+                transaction.value,
+                transaction.data,
+                v, r, s,
+            ])!
+            return .success(data)
+        } catch {
+            return .failure(.failedToSignTransaction)
+        }
     }
 }

@@ -231,6 +231,20 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
 
         navigationController.pushViewController(mnemonicView.controller, animated: true)
     }
+    @objc func exportMnemonic(address: String, completion: @escaping ([String]) -> Void) {
+        let keychain = Keychain()
+        var result = [String]()
+        do {
+            guard let entropy = try keychain.fetchEntropyForAddress(address) else { return
+                completion(result)
+            }
+            let mnemonic = try IRMnemonicCreator().mnemonic(fromEntropy: entropy)
+            result = mnemonic.allWords()
+            completion(result)
+        } catch {
+            completion(result)
+        }
+    }
     // 修改密码
     @objc func changePinSetup(from: UINavigationController) {
         authorize(animated: true, cancellable: true) { (success) in

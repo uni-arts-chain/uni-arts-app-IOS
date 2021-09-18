@@ -81,6 +81,20 @@
 		5E9C485B26E6124E008803B6 /* EthCurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C485A26E6124E008803B6 /* EthCurrency.swift */; };
 		5E9C485D26E61D61008803B6 /* EthWalletType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C485C26E61D61008803B6 /* EthWalletType.swift */; };
 		5E9C485F26E61DDC008803B6 /* EthWalletInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C485E26E61DDC008803B6 /* EthWalletInfo.swift */; };
+		5E9C486926E9A1A3008803B6 /* GasLimitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C486826E9A1A3008803B6 /* GasLimitConfiguration.swift */; };
+		5E9C486B26E9A1CC008803B6 /* GasPriceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C486A26E9A1CC008803B6 /* GasPriceConfiguration.swift */; };
+		5E9C486F26E9A224008803B6 /* EthNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C486E26E9A224008803B6 /* EthNumberFormatter.swift */; };
+		5E9C487126E9A2FB008803B6 /* EthRPCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487026E9A2FB008803B6 /* EthRPCServer.swift */; };
+		5E9C487326E9A5A4008803B6 /* ERC20Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487226E9A5A4008803B6 /* ERC20Token.swift */; };
+		5E9C487526E9A5C7008803B6 /* TokenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487426E9A5C7008803B6 /* TokenObject.swift */; };
+		5E9C487726E9F220008803B6 /* ConfigureTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487626E9F220008803B6 /* ConfigureTransaction.swift */; };
+		5E9C487926E9F24D008803B6 /* ConfigureTransactionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487826E9F24D008803B6 /* ConfigureTransactionError.swift */; };
+		5E9C487B26E9F28F008803B6 /* TransferType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487A26E9F28F008803B6 /* TransferType.swift */; };
+		5E9C487D26E9F2AE008803B6 /* DAppRequster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9C487C26E9F2AE008803B6 /* DAppRequster.swift */; };
+		5ECA14E026F466C4009614DB /* EthConfirmCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA14DF26F466C4009614DB /* EthConfirmCoordinator.swift */; };
+		5ECA14E226F46DB4009614DB /* EthSendTransactionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA14E126F46DB4009614DB /* EthSendTransactionCoordinator.swift */; };
+		5ECA14E426F46FD7009614DB /* EthSendRawTransactionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA14E326F46FD7009614DB /* EthSendRawTransactionRequest.swift */; };
+		5ECA14EA26F57B4F009614DB /* MBProgressHUD+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA14E826F57B4E009614DB /* MBProgressHUD+JLExtension.m */; };
 		5EE52A82269E7AA100EFF8C9 /* JLSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */; };
 		5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A84269E7B2700EFF8C9 /* JLScrollView.m */; };
 		5EE52A88269E7CDD00EFF8C9 /* JLMarketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE52A87269E7CDD00EFF8C9 /* JLMarketViewController.m */; };
@@ -103,6 +117,60 @@
 		5EEB047D26AE48BC00D033F6 /* ExtrinsicPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB047C26AE48BC00D033F6 /* ExtrinsicPayload.swift */; };
 		5EEB047F26AE48C500D033F6 /* Multiaddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB047E26AE48C500D033F6 /* Multiaddress.swift */; };
 		5EEB048126AE496C00D033F6 /* UpgradeV28Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EEB048026AE496C00D033F6 /* UpgradeV28Subscription.swift */; };
+		5EFA60B126F1D0FA00899224 /* EthBalanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60B026F1D0FA00899224 /* EthBalanceRequest.swift */; };
+		5EFA60B326F1D14800899224 /* EthBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60B226F1D14800899224 /* EthBalance.swift */; };
+		5EFA60B526F1D17700899224 /* EthBalanceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60B426F1D17700899224 /* EthBalanceProtocol.swift */; };
+		5EFA60B726F1D28200899224 /* EthCastError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60B626F1D28200899224 /* EthCastError.swift */; };
+		5EFA60BA26F1D2E500899224 /* EthString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60B926F1D2E500899224 /* EthString.swift */; };
+		5EFA60BC26F1D30500899224 /* EthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60BB26F1D30500899224 /* EthData.swift */; };
+		5EFA60BE26F1D31D00899224 /* EthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60BD26F1D31D00899224 /* EthError.swift */; };
+		5EFA60C026F1D33A00899224 /* EthBigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60BF26F1D33A00899224 /* EthBigInt.swift */; };
+		5EFA60C226F1D4F400899224 /* EthRPCMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60C126F1D4F400899224 /* EthRPCMethods.swift */; };
+		5EFA60C426F1D60A00899224 /* EthServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60C326F1D60A00899224 /* EthServiceRequest.swift */; };
+		5EFA60C926F1D79500899224 /* EthCallRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60C826F1D79500899224 /* EthCallRequest.swift */; };
+		5EFA60CB26F1DD3D00899224 /* EthServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60CA26F1DD3D00899224 /* EthServiceAPI.swift */; };
+		5EFA60CD26F1E09E00899224 /* EthBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60CC26F1E09E00899224 /* EthBundle.swift */; };
+		5EFA60CF26F1E18600899224 /* EthProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60CE26F1E18600899224 /* EthProviderFactory.swift */; };
+		5EFA60D126F1E66F00899224 /* EthNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60D026F1E66F00899224 /* EthNetwork.swift */; };
+		5EFA60D326F1E71700899224 /* EthNetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60D226F1E71700899224 /* EthNetworkProtocol.swift */; };
+		5EFA60D926F2E6D100899224 /* EthGasPriceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60D826F2E6D100899224 /* EthGasPriceRequest.swift */; };
+		5EFA60DB26F2E73C00899224 /* EthSignTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60DA26F2E73C00899224 /* EthSignTransaction.swift */; };
+		5EFA60DD26F2E76F00899224 /* EthLocalizedOperationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60DC26F2E76F00899224 /* EthLocalizedOperationObject.swift */; };
+		5EFA60DF26F2E80C00899224 /* EthOperationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60DE26F2E80C00899224 /* EthOperationType.swift */; };
+		5EFA60E126F2E85B00899224 /* EthERC20Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60E026F2E85B00899224 /* EthERC20Contract.swift */; };
+		5EFA60E326F2E8AC00899224 /* EthEstimateGasRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60E226F2E8AC00899224 /* EthEstimateGasRequest.swift */; };
+		5EFA60E526F2ED6E00899224 /* EthWalletRPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60E426F2ED6E00899224 /* EthWalletRPCService.swift */; };
+		5EFA60E726F2EDA200899224 /* EthWalletRPCNetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60E626F2EDA200899224 /* EthWalletRPCNetworkProtocol.swift */; };
+		5EFA60EB26F3190600899224 /* EthBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA60EA26F3190600899224 /* EthBrowserViewController.swift */; };
+		5EFA614F26F3264E00899224 /* EthDappAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA614E26F3264E00899224 /* EthDappAction.swift */; };
+		5EFA615126F326AC00899224 /* EthTypedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615026F326AC00899224 /* EthTypedData.swift */; };
+		5EFA615326F326E600899224 /* EthCryptoAddressValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615226F326E600899224 /* EthCryptoAddressValidator.swift */; };
+		5EFA615526F32A6D00899224 /* EthUnconfirmedTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615426F32A6D00899224 /* EthUnconfirmedTransaction.swift */; };
+		5EFA615726F32E0F00899224 /* EthSendTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615626F32E0F00899224 /* EthSendTransaction.swift */; };
+		5EFA615926F32E4000899224 /* EthScripMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615826F32E4000899224 /* EthScripMethod.swift */; };
+		5EFA615B26F32EA600899224 /* EthDappCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615A26F32EA600899224 /* EthDappCommand.swift */; };
+		5EFA615D26F32F8600899224 /* EthDAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA615C26F32F8600899224 /* EthDAppError.swift */; };
+		5EFA616226F3300700899224 /* WKWebViewConfiguration+factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616126F3300700899224 /* WKWebViewConfiguration+factory.swift */; };
+		5EFA616526F3314800899224 /* EthBrowserCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616426F3314800899224 /* EthBrowserCoordinator.swift */; };
+		5EFA616726F331CD00899224 /* EthSentTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616626F331CD00899224 /* EthSentTransaction.swift */; };
+		5EFA616A26F3348500899224 /* EthScriptMessageProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616926F3348500899224 /* EthScriptMessageProxy.swift */; };
+		5EFA616D26F336FC00899224 /* EthBrowserNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616C26F336FC00899224 /* EthBrowserNavigationBar.swift */; };
+		5EFA616F26F3372E00899224 /* EthBrowserNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA616E26F3372E00899224 /* EthBrowserNavigation.swift */; };
+		5EFA617126F337D200899224 /* EthUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617026F337D200899224 /* EthUIView.swift */; };
+		5EFA617326F33A1C00899224 /* EthDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617226F33A1C00899224 /* EthDictionary.swift */; };
+		5EFA617526F3407A00899224 /* EthBrowserURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617426F3407A00899224 /* EthBrowserURLParser.swift */; };
+		5EFA617726F340A000899224 /* EthSearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617626F340A000899224 /* EthSearchEngine.swift */; };
+		5EFA617926F3411E00899224 /* EthPreferenceOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617826F3411E00899224 /* EthPreferenceOption.swift */; };
+		5EFA617B26F3427400899224 /* EthUIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617A26F3427400899224 /* EthUIAlertController.swift */; };
+		5EFA617F26F347DD00899224 /* EthTransactionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA617E26F347DD00899224 /* EthTransactionConfigurator.swift */; };
+		5EFA618126F348ED00899224 /* EthChainState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618026F348ED00899224 /* EthChainState.swift */; };
+		5EFA618326F3496D00899224 /* EthBlockNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618226F3496D00899224 /* EthBlockNumberRequest.swift */; };
+		5EFA618526F34CE600899224 /* EthTransactionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618426F34CE600899224 /* EthTransactionConfiguration.swift */; };
+		5EFA618726F34D3800899224 /* EthSubscribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618626F34D3800899224 /* EthSubscribable.swift */; };
+		5EFA618926F42A5800899224 /* EthGetTransactionCountRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618826F42A5800899224 /* EthGetTransactionCountRequest.swift */; };
+		5EFA618B26F4355900899224 /* EthBalanceStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618A26F4355900899224 /* EthBalanceStatus.swift */; };
+		5EFA618D26F43B3500899224 /* EthSignMessageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618C26F43B3500899224 /* EthSignMessageCoordinator.swift */; };
+		5EFA618F26F43FAD00899224 /* EthSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA618E26F43FAD00899224 /* EthSigner.swift */; };
 		89A4FE2B26C78CAE0018BA30 /* JLMultiResponseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A4FE2A26C78CAE0018BA30 /* JLMultiResponseScrollView.m */; };
 		89A4FE2E26C7CE8F0018BA30 /* JLHomeHotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A4FE2D26C7CE8F0018BA30 /* JLHomeHotViewController.m */; };
 		B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = B309B1D42655095600CE9FDF /* JLUploadPersentInputView.m */; };
@@ -1402,6 +1470,21 @@
 		5E9C485A26E6124E008803B6 /* EthCurrency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthCurrency.swift; sourceTree = "<group>"; };
 		5E9C485C26E61D61008803B6 /* EthWalletType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthWalletType.swift; sourceTree = "<group>"; };
 		5E9C485E26E61DDC008803B6 /* EthWalletInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthWalletInfo.swift; sourceTree = "<group>"; };
+		5E9C486826E9A1A3008803B6 /* GasLimitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasLimitConfiguration.swift; sourceTree = "<group>"; };
+		5E9C486A26E9A1CC008803B6 /* GasPriceConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GasPriceConfiguration.swift; sourceTree = "<group>"; };
+		5E9C486E26E9A224008803B6 /* EthNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthNumberFormatter.swift; sourceTree = "<group>"; };
+		5E9C487026E9A2FB008803B6 /* EthRPCServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthRPCServer.swift; sourceTree = "<group>"; };
+		5E9C487226E9A5A4008803B6 /* ERC20Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERC20Token.swift; sourceTree = "<group>"; };
+		5E9C487426E9A5C7008803B6 /* TokenObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenObject.swift; sourceTree = "<group>"; };
+		5E9C487626E9F220008803B6 /* ConfigureTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureTransaction.swift; sourceTree = "<group>"; };
+		5E9C487826E9F24D008803B6 /* ConfigureTransactionError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureTransactionError.swift; sourceTree = "<group>"; };
+		5E9C487A26E9F28F008803B6 /* TransferType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferType.swift; sourceTree = "<group>"; };
+		5E9C487C26E9F2AE008803B6 /* DAppRequster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAppRequster.swift; sourceTree = "<group>"; };
+		5ECA14DF26F466C4009614DB /* EthConfirmCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthConfirmCoordinator.swift; sourceTree = "<group>"; };
+		5ECA14E126F46DB4009614DB /* EthSendTransactionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSendTransactionCoordinator.swift; sourceTree = "<group>"; };
+		5ECA14E326F46FD7009614DB /* EthSendRawTransactionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSendRawTransactionRequest.swift; sourceTree = "<group>"; };
+		5ECA14E826F57B4E009614DB /* MBProgressHUD+JLExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+JLExtension.m"; sourceTree = "<group>"; };
+		5ECA14E926F57B4E009614DB /* MBProgressHUD+JLExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+JLExtension.h"; sourceTree = "<group>"; };
 		5EE52A80269E7AA100EFF8C9 /* JLSegmentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLSegmentViewController.h; sourceTree = "<group>"; };
 		5EE52A81269E7AA100EFF8C9 /* JLSegmentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLSegmentViewController.m; sourceTree = "<group>"; };
 		5EE52A83269E7B2700EFF8C9 /* JLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLScrollView.h; sourceTree = "<group>"; };
@@ -1438,6 +1521,60 @@
 		5EEB047C26AE48BC00D033F6 /* ExtrinsicPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtrinsicPayload.swift; sourceTree = "<group>"; };
 		5EEB047E26AE48C500D033F6 /* Multiaddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multiaddress.swift; sourceTree = "<group>"; };
 		5EEB048026AE496C00D033F6 /* UpgradeV28Subscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeV28Subscription.swift; sourceTree = "<group>"; };
+		5EFA60B026F1D0FA00899224 /* EthBalanceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthBalanceRequest.swift; sourceTree = "<group>"; };
+		5EFA60B226F1D14800899224 /* EthBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBalance.swift; sourceTree = "<group>"; };
+		5EFA60B426F1D17700899224 /* EthBalanceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBalanceProtocol.swift; sourceTree = "<group>"; };
+		5EFA60B626F1D28200899224 /* EthCastError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthCastError.swift; sourceTree = "<group>"; };
+		5EFA60B926F1D2E500899224 /* EthString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthString.swift; sourceTree = "<group>"; };
+		5EFA60BB26F1D30500899224 /* EthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthData.swift; sourceTree = "<group>"; };
+		5EFA60BD26F1D31D00899224 /* EthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthError.swift; sourceTree = "<group>"; };
+		5EFA60BF26F1D33A00899224 /* EthBigInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthBigInt.swift; sourceTree = "<group>"; };
+		5EFA60C126F1D4F400899224 /* EthRPCMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthRPCMethods.swift; sourceTree = "<group>"; };
+		5EFA60C326F1D60A00899224 /* EthServiceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthServiceRequest.swift; sourceTree = "<group>"; };
+		5EFA60C826F1D79500899224 /* EthCallRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthCallRequest.swift; sourceTree = "<group>"; };
+		5EFA60CA26F1DD3D00899224 /* EthServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthServiceAPI.swift; sourceTree = "<group>"; };
+		5EFA60CC26F1E09E00899224 /* EthBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthBundle.swift; sourceTree = "<group>"; };
+		5EFA60CE26F1E18600899224 /* EthProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthProviderFactory.swift; sourceTree = "<group>"; };
+		5EFA60D026F1E66F00899224 /* EthNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthNetwork.swift; sourceTree = "<group>"; };
+		5EFA60D226F1E71700899224 /* EthNetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthNetworkProtocol.swift; sourceTree = "<group>"; };
+		5EFA60D826F2E6D100899224 /* EthGasPriceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthGasPriceRequest.swift; sourceTree = "<group>"; };
+		5EFA60DA26F2E73C00899224 /* EthSignTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSignTransaction.swift; sourceTree = "<group>"; };
+		5EFA60DC26F2E76F00899224 /* EthLocalizedOperationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthLocalizedOperationObject.swift; sourceTree = "<group>"; };
+		5EFA60DE26F2E80C00899224 /* EthOperationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthOperationType.swift; sourceTree = "<group>"; };
+		5EFA60E026F2E85B00899224 /* EthERC20Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthERC20Contract.swift; sourceTree = "<group>"; };
+		5EFA60E226F2E8AC00899224 /* EthEstimateGasRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthEstimateGasRequest.swift; sourceTree = "<group>"; };
+		5EFA60E426F2ED6E00899224 /* EthWalletRPCService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthWalletRPCService.swift; sourceTree = "<group>"; };
+		5EFA60E626F2EDA200899224 /* EthWalletRPCNetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthWalletRPCNetworkProtocol.swift; sourceTree = "<group>"; };
+		5EFA60EA26F3190600899224 /* EthBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserViewController.swift; sourceTree = "<group>"; };
+		5EFA614E26F3264E00899224 /* EthDappAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthDappAction.swift; sourceTree = "<group>"; };
+		5EFA615026F326AC00899224 /* EthTypedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthTypedData.swift; sourceTree = "<group>"; };
+		5EFA615226F326E600899224 /* EthCryptoAddressValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthCryptoAddressValidator.swift; sourceTree = "<group>"; };
+		5EFA615426F32A6D00899224 /* EthUnconfirmedTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthUnconfirmedTransaction.swift; sourceTree = "<group>"; };
+		5EFA615626F32E0F00899224 /* EthSendTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSendTransaction.swift; sourceTree = "<group>"; };
+		5EFA615826F32E4000899224 /* EthScripMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthScripMethod.swift; sourceTree = "<group>"; };
+		5EFA615A26F32EA600899224 /* EthDappCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthDappCommand.swift; sourceTree = "<group>"; };
+		5EFA615C26F32F8600899224 /* EthDAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthDAppError.swift; sourceTree = "<group>"; };
+		5EFA616126F3300700899224 /* WKWebViewConfiguration+factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebViewConfiguration+factory.swift"; sourceTree = "<group>"; };
+		5EFA616426F3314800899224 /* EthBrowserCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserCoordinator.swift; sourceTree = "<group>"; };
+		5EFA616626F331CD00899224 /* EthSentTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSentTransaction.swift; sourceTree = "<group>"; };
+		5EFA616926F3348500899224 /* EthScriptMessageProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthScriptMessageProxy.swift; sourceTree = "<group>"; };
+		5EFA616C26F336FC00899224 /* EthBrowserNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserNavigationBar.swift; sourceTree = "<group>"; };
+		5EFA616E26F3372E00899224 /* EthBrowserNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserNavigation.swift; sourceTree = "<group>"; };
+		5EFA617026F337D200899224 /* EthUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthUIView.swift; sourceTree = "<group>"; };
+		5EFA617226F33A1C00899224 /* EthDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthDictionary.swift; sourceTree = "<group>"; };
+		5EFA617426F3407A00899224 /* EthBrowserURLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserURLParser.swift; sourceTree = "<group>"; };
+		5EFA617626F340A000899224 /* EthSearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSearchEngine.swift; sourceTree = "<group>"; };
+		5EFA617826F3411E00899224 /* EthPreferenceOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthPreferenceOption.swift; sourceTree = "<group>"; };
+		5EFA617A26F3427400899224 /* EthUIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthUIAlertController.swift; sourceTree = "<group>"; };
+		5EFA617E26F347DD00899224 /* EthTransactionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthTransactionConfigurator.swift; sourceTree = "<group>"; };
+		5EFA618026F348ED00899224 /* EthChainState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthChainState.swift; sourceTree = "<group>"; };
+		5EFA618226F3496D00899224 /* EthBlockNumberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBlockNumberRequest.swift; sourceTree = "<group>"; };
+		5EFA618426F34CE600899224 /* EthTransactionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EthTransactionConfiguration.swift; path = CloudArtChain/JLWallet/EthereumClient/Trasfer/EthTransactionConfiguration.swift; sourceTree = SOURCE_ROOT; };
+		5EFA618626F34D3800899224 /* EthSubscribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSubscribable.swift; sourceTree = "<group>"; };
+		5EFA618826F42A5800899224 /* EthGetTransactionCountRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthGetTransactionCountRequest.swift; sourceTree = "<group>"; };
+		5EFA618A26F4355900899224 /* EthBalanceStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBalanceStatus.swift; sourceTree = "<group>"; };
+		5EFA618C26F43B3500899224 /* EthSignMessageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSignMessageCoordinator.swift; sourceTree = "<group>"; };
+		5EFA618E26F43FAD00899224 /* EthSigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthSigner.swift; sourceTree = "<group>"; };
 		70324707228EC1F1723E94B2 /* Pods_CloudArtChain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudArtChain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7858F919942DE394DB7CD479 /* Pods-CloudArtChainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChainTests.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChainTests/Pods-CloudArtChainTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80A08E97B4873E7471E6D6A4 /* Pods-CloudArtChain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudArtChain.debug.xcconfig"; path = "Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain.debug.xcconfig"; sourceTree = "<group>"; };
@@ -3283,8 +3420,14 @@
 		5E9C484226E60D6D008803B6 /* EthereumClient */ = {
 			isa = PBXGroup;
 			children = (
+				5EFA60E826F3181700899224 /* Browser */,
+				5E9C486D26E9A209008803B6 /* Foundation */,
+				5EFA60B826F1D2D700899224 /* Extension */,
 				5E9C485726E610F8008803B6 /* Model */,
 				5E9C485826E61111008803B6 /* Type */,
+				5EFA60C526F1D73400899224 /* Service */,
+				5EFA60AF26F1D0B100899224 /* Request */,
+				5E9C486626E9A10C008803B6 /* Trasfer */,
 				5E9C485926E611C6008803B6 /* Client */,
 				5E9C484326E60D6D008803B6 /* JLEthereumTool.swift */,
 			);
@@ -3295,6 +3438,13 @@
 			isa = PBXGroup;
 			children = (
 				5E9C484526E60D6D008803B6 /* EthereumUnit.swift */,
+				5EFA60B226F1D14800899224 /* EthBalance.swift */,
+				5EFA60B426F1D17700899224 /* EthBalanceProtocol.swift */,
+				5EFA60C126F1D4F400899224 /* EthRPCMethods.swift */,
+				5E9C487026E9A2FB008803B6 /* EthRPCServer.swift */,
+				5EFA60CA26F1DD3D00899224 /* EthServiceAPI.swift */,
+				5EFA60CE26F1E18600899224 /* EthProviderFactory.swift */,
+				5EFA60DA26F2E73C00899224 /* EthSignTransaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3307,7 +3457,11 @@
 				5E9C484B26E60D6D008803B6 /* EthConfig.swift */,
 				5E9C484C26E60D6D008803B6 /* EthImportType.swift */,
 				5E9C485C26E61D61008803B6 /* EthWalletType.swift */,
+				5EFA615026F326AC00899224 /* EthTypedData.swift */,
 				5E9C485E26E61DDC008803B6 /* EthWalletInfo.swift */,
+				5EFA60DE26F2E80C00899224 /* EthOperationType.swift */,
+				5EFA60E026F2E85B00899224 /* EthERC20Contract.swift */,
+				5EFA60DC26F2E76F00899224 /* EthLocalizedOperationObject.swift */,
 			);
 			path = Type;
 			sourceTree = "<group>";
@@ -3319,8 +3473,51 @@
 				5E9C484426E60D6D008803B6 /* EthKeystoreProtocol.swift */,
 				5E9C484726E60D6D008803B6 /* EthKeyStoreError.swift */,
 				5E9C484926E60D6D008803B6 /* EthPasswordGenerator.swift */,
+				5EFA60B626F1D28200899224 /* EthCastError.swift */,
+				5EFA618026F348ED00899224 /* EthChainState.swift */,
+				5EFA618E26F43FAD00899224 /* EthSigner.swift */,
 			);
 			path = Client;
+			sourceTree = "<group>";
+		};
+		5E9C486626E9A10C008803B6 /* Trasfer */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA617D26F347B500899224 /* Configurator */,
+				5EFA617C26F3477C00899224 /* Coordinator */,
+				5E9C486726E9A184008803B6 /* Type */,
+			);
+			path = Trasfer;
+			sourceTree = "<group>";
+		};
+		5E9C486726E9A184008803B6 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				5E9C486826E9A1A3008803B6 /* GasLimitConfiguration.swift */,
+				5E9C486A26E9A1CC008803B6 /* GasPriceConfiguration.swift */,
+				5E9C487426E9A5C7008803B6 /* TokenObject.swift */,
+				5E9C487226E9A5A4008803B6 /* ERC20Token.swift */,
+				5E9C487C26E9F2AE008803B6 /* DAppRequster.swift */,
+				5E9C487A26E9F28F008803B6 /* TransferType.swift */,
+				5EFA618A26F4355900899224 /* EthBalanceStatus.swift */,
+				5E9C487626E9F220008803B6 /* ConfigureTransaction.swift */,
+				5E9C487826E9F24D008803B6 /* ConfigureTransactionError.swift */,
+				5EFA618426F34CE600899224 /* EthTransactionConfiguration.swift */,
+				5EFA616626F331CD00899224 /* EthSentTransaction.swift */,
+				5EFA615426F32A6D00899224 /* EthUnconfirmedTransaction.swift */,
+			);
+			path = Type;
+			sourceTree = "<group>";
+		};
+		5E9C486D26E9A209008803B6 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				5E9C486E26E9A224008803B6 /* EthNumberFormatter.swift */,
+				5EFA60D226F1E71700899224 /* EthNetworkProtocol.swift */,
+				5EFA615226F326E600899224 /* EthCryptoAddressValidator.swift */,
+				5EFA618626F34D3800899224 /* EthSubscribable.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		5EE52A7F269E7A6900EFF8C9 /* JLSegmentViewController */ = {
@@ -3360,6 +3557,133 @@
 				5EE52AA726A1283E00EFF8C9 /* JLCashAccountPasswordAuthorizeView.m */,
 			);
 			path = CashAccount;
+			sourceTree = "<group>";
+		};
+		5EFA60AF26F1D0B100899224 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA618226F3496D00899224 /* EthBlockNumberRequest.swift */,
+				5EFA60B026F1D0FA00899224 /* EthBalanceRequest.swift */,
+				5EFA60C826F1D79500899224 /* EthCallRequest.swift */,
+				5EFA618826F42A5800899224 /* EthGetTransactionCountRequest.swift */,
+				5EFA60D826F2E6D100899224 /* EthGasPriceRequest.swift */,
+				5EFA60E226F2E8AC00899224 /* EthEstimateGasRequest.swift */,
+				5ECA14E326F46FD7009614DB /* EthSendRawTransactionRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5EFA60B826F1D2D700899224 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA60BB26F1D30500899224 /* EthData.swift */,
+				5EFA60B926F1D2E500899224 /* EthString.swift */,
+				5EFA60BD26F1D31D00899224 /* EthError.swift */,
+				5EFA60BF26F1D33A00899224 /* EthBigInt.swift */,
+				5EFA60CC26F1E09E00899224 /* EthBundle.swift */,
+				5EFA617026F337D200899224 /* EthUIView.swift */,
+				5EFA617226F33A1C00899224 /* EthDictionary.swift */,
+				5EFA617A26F3427400899224 /* EthUIAlertController.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		5EFA60C526F1D73400899224 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA60D026F1E66F00899224 /* EthNetwork.swift */,
+				5EFA60C326F1D60A00899224 /* EthServiceRequest.swift */,
+				5EFA60E626F2EDA200899224 /* EthWalletRPCNetworkProtocol.swift */,
+				5EFA60E426F2ED6E00899224 /* EthWalletRPCService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		5EFA60E826F3181700899224 /* Browser */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA616B26F336EC00899224 /* View */,
+				5EFA616826F3347200899224 /* Helper */,
+				5EFA616326F330D800899224 /* Coordinator */,
+				5EFA616026F32FEA00899224 /* Factory */,
+				5EFA614D26F3263500899224 /* Type */,
+				5EFA60E926F318E900899224 /* ViewController */,
+			);
+			path = Browser;
+			sourceTree = "<group>";
+		};
+		5EFA60E926F318E900899224 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA60EA26F3190600899224 /* EthBrowserViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		5EFA614D26F3263500899224 /* Type */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA614E26F3264E00899224 /* EthDappAction.swift */,
+				5EFA616E26F3372E00899224 /* EthBrowserNavigation.swift */,
+				5EFA615626F32E0F00899224 /* EthSendTransaction.swift */,
+				5EFA615826F32E4000899224 /* EthScripMethod.swift */,
+				5EFA615A26F32EA600899224 /* EthDappCommand.swift */,
+				5EFA615C26F32F8600899224 /* EthDAppError.swift */,
+				5EFA617626F340A000899224 /* EthSearchEngine.swift */,
+				5EFA617426F3407A00899224 /* EthBrowserURLParser.swift */,
+				5EFA617826F3411E00899224 /* EthPreferenceOption.swift */,
+			);
+			path = Type;
+			sourceTree = "<group>";
+		};
+		5EFA616026F32FEA00899224 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA616126F3300700899224 /* WKWebViewConfiguration+factory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		5EFA616326F330D800899224 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA616426F3314800899224 /* EthBrowserCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		5EFA616826F3347200899224 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA616926F3348500899224 /* EthScriptMessageProxy.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		5EFA616B26F336EC00899224 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA616C26F336FC00899224 /* EthBrowserNavigationBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5EFA617C26F3477C00899224 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA618C26F43B3500899224 /* EthSignMessageCoordinator.swift */,
+				5ECA14E126F46DB4009614DB /* EthSendTransactionCoordinator.swift */,
+				5ECA14DF26F466C4009614DB /* EthConfirmCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		5EFA617D26F347B500899224 /* Configurator */ = {
+			isa = PBXGroup;
+			children = (
+				5EFA617E26F347DD00899224 /* EthTransactionConfigurator.swift */,
+			);
+			path = Configurator;
 			sourceTree = "<group>";
 		};
 		7A8BEFDABCD0FB1B82B9A351 /* Frameworks */ = {
@@ -6854,6 +7178,8 @@
 				B396566124F3AFD4007A8EC2 /* JLCustomTipControl.m */,
 				B396565824F3AFD4007A8EC2 /* JLLoading.h */,
 				B396565D24F3AFD4007A8EC2 /* JLLoading.m */,
+				5ECA14E926F57B4E009614DB /* MBProgressHUD+JLExtension.h */,
+				5ECA14E826F57B4E009614DB /* MBProgressHUD+JLExtension.m */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -7410,6 +7736,7 @@
 				5E70E23826CC9432003ACC8B /* JLAuctionOrderDetailContentView.m in Sources */,
 				B312264825B6B60A00562ECA /* TransactionDetailsConfigurator.swift in Sources */,
 				B312255425B6B60A00562ECA /* AlignableContentControl.swift in Sources */,
+				5E9C486F26E9A224008803B6 /* EthNumberFormatter.swift in Sources */,
 				B312258825B6B60A00562ECA /* AmountFormatterFactory.swift in Sources */,
 				B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */,
 				B391CB93262D2AD700FF48B0 /* CubismMotionQueueEntry.cpp in Sources */,
@@ -7423,6 +7750,7 @@
 				B312253025B6B60A00562ECA /* EmptyAccountIcon.swift in Sources */,
 				5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */,
 				B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */,
+				5EFA60DD26F2E76F00899224 /* EthLocalizedOperationObject.swift in Sources */,
 				B31225CF25B6B60A00562ECA /* UsernameSetupWireframe.swift in Sources */,
 				B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */,
 				B39655C224F38DBA007A8EC2 /* NSDate+LZFormat.m in Sources */,
@@ -7445,6 +7773,7 @@
 				B38C842825BFC56B0011BC8C /* JLWalletTool.swift in Sources */,
 				B312250025B6B60A00562ECA /* JSONRPCEngine.swift in Sources */,
 				B396551D24F37369007A8EC2 /* JLGuidePageView.m in Sources */,
+				5ECA14EA26F57B4F009614DB /* MBProgressHUD+JLExtension.m in Sources */,
 				B312258A25B6B60A00562ECA /* AccountRepositoryFactory.swift in Sources */,
 				B312260025B6B60A00562ECA /* OnboardingMainViewController.swift in Sources */,
 				B396553F24F38D6D007A8EC2 /* ErrorRoot.m in Sources */,
@@ -7452,6 +7781,7 @@
 				B3C0ED3125C2BB59001B8BCA /* JLOrderDetailViewController.m in Sources */,
 				B370C81D24F6336500A2D699 /* JLWorkListBaseTableViewCell.m in Sources */,
 				B312260825B6B60A00562ECA /* ConnectionMainWireframe.swift in Sources */,
+				5EFA615726F32E0F00899224 /* EthSendTransaction.swift in Sources */,
 				B312267625B6B60A00562ECA /* WalletSingleActionAccessoryFactory.swift in Sources */,
 				B312266A25B6B60A00562ECA /* TransactionHistoryViewModelFactory.swift in Sources */,
 				B312262225B6B60A00562ECA /* CommingSoonWireframe.swift in Sources */,
@@ -7464,6 +7794,7 @@
 				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
 				B31225B525B6B60A00562ECA /* LocalAuthInteractor.swift in Sources */,
+				5EFA616A26F3348500899224 /* EthScriptMessageProxy.swift in Sources */,
 				B31224D925B6B60900562ECA /* CDAccountItem+CoreDataDecodable.swift in Sources */,
 				B38FD54C25CBA24C0028797E /* JLFansViewController.m in Sources */,
 				B3753D982554F524003A86CF /* SLEditMenuView.m in Sources */,
@@ -7499,6 +7830,8 @@
 				B396561524F38DF4007A8EC2 /* NSDate+Extension.m in Sources */,
 				B396566224F3AFD4007A8EC2 /* JLSuccessToast.m in Sources */,
 				B38D7CA325E0E1A900E9978E /* JLTextFieldControl.swift in Sources */,
+				5EFA617726F340A000899224 /* EthSearchEngine.swift in Sources */,
+				5EFA617B26F3427400899224 /* EthUIAlertController.swift in Sources */,
 				B312255C25B6B60A00562ECA /* IconWithTitleViewModel.swift in Sources */,
 				B396565624F39245007A8EC2 /* JLMineViewController.m in Sources */,
 				B391E2BE262833F5002CCC9D /* JLFavorateCollectionWaterLayout.m in Sources */,
@@ -7521,17 +7854,21 @@
 				B312254625B6B60A00562ECA /* TriangularedView.swift in Sources */,
 				B312254125B6B60A00562ECA /* FearlessWindow.swift in Sources */,
 				B3266F5524FE393C000C6E95 /* JLArtDetailViewController.m in Sources */,
+				5E9C487B26E9F28F008803B6 /* TransferType.swift in Sources */,
+				5EFA60B126F1D0FA00899224 /* EthBalanceRequest.swift in Sources */,
 				5E0B49BB26C50E6D0005718D /* UILabel+JLExtension.m in Sources */,
 				B312255B25B6B60A00562ECA /* TitleWithSubtitleViewModel.swift in Sources */,
 				B3753D992554F524003A86CF /* SLShotFocusView.m in Sources */,
 				B3ABE99C25C79888004F6ED3 /* JLPurchaseOrderListCloseTableViewCell.m in Sources */,
 				5E70E21D26CB4D33003ACC8B /* JLAuctionSubmitOrderContentView.m in Sources */,
 				B312258025B6B60A00562ECA /* ScrollsToTop.swift in Sources */,
+				5EFA618926F42A5800899224 /* EthGetTransactionCountRequest.swift in Sources */,
 				B312258D25B6B60A00562ECA /* ShakeAnimator.swift in Sources */,
 				B394E40025ECF39C00685F8D /* JLImageSizeCacheDefaults.m in Sources */,
 				B31224B225B6B60900562ECA /* UnlockChunk.swift in Sources */,
 				B3753DB72554F573003A86CF /* UIView+SLImage.m in Sources */,
 				B391CB95262D2AD700FF48B0 /* csmString.cpp in Sources */,
+				5EFA60E726F2EDA200899224 /* EthWalletRPCNetworkProtocol.swift in Sources */,
 				B312255A25B6B60A00562ECA /* PurchaseAggregator+Default.swift in Sources */,
 				5E70E21726CA1709003ACC8B /* JLAuctionListCell.m in Sources */,
 				B396561024F38DF4007A8EC2 /* UIViewController+JLVCPath.m in Sources */,
@@ -7575,6 +7912,7 @@
 				B31225BC25B6B60A00562ECA /* ManagedConnectionViewModelFactory.swift in Sources */,
 				B31226B725B6B60B00562ECA /* AccountExportPasswordProtocols.swift in Sources */,
 				B312263425B6B60A00562ECA /* ContactsViewModelFactory.swift in Sources */,
+				5E9C487126E9A2FB008803B6 /* EthRPCServer.swift in Sources */,
 				B39655C124F38DBA007A8EC2 /* LZPickTopView.m in Sources */,
 				B31224E325B6B60900562ECA /* Chain+Info.swift in Sources */,
 				B312256825B6B60A00562ECA /* ModalPickerCellProtocol.swift in Sources */,
@@ -7653,6 +7991,7 @@
 				B312263525B6B60A00562ECA /* ContactsConfigurator.swift in Sources */,
 				B312259725B6B60A00562ECA /* ActiveEraSubscription.swift in Sources */,
 				5E9B759626A7FCE0002A2364 /* JLAuctionOfferView.m in Sources */,
+				5EFA60D326F1E71700899224 /* EthNetworkProtocol.swift in Sources */,
 				B312250225B6B60A00562ECA /* JSONRPCInfo.swift in Sources */,
 				B31224EC25B6B60900562ECA /* Logger+Wallet.swift in Sources */,
 				B312252825B6B60A00562ECA /* CommonError.swift in Sources */,
@@ -7668,6 +8007,7 @@
 				B3753D952554F524003A86CF /* SLGridView.m in Sources */,
 				B38DC3F925C3AFAC00896537 /* JLOrderDetailInfoTableViewCell.m in Sources */,
 				B31224C925B6B60900562ECA /* LocalizationManager+Shared.swift in Sources */,
+				5EFA60C026F1D33A00899224 /* EthBigInt.swift in Sources */,
 				B39655C424F38DBA007A8EC2 /* LZTimePickerView.m in Sources */,
 				B363619E250082C20039DF48 /* JLApplyCertSelfSignCell.m in Sources */,
 				B391CB94262D2AD700FF48B0 /* CubismModelSettingJson.cpp in Sources */,
@@ -7675,7 +8015,10 @@
 				B370C81624F6316A00A2D699 /* JLHomePageViewController.m in Sources */,
 				5E9C484E26E60D6D008803B6 /* EthKeystoreProtocol.swift in Sources */,
 				B31224D025B6B60900562ECA /* DateFormatter.swift in Sources */,
+				5EFA615D26F32F8600899224 /* EthDAppError.swift in Sources */,
 				B31225D525B6B60A00562ECA /* AccountCreateWireframe.swift in Sources */,
+				5EFA614F26F3264E00899224 /* EthDappAction.swift in Sources */,
+				5EFA618726F34D3800899224 /* EthSubscribable.swift in Sources */,
 				B35EBA1324FF678600F5BF84 /* ScanBarInfo.m in Sources */,
 				B3983F8D25DE445A0068084D /* JLActionOfferView.m in Sources */,
 				B31224E625B6B60900562ECA /* SNAddressType+Chain.swift in Sources */,
@@ -7688,11 +8031,13 @@
 				B312259F25B6B60A00562ECA /* NetworkInfoInteractor.swift in Sources */,
 				B312264625B6B60A00562ECA /* TransactionDetailsAccessoryViewFactory.swift in Sources */,
 				B312255725B6B60A00562ECA /* PurchaseProvider.swift in Sources */,
+				5EFA60C226F1D4F400899224 /* EthRPCMethods.swift in Sources */,
 				B312254C25B6B60A00562ECA /* SubtitleContentView.swift in Sources */,
 				B325CD1F24FF98E800F931A2 /* JLChainQuerySignTableViewCell.m in Sources */,
 				B312263725B6B60A00562ECA /* ContactTableViewCell.swift in Sources */,
 				B391CB7F262D2AD700FF48B0 /* CubismOffscreenSurface_OpenGLES2.cpp in Sources */,
 				B31224A525B6B60900562ECA /* SelectedConnectionChanged.swift in Sources */,
+				5EFA615B26F32EA600899224 /* EthDappCommand.swift in Sources */,
 				B312267A25B6B60A00562ECA /* WalletSingleActionAccessoryView.swift in Sources */,
 				B39BEAC4251332F900DE69A6 /* JLAuthenticationView.m in Sources */,
 				B38FD55325CBD5830028797E /* JLOrderDetailAddressAddNewTableViewCell.m in Sources */,
@@ -7716,13 +8061,16 @@
 				B312254225B6B60A00562ECA /* MultilineImageWithTitleView.swift in Sources */,
 				B31224A125B6B60900562ECA /* SelectableViewModel.swift in Sources */,
 				B3266F5224FDF039000C6E95 /* JLCreatorWorksCollectionViewCell.m in Sources */,
+				5E9C487326E9A5A4008803B6 /* ERC20Token.swift in Sources */,
 				5EEB047326AE46D800D033F6 /* ExtrinsicFactoryProtocol.swift in Sources */,
+				5EFA617126F337D200899224 /* EthUIView.swift in Sources */,
 				B312252F25B6B60A00562ECA /* ManagedAccountItem.swift in Sources */,
 				B391CB90262D2AD700FF48B0 /* CubismMotionQueueManager.cpp in Sources */,
 				5E70E22C26CBB78C003ACC8B /* JLSearchResultViewController.m in Sources */,
 				B312268A25B6B60A00562ECA /* AssetDetailsView.swift in Sources */,
 				5E9C485626E60D6D008803B6 /* EthImportType.swift in Sources */,
 				B31226BB25B6B60B00562ECA /* ExportMnemonicConfirmInteractor.swift in Sources */,
+				5ECA14E226F46DB4009614DB /* EthSendTransactionCoordinator.swift in Sources */,
 				B391CC87262D75C000FF48B0 /* aescrypt.m in Sources */,
 				B391CB80262D2AD700FF48B0 /* CubismModelUserData.cpp in Sources */,
 				B31226D825B6B60B00562ECA /* MainTabBarProtocol.swift in Sources */,
@@ -7743,6 +8091,8 @@
 				B312265925B6B60A00562ECA /* WalletAssetViewModelFactory.swift in Sources */,
 				B391B098262E7CDF00127532 /* JLUploadImageModel.m in Sources */,
 				5C57312B265819AB008D341A /* UITabBarController+MemoryLeak.m in Sources */,
+				5EFA615926F32E4000899224 /* EthScripMethod.swift in Sources */,
+				5EFA618B26F4355900899224 /* EthBalanceStatus.swift in Sources */,
 				B38FD54525CB99440028797E /* JLOrderDetailProductBottomPriceTableViewCell.m in Sources */,
 				B312249E25B6B60900562ECA /* AccountOperationFactory.swift in Sources */,
 				B31225CA25B6B60A00562ECA /* ModifyConnectionViewFactory.swift in Sources */,
@@ -7757,6 +8107,7 @@
 				B31224DE25B6B60900562ECA /* ExportOption+ViewModel.swift in Sources */,
 				B312260525B6B60A00562ECA /* OnboardingMainWireframe.swift in Sources */,
 				B312255825B6B60A00562ECA /* RampProvider.swift in Sources */,
+				5EFA60BA26F1D2E500899224 /* EthString.swift in Sources */,
 				B38BCFE725B81D1F00FD37F7 /* JLEmptyDataView.m in Sources */,
 				B312264A25B6B60A00562ECA /* WalletCommonStyleConfigurator.swift in Sources */,
 				B31225CE25B6B60A00562ECA /* AddConnectionViewController.swift in Sources */,
@@ -7764,7 +8115,10 @@
 				B396560E24F38DF4007A8EC2 /* NSDecimalNumber+tools.m in Sources */,
 				B3AA62C425E49B3E00D28627 /* UIView+ST.m in Sources */,
 				B31225CB25B6B60A00562ECA /* AddConnectionProtocols.swift in Sources */,
+				5EFA60CD26F1E09E00899224 /* EthBundle.swift in Sources */,
+				5E9C486B26E9A1CC008803B6 /* GasPriceConfiguration.swift in Sources */,
 				B396561B24F38DF4007A8EC2 /* UIColor+JLColor.m in Sources */,
+				5EFA615526F32A6D00899224 /* EthUnconfirmedTransaction.swift in Sources */,
 				B31225F225B6B60A00562ECA /* AboutDetailsCell.swift in Sources */,
 				B31225A225B6B60A00562ECA /* NetworkInfoViewController.swift in Sources */,
 				B31225B125B6B60A00562ECA /* ScreenAuthorizationProtocol.swift in Sources */,
@@ -7784,10 +8138,12 @@
 				B38C842B25BFE7E30011BC8C /* JLWalletBoardViewController.m in Sources */,
 				B312251125B6B60A00562ECA /* WalletNetworkFacade+Storage.swift in Sources */,
 				B312253325B6B60A00562ECA /* ManagedConnectionItem.swift in Sources */,
+				5EFA60BC26F1D30500899224 /* EthData.swift in Sources */,
 				5E9B756F26A580A6002A2364 /* JLAuctionArtDetailArtPriceView.m in Sources */,
 				5C24296D2504AC0400C74B6A /* JLCustomerServiceViewController.m in Sources */,
 				B31225FF25B6B60A00562ECA /* AddAccountConfirmInteractor.swift in Sources */,
 				B38E911F25B92DD100174AAC /* UIColor.swift in Sources */,
+				5E9C487926E9F24D008803B6 /* ConfigureTransactionError.swift in Sources */,
 				B312264125B6B60A00562ECA /* TransferDefinitionFactory.swift in Sources */,
 				B31226C725B6B60B00562ECA /* ExportRestoreJsonProtocols.swift in Sources */,
 				B31225AE25B6B60A00562ECA /* PinSetupPresenter.swift in Sources */,
@@ -7824,10 +8180,14 @@
 				B312257925B6B60A00562ECA /* ModalAlertFactory.swift in Sources */,
 				B312264F25B6B60A00562ECA /* ReceiveHeaderView.swift in Sources */,
 				B3E98E2525021BB9004AABD2 /* JLWalletPwdInputView.m in Sources */,
+				5EFA60DB26F2E73C00899224 /* EthSignTransaction.swift in Sources */,
 				B31225C625B6B60A00562ECA /* NetworkManagementViewController.swift in Sources */,
+				5EFA60C926F1D79500899224 /* EthCallRequest.swift in Sources */,
 				5E9C485126E60D6D008803B6 /* EthKeyStoreError.swift in Sources */,
+				5EFA618526F34CE600899224 /* EthTransactionConfiguration.swift in Sources */,
 				B36361B62500DC250039DF48 /* JLMechanismDetailView.m in Sources */,
 				B37FFB6E24F519AB004B9CC8 /* JLCreatorTableViewCell.m in Sources */,
+				5EFA617526F3407A00899224 /* EthBrowserURLParser.swift in Sources */,
 				5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */,
 				B3648C5F251858D900BBDB57 /* JLAuctionView.m in Sources */,
 				B312257425B6B60A00562ECA /* SelectionTitleTableViewCell.swift in Sources */,
@@ -7839,6 +8199,7 @@
 				B312257025B6B60A00562ECA /* SelectableViewModelProtocol.swift in Sources */,
 				B35936322511E9F600E2B2FD /* JLLoginView.m in Sources */,
 				B3B968CA26156EA900347B27 /* JLSingleSellOrderListCell.m in Sources */,
+				5EFA60DF26F2E80C00899224 /* EthOperationType.swift in Sources */,
 				B31224E525B6B60900562ECA /* CryptoType+ViewModel.swift in Sources */,
 				B31224C125B6B60900562ECA /* UIFont+Style.swift in Sources */,
 				B36361AA2500C9AB0039DF48 /* JLSelectWorksViewController.m in Sources */,
@@ -7847,11 +8208,13 @@
 				B312256625B6B60A00562ECA /* AccountPickerTableViewCell.swift in Sources */,
 				B3753D9D2554F524003A86CF /* SLEditSelectedBox.m in Sources */,
 				B38C8327261D56A4006B5324 /* JLLaunchAuctionTimeInputView.m in Sources */,
+				5EFA60CF26F1E18600899224 /* EthProviderFactory.swift in Sources */,
 				B38A5F7D24F34F0C00FA3EF7 /* main.m in Sources */,
 				B37FFB6824F5057F004B9CC8 /* JLCategoryNaviView.m in Sources */,
 				B31226C125B6B60B00562ECA /* ExportMnemonicData.swift in Sources */,
 				B31226AC25B6B60B00562ECA /* ExportSeedProtocols.swift in Sources */,
 				B38E90F625B91E5500174AAC /* JLNoAddressView.m in Sources */,
+				5EFA60E526F2ED6E00899224 /* EthWalletRPCService.swift in Sources */,
 				B312259325B6B60A00562ECA /* WebSocketEngineFactory.swift in Sources */,
 				5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */,
 				B312269525B6B60B00562ECA /* WalletBuyCommand.swift in Sources */,
@@ -7861,6 +8224,7 @@
 				B39655E524F38DBA007A8EC2 /* UICKeyChainStore.m in Sources */,
 				B396562D24F38F5F007A8EC2 /* JLAlert.m in Sources */,
 				B312266125B6B60A00562ECA /* AssetStyleFactory.swift in Sources */,
+				5EFA60B526F1D17700899224 /* EthBalanceProtocol.swift in Sources */,
 				B31226A925B6B60B00562ECA /* AccountConfirmPresenter.swift in Sources */,
 				B312267025B6B60A00562ECA /* HistoryItemTableViewCell.swift in Sources */,
 				5CFF02682503F95400A81E32 /* JLPageView.m in Sources */,
@@ -7872,6 +8236,7 @@
 				B391CC44262D545600FF48B0 /* LAppTextureManager.mm in Sources */,
 				B312256D25B6B60A00562ECA /* FearlessNavigationController.swift in Sources */,
 				B312257725B6B60A00562ECA /* SelectionSubtitleTableViewCell.swift in Sources */,
+				5EFA60BE26F1D31D00899224 /* EthError.swift in Sources */,
 				B31224B725B6B60900562ECA /* StakingLedger.swift in Sources */,
 				B35936022511B04000E2B2FD /* JLCustomDatePickerView.m in Sources */,
 				5EE52AAE26A1767D00EFF8C9 /* JLLaunchAuctionNumView.m in Sources */,
@@ -7882,6 +8247,7 @@
 				B312250C25B6B60A00562ECA /* JSONScaleDecodable.swift in Sources */,
 				B38E913025B9738500174AAC /* JLBackupNoticePresenter.swift in Sources */,
 				B31224BA25B6B60900562ECA /* CompoundOperationWrapper+Result.swift in Sources */,
+				5EFA60E126F2E85B00899224 /* EthERC20Contract.swift in Sources */,
 				B312253425B6B60A00562ECA /* SupportData.swift in Sources */,
 				B396561724F38DF4007A8EC2 /* NSString+JLTool.m in Sources */,
 				B37FFB6524F4FB49004B9CC8 /* UICollectionWaterLayout.m in Sources */,
@@ -7904,6 +8270,7 @@
 				B312258125B6B60A00562ECA /* SharingPresentable.swift in Sources */,
 				B312266725B6B60A00562ECA /* BalanceContext.swift in Sources */,
 				B31224DD25B6B60900562ECA /* CryptoType+Extrinsic.swift in Sources */,
+				5EFA616F26F3372E00899224 /* EthBrowserNavigation.swift in Sources */,
 				B31225EE25B6B60A00562ECA /* AboutPresenter.swift in Sources */,
 				B312265825B6B60A00562ECA /* WalletTotalPriceViewModel.swift in Sources */,
 				5CFF02652503F94800A81E32 /* JLHoveringView.m in Sources */,
@@ -7913,6 +8280,7 @@
 				B39655B924F38DBA007A8EC2 /* UIViewController+LewPopupViewController.m in Sources */,
 				B312254B25B6B60A00562ECA /* DetailsTriangularedView+Inspectable.swift in Sources */,
 				B370C80F24F602E900A2D699 /* JLMineAppView.m in Sources */,
+				5EFA616526F3314800899224 /* EthBrowserCoordinator.swift in Sources */,
 				B396561C24F38DF4007A8EC2 /* UIView+JLShadow.m in Sources */,
 				B391CBA0262D2AD700FF48B0 /* CubismMath.cpp in Sources */,
 				B39655C524F38DBA007A8EC2 /* WMPageController.m in Sources */,
@@ -7940,12 +8308,14 @@
 				B312264C25B6B60A00562ECA /* AccountShareFactory.swift in Sources */,
 				B3AA6DA5263BED1800DAEE19 /* JLBoxImageSizeCacheDefaults.m in Sources */,
 				B312267C25B6B60A00562ECA /* WalletInputAmountView.swift in Sources */,
+				5EFA60CB26F1DD3D00899224 /* EthServiceAPI.swift in Sources */,
 				B396554124F38D6D007A8EC2 /* JLNetHelper.m in Sources */,
 				5EE52A8B269E7E0800EFF8C9 /* JLScrollTitleView.m in Sources */,
 				B312255325B6B60A00562ECA /* TitledMnemonicView.swift in Sources */,
 				5EE52A99269ECCF700EFF8C9 /* JLCashAccountCell.m in Sources */,
 				B312252925B6B60A00562ECA /* Price.swift in Sources */,
 				B396552B24F38D07007A8EC2 /* JLBaseViewController.m in Sources */,
+				5ECA14E026F466C4009614DB /* EthConfirmCoordinator.swift in Sources */,
 				5E9B759F26A91308002A2364 /* NSTimer+JLExtension.m in Sources */,
 				B3C0ED2525C256DE001B8BCA /* JLExportKeystorePwdViewController.m in Sources */,
 				B391CC59262D73DA00FF48B0 /* PAirSandbox.m in Sources */,
@@ -7961,6 +8331,7 @@
 				B396566324F3AFD4007A8EC2 /* JLLoading.m in Sources */,
 				B391E2C426284B1C002CCC9D /* JLCreatorCollectionWaterLayout.m in Sources */,
 				B396562A24F38EE3007A8EC2 /* JLColorManager.m in Sources */,
+				5EFA618126F348ED00899224 /* EthChainState.swift in Sources */,
 				B391CC43262D545600FF48B0 /* LAppAllocator.mm in Sources */,
 				B391B0C2262F074900127532 /* JLBoxOpenRecordViewController.m in Sources */,
 				B312262A25B6B60A00562ECA /* AccountInfoProtocols.swift in Sources */,
@@ -7983,6 +8354,7 @@
 				B396561224F38DF4007A8EC2 /* NSObject+countDown.m in Sources */,
 				B39655B824F38DBA007A8EC2 /* LewPopupViewAnimationFade.m in Sources */,
 				B39655C024F38DBA007A8EC2 /* LZCustomLimitDatePicker.m in Sources */,
+				5E9C486926E9A1A3008803B6 /* GasLimitConfiguration.swift in Sources */,
 				B359360C2511B0B000E2B2FD /* IQActionSheetToolbar.m in Sources */,
 				B366C7F225524D29007F9583 /* HProgressView.m in Sources */,
 				B35EBA0D24FF46A600F5BF84 /* JLChainQueryViewController.m in Sources */,
@@ -7997,6 +8369,7 @@
 				B329C89225B5924800AE3938 /* NetworkRPCRequest.swift in Sources */,
 				5C573127265819AB008D341A /* UIView+MemoryLeak.m in Sources */,
 				B31224FF25B6B60A00562ECA /* WalletNetworkFacade.swift in Sources */,
+				5ECA14E426F46FD7009614DB /* EthSendRawTransactionRequest.swift in Sources */,
 				B31225CD25B6B60A00562ECA /* AddConnectionError.swift in Sources */,
 				5EEB047F26AE48C500D033F6 /* Multiaddress.swift in Sources */,
 				5EEB047926AE479A00D033F6 /* ChainStorage+Decodable.swift in Sources */,
@@ -8014,6 +8387,7 @@
 				5C57312A265819AB008D341A /* UIPageViewController+MemoryLeak.m in Sources */,
 				B31225C925B6B60A00562ECA /* AddConnectionPresenter.swift in Sources */,
 				B359364125121A2900E2B2FD /* JLForgetPwdViewController.m in Sources */,
+				5EFA60B326F1D14800899224 /* EthBalance.swift in Sources */,
 				B312265325B6B60A00562ECA /* TransferConfirmBinder.swift in Sources */,
 				B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */,
 				B31224EE25B6B60900562ECA /* ErrorContent+Wallet.swift in Sources */,
@@ -8022,6 +8396,7 @@
 				B312259025B6B60A00562ECA /* WebSocketSubscriptionProtocols.swift in Sources */,
 				B312267925B6B60A00562ECA /* WalletTokenViewModel.swift in Sources */,
 				5EEB048126AE496C00D033F6 /* UpgradeV28Subscription.swift in Sources */,
+				5EFA60D126F1E66F00899224 /* EthNetwork.swift in Sources */,
 				B312268225B6B60A00562ECA /* WalletDisplayAmountView.swift in Sources */,
 				B391CB8A262D2AD700FF48B0 /* CubismString.cpp in Sources */,
 				B312258C25B6B60A00562ECA /* TransactionHistoryMergeManager.swift in Sources */,
@@ -8050,6 +8425,7 @@
 				B31226B025B6B60B00562ECA /* ExportSeedWireframe.swift in Sources */,
 				B391CC3E262D545600FF48B0 /* LAppDefine.mm in Sources */,
 				5E9B759926A814A1002A2364 /* JLAlertView.m in Sources */,
+				5EFA60EB26F3190600899224 /* EthBrowserViewController.swift in Sources */,
 				B3C05AE2263163F9002741B1 /* JLBoxTenCardView.m in Sources */,
 				B37FFB4C24F4AF2F004B9CC8 /* JLPopularOriginalView.m in Sources */,
 				5E70E22626CB4F70003ACC8B /* JLAuctionSubmitOrderContentBottomView.m in Sources */,
@@ -8066,6 +8442,7 @@
 				5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */,
 				B312255E25B6B60A00562ECA /* ModalPickerConfiguration.swift in Sources */,
 				5E9B759C26A90289002A2364 /* JLArtAuctionTimeView.m in Sources */,
+				5EFA616226F3300700899224 /* WKWebViewConfiguration+factory.swift in Sources */,
 				B312264D25B6B60A00562ECA /* ReceiveViewFactory.swift in Sources */,
 				B38BCFBA25B80F9B00FD37F7 /* R.generated.swift in Sources */,
 				B38E912125B92E6700174AAC /* Decimal.swift in Sources */,
@@ -8073,11 +8450,14 @@
 				B312254A25B6B60A00562ECA /* TriangularedView+Inspectable.swift in Sources */,
 				B38C8331261D99C9006B5324 /* CancelAuctionCall.swift in Sources */,
 				B31225C325B6B60A00562ECA /* ConnectionTableViewCell.swift in Sources */,
+				5EFA60B726F1D28200899224 /* EthCastError.swift in Sources */,
 				B35936132511B0F200E2B2FD /* JLAlertSheetControl.m in Sources */,
 				B37FFB4524F4A56D004B9CC8 /* PGIndexBannerSubiew.m in Sources */,
+				5EFA60E326F2E8AC00899224 /* EthEstimateGasRequest.swift in Sources */,
 				B3753DC82554F598003A86CF /* SLAvCaptureSession.m in Sources */,
 				B312250725B6B60A00562ECA /* RuntimeDispatchInfo.swift in Sources */,
 				B312254825B6B60A00562ECA /* TriangularedButton.swift in Sources */,
+				5E9C487726E9F220008803B6 /* ConfigureTransaction.swift in Sources */,
 				B3648CDF2518B15C00BBDB57 /* JLRealNameAuthVC.m in Sources */,
 				B312260C25B6B60A00562ECA /* ConnectionAccountConfirmWireframe.swift in Sources */,
 				B312253825B6B60A00562ECA /* SocialMessage.swift in Sources */,
@@ -8134,9 +8514,11 @@
 				B312254925B6B60A00562ECA /* TriangularedBlurView.swift in Sources */,
 				B3890B2725DF8E8100028F78 /* JLAuctionCellView.m in Sources */,
 				B312257F25B6B60A00562ECA /* ModalAlertPresenting.swift in Sources */,
+				5EFA617326F33A1C00899224 /* EthDictionary.swift in Sources */,
 				B312262425B6B60A00562ECA /* CommingSoonViewController.swift in Sources */,
 				B39655BD24F38DBA007A8EC2 /* LewPopupBackgroundView.m in Sources */,
 				B36361C42500F2C70039DF48 /* JLCreateWalletViewController.m in Sources */,
+				5EFA618326F3496D00899224 /* EthBlockNumberRequest.swift in Sources */,
 				5C2429702504AF6C00C74B6A /* JLCustomerServiceSectionView.m in Sources */,
 				B391CC46262D545600FF48B0 /* LAppPal.mm in Sources */,
 				B312259C25B6B60A00562ECA /* StakingInfoSubscription.swift in Sources */,
@@ -8164,6 +8546,7 @@
 				B312261525B6B60A00562ECA /* ProfileTableViewCell.swift in Sources */,
 				B3648CE22518B1D500BBDB57 /* JLMineSuccessView.m in Sources */,
 				B312251725B6B60A00562ECA /* StorageFacadeProtocol.swift in Sources */,
+				5EFA60C426F1D60A00899224 /* EthServiceRequest.swift in Sources */,
 				5E9C484D26E60D6D008803B6 /* JLEthereumTool.swift in Sources */,
 				B391CBA1262D2AD700FF48B0 /* CubismMatrix44.cpp in Sources */,
 				B31226CD25B6B60B00562ECA /* AccountManagementViewController.swift in Sources */,
@@ -8184,17 +8567,20 @@
 				B396565324F39227007A8EC2 /* JLShoppingCartViewController.m in Sources */,
 				5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */,
 				B312269325B6B60B00562ECA /* WalletSelectAccountCommand.swift in Sources */,
+				5EFA60D926F2E6D100899224 /* EthGasPriceRequest.swift in Sources */,
 				B38E912E25B972C700174AAC /* JLBackupNoticeWireframe.swift in Sources */,
 				B312261825B6B60A00562ECA /* ProfileDetailsTableViewCell.swift in Sources */,
 				B31226DC25B6B60B00562ECA /* MainTabBarViewController.swift in Sources */,
 				B396560D24F38DF4007A8EC2 /* UIView+anmit.m in Sources */,
 				B31224A625B6B60900562ECA /* SelectedAccountChanged.swift in Sources */,
 				B36361B02500CBCF0039DF48 /* JLApplyCertWorksMechanismSignCell.m in Sources */,
+				5EFA617F26F347DD00899224 /* EthTransactionConfigurator.swift in Sources */,
 				B31226DB25B6B60B00562ECA /* MainTabBarInteractor.swift in Sources */,
 				5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */,
 				B366C7EC25524D29007F9583 /* Utility.m in Sources */,
 				B312263825B6B60A00562ECA /* ContactsConstants.swift in Sources */,
 				B31225E225B6B60A00562ECA /* AccountImportInteractor.swift in Sources */,
+				5E9C487526E9A5C7008803B6 /* TokenObject.swift in Sources */,
 				5CFF026B2503F96100A81E32 /* JLPagetableView.m in Sources */,
 				5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */,
 				B312262F25B6B60A00562ECA /* WalletCommandDecorator.swift in Sources */,
@@ -8222,6 +8608,7 @@
 				B391CB88262D2AD700FF48B0 /* CubismDefaultParameterId.cpp in Sources */,
 				B329C8CB25B597BE00AE3938 /* JLChainQRCodeView.m in Sources */,
 				B35EBA0924FF34C500F5BF84 /* JLArtDetailDescriptionView.m in Sources */,
+				5EFA616726F331CD00899224 /* EthSentTransaction.swift in Sources */,
 				B359362F2511E73800E2B2FD /* UserDataBody.m in Sources */,
 				B312259D25B6B60A00562ECA /* TransferSubscription.swift in Sources */,
 				B312250325B6B60A00562ECA /* ReconnectionStrategy.swift in Sources */,
@@ -8246,6 +8633,7 @@
 				B31224CF25B6B60900562ECA /* Charset+Mnemonic.swift in Sources */,
 				B31224F325B6B60900562ECA /* WalletNetworkFacade+TxHistory.swift in Sources */,
 				B3753DAD2554F54E003A86CF /* SLImage.m in Sources */,
+				5EFA618F26F43FAD00899224 /* EthSigner.swift in Sources */,
 				B391E2B226280E12002CCC9D /* JLThemeRecommendCollectionViewCell.m in Sources */,
 				B312250D25B6B60A00562ECA /* WebSocketEngine+Protocol.swift in Sources */,
 				B31226BE25B6B60B00562ECA /* ExportMnemonicViewFactory.swift in Sources */,
@@ -8256,6 +8644,7 @@
 				B31226C025B6B60B00562ECA /* ExportMnemonicInteractor.swift in Sources */,
 				B394C7EF262FC53700EB3254 /* JLBoxPayDetailTableViewCell.m in Sources */,
 				B312255925B6B60A00562ECA /* PurchaseCompletionHandler.swift in Sources */,
+				5EFA616D26F336FC00899224 /* EthBrowserNavigationBar.swift in Sources */,
 				B31224D825B6B60900562ECA /* SortDescriptor+Storage.swift in Sources */,
 				B31226AA25B6B60B00562ECA /* AccountConfirmProtocols.swift in Sources */,
 				B391CB9A262D2AD700FF48B0 /* CubismId.cpp in Sources */,
@@ -8273,6 +8662,7 @@
 				B391E2D42628617D002CCC9D /* JLOrderDetailPayMethodTableViewCell.m in Sources */,
 				B312264225B6B60A00562ECA /* TransferSeparatorDistribution.swift in Sources */,
 				5E70E22026CB4DB8003ACC8B /* JLAuctionSubmitOrderContentInfoView.m in Sources */,
+				5EFA615126F326AC00899224 /* EthTypedData.swift in Sources */,
 				B342979325DE523B0006BD6E /* JLActionTimeView.m in Sources */,
 				B312250B25B6B60A00562ECA /* RuntimeVersion.swift in Sources */,
 				B312263625B6B60A00562ECA /* ContactContext.swift in Sources */,
@@ -8320,6 +8710,7 @@
 				B312258625B6B60A00562ECA /* MainTransitionHelper.swift in Sources */,
 				B312268E25B6B60B00562ECA /* WalletSelectAccountCommandFactory.swift in Sources */,
 				B31224D325B6B60900562ECA /* NSPredicate+Filter.swift in Sources */,
+				5E9C487D26E9F2AE008803B6 /* DAppRequster.swift in Sources */,
 				B312265D25B6B60A00562ECA /* WalletAccountListConstants.swift in Sources */,
 				B312269225B6B60B00562ECA /* TransferConfirmCommand.swift in Sources */,
 				B391CC8A262D75C000FF48B0 /* prng.m in Sources */,
@@ -8369,6 +8760,7 @@
 				B312268325B6B60A00562ECA /* WalletBaseTokenView.swift in Sources */,
 				B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */,
 				B359361A2511BD3700E2B2FD /* JLCalcInputView.m in Sources */,
+				5EFA617926F3411E00899224 /* EthPreferenceOption.swift in Sources */,
 				B31225A525B6B60A00562ECA /* NetworkInfoWireframe.swift in Sources */,
 				5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */,
 				B36361A72500C2B50039DF48 /* JLApplyCertViewController.m in Sources */,
@@ -8400,6 +8792,7 @@
 				B31224DB25B6B60900562ECA /* DataProviderChange+Result.swift in Sources */,
 				B36361B92500E0640039DF48 /* JLMechanismIntroductionView.m in Sources */,
 				B366C7F125524D29007F9583 /* DLHDActivityIndicator.m in Sources */,
+				5EFA618D26F43B3500899224 /* EthSignMessageCoordinator.swift in Sources */,
 				B391E2CB26285DA6002CCC9D /* JLStepper.m in Sources */,
 				B312255025B6B60A00562ECA /* BorderedSubtitleActionView+Inspectable.swift in Sources */,
 				B31224F525B6B60A00562ECA /* PriceInfo.swift in Sources */,
@@ -8407,6 +8800,7 @@
 				B3CB6DAA26462BA40068B27E /* JLExchangeNFTViewController.m in Sources */,
 				B312268F25B6B60B00562ECA /* WalletExtrinsicOpenCommand.swift in Sources */,
 				B325CD2224FF9FC000F931A2 /* JLChainQueryTradeView.m in Sources */,
+				5EFA615326F326E600899224 /* EthCryptoAddressValidator.swift in Sources */,
 				B3AA62C225E49B3E00D28627 /* STConst.m in Sources */,
 				B312255F25B6B60A00562ECA /* ModalInfoFactory.swift in Sources */,
 				B391CB9E262D2AD700FF48B0 /* CubismVector2.cpp in Sources */,
@@ -9048,9 +9442,11 @@
 					"\"xxHash_Swift\"",
 					"-lLive2DCubismCore",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jielian.GammaRay;
 				PRODUCT_NAME = "云画链";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/CloudArtChain/CloudArtChain-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";

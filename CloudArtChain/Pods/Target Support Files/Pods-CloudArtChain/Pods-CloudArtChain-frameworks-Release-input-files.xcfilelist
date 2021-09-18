@@ -1,5 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-CloudArtChain/Pods-CloudArtChain-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
+${BUILT_PRODUCTS_DIR}/APIKit/APIKit.framework
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework
 ${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework
 ${BUILT_PRODUCTS_DIR}/CommonWallet/CommonWallet.framework
@@ -12,6 +14,7 @@ ${BUILT_PRODUCTS_DIR}/FireMock/FireMock.framework
 ${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/IrohaCrypto/IrohaCrypto.framework
 ${BUILT_PRODUCTS_DIR}/JSONModel/JSONModel.framework
+${BUILT_PRODUCTS_DIR}/JSONRPCKit/JSONRPCKit.framework
 ${BUILT_PRODUCTS_DIR}/JXCategoryView/JXCategoryView.framework
 ${BUILT_PRODUCTS_DIR}/JXPagingView/JXPagingView.framework
 ${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework
@@ -20,9 +23,12 @@ ${BUILT_PRODUCTS_DIR}/LMJDropdownMenu/LMJDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/LSTTimer/LSTTimer.framework
 ${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework
 ${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/Moya/Moya.framework
+${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework
 ${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework
 ${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
 ${BUILT_PRODUCTS_DIR}/ReactiveObjC/ReactiveObjC.framework
+${BUILT_PRODUCTS_DIR}/Result/Result.framework
 ${BUILT_PRODUCTS_DIR}/RobinHood/RobinHood.framework
 ${BUILT_PRODUCTS_DIR}/SDCycleScrollView/SDCycleScrollView.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework

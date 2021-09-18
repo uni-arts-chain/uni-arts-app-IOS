@@ -88,8 +88,12 @@ class PinSetupWireframe: PinSetupWireframeProtocol, JLAccountListViewControllerP
         (walletController as! JLAccountListViewController).userAvatar = userAvatar
         let walletNavigationController = JLNavigationViewController(rootViewController: walletController)
         self.navigationController = walletNavigationController
-        rootAnimator.animateTransition(to: walletNavigationController)
+//        rootAnimator.animateTransition(to: walletNavigationController)
         self.interactor?.setup()
+        
+        // 直接返回
+        backClick(viewController: walletController)
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CreateOrImportWalletNotification"), object: nil)
     }
 

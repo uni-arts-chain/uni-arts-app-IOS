@@ -8,12 +8,12 @@ import Foundation
 
 extension Data {
     /// Initializes `Data` with a hex string representation.
-    public init?(hex: String) {
+    public init?(hexStr: String) {
         let string: String
-        if hex.hasPrefix("0x") {
-            string = String(hex.dropFirst(2))
+        if hexStr.hasPrefix("0x") {
+            string = String(hexStr.dropFirst(2))
         } else {
-            string = hex
+            string = hexStr
         }
 
         // Convert the string to bytes for better performance
@@ -62,7 +62,7 @@ extension Data {
 public extension KeyedDecodingContainerProtocol {
     func decodeHexString(forKey key: Self.Key) throws -> Data {
         let hexString = try decode(String.self, forKey: key)
-        guard let data = Data(hex: hexString) else {
+        guard let data = Data(hexStr: hexString) else {
             throw DecodingError.dataCorruptedError(forKey: key, in: self, debugDescription: "Expected hexadecimal string")
         }
         return data
@@ -72,7 +72,7 @@ public extension KeyedDecodingContainerProtocol {
         guard let hexString = try decodeIfPresent(String.self, forKey: key) else {
             return nil
         }
-        guard let data = Data(hex: hexString) else {
+        guard let data = Data(hexStr: hexString) else {
             throw DecodingError.dataCorruptedError(forKey: key, in: self, debugDescription: "Expected hexadecimal string")
         }
         return data

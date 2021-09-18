@@ -35,7 +35,7 @@ public struct EthConstants {
         public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
         public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
     #else
-        public static let QTSAPI = URL(string: "https://JLGammaRayWallet.cn")!
+        public static let QTSAPI = URL(string: "https://QTSWallet.cn")!
         public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
         public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
     #endif

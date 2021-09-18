@@ -97,9 +97,11 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/TrustWeb3Provider/TrustWeb3Provider.bundle"
   install_resource "${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/TrustWeb3Provider/TrustWeb3Provider.bundle"
   install_resource "${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle"
 fi
 

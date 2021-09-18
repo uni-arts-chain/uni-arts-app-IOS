@@ -6,11 +6,11 @@
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
-import Foundation
 import CryptoSwift
 import TrezorCrypto
 import TrustCore
 import TrustKeystore
+import Result
 
 @objcMembers class JLEthereumWalletInfo: NSObject {
     var address: String?
@@ -26,10 +26,10 @@ import TrustKeystore
     static let shared = JLEthereumTool()
     private let keystore = EthKeystore()
 
-    override private init() { }
+    override private init() { super.init() }
 
     /// 获取所有导入或创建的钱包
-    /// - Returns: 账户数组信息
+    /// - Returns: 账户信息数组
     func allWalletInfos() -> [JLEthereumWalletInfo] {
         return keystore.walletInfos.map { walletInfo -> JLEthereumWalletInfo in
             let resultInfo = JLEthereumWalletInfo()
@@ -48,7 +48,7 @@ import TrustKeystore
     }
     
     /// 获取当前的账户
-    /// - Returns: 账户字典信息
+    /// - Returns: 账户信息
     func currentWalletInfo() -> JLEthereumWalletInfo? {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return .none }
         let resultInfo = JLEthereumWalletInfo()
@@ -74,7 +74,7 @@ import TrustKeystore
     
     /// 选择账户
     /// - Parameters:
-    ///   - walletInfoDict: 账户信息字典
+    ///   - walletInfo: 账户信息
     ///   - completion: 完成后回调
     func chooseAccount(walletInfo: JLEthereumWalletInfo, completion: @escaping (_ isSuccess: Bool, _ errorMsg: String?) -> Void) {
         guard let storeKey = walletInfo.storeKey else { return
@@ -107,7 +107,34 @@ import TrustKeystore
             }
         }
     }
+}
+
+// MARK: TEST
+extension JLEthereumTool {
+    // 获取当前 以太坊 账户的余额
+    func getCurrentWalletBalance(completion: @escaping (_ balanceString: String?, _ errorMsg: String?) -> Void) {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return }
+        guard let ethAddress = walletInfo.address as? EthereumAddress else { return }
+        // 0xa5760BB0777647cb1C69E75A64234F6103778D05
+        EthWalletRPCService(server: .main, addressUpdate: nil).getBalance().done { balance in
+            completion(balance.amountShort, .none)
+        }.catch { error in
+            completion(.none, error.prettyError)
+        }
+    }
     
+    // 获取gasPrice
+    func getGasPrice(completion: @escaping (_ gasPrice: String?, _ errorMsg: String?) -> Void) {
+        EthWalletRPCService(server: .main).getGasPrice().done { balance in
+            completion(balance, .none)
+        }.catch { error in
+            completion(.none, error.prettyError)
+        }
+    }
+}
+
+// MARK: 导入钱包
+extension JLEthereumTool {
     /// 导入账户(助记词)
     func importWallet(mnemonics: [String], completion: @escaping (_ address: String?, _ errorMsg: String?) -> Void) {
         print("ethereum 导入账户(助记词)")
@@ -159,7 +186,10 @@ import TrustKeystore
             }
         }
     }
-    
+}
+
+// MARK: 导出钱包
+extension JLEthereumTool {
     /// 导出助记词
     func exportMnemonic(completion: @escaping (_ mnemonics: [String], _ errorMsg: String?) -> Void) {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return completion([], "没有以太坊账户") }
@@ -212,5 +242,20 @@ import TrustKeystore
                 completion(.none, error.errorDescription)
             }
         }
+    }
+}
+
+// MARK: DAPP 浏览器
+extension JLEthereumTool: EthBrowserCoordinatorDelegate {
+    /// 查看dapp
+    func lookDapp(navigationViewController: JLNavigationViewController?, webUrl: URL) {
+        guard navigationViewController != nil else { return }
+        let coordinator = EthBrowserCoordinator(keystore: keystore, navigationController: navigationViewController!, webUrl: webUrl)
+        coordinator.delegate = self
+        coordinator.start()
+    }
+    
+    func didSentTransaction(transaction: EthSentTransaction, in coordinator: EthBrowserCoordinator) {
+        print("ethereum 已经发送交易")
     }
 }
