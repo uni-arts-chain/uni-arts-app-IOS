@@ -24,6 +24,7 @@
 #import "JLExchangeNFTViewController.h"
 #import "JLCashAccountViewController.h"
 #import "JLAuctionHistoryViewController.h"
+#import "JLChooseChainWalletViewController.h"
 
 #import "JLMineNaviView.h"
 #import "JLMineOrderView.h"
@@ -46,7 +47,7 @@
     WS(weakSelf)
     // 请求用户信息
     [AppSingleton loginInfonWithBlock:^{
-        [weakSelf loadCashAccount];
+//        [weakSelf loadCashAccount];
         [weakSelf loadAuctionsWinsDatas];
         [weakSelf.mineNaviView refreshInfo];
     }];
@@ -54,10 +55,10 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    WS(weakSelf)
-    [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
-        [weakSelf.orderView setCurrentAccountBalance:amount];
-    }];
+//    WS(weakSelf)
+//    [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
+//        [weakSelf.orderView setCurrentAccountBalance:amount];
+//    }];
     [self requestHasUnreadMessages];
 }
 
@@ -124,12 +125,12 @@
     if (!_orderView) {
         _orderView = [[JLMineOrderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 131.0f)];
         WS(weakSelf)
-        _orderView.walletBlock = ^{
+        _orderView.cashAccountBlock = ^{
             NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
             [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
         };
-        _orderView.cashAccountBlock = ^{
-            JLCashAccountViewController *vc = [[JLCashAccountViewController alloc] init];
+        _orderView.walletBlock = ^{
+            JLChooseChainWalletViewController *vc = [[JLChooseChainWalletViewController alloc] init];
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
     }
@@ -139,7 +140,7 @@
 - (JLMineAppView *)mineAppView {
     if (!_mineAppView) {
         WS(weakSelf)
-        _mineAppView = [[JLMineAppView alloc] initWithFrame:CGRectMake(0.0f, self.orderView.frameBottom + 20.0f, kScreenWidth, 180.0f)];
+        _mineAppView = [[JLMineAppView alloc] initWithFrame:CGRectMake(0.0f, self.orderView.frameBottom + 20.0f, kScreenWidth, 270.0f)];
         _mineAppView.appClickBlock = ^(NSInteger index) {
             switch (index) {
                 case 0:
@@ -220,6 +221,13 @@
                     JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
                     messageVC.messageUnreadNumber = weakSelf.messageUnreadNumber;
                     [weakSelf.navigationController pushViewController:messageVC animated:YES];
+                }
+                    break;
+                case 8:
+                {
+                    // 现金账户
+                    JLCashAccountViewController *vc = [[JLCashAccountViewController alloc] init];
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
                 }
                     break;
                 default:

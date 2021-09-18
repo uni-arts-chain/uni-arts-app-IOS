@@ -26,7 +26,8 @@
     
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.view).offset(self.topInset);
+        make.left.bottom.right.equalTo(self.view);
     }];
     
     [self.tableView.mj_header beginRefreshing];
@@ -43,6 +44,7 @@
         _tableView.estimatedRowHeight = 260.0f;
         _tableView.estimatedSectionHeaderHeight = 0;
         _tableView.estimatedSectionFooterHeight = 0;
+        _tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
         [_tableView registerClass:[JLBoxTableViewCell class] forCellReuseIdentifier:@"JLBoxTableViewCell"];
         _tableView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
             [weakSelf headRefresh];

@@ -14,6 +14,10 @@
 @property (nonatomic, strong) UIView *cashAccountView;
 @property (nonatomic, strong) UIView *walletView;
 @property (nonatomic, strong) UIView *lineView;
+
+@property (nonatomic, strong) UIView *mainWaletView;
+@property (nonatomic, strong) UIView *multiWalletView;
+
 @property (nonatomic, strong) UILabel *cashAccountLabel;
 @property (nonatomic, strong) UILabel *pointLabel;
 @end
@@ -32,8 +36,10 @@
     [self.imageView addSubview:self.cashAccountView];
     [self.imageView addSubview:self.walletView];
     [self.imageView addSubview:self.lineView];
-    [self.cashAccountView addSubview:self.cashAccountLabel];
-    [self.walletView addSubview:self.pointLabel];
+    [self.cashAccountView addSubview:self.mainWaletView];
+    [self.walletView addSubview:self.multiWalletView];
+//    [self.cashAccountView addSubview:self.cashAccountLabel];
+//    [self.walletView addSubview:self.pointLabel];
     
     [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(15.0f);
@@ -53,14 +59,24 @@
         make.bottom.equalTo(self.imageView).offset(-25);
         make.size.mas_equalTo(CGSizeMake(1, 13));
     }];
-    [self.cashAccountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.cashAccountView);
+    [self.mainWaletView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.cashAccountView);
         make.centerY.equalTo(self.lineView);
+        make.height.mas_equalTo(@20);
     }];
-    [self.pointLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.walletView);
+    [self.multiWalletView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.walletView);
         make.centerY.equalTo(self.lineView);
+        make.height.mas_equalTo(@20);
     }];
+//    [self.cashAccountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.cashAccountView);
+//        make.centerY.equalTo(self.lineView);
+//    }];
+//    [self.pointLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.walletView);
+//        make.centerY.equalTo(self.lineView);
+//    }];
 }
 
 - (UIImageView *)imageView {
@@ -95,6 +111,60 @@
         _lineView.backgroundColor = JL_color_white_ffffff;
     }
     return _lineView;
+}
+
+- (UIView *)mainWaletView {
+    if (!_mainWaletView) {
+        _mainWaletView = [[UIView alloc] init];
+        
+        UIImageView *imgView = [[UIImageView alloc] init];
+        imgView.image = [UIImage imageNamed:@"icon_mine_wallet_main"];
+        [_mainWaletView addSubview:imgView];
+        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_mainWaletView);
+            make.centerY.equalTo(_mainWaletView);
+            make.width.height.mas_equalTo(@17);
+        }];
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.text = @"主链钱包";
+        label.textColor = JL_color_white_ffffff;
+        label.font = kFontPingFangSCMedium(15);
+        [_mainWaletView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imgView.mas_right).offset(10);
+            make.centerY.equalTo(imgView);
+            make.right.equalTo(_mainWaletView);
+        }];
+    }
+    return _mainWaletView;
+}
+
+- (UIView *)multiWalletView {
+    if (!_multiWalletView) {
+        _multiWalletView = [[UIView alloc] init];
+        
+        UIImageView *imgView = [[UIImageView alloc] init];
+        imgView.image = [UIImage imageNamed:@"icon_mine_wallet_multi"];
+        [_multiWalletView addSubview:imgView];
+        [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_multiWalletView);
+            make.centerY.equalTo(_multiWalletView);
+            make.width.height.mas_equalTo(@17);
+        }];
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.text = @"多链钱包";
+        label.textColor = JL_color_white_ffffff;
+        label.font = kFontPingFangSCMedium(15);
+        [_multiWalletView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imgView.mas_right).offset(10);
+            make.centerY.equalTo(imgView);
+            make.right.equalTo(_multiWalletView);
+        }];
+    }
+    return _multiWalletView;
 }
 
 - (UILabel *)pointLabel {

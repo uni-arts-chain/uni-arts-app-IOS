@@ -82,8 +82,13 @@
 #define LOCALNOTIFICATION_H5PAYFIHISHEDGOBACK @"H5PayFinishedGoback"
 /// 支付宝支付成功拍卖
 #define LOCALNOTIFICATION_JL_ALIPAYRESULTNOTIFICATION @"JLAliPayResultNotification"
+#pragma mark 导入MultiWallet钱包
+/// 导入MultiWallet钱包成功通知
+#define LOCALNOTIFICATION_JL_IMPORTMULTIWALLETSUCCESS @"JLocalNotification_JLImportMultiWalletSuccess"
+
 
 #pragma mark - userDefaults
 #define USERDEFAULTS_JL_WITHDRAW_PAY_TYPE @"UserDefaultJLWithdrawPayType"
+#define USERDEFAULTS_JL_MULTI_WALLET_NAME @"UserDefaultJLMultiWalletName"
 
 #endif /* PartMacro_h */

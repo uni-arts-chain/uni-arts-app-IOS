@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLBoxViewController : JLBaseViewController
 
+@property (nonatomic, assign) CGFloat topInset;
+
 @end
 
 NS_ASSUME_NONNULL_END

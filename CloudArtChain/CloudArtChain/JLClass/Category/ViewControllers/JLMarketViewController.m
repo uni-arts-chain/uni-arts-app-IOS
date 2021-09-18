@@ -10,6 +10,7 @@
 #import "JLSegmentViewController.h"
 #import "JLScrollTitleView.h"
 #import "JLCategoryViewController.h"
+#import "JLBoxViewController.h"
 #import "JLSearchViewController.h"
 
 @interface JLMarketViewController ()<JLSegmentViewControllerDelegate, JLScrollTitleViewDelegate>
@@ -35,8 +36,10 @@
     JLCategoryViewController *auctionVC = [[JLCategoryViewController alloc] init];
     auctionVC.type = JLCategoryViewControllerTypeAuctioning;
     auctionVC.topInset = 48;
+    JLBoxViewController *boxVC = [[JLBoxViewController alloc] init];
+    boxVC.topInset = self.headerView.frameHeight;
     
-    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];
+    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC, boxVC]];
     _segmentVC.delegate = self;
     [self addChildViewController:_segmentVC];
     [self.view addSubview:_segmentVC.view];
@@ -66,7 +69,7 @@
     if (!_headerView) {
         _headerView = [[JLScrollTitleView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 38)];
         _headerView.delegate = self;
-        _headerView.titleArray = @[@"寄售",@"拍卖"];
+        _headerView.titleArray = @[@"寄售",@"拍卖",@"盲盒"];
     }
     return _headerView;
 }

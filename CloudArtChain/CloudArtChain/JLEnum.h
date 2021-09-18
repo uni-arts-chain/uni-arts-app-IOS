@@ -78,4 +78,16 @@ static JLEthereumType const JLEthereumTypePrivateKey = @"privateKey";
 static JLEthereumType const JLEthereumTypeHd = @"hd";
 static JLEthereumType const JLEthereumTypeAddress = @"address";
 
+#pragma mark - 多链钱包
+#pragma mark 多链钱包类型名称
+typedef NSString *JLMultiChainWalletName NS_STRING_ENUM;
+static JLMultiChainWalletName const JLMultiChainWalletNameUniArts = @"UniArts";
+static JLMultiChainWalletName const JLMultiChainWalletNameEthereum = @"Ethereum";
+static JLMultiChainWalletName const JLMultiChainWalletNameBitCoin = @"BitCoin";
+#pragma mark 多链钱包类型符号
+typedef NSString *JLMultiChainWalletSymbol NS_STRING_ENUM;
+static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolUART = @"UART";
+static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolETH = @"ETH";
+static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolBTC = @"BTC";
+
 #endif /* JLEnum_h */

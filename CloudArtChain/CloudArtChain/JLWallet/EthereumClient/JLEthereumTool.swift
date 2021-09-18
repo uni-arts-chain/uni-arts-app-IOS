@@ -17,8 +17,10 @@ import Result
     var type: JLEthereumType?
     var storeKey: String?
     
+    var name: String?
+    
     override var description: String {
-        return "address: \(address ?? ""), type: \(type?.rawValue ?? ""), storeKey: \(storeKey ?? "")"
+        return "address: \(address ?? ""), type: \(type?.rawValue ?? ""), storeKey: \(storeKey ?? ""), name: \(name ?? "")"
     }
 }
 

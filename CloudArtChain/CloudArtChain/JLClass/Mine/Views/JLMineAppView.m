@@ -27,7 +27,8 @@
                            @"icon_mine_app_auction",
                            @"icon_mine_app_collect",
                            @"icon_mine_app_exchange",
-                           @"icon_mine_app_message"];
+                           @"icon_mine_app_message",
+                           @"icon_mine_app_cash_account"];
     }
     return _appImageArray;
 }
@@ -41,7 +42,8 @@
                            @"拍卖纪录",
                            @"作品收藏",
                            @"兑换NFT",
-                           @"消息"];
+                           @"消息",
+                           @"现金账户"];
     }
     return _appTitleArray;
 }
@@ -55,7 +57,7 @@
 }
 
 - (void)createSubViews {
-    NSInteger row = self.appImageArray.count / 4;
+    NSInteger row = self.appImageArray.count / 4 + (self.appImageArray.count % 4 == 0 ? 0 : 1);
     CGFloat lineSep = 0.0f;
     CGFloat itemWidth = (kScreenWidth - 15.0f * 2) / 4.0f;
     CGFloat itemHeight = (self.frameHeight - (row - 1) *lineSep) / row;
