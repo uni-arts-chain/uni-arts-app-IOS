@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIButton *importBtn;
 
-@property (nonatomic, assign) JLMultiChainWalletSymbol symbol;
+@property (nonatomic, assign) JLMultiChainSymbol symbol;
 @property (nonatomic, copy) NSArray *walletInfoArray;
 
 @end
@@ -68,7 +68,7 @@
     if (!cell) {
         cell = [[JLMultiChainWalletCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(JLMultiChainWalletCell.class)];
     }
-    if (_symbol == JLMultiChainWalletSymbolETH) {
+    if (_symbol == JLMultiChainSymbolETH) {
         JLEthereumWalletInfo *walletInfo = self.walletInfoArray[indexPath.row];
         [cell setWalletName:walletInfo.name == nil ? @"钱包" : walletInfo.name address:walletInfo.address];
     }
@@ -110,7 +110,7 @@
 }
 
 #pragma mark - public methods
-- (void)setMultiWalletSymbol: (JLMultiChainWalletSymbol)symbol walletInfoArray: (NSArray *)walletInfoArray {
+- (void)setMultiWalletSymbol: (JLMultiChainSymbol)symbol walletInfoArray: (NSArray *)walletInfoArray {
     _symbol = symbol;
     _walletInfoArray = walletInfoArray;
     

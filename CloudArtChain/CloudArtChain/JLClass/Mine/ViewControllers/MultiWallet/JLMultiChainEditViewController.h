@@ -1,8 +1,8 @@
 //
-//  JLMultiChainWalletInfoViewController.h
+//  JLMultiChainEditViewController.h
 //  CloudArtChain
 //
-//  Created by jielian on 2021/9/18.
+//  Created by jielian on 2021/9/22.
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JLMultiChainWalletInfoViewController : JLBaseViewController
+@interface JLMultiChainEditViewController : JLBaseViewController
 
 @property (nonatomic, strong) JLMultiWalletInfo *walletInfo;
 

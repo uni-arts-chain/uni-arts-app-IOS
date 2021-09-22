@@ -76,7 +76,7 @@
     }];
 }
 
-- (void)setSymbol: (JLMultiChainWalletSymbol)symbol name: (JLMultiChainWalletName)name imageNamed: (NSString *)imageNamed {
+- (void)setSymbol: (JLMultiChainSymbol)symbol name: (JLMultiChainName)name imageNamed: (NSString *)imageNamed {
     _titleLabel.text = symbol;
     _descLabel.text = name;
     _imgView.image = [UIImage imageNamed:imageNamed];

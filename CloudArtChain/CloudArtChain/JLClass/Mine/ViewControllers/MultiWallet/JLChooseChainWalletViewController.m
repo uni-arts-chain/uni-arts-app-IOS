@@ -29,13 +29,15 @@
 }
 
 #pragma mark - JLChooseChainWalletContentViewDelegate
-- (void)didSelect: (JLMultiChainWalletSymbol)symbol {
-    if (symbol == JLMultiChainWalletSymbolUART) {
+- (void)chooseChainSymbol: (JLMultiChainSymbol)symbol chainName: (JLMultiChainName)chainName imageNamed: (NSString *)imageNamed {
+    if (symbol == JLMultiChainSymbolUART) {
         NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
         [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
     }else {
         JLMultiChainWalletViewController *vc = [[JLMultiChainWalletViewController alloc] init];
-        vc.symbol = symbol;
+        vc.chainSymbol = symbol;
+        vc.chainName = chainName;
+        vc.imageNamed = imageNamed;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

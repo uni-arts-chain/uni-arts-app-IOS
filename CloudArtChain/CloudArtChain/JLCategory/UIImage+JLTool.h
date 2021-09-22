@@ -65,4 +65,6 @@
 
 /// 根据url获取视频第几帧
 + (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
+
+- (UIImage *)jl_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
 @end

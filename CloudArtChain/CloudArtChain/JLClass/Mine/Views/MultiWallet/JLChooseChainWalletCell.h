@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLChooseChainWalletCell : UITableViewCell
 
-- (void)setSymbol: (JLMultiChainWalletSymbol)symbol name: (JLMultiChainWalletName)name imageNamed: (NSString *)imageNamed;
+- (void)setSymbol: (JLMultiChainSymbol)symbol name: (JLMultiChainName)name imageNamed: (NSString *)imageNamed;
 
 @end
 

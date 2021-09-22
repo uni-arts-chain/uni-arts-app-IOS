@@ -12,13 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMultiWalletInfo : NSObject
 
-@property (nonatomic, assign) JLMultiChainWalletSymbol symbol;
+@property (nonatomic, assign) JLMultiChainSymbol chainSymbol;
+
+@property (nonatomic, assign) JLMultiChainName chainName;
+
+@property (nonatomic, copy) NSString *chainImageNamed;
 
 @property (nonatomic, copy) NSString *address;
 
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *walletName;
 
 @property (nonatomic, copy) NSString *userAvatar;
+
+@property (nonatomic, copy) NSString *storeKey;
 
 @end
 

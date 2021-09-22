@@ -80,14 +80,14 @@ static JLEthereumType const JLEthereumTypeAddress = @"address";
 
 #pragma mark - 多链钱包
 #pragma mark 多链钱包类型名称
-typedef NSString *JLMultiChainWalletName NS_STRING_ENUM;
-static JLMultiChainWalletName const JLMultiChainWalletNameUniArts = @"UniArts";
-static JLMultiChainWalletName const JLMultiChainWalletNameEthereum = @"Ethereum";
-static JLMultiChainWalletName const JLMultiChainWalletNameBitCoin = @"BitCoin";
+typedef NSString *JLMultiChainName NS_STRING_ENUM;
+static JLMultiChainName const JLMultiChainNameUniArts = @"UniArts";
+static JLMultiChainName const JLMultiChainNameEthereum = @"Ethereum";
+static JLMultiChainName const JLMultiChainNameBitCoin = @"BitCoin";
 #pragma mark 多链钱包类型符号
-typedef NSString *JLMultiChainWalletSymbol NS_STRING_ENUM;
-static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolUART = @"UART";
-static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolETH = @"ETH";
-static JLMultiChainWalletSymbol const JLMultiChainWalletSymbolBTC = @"BTC";
+typedef NSString *JLMultiChainSymbol NS_STRING_ENUM;
+static JLMultiChainSymbol const JLMultiChainSymbolUART = @"UART";
+static JLMultiChainSymbol const JLMultiChainSymbolETH = @"ETH";
+static JLMultiChainSymbol const JLMultiChainSymbolBTC = @"BTC";
 
 #endif /* JLEnum_h */

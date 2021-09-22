@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol JLChooseChainWalletContentViewDelegate <NSObject>
 
-- (void)didSelect: (JLMultiChainWalletSymbol)symbol;
+- (void)chooseChainSymbol: (JLMultiChainSymbol)symbol chainName: (JLMultiChainName)chainName imageNamed: (NSString *)imageNamed;
 
 @end
 

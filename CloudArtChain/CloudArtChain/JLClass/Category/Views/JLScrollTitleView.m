@@ -22,6 +22,8 @@
 
 @property (nonatomic, strong) UIButton *currentSelectBtn;
 
+@property (nonatomic, strong) UIView *bottomLineView;
+
 @property (nonatomic, strong) MASConstraint *lineCenterXConstraint;
 
 @property (nonatomic, strong) MASConstraint *lineSizeConstraint;
@@ -61,6 +63,15 @@
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.scrollView);
         make.height.equalTo(self.scrollView);
+    }];
+    
+    _bottomLineView = [[UIView alloc] init];
+    _bottomLineView.backgroundColor = JL_color_gray_DDDDDD;
+    _bottomLineView.hidden = YES;
+    [_scrollView addSubview:_bottomLineView];
+    [_bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.scrollView);
+        make.height.mas_equalTo(@1);
     }];
     
     _lineView = [[UIView alloc] init];
@@ -211,6 +222,11 @@
 }
 
 #pragma mark - setters and getters
+- (void)setIsShowBottomLine:(BOOL)isShowBottomLine {
+    _isShowBottomLine = isShowBottomLine;
+    
+    _bottomLineView.hidden = !_isShowBottomLine;
+}
 - (void)setTitleArray:(NSArray *)titleArray {
     _titleArray = titleArray;
     _itemSize = CGSizeMake(self.frameWidth / (_titleArray.count > _screenMax ? _screenMax : _titleArray.count), self.frameHeight);

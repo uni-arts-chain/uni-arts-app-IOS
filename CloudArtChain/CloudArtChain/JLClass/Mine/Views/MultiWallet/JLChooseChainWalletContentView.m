@@ -79,24 +79,24 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (_delegate && [_delegate respondsToSelector:@selector(didSelect:)]) {
-        [_delegate didSelect:self.symbolArray[indexPath.row]];
+    if (_delegate && [_delegate respondsToSelector:@selector(chooseChainSymbol:chainName:imageNamed:)]) {
+        [_delegate chooseChainSymbol:self.symbolArray[indexPath.row] chainName:self.nameArray[indexPath.row] imageNamed:self.imageNamedArray[indexPath.row]];
     }
 }
 
 #pragma mark - setters and getters
 - (NSArray *)symbolArray {
     if (!_symbolArray) {
-        _symbolArray = @[JLMultiChainWalletSymbolUART,
-                         JLMultiChainWalletSymbolETH];
+        _symbolArray = @[JLMultiChainSymbolUART,
+                         JLMultiChainSymbolETH];
     }
     return _symbolArray;
 }
 
 - (NSArray *)nameArray {
     if (!_nameArray) {
-        _nameArray = @[JLMultiChainWalletNameUniArts,
-                       JLMultiChainWalletNameEthereum];
+        _nameArray = @[JLMultiChainNameUniArts,
+                       JLMultiChainNameEthereum];
     }
     return _nameArray;
 }

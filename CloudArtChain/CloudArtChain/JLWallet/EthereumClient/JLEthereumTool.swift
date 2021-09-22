@@ -117,8 +117,8 @@ extension JLEthereumTool {
     func getCurrentWalletBalance(completion: @escaping (_ balanceString: String?, _ errorMsg: String?) -> Void) {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return }
         guard let ethAddress = walletInfo.address as? EthereumAddress else { return }
-        // 0xa5760BB0777647cb1C69E75A64234F6103778D05
-        EthWalletRPCService(server: .main, addressUpdate: nil).getBalance().done { balance in
+        // EthereumAddress(string: "0xa5760BB0777647cb1C69E75A64234F6103778D05")
+        EthWalletRPCService(server: .main, addressUpdate: ethAddress).getBalance().done { balance in
             completion(balance.amountShort, .none)
         }.catch { error in
             completion(.none, error.prettyError)

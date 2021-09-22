@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<JLMultiChainWalletContentViewDelegate> delegate;
 
-- (void)setMultiWalletSymbol: (JLMultiChainWalletSymbol)symbol walletInfoArray: (NSArray *)walletInfoArray;
+- (void)setMultiWalletSymbol: (JLMultiChainSymbol)symbol walletInfoArray: (NSArray *)walletInfoArray;
 
 @end
 

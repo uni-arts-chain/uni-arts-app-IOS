@@ -24,7 +24,7 @@
 #pragma mark - life cycles
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = _symbol;
+    self.navigationItem.title = _chainSymbol;
     [self addBackItem];
     
     [self.view addSubview:self.contentView];
@@ -40,12 +40,15 @@
 - (void)lookWalletWithIndex: (NSInteger)index {
     JLMultiWalletInfo *info = [[JLMultiWalletInfo alloc] init];
     info.userAvatar = [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
-    if (_symbol == JLMultiChainWalletSymbolETH) {
+    if (_chainSymbol == JLMultiChainSymbolETH) {
         JLEthereumWalletInfo *walletInfo = self.walletInfoArray[index];
         // 包装信息
-        info.symbol = _symbol;
+        info.chainSymbol = _chainSymbol;
+        info.chainName = _chainName;
+        info.chainImageNamed = _imageNamed;
         info.address = walletInfo.address;
-        info.name = walletInfo.name;
+        info.walletName = walletInfo.name;
+        info.storeKey = walletInfo.storeKey;
     }
     JLMultiChainWalletInfoViewController *vc = [[JLMultiChainWalletInfoViewController alloc] init];
     vc.walletInfo = info;
@@ -66,7 +69,7 @@
 - (void)prepareSource {
     [self.walletInfoArray removeAllObjects];
     // 链类型
-    if (_symbol == JLMultiChainWalletSymbolETH) {
+    if (_chainSymbol == JLMultiChainSymbolETH) {
         JLEthereumWalletInfo *walletInfo = [JLEthereumTool.shared currentWalletInfo];
         if (walletInfo) {
             NSArray *arr = [[NSUserDefaults standardUserDefaults] arrayForKey:USERDEFAULTS_JL_MULTI_WALLET_NAME];
@@ -80,7 +83,7 @@
             [self.walletInfoArray addObject:walletInfo];
         }
     }
-    [self.contentView setMultiWalletSymbol:_symbol walletInfoArray:[self.walletInfoArray copy]];
+    [self.contentView setMultiWalletSymbol:_chainSymbol walletInfoArray:[self.walletInfoArray copy]];
 }
 
 #pragma mark - setters and getters

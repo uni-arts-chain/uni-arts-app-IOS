@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<JLScrollTitleViewDelegate> delegate;
 
+/// 是否显示底部线 默认不显示
+@property (nonatomic, assign) BOOL isShowBottomLine;
+
 /// 标题
 @property (nonatomic, copy) NSArray *titleArray;
 

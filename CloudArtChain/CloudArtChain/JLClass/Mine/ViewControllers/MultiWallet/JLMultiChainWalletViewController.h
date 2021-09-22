@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLMultiChainWalletViewController : JLBaseViewController
 
-@property (nonatomic, assign) JLMultiChainWalletSymbol symbol;
+@property (nonatomic, assign) JLMultiChainSymbol chainSymbol;
+@property (nonatomic, assign) JLMultiChainName chainName;
+@property (nonatomic, copy) NSString *imageNamed;
 
 @end
 
