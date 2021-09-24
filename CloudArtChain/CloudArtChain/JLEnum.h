@@ -89,5 +89,10 @@ typedef NSString *JLMultiChainSymbol NS_STRING_ENUM;
 static JLMultiChainSymbol const JLMultiChainSymbolUART = @"UART";
 static JLMultiChainSymbol const JLMultiChainSymbolETH = @"ETH";
 static JLMultiChainSymbol const JLMultiChainSymbolBTC = @"BTC";
+#pragma mark 多链钱包导入类型
+typedef NSString *JLMultiChainImportType NS_STRING_ENUM;
+static JLMultiChainImportType const JLMultiChainImportTypeMnemonic = @"mnemonic";
+static JLMultiChainImportType const JLMultiChainImportTypePrivateKey = @"privateKey";
+static JLMultiChainImportType const JLMultiChainImportTypeKeystore = @"keystore";
 
 #endif /* JLEnum_h */

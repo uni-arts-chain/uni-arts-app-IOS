@@ -217,7 +217,7 @@ extension JLEthereumTool {
         keystore.exportPrivateKey(account: walletInfo.accounts[0]) { privateKeyResult in
             switch privateKeyResult {
             case .success(let privateKey):
-                completion(privateKey, .none)
+                completion(privateKey.hasPrefix("0x") ? privateKey : "0x\(privateKey)", .none)
             case .failure(let error):
                 completion(.none, error.errorDescription)
             }

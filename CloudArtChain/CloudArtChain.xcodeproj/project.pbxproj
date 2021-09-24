@@ -40,7 +40,20 @@
 		5E6EAC8F26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC8E26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m */; };
 		5E6EAC9226FB0F3400DEE213 /* JLMultiChainWalletInfoListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9126FB0F3400DEE213 /* JLMultiChainWalletInfoListContentView.m */; };
 		5E6EAC9526FB11A200DEE213 /* JLMultiChainWalletInfoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9426FB11A200DEE213 /* JLMultiChainWalletInfoListCell.m */; };
-		5E6EAC9826FB22D300DEE213 /* JLMultiChainEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9726FB22D200DEE213 /* JLMultiChainEditViewController.m */; };
+		5E6EAC9826FB22D300DEE213 /* JLMultiChainWalletEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9726FB22D200DEE213 /* JLMultiChainWalletEditViewController.m */; };
+		5E6EAC9B26FC141400DEE213 /* JLMultiChainWalletEditContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9A26FC141400DEE213 /* JLMultiChainWalletEditContentView.m */; };
+		5E6EAC9E26FC158500DEE213 /* JLMultiChainWalletEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EAC9D26FC158500DEE213 /* JLMultiChainWalletEditCell.m */; };
+		5E6EACA126FC216100DEE213 /* JLBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACA026FC216100DEE213 /* JLBaseTableView.m */; };
+		5E6EACA426FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACA326FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m */; };
+		5E6EACA726FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACA626FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m */; };
+		5E6EACAA26FC70C600DEE213 /* JLMultiChainWalletImportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACA926FC70C600DEE213 /* JLMultiChainWalletImportViewController.m */; };
+		5E6EACAD26FC740600DEE213 /* JLMultiChainWalletImportContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACAC26FC740600DEE213 /* JLMultiChainWalletImportContentView.m */; };
+		5E6EACB026FC771800DEE213 /* JLMultiChainWalletImportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACAF26FC771800DEE213 /* JLMultiChainWalletImportCell.m */; };
+		5E6EACB326FC774400DEE213 /* JLMultiChainWalletImportFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB226FC774400DEE213 /* JLMultiChainWalletImportFooterView.m */; };
+		5E6EACB626FC813900DEE213 /* JLBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB526FC813900DEE213 /* JLBaseTextView.m */; };
+		5E6EACB926FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB826FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m */; };
+		5E6EACBC26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */; };
+		5E6EACBF26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */; };
 		5E70E21026CA0742003ACC8B /* JLAuctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */; };
 		5E70E21426CA16DD003ACC8B /* JLAuctionListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21326CA16DD003ACC8B /* JLAuctionListContentView.m */; };
 		5E70E21726CA1709003ACC8B /* JLAuctionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21626CA1709003ACC8B /* JLAuctionListCell.m */; };
@@ -1414,8 +1427,34 @@
 		5E6EAC9126FB0F3400DEE213 /* JLMultiChainWalletInfoListContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletInfoListContentView.m; sourceTree = "<group>"; };
 		5E6EAC9326FB11A200DEE213 /* JLMultiChainWalletInfoListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletInfoListCell.h; sourceTree = "<group>"; };
 		5E6EAC9426FB11A200DEE213 /* JLMultiChainWalletInfoListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletInfoListCell.m; sourceTree = "<group>"; };
-		5E6EAC9626FB22D200DEE213 /* JLMultiChainEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainEditViewController.h; sourceTree = "<group>"; };
-		5E6EAC9726FB22D200DEE213 /* JLMultiChainEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainEditViewController.m; sourceTree = "<group>"; };
+		5E6EAC9626FB22D200DEE213 /* JLMultiChainWalletEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletEditViewController.h; sourceTree = "<group>"; };
+		5E6EAC9726FB22D200DEE213 /* JLMultiChainWalletEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletEditViewController.m; sourceTree = "<group>"; };
+		5E6EAC9926FC141400DEE213 /* JLMultiChainWalletEditContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletEditContentView.h; sourceTree = "<group>"; };
+		5E6EAC9A26FC141400DEE213 /* JLMultiChainWalletEditContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletEditContentView.m; sourceTree = "<group>"; };
+		5E6EAC9C26FC158500DEE213 /* JLMultiChainWalletEditCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletEditCell.h; sourceTree = "<group>"; };
+		5E6EAC9D26FC158500DEE213 /* JLMultiChainWalletEditCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletEditCell.m; sourceTree = "<group>"; };
+		5E6EAC9F26FC216100DEE213 /* JLBaseTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBaseTableView.h; sourceTree = "<group>"; };
+		5E6EACA026FC216100DEE213 /* JLBaseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBaseTableView.m; sourceTree = "<group>"; };
+		5E6EACA226FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletBackupMnemonicViewController.h; sourceTree = "<group>"; };
+		5E6EACA326FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletBackupMnemonicViewController.m; sourceTree = "<group>"; };
+		5E6EACA526FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletBackupMnemonicContentView.h; sourceTree = "<group>"; };
+		5E6EACA626FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletBackupMnemonicContentView.m; sourceTree = "<group>"; };
+		5E6EACA826FC70C600DEE213 /* JLMultiChainWalletImportViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportViewController.h; sourceTree = "<group>"; };
+		5E6EACA926FC70C600DEE213 /* JLMultiChainWalletImportViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportViewController.m; sourceTree = "<group>"; };
+		5E6EACAB26FC740600DEE213 /* JLMultiChainWalletImportContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportContentView.h; sourceTree = "<group>"; };
+		5E6EACAC26FC740600DEE213 /* JLMultiChainWalletImportContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportContentView.m; sourceTree = "<group>"; };
+		5E6EACAE26FC771800DEE213 /* JLMultiChainWalletImportCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportCell.h; sourceTree = "<group>"; };
+		5E6EACAF26FC771800DEE213 /* JLMultiChainWalletImportCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportCell.m; sourceTree = "<group>"; };
+		5E6EACB126FC774400DEE213 /* JLMultiChainWalletImportFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportFooterView.h; sourceTree = "<group>"; };
+		5E6EACB226FC774400DEE213 /* JLMultiChainWalletImportFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportFooterView.m; sourceTree = "<group>"; };
+		5E6EACB426FC813900DEE213 /* JLBaseTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBaseTextView.h; sourceTree = "<group>"; };
+		5E6EACB526FC813900DEE213 /* JLBaseTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBaseTextView.m; sourceTree = "<group>"; };
+		5E6EACB726FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportChooseTypeView.h; sourceTree = "<group>"; };
+		5E6EACB826FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportChooseTypeView.m; sourceTree = "<group>"; };
+		5E6EACBA26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletVerifyMnemonicViewController.h; sourceTree = "<group>"; };
+		5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletVerifyMnemonicViewController.m; sourceTree = "<group>"; };
+		5E6EACBD26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletVerifyMnemonicContentView.h; sourceTree = "<group>"; };
+		5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletVerifyMnemonicContentView.m; sourceTree = "<group>"; };
 		5E70E20B26CA071C003ACC8B /* JLAuctionHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionHistoryViewController.h; sourceTree = "<group>"; };
 		5E70E20E26CA0742003ACC8B /* JLAuctionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionListViewController.h; sourceTree = "<group>"; };
 		5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionListViewController.m; sourceTree = "<group>"; };
@@ -3606,8 +3645,14 @@
 				5ECA150726F5DEF0009614DB /* JLMultiChainWalletInfoViewController.m */,
 				5E6EAC8D26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.h */,
 				5E6EAC8E26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m */,
-				5E6EAC9626FB22D200DEE213 /* JLMultiChainEditViewController.h */,
-				5E6EAC9726FB22D200DEE213 /* JLMultiChainEditViewController.m */,
+				5E6EAC9626FB22D200DEE213 /* JLMultiChainWalletEditViewController.h */,
+				5E6EAC9726FB22D200DEE213 /* JLMultiChainWalletEditViewController.m */,
+				5E6EACA226FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.h */,
+				5E6EACA326FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m */,
+				5E6EACBA26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.h */,
+				5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */,
+				5E6EACA826FC70C600DEE213 /* JLMultiChainWalletImportViewController.h */,
+				5E6EACA926FC70C600DEE213 /* JLMultiChainWalletImportViewController.m */,
 			);
 			path = MultiWallet;
 			sourceTree = "<group>";
@@ -3629,6 +3674,22 @@
 				5E6EAC9126FB0F3400DEE213 /* JLMultiChainWalletInfoListContentView.m */,
 				5E6EAC9326FB11A200DEE213 /* JLMultiChainWalletInfoListCell.h */,
 				5E6EAC9426FB11A200DEE213 /* JLMultiChainWalletInfoListCell.m */,
+				5E6EAC9926FC141400DEE213 /* JLMultiChainWalletEditContentView.h */,
+				5E6EAC9A26FC141400DEE213 /* JLMultiChainWalletEditContentView.m */,
+				5E6EAC9C26FC158500DEE213 /* JLMultiChainWalletEditCell.h */,
+				5E6EAC9D26FC158500DEE213 /* JLMultiChainWalletEditCell.m */,
+				5E6EACA526FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.h */,
+				5E6EACA626FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m */,
+				5E6EACBD26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.h */,
+				5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */,
+				5E6EACAB26FC740600DEE213 /* JLMultiChainWalletImportContentView.h */,
+				5E6EACAC26FC740600DEE213 /* JLMultiChainWalletImportContentView.m */,
+				5E6EACAE26FC771800DEE213 /* JLMultiChainWalletImportCell.h */,
+				5E6EACAF26FC771800DEE213 /* JLMultiChainWalletImportCell.m */,
+				5E6EACB126FC774400DEE213 /* JLMultiChainWalletImportFooterView.h */,
+				5E6EACB226FC774400DEE213 /* JLMultiChainWalletImportFooterView.m */,
+				5E6EACB726FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.h */,
+				5E6EACB826FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m */,
 			);
 			path = MultiWallet;
 			sourceTree = "<group>";
@@ -6742,6 +6803,10 @@
 				B396552A24F38D07007A8EC2 /* JLTabbarController.m */,
 				B396552E24F38D18007A8EC2 /* JLBaseTextField.h */,
 				B396552D24F38D17007A8EC2 /* JLBaseTextField.m */,
+				5E6EACB426FC813900DEE213 /* JLBaseTextView.h */,
+				5E6EACB526FC813900DEE213 /* JLBaseTextView.m */,
+				5E6EAC9F26FC216100DEE213 /* JLBaseTableView.h */,
+				5E6EACA026FC216100DEE213 /* JLBaseTableView.m */,
 				B396553124F38D24007A8EC2 /* JLBaseWebViewController.h */,
 				B396553024F38D24007A8EC2 /* JLBaseWebViewController.m */,
 				B39F8CC426453B5B008AF37F /* JLWechatPayWebViewController.h */,
@@ -7867,6 +7932,7 @@
 				B312257225B6B60A00562ECA /* SelectionListViewController.swift in Sources */,
 				B312253025B6B60A00562ECA /* EmptyAccountIcon.swift in Sources */,
 				5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */,
+				5E6EACBF26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m in Sources */,
 				B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */,
 				5EFA60DD26F2E76F00899224 /* EthLocalizedOperationObject.swift in Sources */,
 				B31225CF25B6B60A00562ECA /* UsernameSetupWireframe.swift in Sources */,
@@ -7907,8 +7973,10 @@
 				B39BEAC725134F3A00DE69A6 /* JLWorkListListedCell.m in Sources */,
 				5E9C485226E60D6D008803B6 /* EtherKeystore.swift in Sources */,
 				B3753DC42554F598003A86CF /* SLAvWriterInput.m in Sources */,
+				5E6EAC9B26FC141400DEE213 /* JLMultiChainWalletEditContentView.m in Sources */,
 				B38FD54925CBA22D0028797E /* JLFocusViewController.m in Sources */,
 				5E6EAC8F26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m in Sources */,
+				5E6EACBC26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m in Sources */,
 				B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */,
 				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
@@ -7921,6 +7989,7 @@
 				B3CDC57125E743FC00CB84CE /* JLLoginAndRegisterModel.m in Sources */,
 				5EE52A82269E7AA100EFF8C9 /* JLSegmentViewController.m in Sources */,
 				B38D7CC225E0F75F00E9978E /* JLSelectControl.swift in Sources */,
+				5E6EACB926FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m in Sources */,
 				B391CC85262D75C000FF48B0 /* aeskey.m in Sources */,
 				B39655E324F38DBA007A8EC2 /* MBProgressHUD.m in Sources */,
 				B366C7F025524D29007F9583 /* HAVPlayer.m in Sources */,
@@ -7960,7 +8029,7 @@
 				B391CC91262D75C000FF48B0 /* zip.m in Sources */,
 				5E9B757B26A69E46002A2364 /* JLAuctionDepositPayView.m in Sources */,
 				B31224D625B6B60900562ECA /* CDContactItem+CoreDataDecodable.swift in Sources */,
-				5E6EAC9826FB22D300DEE213 /* JLMultiChainEditViewController.m in Sources */,
+				5E6EAC9826FB22D300DEE213 /* JLMultiChainWalletEditViewController.m in Sources */,
 				B31226B625B6B60B00562ECA /* AccountExportPasswordError.swift in Sources */,
 				B31225B925B6B60A00562ECA /* LanguageSelectionPresenter.swift in Sources */,
 				B312256C25B6B60A00562ECA /* FearlessNavigationBar.swift in Sources */,
@@ -8144,6 +8213,7 @@
 				5EFA618726F34D3800899224 /* EthSubscribable.swift in Sources */,
 				B35EBA1324FF678600F5BF84 /* ScanBarInfo.m in Sources */,
 				B3983F8D25DE445A0068084D /* JLActionOfferView.m in Sources */,
+				5E6EACA126FC216100DEE213 /* JLBaseTableView.m in Sources */,
 				B31224E625B6B60900562ECA /* SNAddressType+Chain.swift in Sources */,
 				B312259425B6B60A00562ECA /* WebSocketService.swift in Sources */,
 				B391CC93262D75C000FF48B0 /* mztools.m in Sources */,
@@ -8235,6 +8305,7 @@
 				B312264A25B6B60A00562ECA /* WalletCommonStyleConfigurator.swift in Sources */,
 				B31225CE25B6B60A00562ECA /* AddConnectionViewController.swift in Sources */,
 				B312255125B6B60A00562ECA /* BorderedSubtitleActionView.swift in Sources */,
+				5E6EACB326FC774400DEE213 /* JLMultiChainWalletImportFooterView.m in Sources */,
 				B396560E24F38DF4007A8EC2 /* NSDecimalNumber+tools.m in Sources */,
 				B3AA62C425E49B3E00D28627 /* UIView+ST.m in Sources */,
 				B31225CB25B6B60A00562ECA /* AddConnectionProtocols.swift in Sources */,
@@ -8294,6 +8365,7 @@
 				B31225F425B6B60A00562ECA /* AboutHeaderView.swift in Sources */,
 				B31226B225B6B60B00562ECA /* AccountExportPasswordInteractor.swift in Sources */,
 				B396566424F3AFD4007A8EC2 /* JLDownloadLoading.m in Sources */,
+				5E6EACAD26FC740600DEE213 /* JLMultiChainWalletImportContentView.m in Sources */,
 				B312263B25B6B60A00562ECA /* TransferConfigurator.swift in Sources */,
 				5C573125265819AB008D341A /* UINavigationController+MemoryLeak.m in Sources */,
 				B312258E25B6B60A00562ECA /* ByteLengthProcessor.swift in Sources */,
@@ -8313,6 +8385,7 @@
 				B37FFB6E24F519AB004B9CC8 /* JLCreatorTableViewCell.m in Sources */,
 				5EFA617526F3407A00899224 /* EthBrowserURLParser.swift in Sources */,
 				5EE52A85269E7B2700EFF8C9 /* JLScrollView.m in Sources */,
+				5E6EACA426FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m in Sources */,
 				B3648C5F251858D900BBDB57 /* JLAuctionView.m in Sources */,
 				B312257425B6B60A00562ECA /* SelectionTitleTableViewCell.swift in Sources */,
 				B3753D962554F524003A86CF /* SLEditTextView.m in Sources */,
@@ -8373,6 +8446,8 @@
 				B31224BA25B6B60900562ECA /* CompoundOperationWrapper+Result.swift in Sources */,
 				5EFA60E126F2E85B00899224 /* EthERC20Contract.swift in Sources */,
 				B312253425B6B60A00562ECA /* SupportData.swift in Sources */,
+				5E6EACB626FC813900DEE213 /* JLBaseTextView.m in Sources */,
+				5E6EACA726FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m in Sources */,
 				B396561724F38DF4007A8EC2 /* NSString+JLTool.m in Sources */,
 				B37FFB6524F4FB49004B9CC8 /* UICollectionWaterLayout.m in Sources */,
 				B312266D25B6B60A00562ECA /* TransactionHistoryConfigurator.swift in Sources */,
@@ -8422,6 +8497,7 @@
 				B312268425B6B60A00562ECA /* WalletFearlessDefinition.swift in Sources */,
 				B31226BA25B6B60B00562ECA /* ExportMnemonicConfirmViewFactory.swift in Sources */,
 				B391CB99262D2AD700FF48B0 /* CubismIdManager.cpp in Sources */,
+				5E6EAC9E26FC158500DEE213 /* JLMultiChainWalletEditCell.m in Sources */,
 				B31225DB25B6B60A00562ECA /* AccountCreatePresenter.swift in Sources */,
 				B312252E25B6B60A00562ECA /* PrimitiveContextWrapper.swift in Sources */,
 				B312263325B6B60A00562ECA /* ContactViewModel.swift in Sources */,
@@ -8515,6 +8591,7 @@
 				B359364125121A2900E2B2FD /* JLForgetPwdViewController.m in Sources */,
 				5EFA60B326F1D14800899224 /* EthBalance.swift in Sources */,
 				B312265325B6B60A00562ECA /* TransferConfirmBinder.swift in Sources */,
+				5E6EACB026FC771800DEE213 /* JLMultiChainWalletImportCell.m in Sources */,
 				B309B1D52655095600CE9FDF /* JLUploadPersentInputView.m in Sources */,
 				B31224EE25B6B60900562ECA /* ErrorContent+Wallet.swift in Sources */,
 				B312253B25B6B60A00562ECA /* AccountItem.swift in Sources */,
@@ -8731,6 +8808,7 @@
 				5E9C485426E60D6D008803B6 /* EthConstants.swift in Sources */,
 				B37FFB5824F4BBFC004B9CC8 /* JLThemeRecommendView.m in Sources */,
 				B312265B25B6B60A00562ECA /* WalletActionsViewModel.swift in Sources */,
+				5E6EACAA26FC70C600DEE213 /* JLMultiChainWalletImportViewController.m in Sources */,
 				B31226A525B6B60B00562ECA /* AccountConfirmInteractor.swift in Sources */,
 				B391CC92262D75C000FF48B0 /* ioapi.m in Sources */,
 				B31225D425B6B60A00562ECA /* UsernameSetupPresenter.swift in Sources */,

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JLExportKeystoreViewController : JLBaseViewController
-@property (nonatomic, copy) NSString *keystorePwd;
+@property (nonatomic, copy) NSString *keystore;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -67,10 +67,6 @@
         make.top.equalTo(self.noticeLabel.mas_bottom).offset(20.0f);
         make.height.mas_equalTo(40.0f);
     }];
-    
-    [[JLViewControllerTool appDelegate].walletTool fetchExportDataForAddressWithAddress:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address seedBlock:^(NSString *seed) {
-        weakSelf.privateKeyLabel.text = seed;
-    }];
 }
 
 - (UILabel *)titleLabel {
@@ -138,5 +134,11 @@
 
 - (void)closeBtnClick {
     [LEEAlert closeWithCompletionBlock:nil];
+}
+
+- (void)setPrivateKey:(NSString *)privateKey {
+    _privateKey = privateKey;
+    
+    self.privateKeyLabel.text = _privateKey;
 }
 @end

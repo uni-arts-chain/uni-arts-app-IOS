@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLPrivateKeyExportView : JLBaseView
 
+@property (nonatomic, copy) NSString *privateKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

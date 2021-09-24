@@ -63,6 +63,9 @@
 /** 图片压缩 */
 + (NSData*)compressOriginalImage:(UIImage *)image;
 
+/* 生成二维码 */
++ (UIImage *)imageOfQRFromURL: (NSString *)networkAddress codeSize: (CGFloat)codeSize;
+
 /// 根据url获取视频第几帧
 + (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time;
 

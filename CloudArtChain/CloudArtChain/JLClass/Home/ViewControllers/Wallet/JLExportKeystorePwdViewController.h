@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLExportKeystorePwdViewController : JLBaseViewController
 
+@property (nonatomic, strong) JLMultiWalletInfo *walletInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END

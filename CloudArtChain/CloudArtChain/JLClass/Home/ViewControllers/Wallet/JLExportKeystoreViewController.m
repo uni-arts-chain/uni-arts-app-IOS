@@ -7,6 +7,7 @@
 //
 
 #import "JLExportKeystoreViewController.h"
+#import "JLMultiChainWalletEditViewController.h"
 
 #import "JLPageMenuView.h"
 #import "JLExportKeystoreFileView.h"
@@ -41,16 +42,15 @@
         [JLAlert alertCustomView:weakSelf.snapshotView maxWidth:kScreenWidth - 40.0f * 2];
     }];
     
-    [[JLViewControllerTool appDelegate].walletTool fetchExportRestoreDataForAddressWithAddress:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address password:self.keystorePwd restoreBlock:^(NSString *restoreData) {
-        weakSelf.fileView.restoreData = restoreData;
-        weakSelf.qrCodeView.restoreData = restoreData;
-    }];
+    self.fileView.restoreData = _keystore;
+    self.qrCodeView.restoreData = _keystore;
 }
 
 - (void)backClick {
     UIViewController *editWalletVC;
     for (UIViewController *tempVC in self.navigationController.viewControllers) {
-        if ([tempVC isKindOfClass:[JLEditWalletViewController class]]) {
+        if ([tempVC isKindOfClass:[JLEditWalletViewController class]] ||
+            [tempVC isKindOfClass:[JLMultiChainWalletEditViewController class]]) {
             editWalletVC = tempVC;
             break;
         }

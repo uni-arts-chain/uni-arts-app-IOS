@@ -1,5 +1,5 @@
 //
-//  JLMultiChainEditViewController.h
+//  JLMultiChainWalletEditViewController.h
 //  CloudArtChain
 //
 //  Created by jielian on 2021/9/22.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JLMultiChainEditViewController : JLBaseViewController
+@interface JLMultiChainWalletEditViewController : JLBaseViewController
 
 @property (nonatomic, strong) JLMultiWalletInfo *walletInfo;
 

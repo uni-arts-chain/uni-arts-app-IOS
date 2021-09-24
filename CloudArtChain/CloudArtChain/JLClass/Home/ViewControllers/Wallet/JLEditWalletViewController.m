@@ -215,7 +215,13 @@
         [[JLViewControllerTool appDelegate].walletTool authorizeWithAnimated:YES cancellable:YES with:^(BOOL success) {
             if (success) {
                 if (weakSelf.selectedIndexPath.row == 2) {
-                    [JLAlert alertCustomView:weakSelf.privateKeyExportView maxWidth:kScreenWidth - 40.0f * 2];
+                    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+                    [[JLViewControllerTool appDelegate].walletTool fetchExportDataForAddressWithAddress:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address seedBlock:^(NSString *seed) {
+                        [[JLLoading sharedLoading] hideLoading];
+                        weakSelf.privateKeyExportView.privateKey = seed;
+                        
+                        [JLAlert alertCustomView:weakSelf.privateKeyExportView maxWidth:kScreenWidth - 40.0f * 2];
+                    }];
                 } else {
                     JLExportKeystorePwdViewController *exportKeystorePwdVC = [[JLExportKeystorePwdViewController alloc] init];
                     [weakSelf.navigationController pushViewController:exportKeystorePwdVC animated:YES];

@@ -85,7 +85,9 @@
 #pragma mark 导入MultiWallet钱包
 /// 导入MultiWallet钱包成功通知
 #define LOCALNOTIFICATION_JL_IMPORTMULTIWALLETSUCCESS @"JLocalNotification_JLImportMultiWalletSuccess"
-
+#pragma mark 修改MultiWallet钱包名称
+/// 修改MultiWallet钱包名称
+#define LOCALNOTIFICATION_JL_CHANGEMULTIWALLETNAMESUCCESS @"JLocalNotification_JLChangeMultiWalletNameSuccess"
 
 #pragma mark - userDefaults
 #define USERDEFAULTS_JL_WITHDRAW_PAY_TYPE @"UserDefaultJLWithdrawPayType"

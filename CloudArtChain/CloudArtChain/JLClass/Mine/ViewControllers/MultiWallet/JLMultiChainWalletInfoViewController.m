@@ -11,7 +11,7 @@
 
 #import "JLSegmentViewController.h"
 #import "JLMultiChainWalletInfoListViewController.h"
-#import "JLMultiChainEditViewController.h"
+#import "JLMultiChainWalletEditViewController.h"
 
 @interface JLMultiChainWalletInfoViewController ()<JLSegmentViewControllerDelegate, JLMultiChainWalletInfoHeaderViewDelegate>
 
@@ -44,6 +44,12 @@
     [self.view addSubview:_segmentVC.view];
     
     [self.view addSubview:self.headerView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMultiWalletName:) name:LOCALNOTIFICATION_JL_CHANGEMULTIWALLETNAMESUCCESS object:nil];
+}
+
+- (void)backClick {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - JLSegmentViewControllerDelegate
@@ -64,9 +70,20 @@
 }
 
 - (void)settting {
-    JLMultiChainEditViewController *vc = [[JLMultiChainEditViewController alloc] init];
+    JLMultiChainWalletEditViewController *vc = [[JLMultiChainWalletEditViewController alloc] init];
     vc.walletInfo = _walletInfo;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - Notification
+- (void)changeMultiWalletName: (NSNotification *)noti {
+    NSDictionary *dict = noti.userInfo;
+    NSString *walletName = dict[_walletInfo.storeKey];
+    if (![NSString stringIsEmpty:walletName]) {
+        _walletInfo.walletName = walletName;
+        
+        self.headerView.walletInfo = _walletInfo;
+    }
 }
 
 #pragma mark - setters and getters

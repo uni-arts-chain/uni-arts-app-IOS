@@ -346,6 +346,91 @@ static inline CGFloat DegreesToRadians(CGFloat degrees) {
     return imageData;
 }
 
+/* 生成二维码 */
++ (UIImage *)imageOfQRFromURL: (NSString *)networkAddress codeSize: (CGFloat)codeSize {
+    
+    if (!networkAddress|| (NSNull *)networkAddress == [NSNull null]) { return nil;  }
+    
+    codeSize = [self validateCodeSize: codeSize];
+    
+    CIImage * originImage = [self createQRFromAddress: networkAddress];
+    
+    UIImage * result =[self excludeFuzzyImageFromCIImage: originImage size: codeSize];
+
+    return result;
+}
+/*! 验证二维码尺寸合法性*/
+
++ (CGFloat)validateCodeSize: (CGFloat)codeSize
+
+{
+    
+    codeSize = MAX(160, codeSize);
+    
+    codeSize = MIN(CGRectGetWidth([UIScreen mainScreen].bounds) - 80, codeSize);
+    
+    return codeSize;
+    
+}
+/*! 利用系统滤镜生成二维码图*/
+
++ (CIImage *)createQRFromAddress: (NSString *)networkAddress
+
+{
+    
+    NSData * stringData = [networkAddress dataUsingEncoding: NSUTF8StringEncoding];
+    
+    CIFilter * qrFilter = [CIFilter filterWithName: @"CIQRCodeGenerator"];
+    
+    [qrFilter setValue: stringData forKey: @"inputMessage"];
+    
+    [qrFilter setValue: @"H" forKey: @"inputCorrectionLevel"];
+    
+    return qrFilter.outputImage;
+    
+}
+/*! 对图像进行清晰化处理*/
+
++ (UIImage *)excludeFuzzyImageFromCIImage: (CIImage *)image size: (CGFloat)size
+
+{
+    
+    CGRect extent = CGRectIntegral(image.extent);
+    
+    CGFloat scale = MIN(size / CGRectGetWidth(extent), size / CGRectGetHeight(extent));
+    
+    size_t width = CGRectGetWidth(extent) * scale;
+    
+    size_t height = CGRectGetHeight(extent) * scale;
+    
+    //创建灰度色调空间
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+    
+    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpace, (CGBitmapInfo)kCGImageAlphaNone);
+    
+    CIContext * context = [CIContext contextWithOptions: nil];
+    
+    CGImageRef bitmapImage = [context createCGImage: image fromRect: extent];
+    
+    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
+    
+    CGContextScaleCTM(bitmapRef, scale, scale);
+    
+    CGContextDrawImage(bitmapRef, extent, bitmapImage);
+    
+    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
+    
+    CGContextRelease(bitmapRef);
+    
+    CGImageRelease(bitmapImage);
+    
+    CGColorSpaceRelease(colorSpace);
+    
+    return [UIImage imageWithCGImage: scaledImage];
+    
+}
+
 /// 根据url获取视频第几帧
 + (UIImage *)thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time {
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];

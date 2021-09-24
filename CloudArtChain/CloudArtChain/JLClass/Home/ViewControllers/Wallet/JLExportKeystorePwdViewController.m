@@ -131,6 +131,7 @@
 }
 
 - (void)nextButtonClick {
+    WS(weakSelf)
     [self.view endEditing:YES];
     if ([NSString stringIsEmpty:self.pwdInputView.inputContent]) {
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"请输入Keystore密码" hideTime:KToastDismissDelayTimeInterval];
@@ -148,8 +149,23 @@
         [[JLLoading sharedLoading] showMBFailedTipMessage:@"两次密码输入不一致，请重新输入" hideTime:KToastDismissDelayTimeInterval];
         return;
     }
+    [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+    if (_walletInfo && _walletInfo.chainSymbol == JLMultiChainSymbolETH) {
+        [JLEthereumTool.shared exportKeystoreJsonWithExportedKey:self.pwdInputView.inputContent completion:^(NSString * _Nullable keystore, NSString * _Nullable errorMsg) {
+            [[JLLoading sharedLoading] hideLoading];
+            [weakSelf pushVCWithKeystore:keystore];
+        }];
+    }else {
+        [[JLViewControllerTool appDelegate].walletTool fetchExportRestoreDataForAddressWithAddress:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address password:self.pwdInputView.inputContent restoreBlock:^(NSString *restoreData) {
+            [[JLLoading sharedLoading] hideLoading];
+            [weakSelf pushVCWithKeystore:restoreData];
+        }];
+    }
+}
+
+- (void)pushVCWithKeystore: (NSString *)keystore {
     JLExportKeystoreViewController *exportKeyStoreVC = [[JLExportKeystoreViewController alloc] init];
-    exportKeyStoreVC.keystorePwd = self.pwdInputView.inputContent;
+    exportKeyStoreVC.keystore = keystore;
     [self.navigationController pushViewController:exportKeyStoreVC animated:YES];
 }
 @end

@@ -67,8 +67,8 @@
     }];
     [self.qrCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.secondNoticeLabel.mas_bottom).offset(50.0f);
-        make.width.mas_equalTo(251.0f);
-        make.height.mas_equalTo(242.0f);
+        make.width.mas_equalTo(260.0f);
+        make.height.mas_equalTo(260.0f);
         make.centerX.equalTo(self.mas_centerX);
     }];
     [self.qrCodeCoverView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,7 +120,7 @@
         _qrCodeView.backgroundColor = JL_color_gray_EEEEEE;
         [_qrCodeView addSubview:self.qrCodeImageView];
         [self.qrCodeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(180.0f);
+            make.size.mas_equalTo(250);
             make.center.equalTo(_qrCodeView);
         }];
     }
@@ -175,7 +175,7 @@
 }
 
 - (void)setRestoreData:(NSString *)restoreData {
-    UIImage * img = [SGQRCodeObtain generateQRCodeWithData:restoreData size:180.0f];
+    UIImage * img = [SGQRCodeObtain generateQRCodeWithData:restoreData size:250];
     self.qrCodeImageView.image = img;
 }
 
