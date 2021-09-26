@@ -119,7 +119,7 @@ extension JLEthereumTool {
         guard let ethAddress = walletInfo.address as? EthereumAddress else { return }
         // EthereumAddress(string: "0xa5760BB0777647cb1C69E75A64234F6103778D05")
         EthWalletRPCService(server: .main, addressUpdate: ethAddress).getBalance().done { balance in
-            completion(balance.amountShort, .none)
+            completion(balance.amountShort == "0" ? "0.0" : balance.amountShort, .none)
         }.catch { error in
             completion(.none, error.prettyError)
         }

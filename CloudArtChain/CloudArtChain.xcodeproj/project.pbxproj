@@ -52,8 +52,6 @@
 		5E6EACB326FC774400DEE213 /* JLMultiChainWalletImportFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB226FC774400DEE213 /* JLMultiChainWalletImportFooterView.m */; };
 		5E6EACB626FC813900DEE213 /* JLBaseTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB526FC813900DEE213 /* JLBaseTextView.m */; };
 		5E6EACB926FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACB826FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m */; };
-		5E6EACBC26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */; };
-		5E6EACBF26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */; };
 		5E70E21026CA0742003ACC8B /* JLAuctionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */; };
 		5E70E21426CA16DD003ACC8B /* JLAuctionListContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21326CA16DD003ACC8B /* JLAuctionListContentView.m */; };
 		5E70E21726CA1709003ACC8B /* JLAuctionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70E21626CA1709003ACC8B /* JLAuctionListCell.m */; };
@@ -76,6 +74,7 @@
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
 		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
+		5E8BCA6C27001CD800A12A14 /* NSArray+JLMASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */; };
 		5E9B756326A51755002A2364 /* JLNewAuctionArtDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */; };
 		5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756526A517A4002A2364 /* JLNewAuctionArtDetailContentView.m */; };
 		5E9B756926A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756826A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m */; };
@@ -1451,10 +1450,6 @@
 		5E6EACB526FC813900DEE213 /* JLBaseTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBaseTextView.m; sourceTree = "<group>"; };
 		5E6EACB726FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletImportChooseTypeView.h; sourceTree = "<group>"; };
 		5E6EACB826FDA33600DEE213 /* JLMultiChainWalletImportChooseTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletImportChooseTypeView.m; sourceTree = "<group>"; };
-		5E6EACBA26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletVerifyMnemonicViewController.h; sourceTree = "<group>"; };
-		5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletVerifyMnemonicViewController.m; sourceTree = "<group>"; };
-		5E6EACBD26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLMultiChainWalletVerifyMnemonicContentView.h; sourceTree = "<group>"; };
-		5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLMultiChainWalletVerifyMnemonicContentView.m; sourceTree = "<group>"; };
 		5E70E20B26CA071C003ACC8B /* JLAuctionHistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionHistoryViewController.h; sourceTree = "<group>"; };
 		5E70E20E26CA0742003ACC8B /* JLAuctionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLAuctionListViewController.h; sourceTree = "<group>"; };
 		5E70E20F26CA0742003ACC8B /* JLAuctionListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLAuctionListViewController.m; sourceTree = "<group>"; };
@@ -1498,6 +1493,8 @@
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
 		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
+		5E8BCA6A27001CD800A12A14 /* NSArray+JLMASConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+JLMASConstraint.h"; sourceTree = "<group>"; };
+		5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+JLMASConstraint.m"; sourceTree = "<group>"; };
 		5E9B756126A51755002A2364 /* JLNewAuctionArtDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailViewController.h; sourceTree = "<group>"; };
 		5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewAuctionArtDetailViewController.m; sourceTree = "<group>"; };
 		5E9B756426A517A4002A2364 /* JLNewAuctionArtDetailContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailContentView.h; sourceTree = "<group>"; };
@@ -3649,8 +3646,6 @@
 				5E6EAC9726FB22D200DEE213 /* JLMultiChainWalletEditViewController.m */,
 				5E6EACA226FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.h */,
 				5E6EACA326FC588200DEE213 /* JLMultiChainWalletBackupMnemonicViewController.m */,
-				5E6EACBA26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.h */,
-				5E6EACBB26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m */,
 				5E6EACA826FC70C600DEE213 /* JLMultiChainWalletImportViewController.h */,
 				5E6EACA926FC70C600DEE213 /* JLMultiChainWalletImportViewController.m */,
 			);
@@ -3680,8 +3675,6 @@
 				5E6EAC9D26FC158500DEE213 /* JLMultiChainWalletEditCell.m */,
 				5E6EACA526FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.h */,
 				5E6EACA626FC5C4700DEE213 /* JLMultiChainWalletBackupMnemonicContentView.m */,
-				5E6EACBD26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.h */,
-				5E6EACBE26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m */,
 				5E6EACAB26FC740600DEE213 /* JLMultiChainWalletImportContentView.h */,
 				5E6EACAC26FC740600DEE213 /* JLMultiChainWalletImportContentView.m */,
 				5E6EACAE26FC771800DEE213 /* JLMultiChainWalletImportCell.h */,
@@ -7033,6 +7026,8 @@
 				5E9B759E26A91308002A2364 /* NSTimer+JLExtension.m */,
 				5E0B49B926C50E6D0005718D /* UILabel+JLExtension.h */,
 				5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */,
+				5E8BCA6A27001CD800A12A14 /* NSArray+JLMASConstraint.h */,
+				5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */,
 			);
 			path = JLCategory;
 			sourceTree = "<group>";
@@ -7932,7 +7927,6 @@
 				B312257225B6B60A00562ECA /* SelectionListViewController.swift in Sources */,
 				B312253025B6B60A00562ECA /* EmptyAccountIcon.swift in Sources */,
 				5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */,
-				5E6EACBF26FDD79300DEE213 /* JLMultiChainWalletVerifyMnemonicContentView.m in Sources */,
 				B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */,
 				5EFA60DD26F2E76F00899224 /* EthLocalizedOperationObject.swift in Sources */,
 				B31225CF25B6B60A00562ECA /* UsernameSetupWireframe.swift in Sources */,
@@ -7976,7 +7970,6 @@
 				5E6EAC9B26FC141400DEE213 /* JLMultiChainWalletEditContentView.m in Sources */,
 				B38FD54925CBA22D0028797E /* JLFocusViewController.m in Sources */,
 				5E6EAC8F26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m in Sources */,
-				5E6EACBC26FDD50400DEE213 /* JLMultiChainWalletVerifyMnemonicViewController.m in Sources */,
 				B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */,
 				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
@@ -8344,6 +8337,7 @@
 				B38FD55025CBA3570028797E /* JLFocusFansTableViewCell.m in Sources */,
 				B31225E425B6B60A00562ECA /* BaseAccountImportInteractor.swift in Sources */,
 				B312263025B6B60A00562ECA /* WalletCommonConfigurator.swift in Sources */,
+				5E8BCA6C27001CD800A12A14 /* NSArray+JLMASConstraint.m in Sources */,
 				B312251325B6B60A00562ECA /* KeystoreImportService.swift in Sources */,
 				B312262D25B6B60A00562ECA /* AccountInfoInteractor.swift in Sources */,
 				B3C0ED3525C2BC49001B8BCA /* JLOrderDetailTitleTableViewCell.m in Sources */,

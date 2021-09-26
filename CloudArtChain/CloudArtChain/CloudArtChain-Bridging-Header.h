@@ -20,3 +20,5 @@
 #import "LewPopupViewController.h"
 #import "JLChainQRCodeView.h"
 #import "JLEnum.h"
+#import "JLMultiWalletInfo.h"
+#import "JLMultiChainWalletInfoViewController.h"

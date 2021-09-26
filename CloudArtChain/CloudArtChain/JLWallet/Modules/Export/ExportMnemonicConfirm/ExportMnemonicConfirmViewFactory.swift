@@ -28,4 +28,28 @@ final class ExportMnemonicConfirmViewFactory: ExportMnemonicConfirmViewFactoryPr
         return view
     }
 
+    static func createViewForMnemonic(_ words: [String]) -> AccountConfirmViewProtocol? {
+        let view = AccountConfirmViewController(nibName: "AccountConfirmViewController", bundle: Bundle.main)
+        view.nextButtonTitle = LocalizableResource { locale in
+            "Confirm"
+        }
+
+        let localizationManager = LocalizationManager.shared
+
+        let presenter = AccountConfirmPresenter()
+
+        let interactor = ExportMnemonicConfirmInteractor(words: words)
+        let wireframe = ExportMnemonicConfirmWireframe(localizationManager: localizationManager)
+
+        view.presenter = presenter
+        presenter.view = view
+        presenter.interactor = interactor
+        presenter.wireframe = wireframe
+        interactor.presenter = presenter
+
+        view.localizationManager = localizationManager
+        presenter.localizationManager = localizationManager
+
+        return view
+    }
 }

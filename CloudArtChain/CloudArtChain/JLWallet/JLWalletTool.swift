@@ -75,6 +75,17 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         getRootPresenter().defaultCreateWallet(navigationController: navigationController, userAvatar: userAvatar)
     }
     
+    // 导入钱包
+    @objc func importWallet(from viewController: UIViewController) {
+        guard let restorationController = AccountImportViewFactory.createViewForAdding()?.controller else {
+            return
+        }
+        let navigationController = JLNavigationViewController()
+        navigationController.viewControllers = [restorationController]
+        navigationController.modalPresentationStyle = .fullScreen
+        viewController.present(navigationController, animated: true, completion: nil)
+    }
+    
     // 获取账户余额
     @objc func getAccountBalance(balanceBlock: @escaping (String) -> Void) {
         getAccountBalanceFromAccountList(balanceBlock: balanceBlock)
@@ -230,6 +241,15 @@ class JLWalletTool: NSObject, ScreenAuthorizationWireframeProtocol {
         }
 
         navigationController.pushViewController(mnemonicView.controller, animated: true)
+    }
+    // 备份助记词
+    @objc func backupMnemonic(words: [String], navigationController: UINavigationController) {
+        guard let confirmationView = ExportMnemonicConfirmViewFactory.createViewForMnemonic(words) else {
+            return
+        }
+
+        navigationController.pushViewController(confirmationView.controller,
+                                                                  animated: true)
     }
     @objc func exportMnemonic(address: String, completion: @escaping ([String]) -> Void) {
         let keychain = Keychain()

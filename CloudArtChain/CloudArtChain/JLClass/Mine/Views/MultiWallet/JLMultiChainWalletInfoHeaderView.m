@@ -177,7 +177,7 @@
     _walletInfo = walletInfo;
     
     _walletNameLabel.text = _walletInfo.walletName == nil ? @"钱包" : _walletInfo.walletName;
-    _addressLabel.text = [NSString stringWithFormat:@"钱包地址：%@", _walletInfo.address];
+    _addressLabel.text = [NSString stringWithFormat:@"钱包地址：%@", [_walletInfo.address hasPrefix:@"0x"] ? _walletInfo.address : [NSString stringWithFormat:@"0x%@", _walletInfo.address]];
 }
 
 - (NSArray *)titleArray {

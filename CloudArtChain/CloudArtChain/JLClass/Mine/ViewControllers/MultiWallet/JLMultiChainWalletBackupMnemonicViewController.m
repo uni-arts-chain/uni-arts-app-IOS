@@ -10,8 +10,6 @@
 #import "JLMultiChainWalletBackupMnemonicContentView.h"
 #import "JLExportKeystoreSnapshotView.h"
 
-#import "JLMultiChainWalletVerifyMnemonicViewController.h"
-
 @interface JLMultiChainWalletBackupMnemonicViewController ()<JLMultiChainWalletBackupMnemonicContentViewDelegate>
 
 @property (nonatomic, strong) JLMultiChainWalletBackupMnemonicContentView *contentView;
@@ -42,9 +40,10 @@
 
 #pragma mark - JLMultiChainWalletBackupMnemonicContentViewDelegate
 - (void)next {
-    JLMultiChainWalletVerifyMnemonicViewController *vc = [[JLMultiChainWalletVerifyMnemonicViewController alloc] init];
-    vc.mnemonicArray = _mnemonicArray;
-    [self.navigationController pushViewController:vc animated:YES];
+    [[JLViewControllerTool appDelegate].walletTool backupMnemonicWithWords:_mnemonicArray navigationController:self.navigationController];
+//    JLMultiChainWalletVerifyMnemonicViewController *vc = [[JLMultiChainWalletVerifyMnemonicViewController alloc] init];
+//    vc.mnemonicArray = _mnemonicArray;
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - setters and getters

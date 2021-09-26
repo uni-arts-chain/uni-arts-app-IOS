@@ -126,8 +126,22 @@
         _orderView = [[JLMineOrderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, kScreenWidth, 131.0f)];
         WS(weakSelf)
         _orderView.cashAccountBlock = ^{
-            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
-            [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+//            NSString *userAvatar = [NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.avatar[@"url"]] ? nil : [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+//            [[JLViewControllerTool appDelegate].walletTool presenterLoadOnLaunchWithNavigationController:[AppSingleton sharedAppSingleton].globalNavController userAvatar:userAvatar];
+            // 显示主钱包
+            JLAccountItem *accountItem = [[JLViewControllerTool appDelegate].walletTool getCurrentAccount];
+            JLMultiWalletInfo *info = [[JLMultiWalletInfo alloc] init];
+            info.userAvatar = [AppSingleton sharedAppSingleton].userBody.avatar[@"url"];
+            info.chainSymbol = JLMultiChainSymbolUART;
+            info.chainName = JLMultiChainNameUniArts;
+            info.chainImageNamed = @"icon_mine_multi_wallet_uart";
+            info.address = accountItem.address;
+            info.walletName = accountItem.username;
+            JLMultiChainWalletInfoViewController *vc = [[JLMultiChainWalletInfoViewController alloc] init];
+            vc.walletInfo = info;
+            JLNavigationViewController *navVC = [[JLNavigationViewController alloc] initWithRootViewController:vc];
+            navVC.modalPresentationStyle = UIModalPresentationFullScreen;
+            [weakSelf presentViewController:navVC animated:YES completion:nil];
         };
         _orderView.walletBlock = ^{
             JLChooseChainWalletViewController *vc = [[JLChooseChainWalletViewController alloc] init];

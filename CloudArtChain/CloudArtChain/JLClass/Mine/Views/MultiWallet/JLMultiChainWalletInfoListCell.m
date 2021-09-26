@@ -67,6 +67,7 @@
     }];
     
     _amountLabel = [[UILabel alloc] init];
+    _amountLabel.text = @"--";
     _amountLabel.textColor = JL_color_gray_101010;
     _amountLabel.font = kFontPingFangSCRegular(15);
     _amountLabel.textAlignment = NSTextAlignmentRight;

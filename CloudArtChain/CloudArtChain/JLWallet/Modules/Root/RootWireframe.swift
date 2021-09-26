@@ -134,6 +134,7 @@ final class RootWireframe: RootWireframeProtocol, JLAccountListViewControllerPro
         (walletController as! JLAccountListViewController).delegate = self
         (walletController as! JLAccountListViewController).userAvatar = userAvatar
         
+        
         let walletNavigationController = JLNavigationViewController(rootViewController: walletController)
         self.navigationController = walletNavigationController
         walletNavigationController.modalPresentationStyle = .overCurrentContext

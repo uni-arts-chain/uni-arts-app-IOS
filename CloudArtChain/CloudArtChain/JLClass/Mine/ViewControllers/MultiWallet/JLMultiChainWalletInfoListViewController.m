@@ -42,7 +42,13 @@
 #pragma mark - private methods
 - (void)prepareSource {
     WS(weakSelf)
-    if (_style == JLMultiChainWalletInfoListContentViewStyleToken) {
+    if (_style == JLMultiChainWalletInfoListContentViewStyleMainToken) {
+        _contentView.walletInfo = _walletInfo;
+        [[JLViewControllerTool appDelegate].walletTool getAccountBalanceWithBalanceBlock:^(NSString *amount) {
+            JLLog(@"uart balance: %@", amount);
+            weakSelf.contentView.amount = amount;
+        }];
+    }else if (_style == JLMultiChainWalletInfoListContentViewStyleToken) {
         _contentView.walletInfo = _walletInfo;
         if (_walletInfo.chainSymbol == JLMultiChainSymbolETH) {
             // 以太坊账户 余额

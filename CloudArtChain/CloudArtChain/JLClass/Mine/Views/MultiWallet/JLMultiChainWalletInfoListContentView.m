@@ -52,7 +52,8 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (_style == JLMultiChainWalletInfoListContentViewStyleToken) {
+    if (_style == JLMultiChainWalletInfoListContentViewStyleMainToken ||
+        _style == JLMultiChainWalletInfoListContentViewStyleToken) {
         return 1;
     }
     return self.nftArray.count;
@@ -64,7 +65,8 @@
         cell = [[JLMultiChainWalletInfoListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(JLMultiChainWalletInfoListCell.class)];
     }
     cell.style = _style;
-    if (_style == JLMultiChainWalletInfoListContentViewStyleToken) {
+    if (_style == JLMultiChainWalletInfoListContentViewStyleMainToken ||
+        _style == JLMultiChainWalletInfoListContentViewStyleToken) {
         cell.walletInfo = _walletInfo;
         cell.amount = _amount;
     }
@@ -97,7 +99,8 @@
 - (void)setStyle:(JLMultiChainWalletInfoListContentViewStyle)style {
     _style = style;
     
-    if (_style == JLMultiChainWalletInfoListContentViewStyleToken) {
+    if (_style == JLMultiChainWalletInfoListContentViewStyleMainToken ||
+        _style == JLMultiChainWalletInfoListContentViewStyleToken) {
         [_tableView.mj_footer endRefreshingWithNoMoreData];
     }
 }
