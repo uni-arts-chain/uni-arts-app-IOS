@@ -82,6 +82,9 @@
 		5E8BCA7E2700763900A12A14 /* JLDappChainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA7D2700763900A12A14 /* JLDappChainView.m */; };
 		5E8BCA8127015CF900A12A14 /* JLDappModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8027015CF900A12A14 /* JLDappModel.m */; };
 		5E8BCA872701713C00A12A14 /* JLDappEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA862701713C00A12A14 /* JLDappEmptyView.m */; };
+		5E8BCA8A2701C29E00A12A14 /* JLDappMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */; };
+		5E8BCA8D2701C3F700A12A14 /* JLDappMoreContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */; };
+		5E8BCA902701C4F200A12A14 /* JLDappMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */; };
 		5E9B756326A51755002A2364 /* JLNewAuctionArtDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */; };
 		5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756526A517A4002A2364 /* JLNewAuctionArtDetailContentView.m */; };
 		5E9B756926A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756826A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m */; };
@@ -1516,6 +1519,12 @@
 		5E8BCA8027015CF900A12A14 /* JLDappModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappModel.m; sourceTree = "<group>"; };
 		5E8BCA852701713C00A12A14 /* JLDappEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappEmptyView.h; sourceTree = "<group>"; };
 		5E8BCA862701713C00A12A14 /* JLDappEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappEmptyView.m; sourceTree = "<group>"; };
+		5E8BCA882701C29E00A12A14 /* JLDappMoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappMoreViewController.h; sourceTree = "<group>"; };
+		5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappMoreViewController.m; sourceTree = "<group>"; };
+		5E8BCA8B2701C3F700A12A14 /* JLDappMoreContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappMoreContentView.h; sourceTree = "<group>"; };
+		5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappMoreContentView.m; sourceTree = "<group>"; };
+		5E8BCA8E2701C4F200A12A14 /* JLDappMoreCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappMoreCell.h; sourceTree = "<group>"; };
+		5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappMoreCell.m; sourceTree = "<group>"; };
 		5E9B756126A51755002A2364 /* JLNewAuctionArtDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailViewController.h; sourceTree = "<group>"; };
 		5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewAuctionArtDetailViewController.m; sourceTree = "<group>"; };
 		5E9B756426A517A4002A2364 /* JLNewAuctionArtDetailContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailContentView.h; sourceTree = "<group>"; };
@@ -3634,6 +3643,8 @@
 			children = (
 				5ECA14EF26F59181009614DB /* JLDappViewController.h */,
 				5ECA14F026F59181009614DB /* JLDappViewController.m */,
+				5E8BCA882701C29E00A12A14 /* JLDappMoreViewController.h */,
+				5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -3653,6 +3664,10 @@
 				5E8BCA7D2700763900A12A14 /* JLDappChainView.m */,
 				5E8BCA852701713C00A12A14 /* JLDappEmptyView.h */,
 				5E8BCA862701713C00A12A14 /* JLDappEmptyView.m */,
+				5E8BCA8B2701C3F700A12A14 /* JLDappMoreContentView.h */,
+				5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */,
+				5E8BCA8E2701C4F200A12A14 /* JLDappMoreCell.h */,
+				5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7954,6 +7969,7 @@
 				B3B968BB26155FC800347B27 /* JLSinglePurchaseOrderListCell.m in Sources */,
 				B391CB93262D2AD700FF48B0 /* CubismMotionQueueEntry.cpp in Sources */,
 				B394E3FA25ECF37C00685F8D /* UIImage+ImgSize.m in Sources */,
+				5E8BCA902701C4F200A12A14 /* JLDappMoreCell.m in Sources */,
 				B31224C625B6B60900562ECA /* UIImage+Drawing.swift in Sources */,
 				B312264325B6B60A00562ECA /* TransactionDetailsFormViewModelBinder.swift in Sources */,
 				B37FFB5224F4B1CC004B9CC8 /* JLPopularOriginalCollectionViewCell.m in Sources */,
@@ -8517,6 +8533,7 @@
 				B31226DD25B6B60B00562ECA /* MainTabBarWireframe.swift in Sources */,
 				B312251425B6B60A00562ECA /* URLHandlingService.swift in Sources */,
 				B396561124F38DF4007A8EC2 /* NSBundle+Language.m in Sources */,
+				5E8BCA8A2701C29E00A12A14 /* JLDappMoreViewController.m in Sources */,
 				5ECA150826F5DEF0009614DB /* JLMultiChainWalletInfoViewController.m in Sources */,
 				B36361AD2500CBA60039DF48 /* JLApplyCertWorksSelfSignCell.m in Sources */,
 				B312259A25B6B60A00562ECA /* StorageSubscriptionProtocols.swift in Sources */,
@@ -8645,6 +8662,7 @@
 				B31225EF25B6B60A00562ECA /* AboutViewModel.swift in Sources */,
 				B31224BB25B6B60900562ECA /* AccountOperationFactoryError+Presentable.swift in Sources */,
 				B3266F5F24FE4E77000C6E95 /* JLArtAuthorDetailView.m in Sources */,
+				5E8BCA8D2701C3F700A12A14 /* JLDappMoreContentView.m in Sources */,
 				B31224D725B6B60900562ECA /* CDTransactionHistoryItem+CoreDataDecodable.swift in Sources */,
 				B38D7E5925E11C3100E9978E /* WMPhotoBrowser.m in Sources */,
 				B39655E624F38DBA007A8EC2 /* JLKeyChain.m in Sources */,

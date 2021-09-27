@@ -10,6 +10,7 @@
 #import "JLDappContentView.h"
 
 #import "JLScanViewController.h"
+#import "JLDappMoreViewController.h"
 
 @interface JLDappViewController ()<JLDappContentViewDelegate>
 
@@ -46,24 +47,24 @@
     [self presentViewController:scanVC animated:YES completion:nil];
 }
 
-- (void)refreshData {
+- (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainSymbol: (JLMultiChainSymbol)chainSymbol {
+    JLLog(@"刷新信息 trackType: %ld chainSymbol: %@", trackType, chainSymbol);
     [self loadDatas];
 }
 
 - (void)lookMoreWithType: (JLDappContentViewLookMoreType)type {
     JLLog(@"查看更多: %ld", type);
+    JLDappMoreViewController *vc = [[JLDappMoreViewController alloc] init];
+    vc.type = [self exchangeTypeFrom:type];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)refreshChainInfoDatasWithSymbol: (JLMultiChainSymbol)symbol {
     JLLog(@"查看链下的信息: %@", symbol);
 }
 
-- (void)lookCollect {
-    JLLog(@"查看收藏");
-}
-
-- (void)lookRecently {
-    JLLog(@"查看最近");
+- (void)lookTrackWithType: (JLDappContentViewTrackType)type {
+    JLLog(@"查看收藏或最近: %ld", type);
 }
 
 - (void)lookDappWithUrl: (NSString *)url {
@@ -77,6 +78,19 @@
     self.contentView.trackArray = @[@"",@"",@"",@"",@"",@"",@""];
     self.contentView.recommendArray = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
     self.contentView.transactionArray = @[@"",@"",@"",@"",@""];
+}
+
+#pragma mark - private methods
+- (JLDappMoreViewControllerType)exchangeTypeFrom: (JLDappContentViewLookMoreType)type {
+    if (type == JLDappContentViewLookMoreTypeCollect) {
+        return JLDappMoreViewControllerTypeCollect;
+    }else if (type == JLDappContentViewLookMoreTypeRecently) {
+        return JLDappMoreViewControllerTypeRecently;
+    }else if (type == JLDappContentViewLookMoreTypeRecommend) {
+        return JLDappMoreViewControllerTypeRecommend;
+    }else {
+        return JLDappMoreViewControllerTypeTransaction;
+    }
 }
 
 #pragma mark - setters and getters

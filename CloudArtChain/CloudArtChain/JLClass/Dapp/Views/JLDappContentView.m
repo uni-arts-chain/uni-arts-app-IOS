@@ -29,6 +29,9 @@
 @property (nonatomic, strong) MASConstraint *chainRecommendViewHeightConstraint;
 @property (nonatomic, strong) MASConstraint *chainTransactionViewHeightConstraint;
 
+@property (nonatomic, assign) JLDappContentViewTrackType selectTrackType;
+@property (nonatomic, assign) JLMultiChainSymbol selectChainSymbol;
+
 @end
 
 @implementation JLDappContentView
@@ -37,6 +40,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _selectTrackType = JLDappContentViewTrackTypeCollect;
+        _selectChainSymbol = JLMultiChainSymbolETH;
         
         [self setupUI];
     }
@@ -50,8 +55,8 @@
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.alwaysBounceVertical = YES;
     _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshData)]) {
-            [weakSelf.delegate refreshData];
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshDataWithTrackType:chainSymbol:)]) {
+            [weakSelf.delegate refreshDataWithTrackType:weakSelf.selectTrackType chainSymbol:weakSelf.selectChainSymbol];
         }
     }];
     [self addSubview:_scrollView];
@@ -88,14 +93,9 @@
     // 收藏或最近视图
     _trackView = [[JLDappTrackView alloc] init];
     _trackView.didSelectTitleBlock = ^(NSInteger index) {
-        if (index == 0) {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookCollect)]) {
-                [weakSelf.delegate lookCollect];
-            }
-        }else {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookRecently)]) {
-                [weakSelf.delegate lookRecently];
-            }
+        weakSelf.selectTrackType = index;
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookTrackWithType:)]) {
+            [weakSelf.delegate lookTrackWithType:weakSelf.selectTrackType];
         }
     };
     _trackView.moreBlock = ^(NSInteger index) {
@@ -122,8 +122,9 @@
     // 链标题视图
     _chainTitleView = [[JLDappTitleView alloc] init];
     _chainTitleView.didSelectBlock = ^(NSInteger index) {
+        weakSelf.selectChainSymbol = weakSelf.chainSymbolArray[index];
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshChainInfoDatasWithSymbol:)]) {
-            [weakSelf.delegate refreshChainInfoDatasWithSymbol:weakSelf.chainSymbolArray[index]];
+            [weakSelf.delegate refreshChainInfoDatasWithSymbol:weakSelf.selectChainSymbol];
         }
     };
     [_bgView addSubview:_chainTitleView];
@@ -251,7 +252,15 @@
 - (void)setChainSymbolArray:(NSArray *)chainSymbolArray {
     _chainSymbolArray = chainSymbolArray;
     
-    [_chainTitleView setTitleArray:_chainSymbolArray selectIndex:0 style:JLDappTitleViewStyleScrollNoMore];
+    NSInteger defaultIndex = 0;
+    for (int i = 0; i < _chainSymbolArray.count; i++) {
+        if (_selectChainSymbol == _chainSymbolArray[i]) {
+            defaultIndex = i;
+            break;
+        }
+    }
+    
+    [_chainTitleView setTitleArray:_chainSymbolArray selectIndex:defaultIndex style:JLDappTitleViewStyleScrollNoMore];
 }
 
 @end

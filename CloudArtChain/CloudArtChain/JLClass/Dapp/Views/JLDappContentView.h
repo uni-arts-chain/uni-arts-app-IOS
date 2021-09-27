@@ -20,6 +20,10 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewLookMoreType) {
     /// 交易
     JLDappContentViewLookMoreTypeTransaction
 };
+typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
+    JLDappContentViewTrackTypeCollect,
+    JLDappContentViewTrackTypeRecently
+};
 
 @protocol JLDappContentViewDelegate <NSObject>
 
@@ -27,15 +31,13 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewLookMoreType) {
 
 - (void)scanCode;
 
-- (void)refreshData;
+- (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainSymbol: (JLMultiChainSymbol)chainSymbol;
 
 - (void)lookMoreWithType: (JLDappContentViewLookMoreType)type;
 
 - (void)refreshChainInfoDatasWithSymbol: (JLMultiChainSymbol)symbol;
 
-- (void)lookCollect;
-
-- (void)lookRecently;
+- (void)lookTrackWithType: (JLDappContentViewTrackType)type;
 
 - (void)lookDappWithUrl: (NSString *)url;
 
