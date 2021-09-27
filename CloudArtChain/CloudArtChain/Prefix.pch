@@ -82,6 +82,7 @@
 #import "JLCreatorModel.h"
 #import "JLUploadImageModel.h"
 #import "JLBoxModel.h"
+#import "JLDappModel.h"
 #import "JLMultiWalletInfo.h"
 
 //ErrorData
