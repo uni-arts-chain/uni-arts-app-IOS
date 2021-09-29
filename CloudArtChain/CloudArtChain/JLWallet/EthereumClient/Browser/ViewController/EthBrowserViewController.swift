@@ -18,19 +18,22 @@ enum EthBrowserAction {
 }
 
 protocol EthBrowserViewControllerDelegate: AnyObject {
-    func didCall(action: EthDappAction, callbackID: Int)
-    func runAction(action: EthBrowserAction)
-    func didVisitURL(url: URL, title: String)
+    func didSentTransaction(transaction: EthSentTransaction)
+    func collectCurrentDapp(with isCollect: Bool)
 }
 
 final class EthBrowserViewController: JLBaseViewController {
     private var myContext = 0
+    let keystore: EthKeystore
     let account: EthWalletInfo
     let sessionConfig: EthConfig
     let server: EthRPCServer
     let token: TokenObject
     
+    var name: String?
+    var imgUrl: String?
     var webUrl: URL?
+    var isCollect: Bool
     weak var delegate: EthBrowserViewControllerDelegate?
     
     private struct Keys {
@@ -51,6 +54,17 @@ final class EthBrowserViewController: JLBaseViewController {
         return config
     }()
     
+    lazy var navigationBar: JLDappBrowserNavigationBar = {
+        let navigationBar = JLDappBrowserNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIApplication.shared.statusBarFrame.size.height + 44), title: name ?? "") { [weak self] in
+            guard let `self` = self else { return }
+            self.showManagerFaceView()
+        } close: { [weak self] in
+            guard let `self` = self else { return }
+            self.popVC()
+        }
+        return navigationBar
+    }()
+    
     lazy var webView: WKWebView = {
         let webView = WKWebView(
             frame: .zero,
@@ -59,6 +73,7 @@ final class EthBrowserViewController: JLBaseViewController {
         webView.allowsBackForwardNavigationGestures = true
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
+        webView.uiDelegate = self
         if isDebug {
             webView.configuration.preferences.setValue(true, forKey: Keys.developerExtrasEnabled)
         }
@@ -78,15 +93,22 @@ final class EthBrowserViewController: JLBaseViewController {
     }()
     
     init(
-        account: EthWalletInfo,
+        keystore: EthKeystore,
         config: EthConfig,
         server: EthRPCServer,
-        webUrl: URL? = nil
+        name: String? = nil,
+        imgUrl: String? = nil,
+        webUrl: URL? = nil,
+        isCollect: Bool = false
     ) {
-        self.account = account
+        self.keystore = keystore
+        self.account = keystore.recentlyUsedWalletInfo!
         self.sessionConfig = config
         self.server = server
+        self.name = name
+        self.imgUrl = imgUrl
         self.webUrl = webUrl
+        self.isCollect = isCollect
         self.token = TokenObject(
             contract: server.priceID.description,
             name: "Ethereum 钱包",
@@ -97,30 +119,7 @@ final class EthBrowserViewController: JLBaseViewController {
             value: "0",
             isCustom: false
         )
-
         super.init(nibName: nil, bundle: nil)
-        
-        view.addSubview(webView)
-        injectUserAgent()
-
-        webView.addSubview(progressView)
-        webView.bringSubviewToFront(progressView)
-        
-        webView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.snp.top)
-            make.leading.equalTo(view.snp.leading)
-            make.trailing.equalTo(view.snp.trailing)
-            make.bottom.equalTo(view.snp.bottom)
-        }
-        progressView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.layoutGuide.snp.top)
-            make.leading.equalTo(webView.snp.leading)
-            make.trailing.equalTo(webView.snp.trailing)
-            make.height.equalTo(2.0)
-        }
-        
-        webView.addObserver(self, forKeyPath: Keys.estimatedProgress, options: .new, context: &myContext)
-        webView.addObserver(self, forKeyPath: Keys.URL, options: [.new, .initial], context: &myContext)
     }
     
     private func injectUserAgent() {
@@ -174,11 +173,9 @@ final class EthBrowserViewController: JLBaseViewController {
         guard let url = webView.url else {
             return
         }
-        delegate?.didVisitURL(url: url, title: webView.title ?? "")
     }
 
     private func changeURL(_ url: URL) {
-        delegate?.runAction(action: .changeURL(url))
         refreshURL()
     }
     
@@ -215,10 +212,62 @@ final class EthBrowserViewController: JLBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addBackItem()
+//        addBackItem()
+        print("delegate--:", self.delegate)
+//        let navigationBar = JLDappBrowserNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIApplication.shared.statusBarFrame.size.height + 44))
+//        navigationBar.title = name ?? "DApp"
+//        navigationBar.managerBlock = { [weak self] in
+//            print("delegate--:", self?.delegate)
+//            self?.showManagerFaceView()
+//        }
+//        navigationBar.closeBlock = { [weak self] in
+//            self?.popVC()
+//        }
+        
+        view.addSubview(navigationBar)
+        
+        view.addSubview(webView)
+        injectUserAgent()
+
+        webView.addSubview(progressView)
+        webView.bringSubviewToFront(progressView)
+        
+        navigationBar.snp.makeConstraints { make in
+            make.top.left.right.equalTo(view)
+            make.height.equalTo(UIApplication.shared.statusBarFrame.size.height + 44)
+        }
+        webView.snp.makeConstraints { (make) in
+            make.top.equalTo(navigationBar.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+            make.bottom.equalTo(view.snp.bottom)
+        }
+        progressView.snp.makeConstraints { (make) in
+            make.top.equalTo(navigationBar.snp.bottom)
+            make.leading.equalTo(webView.snp.leading)
+            make.trailing.equalTo(webView.snp.trailing)
+            make.height.equalTo(2.0)
+        }
+        
+        webView.addObserver(self, forKeyPath: Keys.estimatedProgress, options: .new, context: &myContext)
+        webView.addObserver(self, forKeyPath: Keys.URL, options: [.new, .initial], context: &myContext)
         
         guard (webUrl != nil) else { return }
-        goTo(url: webUrl!)
+
+        /// 授权申请视图
+        if let arr = UserDefaults.standard.array(forKey: USERDEFAULTS_JL_DAPP_APPLY_FOR_AUTHORISATION), arr.count != 0 {
+            for result in arr {
+                if let dict = result as? [String:AnyObject], let isNotip = dict[webUrl!.absoluteString] as? String {
+                    if isNotip != "YES" {
+                        showApplyForAuthorisationView()
+                    }else {
+                        goTo(url: webUrl!)
+                    }
+                }
+            }
+        }else {
+            showApplyForAuthorisationView()
+        }
     }
     
     override func backClick() {
@@ -240,12 +289,32 @@ final class EthBrowserViewController: JLBaseViewController {
     }
     
     private func popVC() {
-//        let transition = CATransition()
-//        transition.type = CATransitionType.moveIn
-//        transition.subtype = CATransitionSubtype.fromBottom
-//        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-//        self.view.layer.add(transition, forKey: "animation")
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func showApplyForAuthorisationView() {
+        JLDappApplyForAuthorisationView.show(withDappName: name ?? "", dappImgUrl: imgUrl ?? "", dappWebUrl: webUrl!.absoluteString, superView: nil) { [weak self] in
+            guard let `self` = self else { return }
+            self.popVC()
+        } agree: { [weak self] in
+            guard let `self` = self else { return }
+            self.goTo(url: self.webUrl!)
+        }
+    }
+    
+    private func showManagerFaceView() {
+        JLDappBrowserManagerView.show(withIsCollect: isCollect, superView: nil) { [weak self] itemType in
+            guard let `self` = self else { return }
+            if itemType == .collect {
+                self.delegate?.collectCurrentDapp(with: !self.isCollect)
+            }else if itemType == .copy {
+                UIPasteboard.general.string = self.webUrl?.absoluteString ?? ""
+                JLLoading.shared().showMBSuccessTipMessage("链接已复制", hideTime: 2.0)
+            }else if itemType == .refresh {
+                self.goTo(url: self.webUrl!)
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -253,9 +322,9 @@ final class EthBrowserViewController: JLBaseViewController {
     }
 }
 
+// MARK: EthBrowserNavigationBarDelegate
 extension EthBrowserViewController: EthBrowserNavigationBarDelegate {
     func did(action: EthBrowserNavigation) {
-        delegate?.runAction(action: .navigationAction(action))
         switch action {
         case .goBack:
             break
@@ -271,6 +340,7 @@ extension EthBrowserViewController: EthBrowserNavigationBarDelegate {
     }
 }
 
+// MARK: WKNavigationDelegate
 extension EthBrowserViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         recordURL()
@@ -295,6 +365,69 @@ extension EthBrowserViewController: WKNavigationDelegate {
     }
 }
 
+// MARK: WKUIDelegate
+extension EthBrowserViewController: WKUIDelegate {
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+//        let alertController = UIAlertController.alertController(
+//            title: .none,
+//            message: message,
+//            style: .alert,
+//            in: self
+//        )
+//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+//            completionHandler()
+//        }))
+//        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+//        let alertController = UIAlertController.alertController(
+//            title: .none,
+//            message: message,
+//            style: .alert,
+//            in: navigationController
+//        )
+//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+//            completionHandler(true)
+//        }))
+//        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
+//            completionHandler(false)
+//        }))
+//        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
+//        let alertController = UIAlertController.alertController(
+//            title: .none,
+//            message: prompt,
+//            style: .alert,
+//            in: navigationController
+//        )
+//        alertController.addTextField { (textField) in
+//            textField.text = defaultText
+//        }
+//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+//            if let text = alertController.textFields?.first?.text {
+//                completionHandler(text)
+//            } else {
+//                completionHandler(defaultText)
+//            }
+//        }))
+//        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
+//            completionHandler(nil)
+//        }))
+//        self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+// MARK: WKScriptMessageHandler
 extension EthBrowserViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let command = EthDappAction.fromMessage(message) else { return }
@@ -304,7 +437,8 @@ extension EthBrowserViewController: WKScriptMessageHandler {
         let transfer = Transfer(server: server, type: .dapp(token, requester))
         let action = EthDappAction.fromCommand(command, transfer: transfer)
 
-        delegate?.didCall(action: action, callbackID: command.id)
+        // 处理信息
+        didCall(action: action, callbackID: command.id)
     }
 }
 

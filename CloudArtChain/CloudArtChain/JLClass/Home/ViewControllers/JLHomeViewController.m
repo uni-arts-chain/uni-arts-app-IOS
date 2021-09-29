@@ -447,7 +447,9 @@
 //    }];
     
     // dapp浏览器
-    [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController webUrl:[NSURL URLWithString:@"https://uniswap.token.im/?locale=zh-CN&utm_source=imtoken#/swap"]];
+    [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:@"imKey" imgUrl:@"http://bpic.588ku.com/element_origin_min_pic/18/08/24/05dbcc82c8d3bd356e57436be0922357.jpg" webUrl:[NSURL URLWithString:@"https://uniswap.token.im/?locale=zh-CN&utm_source=imtoken#/swap"] isCollect: NO collectCompletion:^(BOOL isCollect) {
+        JLLog(@"是否收藏: %@", isCollect ? @"收藏":@"取消收藏");
+    }];
     
 //    [JLEthereumTool.shared createInstantWalletWithCompletion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
 //        JLLog(@"ethereum address: %@, errorMsg: %@", address, errorMsg);

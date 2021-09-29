@@ -157,7 +157,7 @@
     };
     [_bgView addSubview:_chainRecommendView];
     [_chainRecommendView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainRecommendTitleView.mas_bottom).offset(12);
+        make.top.equalTo(self.chainRecommendTitleView.mas_bottom).offset(2);
         make.left.right.equalTo(self);
         self.chainRecommendViewHeightConstraint = make.height.mas_equalTo(@192);
     }];
@@ -172,7 +172,7 @@
     [_chainTransactionTitleView setTitleArray:@[@"交易"] selectIndex:0 style:JLDappTitleViewStyleNoScroll];
     [_bgView addSubview:_chainTransactionTitleView];
     [_chainTransactionTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainRecommendView.mas_bottom).offset(12);
+        make.top.equalTo(self.chainRecommendView.mas_bottom).offset(15);
         make.left.right.equalTo(self);
         make.height.mas_equalTo(@30);
     }];
@@ -185,7 +185,7 @@
     };
     [_bgView addSubview:_chainTransactionView];
     [_chainTransactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainTransactionTitleView.mas_bottom).offset(12);
+        make.top.equalTo(self.chainTransactionTitleView.mas_bottom).offset(2);
         make.left.right.equalTo(self);
         self.chainTransactionViewHeightConstraint = make.height.mas_equalTo(@192);
         make.bottom.equalTo(self.bgView).offset(-(50 + KTabBar_Height));

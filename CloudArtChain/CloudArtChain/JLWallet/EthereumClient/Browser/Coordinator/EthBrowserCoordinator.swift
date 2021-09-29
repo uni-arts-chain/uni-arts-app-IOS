@@ -12,18 +12,19 @@ import TrustKeystore
 import WebKit
 import Result
 
-enum EthConfirmType {
-    case sign
-    case signThenSend
-}
+//enum EthConfirmType {
+//    case sign
+//    case signThenSend
+//}
+//
+//enum EthConfirmResult {
+//    case signedTransaction(EthSentTransaction)
+//    case sentTransaction(EthSentTransaction)
+//}
 
-enum EthConfirmResult {
-    case signedTransaction(EthSentTransaction)
-    case sentTransaction(EthSentTransaction)
-}
-
-protocol EthBrowserCoordinatorDelegate: AnyObject {
+protocol EthBrowserCoordinatorDelegate: class {
     func didSentTransaction(transaction: EthSentTransaction, in coordinator: EthBrowserCoordinator)
+    func collectDapp(isCollect: Bool)
 }
 
 final class EthBrowserCoordinator: NSObject {
@@ -31,41 +32,62 @@ final class EthBrowserCoordinator: NSObject {
     let keystore: EthKeystore
     let navigationController: JLNavigationViewController
     
+    var name: String?
+    var imgUrl: String?
     var webUrl: URL?
+    var isCollect: Bool
     weak var delegate: EthBrowserCoordinatorDelegate?
     
     var urlParser: EthBrowserURLParser {
         let engine = EthSearchEngine(rawValue: UserDefaults.standard.value(forKey: EthPreferenceOption.browserSearchEngine.key) as? Int ?? 0) ?? .default
         return EthBrowserURLParser(engine: engine)
     }
-    lazy var browserViewController: EthBrowserViewController = {
-        let controller = EthBrowserViewController(account: keystore.recentlyUsedWalletInfo!, config: .current, server: .main, webUrl: webUrl)
-        controller.delegate = self
-        controller.webView.uiDelegate = self
-        return controller
-    }()
+//    lazy var browserViewController: EthBrowserViewController = {
+//        let controller = EthBrowserViewController(account: keystore.recentlyUsedWalletInfo!, config: .current, server: .main, name: name, imgUrl: imgUrl, webUrl: webUrl)
+//        controller.delegate = self
+//        controller.webView.uiDelegate = self
+//        return controller
+//    }()
     
     init(
         keystore: EthKeystore,
         navigationController: JLNavigationViewController,
-        webUrl: URL? = nil
+        name: String?,
+        imgUrl: String?,
+        webUrl: URL? = nil,
+        isCollect: Bool = false
     ) {
         self.keystore = keystore
         self.navigationController = navigationController
+        self.name = name
+        self.imgUrl = imgUrl
         self.webUrl = webUrl
+        self.isCollect = isCollect
+        super.init()
+    }
+    
+    @objc func collectDapp(notification: NSNotification) {
+        let userInfo = notification.userInfo as? [String:Bool]
+        let isCollect = userInfo?["isCollect"]
+        print("browser 收藏dapp: ", isCollect)
+        delegate?.collectDapp(isCollect: isCollect ?? false)
     }
     
     func start() {
-        navigationController.pushViewController(browserViewController, animated: true)
+//        navigationController.modalPresentationStyle = .fullScreen
+//        browserViewController.modalPresentationStyle = .fullScreen
+//        navigationController.present(browserViewController, animated: true, completion: nil)
+        
+//        navigationController.pushViewController(browserViewController, animated: true)
     }
     
     func openURL(_ url: URL) {
-        browserViewController.goTo(url: url)
+//        browserViewController.goTo(url: url)
     }
     
     func signMessage(with type: EthSignMesageType, account: Account, callbackID: Int) {
         let coordinator = EthSignMessageCoordinator(
-            navigationController: navigationController,
+            viewController: navigationController,
             keystore: keystore,
             account: account
         )
@@ -82,9 +104,10 @@ final class EthBrowserCoordinator: NSObject {
                 case .typedMessage:
                     callback = EthDappCallback(id: callbackID, value: .signTypedMessage(data))
                 }
-                self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
+//                self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
             case .failure:
-                self.browserViewController.notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
+//                self.browserViewController.notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
+            break
             }
             coordinator.didComplete = nil
         }
@@ -112,20 +135,21 @@ final class EthBrowserCoordinator: NSObject {
                 case .signedTransaction(let transaction):
                     // on signing we pass signed hex of the transaction
                     let callback = EthDappCallback(id: callbackID, value: .signTransaction(transaction.data))
-                    self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
+//                    self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
                     self.delegate?.didSentTransaction(transaction: transaction, in: self)
                 case .sentTransaction(let transaction):
                     // on send transaction we pass transaction ID only.
                     let data = Data(hex: transaction.id)
                     let callback = EthDappCallback(id: callbackID, value: .sentTransaction(data))
-                    self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
+//                    self.browserViewController.notifyFinish(callbackID: callbackID, value: .success(callback))
                     self.delegate?.didSentTransaction(transaction: transaction, in: self)
                 }
             case .failure:
-                self.browserViewController.notifyFinish(
-                    callbackID: callbackID,
-                    value: .failure(EthDAppError.cancelled)
-                )
+//                self.browserViewController.notifyFinish(
+//                    callbackID: callbackID,
+//                    value: .failure(EthDAppError.cancelled)
+//                )
+                break
             }
             coordinator.didCompleted = nil
             self.navigationController.dismiss(animated: true, completion: nil)
@@ -133,59 +157,66 @@ final class EthBrowserCoordinator: NSObject {
     }
 }
 
-extension EthBrowserCoordinator: EthBrowserViewControllerDelegate {
-    func runAction(action: EthBrowserAction) {
-        switch action {
-        case .navigationAction(let navAction):
-            switch navAction {
-            case .home:
-                break
-            case .more(let sender):
-                break
-            case .enter(let string):
-                guard let url = urlParser.url(from: string) else { return }
-                openURL(url)
-            case .goBack:
-                browserViewController.webView.goBack()
-            default: break
-            }
-        case .changeURL(let url):
-            break
-        case .qrCode:
-            break
-        }
-    }
+// MARK: EthBrowserViewControllerDelegate
+//extension EthBrowserCoordinator: EthBrowserViewControllerDelegate {
+//    func runAction(action: EthBrowserAction) {
+//        switch action {
+//        case .navigationAction(let navAction):
+//            switch navAction {
+//            case .home:
+//                break
+//            case .more(let sender):
+//                break
+//            case .enter(let string):
+//                guard let url = urlParser.url(from: string) else { return }
+//                openURL(url)
+//            case .goBack:
+//                browserViewController.webView.goBack()
+//            default: break
+//            }
+//        case .changeURL(let url):
+//            break
+//        case .qrCode:
+//            break
+//        }
+//    }
+//
+//    func didCall(action: EthDappAction, callbackID: Int) {
+//        guard let account = keystore.recentlyUsedWalletInfo?.currentAccount, let _ = account.wallet else {
+//            browserViewController.notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
+//            return
+//        }
+//        switch action {
+//        case .signTransaction(let unconfirmedTransaction):
+//            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: browserViewController.server)
+//        case .sendTransaction(let unconfirmedTransaction):
+//            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: browserViewController.server)
+//        case .signMessage(let hexMessage):
+//            signMessage(with: .message(Data(hex: hexMessage)), account: account, callbackID: callbackID)
+//        case .signPersonalMessage(let hexMessage):
+//            signMessage(with: .personalMessage(Data(hex: hexMessage)), account: account, callbackID: callbackID)
+//        case .signTypedMessage(let typedData):
+//            signMessage(with: .typedMessage(typedData), account: account, callbackID: callbackID)
+//        case .unknown:
+//            break
+//        }
+//    }
+//
+//    func didVisitURL(url: URL, title: String) {
+////        historyStore.record(url: url, title: title)
+//    }
+//
+//    func collectCurrentDapp(with isCollect: Bool) {
+//        print("browser 收藏dapp: ", isCollect)
+//        delegate?.collectDapp(isCollect: isCollect)
+//    }
+//}
 
-    func didCall(action: EthDappAction, callbackID: Int) {
-        guard let account = keystore.recentlyUsedWalletInfo?.currentAccount, let _ = account.wallet else {
-            browserViewController.notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
-            return
-        }
-        switch action {
-        case .signTransaction(let unconfirmedTransaction):
-            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: browserViewController.server)
-        case .sendTransaction(let unconfirmedTransaction):
-            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: browserViewController.server)
-        case .signMessage(let hexMessage):
-            signMessage(with: .message(Data(hex: hexMessage)), account: account, callbackID: callbackID)
-        case .signPersonalMessage(let hexMessage):
-            signMessage(with: .personalMessage(Data(hex: hexMessage)), account: account, callbackID: callbackID)
-        case .signTypedMessage(let typedData):
-            signMessage(with: .typedMessage(typedData), account: account, callbackID: callbackID)
-        case .unknown:
-            break
-        }
-    }
-
-    func didVisitURL(url: URL, title: String) {
-//        historyStore.record(url: url, title: title)
-    }
-}
-
+// MARK: WKUIDelegate
 extension EthBrowserCoordinator: WKUIDelegate {
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if navigationAction.targetFrame == nil {
-            browserViewController.webView.load(navigationAction.request)
+//            browserViewController.webView.load(navigationAction.request)
         }
         return nil
     }
@@ -243,6 +274,7 @@ extension EthBrowserCoordinator: WKUIDelegate {
     }
 }
 
+// MARK: EthSignMessageCoordinatorDelegate
 extension EthBrowserCoordinator: EthSignMessageCoordinatorDelegate {
     func didCancel(in coordinator: EthSignMessageCoordinator) {
         coordinator.didComplete = nil

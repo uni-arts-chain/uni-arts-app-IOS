@@ -52,7 +52,9 @@
     if (@available(iOS 11.0, *)) {//避免滚动视图顶部出现20的空白以及push或者pop的时候页面有一个上移或者下移的异常动画的问题
         [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
     }
-    
+    NSArray *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [docPath objectAtIndex:0];
+    JLLog(@"document---: %@", path);
     _textureManager = [[LAppTextureManager alloc]init];
     
     LAppViewController *lappViewController = [[LAppViewController alloc] initWithNibName:nil bundle:nil];

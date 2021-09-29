@@ -75,7 +75,6 @@
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
 		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
 		5E8BCA6C27001CD800A12A14 /* NSArray+JLMASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */; };
-		5E8BCA6F27006EC000A12A14 /* JLDappSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA6E27006EC000A12A14 /* JLDappSearchHeaderView.m */; };
 		5E8BCA7227006ED800A12A14 /* JLDappContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA7127006ED800A12A14 /* JLDappContentView.m */; };
 		5E8BCA75270075CB00A12A14 /* JLDappTrackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA74270075CB00A12A14 /* JLDappTrackView.m */; };
 		5E8BCA78270075EA00A12A14 /* JLDappTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA77270075EA00A12A14 /* JLDappTitleView.m */; };
@@ -85,6 +84,19 @@
 		5E8BCA8A2701C29E00A12A14 /* JLDappMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */; };
 		5E8BCA8D2701C3F700A12A14 /* JLDappMoreContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */; };
 		5E8BCA902701C4F200A12A14 /* JLDappMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */; };
+		5E8BCA932702ABE900A12A14 /* JLDappSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA922702ABE900A12A14 /* JLDappSearchViewController.m */; };
+		5E8BCA962702ADA400A12A14 /* JLDappSearchContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA952702ADA400A12A14 /* JLDappSearchContentView.m */; };
+		5E8BCA9C2702AF6800A12A14 /* JLDappSearchNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA9B2702AF6800A12A14 /* JLDappSearchNavigationBar.m */; };
+		5E8BCA9F2702B03500A12A14 /* JLDappSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA9D2702B03500A12A14 /* JLDappSearchHeaderView.m */; };
+		5E8BCAA22702B36E00A12A14 /* JLDappSearchHotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAA12702B36E00A12A14 /* JLDappSearchHotView.m */; };
+		5E8BCAA52702B37F00A12A14 /* JLDappSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAA42702B37F00A12A14 /* JLDappSearchResultView.m */; };
+		5E8BCAA82702E79200A12A14 /* JLDappSearchActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAA72702E79200A12A14 /* JLDappSearchActivityIndicatorView.m */; };
+		5E8BCAAC2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAAB2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.m */; };
+		5E8BCAAF27030FF300A12A14 /* JLDappBrowserNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAAE27030FF300A12A14 /* JLDappBrowserNavigationBar.m */; };
+		5E8BCAB32703102B00A12A14 /* JLDappBrowserManagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAB22703102B00A12A14 /* JLDappBrowserManagerView.m */; };
+		5E8BCAB72704403700A12A14 /* JLEthBrowserNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAB62704403700A12A14 /* JLEthBrowserNavigationBar.swift */; };
+		5E8BCAB9270449F200A12A14 /* EthBrowserManagerFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCAB8270449F200A12A14 /* EthBrowserManagerFaceView.swift */; };
+		5E8BCABB2704635100A12A14 /* EthBrowserViewController+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCABA2704635100A12A14 /* EthBrowserViewController+Transfer.swift */; };
 		5E9B756326A51755002A2364 /* JLNewAuctionArtDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */; };
 		5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756526A517A4002A2364 /* JLNewAuctionArtDetailContentView.m */; };
 		5E9B756926A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9B756826A51EDE002A2364 /* JLNewAuctionArtDetailBottomView.m */; };
@@ -1505,8 +1517,6 @@
 		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
 		5E8BCA6A27001CD800A12A14 /* NSArray+JLMASConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+JLMASConstraint.h"; sourceTree = "<group>"; };
 		5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+JLMASConstraint.m"; sourceTree = "<group>"; };
-		5E8BCA6D27006EC000A12A14 /* JLDappSearchHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchHeaderView.h; sourceTree = "<group>"; };
-		5E8BCA6E27006EC000A12A14 /* JLDappSearchHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchHeaderView.m; sourceTree = "<group>"; };
 		5E8BCA7027006ED800A12A14 /* JLDappContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappContentView.h; sourceTree = "<group>"; };
 		5E8BCA7127006ED800A12A14 /* JLDappContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappContentView.m; sourceTree = "<group>"; };
 		5E8BCA73270075CB00A12A14 /* JLDappTrackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappTrackView.h; sourceTree = "<group>"; };
@@ -1525,6 +1535,29 @@
 		5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappMoreContentView.m; sourceTree = "<group>"; };
 		5E8BCA8E2701C4F200A12A14 /* JLDappMoreCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappMoreCell.h; sourceTree = "<group>"; };
 		5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappMoreCell.m; sourceTree = "<group>"; };
+		5E8BCA912702ABE900A12A14 /* JLDappSearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchViewController.h; sourceTree = "<group>"; };
+		5E8BCA922702ABE900A12A14 /* JLDappSearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchViewController.m; sourceTree = "<group>"; };
+		5E8BCA942702ADA400A12A14 /* JLDappSearchContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchContentView.h; sourceTree = "<group>"; };
+		5E8BCA952702ADA400A12A14 /* JLDappSearchContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchContentView.m; sourceTree = "<group>"; };
+		5E8BCA9A2702AF6800A12A14 /* JLDappSearchNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchNavigationBar.h; sourceTree = "<group>"; };
+		5E8BCA9B2702AF6800A12A14 /* JLDappSearchNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchNavigationBar.m; sourceTree = "<group>"; };
+		5E8BCA9D2702B03500A12A14 /* JLDappSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchHeaderView.m; sourceTree = "<group>"; };
+		5E8BCA9E2702B03500A12A14 /* JLDappSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLDappSearchHeaderView.h; sourceTree = "<group>"; };
+		5E8BCAA02702B36E00A12A14 /* JLDappSearchHotView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchHotView.h; sourceTree = "<group>"; };
+		5E8BCAA12702B36E00A12A14 /* JLDappSearchHotView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchHotView.m; sourceTree = "<group>"; };
+		5E8BCAA32702B37F00A12A14 /* JLDappSearchResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchResultView.h; sourceTree = "<group>"; };
+		5E8BCAA42702B37F00A12A14 /* JLDappSearchResultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchResultView.m; sourceTree = "<group>"; };
+		5E8BCAA62702E79200A12A14 /* JLDappSearchActivityIndicatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappSearchActivityIndicatorView.h; sourceTree = "<group>"; };
+		5E8BCAA72702E79200A12A14 /* JLDappSearchActivityIndicatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappSearchActivityIndicatorView.m; sourceTree = "<group>"; };
+		5E8BCAAA2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappApplyForAuthorisationView.h; sourceTree = "<group>"; };
+		5E8BCAAB2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappApplyForAuthorisationView.m; sourceTree = "<group>"; };
+		5E8BCAAD27030FF300A12A14 /* JLDappBrowserNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappBrowserNavigationBar.h; sourceTree = "<group>"; };
+		5E8BCAAE27030FF300A12A14 /* JLDappBrowserNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappBrowserNavigationBar.m; sourceTree = "<group>"; };
+		5E8BCAB12703102B00A12A14 /* JLDappBrowserManagerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappBrowserManagerView.h; sourceTree = "<group>"; };
+		5E8BCAB22703102B00A12A14 /* JLDappBrowserManagerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappBrowserManagerView.m; sourceTree = "<group>"; };
+		5E8BCAB62704403700A12A14 /* JLEthBrowserNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JLEthBrowserNavigationBar.swift; sourceTree = "<group>"; };
+		5E8BCAB8270449F200A12A14 /* EthBrowserManagerFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthBrowserManagerFaceView.swift; sourceTree = "<group>"; };
+		5E8BCABA2704635100A12A14 /* EthBrowserViewController+Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EthBrowserViewController+Transfer.swift"; sourceTree = "<group>"; };
 		5E9B756126A51755002A2364 /* JLNewAuctionArtDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailViewController.h; sourceTree = "<group>"; };
 		5E9B756226A51755002A2364 /* JLNewAuctionArtDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLNewAuctionArtDetailViewController.m; sourceTree = "<group>"; };
 		5E9B756426A517A4002A2364 /* JLNewAuctionArtDetailContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLNewAuctionArtDetailContentView.h; sourceTree = "<group>"; };
@@ -3493,6 +3526,19 @@
 			path = QGYAnimationEasingHelper;
 			sourceTree = "<group>";
 		};
+		5E8BCAB027030FFB00A12A14 /* DappBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				5E8BCAAD27030FF300A12A14 /* JLDappBrowserNavigationBar.h */,
+				5E8BCAAE27030FF300A12A14 /* JLDappBrowserNavigationBar.m */,
+				5E8BCAB12703102B00A12A14 /* JLDappBrowserManagerView.h */,
+				5E8BCAB22703102B00A12A14 /* JLDappBrowserManagerView.m */,
+				5E8BCAAA2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.h */,
+				5E8BCAAB2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.m */,
+			);
+			path = DappBrowser;
+			sourceTree = "<group>";
+		};
 		5E9B757C26A6C458002A2364 /* Auction */ = {
 			isa = PBXGroup;
 			children = (
@@ -3645,6 +3691,8 @@
 				5ECA14F026F59181009614DB /* JLDappViewController.m */,
 				5E8BCA882701C29E00A12A14 /* JLDappMoreViewController.h */,
 				5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */,
+				5E8BCA912702ABE900A12A14 /* JLDappSearchViewController.h */,
+				5E8BCA922702ABE900A12A14 /* JLDappSearchViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -3652,10 +3700,11 @@
 		5ECA14ED26F59141009614DB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5E8BCAB027030FFB00A12A14 /* DappBrowser */,
 				5E8BCA7027006ED800A12A14 /* JLDappContentView.h */,
 				5E8BCA7127006ED800A12A14 /* JLDappContentView.m */,
-				5E8BCA6D27006EC000A12A14 /* JLDappSearchHeaderView.h */,
-				5E8BCA6E27006EC000A12A14 /* JLDappSearchHeaderView.m */,
+				5E8BCA9E2702B03500A12A14 /* JLDappSearchHeaderView.h */,
+				5E8BCA9D2702B03500A12A14 /* JLDappSearchHeaderView.m */,
 				5E8BCA76270075EA00A12A14 /* JLDappTitleView.h */,
 				5E8BCA77270075EA00A12A14 /* JLDappTitleView.m */,
 				5E8BCA73270075CB00A12A14 /* JLDappTrackView.h */,
@@ -3668,6 +3717,16 @@
 				5E8BCA8C2701C3F700A12A14 /* JLDappMoreContentView.m */,
 				5E8BCA8E2701C4F200A12A14 /* JLDappMoreCell.h */,
 				5E8BCA8F2701C4F200A12A14 /* JLDappMoreCell.m */,
+				5E8BCA942702ADA400A12A14 /* JLDappSearchContentView.h */,
+				5E8BCA952702ADA400A12A14 /* JLDappSearchContentView.m */,
+				5E8BCA9A2702AF6800A12A14 /* JLDappSearchNavigationBar.h */,
+				5E8BCA9B2702AF6800A12A14 /* JLDappSearchNavigationBar.m */,
+				5E8BCAA02702B36E00A12A14 /* JLDappSearchHotView.h */,
+				5E8BCAA12702B36E00A12A14 /* JLDappSearchHotView.m */,
+				5E8BCAA32702B37F00A12A14 /* JLDappSearchResultView.h */,
+				5E8BCAA42702B37F00A12A14 /* JLDappSearchResultView.m */,
+				5E8BCAA62702E79200A12A14 /* JLDappSearchActivityIndicatorView.h */,
+				5E8BCAA72702E79200A12A14 /* JLDappSearchActivityIndicatorView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3833,6 +3892,7 @@
 			isa = PBXGroup;
 			children = (
 				5EFA60EA26F3190600899224 /* EthBrowserViewController.swift */,
+				5E8BCABA2704635100A12A14 /* EthBrowserViewController+Transfer.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -3881,6 +3941,8 @@
 			isa = PBXGroup;
 			children = (
 				5EFA616C26F336FC00899224 /* EthBrowserNavigationBar.swift */,
+				5E8BCAB62704403700A12A14 /* JLEthBrowserNavigationBar.swift */,
+				5E8BCAB8270449F200A12A14 /* EthBrowserManagerFaceView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -7978,9 +8040,12 @@
 				B312257225B6B60A00562ECA /* SelectionListViewController.swift in Sources */,
 				B312253025B6B60A00562ECA /* EmptyAccountIcon.swift in Sources */,
 				5E76DFED267342DE00727C8C /* JLViewAniamtionTool.m in Sources */,
+				5E8BCAB32703102B00A12A14 /* JLDappBrowserManagerView.m in Sources */,
 				B391B0A4262EBC6600127532 /* JLUploadWorkSwitchView.m in Sources */,
+				5E8BCA932702ABE900A12A14 /* JLDappSearchViewController.m in Sources */,
 				5EFA60DD26F2E76F00899224 /* EthLocalizedOperationObject.swift in Sources */,
 				B31225CF25B6B60A00562ECA /* UsernameSetupWireframe.swift in Sources */,
+				5E8BCA9F2702B03500A12A14 /* JLDappSearchHeaderView.m in Sources */,
 				B39BEAD825136F3D00DE69A6 /* JLUploadWorkImageView.m in Sources */,
 				B39655C224F38DBA007A8EC2 /* NSDate+LZFormat.m in Sources */,
 				B31225F325B6B60A00562ECA /* AboutTitleCell.swift in Sources */,
@@ -8023,6 +8088,7 @@
 				5E6EAC8F26FB000E00DEE213 /* JLMultiChainWalletInfoListViewController.m in Sources */,
 				B38D7E5A25E11C3100E9978E /* WMPhotoBrowserCell.m in Sources */,
 				B391CB98262D2AD700FF48B0 /* CubismPhysics.cpp in Sources */,
+				5E8BCABB2704635100A12A14 /* EthBrowserViewController+Transfer.swift in Sources */,
 				B31225AF25B6B60A00562ECA /* PinChangeInteractor.swift in Sources */,
 				B31225B525B6B60A00562ECA /* LocalAuthInteractor.swift in Sources */,
 				5EFA616A26F3348500899224 /* EthScriptMessageProxy.swift in Sources */,
@@ -8108,6 +8174,7 @@
 				5ECA14FF26F5C38B009614DB /* JLMultiChainWalletViewController.m in Sources */,
 				B396561024F38DF4007A8EC2 /* UIViewController+JLVCPath.m in Sources */,
 				B3890B2A25DF996700028F78 /* JLDotView.m in Sources */,
+				5E8BCAA82702E79200A12A14 /* JLDappSearchActivityIndicatorView.m in Sources */,
 				B38FD55725CBECD10028797E /* JLAuctionDetailViewController.m in Sources */,
 				B396562724F38EE3007A8EC2 /* JLTool.m in Sources */,
 				B31226AD25B6B60B00562ECA /* ExportSeedPresenter.swift in Sources */,
@@ -8239,6 +8306,7 @@
 				B31225E125B6B60A00562ECA /* AccountImportViewFactory.swift in Sources */,
 				B31225EA25B6B60A00562ECA /* AccountImportPresenter.swift in Sources */,
 				B31225B325B6B60A00562ECA /* LocalAuthProtocol.swift in Sources */,
+				5E8BCAAC2702ED6E00A12A14 /* JLDappApplyForAuthorisationView.m in Sources */,
 				B31224FC25B6B60A00562ECA /* WalletNetworkFacade+Protocol.swift in Sources */,
 				B312265225B6B60A00562ECA /* TransferConfirmConfigurator.swift in Sources */,
 				B38BCFFE25B8306A00FD37F7 /* JLReceiveAddressTableViewCell.m in Sources */,
@@ -8536,6 +8604,7 @@
 				5E8BCA8A2701C29E00A12A14 /* JLDappMoreViewController.m in Sources */,
 				5ECA150826F5DEF0009614DB /* JLMultiChainWalletInfoViewController.m in Sources */,
 				B36361AD2500CBA60039DF48 /* JLApplyCertWorksSelfSignCell.m in Sources */,
+				5E8BCA962702ADA400A12A14 /* JLDappSearchContentView.m in Sources */,
 				B312259A25B6B60A00562ECA /* StorageSubscriptionProtocols.swift in Sources */,
 				B394C7F5262FD19D00EB3254 /* JLBoxOneCardView.m in Sources */,
 				B391CB87262D2AD700FF48B0 /* CubismBreath.cpp in Sources */,
@@ -8708,6 +8777,7 @@
 				B35936132511B0F200E2B2FD /* JLAlertSheetControl.m in Sources */,
 				B37FFB4524F4A56D004B9CC8 /* PGIndexBannerSubiew.m in Sources */,
 				5EFA60E326F2E8AC00899224 /* EthEstimateGasRequest.swift in Sources */,
+				5E8BCAA52702B37F00A12A14 /* JLDappSearchResultView.m in Sources */,
 				B3753DC82554F598003A86CF /* SLAvCaptureSession.m in Sources */,
 				B312250725B6B60A00562ECA /* RuntimeDispatchInfo.swift in Sources */,
 				B312254825B6B60A00562ECA /* TriangularedButton.swift in Sources */,
@@ -8756,6 +8826,7 @@
 				B312269A25B6B60B00562ECA /* RootInteractor.swift in Sources */,
 				B31224CD25B6B60900562ECA /* Decimal+String.swift in Sources */,
 				B35936012511B04000E2B2FD /* JLPickerView.m in Sources */,
+				5E8BCAB9270449F200A12A14 /* EthBrowserManagerFaceView.swift in Sources */,
 				B312251D25B6B60A00562ECA /* ReachabilityManager.swift in Sources */,
 				B38BCFEE25B8267500FD37F7 /* JLSellOrderViewController.m in Sources */,
 				B31224E825B6B60900562ECA /* Chain+ViewModel.swift in Sources */,
@@ -8832,6 +8903,7 @@
 				B36361B02500CBCF0039DF48 /* JLApplyCertWorksMechanismSignCell.m in Sources */,
 				5EFA617F26F347DD00899224 /* EthTransactionConfigurator.swift in Sources */,
 				B31226DB25B6B60B00562ECA /* MainTabBarInteractor.swift in Sources */,
+				5E8BCA9C2702AF6800A12A14 /* JLDappSearchNavigationBar.m in Sources */,
 				5E9B756626A517A4002A2364 /* JLNewAuctionArtDetailContentView.m in Sources */,
 				B366C7EC25524D29007F9583 /* Utility.m in Sources */,
 				B312263825B6B60A00562ECA /* ContactsConstants.swift in Sources */,
@@ -8959,7 +9031,6 @@
 				B312269825B6B60B00562ECA /* RootProtocol.swift in Sources */,
 				B31225A425B6B60A00562ECA /* NetworkInfoMode.swift in Sources */,
 				B312252425B6B60A00562ECA /* ContactItem.swift in Sources */,
-				5E8BCA6F27006EC000A12A14 /* JLDappSearchHeaderView.m in Sources */,
 				B31226C625B6B60B00562ECA /* ExportGenericViewModel.swift in Sources */,
 				B312250E25B6B60A00562ECA /* WalletNetworkFacade+Price.swift in Sources */,
 				B39655E424F38DBA007A8EC2 /* MBProgressHUD+NHAdd.m in Sources */,
@@ -9021,6 +9092,7 @@
 				5E70E22926CBA013003ACC8B /* JLCreatorPageArtViewController.m in Sources */,
 				B312268325B6B60A00562ECA /* WalletBaseTokenView.swift in Sources */,
 				B3B968C426156CB800347B27 /* JLSingleSellOrderViewController.m in Sources */,
+				5E8BCAAF27030FF300A12A14 /* JLDappBrowserNavigationBar.m in Sources */,
 				B359361A2511BD3700E2B2FD /* JLCalcInputView.m in Sources */,
 				5EFA617926F3411E00899224 /* EthPreferenceOption.swift in Sources */,
 				B31225A525B6B60A00562ECA /* NetworkInfoWireframe.swift in Sources */,
@@ -9046,6 +9118,7 @@
 				5E8BCA7227006ED800A12A14 /* JLDappContentView.m in Sources */,
 				B3C0ED2E25C2AD9A001B8BCA /* JLReceiveAddressSwitchTableViewCell.m in Sources */,
 				5CD773DD250145A100F0F49A /* JLWalletViewController.m in Sources */,
+				5E8BCAA22702B36E00A12A14 /* JLDappSearchHotView.m in Sources */,
 				B396561A24F38DF4007A8EC2 /* UIImage+Color.m in Sources */,
 				B38C0B9E2501CF74006197E5 /* JLIntegralCell.m in Sources */,
 				B31226CE25B6B60B00562ECA /* ManagedAccountViewModel.swift in Sources */,
@@ -9087,6 +9160,7 @@
 				B312266E25B6B60A00562ECA /* WalletHistoryStyle.swift in Sources */,
 				B312266F25B6B60A00562ECA /* WalletHistoryBackgroundView.swift in Sources */,
 				B31224E225B6B60900562ECA /* CodableExtensions.swift in Sources */,
+				5E8BCAB72704403700A12A14 /* JLEthBrowserNavigationBar.swift in Sources */,
 				B35936212511C53D00E2B2FD /* JLDescriptionContentView.m in Sources */,
 				B3CDC57D25E7B8AB00CB84CE /* JLArtsModel.m in Sources */,
 				B3266F5C24FE446D000C6E95 /* JLArtDetailView.m in Sources */,

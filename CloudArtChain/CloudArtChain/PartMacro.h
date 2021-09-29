@@ -14,12 +14,12 @@
 //定义开发环境
 #define KF 0 //开发环境
 #define OL 1  //线上环境
-#define ENV KF  //选取环境
+#define ENV OL  //选取环境
 
 // 定义环境地址
 #if (ENV == KF)//开发环境
 //网络接口访问地址
-#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.network/"
+#define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://fantuan.uniarts.vip/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.network"
 #define CHAIN_GenesisHash                    "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
 
@@ -92,5 +92,5 @@
 #pragma mark - userDefaults
 #define USERDEFAULTS_JL_WITHDRAW_PAY_TYPE @"UserDefaultJLWithdrawPayType"
 #define USERDEFAULTS_JL_MULTI_WALLET_NAME @"UserDefaultJLMultiWalletName"
-
+#define USERDEFAULTS_JL_DAPP_APPLY_FOR_AUTHORISATION @"JLocalNotification_JLDappApplyForAuthorisation"
 #endif /* PartMacro_h */

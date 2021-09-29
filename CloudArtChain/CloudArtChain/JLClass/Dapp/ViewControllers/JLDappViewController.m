@@ -10,6 +10,7 @@
 #import "JLDappContentView.h"
 
 #import "JLScanViewController.h"
+#import "JLDappSearchViewController.h"
 #import "JLDappMoreViewController.h"
 
 @interface JLDappViewController ()<JLDappContentViewDelegate>
@@ -32,7 +33,8 @@
 
 #pragma mark - JLDappContentViewDelegate
 - (void)search {
-    JLLog(@"搜索");
+    JLDappSearchViewController *vc = [[JLDappSearchViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 
 - (void)scanCode {

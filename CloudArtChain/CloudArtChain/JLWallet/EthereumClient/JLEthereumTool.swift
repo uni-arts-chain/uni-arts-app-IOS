@@ -27,6 +27,8 @@ import Result
 @objcMembers class JLEthereumTool: NSObject {
     static let shared = JLEthereumTool()
     private let keystore = EthKeystore()
+    
+    var collectDappClourse: ((_ isCollect: Bool) -> Void)?
 
     override private init() { super.init() }
 
@@ -250,14 +252,41 @@ extension JLEthereumTool {
 // MARK: DAPP 浏览器
 extension JLEthereumTool: EthBrowserCoordinatorDelegate {
     /// 查看dapp
-    func lookDapp(navigationViewController: JLNavigationViewController?, webUrl: URL) {
+    func lookDapp(navigationViewController: JLNavigationViewController?, name: String?, imgUrl: String?, webUrl: URL, isCollect: Bool, collectCompletion: @escaping (_ isCollect: Bool) -> Void) {
+        guard let _ = keystore.recentlyUsedWalletInfo else { return }
         guard navigationViewController != nil else { return }
-        let coordinator = EthBrowserCoordinator(keystore: keystore, navigationController: navigationViewController!, webUrl: webUrl)
-        coordinator.delegate = self
-        coordinator.start()
+        collectDappClourse = collectCompletion
+//        let coordinator = EthBrowserCoordinator(keystore: keystore, navigationController: navigationViewController!, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
+//        coordinator.delegate = self
+//        coordinator.start()
+        
+        let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: .main, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
+        browserViewController.delegate = self
+        browserViewController.modalPresentationStyle = .fullScreen
+        navigationViewController?.present(browserViewController, animated: true, completion: nil)
+        
     }
     
     func didSentTransaction(transaction: EthSentTransaction, in coordinator: EthBrowserCoordinator) {
         print("ethereum 已经发送交易")
+    }
+    
+    func collectDapp(isCollect: Bool) {
+        if collectDappClourse != nil {
+            collectDappClourse!(isCollect)
+        }
+    }
+}
+
+// MARK: EthBrowserViewControllerDelegate
+extension JLEthereumTool: EthBrowserViewControllerDelegate {
+    func didSentTransaction(transaction: EthSentTransaction) {
+        print("ethereum 已经发送交易")
+    }
+    
+    func collectCurrentDapp(with isCollect: Bool) {
+        if collectDappClourse != nil {
+            collectDappClourse!(isCollect)
+        }
     }
 }

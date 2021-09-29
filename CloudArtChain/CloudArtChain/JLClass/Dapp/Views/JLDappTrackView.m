@@ -123,6 +123,8 @@
         UIImageView *imgView = [[UIImageView alloc] init];
         imgView.backgroundColor = JL_color_blue_6077DF;
         imgView.layer.cornerRadius = 17.5;
+        imgView.layer.borderWidth = 1;
+        imgView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
         imgView.clipsToBounds = YES;
         [contentView addSubview:imgView];
         [imgView mas_makeConstraints:^(MASConstraintMaker *make) {

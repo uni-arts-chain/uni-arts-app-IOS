@@ -20,5 +20,9 @@
 #import "LewPopupViewController.h"
 #import "JLChainQRCodeView.h"
 #import "JLEnum.h"
+/// dapp相关
 #import "JLMultiWalletInfo.h"
+#import "JLDappBrowserNavigationBar.h"
+#import "JLDappBrowserManagerView.h"
+#import "JLDappApplyForAuthorisationView.h"
 #import "JLMultiChainWalletInfoViewController.h"

@@ -22,7 +22,7 @@ protocol EthSignMessageCoordinatorDelegate: AnyObject {
 
 final class EthSignMessageCoordinator {
     
-    let navigationController: JLNavigationViewController
+    let viewController: UIViewController
     let keystore: EthKeystore
     let account: Account
 
@@ -30,11 +30,11 @@ final class EthSignMessageCoordinator {
     var didComplete: ((Result<Data, AnyError>) -> Void)?
     
     init(
-        navigationController: JLNavigationViewController,
+        viewController: UIViewController,
         keystore: EthKeystore,
         account: Account
     ) {
-        self.navigationController = navigationController
+        self.viewController = viewController
         self.keystore = keystore
         self.account = account
     }
@@ -42,7 +42,7 @@ final class EthSignMessageCoordinator {
     /// 开始确认签名
     func start(with type: EthSignMesageType) {
         let alertController = makeAlertController(with: type)
-        navigationController.present(alertController, animated: true, completion: nil)
+        viewController.present(alertController, animated: true, completion: nil)
     }
 
     private func makeAlertController(with type: EthSignMesageType) -> UIAlertController {
