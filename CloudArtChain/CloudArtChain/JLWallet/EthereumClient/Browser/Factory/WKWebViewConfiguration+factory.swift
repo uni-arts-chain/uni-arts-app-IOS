@@ -26,9 +26,10 @@ extension WKWebViewConfiguration {
                 js += try String(contentsOfFile: filepath)
             } catch { }
         }
-
+        print("js: ", server.rpcURL.absoluteString, server.chainID, address.description.lowercased())
         js +=
         """
+        
         const addressHex = "\(address.description.lowercased())"
         const rpcURL = "\(server.rpcURL.absoluteString)"
         const chainID = "\(server.chainID)"
@@ -68,7 +69,7 @@ extension WKWebViewConfiguration {
             }
         }, {
             address: addressHex,
-            networkVersion: chainID
+            networkVersion: "0x" + parseInt(chainID).toString(16) || null
         })
 
         web3.setProvider = function () {

@@ -74,7 +74,9 @@ static JLDappApplyForAuthorisationView *authorisationView;
     }];
     
     _chainImgView = [[UIImageView alloc] init];
-    _chainImgView.backgroundColor = JL_color_blue_6077DF;
+    if (![NSString stringIsEmpty:_dappImgUrl]) {
+        [_chainImgView sd_setImageWithURL:[NSURL URLWithString:_dappImgUrl]];
+    }
     _chainImgView.layer.cornerRadius = 17.5;
     _chainImgView.layer.borderWidth = 1;
     _chainImgView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
@@ -87,7 +89,7 @@ static JLDappApplyForAuthorisationView *authorisationView;
     }];
     
     _chainNameLabel = [[UILabel alloc] init];
-    _chainNameLabel.text = @"imKey";
+    _chainNameLabel.text = _dappName;
     _chainNameLabel.textColor = JL_color_gray_101010;
     _chainNameLabel.font = kFontPingFangSCSCSemibold(15);
     _chainNameLabel.textAlignment = NSTextAlignmentCenter;
@@ -98,7 +100,7 @@ static JLDappApplyForAuthorisationView *authorisationView;
     }];
     
     _descLabel = [[UILabel alloc] init];
-    _descLabel.text = @"imKey正在申请访问你的钱包地址，你确认将钱包地址公开给此网站吗？";
+    _descLabel.text = [NSString stringWithFormat:@"%@正在申请访问你的钱包地址，你确认将钱包地址公开给此网站吗？", _dappName];
     _descLabel.textColor = JL_color_gray_101010;
     _descLabel.font = kFontPingFangSCRegular(14);
     _descLabel.textAlignment = NSTextAlignmentCenter;

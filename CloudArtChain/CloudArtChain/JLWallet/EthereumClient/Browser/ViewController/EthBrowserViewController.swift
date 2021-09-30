@@ -58,6 +58,9 @@ final class EthBrowserViewController: JLBaseViewController {
         let navigationBar = JLDappBrowserNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIApplication.shared.statusBarFrame.size.height + 44), title: name ?? "") { [weak self] in
             guard let `self` = self else { return }
             self.showManagerFaceView()
+        } back: { [weak self] in
+            guard let `self` = self else { return }
+            self.webView.goBack()
         } close: { [weak self] in
             guard let `self` = self else { return }
             self.popVC()
@@ -146,14 +149,14 @@ final class EthBrowserViewController: JLBaseViewController {
         webView.evaluateJavaScript(script, completionHandler: nil)
     }
     
-    func goHome() {
-        guard let url = URL(string: EthConstants.dappsBrowserURL) else { return }
-        var request = URLRequest(url: url)
-        request.cachePolicy = .returnCacheDataElseLoad
-//        hideErrorView()
-        webView.load(request)
-        browserNavBar?.textField.text = url.absoluteString
-    }
+//    func goHome() {
+//        guard let url = URL(string: EthConstants.dappsBrowserURL) else { return }
+//        var request = URLRequest(url: url)
+//        request.cachePolicy = .returnCacheDataElseLoad
+////        hideErrorView()
+//        webView.load(request)
+//        browserNavBar?.textField.text = url.absoluteString
+//    }
 
     func reload() {
 //        hideErrorView()
@@ -167,6 +170,9 @@ final class EthBrowserViewController: JLBaseViewController {
     private func refreshURL() {
         browserNavBar?.textField.text = webView.url?.absoluteString
         browserNavBar?.backButton.isHidden = !webView.canGoBack
+        
+        print("is show back: ", webView.backForwardList.backList.count, webView.canGoBack)
+        navigationBar.isShowBackBtn = webView.backForwardList.backList.count == 0 ? false : true
     }
 
     private func recordURL() {
@@ -214,15 +220,6 @@ final class EthBrowserViewController: JLBaseViewController {
         super.viewDidLoad()
 //        addBackItem()
         print("delegate--:", self.delegate)
-//        let navigationBar = JLDappBrowserNavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIApplication.shared.statusBarFrame.size.height + 44))
-//        navigationBar.title = name ?? "DApp"
-//        navigationBar.managerBlock = { [weak self] in
-//            print("delegate--:", self?.delegate)
-//            self?.showManagerFaceView()
-//        }
-//        navigationBar.closeBlock = { [weak self] in
-//            self?.popVC()
-//        }
         
         view.addSubview(navigationBar)
         
@@ -255,19 +252,31 @@ final class EthBrowserViewController: JLBaseViewController {
         guard (webUrl != nil) else { return }
 
         /// 授权申请视图
+        if isNeedShowApplyForAuthorisation() {
+            showApplyForAuthorisationView()
+        }else {
+            goTo(url: webUrl!)
+        }
+    }
+    
+    private func isNeedShowApplyForAuthorisation() -> Bool {
+        var isNeed = true
         if let arr = UserDefaults.standard.array(forKey: USERDEFAULTS_JL_DAPP_APPLY_FOR_AUTHORISATION), arr.count != 0 {
             for result in arr {
-                if let dict = result as? [String:AnyObject], let isNotip = dict[webUrl!.absoluteString] as? String {
-                    if isNotip != "YES" {
-                        showApplyForAuthorisationView()
-                    }else {
-                        goTo(url: webUrl!)
+                if let dict = result as? [String: AnyObject] {
+                    for (key, value) in dict {
+                        if webUrl!.absoluteString == key {
+                            if value.boolValue {
+                                isNeed = false
+                                break
+                            }
+                        }
                     }
                 }
             }
-        }else {
-            showApplyForAuthorisationView()
         }
+        
+        return isNeed
     }
     
     override func backClick() {
@@ -346,22 +355,24 @@ extension EthBrowserViewController: WKNavigationDelegate {
         recordURL()
 //        hideErrorView()
         refreshURL()
-        print("ethereum webView didFinish")
+        print("ethereum webView didFinish url: \(webView.url?.absoluteString ?? "")")
     }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
 //        hideErrorView()
-        print("ethereum webView didCommit")
+        print("ethereum webView didCommit url: \(webView.url?.absoluteString ?? "")")
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
 //        handleError(error: error)
-        print("ethereum webView didFail")
+        refreshURL()
+        print("ethereum webView didFail error: \(error) url: \(webView.url?.absoluteString ?? "")")
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
 //        handleError(error: error)
-        print("ethereum webView didFailProvisionalNavigation")
+        refreshURL()
+        print("ethereum webView didFailProvisionalNavigation error: \(error) url: \(webView.url?.absoluteString ?? "")")
     }
 }
 
@@ -430,6 +441,8 @@ extension EthBrowserViewController: WKUIDelegate {
 // MARK: WKScriptMessageHandler
 extension EthBrowserViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        let json = message.json
+        print("WKScriptMessage json: ", json)
         guard let command = EthDappAction.fromMessage(message) else { return }
         let requester = DAppRequester(title: webView.title, url: webView.url)
         //TODO: Refactor
@@ -439,6 +452,20 @@ extension EthBrowserViewController: WKScriptMessageHandler {
 
         // 处理信息
         didCall(action: action, callbackID: command.id)
+    }
+}
+
+extension WKScriptMessage {
+    var json: [String: Any] {
+        if let string = body as? String,
+            let data = string.data(using: .utf8),
+            let object = try? JSONSerialization.jsonObject(with: data, options: []),
+            let dict = object as? [String: Any] {
+            return dict
+        } else if let object = body as? [String: Any] {
+            return object
+        }
+        return [:]
     }
 }
 

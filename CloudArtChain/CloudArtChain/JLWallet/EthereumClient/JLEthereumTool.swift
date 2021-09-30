@@ -260,7 +260,7 @@ extension JLEthereumTool: EthBrowserCoordinatorDelegate {
 //        coordinator.delegate = self
 //        coordinator.start()
         
-        let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: .main, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
+        let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: .rinkeby, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
         browserViewController.delegate = self
         browserViewController.modalPresentationStyle = .fullScreen
         navigationViewController?.present(browserViewController, animated: true, completion: nil)

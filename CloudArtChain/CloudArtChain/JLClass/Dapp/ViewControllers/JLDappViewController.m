@@ -71,6 +71,15 @@
 
 - (void)lookDappWithUrl: (NSString *)url {
     JLLog(@"查看Dapp url: %@", url);
+    
+    // dapp浏览器
+    NSString *dappUrl = @"https://app.dodoex.io/exchange/ETH-USDC?C3VK=3a0ea1&network=rinkeby";
+//    NSString *dappUrl = @"https://app.dodoex.io/exchange/ETH-USDC?C3VK=bd2bc1&network=mainnet";
+//    NSString *dappUrl = @"https://cbridge.celer.network/?locale=zh-CN&utm_source=imtoken";
+    
+    [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:@"imKey" imgUrl:@"http://bpic.588ku.com/element_origin_min_pic/18/08/24/05dbcc82c8d3bd356e57436be0922357.jpg" webUrl:[NSURL URLWithString:dappUrl] isCollect: NO collectCompletion:^(BOOL isCollect) {
+        JLLog(@"是否收藏: %@", isCollect ? @"收藏":@"取消收藏");
+    }];
 }
 
 #pragma mark - loadDatas

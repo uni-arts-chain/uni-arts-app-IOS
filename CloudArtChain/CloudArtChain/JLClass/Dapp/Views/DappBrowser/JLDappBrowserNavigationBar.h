@@ -10,15 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^JLDappBrowserNavigationBarManagerBlock)(void);
+typedef void(^JLDappBrowserNavigationBarBackBlock)(void);
 typedef void(^JLDappBrowserNavigationBarCloseBlock)(void);
 
 @interface JLDappBrowserNavigationBar : UIView
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, assign) BOOL isShowBackBtn;
 
 - (instancetype)initWithFrame:(CGRect)frame
                         title: (NSString *)title
                       manager: (JLDappBrowserNavigationBarManagerBlock)manager
+                         back: (JLDappBrowserNavigationBarBackBlock)back
                         close: (JLDappBrowserNavigationBarCloseBlock)close;
 
 @end

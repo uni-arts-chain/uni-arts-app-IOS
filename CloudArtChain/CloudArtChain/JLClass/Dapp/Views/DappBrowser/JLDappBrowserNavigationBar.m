@@ -14,10 +14,12 @@
 
 @property (nonatomic, strong) UIView *faceView;
 @property (nonatomic, strong) UIButton *managerBtn;
+@property (nonatomic, strong) UIButton *backBtn;
 @property (nonatomic, strong) UIButton *closeBtn;
 @property (nonatomic, strong) UIView *lineView;
 
 @property (nonatomic, copy) JLDappBrowserNavigationBarManagerBlock managerBlock;
+@property (nonatomic, copy) JLDappBrowserNavigationBarBackBlock backBlock;
 @property (nonatomic, copy) JLDappBrowserNavigationBarCloseBlock closeBlock;
 
 @end
@@ -27,8 +29,10 @@
 - (instancetype)initWithFrame:(CGRect)frame
                         title: (NSString *)title
                       manager: (JLDappBrowserNavigationBarManagerBlock)manager
+                         back: (JLDappBrowserNavigationBarBackBlock)back
                         close: (JLDappBrowserNavigationBarCloseBlock)close {
     _managerBlock = manager;
+    _backBlock = back;
     _closeBlock = close;
     _title = title;
     return [self initWithFrame:frame];
@@ -57,6 +61,17 @@
         make.right.equalTo(self).offset(-100);
         make.height.mas_equalTo(@44);
     }];
+    
+    _backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    _backBtn.hidden = YES;
+    [_backBtn setImage:[[UIImage imageNamed:@"icon_back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    [_backBtn addTarget:self action:@selector(backBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_backBtn];
+    [_backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.equalTo(self);
+        make.width.height.mas_equalTo(@44);
+    }];
+    
     
     _faceView = [[UIView alloc] init];
     _faceView.layer.cornerRadius = 16;
@@ -100,6 +115,12 @@
 }
 
 #pragma mark - event response
+- (void)backBtnClick: (UIButton *)sender {
+    if (_backBlock) {
+        _backBlock();
+    }
+}
+
 - (void)managerBtnClick: (UIButton *)sender {
     if (_managerBlock) {
         _managerBlock();
@@ -116,6 +137,12 @@
     _title = title;
     
     _titleLabel.text = _title;
+}
+
+- (void)setIsShowBackBtn:(BOOL)isShowBackBtn {
+    _isShowBackBtn = isShowBackBtn;
+    
+    _backBtn.hidden = !_isShowBackBtn;
 }
 
 @end
