@@ -74,9 +74,10 @@
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
 		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
+		5E8967D3270FED540026771B /* JLDappCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8967D2270FED540026771B /* JLDappCell.m */; };
+		5E8967D92710427B0026771B /* JLDappTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8967D82710427B0026771B /* JLDappTrackCell.m */; };
 		5E8BCA6C27001CD800A12A14 /* NSArray+JLMASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */; };
 		5E8BCA7227006ED800A12A14 /* JLDappContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA7127006ED800A12A14 /* JLDappContentView.m */; };
-		5E8BCA75270075CB00A12A14 /* JLDappTrackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA74270075CB00A12A14 /* JLDappTrackView.m */; };
 		5E8BCA78270075EA00A12A14 /* JLDappTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA77270075EA00A12A14 /* JLDappTitleView.m */; };
 		5E8BCA7E2700763900A12A14 /* JLDappChainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA7D2700763900A12A14 /* JLDappChainView.m */; };
 		5E8BCA8127015CF900A12A14 /* JLDappModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA8027015CF900A12A14 /* JLDappModel.m */; };
@@ -1515,12 +1516,14 @@
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
 		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
+		5E8967D1270FED540026771B /* JLDappCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappCell.h; sourceTree = "<group>"; };
+		5E8967D2270FED540026771B /* JLDappCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappCell.m; sourceTree = "<group>"; };
+		5E8967D72710427B0026771B /* JLDappTrackCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappTrackCell.h; sourceTree = "<group>"; };
+		5E8967D82710427B0026771B /* JLDappTrackCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappTrackCell.m; sourceTree = "<group>"; };
 		5E8BCA6A27001CD800A12A14 /* NSArray+JLMASConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+JLMASConstraint.h"; sourceTree = "<group>"; };
 		5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+JLMASConstraint.m"; sourceTree = "<group>"; };
 		5E8BCA7027006ED800A12A14 /* JLDappContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappContentView.h; sourceTree = "<group>"; };
 		5E8BCA7127006ED800A12A14 /* JLDappContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappContentView.m; sourceTree = "<group>"; };
-		5E8BCA73270075CB00A12A14 /* JLDappTrackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappTrackView.h; sourceTree = "<group>"; };
-		5E8BCA74270075CB00A12A14 /* JLDappTrackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappTrackView.m; sourceTree = "<group>"; };
 		5E8BCA76270075EA00A12A14 /* JLDappTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappTitleView.h; sourceTree = "<group>"; };
 		5E8BCA77270075EA00A12A14 /* JLDappTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappTitleView.m; sourceTree = "<group>"; };
 		5E8BCA7C2700763900A12A14 /* JLDappChainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappChainView.h; sourceTree = "<group>"; };
@@ -3703,12 +3706,14 @@
 				5E8BCAB027030FFB00A12A14 /* DappBrowser */,
 				5E8BCA7027006ED800A12A14 /* JLDappContentView.h */,
 				5E8BCA7127006ED800A12A14 /* JLDappContentView.m */,
+				5E8967D72710427B0026771B /* JLDappTrackCell.h */,
+				5E8967D82710427B0026771B /* JLDappTrackCell.m */,
+				5E8967D1270FED540026771B /* JLDappCell.h */,
+				5E8967D2270FED540026771B /* JLDappCell.m */,
 				5E8BCA9E2702B03500A12A14 /* JLDappSearchHeaderView.h */,
 				5E8BCA9D2702B03500A12A14 /* JLDappSearchHeaderView.m */,
 				5E8BCA76270075EA00A12A14 /* JLDappTitleView.h */,
 				5E8BCA77270075EA00A12A14 /* JLDappTitleView.m */,
-				5E8BCA73270075CB00A12A14 /* JLDappTrackView.h */,
-				5E8BCA74270075CB00A12A14 /* JLDappTrackView.m */,
 				5E8BCA7C2700763900A12A14 /* JLDappChainView.h */,
 				5E8BCA7D2700763900A12A14 /* JLDappChainView.m */,
 				5E8BCA852701713C00A12A14 /* JLDappEmptyView.h */,
@@ -8206,7 +8211,6 @@
 				B312262E25B6B60A00562ECA /* WalletEmptyStateDataSource.swift in Sources */,
 				B312269C25B6B60B00562ECA /* RootPresenterFactory.swift in Sources */,
 				B312251A25B6B60A00562ECA /* UserDataModel.xcdatamodeld in Sources */,
-				5E8BCA75270075CB00A12A14 /* JLDappTrackView.m in Sources */,
 				B31226A125B6B60B00562ECA /* PurchaseProtocols.swift in Sources */,
 				B31224EB25B6B60900562ECA /* AssetTransactionData+HistoryItemData.swift in Sources */,
 				5EE52A9F269EDCB800EFF8C9 /* JLCashContentView.m in Sources */,
@@ -8256,6 +8260,7 @@
 				B391CB89262D2AD700FF48B0 /* CubismJson.cpp in Sources */,
 				B312250825B6B60A00562ECA /* WebSocketEngine+Delegate.swift in Sources */,
 				B312267225B6B60A00562ECA /* TransactionHistoryContext.swift in Sources */,
+				5E8967D92710427B0026771B /* JLDappTrackCell.m in Sources */,
 				5E6EAC9226FB0F3400DEE213 /* JLMultiChainWalletInfoListContentView.m in Sources */,
 				B31224EF25B6B60900562ECA /* SearchData+Contacts.swift in Sources */,
 				B38E493625F0E36900FA773E /* CancelSaleOrderCall.swift in Sources */,
@@ -8734,6 +8739,7 @@
 				5E8BCA8D2701C3F700A12A14 /* JLDappMoreContentView.m in Sources */,
 				B31224D725B6B60900562ECA /* CDTransactionHistoryItem+CoreDataDecodable.swift in Sources */,
 				B38D7E5925E11C3100E9978E /* WMPhotoBrowser.m in Sources */,
+				5E8967D3270FED540026771B /* JLDappCell.m in Sources */,
 				B39655E624F38DBA007A8EC2 /* JLKeyChain.m in Sources */,
 				B39655BC24F38DBA007A8EC2 /* LewPopupViewAnimationSlide.m in Sources */,
 				B31224BC25B6B60900562ECA /* BaseOperation+Result.swift in Sources */,

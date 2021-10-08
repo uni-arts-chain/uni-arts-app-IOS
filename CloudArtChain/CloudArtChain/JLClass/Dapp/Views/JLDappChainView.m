@@ -85,6 +85,8 @@
 
     UIView *itemBgView = nil;
     for (int i = 0; i < _dataArray.count; i++) {
+        Model_dapp_Data *data = _dataArray[i];
+        
         CGFloat leftConstrant = 0.0;
         CGFloat topConstrant = 0.0;
         if (i % 3 == 0) {
@@ -117,11 +119,14 @@
         }];
         
         UIImageView *imgView = [[UIImageView alloc] init];
-        imgView.backgroundColor = JL_color_blue_6077DF;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
         imgView.layer.cornerRadius = 17.5;
         imgView.layer.borderWidth = 1;
         imgView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
         imgView.clipsToBounds = YES;
+        if (![NSString stringIsEmpty:data.logo.url]) {
+            [imgView sd_setImageWithURL:[NSURL URLWithString:data.logo.url]];
+        }
         [itemView addSubview:imgView];
         [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(itemView).offset(15);
@@ -130,7 +135,7 @@
         }];
         
         UILabel *nameLabel = [[UILabel alloc] init];
-        nameLabel.text = @"Uniswap";
+        nameLabel.text = data.title;
         nameLabel.textColor = JL_color_gray_101010;
         nameLabel.font = kFontPingFangSCRegular(15);
         [itemView addSubview:nameLabel];
@@ -141,7 +146,7 @@
         }];
         
         UILabel *descLabel = [[UILabel alloc] init];
-        descLabel.text = @"去中心化流通平台";
+        descLabel.text = data.desc;
         descLabel.textColor = JL_color_gray_999999;
         descLabel.font = kFontPingFangSCRegular(12);
         [itemView addSubview:descLabel];
@@ -172,7 +177,7 @@
 #pragma mark - event response
 - (void)itemViewDidTap: (UITapGestureRecognizer *)ges {
     if (_lookDappBlock) {
-        _lookDappBlock([NSString stringWithFormat:@"chain: %ld", ges.view.tag - 100]);
+        _lookDappBlock(_dataArray[ges.view.tag - 100]);
     }
 }
 

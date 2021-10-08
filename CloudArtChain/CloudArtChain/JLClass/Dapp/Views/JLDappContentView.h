@@ -10,15 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, JLDappContentViewLookMoreType) {
+typedef NS_ENUM(NSUInteger, JLDappContentViewLookTrackMoreType) {
     /// 收藏
-    JLDappContentViewLookMoreTypeCollect,
+    JLDappContentViewLookTrackMoreTypeCollect,
     /// 最近
-    JLDappContentViewLookMoreTypeRecently,
-    /// 推荐
-    JLDappContentViewLookMoreTypeRecommend,
-    /// 交易
-    JLDappContentViewLookMoreTypeTransaction
+    JLDappContentViewLookTrackMoreTypeRecently
 };
 typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
     JLDappContentViewTrackTypeCollect,
@@ -31,15 +27,17 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
 
 - (void)scanCode;
 
-- (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainSymbol: (JLMultiChainSymbol)chainSymbol;
+- (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainData: (Model_chain_Data *)chainData;
 
-- (void)lookMoreWithType: (JLDappContentViewLookMoreType)type;
+- (void)lookTrackMoreWithType: (JLDappContentViewLookTrackMoreType)type;
 
-- (void)refreshChainInfoDatasWithSymbol: (JLMultiChainSymbol)symbol;
+- (void)lookChainCategoryMoreWithData: (Model_chain_category_Data *)chainCategoryData;
+
+- (void)refreshChainInfoDatasWithChainData: (Model_chain_Data *)chainData;
 
 - (void)lookTrackWithType: (JLDappContentViewTrackType)type;
 
-- (void)lookDappWithUrl: (NSString *)url;
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData;
 
 @end
 
@@ -47,11 +45,9 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
 
 @property (nonatomic, weak) id<JLDappContentViewDelegate> delegate;
 
-@property (nonatomic, copy) NSArray *chainSymbolArray;
-
 @property (nonatomic, copy) NSArray *trackArray;
-@property (nonatomic, copy) NSArray *recommendArray;
-@property (nonatomic, copy) NSArray *transactionArray;
+@property (nonatomic, copy) NSArray *chainArray;
+@property (nonatomic, copy) NSArray *chainDappArray;
 
 @end
 

@@ -303,7 +303,7 @@ final class EthBrowserViewController: JLBaseViewController {
     }
     
     private func showApplyForAuthorisationView() {
-        JLDappApplyForAuthorisationView.show(withDappName: name ?? "", dappImgUrl: imgUrl ?? "", dappWebUrl: webUrl!.absoluteString, superView: nil) { [weak self] in
+        JLDappApplyForAuthorisationView.show(withDappName: name ?? "", dappImgUrl: imgUrl ?? "", dappWebUrl: webUrl!.absoluteString, superView: view) { [weak self] in
             guard let `self` = self else { return }
             self.popVC()
         } agree: { [weak self] in
@@ -313,7 +313,7 @@ final class EthBrowserViewController: JLBaseViewController {
     }
     
     private func showManagerFaceView() {
-        JLDappBrowserManagerView.show(withIsCollect: isCollect, superView: nil) { [weak self] itemType in
+        JLDappBrowserManagerView.show(withIsCollect: isCollect, superView: view) { [weak self] itemType in
             guard let `self` = self else { return }
             if itemType == .collect {
                 self.delegate?.collectCurrentDapp(with: !self.isCollect)

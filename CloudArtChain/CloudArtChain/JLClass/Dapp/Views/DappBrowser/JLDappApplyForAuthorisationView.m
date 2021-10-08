@@ -145,7 +145,7 @@ static JLDappApplyForAuthorisationView *authorisationView;
     }];
     
     _noTipBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_noTipBtn setTitle:@"今日不再提示" forState:UIControlStateNormal];
+    [_noTipBtn setTitle:@"不再提示" forState:UIControlStateNormal];
     [_noTipBtn setTitleColor:JL_color_gray_999999 forState:UIControlStateNormal];
     _noTipBtn.titleLabel.font = kFontPingFangSCRegular(13);
     [_noTipBtn setImage:[UIImage imageNamed:@"icon_dapp_apply_for_authorisation_normal"] forState:UIControlStateNormal];

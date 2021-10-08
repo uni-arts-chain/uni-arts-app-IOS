@@ -11,6 +11,7 @@ import Foundation
 import APIKit
 import JSONRPCKit
 import Result
+import TrustCore
 
 final class EthSendTransactionCoordinator {
     private let keystore: EthKeystore
@@ -35,7 +36,10 @@ final class EthSendTransactionCoordinator {
         if transaction.nonce >= 0 {
             signAndSend(transaction: transaction, completion: completion)
         } else {
-            EthWalletRPCService(server: server).getTransactionCount().done { [weak self] nonce in
+            guard let ethAddress = transaction.account.address as? EthereumAddress  else { return
+                completion(.failure(AnyError(EthWalletRPCServiceError.nullAddress)))
+            }
+            EthWalletRPCService(server: server, addressUpdate: ethAddress).getTransactionCount().done { [weak self] nonce in
                 guard let `self` = self else { return }
                 let transaction = self.appendNonce(to: transaction, currentNonce: nonce)
                 self.signAndSend(transaction: transaction, completion: completion)

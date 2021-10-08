@@ -8,6 +8,9 @@
 
 #import "UserDataBody.h"
 
+@implementation Model_Image_Data
+@end
+
 @implementation UserDataTokens
 - (instancetype)initWithToken:(NSString *)token expireAt:(NSString *)expireAt {
     if (self = [super init]) {

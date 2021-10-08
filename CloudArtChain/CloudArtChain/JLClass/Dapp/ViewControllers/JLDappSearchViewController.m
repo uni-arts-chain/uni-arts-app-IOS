@@ -49,9 +49,18 @@
 }
 
 - (void)startSearch: (NSString *)searchContent {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.contentView.searchResultArray = @[@"",@"",@"",@"",@"",@"",@"",@""];
-    });
+    WS(weakSelf)
+    Model_dapps_search_Req *request = [[Model_dapps_search_Req alloc] init];
+    request.q = searchContent;
+    Model_dapps_search_Rsp *response = [[Model_dapps_search_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            self.contentView.searchResultArray = response.body;
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
 }
 
 #pragma mark - setters and getters

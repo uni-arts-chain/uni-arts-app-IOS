@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef void(^JLDappChainViewLookDappBlock)(NSString *url);
+typedef void(^JLDappChainViewLookDappBlock)(Model_dapp_Data *dappData);
 
 @interface JLDappChainView : UIView
 

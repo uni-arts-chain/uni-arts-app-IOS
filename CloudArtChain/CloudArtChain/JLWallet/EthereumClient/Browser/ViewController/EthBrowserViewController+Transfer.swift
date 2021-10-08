@@ -112,6 +112,7 @@ extension EthBrowserViewController {
             coordinator.didCompleted = nil
             self.dismiss(animated: true, completion: nil)
         }
+        coordinator.send()
     }
 }
 

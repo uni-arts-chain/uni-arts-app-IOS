@@ -8,29 +8,18 @@
 
 #import "JLDappContentView.h"
 #import "JLDappSearchHeaderView.h"
-#import "JLDappTrackView.h"
 #import "JLDappTitleView.h"
-#import "JLDappChainView.h"
+#import "JLDappTrackCell.h"
+#import "JLDappCell.h"
 
-@interface JLDappContentView ()
+@interface JLDappContentView ()<UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *bgView;
-
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) JLDappSearchHeaderView *searchHeaderView;
-@property (nonatomic, strong) JLDappTrackView *trackView;
-@property (nonatomic, strong) JLDappTitleView *chainTitleView;
 
-@property (nonatomic, strong) JLDappTitleView *chainRecommendTitleView;
-@property (nonatomic, strong) JLDappChainView *chainRecommendView;
-@property (nonatomic, strong) JLDappTitleView *chainTransactionTitleView;
-@property (nonatomic, strong) JLDappChainView *chainTransactionView;
-
-@property (nonatomic, strong) MASConstraint *chainRecommendViewHeightConstraint;
-@property (nonatomic, strong) MASConstraint *chainTransactionViewHeightConstraint;
-
+@property (nonatomic, copy) NSArray *chainTitleArray;
 @property (nonatomic, assign) JLDappContentViewTrackType selectTrackType;
-@property (nonatomic, assign) JLMultiChainSymbol selectChainSymbol;
+@property (nonatomic, assign) NSInteger selectChainIndex;
 
 @end
 
@@ -41,7 +30,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _selectTrackType = JLDappContentViewTrackTypeCollect;
-        _selectChainSymbol = JLMultiChainSymbolETH;
+        _selectChainIndex = 0;
         
         [self setupUI];
     }
@@ -50,217 +39,182 @@
 
 - (void)setupUI {
     WS(weakSelf)
-    _scrollView = [[UIScrollView alloc] init];
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.alwaysBounceVertical = YES;
-    _scrollView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshDataWithTrackType:chainSymbol:)]) {
-            [weakSelf.delegate refreshDataWithTrackType:weakSelf.selectTrackType chainSymbol:weakSelf.selectChainSymbol];
-        }
-    }];
-    [self addSubview:_scrollView];
-    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView.backgroundColor = JL_color_white_ffffff;
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+    [_tableView registerClass:JLDappTrackCell.class forCellReuseIdentifier:NSStringFromClass(JLDappTrackCell.class)];
+    [_tableView registerClass:JLDappCell.class forCellReuseIdentifier:NSStringFromClass(JLDappCell.class)];
+    _tableView.tableHeaderView = self.searchHeaderView;
+    [self addSubview:_tableView];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(self);
     }];
     
-    _bgView = [[UIView alloc] init];
-    [_scrollView addSubview:_bgView];
-    [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
+    _tableView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshDataWithTrackType:chainData:)]) {
+            [weakSelf.delegate refreshDataWithTrackType:weakSelf.selectTrackType chainData:weakSelf.chainArray[weakSelf.selectChainIndex]];
+        }
     }];
+}
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    }
+    return _chainDappArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WS(weakSelf)
+    if (indexPath.section == 0) {
+        JLDappTrackCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(JLDappTrackCell.class) forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[JLDappTrackCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(JLDappTrackCell.class)];
+        }
+        cell.lookDappBlock = ^(Model_dapp_Data * _Nonnull dappData) {
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookDappWithDappData:)]) {
+                [weakSelf.delegate lookDappWithDappData:dappData];
+            }
+        };
+        cell.trackArray = _trackArray;
+        return cell;
+    }else {
+        JLDappCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(JLDappCell.class) forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[JLDappCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(JLDappCell.class)];
+        }
+        cell.moreBlock = ^(Model_chain_category_Data * _Nonnull dappData) {
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookChainCategoryMoreWithData:)]) {
+                [weakSelf.delegate lookChainCategoryMoreWithData:dappData];
+            }
+        };
+        cell.lookDappBlock = ^(Model_dapp_Data * _Nonnull dappData) {
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookDappWithDappData:)]) {
+                [weakSelf.delegate lookDappWithDappData:dappData];
+            }
+        };
+        cell.chainCategoryData = _chainDappArray[indexPath.row];
+        return cell;
+    }
+}
+
+#pragma mark - UITableViewDelegate
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    WS(weakSelf)
+    JLDappTitleView *headerView = [[JLDappTitleView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 52)];
+    headerView.didSelectBlock = ^(NSInteger index) {
+        if (section == 0) {
+            weakSelf.selectTrackType = index;
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookTrackWithType:)]) {
+                [weakSelf.delegate lookTrackWithType:weakSelf.selectTrackType];
+            }
+        }else {
+            weakSelf.selectChainIndex = index;
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshChainInfoDatasWithChainData:)]) {
+                [weakSelf.delegate refreshChainInfoDatasWithChainData:weakSelf.chainArray[weakSelf.selectChainIndex]];
+            }
+        }
+    };
+    headerView.moreBlock = ^(NSInteger index) {
+        if (section == 0) {
+            JLDappContentViewLookTrackMoreType type = JLDappContentViewLookTrackMoreTypeCollect;
+            if (index == 1) {
+                type = JLDappContentViewLookTrackMoreTypeRecently;
+            }
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookTrackMoreWithType:)]) {
+                [weakSelf.delegate lookTrackMoreWithType:type];
+            }
+        }
+    };
+    if (section == 0) {
+        [headerView setTitleArray:@[@"收藏",@"最近"] selectIndex:_selectTrackType style:JLDappTitleViewStyleScrollDefault];
+    }else {
+        if (_chainTitleArray.count) {
+            [headerView setTitleArray:_chainTitleArray selectIndex:_selectChainIndex style:JLDappTitleViewStyleScrollNoMore];
+        }
+    }
+    return headerView;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 52;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 88;
+    }
     
-    // 搜索视图
-    _searchHeaderView = [[JLDappSearchHeaderView alloc] init];
-    _searchHeaderView.searchBlock = ^{
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(search)]) {
-            [weakSelf.delegate search];
-        }
-    };
-    _searchHeaderView.scanBlock = ^{
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
-            [weakSelf.delegate scanCode];
-        }
-    };
-    [_bgView addSubview:_searchHeaderView];
-    [_searchHeaderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView).offset(10);
-        make.left.right.equalTo(self.bgView);
-        make.height.mas_equalTo(@35);
-    }];
-    
-    // 收藏或最近视图
-    _trackView = [[JLDappTrackView alloc] init];
-    _trackView.didSelectTitleBlock = ^(NSInteger index) {
-        weakSelf.selectTrackType = index;
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookTrackWithType:)]) {
-            [weakSelf.delegate lookTrackWithType:weakSelf.selectTrackType];
-        }
-    };
-    _trackView.moreBlock = ^(NSInteger index) {
-        JLDappContentViewLookMoreType type = JLDappContentViewLookMoreTypeCollect;
-        if (index == 1) {
-            type = JLDappContentViewLookMoreTypeRecently;
-        }
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookMoreWithType:)]) {
-            [weakSelf.delegate lookMoreWithType:type];
-        }
-    };
-    _trackView.lookDappBlock = ^(NSString * _Nonnull dappUrl) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-            [weakSelf.delegate lookDappWithUrl:dappUrl];
-        }
-    };
-    [_bgView addSubview:_trackView];
-    [_trackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.searchHeaderView.mas_bottom).offset(10);
-        make.left.right.equalTo(self.bgView);
-        make.height.mas_equalTo(@130);
-    }];
-    
-    // 链标题视图
-    _chainTitleView = [[JLDappTitleView alloc] init];
-    _chainTitleView.didSelectBlock = ^(NSInteger index) {
-        weakSelf.selectChainSymbol = weakSelf.chainSymbolArray[index];
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshChainInfoDatasWithSymbol:)]) {
-            [weakSelf.delegate refreshChainInfoDatasWithSymbol:weakSelf.selectChainSymbol];
-        }
-    };
-    [_bgView addSubview:_chainTitleView];
-    [_chainTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.trackView.mas_bottom).offset(12);
-        make.left.right.equalTo(self);
-        make.height.mas_equalTo(@30);
-    }];
-    
-    // 推荐标题视图
-    _chainRecommendTitleView = [[JLDappTitleView alloc] init];
-    _chainRecommendTitleView.moreBlock = ^(NSInteger index) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookMoreWithType:)]) {
-            [weakSelf.delegate lookMoreWithType:JLDappContentViewLookMoreTypeRecommend];
-        }
-    };
-    [_chainRecommendTitleView setTitleArray:@[@"推荐"] selectIndex:0 style:JLDappTitleViewStyleNoScroll];
-    [_bgView addSubview:_chainRecommendTitleView];
-    [_chainRecommendTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainTitleView.mas_bottom).offset(14);
-        make.left.right.equalTo(self);
-        make.height.mas_equalTo(@30);
-    }];
-    // 推荐内容视图
-    _chainRecommendView = [[JLDappChainView alloc] init];
-    _chainRecommendView.lookDappBlock = ^(NSString * _Nonnull url) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-            [weakSelf.delegate lookDappWithUrl:url];
-        }
-    };
-    [_bgView addSubview:_chainRecommendView];
-    [_chainRecommendView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainRecommendTitleView.mas_bottom).offset(2);
-        make.left.right.equalTo(self);
-        self.chainRecommendViewHeightConstraint = make.height.mas_equalTo(@192);
-    }];
-    
-    // 交易标题视图
-    _chainTransactionTitleView= [[JLDappTitleView alloc] init];
-    _chainTransactionTitleView.moreBlock = ^(NSInteger index) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookMoreWithType:)]) {
-            [weakSelf.delegate lookMoreWithType:JLDappContentViewLookMoreTypeTransaction];
-        }
-    };
-    [_chainTransactionTitleView setTitleArray:@[@"交易"] selectIndex:0 style:JLDappTitleViewStyleNoScroll];
-    [_bgView addSubview:_chainTransactionTitleView];
-    [_chainTransactionTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainRecommendView.mas_bottom).offset(15);
-        make.left.right.equalTo(self);
-        make.height.mas_equalTo(@30);
-    }];
-    // 交易内容视图
-    _chainTransactionView = [[JLDappChainView alloc] init];
-    _chainRecommendView.lookDappBlock = ^(NSString * _Nonnull url) {
-        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-            [weakSelf.delegate lookDappWithUrl:url];
-        }
-    };
-    [_bgView addSubview:_chainTransactionView];
-    [_chainTransactionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chainTransactionTitleView.mas_bottom).offset(2);
-        make.left.right.equalTo(self);
-        self.chainTransactionViewHeightConstraint = make.height.mas_equalTo(@192);
-        make.bottom.equalTo(self.bgView).offset(-(50 + KTabBar_Height));
-    }];
+    Model_chain_category_Data *data = _chainDappArray[indexPath.row];
+    if (data.dapps.count < 3) {
+        CGFloat height = MAX(64, 64 *data.dapps.count);
+        return 44 + height;
+    }else {
+        return 44 + 192;
+    }
 }
 
 #pragma mark - setters and getters
+- (JLDappSearchHeaderView *)searchHeaderView {
+    if (!_searchHeaderView) {
+        WS(weakSelf)
+        _searchHeaderView = [[JLDappSearchHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 35)];
+        _searchHeaderView.searchBlock = ^{
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(search)]) {
+                [weakSelf.delegate search];
+            }
+        };
+        _searchHeaderView.scanBlock = ^{
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
+                [weakSelf.delegate scanCode];
+            }
+        };
+    }
+    return _searchHeaderView;
+}
+
 - (void)setTrackArray:(NSArray *)trackArray {
     _trackArray = trackArray;
     
-    if ([_scrollView.mj_header isRefreshing]) {
-        [_scrollView.mj_header endRefreshing];
-    }
-    
-    _trackView.dataArray = _trackArray;
+    [_tableView reloadData];
 }
 
-- (void)setRecommendArray:(NSArray *)recommendArray {
-    _recommendArray = recommendArray;
+- (void)setChainArray:(NSArray *)chainArray {
+    _chainArray = chainArray;
     
-    if ([_scrollView.mj_header isRefreshing]) {
-        [_scrollView.mj_header endRefreshing];
+    NSMutableArray *arr = [NSMutableArray array];
+    for (Model_chain_Data *data in _chainArray) {
+        [arr addObject:data.title];
     }
+    _chainTitleArray = [arr copy];
     
-    if (_recommendArray.count < 3) {
-        CGFloat height = MAX(64, 64 *_recommendArray.count);
-        [_chainRecommendViewHeightConstraint uninstall];
-        [_chainRecommendView mas_updateConstraints:^(MASConstraintMaker *make) {
-            self.chainRecommendViewHeightConstraint = make.height.mas_equalTo(@(height));
-        }];
-    }else {
-        [_chainRecommendViewHeightConstraint uninstall];
-        [_chainRecommendView mas_updateConstraints:^(MASConstraintMaker *make) {
-            self.chainRecommendViewHeightConstraint = make.height.mas_equalTo(@192);
-        }];
-    }
-    
-    _chainRecommendView.dataArray = _recommendArray;
+    [_tableView reloadData];
 }
 
-- (void)setTransactionArray:(NSArray *)transactionArray {
-    _transactionArray = transactionArray;
+- (void)setChainDappArray:(NSArray *)chainDappArray {
+    _chainDappArray = chainDappArray;
     
-    if ([_scrollView.mj_header isRefreshing]) {
-        [_scrollView.mj_header endRefreshing];
+    if ([_tableView.mj_header isRefreshing]) {
+        [_tableView.mj_header endRefreshing];
     }
     
-    if (_transactionArray.count < 3) {
-        CGFloat height = MAX(64, 64 *_transactionArray.count);
-        [_chainTransactionViewHeightConstraint uninstall];
-        [_chainTransactionView mas_updateConstraints:^(MASConstraintMaker *make) {
-            self.chainTransactionViewHeightConstraint = make.height.mas_equalTo(@(height));
-        }];
-    }else {
-        [_chainTransactionViewHeightConstraint uninstall];
-        [_chainTransactionView mas_updateConstraints:^(MASConstraintMaker *make) {
-            self.chainTransactionViewHeightConstraint = make.height.mas_equalTo(@192);
-        }];
-    }
-    
-    _chainTransactionView.dataArray = _transactionArray;
-}
-
-- (void)setChainSymbolArray:(NSArray *)chainSymbolArray {
-    _chainSymbolArray = chainSymbolArray;
-    
-    NSInteger defaultIndex = 0;
-    for (int i = 0; i < _chainSymbolArray.count; i++) {
-        if (_selectChainSymbol == _chainSymbolArray[i]) {
-            defaultIndex = i;
-            break;
-        }
-    }
-    
-    [_chainTitleView setTitleArray:_chainSymbolArray selectIndex:defaultIndex style:JLDappTitleViewStyleScrollNoMore];
+    [_tableView reloadData];
 }
 
 @end

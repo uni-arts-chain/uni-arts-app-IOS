@@ -1,18 +1,16 @@
 //
-//  JLDappTrackView.m
+//  JLDappTrackCell.m
 //  CloudArtChain
 //
-//  Created by jielian on 2021/9/26.
+//  Created by jielian on 2021/10/8.
 //  Copyright © 2021 捷链科技. All rights reserved.
 //
 
-#import "JLDappTrackView.h"
-#import "JLDappTitleView.h"
+#import "JLDappTrackCell.h"
 #import "JLDappEmptyView.h"
 
-@interface JLDappTrackView ()
+@interface JLDappTrackCell ()
 
-@property (nonatomic, strong) JLDappTitleView *titleView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIView *lineView;
@@ -21,12 +19,11 @@
 
 @end
 
-@implementation JLDappTrackView
+@implementation JLDappTrackCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self setupUI];
     }
@@ -34,31 +31,12 @@
 }
 
 - (void)setupUI {
-    WS(weakSelf)
-    _titleView = [[JLDappTitleView alloc] init];
-    _titleView.didSelectBlock = ^(NSInteger index) {
-        if (weakSelf.didSelectTitleBlock) {
-            weakSelf.didSelectTitleBlock(index);
-        }
-    };
-    _titleView.moreBlock = ^(NSInteger index) {
-        if (weakSelf.moreBlock) {
-            weakSelf.moreBlock(index);
-        }
-    };
-    [self addSubview:_titleView];
-    [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self);
-        make.height.mas_equalTo(@30);
-    }];
-    
     _scrollView = [[UIScrollView alloc] init];
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
-    [self addSubview:_scrollView];
+    [self.contentView addSubview:_scrollView];
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.left.right.bottom.equalTo(self);
+        make.top.left.right.bottom.equalTo(self.contentView);
     }];
     
     _bgView = [[UIView alloc] init];
@@ -70,11 +48,11 @@
     
     _lineView = [[UIView alloc] init];
     _lineView.backgroundColor = JL_color_gray_DDDDDD;
-    [self addSubview:_lineView];
+    [self.contentView addSubview:_lineView];
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(15);
-        make.right.equalTo(self).offset(-15);
-        make.bottom.equalTo(self);
+        make.left.equalTo(self.contentView).offset(15);
+        make.right.equalTo(self.contentView).offset(-15);
+        make.bottom.equalTo(self.contentView);
         make.height.mas_equalTo(@1);
     }];
     
@@ -84,22 +62,22 @@
     [_emptyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.scrollView);
     }];
-    
-    [_titleView setTitleArray:@[@"收藏",@"最近"] selectIndex:0 style:JLDappTitleViewStyleScrollDefault];
 }
 
 - (void)updateDapps {
     [_bgView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];
     }];
-    if (_dataArray.count == 0) {
+    if (_trackArray.count == 0) {
         _emptyView.hidden = NO;
     }else {
         _emptyView.hidden = YES;
     }
     
     CGFloat itemW = 71;
-    for (int i = 0; i < _dataArray.count; i++) {
+    for (int i = 0; i < _trackArray.count; i++) {
+        Model_dapp_Data *data = _trackArray[i];
+        
         UIView *itemView = [[UIView alloc] init];
         itemView.tag = 100 + i;
         itemView.userInteractionEnabled = YES;
@@ -109,7 +87,7 @@
             make.top.bottom.equalTo(self.bgView);
             make.left.equalTo(self.bgView).offset(i * itemW);
             make.width.mas_equalTo(@(itemW));
-            if (i == _dataArray.count - 1) {
+            if (i == _trackArray.count - 1) {
                 make.right.equalTo(self.bgView);
             }
         }];
@@ -121,11 +99,14 @@
         }];
         
         UIImageView *imgView = [[UIImageView alloc] init];
-        imgView.backgroundColor = JL_color_blue_6077DF;
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
         imgView.layer.cornerRadius = 17.5;
         imgView.layer.borderWidth = 1;
         imgView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
         imgView.clipsToBounds = YES;
+        if (![NSString stringIsEmpty:data.logo.url]) {
+            [imgView sd_setImageWithURL:[NSURL URLWithString:data.logo.url]];
+        }
         [contentView addSubview:imgView];
         [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(contentView);
@@ -133,7 +114,7 @@
         }];
         
         UILabel *label = [[UILabel alloc] init];
-        label.text = @"BTC";
+        label.text = data.title;
         label.textColor = JL_color_gray_666666;
         label.font = kFontPingFangSCRegular(13);
         label.textAlignment = NSTextAlignmentCenter;
@@ -149,15 +130,26 @@
 #pragma mark - event response
 - (void)itemViewDidTap: (UITapGestureRecognizer *)ges {
     if (_lookDappBlock) {
-        _lookDappBlock([NSString stringWithFormat:@"track: %ld", ges.view.tag - 100]);
+        _lookDappBlock(_trackArray[ges.view.tag - 100]);
     }
 }
 
 #pragma mark - setters and getters
-- (void)setDataArray:(NSArray *)dataArray {
-    _dataArray = dataArray;
-
+- (void)setTrackArray:(NSArray *)trackArray {
+    _trackArray = trackArray;
+    
     [self updateDapps];
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
 
 @end

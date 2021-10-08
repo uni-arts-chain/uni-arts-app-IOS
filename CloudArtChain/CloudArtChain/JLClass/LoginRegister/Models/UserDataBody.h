@@ -6,6 +6,11 @@
 //  Copyright © 2020 朱彬. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+@protocol Model_Image_Data @end
+@interface Model_Image_Data : Model_Interface
+@property (nonatomic, copy) NSString *url;
+@end
+
 @interface UserDataTokens : Model_Interface
 @property (nonatomic, strong) NSString *token;
 @property (nonatomic, strong) NSString *expire_at;

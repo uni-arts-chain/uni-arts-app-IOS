@@ -62,7 +62,7 @@
     _lineView.layer.cornerRadius = 1;
     [_scrollView addSubview:_lineView];
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.scrollView);
+        make.bottom.equalTo(self.scrollView).offset(-12);
         make.size.mas_equalTo(CGSizeMake(20, 2));
     }];
     
