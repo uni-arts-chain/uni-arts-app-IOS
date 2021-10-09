@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) JLDappSearchHeaderView *searchHeaderView;
 
+@property (nonatomic, copy) NSArray *chainDappArray;
 @property (nonatomic, copy) NSArray *chainTitleArray;
 @property (nonatomic, assign) JLDappContentViewTrackType selectTrackType;
 @property (nonatomic, assign) NSInteger selectChainIndex;
@@ -39,7 +40,7 @@
 
 - (void)setupUI {
     WS(weakSelf)
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, self.frameHeight - KTabBar_Height) style:UITableViewStyleGrouped];
     _tableView.backgroundColor = JL_color_white_ffffff;
     _tableView.dataSource = self;
     _tableView.delegate = self;
@@ -50,12 +51,18 @@
     _tableView.tableHeaderView = self.searchHeaderView;
     [self addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.equalTo(self);
+        make.top.left.right.equalTo(self);
+        make.bottom.equalTo(self).offset(-(KTabBar_Height));
     }];
     
     _tableView.mj_header = [JLRefreshHeader headerWithRefreshingBlock:^{
         if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(refreshDataWithTrackType:chainData:)]) {
             [weakSelf.delegate refreshDataWithTrackType:weakSelf.selectTrackType chainData:weakSelf.chainArray[weakSelf.selectChainIndex]];
+        }
+    }];
+    _tableView.mj_footer = [JLRefreshFooter footerWithRefreshingBlock:^{
+        if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(loadMoreChainCategoryDatas)]) {
+            [weakSelf.delegate loadMoreChainCategoryDatas];
         }
     }];
 }
@@ -174,17 +181,17 @@
 - (JLDappSearchHeaderView *)searchHeaderView {
     if (!_searchHeaderView) {
         WS(weakSelf)
-        _searchHeaderView = [[JLDappSearchHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.frameWidth, 35)];
+        _searchHeaderView = [[JLDappSearchHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 35)];
         _searchHeaderView.searchBlock = ^{
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(search)]) {
                 [weakSelf.delegate search];
             }
         };
-        _searchHeaderView.scanBlock = ^{
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
-                [weakSelf.delegate scanCode];
-            }
-        };
+//        _searchHeaderView.scanBlock = ^{
+//            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
+//                [weakSelf.delegate scanCode];
+//            }
+//        };
     }
     return _searchHeaderView;
 }
@@ -207,13 +214,27 @@
     [_tableView reloadData];
 }
 
-- (void)setChainDappArray:(NSArray *)chainDappArray {
+- (void)setChainDappArray: (NSArray *)chainDappArray page: (NSInteger)page pageSize: (NSInteger)pageSize {
     _chainDappArray = chainDappArray;
     
-    if ([_tableView.mj_header isRefreshing]) {
-        [_tableView.mj_header endRefreshing];
+    if (page <= 1) {
+        if ([_tableView.mj_header isRefreshing]) {
+            [_tableView.mj_header endRefreshing];
+        }
+        if (_chainDappArray.count < page * pageSize) {
+            [(JLRefreshFooter *)_tableView.mj_footer endWithNoMoreDataNotice];
+        }else {
+            [_tableView.mj_footer endRefreshing];
+        }
+    }else {
+        if (_chainDappArray.count < page * pageSize) {
+            [(JLRefreshFooter *)_tableView.mj_footer endWithNoMoreDataNotice];
+        }else {
+            if ([_tableView.mj_footer isRefreshing]) {
+                [_tableView.mj_footer endRefreshing];
+            }
+        }
     }
-    
     [_tableView reloadData];
 }
 

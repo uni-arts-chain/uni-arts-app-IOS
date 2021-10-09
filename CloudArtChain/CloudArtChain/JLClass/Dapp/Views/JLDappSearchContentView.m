@@ -67,16 +67,16 @@
 }
 
 #pragma mark - JLDappSearchHotViewdelegate
-- (void)lookDappWithUrl:(NSString *)url {
-    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-        [_delegate lookDappWithUrl:url];
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData {
+    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithDappData:)]) {
+        [_delegate lookDappWithDappData:dappData];
     }
 }
 
 #pragma mark - JLDappSearchResultViewdelegate
-- (void)didSelect:(NSString *)url {
-    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-        [_delegate lookDappWithUrl:url];
+- (void)didSelect: (Model_dapp_Data *)dappData {
+    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithDappData:)]) {
+        [_delegate lookDappWithDappData:dappData];
     }
 }
 

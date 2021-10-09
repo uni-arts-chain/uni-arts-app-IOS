@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol JLDappSearchResultViewdelegate <NSObject>
 
-- (void)didSelect: (NSString *)url;
+- (void)didSelect: (Model_dapp_Data *)dappData;
 
 @end
 

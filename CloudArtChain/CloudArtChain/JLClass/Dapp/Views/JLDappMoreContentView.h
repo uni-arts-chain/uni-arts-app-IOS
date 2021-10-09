@@ -11,7 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol JLDappMoreContentViewDelegate <NSObject>
 
-- (void)lookDappWithUrl: (NSString *)url;
+- (void)refreshDatas;
+
+- (void)loadMoreDatas;
+
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData;
 
 @end
 
@@ -19,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<JLDappMoreContentViewDelegate> delegate;
 
-@property (nonatomic, copy) NSArray *dataArray;
+- (void)setDataArray:(NSArray *)dataArray page: (NSInteger)page pageSize: (NSInteger)pageSize;
 
 @end
 

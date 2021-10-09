@@ -7,7 +7,7 @@
 //
 
 #import "JLDappSearchHotView.h"
-#import "JLEmptyDataView.h"
+#import "JLNormalEmptyView.h"
 
 #pragma mark -- JLDappSearchHotView
 @interface JLDappSearchHotView ()<UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-@property (nonatomic, strong) JLEmptyDataView *emptyDataView;
+@property (nonatomic, strong) JLNormalEmptyView *emptyDataView;
 
 @end
 
@@ -63,7 +63,7 @@
         make.left.right.bottom.equalTo(self);
     }];
     
-    _emptyDataView = [[JLEmptyDataView alloc] init];
+    _emptyDataView = [[JLNormalEmptyView alloc] init];
     _emptyDataView.hidden = YES;
     [self addSubview:_emptyDataView];
     [_emptyDataView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -79,15 +79,15 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JLDappSearchHotCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(JLDappSearchHotCell.class) forIndexPath:indexPath];
-    
+    cell.dappData = _hotSearchArray[indexPath.item];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithUrl:)]) {
-        [_delegate lookDappWithUrl:@"xx"];
+    if (_delegate && [_delegate respondsToSelector:@selector(lookDappWithDappData:)]) {
+        [_delegate lookDappWithDappData:_hotSearchArray[indexPath.item]];
     }
 }
 
@@ -137,7 +137,7 @@
     }];
     
     _imgView = [[UIImageView alloc] init];
-    _imgView.backgroundColor = JL_color_blue_6077DF;
+    _imgView.contentMode = UIViewContentModeScaleAspectFill;
     _imgView.layer.cornerRadius = 17.5;
     _imgView.layer.borderWidth = 1;
     _imgView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
@@ -149,7 +149,6 @@
     }];
     
     _nameLabel = [[UILabel alloc] init];
-    _nameLabel.text = @"BTC";
     _nameLabel.textColor = JL_color_gray_101010;
     _nameLabel.font = kFontPingFangSCRegular(13);
     _nameLabel.textAlignment = NSTextAlignmentCenter;
@@ -162,11 +161,13 @@
 }
 
 #pragma mark - setters and getters
-
 - (void)setDappData:(Model_dapp_Data *)dappData {
     _dappData = dappData;
     
-    
+    _nameLabel.text = _dappData.title;
+    if (![NSString stringIsEmpty:_dappData.logo.url]) {
+        [_imgView sd_setImageWithURL:[NSURL URLWithString:_dappData.logo.url]];
+    }
 }
 
 @end

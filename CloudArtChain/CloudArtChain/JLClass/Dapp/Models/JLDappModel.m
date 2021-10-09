@@ -14,15 +14,14 @@
 ////////////////////////////////////entity(实体)//////////////////////////////////////
 #pragma mark - dapp 信息
 @implementation Model_dapp_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
 @end
 #pragma mark - 链信息
 @implementation Model_chain_Data
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
-}
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"id: %@, title: %@, desc: %@", _ID, _title, _desc];
 }
 @end
 #pragma mark - 链分类信息
@@ -30,12 +29,19 @@
 + (JSONKeyMapper *)keyMapper {
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
 }
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"id: %@, title: %@", _ID, _title];
+@end
+#pragma mark - 最近使用dapp信息
+@implementation Model_recently_dapp_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
 }
 @end
-
+#pragma mark - 收藏dapp信息
+@implementation Model_favorite_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
 ////////////////////////////////////api(接口)//////////////////////////////////////
 #pragma mark - /chains 链列表
 @implementation Model_chains_Req
@@ -79,9 +85,6 @@
 @end
 #pragma mark - /v2/member_recently_dapps 最近使用的dapp
 @implementation Model_member_recently_dapps_Req
-+ (JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
-}
 @end
 @implementation Model_member_recently_dapps_Rsp
 - (NSString *)interfacePath {
@@ -114,4 +117,20 @@
 @implementation Model_dapps_search_Req
 @end
 @implementation Model_dapps_search_Rsp
+@end
+#pragma mark - ​/v2​/dapps/hot_search_dapps 热门搜索dapp
+@implementation Model_dapps_hot_search_dapps_Req
+@end
+@implementation Model_dapps_hot_search_dapps_Rsp
+- (NSString *)interfacePath {
+    return @"dapps/hot_search_dapps";
+}
+@end
+#pragma mark - /v2/member_recently_dapps 上传最近使用的dapp(post)
+@implementation Model_member_recently_dapp_Req
+@end
+@implementation Model_member_recently_dapp_Rsp
+- (NSString *)interfacePath {
+    return @"member_recently_dapps";
+}
 @end

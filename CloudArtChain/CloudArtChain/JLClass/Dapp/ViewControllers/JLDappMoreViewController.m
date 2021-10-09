@@ -13,6 +13,10 @@
 
 @property (nonatomic, strong) JLDappMoreContentView *contentView;
 
+@property (nonatomic, assign) NSInteger page;
+
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
 @end
 
 @implementation JLDappMoreViewController
@@ -23,33 +27,222 @@
     self.navigationItem.title = [self getNavigationTitle];
     [self addBackItem];
     
+    _page = 1;
+    
     [self.view addSubview:self.contentView];
     
     [self loadDatas];
 }
 
 #pragma mark - JLDappMoreContentViewDelegate
-- (void)lookDappWithUrl:(NSString *)url {
-    JLLog(@"查看Dapp url: %@", url);
+- (void)refreshDatas {
+    _page = 1;
+    
+    [self loadDatas];
+}
+
+- (void)loadMoreDatas {
+    _page += 1;
+    
+    [self loadDatas];
+}
+
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData {
+    JLLog(@"查看Dapp url: %@", dappData.website_url);
+    WS(weakSelf)
+    if (![NSString stringIsEmpty:dappData.website_url] &&
+        [NSURL URLWithString:dappData.website_url] != nil &&
+        [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:dappData.website_url]]) {
+        [self postRecentlyDapp:dappData.ID];
+        
+        [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:dappData.title imgUrl:dappData.logo.url webUrl:[NSURL URLWithString:dappData.website_url] isCollect: dappData.is_favorite collectCompletion:^(BOOL isCollect) {
+            JLLog(@"是否收藏: %@", isCollect ? @"收藏":@"取消收藏");
+            [weakSelf favoriteDapp:dappData.ID isCollect:isCollect];
+        }];
+    }else {
+        [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
+    }
 }
 
 #pragma mark - loadDatas
 - (void)loadDatas {
-    self.contentView.dataArray = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
+    if (_type == JLDappMoreViewControllerTypeRecommend) {
+        [self loadChainRecommendDapps:_chainId];
+    }else if (_type == JLDappMoreViewControllerTypeChainCategory) {
+        [self loadChainCategoryDapps];
+    }else {
+        if (_collectOrRecentlyIndex == 0) {
+            [self loadFavoriteDapps];
+        }else if (_collectOrRecentlyIndex == 1) {
+            [self loadRecentlyDapps];
+        }
+    }
+}
+
+/// 获取推荐的链dapp列表
+- (void)loadChainRecommendDapps: (NSString *)chianId {
+    WS(weakSelf)
+    Model_chains_id_recommend_dapps_Req *request = [[Model_chains_id_recommend_dapps_Req alloc] init];
+    request.ID = chianId;
+    request.page = _page;
+    request.per_page = kPageSize;
+    Model_chains_id_recommend_dapps_Rsp *response = [[Model_chains_id_recommend_dapps_Rsp alloc] init];
+    response.request = request;
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.page == 1) {
+                weakSelf.dataArray = [NSMutableArray arrayWithArray:response.body];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:response.body];
+            }
+            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
+}
+
+/// 链分类下的dapps
+- (void)loadChainCategoryDapps {
+    WS(weakSelf)
+    Model_dapps_category_dapps_Req *request = [[Model_dapps_category_dapps_Req alloc] init];
+    request.chain_category_id = _chainCategoryData.ID;
+    request.page = _page;
+    request.per_page = kPageSize;
+    Model_dapps_category_dapps_Rsp *response = [[Model_dapps_category_dapps_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.page == 1) {
+                weakSelf.dataArray = [NSMutableArray arrayWithArray:response.body];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:response.body];
+            }
+            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
+}
+
+/// 获取收藏过的dapp
+- (void)loadFavoriteDapps {
+    WS(weakSelf)
+    Model_dapps_favorites_Req *request = [[Model_dapps_favorites_Req alloc] init];
+    request.page = _page;
+    request.per_page = kPageSize;
+    Model_dapps_favorites_Rsp *response = [[Model_dapps_favorites_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            NSMutableArray *arr = [NSMutableArray array];
+            for (Model_favorite_Data *data in response.body) {
+                [arr addObject:data.favoritable];
+            }
+            if (weakSelf.page == 1) {
+                weakSelf.dataArray = [arr copy];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:[arr copy]];
+            }
+            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
+}
+
+/// 最近使用过的dapp
+- (void)loadRecentlyDapps {
+    WS(weakSelf)
+    Model_member_recently_dapps_Req *request = [[Model_member_recently_dapps_Req alloc] init];
+    request.page = _page;
+    request.per_page = kPageSize;
+    Model_member_recently_dapps_Rsp *response = [[Model_member_recently_dapps_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            NSMutableArray *arr = [NSMutableArray array];
+            for (Model_recently_dapp_Data *data in response.body) {
+                [arr addObject:data.dapp];
+            }
+            if (weakSelf.page == 1) {
+                weakSelf.dataArray = [arr copy];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:[arr copy]];
+            }
+            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
+}
+
+/// 收藏或者取消收藏dapp
+- (void)favoriteDapp: (NSString *)dappId isCollect: (BOOL)isCollect {
+    if (isCollect) {
+        Model_dapps_id_favorite_Req *request = [[Model_dapps_id_favorite_Req alloc] init];
+        request.ID = dappId;
+        Model_dapps_id_favorite_Rsp *response = [[Model_dapps_id_favorite_Rsp alloc] init];
+        response.request = request;
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                [MBProgressHUD jl_showSuccessWithText:@"收藏成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
+            }else {
+                [MBProgressHUD jl_showFailureWithText:errorStr];
+            }
+        }];
+    }else {
+        Model_dapps_id_unfavorite_Req *request = [[Model_dapps_id_unfavorite_Req alloc] init];
+        request.ID = dappId;
+        Model_dapps_id_unfavorite_Rsp *response = [[Model_dapps_id_unfavorite_Rsp alloc] init];
+        response.request = request;
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                [MBProgressHUD jl_showSuccessWithText:@"取消收藏成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
+            }else {
+                [MBProgressHUD jl_showFailureWithText:errorStr];
+            }
+        }];
+    }
+}
+
+/// 上传使用的dapp痕迹
+- (void)postRecentlyDapp: (NSString *)dappId {
+    Model_member_recently_dapp_Req *request = [[Model_member_recently_dapp_Req alloc] init];
+    request.dapp_id = dappId;
+    Model_member_recently_dapp_Rsp *response = [[Model_member_recently_dapp_Rsp alloc] init];
+    
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            JLLog(@"最近使用dapp id: %@ 上传痕迹成功", dappId);
+        }else {
+            JLLog(@"最近使用dapp id: %@ 上传痕迹失败: %@", dappId, errorStr);
+        }
+    }];
 }
 
 #pragma mark - private methods
 - (NSString *)getNavigationTitle {
-    if (_type == JLDappMoreViewControllerTypeCollect) {
-        return @"收藏";
-    }else if (_type == JLDappMoreViewControllerTypeRecently) {
-        return @"最近";
-    }
-    else if (_type == JLDappMoreViewControllerTypeRecommend) {
-        return @"推荐";
-    }
-    else if (_type == JLDappMoreViewControllerTypeTransaction) {
-        return @"交易";
+    if (_type == JLDappMoreViewControllerTypeRecommend ||
+        _type == JLDappMoreViewControllerTypeChainCategory) {
+        if (![NSString stringIsEmpty:_chainCategoryData.title]) {
+            return _chainCategoryData.title;
+        }
+    }else {
+        if (_collectOrRecentlyIndex == 0) {
+            return @"收藏";
+        }else if (_collectOrRecentlyIndex == 1) {
+            return @"最近";
+        }
     }
     return @"更多";
 }
@@ -61,6 +254,13 @@
         _contentView.delegate = self;
     }
     return _contentView;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end

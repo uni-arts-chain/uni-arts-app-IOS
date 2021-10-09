@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark -- JLDappSearchHotView
 @protocol JLDappSearchHotViewdelegate <NSObject>
 
-- (void)lookDappWithUrl: (NSString *)url;
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData;
 
 @end
 

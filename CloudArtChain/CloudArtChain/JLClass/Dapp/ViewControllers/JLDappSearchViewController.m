@@ -39,13 +39,36 @@
     [self.navigationController popViewControllerAnimated:NO];
 }
 
-- (void)lookDappWithUrl: (NSString *)url {
-    JLLog(@"查看dapp url: %@", url);
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData {
+    JLLog(@"查看Dapp url: %@", dappData.website_url);
+    WS(weakSelf)
+    if (![NSString stringIsEmpty:dappData.website_url] &&
+        [NSURL URLWithString:dappData.website_url] != nil &&
+        [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:dappData.website_url]]) {
+        [self postRecentlyDapp:dappData.ID];
+        
+        [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:dappData.title imgUrl:dappData.logo.url webUrl:[NSURL URLWithString:dappData.website_url] isCollect: dappData.is_favorite collectCompletion:^(BOOL isCollect) {
+            JLLog(@"是否收藏: %@", isCollect ? @"收藏":@"取消收藏");
+            [weakSelf favoriteDapp:dappData.ID isCollect:isCollect];
+        }];
+    }else {
+        [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
+    }
 }
 
 #pragma mark - loadDatas
 - (void)loadHotDatas {
-    self.contentView.hotSearchArray = @[];
+    WS(weakSelf)
+    Model_dapps_hot_search_dapps_Req *request = [[Model_dapps_hot_search_dapps_Req alloc] init];
+    Model_dapps_hot_search_dapps_Rsp *response = [[Model_dapps_hot_search_dapps_Rsp alloc] init];
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            self.contentView.hotSearchArray = response.body;
+        }else {
+            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
 }
 
 - (void)startSearch: (NSString *)searchContent {
@@ -59,6 +82,58 @@
             self.contentView.searchResultArray = response.body;
         }else {
             [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+        }
+    }];
+}
+
+/// 收藏或者取消收藏dapp
+- (void)favoriteDapp: (NSString *)dappId isCollect: (BOOL)isCollect {
+    if (isCollect) {
+        Model_dapps_id_favorite_Req *request = [[Model_dapps_id_favorite_Req alloc] init];
+        request.ID = dappId;
+        Model_dapps_id_favorite_Rsp *response = [[Model_dapps_id_favorite_Rsp alloc] init];
+        response.request = request;
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                [MBProgressHUD jl_showSuccessWithText:@"收藏成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
+            }else {
+                [MBProgressHUD jl_showFailureWithText:errorStr];
+            }
+        }];
+    }else {
+        Model_dapps_id_unfavorite_Req *request = [[Model_dapps_id_unfavorite_Req alloc] init];
+        request.ID = dappId;
+        Model_dapps_id_unfavorite_Rsp *response = [[Model_dapps_id_unfavorite_Rsp alloc] init];
+        response.request = request;
+        
+        [[JLLoading sharedLoading] showRefreshLoadingOnView:nil];
+        [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+            [[JLLoading sharedLoading] hideLoading];
+            if (netIsWork) {
+                [MBProgressHUD jl_showSuccessWithText:@"取消收藏成功"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
+            }else {
+                [MBProgressHUD jl_showFailureWithText:errorStr];
+            }
+        }];
+    }
+}
+
+/// 上传使用的dapp痕迹
+- (void)postRecentlyDapp: (NSString *)dappId {
+    Model_member_recently_dapp_Req *request = [[Model_member_recently_dapp_Req alloc] init];
+    request.dapp_id = dappId;
+    Model_member_recently_dapp_Rsp *response = [[Model_member_recently_dapp_Rsp alloc] init];
+    
+    [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            JLLog(@"最近使用dapp id: %@ 上传痕迹成功", dappId);
+        }else {
+            JLLog(@"最近使用dapp id: %@ 上传痕迹失败: %@", dappId, errorStr);
         }
     }];
 }

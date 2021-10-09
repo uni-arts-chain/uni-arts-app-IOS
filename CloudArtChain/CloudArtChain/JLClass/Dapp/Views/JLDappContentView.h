@@ -25,9 +25,11 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
 
 - (void)search;
 
-- (void)scanCode;
+//- (void)scanCode;
 
 - (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainData: (Model_chain_Data *)chainData;
+
+- (void)loadMoreChainCategoryDatas;
 
 - (void)lookTrackMoreWithType: (JLDappContentViewLookTrackMoreType)type;
 
@@ -47,7 +49,8 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
 
 @property (nonatomic, copy) NSArray *trackArray;
 @property (nonatomic, copy) NSArray *chainArray;
-@property (nonatomic, copy) NSArray *chainDappArray;
+
+- (void)setChainDappArray: (NSArray *)chainDappArray page: (NSInteger)page pageSize: (NSInteger)pageSize;
 
 @end
 

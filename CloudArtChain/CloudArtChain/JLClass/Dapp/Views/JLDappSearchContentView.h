@@ -14,7 +14,7 @@
 
 - (void)cancel;
 
-- (void)lookDappWithUrl: (NSString *)url;
+- (void)lookDappWithDappData: (Model_dapp_Data *)dappData;
 
 @end
 

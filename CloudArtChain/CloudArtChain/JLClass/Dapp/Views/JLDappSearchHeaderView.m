@@ -66,15 +66,15 @@
         make.centerY.equalTo(self.bgView);
     }];
     
-    _scanBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [_scanBtn setImage:[[UIImage imageNamed:@"icon_dapp_search_scan"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
-    [_scanBtn addTarget:self action:@selector(scanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_bgView addSubview:_scanBtn];
-    [_scanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.bgView);
-        make.top.bottom.equalTo(self.bgView);
-        make.width.mas_equalTo(@45);
-    }];
+//    _scanBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//    [_scanBtn setImage:[[UIImage imageNamed:@"icon_dapp_search_scan"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+//    [_scanBtn addTarget:self action:@selector(scanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [_bgView addSubview:_scanBtn];
+//    [_scanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.bgView);
+//        make.top.bottom.equalTo(self.bgView);
+//        make.width.mas_equalTo(@45);
+//    }];
 }
 
 #pragma mark - event response

@@ -8,7 +8,7 @@
 
 #import "JLDappSearchResultView.h"
 #import "JLDappMoreCell.h"
-#import "JLEmptyDataView.h"
+#import "JLNormalEmptyView.h"
 #import "JLDappSearchActivityIndicatorView.h"
 
 @interface JLDappSearchResultView ()<UITableViewDataSource, UITableViewDelegate>
@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) JLEmptyDataView *emptyDataView;
+@property (nonatomic, strong) JLNormalEmptyView *emptyDataView;
 
 @property (nonatomic, strong) JLDappSearchActivityIndicatorView *indicatorView;
 
@@ -60,7 +60,7 @@
         make.left.right.bottom.equalTo(self);
     }];
     
-    _emptyDataView = [[JLEmptyDataView alloc] init];
+    _emptyDataView = [[JLNormalEmptyView alloc] init];
     _emptyDataView.hidden = YES;
     [self addSubview:_emptyDataView];
     [_emptyDataView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,7 +82,7 @@
     if (!cell) {
         cell = [[JLDappMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NSStringFromClass(JLDappMoreCell.class)];
     }
-    
+    cell.dappData = _searchResultArray[indexPath.row];
     return cell;
 }
 
@@ -116,7 +116,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_delegate && [_delegate respondsToSelector:@selector(didSelect:)]) {
-        [_delegate didSelect:@"xx"];
+        [_delegate didSelect:_searchResultArray[indexPath.row]];
     }
 }
 

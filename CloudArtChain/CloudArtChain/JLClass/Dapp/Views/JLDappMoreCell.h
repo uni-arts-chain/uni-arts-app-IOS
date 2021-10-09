@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JLDappMoreCell : UITableViewCell
 
+@property (nonatomic, strong) Model_dapp_Data *dappData;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -207,6 +207,7 @@ final class EthBrowserViewController: JLBaseViewController {
     deinit {
         webView.removeObserver(self, forKeyPath: Keys.estimatedProgress)
         webView.removeObserver(self, forKeyPath: Keys.URL)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -220,6 +221,8 @@ final class EthBrowserViewController: JLBaseViewController {
         super.viewDidLoad()
 //        addBackItem()
         print("delegate--:", self.delegate)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(collectDapp), name: NSNotification.Name.init("JLocalNotification_JLCollectDappSuccess"), object: nil)
         
         view.addSubview(navigationBar)
         
@@ -297,6 +300,10 @@ final class EthBrowserViewController: JLBaseViewController {
         }
     }
     
+    @objc func collectDapp() {
+        isCollect = !isCollect
+    }
+    
     private func popVC() {
 //        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true, completion: nil)
@@ -325,7 +332,7 @@ final class EthBrowserViewController: JLBaseViewController {
             }
         }
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
