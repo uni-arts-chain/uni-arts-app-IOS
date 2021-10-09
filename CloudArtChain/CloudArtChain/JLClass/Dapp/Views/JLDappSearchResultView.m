@@ -17,8 +17,6 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) JLNormalEmptyView *emptyDataView;
-
 @property (nonatomic, strong) JLDappSearchActivityIndicatorView *indicatorView;
 
 @end
@@ -59,14 +57,6 @@
         make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
         make.left.right.bottom.equalTo(self);
     }];
-    
-    _emptyDataView = [[JLNormalEmptyView alloc] init];
-    _emptyDataView.hidden = YES;
-    [self addSubview:_emptyDataView];
-    [_emptyDataView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.tableView);
-        make.height.mas_equalTo(@300);
-    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -95,6 +85,10 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (_searchResultArray && _searchResultArray.count == 0) {
+        JLNormalEmptyView *emptyDataView = [[JLNormalEmptyView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300)];
+        return emptyDataView;
+    }
     return nil;
 }
 
@@ -106,6 +100,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (_searchResultArray && _searchResultArray.count == 0) {
+        return 300;
+    }
     return CGFLOAT_MIN;
 }
 
@@ -130,12 +127,6 @@
 
 - (void)setSearchResultArray:(NSArray *)searchResultArray {
     _searchResultArray = searchResultArray;
-    
-    if (_searchResultArray.count == 0) {
-        _emptyDataView.hidden = NO;
-    }else {
-        _emptyDataView.hidden = YES;
-    }
     
     [_tableView reloadData];
 }
