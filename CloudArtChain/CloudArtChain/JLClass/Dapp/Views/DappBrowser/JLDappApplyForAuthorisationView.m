@@ -159,10 +159,12 @@ static JLDappApplyForAuthorisationView *authorisationView;
         make.size.mas_equalTo(CGSizeMake(140, 40));
     }];
         
-    [UIView animateWithDuration:0.3 delay:0.4 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        self.maskView.alpha = 0.5;
-        self.bgView.frame = CGRectMake(0, kScreenHeight - (350 + KTouch_Responder_Height), kScreenWidth, 350 + KTouch_Responder_Height);
-    } completion:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            self.maskView.alpha = 0.5;
+            self.bgView.frame = CGRectMake(0, kScreenHeight - (350 + KTouch_Responder_Height), kScreenWidth, 350 + KTouch_Responder_Height);
+        } completion:nil];
+    });
 }
 
 #pragma mark - event response

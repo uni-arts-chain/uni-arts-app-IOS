@@ -52,7 +52,7 @@
             [weakSelf favoriteDapp:dappData isCollect:isCollect];
         }];
     }else {
-        [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"dapp网址不可用" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 
@@ -64,9 +64,9 @@
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
-            self.contentView.hotSearchArray = response.body;
+            weakSelf.contentView.hotSearchArray = response.body;
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -79,9 +79,9 @@
     
     [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         if (netIsWork) {
-            self.contentView.searchResultArray = response.body;
+            weakSelf.contentView.searchResultArray = response.body;
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }

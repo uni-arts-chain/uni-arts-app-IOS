@@ -60,7 +60,7 @@
             [weakSelf favoriteDapp:dappData isCollect:isCollect];
         }];
     }else {
-        [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"dapp网址不可用" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 
@@ -96,9 +96,9 @@
             }else {
                 [weakSelf.dataArray addObjectsFromArray:response.body];
             }
-            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+            [weakSelf.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -121,7 +121,7 @@
             }
             [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -147,7 +147,7 @@
             }
             [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -171,9 +171,9 @@
             }else {
                 [weakSelf.dataArray addObjectsFromArray:[arr copy]];
             }
-            [self.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
+            [weakSelf.contentView setDataArray:weakSelf.dataArray page:weakSelf.page pageSize:kPageSize];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }

@@ -64,7 +64,7 @@
 //            [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:scanResult]]) {
 //            [weakSelf lookDappWithUrl:scanResult];
 //        }else {
-//            [MBProgressHUD jl_showWithText:scanResult toView:weakSelf.view];
+//            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
 //        }
 //    };
 //    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -143,7 +143,7 @@
             [weakSelf favoriteDapp:dappData isCollect:isCollect];
         }];
     }else {
-        [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
+        [[JLLoading sharedLoading] showMBFailedTipMessage:@"dapp网址不可用" hideTime:KToastDismissDelayTimeInterval];
     }
 }
 
@@ -180,7 +180,7 @@
                 }];
             }
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -205,7 +205,7 @@
                 chainCategoryData.dapps = response.body;
             }
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
         [weakSelf.chainDappArray addObject:chainCategoryData];
         completion();
@@ -229,7 +229,7 @@
             // 赋值给视图
             [weakSelf.contentView setChainDappArray:weakSelf.chainDappArray page:weakSelf.page pageSize:kPageSize];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -254,9 +254,9 @@
                     [arr addObject:data.favoritable];
                 }
             }
-            self.contentView.trackArray = [arr copy];
+            weakSelf.contentView.trackArray = [arr copy];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
@@ -281,9 +281,9 @@
                     [arr addObject:data.dapp];
                 }
             }
-            self.contentView.trackArray = [arr copy];
+            weakSelf.contentView.trackArray = [arr copy];
         }else {
-            [MBProgressHUD jl_showFailureWithText:errorStr toView:weakSelf.view];
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
         }
     }];
 }
