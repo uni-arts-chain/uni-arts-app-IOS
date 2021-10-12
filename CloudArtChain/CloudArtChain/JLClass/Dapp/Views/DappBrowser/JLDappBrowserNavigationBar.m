@@ -75,7 +75,7 @@
     
     _faceView = [[UIView alloc] init];
     _faceView.layer.cornerRadius = 16;
-    _faceView.layer.borderWidth = 1.5;
+    _faceView.layer.borderWidth = 1;
     _faceView.layer.borderColor = JL_color_gray_DDDDDD.CGColor;
     _faceView.layer.masksToBounds = YES;
     [self addSubview:_faceView];

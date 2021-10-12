@@ -37,6 +37,7 @@ final class EthTransactionConfigurator {
         }
     }
     var requestEstimateGas: Bool
+    var requestGasPrice: Bool
     
     var configurationUpdate: EthSubscribable<EthTransactionConfiguration> = EthSubscribable(nil)
     
@@ -96,6 +97,7 @@ final class EthTransactionConfigurator {
         self.chainState = chainState
         self.forceFetchNonce = forceFetchNonce
         self.requestEstimateGas = transaction.gasLimit == .none
+        self.requestGasPrice = transaction.gasPrice == .none
         
         let data: Data = EthTransactionConfigurator.data(for: transaction, from: walletInfo.currentAccount.address)
         let calculatedGasLimit = transaction.gasLimit ?? EthTransactionConfigurator.gasLimit(for: transaction.transfer.type)
@@ -120,7 +122,19 @@ final class EthTransactionConfigurator {
                 }
             }
         }
-        loadNextNonce(completion: completion)
+        if requestGasPrice {
+            gasPrice { [weak self] result in
+                guard let `self` = self else { return }
+                switch result {
+                case .success(let gasPrice):
+                    self.refreshGasPrice(gasPrice)
+                case .failure: break
+                }
+            }
+        }
+        if forceFetchNonce {
+            loadNonce(completion: completion)
+        }
     }
     
     func estimateGasLimit(completion: @escaping (Result<BigInt, AnyError>) -> Void) {
@@ -131,9 +145,19 @@ final class EthTransactionConfigurator {
         }
     }
     
-    func loadNextNonce(completion: @escaping (Result<Void, AnyError>) -> Void) {
-        EthWalletRPCService(server: server).getTransactionCount().done { [weak self] nonce in
-            self?.refreshNonce(nonce + 1)
+    func gasPrice(completion: @escaping (Result<BigInt, AnyError>) -> Void) {
+        EthWalletRPCService(server: server).getGasPrice().done { gasPrice in
+            completion(.success(BigInt(gasPrice) ?? BigInt(0)))
+        }.catch { error in
+            completion(.failure(AnyError(error)))
+        }
+    }
+
+    func loadNonce(completion: @escaping (Result<Void, AnyError>) -> Void) {
+        guard let address = walletInfo.currentAccount.address as? EthereumAddress else { return completion(.failure(AnyError(EthWalletRPCServiceError.nullAddress)))
+        }
+        EthWalletRPCService(server: server, addressUpdate: address).getTransactionCount().done { [weak self] nonce in
+            self?.refreshNonce(nonce)
             completion(.success(()))
         }.catch { error in
             completion(.failure(AnyError(error)))
@@ -144,6 +168,15 @@ final class EthTransactionConfigurator {
         configuration = EthTransactionConfiguration(
             gasPrice: configuration.gasPrice,
             gasLimit: gasLimit,
+            data: configuration.data,
+            nonce: configuration.nonce
+        )
+    }
+    
+    func refreshGasPrice(_ gasPrice: BigInt) {
+        configuration = EthTransactionConfiguration(
+            gasPrice: gasPrice,
+            gasLimit: configuration.gasLimit,
             data: configuration.data,
             nonce: configuration.nonce
         )

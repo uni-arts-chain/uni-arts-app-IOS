@@ -47,9 +47,9 @@
         [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:dappData.website_url]]) {
         [self postRecentlyDapp:dappData.ID];
         
-        [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:dappData.title imgUrl:dappData.logo.url webUrl:[NSURL URLWithString:dappData.website_url] isCollect: dappData.is_favorite collectCompletion:^(BOOL isCollect) {
+        [JLEthereumTool.shared lookDappWithNavigationViewController:(JLNavigationViewController *)self.navigationController name:dappData.title imgUrl:dappData.logo.url webUrl:[NSURL URLWithString:dappData.website_url] isCollect: dappData.favorite_by_me collectCompletion:^(BOOL isCollect) {
             JLLog(@"是否收藏: %@", isCollect ? @"收藏":@"取消收藏");
-            [weakSelf favoriteDapp:dappData.ID isCollect:isCollect];
+            [weakSelf favoriteDapp:dappData isCollect:isCollect];
         }];
     }else {
         [MBProgressHUD jl_showFailureWithText:@"dapp网址不可用" toView:weakSelf.view];
@@ -87,10 +87,10 @@
 }
 
 /// 收藏或者取消收藏dapp
-- (void)favoriteDapp: (NSString *)dappId isCollect: (BOOL)isCollect {
+- (void)favoriteDapp: (Model_dapp_Data *)dappData isCollect: (BOOL)isCollect {
     if (isCollect) {
         Model_dapps_id_favorite_Req *request = [[Model_dapps_id_favorite_Req alloc] init];
-        request.ID = dappId;
+        request.ID = dappData.ID;
         Model_dapps_id_favorite_Rsp *response = [[Model_dapps_id_favorite_Rsp alloc] init];
         response.request = request;
         
@@ -99,6 +99,7 @@
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
                 [MBProgressHUD jl_showSuccessWithText:@"收藏成功"];
+                dappData.favorite_by_me = !dappData.favorite_by_me;
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
             }else {
                 [MBProgressHUD jl_showFailureWithText:errorStr];
@@ -106,7 +107,7 @@
         }];
     }else {
         Model_dapps_id_unfavorite_Req *request = [[Model_dapps_id_unfavorite_Req alloc] init];
-        request.ID = dappId;
+        request.ID = dappData.ID;
         Model_dapps_id_unfavorite_Rsp *response = [[Model_dapps_id_unfavorite_Rsp alloc] init];
         response.request = request;
         
@@ -115,6 +116,7 @@
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
                 [MBProgressHUD jl_showSuccessWithText:@"取消收藏成功"];
+                dappData.favorite_by_me = !dappData.favorite_by_me;
                 [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_COLLECT_DAPP_SUCCESS object:nil];
             }else {
                 [MBProgressHUD jl_showFailureWithText:errorStr];

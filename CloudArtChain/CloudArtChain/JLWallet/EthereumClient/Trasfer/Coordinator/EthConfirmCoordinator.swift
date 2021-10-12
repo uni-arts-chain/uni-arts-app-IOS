@@ -37,17 +37,6 @@ final class EthConfirmCoordinator {
         self.keystore = keystore
         self.type = type
         self.server = server
-        
-        fetch()
-    }
-    
-    func fetch() {
-        configurator.load { _ in }
-        configurator.configurationUpdate.subscribe { [weak self] result in
-            guard let `self` = self else { return }
-            guard let configuration = result else { return }
-            self.configurator.configuration = configuration
-        }
     }
     
     func send() {

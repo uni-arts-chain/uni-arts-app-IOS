@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import JavaScriptCore
 import Result
+import TrustCore
 
 enum EthBrowserAction {
     case qrCode
@@ -28,7 +29,7 @@ final class EthBrowserViewController: JLBaseViewController {
     let account: EthWalletInfo
     let sessionConfig: EthConfig
     let server: EthRPCServer
-    let token: TokenObject
+    var token: TokenObject
     
     var name: String?
     var imgUrl: String?
@@ -114,15 +115,42 @@ final class EthBrowserViewController: JLBaseViewController {
         self.isCollect = isCollect
         self.token = TokenObject(
             contract: server.priceID.description,
-            name: "Ethereum 钱包",
+            name: "Ethereum",
             coin: server.coin,
             type: .coin,
-            symbol: "ETH",
+            symbol: server.symbol,
             decimals: server.decimals,
             value: "0",
             isCustom: false
         )
         super.init(nibName: nil, bundle: nil)
+        
+        loadBalance()
+    }
+    
+    private func loadBalance(_ completion: ((Result<Bool, Error>) -> Void)? = nil) {
+        guard let ethAddress = self.account.address as? EthereumAddress else { return }
+        EthWalletRPCService(server: server, addressUpdate: ethAddress).getBalance().done { [weak self]  balance in
+            guard let `self` = self else { return }
+            self.token = TokenObject(
+                contract: self.server.priceID.description,
+                name: "Ethereum",
+                coin: self.server.coin,
+                type: .coin,
+                symbol: self.server.symbol,
+                decimals: self.server.decimals,
+                value: String(balance.value.magnitude),
+                isCustom: false
+            )
+            if completion != nil {
+                completion!(.success(true))
+            }
+        }.catch { error in
+            print("ethereum get eth balance error: ", error)
+            if completion != nil {
+                completion!(.failure(error))
+            }
+        }
     }
     
     private func injectUserAgent() {
@@ -171,7 +199,7 @@ final class EthBrowserViewController: JLBaseViewController {
         browserNavBar?.textField.text = webView.url?.absoluteString
         browserNavBar?.backButton.isHidden = !webView.canGoBack
         
-        print("is show back: ", webView.backForwardList.backList.count, webView.canGoBack)
+        print("ethereum is show back: ", webView.backForwardList.backList.count, webView.canGoBack)
         navigationBar.isShowBackBtn = webView.backForwardList.backList.count == 0 ? false : true
     }
 
@@ -220,8 +248,7 @@ final class EthBrowserViewController: JLBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        addBackItem()
-        print("delegate--:", self.delegate)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(collectDapp), name: NSNotification.Name.init("JLocalNotification_JLCollectDappSuccess"), object: nil)
         
         view.addSubview(navigationBar)
@@ -449,16 +476,32 @@ extension EthBrowserViewController: WKUIDelegate {
 extension EthBrowserViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         let json = message.json
-        print("WKScriptMessage json: ", json)
+        print("ethereum WKScriptMessage json: ", json)
         guard let command = EthDappAction.fromMessage(message) else { return }
         let requester = DAppRequester(title: webView.title, url: webView.url)
         //TODO: Refactor
 //        let token = TokensDataStore.token(for: server)
-        let transfer = Transfer(server: server, type: .dapp(token, requester))
-        let action = EthDappAction.fromCommand(command, transfer: transfer)
+        if token.valueBalance.value == 0 {
+            loadBalance { [weak self] result in
+                guard let `self` = self else { return }
+                switch result {
+                case .success(_):
+                    let transfer = Transfer(server: self.server, type: .dapp(self.token, requester))
+                    let action = EthDappAction.fromCommand(command, transfer: transfer)
 
-        // 处理信息
-        didCall(action: action, callbackID: command.id)
+                    // 处理信息
+                    self.didCall(action: action, callbackID: command.id)
+                case .failure(let error):
+                    JLLoading.shared().showMBFailedTipMessage(error.localizedDescription, hideTime: 2.0)
+                }
+            }
+        }else {
+            let transfer = Transfer(server: server, type: .dapp(token, requester))
+            let action = EthDappAction.fromCommand(command, transfer: transfer)
+
+            // 处理信息
+            didCall(action: action, callbackID: command.id)
+        }
     }
 }
 

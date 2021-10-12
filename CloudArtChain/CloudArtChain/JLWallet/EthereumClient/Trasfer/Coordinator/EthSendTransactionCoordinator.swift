@@ -67,6 +67,7 @@ final class EthSendTransactionCoordinator {
         transaction: EthSignTransaction,
         completion: @escaping (Result<EthConfirmResult, AnyError>) -> Void
     ) {
+        print("ethereum sign transaction value:\(EthBalance(value: transaction.value).amountFull),,,account:\(transaction.account.address),,,to:\(String(describing: transaction.to?.eip55String)),,,nonce:\(transaction.nonce),,,gasPrice:\(transaction.gasPrice),,,gasLimit:\(transaction.gasLimit),,,chainID:\(transaction.chainID),,,data:\(transaction.data)")
         let signedTransaction = keystore.signTransaction(transaction)
 
         switch signedTransaction {
@@ -85,6 +86,7 @@ final class EthSendTransactionCoordinator {
             data: data
         )
         let dataHex = data.hexEncoded
+        print("ethereum send dataHex:\(dataHex)")
         switch confirmType {
         case .sign:
             completion(.success(.sentTransaction(sentTransaction)))

@@ -29,19 +29,26 @@ extension EthBrowserViewController {
             notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
             return
         }
-        switch action {
-        case .signTransaction(let unconfirmedTransaction):
-            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: self.server)
-        case .sendTransaction(let unconfirmedTransaction):
-            executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: self.server)
-        case .signMessage(let hexMessage):
-            signMessage(with: .message(Data(hex: hexMessage)), account: account, callbackID: callbackID)
-        case .signPersonalMessage(let hexMessage):
-            signMessage(with: .personalMessage(Data(hex: hexMessage)), account: account, callbackID: callbackID)
-        case .signTypedMessage(let typedData):
-            signMessage(with: .typedMessage(typedData), account: account, callbackID: callbackID)
-        case .unknown:
-            break
+        JLEthereumTool.shared.authorize(animated: true, cancellable: true) { [weak self] isSuccess in
+            guard let `self` = self else { return }
+            if isSuccess {
+                switch action {
+                case .signTransaction(let unconfirmedTransaction):
+                    self.executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: self.server)
+                case .sendTransaction(let unconfirmedTransaction):
+                    self.executeTransaction(account: account, action: action, callbackID: callbackID, transaction: unconfirmedTransaction, type: .signThenSend, server: self.server)
+                case .signMessage(let hexMessage):
+                    self.signMessage(with: .message(Data(hex: hexMessage)), account: account, callbackID: callbackID)
+                case .signPersonalMessage(let hexMessage):
+                    self.signMessage(with: .personalMessage(Data(hex: hexMessage)), account: account, callbackID: callbackID)
+                case .signTypedMessage(let typedData):
+                    self.signMessage(with: .typedMessage(typedData), account: account, callbackID: callbackID)
+                case .unknown:
+                    break
+                }
+            }else {
+                self.notifyFinish(callbackID: callbackID, value: .failure(EthDAppError.cancelled))
+            }
         }
     }
     
@@ -110,9 +117,22 @@ extension EthBrowserViewController {
                 )
             }
             coordinator.didCompleted = nil
-            self.dismiss(animated: true, completion: nil)
         }
-        coordinator.send()
+//        coordinator.send()
+        
+        let confirmVC = EthConfirmPaymentViewController(keystore: keystore, configurator: configurator, confirmType: type, server: server)
+        confirmVC.didCompleted = { result in
+            switch result {
+            case .success(let data):
+                coordinator.didCompleted?(.success(data))
+            case .failure(let error):
+                coordinator.didCompleted?(.failure(error))
+            }
+        }
+        let nav = JLNavigationViewController(rootViewController: confirmVC)
+        nav.modalPresentationStyle = .fullScreen
+        confirmVC.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
 }
 

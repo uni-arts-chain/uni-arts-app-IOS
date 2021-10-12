@@ -69,7 +69,6 @@ final class EthBrowserCoordinator: NSObject {
     @objc func collectDapp(notification: NSNotification) {
         let userInfo = notification.userInfo as? [String:Bool]
         let isCollect = userInfo?["isCollect"]
-        print("browser 收藏dapp: ", isCollect)
         delegate?.collectDapp(isCollect: isCollect ?? false)
     }
     

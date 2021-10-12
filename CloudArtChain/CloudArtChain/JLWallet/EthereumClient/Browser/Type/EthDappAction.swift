@@ -57,7 +57,8 @@ extension EthDappAction {
             return BigInt((value).drop0x, radix: 16)
         }()
         let data = Data(hex: object["data"]?.value ?? "0x")
-
+        
+        print("ethereum unconfirmed transaction value:\(EthBalance(value: value).amountFull),,,nonce:\(String(describing: nonce)),,,gasLimit:\(String(describing: gasLimit)),,,gasPrice:\(String(describing: gasPrice)),,,to:\(String(describing: to?.eip55String))")
         return EthUnconfirmedTransaction(
             transfer: transfer,
             value: value,

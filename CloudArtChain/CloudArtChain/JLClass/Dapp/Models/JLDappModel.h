@@ -24,7 +24,7 @@
 @property (nonatomic, copy) NSString *recommend_sort;
 @property (nonatomic, copy) NSString *created_at;
 @property (nonatomic, copy) NSString *updated_at;
-@property (nonatomic, assign) BOOL is_favorite;
+@property (nonatomic, assign) BOOL favorite_by_me;
 @property (nonatomic, strong) Model_Image_Data *logo;
 @end
 #pragma mark - 链信息

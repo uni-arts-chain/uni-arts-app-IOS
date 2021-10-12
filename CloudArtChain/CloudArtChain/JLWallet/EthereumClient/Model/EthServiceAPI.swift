@@ -11,6 +11,7 @@ import Moya
 
 enum EthServiceAPI {
     case getBalance(address: String)
+    case getTokensPrice(EthTokensPrice)
 //    case getTransactions(server:EthRPCServer, address: String, startBlock: Int, page: Int, contract: String?, token: TokenObject)
 //
 //    case getAllTransactions(addresses: [String: String])
@@ -22,17 +23,29 @@ extension EthServiceAPI: TargetType {
     }
     
     var path: String {
-        return "/api/v1/balance"
+        switch self {
+        case .getBalance:
+            return "/api/v1/balance"
+        case .getTokensPrice:
+            return "/api/v1/prices"
+        }
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .getBalance:
+            return .get
+        case .getTokensPrice:
+            return .get
+        }
     }
     
     var task: Task {
         switch self {
         case .getBalance(let address):
-        return .requestParameters(parameters: ["address": address], encoding: URLEncoding())
+            return .requestParameters(parameters: ["address": address], encoding: URLEncoding())
+        case .getTokensPrice(let tokensPrice):
+            return .requestParameters(parameters: ["currency": tokensPrice.currency], encoding: URLEncoding())
         }
     }
     
