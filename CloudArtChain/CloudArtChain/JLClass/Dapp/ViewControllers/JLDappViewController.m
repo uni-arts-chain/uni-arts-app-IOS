@@ -247,11 +247,15 @@
             NSMutableArray *arr = [NSMutableArray array];
             if (response.body.count > 9) {
                 for (Model_favorite_Data *data in [response.body subarrayWithRange:NSMakeRange(0, 9)]) {
-                    [arr addObject:data.favoritable];
+                    if (data.favoritable) {
+                        [arr addObject:data.favoritable];
+                    }
                 }
             }else {
                 for (Model_favorite_Data *data in response.body) {
-                    [arr addObject:data.favoritable];
+                    if (data.favoritable) {
+                        [arr addObject:data.favoritable];
+                    }
                 }
             }
             weakSelf.contentView.trackArray = [arr copy];
@@ -274,11 +278,15 @@
             NSMutableArray *arr = [NSMutableArray array];
             if (response.body.count > 9) {
                 for (Model_recently_dapp_Data *data in [response.body subarrayWithRange:NSMakeRange(0, 9)]) {
-                    [arr addObject:data.dapp];
+                    if (data.dapp) {
+                        [arr addObject:data.dapp];
+                    }
                 }
             }else {
                 for (Model_recently_dapp_Data *data in response.body) {
-                    [arr addObject:data.dapp];
+                    if (data.dapp) {
+                        [arr addObject:data.dapp];
+                    }
                 }
             }
             weakSelf.contentView.trackArray = [arr copy];

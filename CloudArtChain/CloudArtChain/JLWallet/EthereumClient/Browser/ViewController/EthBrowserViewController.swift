@@ -61,7 +61,7 @@ final class EthBrowserViewController: JLBaseViewController {
             self.showManagerFaceView()
         } back: { [weak self] in
             guard let `self` = self else { return }
-            self.webView.goBack()
+            self.backClick()
         } close: { [weak self] in
             guard let `self` = self else { return }
             self.popVC()
@@ -84,14 +84,14 @@ final class EthBrowserViewController: JLBaseViewController {
         return webView
     }()
     
-    var browserNavBar: EthBrowserNavigationBar? {
-        return navigationController?.navigationBar as? EthBrowserNavigationBar
-    }
+//    var browserNavBar: EthBrowserNavigationBar? {
+//        return navigationController?.navigationBar as? EthBrowserNavigationBar
+//    }
     
     lazy var progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .default)
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.tintColor = UIColor(hex: "00C3C4")
+        progressView.tintColor = UIColor(hex: "101010")
         progressView.trackTintColor = .clear
         return progressView
     }()
@@ -169,8 +169,10 @@ final class EthBrowserViewController: JLBaseViewController {
         let script: String = {
             switch value {
             case .success(let result):
+                print("ethereum executeCallback(\(callbackID), null, \"\(result.value.object)\")")
                 return "executeCallback(\(callbackID), null, \"\(result.value.object)\")"
             case .failure(let error):
+                print("ethereum executeCallback(\(callbackID), \"\(error)\", null)")
                 return "executeCallback(\(callbackID), \"\(error)\", null)"
             }
         }()
@@ -196,15 +198,32 @@ final class EthBrowserViewController: JLBaseViewController {
     }
 
     private func refreshURL() {
-        browserNavBar?.textField.text = webView.url?.absoluteString
-        browserNavBar?.backButton.isHidden = !webView.canGoBack
+//        browserNavBar?.textField.text = webView.url?.absoluteString
+//        browserNavBar?.backButton.isHidden = !webView.canGoBack
         
-        print("ethereum is show back: ", webView.backForwardList.backList.count, webView.canGoBack)
-        navigationBar.isShowBackBtn = webView.backForwardList.backList.count == 0 ? false : true
+        refreshBackBtnStatus()
+    }
+    
+    private func refreshBackBtnStatus() {
+        if webView.canGoBack {
+            if webView.backForwardList.backList.count != 0 {
+                let backWebInitUrl = webView.backForwardList.backList.last?.initialURL.absoluteString.components(separatedBy: "?").first
+                let currentWebInitUrl = webView.backForwardList.currentItem?.initialURL.absoluteString.components(separatedBy: "?").first
+                if currentWebInitUrl == backWebInitUrl {
+                    navigationBar.isShowBackBtn = false
+                }else {
+                    navigationBar.isShowBackBtn = true
+                }
+            }else {
+                navigationBar.isShowBackBtn = true
+            }
+        }else {
+            navigationBar.isShowBackBtn = false
+        }
     }
 
     private func recordURL() {
-        guard let url = webView.url else {
+        guard webView.url != nil else {
             return
         }
     }
@@ -226,7 +245,7 @@ final class EthBrowserViewController: JLBaseViewController {
             }
         } else if keyPath == Keys.URL {
             if let url = webView.url {
-                self.browserNavBar?.textField.text = url.absoluteString
+//                self.browserNavBar?.textField.text = url.absoluteString
                 changeURL(url)
             }
         }
@@ -241,7 +260,7 @@ final class EthBrowserViewController: JLBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        browserNavBar?.browserDelegate = self
+//        browserNavBar?.browserDelegate = self
         refreshURL()
     }
     
@@ -315,15 +334,21 @@ final class EthBrowserViewController: JLBaseViewController {
                 let backWebInitUrl = webView.backForwardList.backList.last?.initialURL.absoluteString.components(separatedBy: "?").first
                 let currentWebInitUrl = webView.backForwardList.currentItem?.initialURL.absoluteString.components(separatedBy: "?").first
                 if backWebInitUrl == currentWebInitUrl {
-                    popVC()
+                    navigationBar.isShowBackBtn = false
                 }else {
                     webView.goBack()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.refreshBackBtnStatus()
+                    }
                 }
             }else {
                 webView.goBack()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.refreshBackBtnStatus()
+                }
             }
         }else {
-            popVC()
+            navigationBar.isShowBackBtn = false
         }
     }
     
@@ -408,6 +433,17 @@ extension EthBrowserViewController: WKNavigationDelegate {
         refreshURL()
         print("ethereum webView didFailProvisionalNavigation error: \(error) url: \(webView.url?.absoluteString ?? "")")
     }
+    
+    /// 在发送请求之前，决定是否跳转
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
+    /// 在收到响应后，决定是否跳转
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
 }
 
 // MARK: WKUIDelegate
@@ -420,55 +456,55 @@ extension EthBrowserViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-//        let alertController = UIAlertController.alertController(
-//            title: .none,
-//            message: message,
-//            style: .alert,
-//            in: self
-//        )
-//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
-//            completionHandler()
-//        }))
-//        self.present(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController.alertController(
+            title: .none,
+            message: message,
+            style: .alert,
+            in: self
+        )
+        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+            completionHandler()
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-//        let alertController = UIAlertController.alertController(
-//            title: .none,
-//            message: message,
-//            style: .alert,
-//            in: navigationController
-//        )
-//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
-//            completionHandler(true)
-//        }))
-//        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
-//            completionHandler(false)
-//        }))
-//        self.present(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController.alertController(
+            title: .none,
+            message: message,
+            style: .alert,
+            in: self
+        )
+        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+            completionHandler(true)
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
+            completionHandler(false)
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-//        let alertController = UIAlertController.alertController(
-//            title: .none,
-//            message: prompt,
-//            style: .alert,
-//            in: navigationController
-//        )
-//        alertController.addTextField { (textField) in
-//            textField.text = defaultText
-//        }
-//        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
-//            if let text = alertController.textFields?.first?.text {
-//                completionHandler(text)
-//            } else {
-//                completionHandler(defaultText)
-//            }
-//        }))
-//        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
-//            completionHandler(nil)
-//        }))
-//        self.present(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController.alertController(
+            title: .none,
+            message: prompt,
+            style: .alert,
+            in: self
+        )
+        alertController.addTextField { (textField) in
+            textField.text = defaultText
+        }
+        alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
+            if let text = alertController.textFields?.first?.text {
+                completionHandler(text)
+            } else {
+                completionHandler(defaultText)
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "取消", style: .default, handler: { _ in
+            completionHandler(nil)
+        }))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

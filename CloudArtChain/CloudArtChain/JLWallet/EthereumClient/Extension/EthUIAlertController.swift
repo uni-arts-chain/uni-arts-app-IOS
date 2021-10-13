@@ -31,12 +31,12 @@ extension UIAlertController {
             let password = textField.text ?? ""
             completion(.success(password))
         })
-        okAction.setValue(UIColor(hex: "00C3C4"), forKey: "_titleTextColor")
+        okAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
         alertController.addAction(okAction)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: { _ in
             completion(.failure(.cancel))
         })
-        cancelAction.setValue(UIColor(hex: "00C3C4"), forKey: "_titleTextColor")
+        cancelAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
         alertController.addAction(cancelAction)
         alertController.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
             textField.placeholder = NSLocalizedString("Password", value: "Password", comment: "")
@@ -49,26 +49,26 @@ extension UIAlertController {
         title: String? = .none,
         message: String? = .none,
         style: UIAlertController.Style,
-        in navigationController: JLNavigationViewController
+        in viewController: UIViewController
     ) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        alertController.popoverPresentationController?.sourceView = navigationController.view
-        alertController.popoverPresentationController?.sourceRect = navigationController.view.centerRect
+        alertController.popoverPresentationController?.sourceView = viewController.view
+        alertController.popoverPresentationController?.sourceRect = viewController.view.centerRect
         return alertController
     }
     
     static func alertController(
         title: String? = .none,
         message: String? = .none,
-        in navigationController: JLNavigationViewController
+        in viewController: UIViewController
     ) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.popoverPresentationController?.sourceView = navigationController.view
-        alertController.popoverPresentationController?.sourceRect = navigationController.view.centerRect
+        alertController.popoverPresentationController?.sourceView = viewController.view
+        alertController.popoverPresentationController?.sourceRect = viewController.view.centerRect
         let confirmAction = UIAlertAction(title: "确定", style: .default) { (_) in
             
         }
-        confirmAction.setValue(UIColor(hex: "00C3C4"), forKey: "_titleTextColor")
+        confirmAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
         alertController.addAction(confirmAction)
         return alertController
     }

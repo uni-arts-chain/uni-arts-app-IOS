@@ -138,7 +138,9 @@
         if (netIsWork) {
             NSMutableArray *arr = [NSMutableArray array];
             for (Model_favorite_Data *data in response.body) {
-                [arr addObject:data.favoritable];
+                if (data.favoritable) {
+                    [arr addObject:data.favoritable];
+                }
             }
             if (weakSelf.page == 1) {
                 weakSelf.dataArray = [arr copy];
@@ -164,7 +166,9 @@
         if (netIsWork) {
             NSMutableArray *arr = [NSMutableArray array];
             for (Model_recently_dapp_Data *data in response.body) {
-                [arr addObject:data.dapp];
+                if (data.dapp) {
+                    [arr addObject:data.dapp];
+                }
             }
             if (weakSelf.page == 1) {
                 weakSelf.dataArray = [arr copy];

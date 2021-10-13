@@ -60,7 +60,7 @@
     }else {
         _contentView.page = _page;
         _contentView.pageSize = kPageSize;
-        _contentView.nftArray = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
+        _contentView.nftArray = @[@""];
     }
 }
 

@@ -27,6 +27,7 @@ import Result
 @objcMembers class JLEthereumTool: NSObject {
     static let shared = JLEthereumTool()
     private let keystore = EthKeystore()
+    private let rpcServer = EthRPCServer.rinkeby
     
     var collectDappClourse: ((_ isCollect: Bool) -> Void)?
 
@@ -113,14 +114,14 @@ import Result
     }
 }
 
-// MARK: TEST
+// MARK: - RPC SERVER
 extension JLEthereumTool {
     // 获取当前 以太坊 账户的余额
     func getCurrentWalletBalance(completion: @escaping (_ balanceString: String?, _ errorMsg: String?) -> Void) {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return }
         guard let ethAddress = walletInfo.address as? EthereumAddress else { return }
         // EthereumAddress(string: "0xa5760BB0777647cb1C69E75A64234F6103778D05")
-        EthWalletRPCService(server: .main, addressUpdate: ethAddress).getBalance().done { balance in
+        EthWalletRPCService(server: rpcServer, addressUpdate: ethAddress).getBalance().done { balance in
             completion(balance.amountShort == "0" ? "0.0" : balance.amountShort, .none)
         }.catch { error in
             completion(.none, error.prettyError)
@@ -129,7 +130,7 @@ extension JLEthereumTool {
     
     // 获取gasPrice
     func getGasPrice(completion: @escaping (_ gasPrice: String?, _ errorMsg: String?) -> Void) {
-        EthWalletRPCService(server: .main).getGasPrice().done { balance in
+        EthWalletRPCService(server: rpcServer).getGasPrice().done { balance in
             completion(balance, .none)
         }.catch { error in
             completion(.none, error.prettyError)
@@ -192,7 +193,7 @@ extension JLEthereumTool {
     }
 }
 
-// MARK: 导出钱包
+// MARK: - 导出钱包
 extension JLEthereumTool {
     /// 导出助记词
     func exportMnemonic(completion: @escaping (_ mnemonics: [String], _ errorMsg: String?) -> Void) {
@@ -249,7 +250,7 @@ extension JLEthereumTool {
     }
 }
 
-// MARK: 验证密码
+// MARK: - 验证密码
 private let authorization = UUID().uuidString
 private struct AuthorizationConstants {
     static var completionBlockKey: String = "co.jp.fearless.auth.delegate"
@@ -332,7 +333,7 @@ extension JLEthereumTool: ScreenAuthorizationWireframeProtocol {
     }
 }
 
-// MARK: DAPP 浏览器
+// MARK: - DAPP 浏览器
 extension JLEthereumTool: EthBrowserCoordinatorDelegate {
     /// 查看dapp
     func lookDapp(navigationViewController: JLNavigationViewController?, name: String?, imgUrl: String?, webUrl: URL, isCollect: Bool, collectCompletion: @escaping (_ isCollect: Bool) -> Void) {
@@ -343,7 +344,7 @@ extension JLEthereumTool: EthBrowserCoordinatorDelegate {
 //        coordinator.delegate = self
 //        coordinator.start()
         
-        let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: .rinkeby, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
+        let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: rpcServer, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
         browserViewController.delegate = self
         browserViewController.modalPresentationStyle = .fullScreen
         navigationViewController?.present(browserViewController, animated: true, completion: nil)
@@ -361,7 +362,7 @@ extension JLEthereumTool: EthBrowserCoordinatorDelegate {
     }
 }
 
-// MARK: EthBrowserViewControllerDelegate
+// MARK: - EthBrowserViewControllerDelegate
 extension JLEthereumTool: EthBrowserViewControllerDelegate {
     func didSentTransaction(transaction: EthSentTransaction) {
         print("ethereum 已经发送交易")

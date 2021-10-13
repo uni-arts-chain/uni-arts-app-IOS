@@ -78,6 +78,7 @@
     hud.label.font = [UIFont systemFontOfSize:15];
     hud.removeFromSuperViewOnHide = YES;
     [view addSubview:hud];
+    [view bringSubviewToFront:hud];
     [hud showAnimated:YES];
     if (autoHidden) {
         [hud hideAnimated:YES afterDelay:delay];
