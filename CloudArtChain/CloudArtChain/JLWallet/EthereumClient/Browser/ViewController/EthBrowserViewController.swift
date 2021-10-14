@@ -522,16 +522,19 @@ extension EthBrowserViewController: WKScriptMessageHandler {
                 guard let `self` = self else { return }
                 switch result {
                 case .success(_):
+                    print("ethereum get balance success")
                     let transfer = Transfer(server: self.server, type: .dapp(self.token, requester))
                     let action = EthDappAction.fromCommand(command, transfer: transfer)
 
                     // 处理信息
                     self.didCall(action: action, callbackID: command.id)
                 case .failure(let error):
+                    print("ethereum get balance failure")
                     JLLoading.shared().showMBFailedTipMessage(error.localizedDescription, hideTime: 2.0)
                 }
             }
         }else {
+            print("ethereum didCall")
             let transfer = Transfer(server: server, type: .dapp(token, requester))
             let action = EthDappAction.fromCommand(command, transfer: transfer)
 

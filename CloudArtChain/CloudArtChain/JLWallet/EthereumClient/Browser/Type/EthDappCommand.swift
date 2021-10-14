@@ -52,7 +52,10 @@ struct EthDappCommandObjectValue: Decodable {
         } else if let stringValue = try? container.decode(String.self) {
             self.value = stringValue
         } else {
-            var arrayContainer = try coder.unkeyedContainer()
+            guard var arrayContainer = try? coder.unkeyedContainer() else {
+                return
+            }
+//            var arrayContainer = try coder.unkeyedContainer()
             while !arrayContainer.isAtEnd {
                 self.array.append(try arrayContainer.decode(EthTypedData.self))
             }
