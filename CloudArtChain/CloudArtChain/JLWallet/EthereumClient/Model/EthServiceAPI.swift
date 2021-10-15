@@ -11,7 +11,7 @@ import Moya
 
 enum EthServiceAPI {
     case getBalance(address: String)
-    case getTokensPrice(EthTokensPrice)
+    case getTokenPrice(EthTokenPrice)
 //    case getTransactions(server:EthRPCServer, address: String, startBlock: Int, page: Int, contract: String?, token: TokenObject)
 //
 //    case getAllTransactions(addresses: [String: String])
@@ -19,15 +19,15 @@ enum EthServiceAPI {
 
 extension EthServiceAPI: TargetType {
     var baseURL: URL {
-        return EthConstants.QTSAPI
+        return EthConstants.CLOUDARTCHAINAPI
     }
     
     var path: String {
         switch self {
         case .getBalance:
             return "/api/v1/balance"
-        case .getTokensPrice:
-            return "/api/v1/prices"
+        case .getTokenPrice:
+            return "/api/v1/prices/exchange"
         }
     }
     
@@ -35,7 +35,7 @@ extension EthServiceAPI: TargetType {
         switch self {
         case .getBalance:
             return .get
-        case .getTokensPrice:
+        case .getTokenPrice:
             return .get
         }
     }
@@ -44,8 +44,8 @@ extension EthServiceAPI: TargetType {
         switch self {
         case .getBalance(let address):
             return .requestParameters(parameters: ["address": address], encoding: URLEncoding())
-        case .getTokensPrice(let tokensPrice):
-            return .requestParameters(parameters: ["currency": tokensPrice.currency], encoding: URLEncoding())
+        case .getTokenPrice(let tokenPrice):
+            return .requestParameters(parameters: ["codes": tokenPrice.symbol.lowercased()], encoding: URLEncoding())
         }
     }
     

@@ -30,15 +30,15 @@ public struct EthConstants {
     public static let images = "https://trustwalletapp.com/images"
 
 //    public static let trustAPI = URL(string: "https://public.trustwalletapp.com")!
-    #if DEBUG
-        public static let QTSAPI = URL(string: "https://thhcmall.top")!
-        public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
-        public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
-    #else
-        public static let QTSAPI = URL(string: "https://QTSWallet.cn")!
-        public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
-        public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
-    #endif
+//    #if DEBUG
+        public static let CLOUDARTCHAINAPI = URL(string: NETINTERFACE_URL_CLOUDARTCHAIN)!
+//        public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
+//        public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
+//    #else
+//        public static let CLOUDARTCHAINAPI = URL(string: NETINTERFACE_URL_CLOUDARTCHAIN)!
+//        public static let QTSOTCAPI = URL(string: "https://otc.thhcmall.top")!
+//        public static let BitPriceAPI = "https://tatmas.vip/api/v2/quotes?"
+//    #endif
 }
 
 public struct UnitConfiguration {

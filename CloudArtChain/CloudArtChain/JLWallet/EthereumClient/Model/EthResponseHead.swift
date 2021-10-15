@@ -8,23 +8,7 @@
 
 import Foundation
 
-final class EthResponseHead: Decodable {
-    static let successCode: String = "1000"
-    
-    var code: String = ""
-    var msg: String = ""
-
-    convenience init(
-        code: String = "",
-        msg: String = ""
-    ) {
-        self.init()
-        self.code = code
-        self.msg = msg
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case code
-        case msg
-    }
+struct EthResponseHead: Decodable {
+    var code: Int
+    var msg: String
 }

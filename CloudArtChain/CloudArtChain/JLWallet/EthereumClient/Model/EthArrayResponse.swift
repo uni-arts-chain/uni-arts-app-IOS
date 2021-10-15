@@ -12,10 +12,6 @@ struct EthArrayResponse<T: Decodable>: Decodable {
     let docs: [T]
 }
 
-struct EthPricesResponse<T: Decodable>: Decodable {
-    let tickers: [T]
-}
-
 struct EthHeadBodyResponse<T: Decodable>: Decodable {
     let head: EthResponseHead
     let body: T

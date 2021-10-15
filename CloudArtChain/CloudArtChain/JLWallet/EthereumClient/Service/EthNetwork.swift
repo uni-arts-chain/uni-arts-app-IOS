@@ -23,7 +23,7 @@ enum EthNetworkProtocolError: LocalizedError {
 
 protocol NetworkProtocol: EthNetworkProtocol {
     func getBalance(address: EthereumAddress) -> Promise<String>
-    func tickers(with tokenPrices: [EthTokenPrice]) -> Promise<[EthCoinTicker]>
+    func tickers(with tokenPrice: EthTokenPrice) -> Promise<EthCoinTicker>
 }
 
 final class EthNetwork: NetworkProtocol {
@@ -56,19 +56,18 @@ final class EthNetwork: NetworkProtocol {
         }
     }
     
-    func tickers(with tokenPrices: [EthTokenPrice]) -> Promise<[EthCoinTicker]> {
+    func tickers(with tokenPrice: EthTokenPrice) -> Promise<EthCoinTicker> {
         return Promise { seal in
-            let tokensPriceToFetch = EthTokensPrice(
-                currency: EthConfig.current.currency.rawValue,
-                tokens: tokenPrices
-            )
-            provider.request(.getTokensPrice(tokensPriceToFetch)) { result in
+//            let tokensPriceToFetch = EthTokensPrice(
+//                currency: EthConfig.current.currency.rawValue,
+//                tokens: tokenPrices
+//            )
+            provider.request(.getTokenPrice(tokenPrice)) { result in
                 switch result {
                 case .success(let response):
                     do {
-                        let rawTickers = try response.map(EthPricesResponse<EthCoinTicker>.self).tickers
-                        let tickers = rawTickers.compactMap { self.getTickerFrom($0, tokenPrices) }
-                        seal.fulfill(tickers)
+                        let ticker = try response.map(EthHeadBodyResponse<EthCoinTicker>.self).body
+                        seal.fulfill(ticker)
                     } catch {
                         seal.reject(error)
                     }
@@ -79,24 +78,24 @@ final class EthNetwork: NetworkProtocol {
         }
     }
     
-    private func getTickerFrom(_ rawTicker: EthCoinTicker, _ tokenPrices: [EthTokenPrice]) -> EthCoinTicker? {
-        let tokenPrice: [EthTokenPrice] = tokenPrices.filter { (tokenPrice) -> Bool in
-            return tokenPrice.symbol.lowercased() == rawTicker.symbol.lowercased()
-        }
-        if !tokenPrice.isEmpty {
-//            guard let contract = EthereumAddress(string: tokenPrice.first!.contract) else { return .none }
-            return EthCoinTicker(
-                price: rawTicker.price,
-                percent_change_24h: String(rawTicker.change_24h.doubleValue * 100),
-                contract: EthereumAddress.zero,
-                tickersKey: EthCoinTickerKeyMaker.makeCurrencyKey(),
-                base: rawTicker.base,
-                symbol: rawTicker.symbol,
-                change_24h: rawTicker.change_24h,
-                provider: rawTicker.provider,
-                id: rawTicker.id
-            )
-        }
-        return nil
-    }
+//    private func getTickerFrom(_ rawTicker: EthCoinTicker, _ tokenPrices: [EthTokenPrice]) -> EthCoinTicker? {
+//        let tokenPrice: [EthTokenPrice] = tokenPrices.filter { (tokenPrice) -> Bool in
+//            return tokenPrice.symbol.lowercased() == rawTicker.symbol.lowercased()
+//        }
+//        if !tokenPrice.isEmpty {
+////            guard let contract = EthereumAddress(string: tokenPrice.first!.contract) else { return .none }
+//            return EthCoinTicker(
+//                price: rawTicker.price,
+//                percent_change_24h: String(rawTicker.change_24h.doubleValue * 100),
+//                contract: EthereumAddress.zero,
+//                tickersKey: EthCoinTickerKeyMaker.makeCurrencyKey(),
+//                base: rawTicker.base,
+//                symbol: rawTicker.symbol,
+//                change_24h: rawTicker.change_24h,
+//                provider: rawTicker.provider,
+//                id: rawTicker.id
+//            )
+//        }
+//        return nil
+//    }
 }

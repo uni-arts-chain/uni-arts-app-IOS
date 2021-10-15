@@ -152,7 +152,7 @@ class EthConfirmPaymentViewController: JLBaseViewController {
             guard let `self` = self else { return }
             switch result {
             case .success(let ticket):
-                self.ticketPrice = ticket.price
+                self.ticketPrice = ticket.price.eth
                 self.reloadView()
             case .failure(let error):
                 print("ethereum prices error: ",error.prettyError)
@@ -162,14 +162,14 @@ class EthConfirmPaymentViewController: JLBaseViewController {
     
     private func refreshTicketPrice(_ completion: @escaping (Result<EthCoinTicker, Error>) -> Void) {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return }
-        let prices = [EthTokenPrice(contract:"", symbol: server.symbol)]
-        EthNetwork(provider: EthProviderFactory.makeProvider(), wallet: walletInfo).tickers(with: prices).done { [weak self] tickers in
-            guard let `self` = self else { return }
-            guard let ticket = tickers.filter({ $0.symbol.lowercased() == self.server.symbol.lowercased() }).first else { return
-                completion(.failure(EthCoinTicketError.notFind))
-            }
-            print("ethereum ticket price: ", ticket.price)
-            completion(.success(ticket))
+        let tokenPrice = EthTokenPrice(symbol: server.symbol)
+        EthNetwork(provider: EthProviderFactory.makeProvider(), wallet: walletInfo).tickers(with: tokenPrice).done { [weak self] ticker in
+//            guard let `self` = self else { return }
+//            guard let ticket = tickers.filter({ $0.symbol.lowercased() == self.server.symbol.lowercased() }).first else { return
+//                completion(.failure(EthCoinTicketError.notFind))
+//            }
+            print("ethereum ticket price: ", ticker.price.eth)
+            completion(.success(ticker))
         }.catch { error in
             completion(.failure(error))
         }
@@ -189,7 +189,7 @@ class EthConfirmPaymentViewController: JLBaseViewController {
                 guard let `self` = self else { return }
                 switch result {
                 case .success(let ticket):
-                    self.ticketPrice = ticket.price
+                    self.ticketPrice = ticket.price.eth
                     let viewModel = EthConfirmPaymentDetailsViewModel(
                         transaction: self.configurator.previewTransaction(),
                         keystore: self.keystore,

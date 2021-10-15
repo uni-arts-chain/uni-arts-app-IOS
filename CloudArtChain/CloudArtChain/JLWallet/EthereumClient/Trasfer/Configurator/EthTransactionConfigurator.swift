@@ -96,8 +96,8 @@ final class EthTransactionConfigurator {
         self.server = server
         self.chainState = chainState
         self.forceFetchNonce = forceFetchNonce
-        self.requestEstimateGas = transaction.gasLimit == .none
-        self.requestGasPrice = transaction.gasPrice == .none
+        self.requestEstimateGas = true
+        self.requestGasPrice = true
         
         let data: Data = EthTransactionConfigurator.data(for: transaction, from: walletInfo.currentAccount.address)
         let calculatedGasLimit = transaction.gasLimit ?? EthTransactionConfigurator.gasLimit(for: transaction.transfer.type)

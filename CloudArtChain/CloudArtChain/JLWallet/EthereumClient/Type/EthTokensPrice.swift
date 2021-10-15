@@ -8,12 +8,13 @@
 
 import Foundation
 
-struct EthTokensPrice: Encodable {
-    let currency: String
-    let tokens: [EthTokenPrice]
+struct EthTokenPrice: Encodable {
+    let symbol: String
+//    let currency: String
+//    let tokens: [EthTokenPrice]
 }
 
-struct EthTokenPrice: Encodable {
-    let contract: String
-    let symbol: String
-}
+//struct EthTokenPrice: Encodable {
+//    let contract: String
+//    let symbol: String
+//}
