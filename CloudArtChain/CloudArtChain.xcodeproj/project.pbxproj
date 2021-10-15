@@ -76,6 +76,7 @@
 		5E727FED271539C2004AA0BF /* EthCoinTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E727FEC271539C2004AA0BF /* EthCoinTicker.swift */; };
 		5E727FEF27153EEB004AA0BF /* EthArrayResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E727FEE27153EEB004AA0BF /* EthArrayResponse.swift */; };
 		5E727FF127153F22004AA0BF /* EthResponseHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E727FF027153F22004AA0BF /* EthResponseHead.swift */; };
+		5E728051271954E0004AA0BF /* JLDappWalletConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1521,6 +1522,8 @@
 		5E727FEC271539C2004AA0BF /* EthCoinTicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthCoinTicker.swift; sourceTree = "<group>"; };
 		5E727FEE27153EEB004AA0BF /* EthArrayResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthArrayResponse.swift; sourceTree = "<group>"; };
 		5E727FF027153F22004AA0BF /* EthResponseHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthResponseHead.swift; sourceTree = "<group>"; };
+		5E72804F271954E0004AA0BF /* JLDappWalletConnectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappWalletConnectViewController.h; sourceTree = "<group>"; };
+		5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappWalletConnectViewController.m; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -3720,6 +3723,8 @@
 				5E8BCA892701C29E00A12A14 /* JLDappMoreViewController.m */,
 				5E8BCA912702ABE900A12A14 /* JLDappSearchViewController.h */,
 				5E8BCA922702ABE900A12A14 /* JLDappSearchViewController.m */,
+				5E72804F271954E0004AA0BF /* JLDappWalletConnectViewController.h */,
+				5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -9087,6 +9092,7 @@
 				B391CC8A262D75C000FF48B0 /* prng.m in Sources */,
 				B35936352511EA7C00E2B2FD /* JLInputView.m in Sources */,
 				B36E836E24F8DB6C00A77588 /* JLCategoryWorkCollectionViewCell.m in Sources */,
+				5E728051271954E0004AA0BF /* JLDappWalletConnectViewController.m in Sources */,
 				B370C80924F5F4D400A2D699 /* JLMineNaviView.m in Sources */,
 				B31226B925B6B60B00562ECA /* ExportMnemonicConfirmProtocols.swift in Sources */,
 				B312265F25B6B60A00562ECA /* WalletTotalPriceCell.swift in Sources */,

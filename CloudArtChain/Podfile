@@ -53,6 +53,7 @@ pod 'JSONRPCKit'
 pod 'PromiseKit'
 pod 'APIKit'
 pod 'TrustWeb3Provider', :git=>'https://github.com/TrustWallet/trust-web3-provider', :commit=>'f4e0ebb1b8fa4812637babe85ef975d116543dfd'
+pod 'WalletConnect', git: 'https://github.com/trustwallet/wallet-connect-swift', branch: 'master'
 
   pod 'FearlessUtils', :git => 'https://github.com/soramitsu/fearless-utils-iOS.git', :commit => 'e2b891e1b20b5b3289fc3394cba0f2d4c30f53c7'
   pod 'SwiftLint'

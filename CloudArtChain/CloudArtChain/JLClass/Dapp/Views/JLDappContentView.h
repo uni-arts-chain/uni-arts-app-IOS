@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, JLDappContentViewTrackType) {
 
 - (void)search;
 
-//- (void)scanCode;
+- (void)scanCode;
 
 - (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainData: (Model_chain_Data *)chainData;
 

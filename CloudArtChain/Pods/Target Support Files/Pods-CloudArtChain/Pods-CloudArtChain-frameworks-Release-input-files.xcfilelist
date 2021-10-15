@@ -46,6 +46,7 @@ ${BUILT_PRODUCTS_DIR}/TrezorCrypto/TrezorCrypto.framework
 ${BUILT_PRODUCTS_DIR}/TrustCore/TrustCore.framework
 ${BUILT_PRODUCTS_DIR}/TrustKeystore/TrustKeystore.framework
 ${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework
+${BUILT_PRODUCTS_DIR}/WalletConnect/WalletConnect.framework
 ${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework
 ${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework
 ${BUILT_PRODUCTS_DIR}/ZWPlaceHolder/ZWPlaceHolder.framework

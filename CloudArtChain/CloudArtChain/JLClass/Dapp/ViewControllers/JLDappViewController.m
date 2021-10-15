@@ -12,6 +12,7 @@
 #import "JLScanViewController.h"
 #import "JLDappSearchViewController.h"
 #import "JLDappMoreViewController.h"
+#import "JLDappWalletConnectViewController.h"
 
 @interface JLDappViewController ()<JLDappContentViewDelegate>
 
@@ -53,23 +54,28 @@
     [self.navigationController pushViewController:vc animated:NO];
 }
 
-//- (void)scanCode {
-//    WS(weakSelf)
-//    JLScanViewController *scanVC = [[JLScanViewController alloc] init];
-//    scanVC.scanType = JLScanTypeOther;
-//    scanVC.qrCode = true;
-//    scanVC.resultBlock = ^(NSString * _Nonnull scanResult) {
-//        if (![NSString stringIsEmpty:scanResult] &&
-//            [scanResult hasPrefix:@"https"] &&
-//            [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:scanResult]]) {
-//            [weakSelf lookDappWithUrl:scanResult];
-//        }else {
-//            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
-//        }
-//    };
-//    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:scanVC animated:YES completion:nil];
-//}
+- (void)scanCode {
+    WS(weakSelf)
+    JLScanViewController *scanVC = [[JLScanViewController alloc] init];
+    scanVC.scanType = JLScanTypeOther;
+    scanVC.qrCode = true;
+    scanVC.resultBlock = ^(NSString * _Nonnull scanResult) {
+        if (![NSString stringIsEmpty:scanResult] && [scanResult hasPrefix:@"wc:"]) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                JLDappWalletConnectViewController *vc = [[JLDappWalletConnectViewController alloc] init];
+                vc.wcMessage = scanResult;
+                JLNavigationViewController *nav = [[JLNavigationViewController alloc] initWithRootViewController:vc];
+                vc.modalPresentationStyle = UIModalPresentationFullScreen;
+                nav.modalPresentationStyle = UIModalPresentationFullScreen;
+                [weakSelf presentViewController:nav animated:YES completion:nil];
+            });
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:@"此二维码不支持连接钱包" hideTime:KToastDismissDelayTimeInterval];
+        }
+    };
+    scanVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:scanVC animated:YES completion:nil];
+}
 
 - (void)refreshDataWithTrackType: (JLDappContentViewTrackType)trackType chainData: (Model_chain_Data *)chainData {
     JLLog(@"刷新信息 trackType: %ld chainTitle: %@", trackType, chainData.title);

@@ -11,6 +11,7 @@ import TrezorCrypto
 import TrustCore
 import TrustKeystore
 import Result
+import WalletConnect
 
 @objcMembers class JLEthereumWalletInfo: NSObject {
     var address: String?
@@ -30,6 +31,8 @@ import Result
     private let rpcServer = EthRPCServer.rinkeby
     
     var collectDappClourse: ((_ isCollect: Bool) -> Void)?
+    
+    var interactor: WCInteractor?
 
     override private init() { super.init() }
 
@@ -372,5 +375,182 @@ extension JLEthereumTool: EthBrowserViewControllerDelegate {
         if collectDappClourse != nil {
             collectDappClourse!(isCollect)
         }
+    }
+}
+
+// MARK: - DApp Wallet Connect
+extension JLEthereumTool {
+    func connect(with uri: String,
+                 viewController: UIViewController,
+                 socket: @escaping (_ socketConnected: Bool) -> Void,
+                 wallet: @escaping (_ approved: Bool) -> Void) {
+        guard let session = WCSession.from(string: uri) else {
+            socket(false)
+            wallet(false)
+            return
+        }
+        let clientMeta = WCPeerMeta(name: "WalletConnect SDK", url: "https://github.com/TrustWallet/wallet-connect-swift")
+        let interactor = WCInteractor(session: session, meta: clientMeta, uuid: UIDevice.current.identifierForVendor ?? UUID())
+        
+        configure(interactor: interactor, viewController: viewController, wallet: wallet)
+        
+        interactor.connect().done { connected in
+            socket(true)
+            wallet(false)
+        }.catch { [weak self] error in
+            socket(false)
+            wallet(false)
+            self?.present(errorMsg: error.localizedDescription, viewController: viewController)
+        }
+        
+        interactor.onDisconnect = { (error) in
+            if let error = error {
+                print(error)
+            }
+            socket(false)
+        }
+
+        self.interactor = interactor
+    }
+    
+    func disconnected(_ completion: @escaping (Bool) -> Void) {
+        interactor?.killSession().done({ _ in
+            completion(true)
+        }).cauterize()
+    }
+    
+    func pauseConnect() {
+        interactor?.pause()
+    }
+    
+    func resumeConnect() {
+        interactor?.resume()
+    }
+    
+    /// 连接钱包
+    func approveSession(_ completion: @escaping (_ approved: Bool, _ errorMsg: String?) -> Void) {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return
+            completion(false, "没有以太坊账户")
+        }
+        let accounts = [String(describing: walletInfo.address)]
+        let chainId = rpcServer.chainID
+        
+        interactor?.approveSession(accounts: accounts, chainId: chainId).done({ _ in
+            completion(true,nil)
+        }).cauterize()
+    }
+    
+    /// 断开钱包
+    func rejectSession(_ completion: @escaping (_ approved: Bool) -> Void) {
+        interactor?.rejectSession().done({ _ in
+            completion(true)
+        }).cauterize()
+    }
+    
+    private func configure(interactor: WCInteractor,
+                           viewController: UIViewController,
+                           wallet: @escaping (_ approved: Bool) -> Void) {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return
+            wallet(false)
+        }
+        let accounts = [String(describing: walletInfo.address)]
+        let chainId = rpcServer.chainID
+        
+        interactor.onError = { [weak self] error in
+            self?.present(errorMsg: error.localizedDescription, viewController: viewController)
+        }
+        
+        interactor.onSessionRequest = { [weak self] (id, peerParam) in
+            let peer = peerParam.peerMeta
+            let message = [peer.description, peer.url].joined(separator: "\n")
+            let alert = UIAlertController(title: peer.name, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Reject", style: .destructive, handler: { _ in
+                interactor.rejectSession().cauterize()
+                wallet(false)
+            }))
+            alert.addAction(UIAlertAction(title: "Approve", style: .default, handler: { _ in
+                self?.interactor?.approveSession(accounts: accounts, chainId: chainId).done({ _ in
+                    wallet(true)
+                }).cauterize()
+            }))
+            viewController.present(alert, animated: true, completion: nil)
+        }
+                
+        interactor.eth.onSign = { [weak self] (id, payload) in
+            let alert = UIAlertController(title: payload.method, message: payload.message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
+                self?.interactor?.rejectRequest(id: id, message: "User canceled").cauterize()
+            }))
+            alert.addAction(UIAlertAction(title: "Sign", style: .default, handler: { _ in
+                self?.signEth(id: id, payload: payload)
+            }))
+            viewController.present(alert, animated: true, completion: nil)
+        }
+        
+        interactor.eth.onTransaction = { [weak self] (id, event, transaction) in
+            let data = try! JSONEncoder().encode(transaction)
+            let message = String(data: data, encoding: .utf8)
+            let alert = UIAlertController(title: event.rawValue, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Reject", style: .destructive, handler: { _ in
+                self?.interactor?.rejectRequest(id: id, message: "I don't have ethers").cauterize()
+            }))
+            alert.addAction(UIAlertAction(title: "Approve", style: .default, handler: { _ in
+                self?.interactor?.approveRequest(id: id, result: message).cauterize()
+            }))
+            viewController.present(alert, animated: true, completion: nil)
+        }
+
+        interactor.bnb.onSign = { [weak self] (id, order) in
+            let message = order.encodedString
+            let alert = UIAlertController(title: "bnb_sign", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { [weak self] _ in
+                self?.interactor?.rejectRequest(id: id, message: "User canceled").cauterize()
+            }))
+            alert.addAction(UIAlertAction(title: "Sign", style: .default, handler: { [weak self] _ in
+                self?.present(errorMsg: "暂无功能", viewController: viewController)
+//                self?.signBnbOrder(id: id, order: order)
+            }))
+            viewController.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func approve(accounts: [String], chainId: Int, viewController: UIViewController) {
+        interactor?.approveSession(accounts: accounts, chainId: chainId).done {
+            print("<== approveSession done")
+        }.catch { [weak self] error in
+            self?.present(errorMsg: error.localizedDescription, viewController: viewController)
+        }
+    }
+    
+    private func signEth(id: Int64, payload: WCEthereumSignPayload) {
+        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return }
+        
+        let data: Data = {
+            switch payload {
+            case .sign(let data, _):
+                let prefix = "\u{19}Ethereum Signed Message:\n\(data.count)".data(using: .utf8)!
+                return prefix + data
+            case .personalSign(let data, _):
+                let prefix = "\u{19}Ethereum Signed Message:\n\(data.count)".data(using: .utf8)!
+                return prefix + data
+            case .signTypeData(_, let data, _):
+                // FIXME
+                return data
+            }
+        }()
+
+        let result = keystore.signHash(data, for: walletInfo.accounts[0])
+        switch result {
+        case .success(let data):
+            self.interactor?.approveRequest(id: id, result: "0x" + data.hexString).cauterize()
+        case .failure(let error):
+            break
+        }
+    }
+    
+    private func present(errorMsg: String, viewController: UIViewController) {
+        let alert = UIAlertController(title: "Error", message: errorMsg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        viewController.present(alert, animated: true, completion: nil)
     }
 }

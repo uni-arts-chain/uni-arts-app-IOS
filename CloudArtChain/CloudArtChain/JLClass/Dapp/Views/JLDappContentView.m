@@ -187,11 +187,11 @@
                 [weakSelf.delegate search];
             }
         };
-//        _searchHeaderView.scanBlock = ^{
-//            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
-//                [weakSelf.delegate scanCode];
-//            }
-//        };
+        _searchHeaderView.scanBlock = ^{
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(scanCode)]) {
+                [weakSelf.delegate scanCode];
+            }
+        };
     }
     return _searchHeaderView;
 }
