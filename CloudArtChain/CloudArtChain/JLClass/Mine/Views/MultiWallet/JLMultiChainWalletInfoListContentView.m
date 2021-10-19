@@ -8,10 +8,15 @@
 
 #import "JLMultiChainWalletInfoListContentView.h"
 #import "JLMultiChainWalletInfoListCell.h"
+#import "JLNormalEmptyView.h"
 
 @interface JLMultiChainWalletInfoListContentView ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger pageSize;
+@property (nonatomic, strong) NSArray *nftArray;
 
 @end
 
@@ -69,6 +74,8 @@
         _style == JLMultiChainWalletInfoListContentViewStyleToken) {
         cell.walletInfo = _walletInfo;
         cell.amount = _amount;
+    }else {
+        cell.nftData = self.nftArray[indexPath.row];
     }
     
     return cell;
@@ -80,6 +87,13 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if ((_style == JLMultiChainWalletInfoListContentViewStyleMainNFT ||
+         _style == JLMultiChainWalletInfoListContentViewStyleTokenNFT) &&
+         self.nftArray &&
+         self.nftArray.count == 0) {
+        JLNormalEmptyView *emptyView = [[JLNormalEmptyView alloc] initWithFrame:self.bounds];
+        return emptyView;
+    }
     return nil;
 }
 
@@ -88,11 +102,24 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return CGFLOAT_MIN;
+    if ((_style == JLMultiChainWalletInfoListContentViewStyleMainNFT ||
+        _style == JLMultiChainWalletInfoListContentViewStyleTokenNFT) &&
+        self.nftArray &&
+        self.nftArray.count == 0) {
+        return self.frameHeight;
+    }
+    return KTouch_Responder_Height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 67;
+}
+
+#pragma mark - public methods
+- (void)setDataArray: (NSArray *)dataArray page: (NSInteger)page pageSize: (NSInteger) pageSize {
+    self.page = page;
+    self.pageSize = pageSize;
+    self.nftArray = dataArray;
 }
 
 #pragma mark - setters and getters

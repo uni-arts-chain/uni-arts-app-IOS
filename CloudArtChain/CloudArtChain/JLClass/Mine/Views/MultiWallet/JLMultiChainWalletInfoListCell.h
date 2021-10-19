@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) JLMultiWalletInfo *walletInfo;
 @property (nonatomic, copy) NSString *amount;
 
+@property (nonatomic, strong) JLWalletNFTData *nftData;
+
 @end
 
 NS_ASSUME_NONNULL_END

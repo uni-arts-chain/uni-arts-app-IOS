@@ -34,7 +34,7 @@
     if (_walletInfo.chainSymbol == JLMultiChainSymbolUART) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.importWalletBtn];
     }
-    
+    // token
     JLMultiChainWalletInfoListViewController *tokenVC = [[JLMultiChainWalletInfoListViewController alloc] init];
     tokenVC.topInset = 260;
     if (_walletInfo.chainSymbol == JLMultiChainSymbolUART) {
@@ -43,9 +43,14 @@
         tokenVC.style = JLMultiChainWalletInfoListContentViewStyleToken;
     }
     tokenVC.walletInfo = _walletInfo;
+    // nft
     JLMultiChainWalletInfoListViewController *nftVC = [[JLMultiChainWalletInfoListViewController alloc] init];
     nftVC.topInset = 260;
-    nftVC.style = JLMultiChainWalletInfoListContentViewStyleNFT;
+    if (_walletInfo.chainSymbol == JLMultiChainSymbolUART) {
+        nftVC.style = JLMultiChainWalletInfoListContentViewStyleMainNFT;
+    }else {
+        nftVC.style = JLMultiChainWalletInfoListContentViewStyleTokenNFT;
+    }
     nftVC.walletInfo = _walletInfo;
     
     _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[tokenVC, nftVC]];

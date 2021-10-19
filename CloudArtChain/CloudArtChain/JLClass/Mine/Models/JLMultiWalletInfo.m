@@ -11,3 +11,7 @@
 @implementation JLMultiWalletInfo
 
 @end
+
+@implementation JLWalletNFTData
+
+@end

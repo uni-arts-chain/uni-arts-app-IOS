@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger, JLMultiChainWalletInfoListContentViewStyle) {
     JLMultiChainWalletInfoListContentViewStyleMainToken,
     JLMultiChainWalletInfoListContentViewStyleToken,
-    JLMultiChainWalletInfoListContentViewStyleNFT
+    JLMultiChainWalletInfoListContentViewStyleMainNFT,
+    JLMultiChainWalletInfoListContentViewStyleTokenNFT
 };
 
 @protocol JLMultiChainWalletInfoListContentViewDelegate <NSObject>
@@ -33,9 +34,7 @@ typedef NS_ENUM(NSUInteger, JLMultiChainWalletInfoListContentViewStyle) {
 @property (nonatomic, strong) JLMultiWalletInfo *walletInfo;
 @property (nonatomic, copy) NSString *amount;
 
-@property (nonatomic, assign) NSInteger page;
-@property (nonatomic, assign) NSInteger pageSize;
-@property (nonatomic, strong) NSArray *nftArray;
+- (void)setDataArray: (NSArray *)dataArray page: (NSInteger)page pageSize: (NSInteger) pageSize;
 
 @end
 

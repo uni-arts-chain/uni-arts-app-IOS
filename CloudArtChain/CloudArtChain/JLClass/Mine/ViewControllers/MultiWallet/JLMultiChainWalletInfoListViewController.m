@@ -13,6 +13,7 @@
 @property (nonatomic, strong) JLMultiChainWalletInfoListContentView *contentView;
 
 @property (nonatomic, assign) NSInteger page;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
@@ -39,6 +40,46 @@
     [self prepareSource];
 }
 
+#pragma mark - loadDatas
+- (void)loadMainNFTDatas {
+    WS(weakSelf)
+    Model_arts_mine_Req *request = [[Model_arts_mine_Req alloc] init];
+    request.page = _page;
+    request.per_page = kPageSize;
+    request.aasm_state = @"online";
+    Model_arts_mine_Rsp *response = [[Model_arts_mine_Rsp alloc] init];
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.page == 1) {
+                [weakSelf.dataArray removeAllObjects];
+                for (Model_art_Detail_Data *artData in response.body) {
+                    JLWalletNFTData *nftData = [[JLWalletNFTData alloc] init];
+                    nftData.name = artData.name;
+                    nftData.imageUrl = artData.img_main_file1[@"url"];
+                    nftData.amount = artData.has_amount;
+                    [weakSelf.dataArray addObject:nftData];
+                }
+            }else {
+                for (Model_art_Detail_Data *artData in response.body) {
+                    JLWalletNFTData *nftData = [[JLWalletNFTData alloc] init];
+                    nftData.name = artData.name;
+                    nftData.imageUrl = artData.img_main_file1[@"url"];
+                    nftData.amount = artData.has_amount;
+                    [weakSelf.dataArray addObject:nftData];
+                }
+            }
+            [weakSelf.contentView setDataArray:[weakSelf.dataArray copy] page:weakSelf.page pageSize:kPageSize];
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            [weakSelf.contentView setDataArray:[weakSelf.dataArray copy] page:weakSelf.page pageSize:kPageSize];
+        }
+    }];
+}
+
+- (void)loadTokenNFTDatas {
+    [_contentView setDataArray:@[] page:_page pageSize:kPageSize];
+}
+
 #pragma mark - private methods
 - (void)prepareSource {
     WS(weakSelf)
@@ -57,10 +98,10 @@
                 weakSelf.contentView.amount = balance;
             }];
         }
-    }else {
-        _contentView.page = _page;
-        _contentView.pageSize = kPageSize;
-        _contentView.nftArray = @[@""];
+    }else if (_style == JLMultiChainWalletInfoListContentViewStyleMainNFT) {
+        [self loadMainNFTDatas];
+    }else if (_style == JLMultiChainWalletInfoListContentViewStyleTokenNFT) {
+        [self loadTokenNFTDatas];
     }
 }
 
@@ -72,6 +113,13 @@
         _contentView.delegate = self;
     }
     return _contentView;
+}
+
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
 }
 
 @end

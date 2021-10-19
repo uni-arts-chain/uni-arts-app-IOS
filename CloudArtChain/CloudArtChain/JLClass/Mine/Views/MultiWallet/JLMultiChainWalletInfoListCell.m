@@ -120,6 +120,16 @@
     _amountLabel.text = _amount;
 }
 
+- (void)setNftData:(JLWalletNFTData *)nftData {
+    _nftData = nftData;
+    
+    _titleLabel.text = _nftData.name;
+    if (![NSString stringIsEmpty:_nftData.imageUrl]) {
+        [_imgView sd_setImageWithURL:[NSURL URLWithString:_nftData.imageUrl]];
+    }
+    _amountLabel.text = [NSString stringWithFormat:@"%ld", _nftData.amount];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
