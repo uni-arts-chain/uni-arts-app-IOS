@@ -12,6 +12,7 @@ import TrustCore
 import TrustKeystore
 import Result
 import WalletConnect
+import WebKit
 
 @objcMembers class JLEthereumWalletInfo: NSObject {
     var address: String?
@@ -382,41 +383,38 @@ extension JLEthereumTool: EthBrowserViewControllerDelegate {
 extension JLEthereumTool {
     func connect(with uri: String,
                  viewController: UIViewController,
-                 socket: @escaping (_ socketConnected: Bool) -> Void,
-                 wallet: @escaping (_ approved: Bool) -> Void) {
+                 completion: @escaping (_ walletIsCollect: Bool) -> Void) {
         guard let session = WCSession.from(string: uri) else {
-            socket(false)
-            wallet(false)
+            completion(false)
             return
         }
         let clientMeta = WCPeerMeta(name: "WalletConnect SDK", url: "https://github.com/TrustWallet/wallet-connect-swift")
         let interactor = WCInteractor(session: session, meta: clientMeta, uuid: UIDevice.current.identifierForVendor ?? UUID())
         
-        configure(interactor: interactor, viewController: viewController, wallet: wallet)
+        configure(interactor: interactor, viewController: viewController, completion: completion)
         
         interactor.connect().done { connected in
-            socket(true)
-            wallet(false)
+            print("ethereum dapp walletConnect socket 已连接")
         }.catch { [weak self] error in
-            socket(false)
-            wallet(false)
+            completion(false)
             self?.present(errorMsg: error.localizedDescription, viewController: viewController)
         }
         
-        interactor.onDisconnect = { (error) in
+        interactor.onDisconnect = { [weak self] (error) in
             if let error = error {
                 print(error)
             }
-            socket(false)
+            print("ethereum dapp walletConnect socket 断开连接")
+            completion(false)
+            self?.interactor = nil
         }
 
         self.interactor = interactor
     }
     
     func disconnected(_ completion: @escaping (Bool) -> Void) {
-        interactor?.killSession().done({ _ in
-            completion(true)
-        }).cauterize()
+        interactor?.killSession().cauterize()
+        completion(true)
     }
     
     func pauseConnect() {
@@ -427,31 +425,11 @@ extension JLEthereumTool {
         interactor?.resume()
     }
     
-    /// 连接钱包
-    func approveSession(_ completion: @escaping (_ approved: Bool, _ errorMsg: String?) -> Void) {
-        guard let walletInfo = keystore.recentlyUsedWalletInfo else { return
-            completion(false, "没有以太坊账户")
-        }
-        let accounts = [String(describing: walletInfo.address)]
-        let chainId = rpcServer.chainID
-        
-        interactor?.approveSession(accounts: accounts, chainId: chainId).done({ _ in
-            completion(true,nil)
-        }).cauterize()
-    }
-    
-    /// 断开钱包
-    func rejectSession(_ completion: @escaping (_ approved: Bool) -> Void) {
-        interactor?.rejectSession().done({ _ in
-            completion(true)
-        }).cauterize()
-    }
-    
     private func configure(interactor: WCInteractor,
                            viewController: UIViewController,
-                           wallet: @escaping (_ approved: Bool) -> Void) {
+                           completion: @escaping (_ walletIsCollect: Bool) -> Void) {
         guard let walletInfo = keystore.recentlyUsedWalletInfo else { return
-            wallet(false)
+            completion(false)
         }
         let accounts = [String(describing: walletInfo.address)]
         let chainId = rpcServer.chainID
@@ -466,11 +444,11 @@ extension JLEthereumTool {
             let alert = UIAlertController(title: peer.name, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Reject", style: .destructive, handler: { _ in
                 interactor.rejectSession().cauterize()
-                wallet(false)
+                completion(false)
             }))
             alert.addAction(UIAlertAction(title: "Approve", style: .default, handler: { _ in
                 self?.interactor?.approveSession(accounts: accounts, chainId: chainId).done({ _ in
-                    wallet(true)
+                    completion(true)
                 }).cauterize()
             }))
             viewController.present(alert, animated: true, completion: nil)
@@ -488,16 +466,46 @@ extension JLEthereumTool {
         }
         
         interactor.eth.onTransaction = { [weak self] (id, event, transaction) in
-            let data = try! JSONEncoder().encode(transaction)
-            let message = String(data: data, encoding: .utf8)
-            let alert = UIAlertController(title: event.rawValue, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Reject", style: .destructive, handler: { _ in
-                self?.interactor?.rejectRequest(id: id, message: "I don't have ethers").cauterize()
-            }))
-            alert.addAction(UIAlertAction(title: "Approve", style: .default, handler: { _ in
-                self?.interactor?.approveRequest(id: id, result: message).cauterize()
-            }))
-            viewController.present(alert, animated: true, completion: nil)
+            guard let `self` = self else { return }
+            guard let data = try? JSONEncoder().encode(transaction) else { return }
+            let walletConnectCoordinator = EthWalletConnectCoordinator(keystore: self.keystore, server: self.rpcServer, transactionData: data, viewController: viewController)
+            walletConnectCoordinator.didCompletion = { [weak self] result in
+                guard let `self` = self else { return }
+                switch result {
+                case .success(let didSentTransaction):
+                    let resultTransaction = didSentTransaction.original
+                    var dict: [String: String] = [:]
+                    dict["from"] = transaction.from
+                    dict["to"] = transaction.to
+                    dict["nonce"] = String(resultTransaction.nonce)
+                    dict["gasPrice"] = String(resultTransaction.gasPrice)
+                    dict["gas"] = String(resultTransaction.gasLimit)
+                    dict["gasLimit"] = String(resultTransaction.gasLimit)
+                    dict["value"] = String(resultTransaction.value)
+                    dict["data"] = resultTransaction.data.hexEncoded
+                    
+                    guard let data = try? JSONSerialization.data(withJSONObject: dict, options: []),
+                          let str = String(data: data, encoding: String.Encoding.utf8) else { return }
+                    let didSentTransactionData = Data(hex: didSentTransaction.id)
+                    print("ethereum resultTransaction", str)
+                    print("ethereum didSentTransaction callback", didSentTransactionData.hexEncoded)
+                    
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: event.rawValue, message: str, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Reject", style: .destructive, handler: { _ in
+                            self.interactor?.rejectRequest(id: id, message: "I don't have ethers").cauterize()
+                        }))
+                        alert.addAction(UIAlertAction(title: "Approve", style: .default, handler: { _ in
+                            self.interactor?.approveRequest(id: id, result: didSentTransactionData.hexEncoded).cauterize()
+                        }))
+                        viewController.present(alert, animated: true, completion: nil)
+                    }
+                    
+                case .failure(let error):
+                    self.interactor?.rejectRequest(id: id, message: error.localizedDescription).cauterize()
+                }
+            }
+            walletConnectCoordinator.excuteTranscation()
         }
 
         interactor.bnb.onSign = { [weak self] (id, order) in

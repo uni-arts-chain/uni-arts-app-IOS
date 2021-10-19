@@ -67,6 +67,7 @@
     }];
     
     _scanBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    _scanBtn.hidden = YES;
     [_scanBtn setImage:[[UIImage imageNamed:@"icon_dapp_search_scan"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     [_scanBtn addTarget:self action:@selector(scanBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_bgView addSubview:_scanBtn];

@@ -73,17 +73,19 @@ open class WCInteractor {
         socket.onEvent = { [weak self] event in
             switch event {
             case .connected:
-                self?.state = .connected
+                WCLog("<== connected");
                 self?.onConnect()
             case .disconnected(let reason, let code):
-                self?.state = .disconnected
+                WCLog("<== disconnected");
                 self?.onDisconnect(error: SocketDisconnectError(code: code, debugDescription: reason))
             case .text(let string):
+                WCLog("<== text");
                 self?.onReceiveMessage(text: string)
             case .binary(let data):
                 WCLog("<== websocketDidReceiveData: \(data.toHexString())")
             case .cancelled:
-                WCLog("cancelled");
+                WCLog("<== cancelled");
+                self?.onDisconnect(error: nil)
             default:
                 break
             }

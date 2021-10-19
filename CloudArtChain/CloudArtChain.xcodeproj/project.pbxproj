@@ -77,6 +77,7 @@
 		5E727FEF27153EEB004AA0BF /* EthArrayResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E727FEE27153EEB004AA0BF /* EthArrayResponse.swift */; };
 		5E727FF127153F22004AA0BF /* EthResponseHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E727FF027153F22004AA0BF /* EthResponseHead.swift */; };
 		5E728051271954E0004AA0BF /* JLDappWalletConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */; };
+		5E72A0AB271D527200E03CAB /* EthWalletConnectCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E72A0AA271D527200E03CAB /* EthWalletConnectCoordinator.swift */; };
 		5E76DFE32673069A00727C8C /* JLArtDetailShowCertificateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */; };
 		5E76DFE926733C7100727C8C /* QGYEasing.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE526733C7100727C8C /* QGYEasing.c */; };
 		5E76DFEA26733C7100727C8C /* QGYAnimationEasingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFE626733C7100727C8C /* QGYAnimationEasingHelper.m */; };
@@ -1524,6 +1525,7 @@
 		5E727FF027153F22004AA0BF /* EthResponseHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthResponseHead.swift; sourceTree = "<group>"; };
 		5E72804F271954E0004AA0BF /* JLDappWalletConnectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappWalletConnectViewController.h; sourceTree = "<group>"; };
 		5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappWalletConnectViewController.m; sourceTree = "<group>"; };
+		5E72A0AA271D527200E03CAB /* EthWalletConnectCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthWalletConnectCoordinator.swift; sourceTree = "<group>"; };
 		5E76DFE12673069A00727C8C /* JLArtDetailShowCertificateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtDetailShowCertificateView.h; sourceTree = "<group>"; };
 		5E76DFE22673069A00727C8C /* JLArtDetailShowCertificateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailShowCertificateView.m; sourceTree = "<group>"; };
 		5E76DFE526733C7100727C8C /* QGYEasing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = QGYEasing.c; sourceTree = "<group>"; };
@@ -3961,6 +3963,7 @@
 			isa = PBXGroup;
 			children = (
 				5EFA616426F3314800899224 /* EthBrowserCoordinator.swift */,
+				5E72A0AA271D527200E03CAB /* EthWalletConnectCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -8709,6 +8712,7 @@
 				B312256F25B6B60A00562ECA /* SelectableTitleListViewModel.swift in Sources */,
 				B37FFB4924F4A965004B9CC8 /* JLHomeAppView.m in Sources */,
 				5EE52A90269ECC5100EFF8C9 /* JLCashAccountViewController.m in Sources */,
+				5E72A0AB271D527200E03CAB /* EthWalletConnectCoordinator.swift in Sources */,
 				B35936002511B04000E2B2FD /* JLCustomPickerView.m in Sources */,
 				B3AA62C525E49B3E00D28627 /* STPickerView.m in Sources */,
 				B312251625B6B60A00562ECA /* SubstrateDataModel.xcdatamodeld in Sources */,
