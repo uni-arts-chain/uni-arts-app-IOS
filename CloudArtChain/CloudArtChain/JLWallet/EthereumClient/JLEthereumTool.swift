@@ -29,6 +29,7 @@ import WebKit
 @objcMembers class JLEthereumTool: NSObject {
     static let shared = JLEthereumTool()
     private let keystore = EthKeystore()
+    /// ❤️配置链环境
     private let rpcServer = EthRPCServer.rinkeby
     
     var collectDappClourse: ((_ isCollect: Bool) -> Void)?
@@ -139,6 +140,10 @@ extension JLEthereumTool {
         }.catch { error in
             completion(.none, error.prettyError)
         }
+    }
+    
+    func getCurrentRPCServerChainID() -> Int {
+        return rpcServer.chainID
     }
 }
 

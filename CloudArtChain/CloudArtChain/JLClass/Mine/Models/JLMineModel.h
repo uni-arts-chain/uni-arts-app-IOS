@@ -363,3 +363,22 @@
 @property (nonatomic, copy) NSArray<Model_auctions_Data> *body;
 @end
 //////////////////////////////////////////////////////////////////////////
+#pragma mark - 钱包token的nft /v2/chains/{chainId:}/nft_infos
+@protocol Model_wallet_nft_Data @end
+@interface Model_wallet_nft_Data : Model_Interface
+@property (nonatomic, copy) NSString *logo;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, assign) NSInteger total_size;
+@end
+@interface Model_wallet_nft_Req : Model_Req
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger per_page;
+@property (nonatomic, assign) NSInteger chainID;
+@property (nonatomic, copy) NSString *address;
+@end
+@interface Model_wallet_nft_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_wallet_nft_Req *request;
+@property (nonatomic, copy) NSArray<Model_wallet_nft_Data> *body;
+@end
+//////////////////////////////////////////////////////////////////////////

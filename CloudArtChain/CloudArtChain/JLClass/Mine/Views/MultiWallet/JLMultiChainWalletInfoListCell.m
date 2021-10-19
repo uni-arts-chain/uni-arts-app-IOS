@@ -120,14 +120,14 @@
     _amountLabel.text = _amount;
 }
 
-- (void)setNftData:(JLWalletNFTData *)nftData {
+- (void)setNftData:(Model_wallet_nft_Data *)nftData {
     _nftData = nftData;
     
     _titleLabel.text = _nftData.name;
-    if (![NSString stringIsEmpty:_nftData.imageUrl]) {
-        [_imgView sd_setImageWithURL:[NSURL URLWithString:_nftData.imageUrl]];
+    if (![NSString stringIsEmpty:_nftData.logo]) {
+        [_imgView sd_setImageWithURL:[NSURL URLWithString:_nftData.logo]];
     }
-    _amountLabel.text = [NSString stringWithFormat:@"%ld", _nftData.amount];
+    _amountLabel.text = [NSString stringWithFormat:@"%ld", _nftData.total_size];
 }
 
 - (void)awakeFromNib {

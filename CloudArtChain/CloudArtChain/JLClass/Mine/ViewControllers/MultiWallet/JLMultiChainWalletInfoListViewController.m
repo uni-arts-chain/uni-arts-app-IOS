@@ -53,18 +53,18 @@
             if (weakSelf.page == 1) {
                 [weakSelf.dataArray removeAllObjects];
                 for (Model_art_Detail_Data *artData in response.body) {
-                    JLWalletNFTData *nftData = [[JLWalletNFTData alloc] init];
+                    Model_wallet_nft_Data *nftData = [[Model_wallet_nft_Data alloc] init];
                     nftData.name = artData.name;
-                    nftData.imageUrl = artData.img_main_file1[@"url"];
-                    nftData.amount = artData.has_amount;
+                    nftData.logo = artData.img_main_file1[@"url"];
+                    nftData.total_size = artData.has_amount;
                     [weakSelf.dataArray addObject:nftData];
                 }
             }else {
                 for (Model_art_Detail_Data *artData in response.body) {
-                    JLWalletNFTData *nftData = [[JLWalletNFTData alloc] init];
+                    Model_wallet_nft_Data *nftData = [[Model_wallet_nft_Data alloc] init];
                     nftData.name = artData.name;
-                    nftData.imageUrl = artData.img_main_file1[@"url"];
-                    nftData.amount = artData.has_amount;
+                    nftData.logo = artData.img_main_file1[@"url"];
+                    nftData.total_size = artData.has_amount;
                     [weakSelf.dataArray addObject:nftData];
                 }
             }
@@ -77,7 +77,29 @@
 }
 
 - (void)loadTokenNFTDatas {
-    [_contentView setDataArray:@[] page:_page pageSize:kPageSize];
+    WS(weakSelf)
+    Model_wallet_nft_Req *request = [[Model_wallet_nft_Req alloc] init];
+    request.page = _page;
+    request.per_page = kPageSize;
+    if (_walletInfo.chainSymbol == JLMultiChainSymbolETH) {
+        request.chainID = [JLEthereumTool.shared getCurrentRPCServerChainID];
+    }
+    request.address = _walletInfo.address;
+    Model_wallet_nft_Rsp *response = [[Model_wallet_nft_Rsp alloc] init];
+    response.request = request;
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (weakSelf.page == 1) {
+                weakSelf.dataArray = [response.body mutableCopy];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:response.body];
+            }
+            [weakSelf.contentView setDataArray:[weakSelf.dataArray copy] page:weakSelf.page pageSize:kPageSize];
+        } else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+            [weakSelf.contentView setDataArray:[weakSelf.dataArray copy] page:weakSelf.page pageSize:kPageSize];
+        }
+    }];
 }
 
 #pragma mark - private methods

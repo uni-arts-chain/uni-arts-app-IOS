@@ -28,14 +28,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface JLWalletNFTData : NSObject
-
-@property (nonatomic, copy) NSString *imageUrl;
-
-@property (nonatomic, copy) NSString *name;
-
-@property (nonatomic, assign) NSInteger amount;
-
-@end
-
 NS_ASSUME_NONNULL_END

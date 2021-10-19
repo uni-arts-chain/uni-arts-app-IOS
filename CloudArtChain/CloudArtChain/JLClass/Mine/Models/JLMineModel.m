@@ -225,3 +225,14 @@
     return @"auctions/finish";
 }
 @end
+//////////////////////////////////////////////////////////////////////////
+#pragma mark - 钱包token的nft /v2/chains/{chainId:}/nft_infos
+@implementation Model_wallet_nft_Data
+@end
+@implementation Model_wallet_nft_Req
+@end
+@implementation Model_wallet_nft_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"chains/%ld/nft_infos", _request.chainID];
+}
+@end
