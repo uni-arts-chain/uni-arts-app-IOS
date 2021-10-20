@@ -8027,7 +8027,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$PROJECT_DIR/R.generated.swift\"\n";
+			shellScript = "if [ $ACTION != \"indexbuild\" ]; then\n  # your script here \n  \"$PODS_ROOT/R.swift/rswift\" generate \"$PROJECT_DIR/R.generated.swift\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

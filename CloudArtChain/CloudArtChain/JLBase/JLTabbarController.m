@@ -35,12 +35,8 @@
     // 使tabbar显示出来
     self.tabBar.translucent = NO;
     
-    // 去掉tabbar顶部灰线
-    self.tabBar.shadowImage = [UIImage new];
-    self.tabBar.backgroundImage = [UIImage new];
     self.delegate = self;
-    self.tabBar.barTintColor = JL_color_white_ffffff;
-    
+
     // 设置tabbarItem.title两种状态颜色
     NSDictionary *normalDic = @{NSForegroundColorAttributeName: JL_color_gray_606060, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
     NSDictionary *selectedDic = @{NSForegroundColorAttributeName: JL_color_gray_101010, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
@@ -70,6 +66,26 @@
         [tabBarItem setTitleTextAttributes:normalDic forState:UIControlStateNormal];
         [tabBarItem setTitleTextAttributes:selectedDic forState:UIControlStateSelected];
      }
+    
+    if (@available(iOS 13.0, *)) {
+        UITabBarAppearance *tabBarAppearance = [[UITabBarAppearance alloc] init];
+        tabBarAppearance.backgroundColor = JL_color_white_ffffff;
+        tabBarAppearance.shadowColor = [UIColor clearColor];
+        tabBarAppearance.shadowImage = [UIImage new];
+        tabBarAppearance.backgroundImage = [UIImage new];
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = normalDic;
+        tabBarAppearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedDic;
+        if (@available(iOS 15.0, *)) {
+            self.tabBar.scrollEdgeAppearance = tabBarAppearance;
+        }
+        self.tabBar.standardAppearance = tabBarAppearance;
+    }else {
+        // 去掉tabbar顶部灰线
+        self.tabBar.shadowImage = [UIImage new];
+        self.tabBar.backgroundImage = [UIImage new];
+        self.tabBar.barTintColor = JL_color_white_ffffff;
+    }
+    
     [self.tabBar addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0.0f];
 }
 
