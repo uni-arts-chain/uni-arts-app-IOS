@@ -41,10 +41,10 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+//}
 
 - (void)createSubViews {
     [self.contentView addSubview:self.backView];
@@ -146,7 +146,12 @@
         //WithFrame:CGRectMake(0.0f, 0.0f, (kScreenWidth - 15.0f * 2 - 14.0f) * 0.5f, 250.0f)
         _backView = [[UIView alloc] init];
         _backView.backgroundColor = JL_color_white_ffffff;
-        ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
+        _backView.layer.cornerRadius = 5;
+        _backView.layer.shadowColor = [UIColor colorWithHexString:@"#404040"].CGColor;
+        _backView.layer.shadowOpacity = 0.3f;
+        _backView.layer.shadowOffset = CGSizeMake(0, 2);
+        _backView.layer.shadowRadius = 5.0f;
+//        ViewBorderRadius(_backView, 5.0f, 0.0f, JL_color_clear);
     }
     return _backView;
 }
@@ -383,10 +388,10 @@
         }
     }
     
-    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + artDetailData.imgHeight) itemW:itemW];
-    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
-    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+//    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+//    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + artDetailData.imgHeight) itemW:itemW];
+//    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+//    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
 
 - (void)setAuctionsData:(Model_auctions_Data *)auctionsData {
@@ -427,10 +432,10 @@
     self.timeView.isShowStatus = YES;
     self.timeView.auctionsData = auctionsData;
     
-    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
-    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + auctionsData.art.imgHeight) itemW:itemW];
-    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
-    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
+//    CGFloat itemW = (kScreenWidth - 15.0f * 2 - 14.0f) / 2;
+//    CGFloat itemH = [self getcellHWithOriginSize:CGSizeMake(itemW, 110.0f + auctionsData.art.imgHeight) itemW:itemW];
+//    self.backView.frame = CGRectMake(0.0f, 0.0f, itemW, itemH);
+//    [self.backView addShadow:[UIColor colorWithHexString:@"#404040"] cornerRadius:5.0f offsetX:0];
 }
 
 //计算cell的高度

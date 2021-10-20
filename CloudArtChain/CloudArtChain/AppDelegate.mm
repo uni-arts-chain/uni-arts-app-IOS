@@ -236,7 +236,7 @@
         // 设置导航条背景色
         [[UINavigationBar appearance] setBarTintColor:JL_color_white_ffffff];
         // 设置导航条title颜色及字体
-        [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCRegular(18),NSForegroundColorAttributeName: JL_color_gray_212121}];
+        [[UINavigationBar appearance] setTitleTextAttributes:attrDict];
     }
     
     [[UITabBar appearance] setTranslucent:NO];
