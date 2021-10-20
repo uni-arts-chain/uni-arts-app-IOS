@@ -11,6 +11,8 @@
 
 @implementation STPickerView
 
+@synthesize font = _font;
+
 #pragma mark - --- init 视图初始化 ---
 - (instancetype)init
 {

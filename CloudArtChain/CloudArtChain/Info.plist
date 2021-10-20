@@ -23,19 +23,21 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.jielian.MengYi.weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mall.senmeo.tech</string>
+				<string>mall.senmeo.tech1</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>alipayH5Return</string>
+			<string>com.jielian.MengYi.alipay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>alipayreturn.senmeo.tech</string>
+				<string>alipayreturn.senmeo.tech1</string>
 			</array>
 		</dict>
 	</array>

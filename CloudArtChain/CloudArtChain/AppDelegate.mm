@@ -190,15 +190,26 @@
 - (void)setupAppearance {
     [[UITextView appearance] setTintColor:JL_color_mainColor];
     [[UITextField appearance] setTintColor:JL_color_mainColor];
-    
-    // 设置导航条背景色
-    [[UINavigationBar appearance] setBarTintColor:JL_color_navBgColor];
-    
     // tintColor(这里主要调整返回箭头颜色)
     [[UINavigationBar appearance] setTintColor:JL_color_white_ffffff];
     
-    // 设置导航条title颜色及字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: kFontPingFangSCSCSemibold(18),NSForegroundColorAttributeName: JL_color_white_ffffff}];
+    NSDictionary *attrDict = @{NSFontAttributeName: kFontPingFangSCRegular(18), NSForegroundColorAttributeName: JL_color_white_ffffff};
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *navigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        navigationBarAppearance.backgroundColor = JL_color_navBgColor;
+        navigationBarAppearance.shadowColor = [UIColor clearColor];
+        navigationBarAppearance.shadowImage = [UIImage new];
+        navigationBarAppearance.backgroundImage = [UIImage new];
+        navigationBarAppearance.titleTextAttributes = attrDict;
+        if (@available(iOS 15.0, *)) {
+            [UINavigationBar appearance].scrollEdgeAppearance = navigationBarAppearance;
+        }
+        [UINavigationBar appearance].standardAppearance = navigationBarAppearance;
+    }else {
+        // 设置导航条背景色
+        [[UINavigationBar appearance] setBarTintColor:JL_color_navBgColor];
+        // 设置导航条title颜色及字体
+    }
     
     [[UITabBar appearance] setBarTintColor:JL_color_tabbarBgColor];    
     [[UITabBar appearance] setTranslucent:NO];
