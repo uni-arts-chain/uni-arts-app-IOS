@@ -69,15 +69,15 @@ enum EthRPCServer {
     }
 
     var rpcURL: URL {
-        #if DEBUG
-        let urlString: String = {
-            switch self {
-            case .main: return "https://ropsten.infura.io/v3/8ddd215139c849559864f7aaf7097307"
-            case .rinkeby: return "https://rinkeby.infura.io/v3/8ddd215139c849559864f7aaf7097307"
-            }
-        }()
-        return URL(string: urlString)!
-        #else
+//        #if DEBUG
+//        let urlString: String = {
+//            switch self {
+//            case .main: return "https://ropsten.infura.io/v3/8ddd215139c849559864f7aaf7097307"
+//            case .rinkeby: return "https://rinkeby.infura.io/v3/8ddd215139c849559864f7aaf7097307"
+//            }
+//        }()
+//        return URL(string: urlString)!
+//        #else
         let urlString: String = {
             switch self {
             case .main: return "https://mainnet.infura.io/v3/7e2855d5896946cb985af8944713a371"
@@ -85,7 +85,7 @@ enum EthRPCServer {
             }
         }()
         return URL(string: urlString)!
-        #endif
+//        #endif
     }
 
     var remoteURL: URL {

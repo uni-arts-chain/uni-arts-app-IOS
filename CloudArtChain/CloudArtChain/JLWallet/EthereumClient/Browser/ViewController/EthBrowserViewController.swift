@@ -52,6 +52,7 @@ final class EthBrowserViewController: JLBaseViewController {
         //TODO
         let config = WKWebViewConfiguration.make(for: server, address: account.address, with: sessionConfig, in: EthScriptMessageProxy(delegate: self))
         config.websiteDataStore = WKWebsiteDataStore.default()
+        config.userContentController.add(self, name: "_tw_")
         return config
     }()
     
@@ -169,11 +170,11 @@ final class EthBrowserViewController: JLBaseViewController {
         let script: String = {
             switch value {
             case .success(let result):
-                print("ethereum executeCallback(\(callbackID), null, \"\(result.value.object)\")")
-                return "executeCallback(\(callbackID), null, \"\(result.value.object)\")"
+                print("ethereum sendResult(\(callbackID), null, \"\(result.value.object)\")")
+                return "window.ethereum.sendResponse(\(callbackID), \"\(result.value.object)\")"
             case .failure(let error):
-                print("ethereum executeCallback(\(callbackID), \"\(error)\", null)")
-                return "executeCallback(\(callbackID), \"\(error)\", null)"
+                print("ethereum sendError(\(callbackID), \"\(error)\", null)")
+                return "window.ethereum.sendError(\(callbackID), \"\(error)\")"
             }
         }()
         webView.evaluateJavaScript(script, completionHandler: nil)
@@ -513,7 +514,18 @@ extension EthBrowserViewController: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         let json = message.json
         print("ethereum WKScriptMessage json: ", json)
+        // 读取账户地址请求
+        if let name = json["name"] as? String, name == "requestAccounts", let callbackID = json["id"] as? Int {
+            
+            self.webView.evaluateJavaScript("window.ethereum.setAddress(\"\(String(describing: self.account.address))\");", completionHandler: nil)
+            let script = "window.ethereum.sendResponse(\(callbackID), [\"\(String(describing: self.account.address))\"])"
+            print("ethereum requestAccounts sendResponse:",script)
+            self.webView.evaluateJavaScript(script, completionHandler: nil)
+            return
+        }
+        
         guard let command = EthDappAction.fromMessage(message) else { return }
+        
         let requester = DAppRequester(title: webView.title, url: webView.url)
         //TODO: Refactor
 //        let token = TokensDataStore.token(for: server)

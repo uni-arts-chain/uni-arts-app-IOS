@@ -159,7 +159,7 @@ PODS:
     - CryptoSwift
     - TrezorCrypto
     - TrustCore (~> 0.2.2)
-  - TrustWeb3Provider (0.1.7)
+  - TrustWeb3Provider (0.4.0)
   - TweetNacl (1.0.2)
   - UMAPM (1.1.0)
   - UMCCommon (7.2.5):
@@ -221,7 +221,7 @@ DEPENDENCIES:
   - TrezorCrypto
   - TrustCore
   - TrustKeystore
-  - TrustWeb3Provider (from `https://github.com/TrustWallet/trust-web3-provider`, commit `f4e0ebb1b8fa4812637babe85ef975d116543dfd`)
+  - TrustWeb3Provider (from `https://github.com/TrustWallet/trust-web3-provider`)
   - UMCCommon
   - UMCCommonLog
   - WalletConnect (from `https://github.com/trustwallet/wallet-connect-swift`, branch `master`)
@@ -300,7 +300,6 @@ EXTERNAL SOURCES:
     :branch: feature/without-origin
     :git: https://github.com/ERussel/Starscream.git
   TrustWeb3Provider:
-    :commit: f4e0ebb1b8fa4812637babe85ef975d116543dfd
     :git: https://github.com/TrustWallet/trust-web3-provider
   WalletConnect:
     :branch: master
@@ -317,7 +316,7 @@ CHECKOUT OPTIONS:
     :commit: b9e69390d96e71427463469f47cdafb8c0db1b21
     :git: https://github.com/ERussel/Starscream.git
   TrustWeb3Provider:
-    :commit: f4e0ebb1b8fa4812637babe85ef975d116543dfd
+    :commit: 105ad0b2dd52579d16dc7c04b31acfeea1b33ab4
     :git: https://github.com/TrustWallet/trust-web3-provider
   WalletConnect:
     :commit: 7dd95468711d202608c37ce7cdef72a9b0f65123
@@ -375,7 +374,7 @@ SPEC CHECKSUMS:
   TrezorCrypto: bfeea47a052dca2c77d4a39e1e183865e52de14d
   TrustCore: fe2a3b842c50fd73af69f1ec4c040b7eefced188
   TrustKeystore: 5945ed4e43cc424e305cbb672800ee2532ee7e70
-  TrustWeb3Provider: 50fa391bdf170feb43dd4419992931510a5751d8
+  TrustWeb3Provider: c4fd1102867679e39224abf4449748cb4bd2a3a3
   TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
   UMAPM: 2b966cff744dccdd9e2ed99efafce280be30833c
   UMCCommon: f7480d316381612f90cdde3a3c0f39a7e2c0a788
@@ -387,6 +386,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   ZWPlaceHolder: d55cce10c9930b48c31bf48e7f4748974a31f7e0
 
-PODFILE CHECKSUM: 82ca7cc7ef1c7db6ff16b7a96a6b5fd526a0e1c1
+PODFILE CHECKSUM: ec37b56347caf212091a4783ed45021c3aebb74d
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

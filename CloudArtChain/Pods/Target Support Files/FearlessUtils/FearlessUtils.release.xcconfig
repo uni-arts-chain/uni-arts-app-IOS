@@ -3,6 +3,8 @@ CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/FearlessUtils
 EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/BigInt" "${PODS_CONFIGURATION_BUILD_DIR}/IrohaCrypto" "${PODS_CONFIGURATION_BUILD_DIR}/TweetNacl" "${PODS_CONFIGURATION_BUILD_DIR}/scrypt.c" "${PODS_CONFIGURATION_BUILD_DIR}/secp256k1.c" "${PODS_CONFIGURATION_BUILD_DIR}/xxHash-Swift"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+LIBRARY_SEARCH_PATHS = $(inherited) "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
+OTHER_LDFLAGS = $(inherited) -framework "BigInt" -framework "Foundation" -framework "IrohaCrypto" -framework "TweetNacl" -framework "xxHash_Swift"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -suppress-warnings
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

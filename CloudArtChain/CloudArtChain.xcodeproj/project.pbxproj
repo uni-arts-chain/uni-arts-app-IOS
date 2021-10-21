@@ -33,6 +33,7 @@
 		5E0B49BB26C50E6D0005718D /* UILabel+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BA26C50E6D0005718D /* UILabel+JLExtension.m */; };
 		5E0B49BF26C60F4D0005718D /* JLHoveringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */; };
 		5E0B49CD26C66ADD0005718D /* JLArtListWaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0B49CC26C66ADD0005718D /* JLArtListWaterFlowLayout.m */; };
+		5E0EE883272161F000663990 /* trust-min-tmp.js in Resources */ = {isa = PBXBuildFile; fileRef = 5E0EE882272161F000663990 /* trust-min-tmp.js */; };
 		5E10590826B9816E008AEC54 /* JLWalletTool+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */; };
 		5E300DF82679F36E00A81FA7 /* JLVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF42679F36E00A81FA7 /* JLVersionManager.m */; };
 		5E300DF92679F36E00A81FA7 /* JLVersionUpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E300DF72679F36E00A81FA7 /* JLVersionUpdateView.m */; };
@@ -1447,6 +1448,7 @@
 		5E0B49BE26C60F4D0005718D /* JLHoveringViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLHoveringViewController.m; sourceTree = "<group>"; };
 		5E0B49CB26C66ADD0005718D /* JLArtListWaterFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLArtListWaterFlowLayout.h; sourceTree = "<group>"; };
 		5E0B49CC26C66ADD0005718D /* JLArtListWaterFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLArtListWaterFlowLayout.m; sourceTree = "<group>"; };
+		5E0EE882272161F000663990 /* trust-min-tmp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "trust-min-tmp.js"; sourceTree = "<group>"; };
 		5E10590726B9816E008AEC54 /* JLWalletTool+Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JLWalletTool+Transfer.swift"; sourceTree = "<group>"; };
 		5E300DF42679F36E00A81FA7 /* JLVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLVersionManager.m; sourceTree = "<group>"; };
 		5E300DF52679F36E00A81FA7 /* JLVersionUpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLVersionUpdateView.h; sourceTree = "<group>"; };
@@ -3508,6 +3510,14 @@
 			path = JLScrollView;
 			sourceTree = "<group>";
 		};
+		5E0EE88127215D2500663990 /* dist */ = {
+			isa = PBXGroup;
+			children = (
+				5E0EE882272161F000663990 /* trust-min-tmp.js */,
+			);
+			path = dist;
+			sourceTree = "<group>";
+		};
 		5E300DF32679F36E00A81FA7 /* JLVersionManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -3915,6 +3925,7 @@
 		5EFA60E826F3181700899224 /* Browser */ = {
 			isa = PBXGroup;
 			children = (
+				5E0EE88127215D2500663990 /* dist */,
 				5EFA616B26F336EC00899224 /* View */,
 				5EFA616826F3347200899224 /* Helper */,
 				5EFA616326F330D800899224 /* Coordinator */,
@@ -7894,6 +7905,7 @@
 				B31226A825B6B60B00562ECA /* AccountConfirmViewController.xib in Resources */,
 				B312268C25B6B60B00562ECA /* AssetDetailsView.xib in Resources */,
 				B312265525B6B60A00562ECA /* TransferConfirmAccessoryView.xib in Resources */,
+				5E0EE883272161F000663990 /* trust-min-tmp.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

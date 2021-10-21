@@ -1,6 +1,6 @@
 {
   "name": "TrustWeb3Provider",
-  "version": "0.1.7",
+  "version": "0.4.0",
   "summary": "Web3 javascript wrapper provider for iOS and Android platforms.",
   "description": "Web3 javascript wrapper provider for iOS and Android platforms.\nThe magic behind the dApps browsers",
   "homepage": "https://github.com/TrustWallet/trust-web3-provider",
@@ -10,11 +10,11 @@
   },
   "authors": {
     "hewigovens": "hewigovens@gmail.com",
-    "vikmeup": "vikmeup@gmail.com"
+    "Viktor Radchenko": "vikmeup"
   },
   "source": {
     "git": "https://github.com/TrustWallet/trust-web3-provider.git",
-    "tag": "0.1.7"
+    "tag": "0.4.0"
   },
   "social_media_url": "https://twitter.com/trustwalletapp",
   "platforms": {
@@ -22,7 +22,7 @@
   },
   "resource_bundles": {
     "TrustWeb3Provider": [
-      "JS/dist/trust-min.js"
+      "dist/trust-min.js"
     ]
   }
 }

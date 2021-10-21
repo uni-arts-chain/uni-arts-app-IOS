@@ -58,13 +58,13 @@ final class EthSignMessageCoordinator {
             guard let `self` = self else { return }
             self.handleSignedMessage(with: type)
         }
-        signAction.setValue(UIColor(hex: "00C3C4"), forKey: "_titleTextColor")
+        signAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
         let cancelAction = UIAlertAction(title: "取消", style: .cancel) { [weak self] _ in
             guard let `self` = self else { return }
             self.didComplete?(.failure(AnyError(EthDAppError.cancelled)))
             self.delegate?.didCancel(in: self)
         }
-        cancelAction.setValue(UIColor(hex: "00C3C4"), forKey: "_titleTextColor")
+        cancelAction.setValue(UIColor(hex: "101010"), forKey: "_titleTextColor")
         alertController.addAction(signAction)
         alertController.addAction(cancelAction)
         return alertController
