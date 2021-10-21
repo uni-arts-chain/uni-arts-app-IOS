@@ -381,15 +381,15 @@
 
 /// 创建以太坊钱包(与polkadot共用一套助记词)
 - (void)initEthereumWallet {
-    [MBProgressHUD jl_showProgressWithText:@"初始化中..."];
+    [[JLLoading sharedLoading] showLoadingWithMessage:@"初始化中..." onView:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[JLViewControllerTool appDelegate].walletTool exportMnemonicWithAddress:[[JLViewControllerTool appDelegate].walletTool getCurrentAccount].address completion:^(NSArray<NSString *> * _Nonnull words) {
             JLLog(@"ethereum & polkadot mnemonic words: %@", [words componentsJoinedByString:@" "]);
             if (words.count) {
                 [JLEthereumTool.shared importWalletWithMnemonics:words completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
-                    [MBProgressHUD jl_hide];
+                    [[JLLoading sharedLoading] hideLoading];
                     if (![NSString stringIsEmpty:address]) {
-                        [MBProgressHUD jl_showSuccessWithText:@"初始化成功!"];
+                        [[JLLoading sharedLoading] showMBSuccessTipMessage:@"初始化完成!" hideTime:KToastDismissDelayTimeInterval];
                     }
                     JLLog(@"ethereum importWalletWithMnemonics address: %@, errorMsg: %@", address, errorMsg);
                     

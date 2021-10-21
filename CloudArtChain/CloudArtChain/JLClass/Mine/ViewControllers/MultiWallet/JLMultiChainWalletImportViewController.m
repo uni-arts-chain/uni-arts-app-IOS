@@ -74,33 +74,33 @@
                   keystore: (NSString * _Nullable)keystore
           keystorePassword: (NSString * _Nullable)keystorePassword {
     WS(weakSelf)
-    [MBProgressHUD jl_showProgressWithText:@"导入中..."];
+    [[JLLoading sharedLoading] showLoadingWithMessage:@"导入中..." onView:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (weakSelf.importType == JLMultiChainImportTypeMnemonic) {
             [JLEthereumTool.shared importWalletWithMnemonics:mnonicArray completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
-                [MBProgressHUD jl_hide];
+                [[JLLoading sharedLoading] hideLoading];
                 if (![NSString stringIsEmpty:address]) {
                     [weakSelf importCompletionWithWalletName:walletName];
                 }else {
-                    [MBProgressHUD jl_showFailureWithText:@"导入失败，请检查助记词是否正确"];
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"导入失败，请检查助记词是否正确" hideTime:KToastDismissDelayTimeInterval];
                 }
             }];
         }else if (weakSelf.importType == JLMultiChainImportTypePrivateKey) {
             [JLEthereumTool.shared importWalletWithPrivateKey:privateKey completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
-                [MBProgressHUD jl_hide];
+                [[JLLoading sharedLoading] hideLoading];
                 if (![NSString stringIsEmpty:address]) {
                     [weakSelf importCompletionWithWalletName:walletName];
                 }else {
-                    [MBProgressHUD jl_showFailureWithText:@"导入失败，请检查私钥是否正确"];
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"导入失败，请检查私钥是否正确" hideTime:KToastDismissDelayTimeInterval];
                 }
             }];
         }else if (weakSelf.importType == JLMultiChainImportTypeKeystore) {
             [JLEthereumTool.shared importWalletWithKeystoreJson:keystore password:keystorePassword completion:^(NSString * _Nullable address, NSString * _Nullable errorMsg) {
-                [MBProgressHUD jl_hide];
+                [[JLLoading sharedLoading] hideLoading];
                 if (![NSString stringIsEmpty:address]) {
                     [weakSelf importCompletionWithWalletName:walletName];
                 }else {
-                    [MBProgressHUD jl_showFailureWithText:@"导入失败，请检查密码或JSON文件是否正确"];
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"导入失败，请检查密码或JSON文件是否正确" hideTime:KToastDismissDelayTimeInterval];
                 }
             }];
         }
@@ -109,7 +109,7 @@
 
 #pragma mark - private methods
 - (void)importCompletionWithWalletName: (NSString *)walletName {
-    [MBProgressHUD jl_showSuccessWithText:@"导入成功"];
+    [[JLLoading sharedLoading] showMBSuccessTipMessage:@"导入成功" hideTime:KToastDismissDelayTimeInterval];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:LOCALNOTIFICATION_JL_IMPORTMULTIWALLETSUCCESS object:nil userInfo:@{ @"walletName": walletName }];
     
