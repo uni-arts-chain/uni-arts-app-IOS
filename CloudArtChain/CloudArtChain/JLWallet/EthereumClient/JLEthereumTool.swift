@@ -343,7 +343,7 @@ extension JLEthereumTool: ScreenAuthorizationWireframeProtocol {
 }
 
 // MARK: - DAPP 浏览器
-extension JLEthereumTool: EthBrowserCoordinatorDelegate {
+extension JLEthereumTool {
     /// 查看dapp
     func lookDapp(navigationViewController: JLNavigationViewController?, name: String?, imgUrl: String?, webUrl: URL, isCollect: Bool, collectCompletion: @escaping (_ isCollect: Bool) -> Void) {
         guard let _ = keystore.recentlyUsedWalletInfo else { return }
@@ -354,35 +354,32 @@ extension JLEthereumTool: EthBrowserCoordinatorDelegate {
 //        coordinator.start()
         
         let browserViewController = EthBrowserViewController(keystore: keystore, config: .current, server: rpcServer, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)
-        browserViewController.delegate = self
+//        browserViewController.delegate = self
+        browserViewController.collectCurrentDappClourse = { [weak self] isCollect in
+            if self?.collectDappClourse != nil {
+                self?.collectDappClourse!(isCollect)
+            }
+        }
+        browserViewController.didSentTransactionClourse = { transaction in
+            print("ethereum dapp 已经发送交易")
+        }
         browserViewController.modalPresentationStyle = .fullScreen
         navigationViewController?.present(browserViewController, animated: true, completion: nil)
-        
-    }
-    
-    func didSentTransaction(transaction: EthSentTransaction, in coordinator: EthBrowserCoordinator) {
-        print("ethereum 已经发送交易")
-    }
-    
-    func collectDapp(isCollect: Bool) {
-        if collectDappClourse != nil {
-            collectDappClourse!(isCollect)
-        }
     }
 }
 
 // MARK: - EthBrowserViewControllerDelegate
-extension JLEthereumTool: EthBrowserViewControllerDelegate {
-    func didSentTransaction(transaction: EthSentTransaction) {
-        print("ethereum 已经发送交易")
-    }
-    
-    func collectCurrentDapp(with isCollect: Bool) {
-        if collectDappClourse != nil {
-            collectDappClourse!(isCollect)
-        }
-    }
-}
+//extension JLEthereumTool: EthBrowserViewControllerDelegate {
+//    func didSentTransaction(transaction: EthSentTransaction) {
+//        print("ethereum 已经发送交易")
+//    }
+//
+//    func collectCurrentDapp(with isCollect: Bool) {
+//        if collectDappClourse != nil {
+//            collectDappClourse!(isCollect)
+//        }
+//    }
+//}
 
 // MARK: - DApp Wallet Connect
 extension JLEthereumTool {

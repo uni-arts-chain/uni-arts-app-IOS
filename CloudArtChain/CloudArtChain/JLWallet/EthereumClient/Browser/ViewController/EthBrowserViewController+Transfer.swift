@@ -94,7 +94,8 @@ extension EthBrowserViewController {
             type: type,
             server: server
         )
-        coordinator.didCompleted = { [unowned self] result in
+        coordinator.didCompleted = { [weak self] result in
+            guard let `self` = self else { return }
             switch result {
             case .success(let type):
                 switch type {
@@ -102,13 +103,19 @@ extension EthBrowserViewController {
                     // on signing we pass signed hex of the transaction
                     let callback = EthDappCallback(id: callbackID, value: .signTransaction(transaction.data))
                     self.notifyFinish(callbackID: callbackID, value: .success(callback))
-                    self.delegate?.didSentTransaction(transaction: transaction)
+                    if self.didSentTransactionClourse != nil {
+                        self.didSentTransactionClourse!(transaction)
+                    }
+//                    self.delegate?.didSentTransaction(transaction: transaction)
                 case .sentTransaction(let transaction):
                     // on send transaction we pass transaction ID only.
                     let data = Data(hex: transaction.id)
                     let callback = EthDappCallback(id: callbackID, value: .sentTransaction(data))
                     self.notifyFinish(callbackID: callbackID, value: .success(callback))
-                    self.delegate?.didSentTransaction(transaction: transaction)
+                    if self.didSentTransactionClourse != nil {
+                        self.didSentTransactionClourse!(transaction)
+                    }
+//                    self.delegate?.didSentTransaction(transaction: transaction)
                 }
             case .failure:
                 self.notifyFinish(

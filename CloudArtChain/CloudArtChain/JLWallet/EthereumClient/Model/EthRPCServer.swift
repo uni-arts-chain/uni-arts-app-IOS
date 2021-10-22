@@ -108,7 +108,6 @@ enum EthRPCServer {
         }
     }
     
-    
 
     var openseaPath: String {
         switch self {

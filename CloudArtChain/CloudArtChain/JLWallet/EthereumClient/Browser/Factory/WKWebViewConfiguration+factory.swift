@@ -46,7 +46,7 @@ extension WKWebViewConfiguration {
         """
         
         print("providerJsUrl:",providerJsUrl)
-        print("js: ", server.rpcURL.absoluteString, server.chainID, address.description.lowercased())
+        print("js: ", server.rpcURL.absoluteString, server.chainID, address.description)
 //        js +=
 //        """
 //        
@@ -116,6 +116,7 @@ extension WKWebViewConfiguration {
         config.userContentController.add(messageHandler, name: EthScripMethod.signPersonalMessage.rawValue)
         config.userContentController.add(messageHandler, name: EthScripMethod.signMessage.rawValue)
         config.userContentController.add(messageHandler, name: EthScripMethod.signTypedMessage.rawValue)
+        config.userContentController.add(messageHandler, name: "requestAccounts")
         config.userContentController.addUserScript(providerScript)
         config.userContentController.addUserScript(injectedScript)
         return config

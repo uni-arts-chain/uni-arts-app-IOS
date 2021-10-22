@@ -18,10 +18,10 @@ enum EthBrowserAction {
     case navigationAction(EthBrowserNavigation)
 }
 
-protocol EthBrowserViewControllerDelegate: AnyObject {
-    func didSentTransaction(transaction: EthSentTransaction)
-    func collectCurrentDapp(with isCollect: Bool)
-}
+//protocol EthBrowserViewControllerDelegate: AnyObject {
+//    func didSentTransaction(transaction: EthSentTransaction)
+//    func collectCurrentDapp(with isCollect: Bool)
+//}
 
 final class EthBrowserViewController: JLBaseViewController {
     private var myContext = 0
@@ -35,7 +35,10 @@ final class EthBrowserViewController: JLBaseViewController {
     var imgUrl: String?
     var webUrl: URL?
     var isCollect: Bool
-    weak var delegate: EthBrowserViewControllerDelegate?
+//    weak var delegate: EthBrowserViewControllerDelegate?
+    
+    var didSentTransactionClourse: ((_ transaction: EthSentTransaction) -> Void)?
+    var collectCurrentDappClourse: ((_ isCollect: Bool) -> Void)?
     
     private struct Keys {
         static let estimatedProgress = "estimatedProgress"
@@ -131,8 +134,8 @@ final class EthBrowserViewController: JLBaseViewController {
     
     private func loadBalance(_ completion: ((Result<Bool, Error>) -> Void)? = nil) {
         guard let ethAddress = self.account.address as? EthereumAddress else { return }
-        EthWalletRPCService(server: server, addressUpdate: ethAddress).getBalance().done { [weak self]  balance in
-            guard let `self` = self else { return }
+        EthWalletRPCService(server: server, addressUpdate: ethAddress).getBalance().done {  balance in
+//            guard let `self` = self else { return }
             self.token = TokenObject(
                 contract: self.server.priceID.description,
                 name: "Ethereum",
@@ -170,10 +173,10 @@ final class EthBrowserViewController: JLBaseViewController {
         let script: String = {
             switch value {
             case .success(let result):
-                print("ethereum sendResult(\(callbackID), null, \"\(result.value.object)\")")
+                print("window.ethereum.sendResponse(\(callbackID), \"\(result.value.object)\")")
                 return "window.ethereum.sendResponse(\(callbackID), \"\(result.value.object)\")"
             case .failure(let error):
-                print("ethereum sendError(\(callbackID), \"\(error)\", null)")
+                print("window.ethereum.sendError(\(callbackID), \"\(error)\")")
                 return "window.ethereum.sendError(\(callbackID), \"\(error)\")"
             }
         }()
@@ -376,7 +379,10 @@ final class EthBrowserViewController: JLBaseViewController {
         JLDappBrowserManagerView.show(withIsCollect: isCollect, superView: view) { [weak self] itemType in
             guard let `self` = self else { return }
             if itemType == .collect {
-                self.delegate?.collectCurrentDapp(with: !self.isCollect)
+                if self.collectCurrentDappClourse != nil {
+                    self.collectCurrentDappClourse!(!self.isCollect)
+                }
+//                self.delegate?.collectCurrentDapp(with: !self.isCollect)
             }else if itemType == .copy {
                 UIPasteboard.general.string = self.webUrl?.absoluteString ?? ""
                 JLLoading.shared().showMBSuccessTipMessage("链接已复制", hideTime: 2.0)
@@ -392,22 +398,22 @@ final class EthBrowserViewController: JLBaseViewController {
 }
 
 // MARK: EthBrowserNavigationBarDelegate
-extension EthBrowserViewController: EthBrowserNavigationBarDelegate {
-    func did(action: EthBrowserNavigation) {
-        switch action {
-        case .goBack:
-            break
-        case .more:
-            break
-        case .home:
-            break
-        case .enter:
-            break
-        case .beginEditing:
-            stopLoading()
-        }
-    }
-}
+//extension EthBrowserViewController: EthBrowserNavigationBarDelegate {
+//    func did(action: EthBrowserNavigation) {
+//        switch action {
+//        case .goBack:
+//            break
+//        case .more:
+//            break
+//        case .home:
+//            break
+//        case .enter:
+//            break
+//        case .beginEditing:
+//            stopLoading()
+//        }
+//    }
+//}
 
 // MARK: WKNavigationDelegate
 extension EthBrowserViewController: WKNavigationDelegate {
@@ -457,12 +463,7 @@ extension EthBrowserViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alertController = UIAlertController.alertController(
-            title: .none,
-            message: message,
-            style: .alert,
-            in: self
-        )
+        let alertController = UIAlertController(title: .none, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
             completionHandler()
         }))
@@ -470,12 +471,7 @@ extension EthBrowserViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alertController = UIAlertController.alertController(
-            title: .none,
-            message: message,
-            style: .alert,
-            in: self
-        )
+        let alertController = UIAlertController(title: .none, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: { _ in
             completionHandler(true)
         }))
@@ -486,12 +482,7 @@ extension EthBrowserViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alertController = UIAlertController.alertController(
-            title: .none,
-            message: prompt,
-            style: .alert,
-            in: self
-        )
+        let alertController = UIAlertController(title: .none, message: prompt, preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.text = defaultText
         }
