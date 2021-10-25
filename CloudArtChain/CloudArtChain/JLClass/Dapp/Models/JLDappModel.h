@@ -56,6 +56,20 @@
 @property (nonatomic, copy) NSString *created_at;
 @property (nonatomic, strong) Model_dapp_Data *favoritable;
 @end
+#pragma mark - 链服务
+@protocol Model_eth_rpc_server_data @end
+@interface Model_eth_rpc_server_data : Model_Interface<NSSecureCoding>
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) NSInteger chain_id;
+@property (nonatomic, assign) NSInteger network_id;
+@property (nonatomic, copy) NSString *rpc_url;
+@end
+@protocol Model_chain_server_Data @end
+@interface Model_chain_server_Data : Model_Interface
+@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSArray<Model_eth_rpc_server_data> *chain_networks;
+@end
 ////////////////////////////////////api(接口)//////////////////////////////////////
 #pragma mark - /chains 链列表
 @interface Model_chains_Req : Model_Req
@@ -143,4 +157,12 @@
 @end
 @interface Model_member_recently_dapp_Rsp : Model_Rsp_V2
 @property (nonatomic, copy) Model_recently_dapp_Data *body;
+@end
+#pragma mark - v2/chains/{id:}/networks
+@interface Model_chain_id_networks_Req : Model_Req
+@property (nonatomic, copy) NSString *ID;
+@end
+@interface Model_chain_id_networks_Rsp : Model_Rsp_V2
+@property (nonatomic, strong) Model_chain_id_networks_Req *request;
+@property (nonatomic, copy) NSArray<Model_chain_server_Data> *body;
 @end

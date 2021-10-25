@@ -271,6 +271,9 @@ final class EthBrowserViewController: JLBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        addBackItem()
+        
+        // 清除所有web缓存
+        clearAllWebCaches()
 
         NotificationCenter.default.addObserver(self, selector: #selector(collectDapp), name: NSNotification.Name.init("JLocalNotification_JLCollectDappSuccess"), object: nil)
         
@@ -389,6 +392,14 @@ final class EthBrowserViewController: JLBaseViewController {
             }else if itemType == .refresh {
                 self.goTo(url: self.webUrl!)
             }
+        }
+    }
+    
+    private func clearAllWebCaches() {
+        let websiteDataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
+        let dateFrom = Date(timeIntervalSince1970: 0)
+        WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom) {
+
         }
     }
 

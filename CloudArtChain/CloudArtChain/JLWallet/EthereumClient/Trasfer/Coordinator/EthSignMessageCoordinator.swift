@@ -41,8 +41,9 @@ final class EthSignMessageCoordinator {
     
     /// 开始确认签名
     func start(with type: EthSignMesageType) {
-        let alertController = makeAlertController(with: type)
-        viewController.present(alertController, animated: true, completion: nil)
+        self.handleSignedMessage(with: type)
+//        let alertController = makeAlertController(with: type)
+//        viewController.present(alertController, animated: true, completion: nil)
     }
 
     private func makeAlertController(with type: EthSignMesageType) -> UIAlertController {

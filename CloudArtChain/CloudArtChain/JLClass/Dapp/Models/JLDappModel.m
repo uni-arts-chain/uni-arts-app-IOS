@@ -42,6 +42,40 @@
     return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
 }
 @end
+#pragma mark - 链服务
+@implementation Model_eth_rpc_server_data
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+/**
+ *  将对象写入文件的时候调用
+ *  在这个方法中写清楚：要存储哪些对象的哪些属性，以及怎样存储属性
+ */
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.name forKey:@"name"];
+    [encoder encodeInteger:self.chain_id forKey:@"chain_id"];
+    [encoder encodeInteger:self.network_id forKey:@"network_id"];
+    [encoder encodeObject:self.rpc_url forKey:@"rpc_url"];
+}
+/**
+ *  当从文件中解析出一个对象的时候调用
+ *  在这个方法中写清楚：怎么解析文件中的数据
+ */
+- (id)initWithCoder:(NSCoder *)decoder {
+    if (self = [super init]) {
+        self.name = [decoder decodeObjectForKey:@"name"];
+        self.chain_id = [decoder decodeIntegerForKey:@"chain_id"];
+        self.network_id = [decoder decodeIntegerForKey:@"network_id"];
+        self.rpc_url = [decoder decodeObjectForKey:@"rpc_url"];
+    }
+    return self;
+}
+@end
+@implementation Model_chain_server_Data
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
 ////////////////////////////////////api(接口)//////////////////////////////////////
 #pragma mark - /chains 链列表
 @implementation Model_chains_Req
@@ -132,5 +166,16 @@
 @implementation Model_member_recently_dapp_Rsp
 - (NSString *)interfacePath {
     return @"member_recently_dapps";
+}
+@end
+#pragma mark - v2/chains/{id:}/networks
+@implementation Model_chain_id_networks_Req
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{@"ID": @"id"}];
+}
+@end
+@implementation Model_chain_id_networks_Rsp
+- (NSString *)interfacePath {
+    return [NSString stringWithFormat:@"chains/%@/networks", _request.ID];
 }
 @end

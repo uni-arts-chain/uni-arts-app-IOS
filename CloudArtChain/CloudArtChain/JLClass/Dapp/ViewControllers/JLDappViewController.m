@@ -7,15 +7,18 @@
 //
 
 #import "JLDappViewController.h"
+#import "JLDappNavigationBar.h"
 #import "JLDappContentView.h"
 
 #import "JLScanViewController.h"
 #import "JLDappSearchViewController.h"
 #import "JLDappMoreViewController.h"
 #import "JLDappWalletConnectViewController.h"
+#import "JLDappChooseChainServerViewController.h"
 
 @interface JLDappViewController ()<JLDappContentViewDelegate>
 
+@property (nonatomic, strong) JLDappNavigationBar *navigationBar;
 @property (nonatomic, strong) JLDappContentView *contentView;
 
 @property (nonatomic, copy) NSArray *chainArray;
@@ -32,10 +35,19 @@
 #pragma mark - life cycles
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"发现";
+    self.fd_prefersNavigationBarHidden = YES;
     _page = 1;
     
+    [self.view addSubview:self.navigationBar];
     [self.view addSubview:self.contentView];
+    
+    Model_eth_rpc_server_data *server = [JLEthRPCServerTool ethRPCServer];
+    if (server) {
+        self.navigationBar.chainServerName = server.name;
+    }else {
+        // 获取链服务
+        [self loadChianRPCServerDatas];
+    }
     
     [self loadFavoriteDapps];
     [self loadChainDatas: _currentChainId];
@@ -164,6 +176,31 @@
 }
 
 #pragma mark - loadDatas
+/// 获取链服务列表
+- (void)loadChianRPCServerDatas {
+    WS(weakSelf)
+    Model_chain_id_networks_Req *request = [[Model_chain_id_networks_Req alloc] init];
+    request.ID = @"1";
+    Model_chain_id_networks_Rsp *response = [[Model_chain_id_networks_Rsp alloc] init];
+    response.request = request;
+    
+    [JLNetHelper netRequestGetParameters:request respondParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
+        if (netIsWork) {
+            if (response.body.count) {
+                Model_chain_server_Data *data = response.body[0];
+                for (Model_eth_rpc_server_data *server in data.chain_networks) {
+                    weakSelf.navigationBar.chainServerName = server.name;
+                    [JLEthRPCServerTool saveEthRPCServer:server];
+                    [JLEthereumTool.shared setRPCServerWithName:server.name chainID:server.chain_id rpcStr:server.rpc_url];
+                    break;
+                }
+            }
+        }else {
+            [[JLLoading sharedLoading] showMBFailedTipMessage:errorStr hideTime:KToastDismissDelayTimeInterval];
+        }
+    }];
+}
+
 - (void)loadChainDatas: (NSString * _Nullable)chainId {
     WS(weakSelf)
     Model_chains_Req *request = [[Model_chains_Req alloc] init];
@@ -357,9 +394,25 @@
 }
 
 #pragma mark - setters and getters
+- (JLDappNavigationBar *)navigationBar {
+    if (!_navigationBar) {
+        WS(weakSelf)
+        _navigationBar = [[JLDappNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, KStatus_Bar_Height + 50)];
+        _navigationBar.chooseBlock = ^{
+            JLDappChooseChainServerViewController *vc = [[JLDappChooseChainServerViewController alloc] init];
+            vc.chooseBlock = ^(Model_eth_rpc_server_data * _Nonnull rpcServerData) {
+                weakSelf.navigationBar.chainServerName = rpcServerData.name;
+            };
+            JLNavigationViewController *nav = [[JLNavigationViewController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:nav animated:YES completion:nil];
+        };
+    }
+    return _navigationBar;
+}
+
 - (JLDappContentView *)contentView {
     if (!_contentView) {
-        _contentView = [[JLDappContentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - KStatusBar_Navigation_Height)];
+        _contentView = [[JLDappContentView alloc] initWithFrame:CGRectMake(0, self.navigationBar.frameBottom, kScreenWidth, kScreenHeight - self.navigationBar.frameBottom)];
         _contentView.delegate = self;
     }
     return _contentView;

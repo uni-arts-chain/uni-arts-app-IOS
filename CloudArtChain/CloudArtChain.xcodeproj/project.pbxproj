@@ -86,6 +86,11 @@
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
 		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
+		5E8043E1272643F700946197 /* JLDappChooseChainServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E0272643F700946197 /* JLDappChooseChainServerViewController.m */; };
+		5E8043E42726444700946197 /* JLDappNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E32726444700946197 /* JLDappNavigationBar.m */; };
+		5E8043EA272682C000946197 /* JLEthRPCServerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E9272682C000946197 /* JLEthRPCServerTool.m */; };
+		5E8043ED2726910600946197 /* JLDappChooseChainServerContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043EC2726910600946197 /* JLDappChooseChainServerContentView.m */; };
+		5E8043F02726927200946197 /* JLDappChooseChainServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043EF2726927200946197 /* JLDappChooseChainServerCell.m */; };
 		5E8967D3270FED540026771B /* JLDappCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8967D2270FED540026771B /* JLDappCell.m */; };
 		5E8967D92710427B0026771B /* JLDappTrackCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8967D82710427B0026771B /* JLDappTrackCell.m */; };
 		5E8BCA6C27001CD800A12A14 /* NSArray+JLMASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8BCA6B27001CD800A12A14 /* NSArray+JLMASConstraint.m */; };
@@ -1541,6 +1546,16 @@
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
 		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
+		5E8043DF272643F700946197 /* JLDappChooseChainServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappChooseChainServerViewController.h; sourceTree = "<group>"; };
+		5E8043E0272643F700946197 /* JLDappChooseChainServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappChooseChainServerViewController.m; sourceTree = "<group>"; };
+		5E8043E22726444700946197 /* JLDappNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappNavigationBar.h; sourceTree = "<group>"; };
+		5E8043E32726444700946197 /* JLDappNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappNavigationBar.m; sourceTree = "<group>"; };
+		5E8043E8272682C000946197 /* JLEthRPCServerTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLEthRPCServerTool.h; sourceTree = "<group>"; };
+		5E8043E9272682C000946197 /* JLEthRPCServerTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLEthRPCServerTool.m; sourceTree = "<group>"; };
+		5E8043EB2726910600946197 /* JLDappChooseChainServerContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappChooseChainServerContentView.h; sourceTree = "<group>"; };
+		5E8043EC2726910600946197 /* JLDappChooseChainServerContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappChooseChainServerContentView.m; sourceTree = "<group>"; };
+		5E8043EE2726927200946197 /* JLDappChooseChainServerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappChooseChainServerCell.h; sourceTree = "<group>"; };
+		5E8043EF2726927200946197 /* JLDappChooseChainServerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappChooseChainServerCell.m; sourceTree = "<group>"; };
 		5E8967D1270FED540026771B /* JLDappCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappCell.h; sourceTree = "<group>"; };
 		5E8967D2270FED540026771B /* JLDappCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappCell.m; sourceTree = "<group>"; };
 		5E8967D72710427B0026771B /* JLDappTrackCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappTrackCell.h; sourceTree = "<group>"; };
@@ -3737,6 +3752,8 @@
 				5E8BCA922702ABE900A12A14 /* JLDappSearchViewController.m */,
 				5E72804F271954E0004AA0BF /* JLDappWalletConnectViewController.h */,
 				5E728050271954E0004AA0BF /* JLDappWalletConnectViewController.m */,
+				5E8043DF272643F700946197 /* JLDappChooseChainServerViewController.h */,
+				5E8043E0272643F700946197 /* JLDappChooseChainServerViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -3747,6 +3764,8 @@
 				5E8BCAB027030FFB00A12A14 /* DappBrowser */,
 				5E8BCA7027006ED800A12A14 /* JLDappContentView.h */,
 				5E8BCA7127006ED800A12A14 /* JLDappContentView.m */,
+				5E8043E22726444700946197 /* JLDappNavigationBar.h */,
+				5E8043E32726444700946197 /* JLDappNavigationBar.m */,
 				5E8967D72710427B0026771B /* JLDappTrackCell.h */,
 				5E8967D82710427B0026771B /* JLDappTrackCell.m */,
 				5E8967D1270FED540026771B /* JLDappCell.h */,
@@ -3773,6 +3792,10 @@
 				5E8BCAA42702B37F00A12A14 /* JLDappSearchResultView.m */,
 				5E8BCAA62702E79200A12A14 /* JLDappSearchActivityIndicatorView.h */,
 				5E8BCAA72702E79200A12A14 /* JLDappSearchActivityIndicatorView.m */,
+				5E8043EB2726910600946197 /* JLDappChooseChainServerContentView.h */,
+				5E8043EC2726910600946197 /* JLDappChooseChainServerContentView.m */,
+				5E8043EE2726927200946197 /* JLDappChooseChainServerCell.h */,
+				5E8043EF2726927200946197 /* JLDappChooseChainServerCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -7211,6 +7234,8 @@
 				B36E836A24F89EF900A77588 /* JLUIFactory.m */,
 				5E76DFEB267342DE00727C8C /* JLViewAniamtionTool.h */,
 				5E76DFEC267342DE00727C8C /* JLViewAniamtionTool.m */,
+				5E8043E8272682C000946197 /* JLEthRPCServerTool.h */,
+				5E8043E9272682C000946197 /* JLEthRPCServerTool.m */,
 			);
 			path = JLTools;
 			sourceTree = "<group>";
@@ -8522,6 +8547,7 @@
 				B38C832C261D83B6006B5324 /* CreateAuctionCall.swift in Sources */,
 				B391CB85262D2AD700FF48B0 /* CubismPose.cpp in Sources */,
 				B31224F225B6B60900562ECA /* Logger.swift in Sources */,
+				5E8043ED2726910600946197 /* JLDappChooseChainServerContentView.m in Sources */,
 				B312261225B6B60A00562ECA /* ProfileViewModelFactory.swift in Sources */,
 				B312260B25B6B60A00562ECA /* ConnectionAccountImportWireframe.swift in Sources */,
 				B394C7E3262FB94400EB3254 /* JLBoxOpenRecordTableViewCell.m in Sources */,
@@ -8832,6 +8858,7 @@
 				B312254A25B6B60A00562ECA /* TriangularedView+Inspectable.swift in Sources */,
 				B38C8331261D99C9006B5324 /* CancelAuctionCall.swift in Sources */,
 				B31225C325B6B60A00562ECA /* ConnectionTableViewCell.swift in Sources */,
+				5E8043F02726927200946197 /* JLDappChooseChainServerCell.m in Sources */,
 				5EFA60B726F1D28200899224 /* EthCastError.swift in Sources */,
 				B35936132511B0F200E2B2FD /* JLAlertSheetControl.m in Sources */,
 				B37FFB4524F4A56D004B9CC8 /* PGIndexBannerSubiew.m in Sources */,
@@ -8921,6 +8948,7 @@
 				B31224FE25B6B60A00562ECA /* SubstrateOperationFactory.swift in Sources */,
 				B31224C525B6B60900562ECA /* UIBarButtonItem+Style.swift in Sources */,
 				B31225EC25B6B60A00562ECA /* AboutProtocols.swift in Sources */,
+				5E8043EA272682C000946197 /* JLEthRPCServerTool.m in Sources */,
 				B391CC89262D75C000FF48B0 /* sha1.m in Sources */,
 				B312254325B6B60A00562ECA /* TriangularedBlurButton.swift in Sources */,
 				B3B88928261817C900A2C5D7 /* AuctionInfo.swift in Sources */,
@@ -9056,8 +9084,10 @@
 				B342979325DE523B0006BD6E /* JLActionTimeView.m in Sources */,
 				B312250B25B6B60A00562ECA /* RuntimeVersion.swift in Sources */,
 				B312263625B6B60A00562ECA /* ContactContext.swift in Sources */,
+				5E8043E42726444700946197 /* JLDappNavigationBar.m in Sources */,
 				B31224F725B6B60A00562ECA /* SubscanStatusData.swift in Sources */,
 				B31226CC25B6B60B00562ECA /* NetworkAvailabilityLayerProtocols.swift in Sources */,
+				5E8043E1272643F700946197 /* JLDappChooseChainServerViewController.m in Sources */,
 				B31225AA25B6B60A00562ECA /* PinSetupProtocol.swift in Sources */,
 				B31224D525B6B60900562ECA /* CDChainStorageItem+CoreDataDecodable.swift in Sources */,
 				B312256A25B6B60A00562ECA /* IconWithTitleTableViewCell.swift in Sources */,

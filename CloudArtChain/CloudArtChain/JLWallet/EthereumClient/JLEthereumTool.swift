@@ -30,7 +30,7 @@ import WebKit
     static let shared = JLEthereumTool()
     private let keystore = EthKeystore()
     /// ❤️配置链环境
-    private let rpcServer = EthRPCServer.rinkeby
+    private var rpcServer = EthRPCServer()
     
     var collectDappClourse: ((_ isCollect: Bool) -> Void)?
     
@@ -144,6 +144,13 @@ extension JLEthereumTool {
     
     func getCurrentRPCServerChainID() -> Int {
         return rpcServer.chainID
+    }
+    
+    /// 设置rpcserver
+    func setRPCServer(name: String, chainID: Int, rpcStr: String) {
+        rpcServer.name = name
+        rpcServer.chainID = chainID
+        rpcServer.rpcURL = URL(string: rpcStr + ETH_DAPP_RPC_SERVER)!
     }
 }
 
@@ -346,7 +353,10 @@ extension JLEthereumTool: ScreenAuthorizationWireframeProtocol {
 extension JLEthereumTool {
     /// 查看dapp
     func lookDapp(navigationViewController: JLNavigationViewController?, name: String?, imgUrl: String?, webUrl: URL, isCollect: Bool, collectCompletion: @escaping (_ isCollect: Bool) -> Void) {
-        guard let _ = keystore.recentlyUsedWalletInfo else { return }
+        guard let _ = keystore.recentlyUsedWalletInfo else {
+            JLLoading.shared().showMBFailedTipMessage("未发现以太坊账户，请导入账户!", hideTime: 2.0)
+            return
+        }
         guard navigationViewController != nil else { return }
         collectDappClourse = collectCompletion
 //        let coordinator = EthBrowserCoordinator(keystore: keystore, navigationController: navigationViewController!, name: name, imgUrl: imgUrl, webUrl: webUrl, isCollect: isCollect)

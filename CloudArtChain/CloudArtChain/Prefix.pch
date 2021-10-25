@@ -92,6 +92,7 @@
 
 // define
 #import "JLPurchaseOrderDefines.h"
+#import "JLEthRPCServerTool.h"
 
 #if (PRINT_LOG)
 #define NSLog(fmt, ...) NSLog((@"\n%s" "->%s\n" "->%d \n" fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -109,6 +110,9 @@
 #endif
 
 #define KServerVersion @"v1"
+
+//归档用户信息
+#define JLEthRPCServerFilepath [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"EthRPCServer.data"]
 
 //快速的定义一个weakSelf
 #define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;

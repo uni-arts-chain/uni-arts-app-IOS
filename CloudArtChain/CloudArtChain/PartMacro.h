@@ -22,12 +22,14 @@
 #define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://app.uniarts.network/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://testnet.uniarts.network"
 #define CHAIN_GenesisHash                    "55940785b92be6342ba1007488a3f46fdbef213cd1b412d35236b03528079aaa"
+#define ETH_DAPP_RPC_SERVER @"8ddd215139c849559864f7aaf7097307"
 
 #elif (ENV == OL)//正式环境
 //网络接口访问地址
 #define NETINTERFACE_URL_CLOUDARTCHAIN       @"https://fantuan.uniarts.vip/"
 #define NETINTERFACE_URL_RPCSERVICE          "wss://mainnet.uniarts.vip:9443"
 #define CHAIN_GenesisHash                    "bc20e8f3a4a9340f31bcf5be6288a98e064d84f67a94e41ed9e65d10e15e0077"
+#define ETH_DAPP_RPC_SERVER @"7e2855d5896946cb985af8944713a371"
 #endif
 
 // 定义是否自动创建钱包
