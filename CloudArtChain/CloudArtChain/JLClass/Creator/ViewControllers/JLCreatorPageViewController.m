@@ -200,7 +200,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"寄售的NFT", @"拍卖的NFT"];
+        _titles = @[@"寄售的NFT"];
     }
     return _titles;
 }
@@ -225,11 +225,11 @@
             vc.artDetailData = artDetailData;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
-        artVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
-            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
-            vc.auctionsId = auctionsData.ID;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-        };
+//        artVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
+//            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
+//            vc.auctionsId = auctionsData.ID;
+//            [weakSelf.navigationController pushViewController:vc animated:YES];
+//        };
         artVC.endRefreshBlock = ^(NSInteger page) {
             if (page == 1 && [weakSelf.hoveringView.scrollView.mj_header isRefreshing]) {
                 [weakSelf.hoveringView.scrollView.mj_header endRefreshing];

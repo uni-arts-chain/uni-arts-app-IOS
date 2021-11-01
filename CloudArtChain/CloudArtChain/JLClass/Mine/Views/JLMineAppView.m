@@ -24,9 +24,7 @@
                            @"icon_mine_app_work_upload",
                            @"icon_mine_app_order_buy",
                            @"icon_mine_app_order_sell",
-                           @"icon_mine_app_auction",
                            @"icon_mine_app_collect",
-                           @"icon_mine_app_exchange",
                            @"icon_mine_app_message",
                            @"icon_mine_app_cash_account"];
     }
@@ -39,9 +37,7 @@
                            @"上传作品",
                            @"买入订单",
                            @"卖出订单",
-                           @"拍卖纪录",
                            @"作品收藏",
-                           @"兑换NFT",
                            @"消息",
                            @"现金账户"];
     }

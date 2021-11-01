@@ -56,11 +56,11 @@ NSString *const JLSearchHistory = @"SearchHistory";
 - (void)addSearchResultVCs {
     JLSearchResultViewController *sellingVC = [[JLSearchResultViewController alloc] init];
     sellingVC.type = JLSearchResultViewControllerTypeSelling;
-    sellingVC.topInset = 35;
-    JLSearchResultViewController *auctionVC = [[JLSearchResultViewController alloc] init];
-    auctionVC.type = JLSearchResultViewControllerTypeAuctioning;
-    auctionVC.topInset = 35;
-    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC]];
+//    sellingVC.topInset = 35;
+//    JLSearchResultViewController *auctionVC = [[JLSearchResultViewController alloc] init];
+//    auctionVC.type = JLSearchResultViewControllerTypeAuctioning;
+//    auctionVC.topInset = 35;
+    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC]];
     _segmentVC.delegate = self;
     if (self.type == JLSearchViewControllerTypeAuctioning) {
         [_segmentVC moveToViewControllerAtIndex:self.type];
@@ -68,7 +68,7 @@ NSString *const JLSearchHistory = @"SearchHistory";
     [self addChildViewController:_segmentVC];
     [self.view addSubview:_segmentVC.view];
     
-    [self.view addSubview:self.resultHeaerView];
+//    [self.view addSubview:self.resultHeaerView];
 }
 
 - (void)cacheSearchContent:(NSString *)content {
@@ -79,13 +79,17 @@ NSString *const JLSearchHistory = @"SearchHistory";
         [self.searchHistoryArray removeObject:content];
     }
     [self.searchHistoryArray insertObject:content atIndex:0];
-    YYCache *cache = [[YYCache alloc] initWithName:JLSearchHistoryName];
-    [cache setObject:self.searchHistoryArray forKey:JLSearchHistory];
+    [self setCacheUserInfo];
 }
 
 - (NSArray *)getCacheUserInfo {
     YYCache *cache = [[YYCache alloc] initWithName:JLSearchHistoryName];
     return (NSArray *)[cache objectForKey:JLSearchHistory];
+}
+
+- (void)setCacheUserInfo {
+    YYCache *cache = [[YYCache alloc] initWithName:JLSearchHistoryName];
+    [cache setObject:self.searchHistoryArray forKey:JLSearchHistory];
 }
 
 - (NSMutableArray *)searchHistoryArray {
@@ -96,8 +100,15 @@ NSString *const JLSearchHistory = @"SearchHistory";
 }
 
 - (void)deleteHistory:(NSIndexPath *)indexPath {
-    [self.searchHistoryArray removeObjectAtIndex:indexPath.row];
-    [self.historyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    if (indexPath.row < self.searchHistoryArray.count) {
+        [self.searchHistoryArray removeObjectAtIndex:indexPath.row];
+        [self setCacheUserInfo];
+    }
+    JLSearchHIstoryTableViewCell *cell = [self.historyTableView cellForRowAtIndexPath:indexPath];
+     if (cell) {
+         [self.historyTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+     }
+    [self.historyTableView reloadData];
 }
 
 #pragma mark JLSearchBarViewDelegate

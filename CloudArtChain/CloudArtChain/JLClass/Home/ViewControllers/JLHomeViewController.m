@@ -655,7 +655,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"热门原创", @"精品拍卖"];
+        _titles = @[@"热门原创"];
     }
     return _titles;
 }
@@ -679,11 +679,11 @@
             vc.artDetailData = artDetailData;
             [weakSelf.navigationController pushViewController:vc animated:YES];
         };
-        populerVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
-            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
-            vc.auctionsId = auctionsData.ID;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-        };
+//        populerVC.lookAuctionDetailBlock = ^(Model_auctions_Data * _Nonnull auctionsData) {
+//            JLNewAuctionArtDetailViewController *vc = [[JLNewAuctionArtDetailViewController alloc] init];
+//            vc.auctionsId = auctionsData.ID;
+//            [weakSelf.navigationController pushViewController:vc animated:YES];
+//        };
         [populerVCArray addObject:populerVC];
     }];
     return populerVCArray.copy;

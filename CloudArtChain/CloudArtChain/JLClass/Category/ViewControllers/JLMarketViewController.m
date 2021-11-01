@@ -32,19 +32,19 @@
     
     JLCategoryViewController *sellingVC = [[JLCategoryViewController alloc] init];
     sellingVC.type = JLCategoryViewControllerTypeSelling;
-    sellingVC.topInset = 48;
-    JLCategoryViewController *auctionVC = [[JLCategoryViewController alloc] init];
-    auctionVC.type = JLCategoryViewControllerTypeAuctioning;
-    auctionVC.topInset = 48;
-    JLBoxViewController *boxVC = [[JLBoxViewController alloc] init];
-    boxVC.topInset = self.headerView.frameHeight;
+//    sellingVC.topInset = 48;
+//    JLCategoryViewController *auctionVC = [[JLCategoryViewController alloc] init];
+//    auctionVC.type = JLCategoryViewControllerTypeAuctioning;
+//    auctionVC.topInset = 48;
+//    JLBoxViewController *boxVC = [[JLBoxViewController alloc] init];
+//    boxVC.topInset = self.headerView.frameHeight;
     
-    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC, auctionVC, boxVC]];
+    _segmentVC = [[JLSegmentViewController alloc] initWithFrame:self.view.bounds viewControllers:@[sellingVC]];
     _segmentVC.delegate = self;
     [self addChildViewController:_segmentVC];
     [self.view addSubview:_segmentVC.view];
     
-    [self.view addSubview:self.headerView];
+//    [self.view addSubview:self.headerView];
 }
 
 - (void)rightItemClick {

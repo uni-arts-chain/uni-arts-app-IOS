@@ -48,7 +48,7 @@
     // 请求用户信息
     [AppSingleton loginInfonWithBlock:^{
 //        [weakSelf loadCashAccount];
-        [weakSelf loadAuctionsWinsDatas];
+//        [weakSelf loadAuctionsWinsDatas];
         [weakSelf.mineNaviView refreshInfo];
     }];
 }
@@ -191,45 +191,45 @@
                     [weakSelf.navigationController pushViewController:sellOrderVC animated:YES];
                 }
                     break;
+//                case 4:
+//                {
+//                    // 拍卖纪录
+//                    JLAuctionHistoryViewController *vc = [[JLAuctionHistoryViewController alloc] init];
+//                    if (weakSelf.isWinAuctions) {
+//                        vc.defaultType = JLAuctionHistoryTypeWins;
+//                    }
+//                    [weakSelf.navigationController pushViewController:vc animated:YES];
+//                }
+//                    break;
                 case 4:
-                {
-                    // 拍卖纪录
-                    JLAuctionHistoryViewController *vc = [[JLAuctionHistoryViewController alloc] init];
-                    if (weakSelf.isWinAuctions) {
-                        vc.defaultType = JLAuctionHistoryTypeWins;
-                    }
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
-                }
-                    break;
-                case 5:
                 {
                     // 作品收藏
                     JLCollectViewController *collectVC = [[JLCollectViewController alloc] init];
                     [weakSelf.navigationController pushViewController:collectVC animated:YES];
                 }
                     break;
-                case 6:
-                {
-                    // 兑换NFT 判断用户是否绑定手机号码
-                    if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
-                        UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"请先绑定手机号" cancel:@"取消" cancelHandler:^{
-                            
-                        } confirm:@"去绑定" confirmHandler:^{
-                            JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
-                            bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
-                                [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
-                            };
-                            [weakSelf.navigationController pushViewController:bindPhoneVC animated:YES];
-                        }];
-                        [weakSelf presentViewController:alert animated:YES completion:nil];
-                    } else {
-                        // 兑换NFT
-                        JLExchangeNFTViewController *exchangeNFTVC = [[JLExchangeNFTViewController alloc] init];
-                        [weakSelf.navigationController pushViewController:exchangeNFTVC animated:YES];
-                    }
-                }
-                    break;
-                case 7:
+//                case 6:
+//                {
+//                    // 兑换NFT 判断用户是否绑定手机号码
+//                    if ([NSString stringIsEmpty:[AppSingleton sharedAppSingleton].userBody.phone_number]) {
+//                        UIAlertController *alert = [UIAlertController alertShowWithTitle:@"提示" message:@"请先绑定手机号" cancel:@"取消" cancelHandler:^{
+//
+//                        } confirm:@"去绑定" confirmHandler:^{
+//                            JLBindPhoneWithoutPwdViewController *bindPhoneVC = [[JLBindPhoneWithoutPwdViewController alloc] init];
+//                            bindPhoneVC.bindPhoneSuccessBlock = ^(NSString * _Nonnull bindPhone) {
+//                                [AppSingleton sharedAppSingleton].userBody.phone_number = bindPhone;
+//                            };
+//                            [weakSelf.navigationController pushViewController:bindPhoneVC animated:YES];
+//                        }];
+//                        [weakSelf presentViewController:alert animated:YES completion:nil];
+//                    } else {
+//                        // 兑换NFT
+//                        JLExchangeNFTViewController *exchangeNFTVC = [[JLExchangeNFTViewController alloc] init];
+//                        [weakSelf.navigationController pushViewController:exchangeNFTVC animated:YES];
+//                    }
+//                }
+//                    break;
+                case 5:
                 {
                     // 消息
                     JLMessageViewController *messageVC = [[JLMessageViewController alloc] init];
@@ -237,7 +237,7 @@
                     [weakSelf.navigationController pushViewController:messageVC animated:YES];
                 }
                     break;
-                case 8:
+                case 6:
                 {
                     // 现金账户
                     JLCashAccountViewController *vc = [[JLCashAccountViewController alloc] init];

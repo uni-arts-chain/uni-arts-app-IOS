@@ -30,7 +30,8 @@
     JLNavigationViewController *navDappVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLDappViewController alloc] init]];
     JLNavigationViewController *navMineVC = [[JLNavigationViewController alloc] initWithRootViewController:[[JLMineViewController alloc] init]];
     
-    self.viewControllers = @[navHomeVC, navCategoryVC, naviCreatorVC, navDappVC, navMineVC];
+//    self.viewControllers = @[navHomeVC, navCategoryVC, naviCreatorVC, navDappVC, navMineVC];
+    self.viewControllers = @[navHomeVC, navCategoryVC, navMineVC];
     
     // 使tabbar显示出来
     self.tabBar.translucent = NO;
@@ -41,21 +42,30 @@
     NSDictionary *normalDic = @{NSForegroundColorAttributeName: JL_color_gray_606060, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
     NSDictionary *selectedDic = @{NSForegroundColorAttributeName: JL_color_gray_101010, NSFontAttributeName: kFontPingFangSCRegular(11.0f)};
     
+//    NSArray *titleArray = @[@"首页",
+//                            @"市场",
+//                            @"创作者",
+//                            @"发现",
+//                            @"我的"];
     NSArray *titleArray = @[@"首页",
                             @"市场",
-                            @"创作者",
-                            @"发现",
                             @"我的"];
+//    NSArray *normalImageNameArray = @[@"icon_tab_nomal_home",
+//                                      @"icon_tab_normal_market",
+//                                      @"icon_tab_nomal_creator",
+//                                      @"icon_tab_normal_find",
+//                                      @"icon_tab_nomal_mine"];
     NSArray *normalImageNameArray = @[@"icon_tab_nomal_home",
                                       @"icon_tab_normal_market",
-                                      @"icon_tab_nomal_creator",
-                                      @"icon_tab_normal_find",
                                       @"icon_tab_nomal_mine"];
     
+//    NSArray *selectedImageNameArray = @[@"icon_tab_selected_home",
+//                                        @"icon_tab_selected_market",
+//                                        @"icon_tab_selected_creator",
+//                                        @"icon_tab_selected_find",
+//                                        @"icon_tab_selected_mine"];
     NSArray *selectedImageNameArray = @[@"icon_tab_selected_home",
                                         @"icon_tab_selected_market",
-                                        @"icon_tab_selected_creator",
-                                        @"icon_tab_selected_find",
                                         @"icon_tab_selected_mine"];
     // 设置  tabBarItem.title  tabBarItem.image  tabBarItem.selectedImage
     for (int i = 0; i < titleArray.count; i++)  {

@@ -86,6 +86,7 @@
 		5E76DFF026735AB600727C8C /* NSData+JLExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFEE26735AB600727C8C /* NSData+JLExtension.m */; };
 		5E76DFF3267365E500727C8C /* JLArtDetailVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */; };
 		5E77735D26DCC30F00B692B7 /* LaunchScreen.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */; };
+		5E78F4C3272FC037000D308D /* JLViewControllerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E78F4C1272FC036000D308D /* JLViewControllerTool.m */; };
 		5E8043E1272643F700946197 /* JLDappChooseChainServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E0272643F700946197 /* JLDappChooseChainServerViewController.m */; };
 		5E8043E42726444700946197 /* JLDappNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E32726444700946197 /* JLDappNavigationBar.m */; };
 		5E8043EA272682C000946197 /* JLEthRPCServerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8043E9272682C000946197 /* JLEthRPCServerTool.m */; };
@@ -1240,7 +1241,6 @@
 		B396561D24F38DF4007A8EC2 /* UIView+JLCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B396560B24F38DF4007A8EC2 /* UIView+JLCorner.m */; };
 		B396562724F38EE3007A8EC2 /* JLTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B396562024F38EE3007A8EC2 /* JLTool.m */; };
 		B396562824F38EE3007A8EC2 /* JLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B396562124F38EE3007A8EC2 /* JLUtils.m */; };
-		B396562924F38EE3007A8EC2 /* JLViewControllerTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B396562424F38EE3007A8EC2 /* JLViewControllerTool.m */; };
 		B396562A24F38EE3007A8EC2 /* JLColorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B396562624F38EE3007A8EC2 /* JLColorManager.m */; };
 		B396562D24F38F5F007A8EC2 /* JLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B396562C24F38F5F007A8EC2 /* JLAlert.m */; };
 		B396564A24F391AE007A8EC2 /* JLHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B396564924F391AE007A8EC2 /* JLHomeViewController.m */; };
@@ -1546,6 +1546,8 @@
 		5E76DFF1267365E400727C8C /* JLArtDetailVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLArtDetailVideoView.m; sourceTree = "<group>"; };
 		5E76DFF2267365E500727C8C /* JLArtDetailVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLArtDetailVideoView.h; sourceTree = "<group>"; };
 		5E77735C26DCC30F00B692B7 /* LaunchScreen.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = LaunchScreen.gif; sourceTree = "<group>"; };
+		5E78F4C1272FC036000D308D /* JLViewControllerTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLViewControllerTool.m; sourceTree = "<group>"; };
+		5E78F4C2272FC037000D308D /* JLViewControllerTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLViewControllerTool.h; sourceTree = "<group>"; };
 		5E8043DF272643F700946197 /* JLDappChooseChainServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappChooseChainServerViewController.h; sourceTree = "<group>"; };
 		5E8043E0272643F700946197 /* JLDappChooseChainServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLDappChooseChainServerViewController.m; sourceTree = "<group>"; };
 		5E8043E22726444700946197 /* JLDappNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLDappNavigationBar.h; sourceTree = "<group>"; };
@@ -3134,12 +3136,10 @@
 		B396560924F38DF4007A8EC2 /* NSBundle+Language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Language.h"; sourceTree = "<group>"; };
 		B396560A24F38DF4007A8EC2 /* UIView+JLShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JLShadow.m"; sourceTree = "<group>"; };
 		B396560B24F38DF4007A8EC2 /* UIView+JLCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JLCorner.m"; sourceTree = "<group>"; };
-		B396561F24F38EE3007A8EC2 /* JLViewControllerTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLViewControllerTool.h; sourceTree = "<group>"; };
 		B396562024F38EE3007A8EC2 /* JLTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLTool.m; sourceTree = "<group>"; };
 		B396562124F38EE3007A8EC2 /* JLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLUtils.m; sourceTree = "<group>"; };
 		B396562224F38EE3007A8EC2 /* JLColorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLColorManager.h; sourceTree = "<group>"; };
 		B396562324F38EE3007A8EC2 /* JLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLTool.h; sourceTree = "<group>"; };
-		B396562424F38EE3007A8EC2 /* JLViewControllerTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLViewControllerTool.m; sourceTree = "<group>"; };
 		B396562524F38EE3007A8EC2 /* JLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLUtils.h; sourceTree = "<group>"; };
 		B396562624F38EE3007A8EC2 /* JLColorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLColorManager.m; sourceTree = "<group>"; };
 		B396562B24F38F5F007A8EC2 /* JLAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLAlert.h; sourceTree = "<group>"; };
@@ -7228,12 +7228,12 @@
 				B396562024F38EE3007A8EC2 /* JLTool.m */,
 				B396562524F38EE3007A8EC2 /* JLUtils.h */,
 				B396562124F38EE3007A8EC2 /* JLUtils.m */,
-				B396561F24F38EE3007A8EC2 /* JLViewControllerTool.h */,
-				B396562424F38EE3007A8EC2 /* JLViewControllerTool.m */,
 				B36E836924F89EF900A77588 /* JLUIFactory.h */,
 				B36E836A24F89EF900A77588 /* JLUIFactory.m */,
 				5E76DFEB267342DE00727C8C /* JLViewAniamtionTool.h */,
 				5E76DFEC267342DE00727C8C /* JLViewAniamtionTool.m */,
+				5E78F4C2272FC037000D308D /* JLViewControllerTool.h */,
+				5E78F4C1272FC036000D308D /* JLViewControllerTool.m */,
 				5E8043E8272682C000946197 /* JLEthRPCServerTool.h */,
 				5E8043E9272682C000946197 /* JLEthRPCServerTool.m */,
 			);
@@ -8666,6 +8666,7 @@
 				B312258125B6B60A00562ECA /* SharingPresentable.swift in Sources */,
 				B312266725B6B60A00562ECA /* BalanceContext.swift in Sources */,
 				B31224DD25B6B60900562ECA /* CryptoType+Extrinsic.swift in Sources */,
+				5E78F4C3272FC037000D308D /* JLViewControllerTool.m in Sources */,
 				5EFA616F26F3372E00899224 /* EthBrowserNavigation.swift in Sources */,
 				5E727FEF27153EEB004AA0BF /* EthArrayResponse.swift in Sources */,
 				B31225EE25B6B60A00562ECA /* AboutPresenter.swift in Sources */,
@@ -8874,7 +8875,6 @@
 				5C24296A2504A7D700C74B6A /* JLMessageTableViewCell.m in Sources */,
 				B312258425B6B60A00562ECA /* EmailPresentable.swift in Sources */,
 				5EE52AA2269EE35400EFF8C9 /* UIButton+LXMImagePosition.m in Sources */,
-				B396562924F38EE3007A8EC2 /* JLViewControllerTool.m in Sources */,
 				B391CB8C262D2AD700FF48B0 /* CubismCdiJson.cpp in Sources */,
 				B38C8317261D4BED006B5324 /* JLLaunchAuctionViewController.m in Sources */,
 				B3B88930261843B400A2C5D7 /* BidHistory.swift in Sources */,
