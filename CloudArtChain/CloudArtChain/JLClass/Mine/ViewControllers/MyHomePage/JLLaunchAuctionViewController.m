@@ -245,7 +245,7 @@
                     }
                 }];
             } else {
-                UIAlertController *alertController = [UIAlertController alertShowWithTitle:@"提示" message:@"当前积分为0，无法进行操作\r\n（购买NFT卡片可获得积分）" confirm:@"确定"];
+                UIAlertController *alertController = [UIAlertController alertShowWithTitle:@"提示" message:@"当前积分为0，无法进行操作\r\n（购买藏品卡片可获得积分）" confirm:@"确定"];
                 [weakSelf presentViewController:alertController animated:YES completion:nil];
             }
         }];

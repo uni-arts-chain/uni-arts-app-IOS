@@ -36,7 +36,7 @@
         make.left.bottom.right.equalTo(self);
     }];
     
-    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"区块链信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"数字藏品信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     [self.chainView addSubview:chainInfoTitleLabel];
     [self.chainView addSubview:self.royaltyLabel];
     [self.chainView addSubview:self.royaltyDateLabel];
@@ -114,7 +114,7 @@
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"藏品地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
@@ -171,7 +171,7 @@
         NSDate *royaltyDate = [NSDate dateWithTimeIntervalSince1970:artDetailData.royalty_expired_at.doubleValue];
         self.royaltyDateLabel.text = [NSString stringWithFormat:@"版税有效期：%@", [royaltyDate dateWithCustomFormat:@"yyyy-MM-dd"]];
     }
-    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
+    self.addressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     self.publishNumLabel.text = [NSString stringWithFormat:@"发行份数：%ld份", artDetailData.total_amount];
     self.transactionTimesLabel.text = [NSString stringWithFormat:@"交易次数：%@次", artDetailData.trades_count];
 }

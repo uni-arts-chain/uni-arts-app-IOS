@@ -176,7 +176,7 @@
 
 - (UILabel *)cerAddressLabel {
     if (!_cerAddressLabel) {
-        _cerAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
+        _cerAddressLabel = [JLUIFactory labelInitText:@"藏品地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentLeft];
         _cerAddressLabel.numberOfLines = 1;
     }
     return _cerAddressLabel;
@@ -238,7 +238,7 @@
     
     self.productNameLabel.text = soldData.art.name;
     
-    self.cerAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
+    self.cerAddressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:soldData.art.item_hash] ? @"" : soldData.art.item_hash];
 
     if (soldData.art.collection_mode == 3) {
         // 可拆分作品，显示购买数量

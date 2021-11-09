@@ -200,7 +200,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"寄售的NFT"];
+        _titles = @[@"寄售的藏品"];
     }
     return _titles;
 }

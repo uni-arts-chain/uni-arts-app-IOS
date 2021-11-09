@@ -132,14 +132,14 @@
         [self.contentView addSubview:self.videoView];
         [self.videoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.contentView);
-            make.height.mas_equalTo(@250.0f);
+            make.height.mas_equalTo(@(KValueAutoSizeScale(250.0f)));
         }];
     }else {
         // 主图
         [self.contentView addSubview:self.pageFlowView];
         [self.pageFlowView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.contentView);
-            make.height.mas_equalTo(@250.0f);
+            make.height.mas_equalTo(@(KValueAutoSizeScale(250.0f)));
         }];
         // 页码
         [self.contentView addSubview:self.pageLabel];
@@ -193,19 +193,19 @@
         make.height.mas_equalTo(@210.0f);
     }];
     // 创作者简介
-    [self.contentView addSubview:self.artAuthorDetailView];
-    [self.artAuthorDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artChainTradeView.mas_bottom).offset(10.0f);
-        make.left.right.equalTo(self.artChainTradeView);
-        make.height.mas_equalTo(@204.0f);
-    }];
+//    [self.contentView addSubview:self.artAuthorDetailView];
+//    [self.artAuthorDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.artChainTradeView.mas_bottom).offset(10.0f);
+//        make.left.right.equalTo(self.artChainTradeView);
+//        make.height.mas_equalTo(@204.0f);
+//    }];
     // 作品信息
 //    [self.scrollView addSubview:self.artInfoView];
     // 艺术评析
     [self.contentView addSubview:self.artEvaluateView];
     [self.artEvaluateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artAuthorDetailView.mas_bottom).offset(10.0f);
-        make.left.right.equalTo(self.artAuthorDetailView);
+        make.top.equalTo(self.artChainTradeView.mas_bottom).offset(10.0f);
+        make.left.right.equalTo(self.artChainTradeView);
         make.bottom.equalTo(self.contentView);
     }];
     // 艺术品细节

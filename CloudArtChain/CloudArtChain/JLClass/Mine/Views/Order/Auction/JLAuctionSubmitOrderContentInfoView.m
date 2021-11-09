@@ -195,7 +195,7 @@
     }
     _authorLabel.text = [NSString stringIsEmpty:_auctionsData.art.author.display_name] ? @"" : _auctionsData.art.author.display_name;
     _nameLabel.text = _auctionsData.art.name;
-    _nftAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
+    _nftAddressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
     _numLabel.text = _auctionsData.amount;
     _priceLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.win_price];
     _depositLabel.text = [NSString stringWithFormat:@"￥%@", _auctionsData.deposit_amount];

@@ -278,7 +278,7 @@
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
                 if (response.body.count == 0) {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上藏品数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
                 } else {
                     JLBoxTenCardView *boxOneCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
                     boxOneCardView.cardList = response.body;
@@ -341,7 +341,7 @@
             [[JLLoading sharedLoading] hideLoading];
             if (netIsWork) {
                 if (response.body.count == 0) {
-                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
+                    [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上藏品数据传输失败，已付款将原路退回，请注意查收" hideTime:KToastDismissDelayTimeInterval];
                 } else {
                     JLBoxTenCardView *boxTenCardView = [[JLBoxTenCardView alloc] initWithFrame:CGRectMake(0, 0, 295.0f, 490.0f)];
                     boxTenCardView.cardList = response.body;
@@ -402,7 +402,7 @@
                 };
                 [self.navigationController pushViewController:boxOpenPayVC animated:YES];
             } else {
-                [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上NFT数据正在传输，请稍后再试！" hideTime:KToastDismissDelayTimeInterval];
+                [[JLLoading sharedLoading] showMBFailedTipMessage:@"链上藏品数据正在传输，请稍后再试！" hideTime:KToastDismissDelayTimeInterval];
             }
         }
     }];

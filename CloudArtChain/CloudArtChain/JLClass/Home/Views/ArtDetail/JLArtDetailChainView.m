@@ -23,7 +23,7 @@
 }
 
 - (void)createSubViews {
-    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"区块链信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"数字藏品信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     [self addSubview:chainInfoTitleLabel];
     [self addSubview:self.addressLabel];
     

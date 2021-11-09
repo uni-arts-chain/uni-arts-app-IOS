@@ -169,7 +169,7 @@
 
 - (UILabel *)pointLabel {
     if (!_pointLabel) {
-        _pointLabel = [JLUIFactory labelInitText:@"区块链积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
+        _pointLabel = [JLUIFactory labelInitText:@"数字藏品信息积分：0" font:kFontPingFangSCMedium(15.0f) textColor:JL_color_white_ffffff textAlignment:NSTextAlignmentCenter];
     }
     return _pointLabel;
 }
@@ -194,7 +194,7 @@
 }
 
 - (void)setCurrentAccountBalance:(NSString *)amount {
-    self.pointLabel.text = [NSString stringWithFormat:@"区块链积分：%@", amount];
+    self.pointLabel.text = [NSString stringWithFormat:@"数字藏品信息积分：%@", amount];
 }
 
 - (void)setCashAccountBalance:(NSString *)amount {

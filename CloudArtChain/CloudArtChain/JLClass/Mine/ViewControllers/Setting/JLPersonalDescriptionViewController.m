@@ -52,7 +52,7 @@
 
 - (JLDescriptionContentView *)descContentView {
     if (!_descContentView) {
-        _descContentView = [[JLDescriptionContentView alloc] initWithMax:100 placeholder:@"描述一下自己在区块链行业的成就吧~" content:[AppSingleton sharedAppSingleton].userBody.desc];
+        _descContentView = [[JLDescriptionContentView alloc] initWithMax:100 placeholder:@"描述一下自己在数字藏品信息行业的成就吧~" content:[AppSingleton sharedAppSingleton].userBody.desc];
     }
     return _descContentView;
 }

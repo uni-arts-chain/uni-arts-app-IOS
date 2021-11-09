@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIView *auctioningView;
+@property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIView *moreView;
 @property (nonatomic, strong) UIView *live2DView;
 @property (nonatomic, strong) UIView *videoView;
@@ -37,6 +38,7 @@
     [self addSubview:self.live2DView];
     [self addSubview:self.videoView];
     [self addSubview:self.timeView];
+    [self addSubview:self.maskView];
     
     [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self);
@@ -74,6 +76,9 @@
         make.top.equalTo(self).offset(10.0f);
         make.width.mas_equalTo(43.0f);
         make.height.mas_equalTo(15.0f);
+    }];
+    [self.maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.imageView);
     }];
 }
 
@@ -170,6 +175,21 @@
     return _videoView;
 }
 
+- (UIView *)maskView {
+    if (!_maskView) {
+        _maskView = [[UIView alloc] init];
+        _maskView.hidden = YES;
+        _maskView.backgroundColor = [JL_color_gray_101010 colorWithAlphaComponent:0.5f];
+        ViewBorderRadius(_maskView, 5.0f, 0.0f, JL_color_clear);
+        
+        [_maskView addSubview:self.moreView];
+        [self.moreView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_maskView);
+        }];
+    }
+    return _maskView;
+}
+
 - (UIView *)moreView {
     if (!_moreView) {
         _moreView = [[UIView alloc] init];
@@ -206,21 +226,9 @@
 - (void)setThemeArtData:(Model_art_Detail_Data *)themeArtData totalCount:(NSInteger)totalCount index:(NSInteger)index {
     WS(weakSelf)
     if (index == totalCount - 1) {
-        [self.imageView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [obj removeFromSuperview];
-        }];
-        UIView *backView = [[UIView alloc] init];
-        backView.backgroundColor = [JL_color_gray_101010 colorWithAlphaComponent:0.5f];
-        [self.imageView addSubview:backView];
-        
-        [backView addSubview:self.moreView];
-        
-        [backView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.imageView);
-        }];
-        [self.moreView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(backView);
-        }];
+        self.nameLabel.text = @"";
+        self.priceLabel.text = @"";
+        self.maskView.hidden = NO;
         if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
             [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]] options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                 
@@ -231,6 +239,7 @@
         self.videoView.hidden = YES;
         self.live2DView.hidden = YES;
     } else {
+        self.maskView.hidden = YES;
         if (![NSString stringIsEmpty:themeArtData.img_main_file1[@"url"]]) {
             [self.imageView sd_setImageWithURL:[NSURL URLWithString:themeArtData.img_main_file1[@"url"]]];
         }

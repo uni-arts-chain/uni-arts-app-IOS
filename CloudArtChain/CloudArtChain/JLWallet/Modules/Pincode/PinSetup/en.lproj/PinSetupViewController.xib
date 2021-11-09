@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +15,7 @@
                 <outlet property="pinView" destination="im2-a2-44W" id="Xrg-Qo-mMN"/>
                 <outlet property="pinViewCenterConstraint" destination="87G-L1-reO" id="O9z-js-sjf"/>
                 <outlet property="pinViewTopConstraint" destination="jnS-B2-0WH" id="Z1i-eF-vnG"/>
+                <outlet property="tipLabel" destination="h4R-Mn-FG7" id="yp8-dV-aJg"/>
                 <outlet property="titleLabel" destination="dqY-VK-ps1" id="psP-B2-oVb"/>
                 <outlet property="topLabel" destination="h4R-Mn-FG7" id="cL6-qa-3pa"/>
                 <outlet property="view" destination="iN0-l3-epB" id="CsI-ai-aIE"/>
@@ -41,20 +42,20 @@
                 </navigationBar>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-Mn-FG7">
                     <rect key="frame" x="20" y="73.5" width="335" height="57.5"/>
-                    <string key="text">友情提醒：加码射线所有收藏品权益均绑定用户区块链地址和私钥，加码射线官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
+                    <string key="text">友情提醒：加码射线所有收藏品权益均绑定用户地址和私钥，加码射线官方无权触碰用户藏品，也永远不会询问用户密码和私钥。
 </string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.69803921568627447" green="0.37254901960784315" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输入密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqY-VK-ps1">
-                    <rect key="frame" x="159" y="132.5" width="57.5" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请设置保护密码，用于保护私钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqY-VK-ps1">
+                    <rect key="frame" x="87.5" y="152.5" width="200" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" placeholderIntrinsicWidth="260" placeholderIntrinsicHeight="424.5" translatesAutoresizingMaskIntoConstraints="NO" id="im2-a2-44W" customClass="PinView" customModule="SoraUI">
-                    <rect key="frame" x="57.5" y="169.5" width="260" height="424.5"/>
+                    <rect key="frame" x="57.5" y="189.5" width="260" height="424.5"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="_mode">
@@ -134,7 +135,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="h4R-Mn-FG7" firstAttribute="centerY" secondItem="SYy-2D-F5q" secondAttribute="centerY" constant="60" id="1oj-18-6e8"/>
-                <constraint firstItem="im2-a2-44W" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="48" id="87G-L1-reO"/>
+                <constraint firstItem="im2-a2-44W" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="68" id="87G-L1-reO"/>
                 <constraint firstItem="SYy-2D-F5q" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="Abv-ho-QLD"/>
                 <constraint firstItem="dqY-VK-ps1" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Hpk-l0-S4V"/>
                 <constraint firstItem="h4R-Mn-FG7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="Iab-xk-gAJ"/>

@@ -179,7 +179,7 @@ static JLArtDetailShowCertificateView *showCertificateView;
     }];
     
     _addressNameLabel = [[UILabel alloc] init];
-    _addressNameLabel.text = @"NFT地址：";
+    _addressNameLabel.text = @"藏品地址：";
     _addressNameLabel.textColor = JL_color_black_010034;
     _addressNameLabel.font = kFontPingFangSCRegular(11);
     _addressNameLabel.numberOfLines = 0;

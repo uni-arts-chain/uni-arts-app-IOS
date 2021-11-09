@@ -123,7 +123,7 @@
 
 - (UILabel *)noticeLabel {
     if (!_noticeLabel) {
-        _noticeLabel = [JLUIFactory labelInitText:@"获得的NFT作品，可在“我的主页“查看" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _noticeLabel = [JLUIFactory labelInitText:@"获得的藏品，可在“我的主页“查看" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
     }
     return _noticeLabel;
 }

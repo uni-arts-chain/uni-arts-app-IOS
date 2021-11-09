@@ -154,7 +154,7 @@
 
 - (UILabel *)certifyAddressLabel {
     if (!_certifyAddressLabel) {
-        _certifyAddressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _certifyAddressLabel = [JLUIFactory labelInitText:@"藏品地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _certifyAddressLabel.numberOfLines = 1;
     }
     return _certifyAddressLabel;
@@ -201,7 +201,7 @@
     }
     self.authorNameLabel.text = [NSString stringIsEmpty:orderData.art.author.display_name] ? @"" : orderData.art.author.display_name;
     self.productNameLabel.text = orderData.art.name;
-    self.certifyAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:orderData.art.item_hash] ? @"" : orderData.art.item_hash];
+    self.certifyAddressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:orderData.art.item_hash] ? @"" : orderData.art.item_hash];
     self.numLabel.text = [NSString stringWithFormat:@"%@份", [NSDecimalNumber decimalNumberWithString:orderData.amount].stringValue];
     
     if (orderDetailType == JLOrderDetailTypeSell) {

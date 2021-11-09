@@ -182,7 +182,7 @@
 
 - (NSArray *)titleArray {
     if (!_titleArray) {
-        _titleArray = @[@"TOKENS",@"NFTS"];
+        _titleArray = @[@"TOKENS",@"藏品"];
     }
     return _titleArray;
 }

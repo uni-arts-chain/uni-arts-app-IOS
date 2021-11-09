@@ -14,7 +14,7 @@
 //定义开发环境
 #define KF 0 //开发环境
 #define OL 1  //线上环境
-#define ENV KF  //选取环境
+#define ENV OL  //选取环境
 
 // 定义环境地址
 #if (ENV == KF)//开发环境
@@ -57,6 +57,8 @@
 
 //宽系数
 #define KwidthScale(length) ([UIScreen mainScreen].bounds.size.width / 375.0f * length)
+// 根据设计标准 750px*1334px 缩放系数
+#define KValueAutoSizeScale(value) (value * [UIScreen mainScreen].bounds.size.width / 375.0f)
 
 //关键窗口
 #define KMainWindow [UIApplication sharedApplication].keyWindow

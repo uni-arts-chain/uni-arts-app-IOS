@@ -64,21 +64,21 @@
 
 - (UILabel *)productLabel {
     if (!_productLabel) {
-        _productLabel = [JLUIFactory labelInitText:@"电影/游戏/艺术领域" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
+        _productLabel = [JLUIFactory labelInitText:@"IP / 画师 / cos / 潮玩 /" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentCenter];
     }
     return _productLabel;
 }
 
 - (UILabel *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [JLUIFactory labelInitText:@"基于NFT技术的数字化宣发和衍生品交易服务" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_030303 textAlignment:NSTextAlignmentCenter];
+        _infoLabel = [JLUIFactory labelInitText:@"ACG二次元艺术创作衍生品交流平台" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_030303 textAlignment:NSTextAlignmentCenter];
     }
     return _infoLabel;
 }
 
 - (UILabel *)registerLabel {
     if (!_registerLabel) {
-        _registerLabel = [JLUIFactory labelInitText:@"Copyright©2020-2021\r\n加码射线APP版权所有\r\nUniArts提供技术支持" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentCenter];
+        _registerLabel = [JLUIFactory labelInitText:@"Copyright©2020-2021\r\n加码射线APP版权所有\r\n上海黑皇文化创意有限公司" font:kFontPingFangSCRegular(12.0f) textColor:JL_color_gray_999999 textAlignment:NSTextAlignmentCenter];
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:_registerLabel.text];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = 8.0f;

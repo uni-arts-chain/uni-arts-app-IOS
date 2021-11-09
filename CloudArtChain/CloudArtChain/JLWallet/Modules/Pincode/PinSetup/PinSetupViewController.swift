@@ -28,6 +28,7 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
 
     weak var navigationControlling: NavigationControlling?
 
+    @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var pinView: PinView!
 
@@ -101,11 +102,12 @@ class PinSetupViewController: UIViewController, AdaptiveDesignable, NavigationDe
     }
 
     private func updateTitleLabelState() {
+        tipLabel.text = "友情提醒：加码射线所有收藏品权益均\r\n绑定用户地址和私钥，加码射线官方无\r\n权触碰用户藏品，也永远不会询问用户\r\n密码和私钥。"
         if pinView.mode == .create {
             if  pinView.creationState == .normal {
                 if self.title == "创建密码" {
                     topLabel.isHidden = false
-                    titleLabel.text = "请设置加码射线密码，用于保护私钥"
+                    titleLabel.text = "请设置保护密码，用于保护私钥"
                 } else {
                     topLabel.isHidden = true
                     titleLabel.text = "设置密码"

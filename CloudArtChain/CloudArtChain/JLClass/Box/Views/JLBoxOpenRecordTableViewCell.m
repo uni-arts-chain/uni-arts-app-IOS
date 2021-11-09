@@ -105,7 +105,7 @@
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"藏品地址：" font:kFontPingFangSCRegular(13.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
         _addressLabel.numberOfLines = 1;
     }
     return _addressLabel;
@@ -125,7 +125,7 @@
     
     self.cardNameLabel.text = boxHistoryData.name;
     self.cardAuthorLabel.text = [NSString stringIsEmpty:boxHistoryData.author] ? @"" : boxHistoryData.author;
-    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:boxHistoryData.nft_address] ? @"" : boxHistoryData.nft_address];
+    self.addressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:boxHistoryData.nft_address] ? @"" : boxHistoryData.nft_address];
     
     NSDate *createDate = [NSDate dateWithTimeIntervalSince1970:boxHistoryData.created_at.doubleValue];
     self.timeLabel.text = [createDate dateWithCustomFormat:@"yyyy/MM/dd HH:mm:ss"];

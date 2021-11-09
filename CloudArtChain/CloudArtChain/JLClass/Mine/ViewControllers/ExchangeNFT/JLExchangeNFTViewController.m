@@ -55,7 +55,7 @@
     [JLNetHelper netRequestPostParameters:request responseParameters:response callBack:^(BOOL netIsWork, NSString *errorStr, NSInteger errorCode) {
         [[JLLoading sharedLoading] hideLoading];
         if (netIsWork) {
-            UIAlertController *alert = [UIAlertController alertShowWithTitle:@"兑换成功" message:@"NFT卡片将在5分钟内划转完成，可在\"我的主页\"查看!" confirm:@"确定" confirmHandler:^{
+            UIAlertController *alert = [UIAlertController alertShowWithTitle:@"兑换成功" message:@"藏品卡片将在5分钟内划转完成，可在\"我的主页\"查看!" confirm:@"确定" confirmHandler:^{
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
             [weakSelf presentViewController:alert animated:YES completion:nil];

@@ -183,7 +183,7 @@
     }
     _authorNameLabel.text = [NSString stringIsEmpty:_auctionsData.art.author.display_name] ? @"" : _auctionsData.art.author.display_name;
     _artNameLabel.text = _auctionsData.art.name;
-    _nftAddressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
+    _nftAddressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:_auctionsData.art.item_hash] ? @"" : _auctionsData.art.item_hash];
     _dateLabel.text = [[NSDate dateWithTimeIntervalSince1970:_auctionsData.created_at.integerValue] stringWithFormat: @"MM/dd HH:mm:ss"];
     _numLabel.text = [NSString stringWithFormat:@"X%@",_auctionsData.amount];
     

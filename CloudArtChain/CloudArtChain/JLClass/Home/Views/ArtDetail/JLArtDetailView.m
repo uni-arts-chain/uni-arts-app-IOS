@@ -72,7 +72,7 @@
         make.centerY.equalTo(self.priceLabel.mas_centerY);
     }];
     
-    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"区块链信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+    UILabel *chainInfoTitleLabel = [JLUIFactory labelInitText:@"数字藏品信息" font:kFontPingFangSCSCSemibold(16.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     [self.chainView addSubview:chainInfoTitleLabel];
     [self.chainView addSubview:self.addressLabel];
     
@@ -170,7 +170,7 @@
 
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
-        _addressLabel = [JLUIFactory labelInitText:@"NFT地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [JLUIFactory labelInitText:@"藏品地址：" font:kFontPingFangSCRegular(14.0f) textColor:JL_color_gray_101010 textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
@@ -186,7 +186,7 @@
     _artDetailData = artDetailData;
     self.nameLabel.text = artDetailData.name;
     self.priceLabel.text = [NSString stringWithFormat:@"¥ %@", artDetailData.price];
-    self.addressLabel.text = [NSString stringWithFormat:@"NFT地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
+    self.addressLabel.text = [NSString stringWithFormat:@"藏品地址：%@", [NSString stringIsEmpty:artDetailData.item_hash] ? @"" : artDetailData.item_hash];
     self.transactionTimesLabel.text = [NSString stringWithFormat:@"交易次数：%@次", artDetailData.trades_count];
 }
 

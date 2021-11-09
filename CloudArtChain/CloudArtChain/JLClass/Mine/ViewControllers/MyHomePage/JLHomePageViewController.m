@@ -368,7 +368,7 @@
 
 - (NSArray <NSString *> *)titles {
     if (!_titles) {
-        _titles = @[@"持有的NFT", @"出售的NFT"];
+        _titles = @[@"持有的藏品", @"出售的藏品"];
     }
     return _titles;
 }
